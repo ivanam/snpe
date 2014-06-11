@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1>establecimiento</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Codigo jurisdiccional:</dt>
+  <dd><%= @establecimiento.codigo_jurisdiccional %></dd>
+
+  <dt>Cue:</dt>
+  <dd><%= @establecimiento.cue %></dd>
+
+  <dt>Anexo:</dt>
+  <dd><%= @establecimiento.anexo %></dd>
+
+  <dt>Cue anexo:</dt>
+  <dd><%= @establecimiento.cue_anexo %></dd>
+
+  <dt>Sector:</dt>
+  <dd><%= @establecimiento.sector %></dd>
+
+  <dt>Ambito:</dt>
+  <dd><%= @establecimiento.ambito %></dd>
+
+  <dt>Nombre:</dt>
+  <dd><%= @establecimiento.nombre %></dd>
+
+  <dt>Localidad:</dt>
+  <dd><%= @establecimiento.localidad_id %></dd>
+
+  <dt>Domicilio:</dt>
+  <dd><%= @establecimiento.domicilio %></dd>
+
+  <br/><br/>
+  <%= link_to establecimientos_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_establecimiento_path(@establecimiento), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to establecimiento_path(@establecimiento), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

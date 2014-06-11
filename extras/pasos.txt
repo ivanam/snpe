@@ -1,0 +1,6 @@
+1 - Cambiar el nombre del proyecto, la base y del ruby-gemset
+2 - rake db:create
+3 - rake db:migrate
+4 - rake db:seed
+5 - cambiar el nombre del proyecto en el config/unicorn.rb
+6 - hacer rake secret y copiar la key en el devise.rb en config.secret

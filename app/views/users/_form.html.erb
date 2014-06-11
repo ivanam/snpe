@@ -1,0 +1,35 @@
+
+<%= form_for(@user, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @user.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+
+  <% end %>
+  <%= render :partial => '/devise/registrations/user_fields' , :locals => {:f => f} %>
+  
+  </br> 
+
+  <legend>Roles</legend>
+  
+  <div></div>
+    <%=  build_role_list('/users/role_checkbox') %>
+  </div></br> </br>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      <%= link_to users_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Atrás
+      <% end %>    
+    </div>
+  </div>  
+
+<% end %>

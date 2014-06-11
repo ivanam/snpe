@@ -1,0 +1,79 @@
+<%= form_for(@establecimiento, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @establecimiento.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+
+      <ul>
+      <% @establecimiento.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :codigo_jurisdiccional, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :codigo_jurisdiccional, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :cue, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :cue, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :anexo, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :anexo, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :cue_anexo, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :cue_anexo, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :sector, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :sector, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :ambito, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :ambito, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :nombre, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :nombre, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :localidad_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.collection_select(:localidad_id, Localidad.all, :id, :nombre) %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :domicilio, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :domicilio, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+
+      <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      <%= link_to establecimientos_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Atrás
+      <% end %>
+    </div>
+  </div>
+<% end %>

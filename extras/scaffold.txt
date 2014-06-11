@@ -1,0 +1,38 @@
+rails g scaffold EstadoCivil nombre:string
+
+rails g scaffold Nivel nombre:string
+
+rails g scaffold Region nombre:string
+
+rails g scaffold Sexo nombre:string
+
+rails g scaffold SituacionRevista nombre:string
+
+rails g scaffold TipoDocumento nombre:string
+
+rails g scaffold Localidad nombre:string region_id:integer cp:integer
+
+rails g scaffold Establecimiento codigo_jurisdiccional:string cue:integer anexo:integer cue_anexo:integer sector:string ambito:string nombre:string localidad_id:integer domicilio:string
+
+rails g scaffold Persona nombres:string apellidos:string tipo_documento_id:integer nro_documento:integer calle:string nro_calle:integer piso:string depto:string estado_civil_id:integer sexo_id:integer fecha_nacimiento:date localidad_id:integer situacion_revista_id:integer telefono_contacto:string email:string
+
+
+--------------------- Delete de los scaffold --------------------------------
+
+rails d scaffold EstadoCivil
+
+rails d scaffold Nivel
+
+rails d scaffold Region
+
+rails d scaffold Sexo
+
+rails d scaffold SituacionRevista
+
+rails d scaffold TipoDocumento
+
+rails d scaffold Localidad
+
+rails d scaffold Establecimiento
+
+rails d scaffold Persona

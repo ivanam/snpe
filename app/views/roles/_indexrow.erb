@@ -1,0 +1,8 @@
+  <li>
+    <col-md- class="roleDescription"><%= current_role.description %></col-md->
+    <col-md- class="roleCommands">[<%= link_to 'Show', current_role %> -
+    <%= link_to 'Edit', edit_role_path(current_role) %> -
+    <%= link_to 'Destroy', current_role, confirm: 'Seguro desea eliminar?', method: :delete %>]
+    </col-md->
+  </li>
+  <%= the_children %>

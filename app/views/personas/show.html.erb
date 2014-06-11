@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1>persona</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nombres:</dt>
+  <dd><%= @persona.nombres %></dd>
+
+  <dt>Apellidos:</dt>
+  <dd><%= @persona.apellidos %></dd>
+
+  <dt>Tipo documento:</dt>
+  <dd><%= @persona.tipo_documento_id %></dd>
+
+  <dt>Nro documento:</dt>
+  <dd><%= @persona.nro_documento %></dd>
+
+  <dt>Calle:</dt>
+  <dd><%= @persona.calle %></dd>
+
+  <dt>Nro calle:</dt>
+  <dd><%= @persona.nro_calle %></dd>
+
+  <dt>Piso:</dt>
+  <dd><%= @persona.piso %></dd>
+
+  <dt>Depto:</dt>
+  <dd><%= @persona.depto %></dd>
+
+  <dt>Estado civil:</dt>
+  <dd><%= @persona.estado_civil_id %></dd>
+
+  <dt>Sexo:</dt>
+  <dd><%= @persona.sexo_id %></dd>
+
+  <dt>Fecha nacimiento:</dt>
+  <dd><%= @persona.fecha_nacimiento %></dd>
+
+  <dt>Localidad:</dt>
+  <dd><%= @persona.localidad_id %></dd>
+
+  <dt>Situacion revista:</dt>
+  <dd><%= @persona.situacion_revista_id %></dd>
+
+  <dt>Telefono contacto:</dt>
+  <dd><%= @persona.telefono_contacto %></dd>
+
+  <dt>Email:</dt>
+  <dd><%= @persona.email %></dd>
+
+  <br/><br/>
+  <%= link_to personas_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_persona_path(@persona), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to persona_path(@persona), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

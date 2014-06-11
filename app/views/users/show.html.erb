@@ -1,0 +1,38 @@
+<p id="notice"><%= notice %></p>
+
+
+<%= link_to 'Editar', edit_user_path(@user) %> |
+<%= link_to 'Atrás', users_path %>
+
+
+
+<p id="notice"><%= notice %></p>
+
+<div class="page-header">
+  <h1>Usuario</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nombres:</dt>
+  <dd><%= @user.nombres %></dd>
+
+  <dt>Apellidos:</dt>
+  <dd><%= @user.apellidos %></dd>
+
+  <dt>email:</dt>
+  <dd><%= @user.email %></dd>
+
+  <br/><br/>
+  <%= link_to users_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_user_path(@user), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to user_path(@user), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

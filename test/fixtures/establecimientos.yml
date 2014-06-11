@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  codigo_jurisdiccional: MyString
+  cue: 1
+  anexo: 1
+  cue_anexo: 1
+  sector: MyString
+  ambito: MyString
+  nombre: MyString
+  localidad_id: 1
+  domicilio: MyString
+
+two:
+  codigo_jurisdiccional: MyString
+  cue: 1
+  anexo: 1
+  cue_anexo: 1
+  sector: MyString
+  ambito: MyString
+  nombre: MyString
+  localidad_id: 1
+  domicilio: MyString

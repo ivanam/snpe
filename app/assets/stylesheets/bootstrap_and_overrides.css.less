@@ -1,0 +1,234 @@
+@import "twitter/bootstrap/bootstrap";
+
+// Set the correct sprite paths
+@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
+
+// Font Awesome
+@import "fontawesome/font-awesome";
+
+// Glyphicons
+//@import "twitter/bootstrap/sprites.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+// Para solucionar el defasaje del show
+.dl-horizontal { 
+    dd { .clearfix(); }
+}
+
+// Color de la Navbar
+@bgDefault      : #194981;
+@bgHighlight    : #53a0e0;
+@colDefault     : #f6f6e2;
+@colHighlight   : #0d1e4d;
+.navbar-default {
+	background-color: @bgDefault;
+	border-color: @bgHighlight;
+	#gradient > .vertical(@bgDefault, @bgHighlight);
+	.navbar-brand {
+		color: @colDefault;
+		&:hover, &:focus { 
+			color: @colHighlight; }}
+	.navbar-text {
+		color: @colDefault; }
+	.navbar-nav {
+		> li {
+			> a {
+				color: @colDefault;
+				&:hover,  &:focus {
+					color: @colHighlight; }}}
+		> .active {
+			> a, > a:hover, > a:focus {
+				color: @colHighlight;
+				background-color: @bgHighlight; }}
+		> .open {
+			> a, > a:hover, > a:focus {
+				color: @colHighlight;
+				background-color: @bgHighlight; }}}
+	.navbar-toggle {
+		border-color: @bgHighlight;
+		&:hover, &:focus {
+			background-color: @bgHighlight; }
+		.icon-bar {
+			background-color: @colDefault; }}
+	.navbar-collapse,
+	.navbar-form {
+		border-color: @colDefault; }
+	.navbar-link {
+		color: @colDefault;
+		&:hover {
+			color: @colHighlight; }}}
+@media (max-width: 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu {
+		> li > a {
+			color: @colDefault;
+			&:hover, &:focus {
+				color: @colHighlight; }}
+		> .active {
+			> a, > a:hover, > a:focus, {
+				color: @colHighlight;
+				background-color: @bgHighlight; }}}
+}
+
+// BOTONES NUEVOS
+.btn-azul {
+  color: #FFFFFF; 
+  background-color: #155475;
+  border-color: #155475;
+}
+.btn-azul:hover,
+.btn-azul:focus,
+.btn-azul:active,
+.btn-azul.active {
+  color: #FFFFFF; 
+  background-color: #11445f;
+  border-color: #0d354a;
+}
+.btn-azul.disabled:hover,
+.btn-azul.disabled:focus,
+.btn-azul.disabled:active,
+.btn-azul.disabled.active,
+.btn-azul[disabled]:hover,
+.btn-azul[disabled]:focus,
+.btn-azul[disabled]:active,
+.btn-azul[disabled].active,
+fieldset[disabled] .btn-azul:hover,
+fieldset[disabled] .btn-azul:focus,
+fieldset[disabled] .btn-azul:active,
+fieldset[disabled] .btn-azul.active {
+  background-color: #155475;
+  border-color: #155475;
+}
+
+.btn-turquesa {
+  color: #FFFFFF; 
+  background-color: #63f5d2;
+  border-color: #63f5d2;
+}
+.btn-turquesa:hover,
+.btn-turquesa:focus,
+.btn-turquesa:active,
+.btn-turquesa.active {
+  color: #FFFFFF; 
+  background-color: #4bf3cb;
+  border-color: #33f2c4;
+}
+.btn-turquesa.disabled:hover,
+.btn-turquesa.disabled:focus,
+.btn-turquesa.disabled:active,
+.btn-turquesa.disabled.active,
+.btn-turquesa[disabled]:hover,
+.btn-turquesa[disabled]:focus,
+.btn-turquesa[disabled]:active,
+.btn-turquesa[disabled].active,
+fieldset[disabled] .btn-turquesa:hover,
+fieldset[disabled] .btn-turquesa:focus,
+fieldset[disabled] .btn-turquesa:active,
+fieldset[disabled] .btn-turquesa.active {
+  background-color: #63f5d2;
+  border-color: #63f5d2;
+}
+
+.btn-negro {
+  color: #FFFFFF; 
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-negro:hover,
+.btn-negro:focus,
+.btn-negro:active,
+.btn-negro.active {
+  color: #FFFFFF; 
+  background-color: #000000;
+  border-color: #000000;
+}
+.btn-negro.disabled:hover,
+.btn-negro.disabled:focus,
+.btn-negro.disabled:active,
+.btn-negro.disabled.active,
+.btn-negro[disabled]:hover,
+.btn-negro[disabled]:focus,
+.btn-negro[disabled]:active,
+.btn-negro[disabled].active,
+fieldset[disabled] .btn-negro:hover,
+fieldset[disabled] .btn-negro:focus,
+fieldset[disabled] .btn-negro:active,
+fieldset[disabled] .btn-negro.active {
+  background-color: #000000;
+  border-color: #000000;
+}
+
+.btn-verde {
+  color: #FFFFFF; 
+  background-color: #B9E35D;
+  border-color: #B9E35D;
+}
+.btn-verde:hover,
+.btn-verde:focus,
+.btn-verde:active,
+.btn-verde.active {
+  color: #FFFFFF; 
+  background-color: #b0df47;
+  border-color: #a6db32;
+}
+.btn-verde.disabled:hover,
+.btn-verde.disabled:focus,
+.btn-verde.disabled:active,
+.btn-verde.disabled.active,
+.btn-verde[disabled]:hover,
+.btn-verde[disabled]:focus,
+.btn-verde[disabled]:active,
+.btn-verde[disabled].active,
+fieldset[disabled] .btn-verde:hover,
+fieldset[disabled] .btn-verde:focus,
+fieldset[disabled] .btn-verde:active,
+fieldset[disabled] .btn-verde.active {
+  background-color: #B9E35D;
+  border-color: #B9E35D;
+}
+
+.btn-lila {
+  color: #FFFFFF; 
+  background-color: #bf94c9;
+  border-color: #bf94c9;
+}
+.btn-lila:hover,
+.btn-lila:focus,
+.btn-lila:active,
+.btn-lila.active {
+  color: #FFFFFF; 
+  background-color: #b583c0;
+  border-color: #ab72b8;
+}
+.btn-lila.disabled:hover,
+.btn-lila.disabled:focus,
+.btn-lila.disabled:active,
+.btn-lila.disabled.active,
+.btn-lila[disabled]:hover,
+.btn-lila[disabled]:focus,
+.btn-lila[disabled]:active,
+.btn-lila[disabled].active,
+fieldset[disabled] .btn-lila:hover,
+fieldset[disabled] .btn-lila:focus,
+fieldset[disabled] .btn-lila:active,
+fieldset[disabled] .btn-lila.active {
+  background-color: #bf94c9;
+  border-color: #bf94c9;
+}

@@ -1,0 +1,4 @@
+1 - rails g scaffold pepe
+2 - rake db:migrate
+3 - rails g bootstrap:install
+4 - rails g bootstrap:themed pepes -f
