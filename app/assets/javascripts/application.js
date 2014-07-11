@@ -6,9 +6,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require select2
 //= require twitter/bootstrap
 //= require allPages
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap3
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon.js
+
+
+$(document).ready(function() { $('select').select2(); });

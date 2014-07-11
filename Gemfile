@@ -51,3 +51,5 @@ gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-ra
 gem 'kaminari'
 
 gem 'rails_admin'
+
+gem 'select2-rails'
