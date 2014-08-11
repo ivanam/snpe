@@ -83,18 +83,46 @@
     </div>
   </nav>
   <div class="container">
+  <p align="center">
+    <%=link_to  image_tag("logo.png"), "http://www.chubut.edu.ar"%>
+    <%=link_to  image_tag("logo-teg.jpg", size: "128x90"),"http://www.chubut.edu.ar/soft/teg"%>
+  </p>
+  <p align="center"></p>
     <% flash.each do |name, msg| %>
-      <%= content_tag :div, :class => "alert alert-#{ name == :error ? "danger" : "success" } alert-dismissable" do %>
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <%= msg %>
+      <%if name.to_s=="info"%>
+        <div class="alert alert-info">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= msg %>
+        </div>
+      <%elsif name.to_s=="danger" || name.to_s=="alert"%>
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= msg %>
+        </div>
+      <%elsif name.to_s=="warning"%>
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= msg %>
+        </div>
+      <%elsif name.to_s=="success" || name.to_s=="notice"%>
+        <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= msg %>
+        </div>
+      <%else%>
+        <div class="alert alert-danger">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= msg %>
+        </div>
       <% end %>
     <% end %>
     <%= yield %>
   </div>
-  <div class="container">
+  <div class="container hidden-print">
     <div class="row footer text-center">
       <hr/>
-      <p>&copy; <em>Sistema desarrollado por PREGASE - Ministerio de Educación de la Provincia del Chubut</em></p>
+      <p>&copy; <em> Sistema desarrollado por PREGASE - Ministerio de Educación de la Provincia del Chubut</em></p>
+      <p><em> Consultas al 0800-222-6538</em></p>
       <address>
         <a href="mailto:pregase.chubut@gmail.com">pregase.chubut@gmail.com</a>
       </address>
