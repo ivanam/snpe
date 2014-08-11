@@ -10,4 +10,6 @@
  *= require jquery-ui-timepicker-addon
  *= require jquery-ui/ui-lightness
  *= require base
+ *= require select2
+ *= require jquery.ui.theme
 */
