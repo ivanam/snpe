@@ -53,3 +53,5 @@ gem 'kaminari'
 gem 'rails_admin'
 
 gem 'select2-rails'
+
+gem 'unicorn'
