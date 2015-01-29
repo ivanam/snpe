@@ -1,8 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.8'
+# GEMAS DE RAILS
+# ---------------------------
+gem 'rails', '4.0.13'
 
-gem 'sqlite3'
+gem 'sass-rails'
+
+gem 'coffee-rails'
+
+gem 'uglifier'
+
+gem 'railties'
+
+gem 'debugger'
 
 gem 'mysql'
 
@@ -10,48 +20,47 @@ gem 'mysql2'
 
 gem 'devise'
 
-gem 'cancan'
-
-gem 'declarative_authorization'
+gem 'cancancan'
 
 gem 'will_paginate'
 
-gem 'sass-rails'#,   '~> 3.2.3'
-
-gem 'coffee-rails'#, '~> 3.2.1'
-
-gem 'uglifier'#, '>= 1.0.3'
-
 gem "therubyracer"
 
-gem 'less-rails'
+gem "less-rails"
+# ---------------------------
 
+# GEMAS DE BOOTSTRAP
+# ---------------------------
 gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branch: 'bootstrap3'
 
 gem 'bootstrap-generators', :git => 'git://github.com/decioferreira/bootstrap-generators.git'
+# ---------------------------
 
-gem 'jquery-rails', "2.3.0"
+# GEMAS DE JAVASCRIPT Y JQUERY
+# ---------------------------
+gem 'jquery-rails'
 
-gem "jquery-ui-themes"
+gem 'jquery-ui-themes'
 
-gem "nested_form"
+gem 'jquery-ui-rails'
 
-gem "rails3-jquery-autocomplete"
+gem 'rails4-autocomplete'
 
-gem 'jquery_datepicker'
-
-gem 'railties'
-
-gem 'execjs'
-
-gem 'debugger'
-
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
-
-gem 'kaminari'
-
-gem 'rails_admin'
+gem 'jquery_datepicker', github: 'foodforarabbit/jquery_datepicker'
 
 gem 'select2-rails'
+# ---------------------------
 
+# GEMAS PARA DATATABLES
+# ---------------------------
+gem 'jquery-datatables-rails', '~> 3.1.1' #gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
+
+gem 'ajax-datatables-rails'
+# ---------------------------
+
+# GEMAS PARA PRODUCCION
+# ---------------------------
 gem 'unicorn'
+
+#gem 'rails_admin'
+# ---------------------------

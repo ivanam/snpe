@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Mysecurity::Application.load_tasks
+ProyectoBase::Application.load_tasks

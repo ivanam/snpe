@@ -1,4 +1,4 @@
-Mysecurity::Application.configure do
+ProyectoBase::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # In the development environment your application's code is reloaded on
@@ -7,7 +7,7 @@ Mysecurity::Application.configure do
   config.cache_classes = false
 
   # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
+  #config.whiny_nils = true
 
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
@@ -27,6 +27,9 @@ Mysecurity::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Algo de rails4
+  config.eager_load = false
 
   #SMTP
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }  

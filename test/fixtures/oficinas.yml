@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nombre: 1
+  tipo: 1
+
+two:
+  nombre: 1
+  tipo: 1

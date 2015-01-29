@@ -1,5 +1,5 @@
 class Util < ActiveRecord::Base
-  # attr_accessible :title, :body
+  # #attr_accessible :title, :body
 
   def self.fecha_a_cadena(fecha)
   	if fecha then

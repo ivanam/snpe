@@ -1,2 +1,2 @@
-proyecto-base-bs3
+proyecto-base-ruby2rails4
 =================
