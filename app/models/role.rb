@@ -5,7 +5,8 @@ class Role < ActiveRecord::Base
   has_many :role_parents, :foreign_key => 'role_id', :class_name => 'RoleRole'
   has_many :parents, :through => :role_parents
 
-  has_many :permissions, :foreign_key => 'role_id', :class_name => 'RolePermission'
-
+  #has_many :permissions, :foreign_key => 'role_id', :class_name => 'RolePermission'
+  has_many :role_permissions, :foreign_key => 'role_id', :class_name => 'RolePermission'
+  has_many :permissions, :through => :role_permissions
 
 end

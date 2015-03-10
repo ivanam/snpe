@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140609152245) do
+ActiveRecord::Schema.define(version: 20150310123432) do
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
@@ -43,6 +43,24 @@ ActiveRecord::Schema.define(version: 20140609152245) do
 
   create_table "nivels", force: true do |t|
     t.string   "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "oficinas", force: true do |t|
+    t.integer  "nombre"
+    t.integer  "tipo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "permissions", force: true do |t|
+    t.integer  "user_id"
+    t.string   "nombre"
+    t.string   "subject_class"
+    t.integer  "subject_id"
+    t.string   "action"
+    t.text     "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

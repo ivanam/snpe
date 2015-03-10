@@ -4,8 +4,8 @@ class User < ActiveRecord::Base
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable# , :confirmable
 
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :email, :password, :password_confirmation, :remember_me, :role_ids, :apellidos, :nombres
@@ -19,12 +19,12 @@ class User < ActiveRecord::Base
     return !!self.roles.find_by_description(role.to_s.camelize)
   end
 
-  after_create :default_role
+  #after_create :default_role
 
-  private 
-  def default_role    
-    UserRole.create(:user_id => self.id, :role_id => Role.where(:description => 'User').first.id)
-  end
+  #private 
+  #def default_role    
+  #  UserRole.create(:user_id => self.id, :role_id => Role.where(:description => 'User').first.id)
+  #end
 
 end
 
