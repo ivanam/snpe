@@ -1,4 +1,4 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
   codigo_jurisdiccional: MyString
@@ -10,6 +10,22 @@ one:
   nombre: MyString
   localidad_id: 1
   domicilio: MyString
+  responsable: MyString
+  tipo: MyString
+  zona: MyString
+  cuise: 1
+  alta: 2015-03-10
+  baja: 2015-03-10
+  dependencia: MyString
+  email: MyString
+  isotipo: MyString
+  nivel_id: MyString
+  ift: MyString
+  numero: 1
+  privada: false
+  rght: MyString
+  sistema: MyString
+  organizacion_id: 1
 
 two:
   codigo_jurisdiccional: MyString
@@ -21,3 +37,19 @@ two:
   nombre: MyString
   localidad_id: 1
   domicilio: MyString
+  responsable: MyString
+  tipo: MyString
+  zona: MyString
+  cuise: 1
+  alta: 2015-03-10
+  baja: 2015-03-10
+  dependencia: MyString
+  email: MyString
+  isotipo: MyString
+  nivel_id: MyString
+  ift: MyString
+  numero: 1
+  privada: false
+  rght: MyString
+  sistema: MyString
+  organizacion_id: 1

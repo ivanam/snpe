@@ -1,11 +1,11 @@
 ProyectoBase::Application.routes.draw do
+  resources :establecimientos
+
   resources :oficinas
 
   get "pagina_inicio/index"
 
   resources :personas
-
-  resources :establecimientos
 
   resources :localidads
 

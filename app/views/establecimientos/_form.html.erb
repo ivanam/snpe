@@ -57,13 +57,109 @@
   <div class="form-group">
     <%= f.label :localidad_id, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.collection_select(:localidad_id, Localidad.all, :id, :nombre) %>
+      <%= f.number_field :localidad_id, :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :domicilio, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.text_field :domicilio, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :responsable, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :responsable, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :tipo, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :tipo, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :zona, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :zona, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :cuise, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :cuise, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :alta, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :alta, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :baja, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :baja, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :dependencia, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :dependencia, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :email, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :isotipo, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :isotipo, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :nivel_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :nivel_id, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :ift, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :ift, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :numero, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :numero, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :privada, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.check_box :privada, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :rght, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rght, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :sistema, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :sistema, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :organizacion_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :organizacion_id, :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">

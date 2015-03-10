@@ -1,85 +1,49 @@
 class EstablecimientosController < ApplicationController
-  before_filter :authenticate_user!
-  load_and_authorize_resource
-  # GET /establecimientos
-  # GET /establecimientos.json
+  before_action :set_establecimiento, only: [:show, :edit, :update, :destroy]
+
+  respond_to :html
+
   def index
-    @establecimientos = Establecimiento.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @establecimientos }
+      format.html
+      format.json { render json: EstablecimientoDatatable.new(view_context) }
     end
   end
 
-  # GET /establecimientos/1
-  # GET /establecimientos/1.json
   def show
-    @establecimiento = Establecimiento.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @establecimiento }
-    end
+    respond_with(@establecimiento)
   end
 
-  # GET /establecimientos/new
-  # GET /establecimientos/new.json
   def new
     @establecimiento = Establecimiento.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @establecimiento }
-    end
+    respond_with(@establecimiento)
   end
 
-  # GET /establecimientos/1/edit
   def edit
-    @establecimiento = Establecimiento.find(params[:id])
   end
 
-  # POST /establecimientos
-  # POST /establecimientos.json
   def create
-    @establecimiento = Establecimiento.new(params[:establecimiento])
-
-    respond_to do |format|
-      if @establecimiento.save
-        format.html { redirect_to @establecimiento, notice: 'Establecimiento was successfully created.' }
-        format.json { render json: @establecimiento, status: :created, location: @establecimiento }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @establecimiento.errors, status: :unprocessable_entity }
-      end
-    end
+    @establecimiento = Establecimiento.new(establecimiento_params)
+    @establecimiento.save
+    respond_with(@establecimiento)
   end
 
-  # PUT /establecimientos/1
-  # PUT /establecimientos/1.json
   def update
-    @establecimiento = Establecimiento.find(params[:id])
-
-    respond_to do |format|
-      if @establecimiento.update_attributes(params[:establecimiento])
-        format.html { redirect_to @establecimiento, notice: 'Establecimiento was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @establecimiento.errors, status: :unprocessable_entity }
-      end
-    end
+    @establecimiento.update(establecimiento_params)
+    respond_with(@establecimiento)
   end
 
-  # DELETE /establecimientos/1
-  # DELETE /establecimientos/1.json
   def destroy
-    @establecimiento = Establecimiento.find(params[:id])
     @establecimiento.destroy
-
-    respond_to do |format|
-      format.html { redirect_to establecimientos_url }
-      format.json { head :no_content }
-    end
+    respond_with(@establecimiento)
   end
+
+  private
+    def set_establecimiento
+      @establecimiento = Establecimiento.find(params[:id])
+    end
+
+    def establecimiento_params
+      params.require(:establecimiento).permit(:codigo_jurisdiccional, :cue, :anexo, :cue_anexo, :sector, :ambito, :nombre, :localidad_id, :domicilio, :responsable, :tipo, :zona, :cuise, :alta, :baja, :dependencia, :email, :isotipo, :nivel_id, :ift, :numero, :privada, :rght, :sistema, :organizacion_id)
+    end
 end
