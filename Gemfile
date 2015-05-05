@@ -55,7 +55,9 @@ gem 'select2-rails'
 # ---------------------------
 gem 'jquery-datatables-rails', '~> 3.1.1' #gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 
-gem 'ajax-datatables-rails'
+#gem 'ajax-datatables-rails'
+gem 'ajax-datatables-rails', github: 'antillas21/ajax-datatables-rails', branch: 'master'
+
 # ---------------------------
 
 # GEMAS PARA PRODUCCION
