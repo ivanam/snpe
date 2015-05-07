@@ -1,9 +1,9 @@
 # ruby encoding: utf-8
 
 # Carga de roles
-Role.create(description: 'Sadmin')
-Role.create(description: 'Admin')
-Role.create(description: 'User')
+Role.create(description: 'sadmin')
+Role.create(description: 'admin')
+Role.create(description: 'user')
 
 # Carga de usuarios
 User.create(email:"sadmin@sadmin.com", password:"sadmin123456")

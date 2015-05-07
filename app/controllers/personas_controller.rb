@@ -4,11 +4,9 @@ class PersonasController < ApplicationController
   # GET /personas
   # GET /personas.json
   def index
-    @personas = Persona.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @personas }
+      format.html
+      format.json { render json: PersonaDatatable.new(view_context) }
     end
   end
 

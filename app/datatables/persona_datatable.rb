@@ -33,7 +33,8 @@ class PersonaDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
+    #return options[:query]
+    Persona.all
   end
 
   def sort_records(records)

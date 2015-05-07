@@ -6,7 +6,7 @@ class Ability
     user ||= User.new # guest user
     unless user.nil?
 #    	if user.confirmed?
-		    if user.role? :admin
+		    if user.role? :sadmin
 		    	can :manage, :all
 		    end
         user.roles.each do |ro|

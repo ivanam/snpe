@@ -1,0 +1,6 @@
+select a.nume_docu as numero_documento, a.apeynom as apellido, t_d.TD_DESCRIP as tipo_documento, a_d_c.cuit as cuil_cuit, a.fech_nac from agentes as a, tipo_doc as t_d, agentes_dni_cuit as a_d_c where a.tipo_docu = t_d.TD_NUM and a.nume_docu = a_d_c.nume_docu
+
+21339
+
+
+select a.nume_docu as numero_documento, a_d_c.cuit as cuil_cuitfrom agentes as a, agentes_dni_cuit as a_d_c where a.nume_docu = a_d_c.nume_docu
