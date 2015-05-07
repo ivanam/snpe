@@ -11,13 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150310134147) do
-
-  create_table "esta", force: true do |t|
-    t.string   "codigo_jurisdiccional"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+ActiveRecord::Schema.define(version: 20150310131129) do
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
