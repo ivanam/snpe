@@ -11,7 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507124006) do
+ActiveRecord::Schema.define(version: 20150508122548) do
+
+  create_table "altas_bajas_horas", force: true do |t|
+    t.integer  "establecimiento_id"
+    t.integer  "mes_periodo"
+    t.integer  "anio_periodo"
+    t.integer  "persona_id"
+    t.integer  "secuencia"
+    t.date     "fecha_alta"
+    t.date     "fecha_baja"
+    t.string   "situacion_revista"
+    t.integer  "horas"
+    t.integer  "ciclo_carrera"
+    t.integer  "anio"
+    t.integer  "division"
+    t.string   "turno"
+    t.integer  "codificacion"
+    t.string   "oblig"
+    t.string   "observaciones"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
+  add_index "altas_bajas_horas", ["persona_id"], name: "index_altas_bajas_horas_on_persona_id", using: :btree
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"

@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  establecimiento_id: 
+  mes_periodo: 1
+  anio_periodo: 1
+  persona_id: 
+  secuencia: 1
+  fecha_alta: 2015-05-08
+  fecha_baja: 2015-05-08
+  situacion_revista: MyString
+  horas: 1
+  ciclo_carrera: 1
+  anio: 1
+  division: 1
+  turno: MyString
+  codificacion: 1
+  oblig: MyString
+  observaciones: MyString
+
+two:
+  establecimiento_id: 
+  mes_periodo: 1
+  anio_periodo: 1
+  persona_id: 
+  secuencia: 1
+  fecha_alta: 2015-05-08
+  fecha_baja: 2015-05-08
+  situacion_revista: MyString
+  horas: 1
+  ciclo_carrera: 1
+  anio: 1
+  division: 1
+  turno: MyString
+  codificacion: 1
+  oblig: MyString
+  observaciones: MyString

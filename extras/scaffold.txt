@@ -1,3 +1,33 @@
+SCCAFOLDS
+
+== NOVEDADES SECUNDARIA ==
+rails g scaffold NovedadesHora establecimiento:references persona:references funcion:string anio:integer curso:integer turno:string cant_dias_asistencia:integer cant_ina_i:integer cant_ina_j:integer cant_ina_t:integer cant_tarde_i:integer cant_tarde_j:integer cant_tarde_t:integer observacion:string
+
+
+== AB HORAS ==
+rails g scaffold AltasBajasHora establecimiento:references mes_periodo:integer anio_periodo:integer persona:references secuencia:integer fecha_alta:date fecha_baja:date  situacion_revista:string horas:integer ciclo_carrera:integer anio:integer division:integer turno:string codificacion:integer oblig:string observaciones:string
+
+
+
+== AB CARGOS ==
+rails g scaffold AltasBajasCargo establecimiento:references mes_periodo:integer anio_periodo:integer persona:references cargo:string secuencia:integer situacion_revista:string turno:string anio:integer curso:integer fecha_alta:date fecha_baja:date persona_reemplazada:references licencia:references observatorio:string 
+
+
+== LICENCIA ==
+
+== PERSONA ==
+Agregar CUIL
+
+== ESTABLECIMIENTO ==
+Agregar Dirección
+Agregar Padrino
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 rails g scaffold EstadoCivil nombre:string
 
 rails g scaffold Nivel nombre:string
@@ -36,3 +66,5 @@ rails d scaffold Localidad
 rails d scaffold Establecimiento
 
 rails d scaffold Persona
+
+

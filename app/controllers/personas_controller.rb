@@ -1,8 +1,9 @@
 class PersonasController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
-  # GET /personas
-  # GET /personas.json
+
+  respond_to :html
+
   def index
     respond_to do |format|
       format.html
@@ -10,74 +11,41 @@ class PersonasController < ApplicationController
     end
   end
 
-  # GET /personas/1
-  # GET /personas/1.json
   def show
-    @persona = Persona.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @persona }
-    end
+    respond_with(@persona)
   end
 
-  # GET /personas/new
-  # GET /personas/new.json
   def new
     @persona = Persona.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @persona }
-    end
+    respond_with(@persona)
   end
 
-  # GET /personas/1/edit
   def edit
-    @persona = Persona.find(params[:id])
   end
 
-  # POST /personas
-  # POST /personas.json
   def create
-    @persona = Persona.new(params[:persona])
-
-    respond_to do |format|
-      if @persona.save
-        format.html { redirect_to @persona, notice: 'Persona was successfully created.' }
-        format.json { render json: @persona, status: :created, location: @persona }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @persona.errors, status: :unprocessable_entity }
-      end
-    end
+    @persona = Persona.new(persona_params)
+    @persona.save
+    respond_with(@persona)
   end
 
-  # PUT /personas/1
-  # PUT /personas/1.json
   def update
-    @persona = Persona.find(params[:id])
-
-    respond_to do |format|
-      if @persona.update_attributes(params[:persona])
-        format.html { redirect_to @persona, notice: 'Persona was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @persona.errors, status: :unprocessable_entity }
-      end
-    end
+    @persona.update(persona_params)
+    respond_with(@persona)
   end
 
-  # DELETE /personas/1
-  # DELETE /personas/1.json
   def destroy
-    @persona = Persona.find(params[:id])
     @persona.destroy
-
-    respond_to do |format|
-      format.html { redirect_to personas_url }
-      format.json { head :no_content }
-    end
+    respond_with(@persona)
   end
+
+  private
+    def set_persona
+      @persona = Persona.find(params[:id])
+    end
+
+    def persona_params
+      params.require(:persona).permit(:apellidos, :calle, :depto, :email, :estado_civil_id, :fecha_nacimiento, :localidad_id, :nombres, :nro_calle, :nro_documento, :piso, :sexo_id, :situacion_revista_id, :telefono_contacto, :tipo_documento_id)
+  end
+
 end

@@ -1,34 +1,43 @@
 ProyectoBase::Application.routes.draw do
-  resources :establecimientos
 
-  resources :oficinas
+  scope '/soft/snpe' do
 
-  get "pagina_inicio/index"
+    post "util/buscar_persona/:dni", to: 'util#buscar_persona'
 
-  resources :personas
+    resources :altas_bajas_horas
 
-  resources :localidads
+    resources :establecimientos
 
-  resources :tipo_documentos
+    resources :oficinas
 
-  resources :situacion_revista
+    get "pagina_inicio/index"
 
-  resources :sexos
+    resources :personas
 
-  resources :regions
+    resources :localidads
 
-  resources :nivels
+    resources :tipo_documentos
 
-  resources :estado_civils
+    resources :situacion_revista
 
-  resources :role_permissions
+    resources :sexos
 
-  devise_for :users, :path => 'user'
+    resources :regions
 
-  resources :roles
-  
-  resources :users
+    resources :nivels
 
-  root :to => "pagina_inicio#index"
+    resources :estado_civils
+
+    resources :role_permissions
+
+    devise_for :users, :path => 'user'
+
+    resources :roles
+    
+    resources :users
+
+    root :to => "pagina_inicio#index"
+
+  end
 
 end
