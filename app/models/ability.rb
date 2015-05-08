@@ -2,7 +2,7 @@ class Ability
  
   include CanCan::Ability
  
-  def initialize(user)
+  def initialize(user, establecimiento_id)
     user ||= User.new # guest user
     unless user.nil?
 #    	if user.confirmed?

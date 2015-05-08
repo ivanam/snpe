@@ -1,12 +1,18 @@
 ProyectoBase::Application.routes.draw do
 
   scope '/soft/snpe' do
-
+  
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
+
+    resources :oficinas    
 
     resources :altas_bajas_horas
 
     resources :establecimientos
+
+    get "establecimientos_de_usuario", to: "establecimientos#establecimientos_de_usuario", as: :establecimientos_de_usuario
+
+    get "establecimiento/seleccionar/:id", to: "establecimientos#seleccionar", as: :establecimiento_seleccionar
 
     resources :oficinas
 
