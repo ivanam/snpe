@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20150508122548) do
+ActiveRecord::Schema.define(version: 20150508140306) do
 
   create_table "altas_bajas_horas", force: true do |t|
     t.integer  "establecimiento_id"
@@ -37,9 +36,6 @@ ActiveRecord::Schema.define(version: 20150508122548) do
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
   add_index "altas_bajas_horas", ["persona_id"], name: "index_altas_bajas_horas_on_persona_id", using: :btree
-=======
-ActiveRecord::Schema.define(version: 20150508140306) do
->>>>>>> 0cbd83da8180a9171450957a6ef8ff62587dfcbc
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"

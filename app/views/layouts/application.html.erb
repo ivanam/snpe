@@ -39,6 +39,19 @@
             </li>            
           <% end %>
         </ul>
+        
+        <ul class="nav navbar-nav">
+          <% if user_signed_in? then %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carga de Novedades <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <% if ver_model("AltasBajasHora") then %>
+                    <li><%=link_to "Altas/Bajas de Horas", altas_bajas_horas_path, :tabindex => "-1"%></li>
+                  <% end %>
+                </ul>
+              </li>
+          <% end %>
+        </ul>
 
         <ul class="nav navbar-nav">
           <% if user_signed_in? then %>
@@ -55,6 +68,7 @@
               </li>
           <% end %>
         </ul>
+
 
         <ul class="nav navbar-nav pull-right">
           <li class="dropdown">
