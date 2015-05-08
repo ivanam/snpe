@@ -36,24 +36,20 @@
   </div>
   <legend>Datos Personales</legend>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Tipo de documento</label>
+    <label class="col-sm-2 control-label">Tipo de documento</label>    
     <div class="col-sm-4">
-      <select>
-        <% TipoDocumento.all.each do |tp| %>
-          <option><%= tp %></option>
-        <% end %>
-      </select>
+      <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", prompt: "Por favor seleccione"} %>
     </div>
     <label class="col-sm-2 control-label">Documento</label>
     <div class="col-sm-4">
-      <input class="text-field form-control solo_numerico" id="input_dni"></input>
+      <%= text_field_tag 'dni', "", {:class => "text-field form-control solo_numerico", :id => "input_dni"} %>
     </div>
   </div>
   <fieldset id="datos_persona">
     <div class="form-group">
       <label class="col-sm-2 control-label">Nombres</label>
       <div class="col-sm-4">
-        <input class="text-field form-control" id="input_nombres"></input>
+        <%= text_field_tag 'nombres', "", {:class => "text-field form-control", :id => "input_nombres"} %>
       </div>
       <label class="col-sm-2 control-label">Apellidos</label>
       <div class="col-sm-4">
@@ -63,11 +59,11 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Cuil</label>
       <div class="col-sm-4">
-        <input class="text-field form-control" id="input_cuil"></input>
+        <%= text_field_tag 'cuil', "", {:class => "text-field form-control", :id => "input_cuil"} %>
       </div>
       <label class="col-sm-2 control-label">Fecha de nacimiento</label>
       <div class="col-sm-4">
-        <input class="text-field form-control" id="datepicker3"></input>
+        <%= text_field_tag 'fecha_nacimiento', "", {:class => "text-field form-control", :id => "datepicker3"} %>
       </div>
     </div>
   </fieldset>

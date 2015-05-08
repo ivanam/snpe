@@ -21,7 +21,17 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
-    debugger
+    @tipo_documento = params["tipo_documento"]
+    @dni = params["dni"]
+    @nombres = params["nombres"]
+    @apellidos = params["apellidos"]
+    @cuil = params["cuil"]
+    @fecha_nacimiento = params["fecha_nacimiento"]
+    @persona = Persona.where(:nro_documento => @dni).first
+
+    if @persona == [] then
+    end
+
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
     @altas_bajas_hora.save
     respond_with(@altas_bajas_hora)
