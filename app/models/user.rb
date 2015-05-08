@@ -1,6 +1,11 @@
 class User < ActiveRecord::Base
   has_many :user_roles, :foreign_key => 'user_id', :class_name => 'UserRole'
   has_many :roles, :through => :user_roles
+
+  has_many :establecimientos_users, :foreign_key => 'user_id', :class_name => 'EstablecimientosUsers'
+  has_many :establecimientos, :through => :establecimientos_users 
+  accepts_nested_attributes_for :establecimientos_users, allow_destroy: true
+  
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable

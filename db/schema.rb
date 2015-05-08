@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150507124006) do
+ActiveRecord::Schema.define(version: 20150508140306) do
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
@@ -39,6 +39,13 @@ ActiveRecord::Schema.define(version: 20150507124006) do
     t.string   "rght"
     t.string   "sistema"
     t.integer  "organizacion_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "establecimientos_users", force: true do |t|
+    t.integer  "establecimiento_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -98,7 +105,7 @@ ActiveRecord::Schema.define(version: 20150507124006) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cuil"
+    t.integer  "cuil",              limit: 8
   end
 
   create_table "rails_admin_histories", force: true do |t|
