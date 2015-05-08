@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include ::EstablecimientosHelper
+  include ::AltasBajasHorasHelper
   
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message

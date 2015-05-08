@@ -4,8 +4,10 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
-    @altas_bajas_horas = AltasBajasHora.all
-    respond_with(@altas_bajas_horas)
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas }) }
+    end
   end
 
   def show
@@ -21,7 +23,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
-    debugger
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
     @altas_bajas_hora.save
     respond_with(@altas_bajas_hora)
