@@ -23,11 +23,13 @@ UserRole.create(user_id:3,role_id:3)
 
 #Carga de permisos
 
-Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"index",descripcion:"Acceso al show de establecimientos")
+Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"read",descripcion:"Acceso al show de establecimientos")
+Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"show",descripcion:"Acceso al show de establecimientos")
 
 # Carga de permisos a Roles
 
 RolePermission.create(role_id:3,regulator:1)
+RolePermission.create(role_id:3,regulator:2)
 
 #Carga de sexos
 Sexo.create(nombre:"Masculino")
