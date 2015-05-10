@@ -1,0 +1,155 @@
+<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal" }) do |f| %>
+<style type="text/css">
+.form-group{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+</style>
+  <% if @altas_bajas_hora.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+
+      <ul>
+      <% @altas_bajas_hora.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <fieldset>
+    <div class="form-group" >
+      <div class="col-sm-1">
+        <%= text_field_tag 'dni', "", {:class => "text-field form-control solo_numerico", :id => "input_dni", :placeholder => "DNI", :style=> 'width: 140%'} %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "fecha alta", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :secuencia, :placeholder => "secuencia", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :situacion_revista, :placeholder => "sit. revista", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :horas, :placeholder => "horas", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :ciclo_carrera, :placeholder => "ciclo/carrera", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :anio, :placeholder => "curso", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :division, :placeholder => "división", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :turno, :placeholder => "turno", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :codificacion, :placeholder => "codificación", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+      <div class="col-sm-1">
+        <%= f.text_field :oblig, :placeholder => "oblig", :class => "form-control", :style=> 'width: 140%' %>
+      </div>
+    </div>
+  </fieldset>  
+  <fieldset id="datos_persona">
+    <div class="form-group">
+      <div class="col-sm-2">
+        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", prompt: "Tipo Documento"} %>
+      </div>
+      <div class="col-sm-2">
+        <%= text_field_tag 'nombres', "", {:class => "text-field form-control", :id => "input_nombres", :placeholder => "nombres"} %>
+      </div>
+      <div class="col-sm-2">
+        <%= text_field_tag 'apellidos', "", {:class => "text-field form-control", :id => "input_apellidos", :placeholder => "apellidos"} %>
+      </div>
+      <div class="col-sm-2">
+        <%= text_field_tag 'cuil', "", {:class => "text-field form-control", :id => "input_cuil", :placeholder => "cuil"} %>
+      </div>
+      <div class="col-sm-2">
+        <%= text_field_tag 'fecha_nacimiento', "", {:class => "text-field form-control", :id => "datepicker3", :placeholder => "fecha nacimiento"} %>
+      </div>            
+    </div>
+  </fieldset>
+
+  <div class="form-group">
+    <div class="col-sm-10">
+      <%= f.text_field :observaciones, :class => "form-control", :placeholder => "observaciones" %>
+    </div>
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-primary">Guardar</button>
+    </div>
+  </div>
+
+<% end %>
+
+        
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+  </script>
+
+<% end %>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function($) {
+
+     $("#datos_persona").hide();
+
+     $(".solo_numerico").on("keypress keyup blur",function (event) {    
+           $(this).val($(this).val().replace(/[^\d].+/, ""));
+             if ( event.which == 8) {
+           
+       }else{
+        if (event.which < 48 || event.which > 57) {
+                  event.preventDefault();
+             }
+      }
+            
+    });
+
+    $("#input_dni").blur(function(){
+       var dni = parseInt($("#input_dni").val(),10);
+       $("#datos_persona").show();
+        $.ajax({
+          url: '/soft/snpe/util/buscar_persona/'+dni,
+          type: 'POST',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#input_nombres").val(data.nombres);
+            $("#input_apellidos").val(data.apellidos);
+            $("#input_cuil").val(data.cuil);
+            $("#datepicker3").val(data.fecha_nacimiento);
+          }
+          else{
+            alert("La persona no existe. Por favor cargue los datos");
+          }
+        })
+    });
+
+  });
+
+ 
+
+</script>

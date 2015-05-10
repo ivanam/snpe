@@ -1,3 +1,6 @@
+<% @altas_bajas_hora = AltasBajasHora.new %>
+<%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
+
 <div class="page-header">
   <%= link_to new_altas_bajas_hora_path, :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>

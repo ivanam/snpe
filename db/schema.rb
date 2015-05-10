@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508140306) do
+ActiveRecord::Schema.define(version: 20150509215006) do
 
   create_table "altas_bajas_horas", force: true do |t|
     t.integer  "establecimiento_id"
@@ -101,6 +101,16 @@ ActiveRecord::Schema.define(version: 20150508140306) do
     t.datetime "updated_at"
   end
 
+  create_table "periodo_liq_horas", force: true do |t|
+    t.integer  "mes"
+    t.integer  "anio"
+    t.integer  "altas_bajas_hora_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "periodo_liq_horas", ["altas_bajas_hora_id"], name: "index_periodo_liq_horas_on_altas_bajas_hora_id", using: :btree
+
   create_table "permissions", force: true do |t|
     t.integer  "user_id"
     t.string   "nombre"
@@ -129,7 +139,7 @@ ActiveRecord::Schema.define(version: 20150508140306) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cuil",              limit: 8
+    t.integer  "cuil"
   end
 
   create_table "rails_admin_histories", force: true do |t|

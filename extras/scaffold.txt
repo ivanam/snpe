@@ -12,6 +12,11 @@ rails g scaffold AltasBajasHora establecimiento:references mes_periodo:integer a
 == AB CARGOS ==
 rails g scaffold AltasBajasCargo establecimiento:references mes_periodo:integer anio_periodo:integer persona:references cargo:string secuencia:integer situacion_revista:string turno:string anio:integer curso:integer fecha_alta:date fecha_baja:date persona_reemplazada:references licencia:references observatorio:string 
 
+== Periodo Liquidacion ==
+rails g model PeriodoLiqCargo mes:integer anio:integer altas_bajas_cargo:references
+
+rails g model PeriodoLiqHora mes:integer anio:integer altas_bajas_hora:references
+
 
 == LICENCIA ==
 

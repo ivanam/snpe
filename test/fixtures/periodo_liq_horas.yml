@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mes: 1
+  anio: 1
+  altas_bajas_hora_id: 
+
+two:
+  mes: 1
+  anio: 1
+  altas_bajas_hora_id: 
