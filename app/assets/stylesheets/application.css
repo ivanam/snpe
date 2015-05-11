@@ -10,3 +10,85 @@
  *= require select2
  *= require jquery-ui/cupertino
 */
+
+
+.form-alta{
+    width: 170px !important;
+    float:left;
+    padding: 1px 2px !important;
+    margin:2px 1px !important;
+    text-align: center;
+}
+
+.form-select{
+    min-height: 34px !important;
+    
+}
+
+.form-fecha{
+    max-width: 138px;
+}
+
+#select_tipo_documento{
+    max-width: 56px;
+}
+
+#input_dni{
+    max-width: 74px;
+}
+
+
+#input_cuil{
+    max-width: 105px;
+}
+
+
+
+#secuencia, #division, #horas, #ciclo-carrera, #curso{
+    max-width: 38px;
+}
+
+#sit-revista {
+    max-width: 55px;
+}
+
+#horas {
+    
+}
+
+#ciclo-carrera {
+       
+}
+
+#curso{
+    
+}
+
+#turno{
+    max-width: 65px;
+}
+
+#division{
+    
+}
+
+#codificacion{
+    max-width: 55px;
+}
+
+#oblig{
+    max-width: 55px;
+}
+
+#observaciones{
+    max-width: 1088px;
+    float:left;
+    padding: 1px 2px !important;
+    margin:2px 1px !important;
+    text-align: center;
+}
+
+#btn-guardar{
+    margin:2px 1px !important;
+    height: 43px;
+}
