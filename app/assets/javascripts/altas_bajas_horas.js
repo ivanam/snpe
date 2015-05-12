@@ -1,10 +1,10 @@
  $(document).ready(function($) {
 
-     $("#datos_persona").hide();
+    $("#datos_persona").hide();
 
-     $(".solo_numerico").on("keypress keyup blur",function (event) {    
-           $(this).val($(this).val().replace(/[^\d].+/, ""));
-             if ( event.which == 8) {
+    $(".solo_numerico").on("keypress keyup blur",function (event) {    
+       $(this).val($(this).val().replace(/[^\d].+/, ""));
+       if ( event.which == 8) {
            
        }else{
         if (event.which < 48 || event.which > 57) {
@@ -12,6 +12,23 @@
              }
       }
             
+    });
+
+    $("#input_cuil").on("keypress keyup blur",function (event) {    
+       if (( event.which == 8 ) || ( event.which == 45)) {
+           
+       }else{
+        if (event.which < 48 || event.which > 57) {
+                  event.preventDefault();
+             }
+      }
+            
+    });
+
+    $("#input_cuil").blur(function(){
+       var cuil = $("#input_cuil");
+       validarCUIT(cuil);
+       
     });
 
     $("#input_dni").blur(function(){
@@ -35,3 +52,11 @@
     });
 
   });
+
+
+function validarCUIT (expresion) {
+  if ((/^\d{2}\-\d{8}\-\d{1}$/).test(expresion.val())){
+  }else{
+    alert('cuil incorrecto')
+  }
+}
