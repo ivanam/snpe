@@ -1,5 +1,9 @@
 module AltasBajasHorasHelper
-  def altas_bajas_horas_permitidas
+  def altas_bajas_horas_permitidas_altas
+    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('extract(month from fecha_alta) = ?', 5).where('extract(year   from fecha_alta) = ?', 2015)
+  end
+
+  def altas_bajas_horas_permitidas_bajas
     return AltasBajasHora.where(:establecimiento_id => session[:establecimiento])
   end
 end
