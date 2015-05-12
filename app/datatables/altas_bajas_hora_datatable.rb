@@ -36,7 +36,8 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
+    #return options[:query]
+    AltasBajasHora.all
   end
 
 end
