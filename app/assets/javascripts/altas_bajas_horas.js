@@ -1,0 +1,37 @@
+ $(document).ready(function($) {
+
+     $("#datos_persona").hide();
+
+     $(".solo_numerico").on("keypress keyup blur",function (event) {    
+           $(this).val($(this).val().replace(/[^\d].+/, ""));
+             if ( event.which == 8) {
+           
+       }else{
+        if (event.which < 48 || event.which > 57) {
+                  event.preventDefault();
+             }
+      }
+            
+    });
+
+    $("#input_dni").blur(function(){
+       var dni = parseInt($("#input_dni").val(),10);
+       $("#datos_persona").show();
+        $.ajax({
+          url: '/soft/snpe/util/buscar_persona/'+dni,
+          type: 'POST',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#input_nombres").val(data.nombres);
+            $("#input_apellidos").val(data.apellidos);
+            $("#input_cuil").val(data.cuil);
+            $("#datepicker3").val(data.fecha_nacimiento);
+          }
+          else{
+            alert("La persona no existe. Por favor cargue sus datos");
+          }
+        })
+    });
+
+  });

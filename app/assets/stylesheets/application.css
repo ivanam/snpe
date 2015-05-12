@@ -11,9 +11,13 @@
  *= require jquery-ui/cupertino
 */
 
+.form-snpe{
+    margin-left: 15px;
+}
+
 
 .form-alta{
-    width: 170px !important;
+    width: 108px !important;
     float:left;
     padding: 1px 2px !important;
     margin:2px 1px !important;
@@ -26,7 +30,7 @@
 }
 
 .form-fecha{
-    max-width: 138px;
+    max-width: 100px;
 }
 
 #select_tipo_documento{
@@ -34,7 +38,7 @@
 }
 
 #input_dni{
-    max-width: 74px;
+    max-width: 100px;
 }
 
 
@@ -81,14 +85,18 @@
 }
 
 #observaciones{
-    max-width: 1088px;
+    max-width: 888px;
+    min-width: 788px;
     float:left;
     padding: 1px 2px !important;
     margin:2px 1px !important;
     text-align: center;
+    height: 43px;
 }
 
 #btn-guardar{
     margin:2px 1px !important;
     height: 43px;
+    float:left;
 }
+

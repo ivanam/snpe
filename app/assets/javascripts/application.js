@@ -17,3 +17,7 @@
 
 
 //$(document).ready(function() { $('select').select2(); });
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

@@ -1,3 +1,5 @@
+<%= javascript_include_tag "altas_bajas_horas.js"%>
+
 <%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal" }) do |f| %>
 <style type="text/css">
 .form-group{
@@ -17,29 +19,35 @@
       </ul>
     </div>
   <% end %>
-  <%# select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-alta form-select"} %>
-  <%# text_field_tag 'dni', "", {:class => "form-alta text-field form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Doc", :maxlength=>"8"} %>
-  <fieldset>
-    <div class="form-group" >
-        <%= text_field_tag 'fecha_nacimiento', "", {:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "Fecha de Nacimiento"} %>
-        <%= text_field_tag 'cuil', "", {:class => "form-alta text-field form-control", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"13", :pattern=>"[0-9]{2}\-[0-9]{8}\-[0-9]{1}"} %>
-        <%= f.text_field :secuencia, :placeholder => "Sec", :class => "form-alta form-control", :id => "secuencia", :maxlength=>"3"%>
-        <%= text_field_tag 'Nombre', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
-        <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
-        <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
-        <%= f.text_field :situacion_revista, :placeholder => "Sit Rev", :class => "form-alta form-control", :id => "sit-revista", :maxlength=>"5"%>
-        <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
-        <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"2"%>
-        <%= f.text_field :anio, :placeholder => "Cur", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
-        <%= f.text_field :division, :placeholder => "Div", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
-        <%= f.select(:turno, AltasBajasHora::TURNO, {:prompt => "Turno"}, :id => "turno", :class=>"form-control form-alta form-select")%>
-        <%= f.text_field :codificacion, :placeholder => "Codific", :class => "form-alta form-control", :id => "codificacion", :maxlength=>"4"%>        
-        <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control"%>
-        <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>  
-        <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
+  
+  <center>
+    <div class="form-snpe" >
+        <div class="row">
+          <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
+          <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+        </div>
+        <div class="row">
+          <%# data-toggle="tooltip" data-placement="top" title="Tooltip on top" %>
+          <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "Fecha de Nacimiento"} %>
+          <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ej: 27319233815",  :class => "form-alta text-field form-control", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"13", :pattern=>"[0-9]{2}\-[0-9]{8}\-[0-9]{1}"} %>
+          <%= f.text_field :secuencia, :placeholder => "Sec", :class => "form-alta form-control", :id => "secuencia", :maxlength=>"3"%>
+          <%= text_field_tag 'Nombre', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
+          <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
+          <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
+          <%= f.text_field :situacion_revista, :placeholder => "Sit Rev", :class => "form-alta form-control", :id => "sit-revista", :maxlength=>"5"%>
+          <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
+          <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"2"%>
+          <%= f.text_field :anio, :placeholder => "Cur", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
+          <%= f.text_field :division, :placeholder => "Div", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
+          <%= f.select(:turno, AltasBajasHora::TURNO, {:prompt => "Turno"}, :id => "turno", :class=>"form-control form-alta form-select")%>
+          <%= f.text_field :codificacion, :placeholder => "Codific", :class => "form-alta form-control", :id => "codificacion", :maxlength=>"4"%>        
+          <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control"%>
+          <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>  
+          <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
+        </div>
       </div>
     </div>
-  </fieldset>  
+  </center>
 <% end %>
 
         
@@ -64,48 +72,3 @@
   </script>
 
 <% end %>
-
-
-<script type="text/javascript">
-
-  /*$(document).ready(function($) {
-
-     $("#datos_persona").hide();
-
-     $(".solo_numerico").on("keypress keyup blur",function (event) {    
-           $(this).val($(this).val().replace(/[^\d].+/, ""));
-             if ( event.which == 8) {
-           
-       }else{
-        if (event.which < 48 || event.which > 57) {
-                  event.preventDefault();
-             }
-      }
-            
-    });
-
-    /*$("#input_dni").blur(function(){
-       var dni = parseInt($("#input_dni").val(),10);
-       $("#datos_persona").show();
-        $.ajax({
-          url: '/soft/snpe/util/buscar_persona/'+dni,
-          type: 'POST',
-        })
-        .done(function(data) {
-          if (data != null) {
-            $("#input_nombres").val(data.nombres);
-            $("#input_apellidos").val(data.apellidos);
-            $("#input_cuil").val(data.cuil);
-            $("#datepicker3").val(data.fecha_nacimiento);
-          }
-          else{
-            
-          }
-        })
-    });*/
-
-  });
-
- 
-
-</script>
