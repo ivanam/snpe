@@ -6,6 +6,8 @@ ProyectoBase::Application.routes.draw do
 
     resources :oficinas    
 
+    get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
+
     get "altas_bajas_horas/importar/", to: "altas_bajas_horas#importar", as: :altas_bajas_horas_importar
 
     resources :altas_bajas_horas
