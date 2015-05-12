@@ -1,4 +1,4 @@
-class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
+class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
@@ -20,8 +20,8 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.persona.apellidos,
         record.persona.nombres,
         record.persona.cuil,
-        record.fecha_alta,
-        record.fecha_baja,
+        '<span class="label label-info">'+record.fecha_alta.to_s+'</span>',
+        '<span class="label label-success">'+record.fecha_baja.to_s+'</span>',
       ]
     end
   end

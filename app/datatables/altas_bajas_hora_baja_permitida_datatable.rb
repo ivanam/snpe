@@ -1,4 +1,4 @@
-class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
+class AltasBajasHoraBajaPermitidaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
@@ -20,8 +20,14 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.persona.apellidos,
         record.persona.nombres,
         record.persona.cuil,
-        record.fecha_alta,
-        record.fecha_baja,
+        '<span class="label label-info">'+record.fecha_alta.to_s+'</span>',
+        '--',
+        '<div class="dropdown">
+          <a class="btn btn-danger" type="button" data-confirm="Seguro desea confirmar la baja?" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_dar_baja_path(record.id.to_s)+'">
+            <span class="glyphicon glyphicon-trash"></span>
+            Baja
+          </a>
+        </div>',
       ]
     end
   end

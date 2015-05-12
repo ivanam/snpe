@@ -48,6 +48,31 @@
   <dt>Email:</dt>
   <dd><%= @persona.email %></dd>
 
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Establecimiento</th>         
+        <th>Curso</th>
+        <th>Materia</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @persona.servicios.each do |s| %>
+        <% if s.estado_actual.to_s != 'Inactivo' then %>
+          <tr>
+            <td><%= s.plaza.curso.organizacion %></td>
+            <td>Año <%= s.plaza.curso.anio %> / División <%= s.plaza.curso.division %> </td>
+            <td><%= s.plaza.asignatura_plan_estudio.asignatura %></td>
+            <td><%= s.estado_actual %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  
+
   <br/><br/>
   <%= link_to personas_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
