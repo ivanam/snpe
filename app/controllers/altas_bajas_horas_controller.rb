@@ -50,7 +50,6 @@ class AltasBajasHorasController < ApplicationController
       @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
       @persona.save
     else
-      @persona = Persona.new
       @persona.tipo_documento_id = @tipo_documento
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
