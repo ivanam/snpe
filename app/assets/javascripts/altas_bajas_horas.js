@@ -55,7 +55,7 @@
 
 
 function validarCUIT (expresion) {
-  if ((/^\d{2}\-\d{8}\-\d{1}$/).test(expresion.val())){
+  if ((/^\d{2}\d{8}\d{1}$/).test(expresion.val())){
   }else{
     alert('cuil incorrecto')
   }
