@@ -1,3 +1,11 @@
 .label {
 	font-size: 13px;
 }
+
+/*********************/
+/*ALERTS DE BOOSTRAP*/
+.alert-celeste {
+  color: #70C0AA;
+  background-color: #EEFBF7;
+  border-color: #D3F2EA;
+}

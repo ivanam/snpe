@@ -60,7 +60,8 @@ class AltasBajasHorasController < ApplicationController
       @persona.save
     end
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
-    @altas_bajas_hora.persona_id = @persona.lllllllllid
+    @altas_bajas_hora.persona_id = @persona.id
+    @altas_bajas_hora.establecimiento_id = session[:establecimiento]
     @altas_bajas_hora.save
     respond_with(@altas_bajas_hora)
   end

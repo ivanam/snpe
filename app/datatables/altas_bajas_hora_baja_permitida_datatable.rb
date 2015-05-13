@@ -2,11 +2,11 @@ class AltasBajasHoraBajaPermitidaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['altas_bajas_horas.id']
+    @sortable_columns ||= ['AltasBajasHora.id']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['altas_bajas_horas.id']
+    @searchable_columns ||= ['AltasBajasHora.id', 'Establecimiento.cue', 'Establecimiento.codigo_jurisdiccional', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres', 'Persona.cuil']
   end
 
   private
@@ -33,7 +33,12 @@ class AltasBajasHoraBajaPermitidaDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
+    #return AltasBajasHora.all.includes(:establecimiento, :persona)
     return options[:query]
+  end
+  
+  def sort_records(records)
+    records
   end
 
 end
