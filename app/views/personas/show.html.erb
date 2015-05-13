@@ -34,10 +34,10 @@
   <dd><%= @persona.estado_civil %></dd>
 
   <dt>Sexo:</dt>
-  <dd><%= @persona.sexo_id %></dd>
+  <dd><%= @persona.sexo %></dd>
 
   <dt>Fecha nacimiento:</dt>
-  <dd><%= @persona.fecha_nacimiento %></dd>
+  <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
 
   <dt>Localidad:</dt>
   <dd><%= @persona.localidad %></dd>
@@ -47,30 +47,6 @@
 
   <dt>Email:</dt>
   <dd><%= @persona.email %></dd>
-
-
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Establecimiento</th>         
-        <th>Curso</th>
-        <th>Materia</th>
-        <th>Estado</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @persona.servicios.each do |s| %>
-        <% if s.estado_actual.to_s != 'Inactivo' then %>
-          <tr>
-            <td><%= s.plaza.curso.organizacion %></td>
-            <td>Año <%= s.plaza.curso.anio %> / División <%= s.plaza.curso.division %> </td>
-            <td><%= s.plaza.asignatura_plan_estudio.asignatura %></td>
-            <td><%= s.estado_actual %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
   
 
   <br/><br/>

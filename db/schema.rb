@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150509215006) do
+ActiveRecord::Schema.define(version: 20150513140511) do
 
   create_table "altas_bajas_horas", force: true do |t|
     t.integer  "establecimiento_id"
@@ -139,7 +139,7 @@ ActiveRecord::Schema.define(version: 20150509215006) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "cuil"
+    t.string   "cuil"
   end
 
   create_table "rails_admin_histories", force: true do |t|

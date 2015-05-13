@@ -62,7 +62,10 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @altas_bajas_hora.save
-    respond_with(@altas_bajas_hora)
+    #respond_with(@altas_bajas_hora)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+    end
   end
 
   def update
