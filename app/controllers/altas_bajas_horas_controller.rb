@@ -44,7 +44,7 @@ class AltasBajasHorasController < ApplicationController
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(:nro_documento => @dni).first
-
+    @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
       @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
@@ -60,7 +60,7 @@ class AltasBajasHorasController < ApplicationController
     end
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
     @altas_bajas_hora.persona_id = @persona.id
-    @altas_bajas_hora.establecimiento_id = session[:establecimiento]
+    @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @altas_bajas_hora.save
     respond_with(@altas_bajas_hora)
   end

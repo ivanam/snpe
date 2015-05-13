@@ -1,4 +1,21 @@
-<div class="page-header">
-  <h1>PaginaInicio#index</h1>
-</div>
-<p>Find me in app/views/pagina_inicio/index.html.erb</p>
+
+<% if user_signed_in? then %>
+    <div class="jumbotron button-menu">
+        <div class="row margin-top">
+            <div class="col-md-6">
+              <center><button type="button" class="btn btn-success btn-block">Alta de Horas</button></center>
+            </div>
+            <div class="col-md-6">
+              <center><button type="button" class="btn btn-danger btn-block">Baja de Horas</button></center>
+            </div>
+        </div>
+        <div class="row margin-top">
+            <div class="col-md-6">
+              <center><button type="button" class="btn btn-primary btn-block">Listado de Personas</button></center>
+            </div>
+            <div class="col-md-6">
+              <center><button type="button" class="btn btn-primary btn-block">Listado de Establecimiento</button></center>
+            </div>
+        </div>
+    </div>
+<% end %>

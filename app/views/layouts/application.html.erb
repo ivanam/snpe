@@ -104,10 +104,52 @@
       </div>
     </div>
   </nav>
-  <div class="container">
-  <p align="center">
-    <%=link_to  image_tag("logo.png"), "http://www.chubut.edu.ar"%>
-  </p>
+  <!-- BODY 1-->
+  <div class="container body-1">
+    <div class="row">
+      <% if user_signed_in? then %>
+        <!-- SIDEBAR -->
+        <div class="col-md-3">
+          <div class="profile-sidebar">
+            <!-- SIDEBAR USERPIC -->
+            <div class="profile-userpic">
+                <%= image_tag("escuela_perfil.png", :class => "img-responsive") %>
+            </div>
+            <!-- END SIDEBAR USERPIC -->
+            <!-- SIDEBAR USER TITLE -->
+            <div class="profile-usertitle">
+                <div
+                 class="profile-usertitle-name">
+                    <%=current_user.nombres %>
+                    <%=current_user.apellidos %>
+                </div>
+                <div class="profile-usertitle-job">
+                    <%=Establecimiento.find(session[:establecimiento])%>
+                </div>
+            </div>
+            <!-- END SIDEBAR USER TITLE -->
+          </div>
+        </div>
+        <!-- SIDEBAR END -->
+      <% end %>
+      <!--  -->
+      <% if user_signed_in? then %>
+        <div class="col-md-9">
+      <% else %>
+        <div class="col-md-12">
+      <% end %>
+          <div class="col-md-12 logo">
+              <p align="center">
+                <%=link_to  image_tag("logo.png"), "http://www.chubut.edu.ar"%>
+              </p>
+          </div>
+          <div class="title">
+            <h1 align="center"> Sistema de Novedades del Personal Educativo </h1>
+          </div>
+            
+        </div>
+        <!--  -->
+  </div>
   <% if session[:establecimiento] != nil then%>
     <%@e = Establecimiento.find(session[:establecimiento])%>
     <div class="alert alert-celeste" role="alert"><h3 style="padding:0;margin:0;"><span class="glyphicon glyphicon-home"></span>  Escuela <small><b>"<%= @e.codigo_jurisdiccional %> - <%= @e.nombre.titleize %>"  <%= @e.nivel %></b> de <i><%= @e.localidad.to_s.titleize %></i></small></h3></div>
