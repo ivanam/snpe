@@ -1,5 +1,5 @@
 class AltasBajasHorasController < ApplicationController
-  before_action :set_altas_bajas_hora, only: [:show, :edit, :update, :destroy]
+  before_action :set_altas_bajas_hora, only: [:show, :edit, :update, :destroy, :dar_baja]
 
   respond_to :html
 
@@ -13,7 +13,14 @@ class AltasBajasHorasController < ApplicationController
   def index_bajas
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+      format.json { render json: AltasBajasHoraBajaPermitidaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
+  def index_bajas_efectivas
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas }) }
     end
   end
 
@@ -93,6 +100,13 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       format.html
       format.html { redirect_to altas_bajas_horas_path, notice: 'Importacion correcta' }
+    end
+  end
+
+  def dar_baja
+    @altas_bajas_hora.update(:fecha_baja => Date.today)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja correctamente realizada' }
     end
   end
 

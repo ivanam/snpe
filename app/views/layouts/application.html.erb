@@ -150,6 +150,10 @@
         </div>
         <!--  -->
   </div>
+  <% if session[:establecimiento] != nil then%>
+    <%@e = Establecimiento.find(session[:establecimiento])%>
+    <div class="alert alert-celeste" role="alert"><h3 style="padding:0;margin:0;"><span class="glyphicon glyphicon-home"></span>  Escuela <small><b>"<%= @e.codigo_jurisdiccional %> - <%= @e.nombre.titleize %>"  <%= @e.nivel %></b> de <i><%= @e.localidad.to_s.titleize %></i></small></h3></div>
+  <% end %>
   <p align="center"></p>
     <% flash.each do |name, msg| %>
       <%if name.to_s=="info"%>
