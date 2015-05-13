@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
+
+  respond_to :html
   # GET /users
   # GET /users.json
   def index
@@ -26,6 +28,7 @@ class UsersController < ApplicationController
   # GET /users/new
   # GET /users/new.json
   def new
+    
     @user = User.new
 
     respond_to do |format|
@@ -36,6 +39,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    
     @user = User.find(params[:id])
   end
 
@@ -43,7 +47,6 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(params[:user])
-
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -57,18 +60,12 @@ class UsersController < ApplicationController
 
   # PUT /users/1
   # PUT /users/1.json
-  def update
-    @user = User.find(params[:id])
+  
 
-    respond_to do |format|
-      if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { head :ok }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
+  def update
+    @user.update(user_params)
+    debugger
+    respond_with(@user)
   end
 
   # DELETE /users/1
@@ -82,4 +79,12 @@ class UsersController < ApplicationController
       format.json { head :ok }
     end
   end
+  private
+    def set_user
+      @user = User.find(params[:id])
+    end
+
+    def user_params
+      params.require(:user).permit(:apellidos, :nombres, :email, :password, :password_confirmation, :role_ids)
+    end
 end
