@@ -4,6 +4,8 @@ ProyectoBase::Application.routes.draw do
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
 
+    resources :articulos
+
     resources :oficinas    
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
