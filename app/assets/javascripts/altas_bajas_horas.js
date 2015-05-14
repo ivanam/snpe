@@ -2,11 +2,6 @@
 
     $("#datos_persona").hide();
 
-
-    
-
-    
-
     $(".solo_numerico").on("keypress keyup blur",function (event) {    
        $(this).val($(this).val().replace(/[^\d].+/, ""));
        if ( event.which == 8) {
