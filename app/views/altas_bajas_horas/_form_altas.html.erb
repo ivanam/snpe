@@ -1,3 +1,4 @@
+<%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "altas_bajas_horas.js" %>
 <%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal" }) do |f| %>
 <style type="text/css">
@@ -73,6 +74,19 @@
 
 <script type="text/javascript">
 
- 
+  $(document).ready(function($) {
+
+    function eliminarCaracter(cadena, caracter) {
+      var resultado1 = cadena.split(caracter).join(" ");
+      var resultado2 = resultado1.split("   ").join(" ");
+      var resultado3 = resultado2.split("  ").join(" ");
+      return resultado3;
+    }
+
+    $("#texto-profile").text(eliminarCaracter($("#texto-profile").text(),"-"));
+
+  });   
+
+
 
 </script>

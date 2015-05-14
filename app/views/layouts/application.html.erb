@@ -127,8 +127,8 @@
                     <div class="profile-usertitle-job">
                         <%@e = Establecimiento.find(session[:establecimiento])%>
                         <%= @e.nombre.titleize %> </br> 
-                        Escuela N° <%= @e.codigo_jurisdiccional %> - 
-                        <%= @e.nivel %></b> </br> <i><%= @e.localidad.to_s.titleize %>
+                        Escuela N° <%= @e.codigo_jurisdiccional %></br> 
+                        <i><%= @e.localidad.to_s.titleize %>
                     </div>
                   <% end %>          
               </div>
