@@ -123,9 +123,11 @@
                     <%=current_user.nombres %>
                     <%=current_user.apellidos %>
                 </div>
-                <div class="profile-usertitle-job">
-                    <%=Establecimiento.find(session[:establecimiento])%>
-                </div>
+                <% if session[:establecimiento] != nil then%>
+                  <div class="profile-usertitle-job">
+                      <%=Establecimiento.find(session[:establecimiento])%>
+                  </div>
+                <% end %>          
             </div>
             <!-- END SIDEBAR USER TITLE -->
           </div>
