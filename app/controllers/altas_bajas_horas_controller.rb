@@ -58,13 +58,21 @@ class AltasBajasHorasController < ApplicationController
       @persona.fecha_nacimiento = @fecha_nacimiento
       @persona.save
     end
-    @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
-    @altas_bajas_hora.persona_id = @persona.id
-    @altas_bajas_hora.establecimiento_id = @establecimiento.id
-    @altas_bajas_hora.save
-    #respond_with(@altas_bajas_hora)
-    respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+    @fecha = params[:altas_bajas_hora][:fecha_alta]
+    @fecha2 = Util.fecha_a_es(AltasBajasHora.last.fecha_alta)
+    if (@fecha.split("-") == @fecha2.split("/")) then
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_path, notice: 'falta chequear materias cursos etc' }
+      end
+    else
+      @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
+      @altas_bajas_hora.persona_id = @persona.id
+      @altas_bajas_hora.establecimiento_id = @establecimiento.id
+      @altas_bajas_hora.save
+      #respond_with(@altas_bajas_hora)
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+      end
     end
   end
 
