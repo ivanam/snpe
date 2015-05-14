@@ -11,8 +11,8 @@
  *= require jquery-ui/cupertino
 */
 
-.body-1{
-    min-height: 590px;
+body { 
+    padding-top: 60px; 
 }
 
 .logo {
@@ -225,3 +225,20 @@
   background: #fff;
   min-height: 460px;
 }
+
+.footer{
+    height: 51px;
+    color: white;
+}
+
+.footer a{
+    color:white;
+}
+
+.footer-text{
+    margin-top: 15px;
+}
+
+
+
+
