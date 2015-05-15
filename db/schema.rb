@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513140511) do
+ActiveRecord::Schema.define(version: 20150514121522) do
 
   create_table "altas_bajas_horas", force: true do |t|
     t.integer  "establecimiento_id"
@@ -36,6 +36,30 @@ ActiveRecord::Schema.define(version: 20150513140511) do
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
   add_index "altas_bajas_horas", ["persona_id"], name: "index_altas_bajas_horas_on_persona_id", using: :btree
+
+  create_table "articulos", force: true do |t|
+    t.string   "codigo"
+    t.string   "descripcion"
+    t.integer  "cantidad_maxima_dias"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "asistencia", force: true do |t|
+    t.integer  "ina_justificada"
+    t.integer  "ina_injustificada"
+    t.integer  "ina_total"
+    t.integer  "lleg_tarde_justificada"
+    t.integer  "lleg_tarde_injustificada"
+    t.integer  "lleg_tarde_total"
+    t.integer  "altas_bajas_hora_id"
+    t.integer  "altas_bajas_cargo_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "asistencia", ["altas_bajas_cargo_id"], name: "index_asistencia_on_altas_bajas_cargo_id", using: :btree
+  add_index "asistencia", ["altas_bajas_hora_id"], name: "index_asistencia_on_altas_bajas_hora_id", using: :btree
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"

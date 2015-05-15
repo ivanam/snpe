@@ -17,6 +17,13 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def index_personal_activo
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
   def index_bajas_efectivas
     respond_to do |format|
       format.html
