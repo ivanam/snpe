@@ -7,9 +7,9 @@ class AltasBajasHora < ActiveRecord::Base
   def ina_justificada(periodo)
     @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
     if @asistencia == nil
-      return 'nada'
+      return "0"
     else
-      return @asistencia.ina_justificada
+      return @asistencia.ina_justificada.to_s
     end
   end
 
