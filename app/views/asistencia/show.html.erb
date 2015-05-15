@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h1>asistencium</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Ina justificada:</dt>
+  <dd><%= @asistencium.ina_justificada %></dd>
+
+  <dt>Ina injustificada:</dt>
+  <dd><%= @asistencium.ina_injustificada %></dd>
+
+  <dt>Ina total:</dt>
+  <dd><%= @asistencium.ina_total %></dd>
+
+  <dt>Lleg tarde justificada:</dt>
+  <dd><%= @asistencium.lleg_tarde_justificada %></dd>
+
+  <dt>Lleg tarde injustificada:</dt>
+  <dd><%= @asistencium.lleg_tarde_injustificada %></dd>
+
+  <dt>Lleg tarde total:</dt>
+  <dd><%= @asistencium.lleg_tarde_total %></dd>
+
+  <dt>Altas bajas hora:</dt>
+  <dd><%= @asistencium.altas_bajas_hora %></dd>
+
+  <dt>Altas bajas cargo:</dt>
+  <dd><%= @asistencium.altas_bajas_cargo %></dd>
+
+  <br/><br/>
+  <%= link_to asistencia_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_asistencium_path(@asistencium), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to asistencium_path(@asistencium), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

@@ -6,6 +6,10 @@ ProyectoBase::Application.routes.draw do
 
     resources :articulos
 
+    resources :asistencia
+
+    get "asistencias/personal_activo/", to: "asistencia#index_personal_activo", as: :asistencia_index_personal_activo
+
     resources :oficinas    
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
@@ -15,6 +19,8 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/bajas_efectivas/", to: "altas_bajas_horas#index_bajas_efectivas", as: :altas_bajas_horas_index_bajas_efectivas
 
     get "altas_bajas_horas/importar/", to: "altas_bajas_horas#importar", as: :altas_bajas_horas_importar
+
+    get "altas_bajas_horas/personal_activo/", to: "altas_bajas_horas#index_personal_activo", as: :altas_bajas_horas_index_personal_activo
 
     resources :altas_bajas_horas
 

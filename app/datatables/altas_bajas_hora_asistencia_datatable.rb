@@ -1,4 +1,4 @@
-class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
+class AltasBajasHoraAsistenciaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
@@ -14,13 +14,14 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.establecimiento.codigo_jurisdiccional,
-        record.establecimiento.cue,
         record.persona.nro_documento,
         record.persona.apellidos,
-        record.persona.nombres,
-        record.persona.cuil,
-        record.fecha_alta,
+        record.anio.to_s + '/' + record.division.to_s,
+        record.codificacion,
+        record.ina_justificada(1),
+        record.ina_justificada(1),
+        record.ina_justificada(1),
+        record.ina_justificada(1),
       ]
     end
   end
