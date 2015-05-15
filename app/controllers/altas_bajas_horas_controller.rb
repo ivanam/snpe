@@ -96,6 +96,7 @@ class AltasBajasHorasController < ApplicationController
     #@@client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
     #results = @@client.query("SELECT * FROM establecimientos LIMIT 0,1000")
 
+    debugger
     # Recorremos el conjunto de objetos
     results.each do |abh|
       # Aca deje algo medio armado, no puedo probar porque faltan datos. Escuela no esta el cue y algun otro mas
