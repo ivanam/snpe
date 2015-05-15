@@ -15,6 +15,9 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %> 
   <%= csrf_meta_tags %>
+
+  <%= stylesheet_link_tag    "bootstrap-editable" %>
+
 </head>
 <body>
   <nav class="navbar navbar-default navbar-fixed-top">
@@ -109,7 +112,7 @@
     </div>
   </nav>
   <!-- BODY 1-->
-  <div class="container body-1">
+  <div class="container">
     <div class="row">
       <% if user_signed_in? then %>
         <!-- SIDEBAR -->
@@ -127,9 +130,11 @@
                     <%=current_user.nombres %>
                     <%=current_user.apellidos %>
                 </div>
-                <div class="profile-usertitle-job">
-                    <%=Establecimiento.find(session[:establecimiento])%>
-                </div>
+                <% if session[:establecimiento] != nil then%>
+                  <div class="profile-usertitle-job">
+                      <%=Establecimiento.find(session[:establecimiento])%>
+                  </div>
+                <% end %>          
             </div>
             <!-- END SIDEBAR USER TITLE -->
           </div>
@@ -189,14 +194,8 @@
     <% end %>
     <%= yield %>
   </div>
-  <div class="container hidden-print">
-    <div class="row footer text-center">
-      <hr/>
-      <p>&copy; <em> Sistema desarrollado por PREGASE - Ministerio de Educación de la Provincia del Chubut</em></p>
-      <address>
-        <a href="mailto:pregase.chubut@gmail.com">pregase.chubut@gmail.com</a>
-      </address>
-    </div>
+  <div class="footer navbar-fixed-bottom navbar-default text-center">
+    <div class="footer-text">Sistema desarrollado por  <%=link_to  image_tag("logo_pregase.png"),"mailto:pregase.chubut@gmail.com"%>  - Ministerio de Educación de la Provincia del Chubut</p>
   </div>
 </body>
 

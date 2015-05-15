@@ -20,7 +20,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.persona.apellidos,
         record.persona.nombres,
         record.persona.cuil,
-        record.fecha_alta,
+        Util.fecha_a_es(record.fecha_alta),
       ]
     end
   end

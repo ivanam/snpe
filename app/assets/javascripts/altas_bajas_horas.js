@@ -43,7 +43,7 @@
             $("#input_nombres").val(data.nombres);
             $("#input_apellidos").val(data.apellidos);
             $("#input_cuil").val(data.cuil);
-            $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"/"+data.fecha_nacimiento.split("-")[1]+"/"+data.fecha_nacimiento.split("-")[0]);
+            $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
             $("#select_tipo_documento").val(data.tipo_documento_id);
           }
           else{

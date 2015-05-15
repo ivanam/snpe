@@ -1,3 +1,4 @@
+<%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "altas_bajas_horas.js" %>
 <%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal" }) do |f| %>
 <style type="text/css">
@@ -28,7 +29,6 @@
         <div class="row">
           <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>          
           <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27-31923381-5", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"13", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>
-          <%= f.text_field :secuencia, :placeholder => "Sec",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Seccion - ej: 58", :class => "form-alta form-control", :id => "secuencia", :maxlength=>"3"%>
           <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
           <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
           <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
@@ -70,10 +70,3 @@
   </script>
 
 <% end %>
-
-
-<script type="text/javascript">
-
- 
-
-</script>

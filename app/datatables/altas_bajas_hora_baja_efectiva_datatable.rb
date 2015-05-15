@@ -20,8 +20,8 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
         record.persona.apellidos,
         record.persona.nombres,
         record.persona.cuil,
-        '<span class="label label-info">'+record.fecha_alta.to_s+'</span>',
-        '<span class="label label-success">'+record.fecha_baja.to_s+'</span>',
+        '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
+        '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
       ]
     end
   end

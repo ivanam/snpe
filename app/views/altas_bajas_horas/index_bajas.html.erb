@@ -3,6 +3,8 @@
 
 <legend>Listado de Bajas Permitidas y Realizadas</legend>
 
+<input id="username" data-type="text" data-resource="post" data-name="username" data-url="/posts/1" data-original-title="Enter username">
+
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3 class="panel-title">
@@ -21,7 +23,6 @@
             <th>Nombre</th>
             <th>CUIL</th>
             <th>Fecha Alta</th>
-            <th>Fecha Baja</th>
             <th class="text-center">Acciones</th>
           </tr>
         </thead>
@@ -62,15 +63,17 @@
     </div>
   </div>
 
-
-
-
-
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function($) {
-      $('#tabla-bajas_efectivas').dataTable({
+  $(document).ready(function($) {
+    $.fn.editable.defaults.mode = 'popup';
+    $('#username').editable();
+    $('#tabla-bajas_efectivas')
+      .on('xhr.dt', function ( e, settings, json ) {
+          $('.popup-fecha').editable();
+      })
+      .dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
@@ -78,13 +81,13 @@
         pagingType: "simple",
         //"pageLength": 5,
       });
-      $('#tabla-bajas').dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-bajas').data('source'),
-        pagingType: "simple",
-        "pageLength": 5,
-      });
+    $('#tabla-bajas').dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      ajax : $('#tabla-bajas').data('source'),
+      pagingType: "simple",
+      "pageLength": 5,
     });
+  });
 </script>
