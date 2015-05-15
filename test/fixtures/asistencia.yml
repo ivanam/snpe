@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  ina_justificada: 1
+  ina_injustificada: 1
+  ina_total: 1
+  lleg_tarde_justificada: 1
+  lleg_tarde_injustificada: 1
+  lleg_tarde_total: 1
+  altas_bajas_hora_id: 
+  altas_bajas_cargo_id: 
+
+two:
+  ina_justificada: 1
+  ina_injustificada: 1
+  ina_total: 1
+  lleg_tarde_justificada: 1
+  lleg_tarde_injustificada: 1
+  lleg_tarde_total: 1
+  altas_bajas_hora_id: 
+  altas_bajas_cargo_id: 

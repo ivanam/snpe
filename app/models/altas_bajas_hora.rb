@@ -4,6 +4,19 @@ class AltasBajasHora < ActiveRecord::Base
 
   TURNO = ["M", "T"]
 
+  def ina_justificada(periodo)
+    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+    if @asistencia == nil
+      return 'nada'
+    else
+      return @asistencia.ina_justificada
+    end
+  end
+
+  def ina_injustificada(periodo)
+    return 3
+  end
+
 end
 
 #SELECT * FROM detalle d inner join recibos r on r.nume_docu = d.nume_docu where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000

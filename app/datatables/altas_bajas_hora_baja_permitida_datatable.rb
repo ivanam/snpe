@@ -22,7 +22,7 @@ class AltasBajasHoraBajaPermitidaDatatable < AjaxDatatablesRails::Base
         record.persona.cuil,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<div class="dropdown">
-          <a class="btn btn-danger" type="button" data-confirm="Seguro desea confirmar la baja?" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_dar_baja_path(record.id.to_s)+'">
+          <a class="btn btn-danger popup-fecha" data-type="date" data-resource="post" data-name="fecha_baja" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_dar_baja_path(record.id.to_s)+'" data-original-title="Seleccione la fecha de baja">
             <span class="glyphicon glyphicon-trash"></span>
             Baja
           </a>

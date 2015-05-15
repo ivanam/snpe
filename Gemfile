@@ -34,6 +34,8 @@ gem "less-rails"
 gem 'twitter-bootstrap-rails', github: 'seyhunak/twitter-bootstrap-rails', branch: 'bootstrap3'
 
 gem 'bootstrap-generators', :git => 'git://github.com/decioferreira/bootstrap-generators.git'
+
+gem 'bootstrap-editable-rails'
 # ---------------------------
 
 # GEMAS DE JAVASCRIPT Y JQUERY

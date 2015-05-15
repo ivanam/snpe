@@ -17,6 +17,13 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def index_personal_activo
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
   def index_bajas_efectivas
     respond_to do |format|
       format.html
@@ -96,6 +103,7 @@ class AltasBajasHorasController < ApplicationController
     #@@client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
     #results = @@client.query("SELECT * FROM establecimientos LIMIT 0,1000")
 
+    debugger
     # Recorremos el conjunto de objetos
     results.each do |abh|
       # Aca deje algo medio armado, no puedo probar porque faltan datos. Escuela no esta el cue y algun otro mas
