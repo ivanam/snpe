@@ -13,6 +13,7 @@
 
 body { 
     padding-top: 60px; 
+    padding-bottom: 55px;
 }
 
 .logo {
@@ -237,6 +238,7 @@ body {
 
 .footer-text{
     margin-top: 15px;
+
 }
 
 

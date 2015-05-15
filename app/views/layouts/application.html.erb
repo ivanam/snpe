@@ -108,31 +108,38 @@
   <div class="container">
     <div class="row">
       <% if user_signed_in? then %>
-        <!-- SIDEBAR -->
-        <div class="col-md-3">
-          <div class="profile-sidebar">
-            <!-- SIDEBAR USERPIC -->
-            <div class="profile-userpic">
-                <%= image_tag("escuela_perfil.png", :class => "img-responsive") %>
-            </div>
-            <!-- END SIDEBAR USERPIC -->
-            <!-- SIDEBAR USER TITLE -->
-            <div class="profile-usertitle">
-                <div
-                 class="profile-usertitle-name">
+        <% if session[:establecimiento] != nil then%>
+          <%@e = Establecimiento.find(session[:establecimiento])%>                  
+          <!-- SIDEBAR -->
+          <div class="col-md-3">
+            <div class="profile-sidebar">
+              <!-- SIDEBAR USERPIC -->
+              <div class="profile-userpic">
+                  <%= image_tag("establecimientos/"+@e.codigo_jurisdiccional+".jpg", :class => "img-circle img-responsive") %>
+                  <!--<img src="imagenotfound.gif" alt="Image not found" onError="this.src='imagefound.gif';" />-->
+              </div>
+              <!-- END SIDEBAR USERPIC -->
+              <!-- SIDEBAR USER TITLE -->
+              <div class="profile-usertitle">
+                  <div
+                    class="profile-usertitle-name">
                     <%=current_user.nombres %>
                     <%=current_user.apellidos %>
-                </div>
-                <% if session[:establecimiento] != nil then%>
-                  <div class="profile-usertitle-job">
-                      <%=Establecimiento.find(session[:establecimiento])%>
                   </div>
-                <% end %>          
+                  
+                    <div class="profile-usertitle-job text-center">
+                      
+                      <%= @e.nombre.titleize %></br>
+                      Codigo Jurisdiccional: <%= @e.codigo_jurisdiccional %> </br>
+                      Localidad: <%= @e.localidad.to_s.titleize %>
+                    </div>
+                  
+              </div>
+              <!-- END SIDEBAR USER TITLE -->
             </div>
-            <!-- END SIDEBAR USER TITLE -->
           </div>
-        </div>
-        <!-- SIDEBAR END -->
+          <!-- SIDEBAR END -->
+        <% end %>          
       <% end %>
       <!--  -->
       <% if user_signed_in? then %>
@@ -152,10 +159,6 @@
         </div>
         <!--  -->
   </div>
-  <% if session[:establecimiento] != nil then%>
-    <%@e = Establecimiento.find(session[:establecimiento])%>
-    <div class="alert alert-celeste" role="alert"><h3 style="padding:0;margin:0;"><span class="glyphicon glyphicon-home"></span>  Escuela <small><b>"<%= @e.codigo_jurisdiccional %> - <%= @e.nombre.titleize %>"  <%= @e.nivel %></b> de <i><%= @e.localidad.to_s.titleize %></i></small></h3></div>
-  <% end %>
   <p align="center"></p>
     <% flash.each do |name, msg| %>
       <%if name.to_s=="info"%>
