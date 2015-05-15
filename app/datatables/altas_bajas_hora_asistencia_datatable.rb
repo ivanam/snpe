@@ -18,7 +18,7 @@ class AltasBajasHoraAsistenciaDatatable < AjaxDatatablesRails::Base
         record.persona.apellidos,
         record.anio.to_s + '/' + record.division.to_s,
         record.codificacion,
-        record.ina_justificada(1),
+        '<span class="ina_justificada" data-type="text" data-resource="post" data-name="ina_justificada" data-url="/posts/1">'+record.ina_justificada(1)+'</span>',
         record.ina_justificada(1),
         record.ina_justificada(1),
         record.ina_justificada(1),

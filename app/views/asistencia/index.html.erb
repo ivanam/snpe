@@ -37,12 +37,17 @@
 
 <script type="text/javascript">
     $(document).ready(function($) {
-      $('#tabla-personal').dataTable({
+      $.fn.editable.defaults.mode = 'inline';
+      $('.ina_justificada').editable();
+      $('#tabla-personal')
+      .dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-personal').data('source'),
         pagingType: "simple",
+       "initComplete": function(settings, json) {    $('.ina_justificada').editable();  },
       });
+      
     });
 </script>
