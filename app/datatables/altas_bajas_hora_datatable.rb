@@ -6,7 +6,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   end
 
   def searchable_columns
-    @searchable_columns ||= ['altas_bajas_horas.id']
+    @searchable_columns ||= ['altas_bajas_horas.id', 'AltasBajasHora.fecha_alta']
   end
 
   private
@@ -15,11 +15,11 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.establecimiento.codigo_jurisdiccional,
-        record.establecimiento.cue,
         record.persona.nro_documento,
-        record.persona.apellidos,
-        record.persona.nombres,
-        record.persona.cuil,
+        record.persona.nombres + " " + record.persona.apellidos,        
+        record.anio,
+        record.division,
+        record.ciclo_carrera,
         Util.fecha_a_es(record.fecha_alta),
       ]
     end
