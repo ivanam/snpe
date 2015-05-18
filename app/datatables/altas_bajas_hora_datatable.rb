@@ -16,11 +16,12 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
       [
         record.persona.nro_documento,
         record.persona.nombres + " " + record.persona.apellidos,
-        record.horas,
+        record.situacion_revista,
+        record.horas,        
         record.ciclo_carrera,        
         record.anio,
         record.division,
-        record.turno,        
+        record.turno,
         Util.fecha_a_es(record.fecha_alta),
       ]
     end
