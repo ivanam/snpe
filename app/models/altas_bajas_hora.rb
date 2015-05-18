@@ -1,6 +1,17 @@
+
 class AltasBajasHora < ActiveRecord::Base
   belongs_to :establecimiento
   belongs_to :persona
+
+
+  #Validates from Silvio Andres "CHQUEAR"
+  validates :establecimiento_id, :presence => true
+  validates :division, :presence => true, length: { is: 2 }, numericality: { only_integer: true }
+  
+
+
+
+  #-------------------------------------
 
   TURNO = ["M", "T"]
 

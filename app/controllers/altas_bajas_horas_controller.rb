@@ -52,6 +52,7 @@ class AltasBajasHorasController < ApplicationController
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(:nro_documento => @dni).first
     @establecimiento = Establecimiento.find(session[:establecimiento])
+    
     #si la persona no existe la creo
     if @persona == nil then
       @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
