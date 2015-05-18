@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150514121522) do
+ActiveRecord::Schema.define(version: 20150518133132) do
 
   create_table "altas_bajas_horas", force: true do |t|
     t.integer  "establecimiento_id"
@@ -103,6 +103,20 @@ ActiveRecord::Schema.define(version: 20150514121522) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "licencia", force: true do |t|
+    t.integer  "altas_bajas_hora_id"
+    t.integer  "altas_bajas_cargo_id"
+    t.date     "fecha_desde"
+    t.date     "fecha_hasta"
+    t.integer  "articulo_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "licencia", ["altas_bajas_cargo_id"], name: "index_licencia_on_altas_bajas_cargo_id", using: :btree
+  add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
+  add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"

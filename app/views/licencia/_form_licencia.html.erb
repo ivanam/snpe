@@ -1,0 +1,64 @@
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "licencia.js" %>
+<%= form_for(@licencia, :html => { :class => "form-horizontal" }) do |f| %>
+<style type="text/css">
+.form-group{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+</style>
+  <% if @licencia.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+
+      <ul>
+      <% @licencia.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <fieldset>
+    <div class="form-snpe" >
+      <div class="row">
+        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
+        <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+      </div>
+      <div class="row">
+        <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>          
+        <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27-31923381-5", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"13", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>
+        <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
+        <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
+        <%= f.text_field :fecha_desde, :id => "datepicker", :placeholder => "Fecha desde", :class => "form-fecha form-desde form-control"%>
+        <%= f.text_field :fecha_hasta, :id => "datepicker2", :placeholder => "Fecha hasta", :class => "form-fecha form-hasta form-control"%>
+        <%= f.collection_select(:articulo, Articulo.all, :id, :descripcion) %>
+        <%= button_to "Guardar", {:controller => "licencia", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>
+
+        
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+  </script>
+
+<% end %>

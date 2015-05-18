@@ -1,0 +1,29 @@
+<% @licencia = Licencium.new %>
+<%= render 'form_licencia', licencia: @licencia %>
+<div class="table-responsive">
+  <table id="tabla-licencium" class="table table-striped table-bordered table-hover" data-source = "<%= licencia_path(format: :json) %>" >
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha Desde</th>
+        <th>Fecha Alta</th>
+        <th>Articulo</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-licencium').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-licencium').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

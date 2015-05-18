@@ -1,8 +1,12 @@
 ProyectoBase::Application.routes.draw do
 
+  
+
   scope '/soft/snpe' do
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
+
+    post "util/buscar_persona_por_id/:id", to: 'util#buscar_persona_por_id'
 
     resources :articulos
 
@@ -24,6 +28,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/personal_activo/", to: "altas_bajas_horas#index_personal_activo", as: :altas_bajas_horas_index_personal_activo
 
+    post "altas_bajas_horas/buscar_alta/:id_alta/", to: "altas_bajas_horas#buscar_alta", as: :altas_bajas_horas_buscar_alta
+
     resources :altas_bajas_horas
 
     resources :establecimientos
@@ -37,6 +43,8 @@ ProyectoBase::Application.routes.draw do
     get "pagina_inicio/index"
 
     resources :personas
+
+    resources :licencia
 
     resources :localidads
 
