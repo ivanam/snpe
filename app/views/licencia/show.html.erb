@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h1>licencium</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Altas bajas hora:</dt>
+  <dd><%= @licencium.altas_bajas_hora %></dd>
+
+  <dt>Altas bajas cargo:</dt>
+  <dd><%= @licencium.altas_bajas_cargo %></dd>
+
+  <dt>Fecha desde:</dt>
+  <dd><%= @licencium.fecha_desde %></dd>
+
+  <dt>Fecha hasta:</dt>
+  <dd><%= @licencium.fecha_hasta %></dd>
+
+  <dt>Articulo:</dt>
+  <dd><%= @licencium.articulo %></dd>
+
+  <br/><br/>
+  <%= link_to licencia_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_licencium_path(@licencium), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to licencium_path(@licencium), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

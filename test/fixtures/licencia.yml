@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  altas_bajas_hora_id: 
+  altas_bajas_cargo_id: 
+  fecha_desde: 2015-05-18
+  fecha_hasta: 2015-05-18
+  articulo_id: 
+
+two:
+  altas_bajas_hora_id: 
+  altas_bajas_cargo_id: 
+  fecha_desde: 2015-05-18
+  fecha_hasta: 2015-05-18
+  articulo_id: 
