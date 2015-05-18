@@ -14,8 +14,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.persona.nro_documento,
-        record.persona.nombres + " " + record.persona.apellidos,
+        record.persona.nro_documento.to_s + " - " + record.persona.nombres + " " + record.persona.apellidos,
         record.situacion_revista,
         record.horas,        
         record.ciclo_carrera,        
@@ -23,6 +22,8 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.division,
         record.turno,
         Util.fecha_a_es(record.fecha_alta),
+        '<a class="btn btn-default" href="'+Rails.application.routes.url_helpers.edit_altas_bajas_hora_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>' + 
+        '<a class="btn btn-default" onClick="editar_alta('+record.id.to_s+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
       ]
     end
   end

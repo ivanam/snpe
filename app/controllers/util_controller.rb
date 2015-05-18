@@ -5,4 +5,9 @@ class UtilController < ApplicationController
     render json: @persona
   end
 
+  def buscar_persona_por_id
+    @persona = Persona.where(:id => params[:id]).first()
+    render json: @persona
+  end
+
 end

@@ -128,6 +128,13 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def buscar_alta
+    if AltasBajasHora.where(:id => params[:id_alta]).count > 0 then
+      @alta = AltasBajasHora.where(:id => params[:id_alta]).first
+      render json: @alta      
+    end
+  end
+
   private
     def set_altas_bajas_hora
       @altas_bajas_hora = AltasBajasHora.find(params[:id])
