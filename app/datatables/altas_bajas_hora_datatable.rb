@@ -14,12 +14,13 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.establecimiento.codigo_jurisdiccional,
         record.persona.nro_documento,
-        record.persona.nombres + " " + record.persona.apellidos,        
+        record.persona.nombres + " " + record.persona.apellidos,
+        record.horas,
+        record.ciclo_carrera,        
         record.anio,
         record.division,
-        record.ciclo_carrera,
+        record.turno,        
         Util.fecha_a_es(record.fecha_alta),
       ]
     end
