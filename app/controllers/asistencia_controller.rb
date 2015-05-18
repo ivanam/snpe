@@ -29,6 +29,42 @@ class AsistenciaController < ApplicationController
   def edit
   end
 
+  def editar_asistencia
+    @asistencia = Asistencium.where(:altas_bajas_hora_id => params["id"])
+    if @asistencia.count > 0
+      if params["post"]["ina_justificada"] != nil
+        @asistencia.first.update(:ina_justificada => params["post"]["ina_justificada"])
+      end 
+      if params["post"]["ina_injustificada"] != nil
+        @asistencia.first.update(:ina_injustificada => params["post"]["ina_injustificada"])
+      end
+      if params["post"]["lleg_tarde_justificada"] != nil
+        @asistencia.first.update(:lleg_tarde_justificada => params["post"]["lleg_tarde_justificada"])
+      end
+      if params["post"]["lleg_tarde_injustificada"] != nil
+        @asistencia.first.update(:lleg_tarde_injustificada => params["post"]["lleg_tarde_injustificada"])
+      end
+    else
+      if params["post"]["ina_justificada"] != nil
+        Asistencium.create(:ina_justificada => params["post"]["ina_justificada"], :altas_bajas_hora_id => params["id"])
+      end 
+      if params["post"]["ina_injustificada"] != nil
+        Asistencium.create(:ina_injustificada => params["post"]["ina_injustificada"], :altas_bajas_hora_id => params["id"])
+      end
+      if params["post"]["lleg_tarde_justificada"] != nil
+        Asistencium.create(:lleg_tarde_justificada => params["post"]["lleg_tarde_justificada"], :altas_bajas_hora_id => params["id"])
+      end
+      if params["post"]["lleg_tarde_injustificada"] != nil
+        Asistencium.create(:lleg_tarde_injustificada => params["post"]["lleg_tarde_injustificada"], :altas_bajas_hora_id => params["id"])
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraAsistenciaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
   def create
     @asistencium = Asistencium.new(asistencium_params)
     @asistencium.save

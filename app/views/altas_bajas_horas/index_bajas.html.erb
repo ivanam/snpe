@@ -71,7 +71,7 @@
     $('#username').editable();
     $('#tabla-bajas_efectivas')
       .on('xhr.dt', function ( e, settings, json ) {
-          z$('.popup-fecha').editable();
+          $('.popup-fecha').editable();
       })
       .dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},

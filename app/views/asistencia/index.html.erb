@@ -19,7 +19,7 @@
       <thead>
         <tr>
           <th>DNI</th>
-          <th>Apellido</th>
+          <th>Nombre</th>
           <th>Curso</th>
           <th>Materia</th>
           <th>Justificada</th>
@@ -38,7 +38,6 @@
 <script type="text/javascript">
     $(document).ready(function($) {
       $.fn.editable.defaults.mode = 'inline';
-      $('.ina_justificada').editable();
       $('#tabla-personal')
       .dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -46,7 +45,12 @@
         serverSide : true,
         ajax : $('#tabla-personal').data('source'),
         pagingType: "simple",
-       "initComplete": function(settings, json) {    $('.ina_justificada').editable();  },
+       "initComplete": function(settings, json) {
+          $('.ina_justificada').editable();
+          $('.ina_injustificada').editable();
+          $('.lleg_tarde_justificada').editable();
+          $('.lleg_tarde_injustificada').editable();
+        },
       });
       
     });
