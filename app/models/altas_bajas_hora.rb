@@ -5,8 +5,8 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   #Validates from Silvio Andres "CHQUEAR"
-  validates :establecimiento_id, :presence => true
-  validates :division, :presence => true, length: { is: 2 }, numericality: { only_integer: true }
+  #validates :establecimiento_id, :presence => true
+  #validates :division, :presence => true, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
   
 
 
