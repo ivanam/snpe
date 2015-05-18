@@ -14,7 +14,30 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def ina_injustificada(periodo)
-    return 3
+    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.ina_injustificada.to_s
+    end
+  end
+
+  def lleg_tarde_justificada(periodo)
+    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.lleg_tarde_justificada.to_s
+    end
+  end
+
+  def lleg_tarde_injustificada(periodo)
+    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.lleg_tarde_injustificada.to_s
+    end
   end
 
 end

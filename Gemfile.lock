@@ -58,6 +58,8 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     arel (4.0.2)
+    attribute-defaults (0.7.0)
+      activerecord (>= 4.0.0, < 5.0.0)
     bcrypt (3.1.9)
     bootstrap-editable-rails (0.0.8)
       railties (>= 3.1)
@@ -185,6 +187,7 @@ PLATFORMS
 
 DEPENDENCIES
   ajax-datatables-rails!
+  attribute-defaults
   bootstrap-editable-rails
   bootstrap-generators!
   cancancan
