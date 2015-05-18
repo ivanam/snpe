@@ -29,6 +29,20 @@ class AsistenciaController < ApplicationController
   def edit
   end
 
+  def editar_inasistencia_justificada
+    debugger
+    @asistencia = Asistencium.where(:altas_bajas_hora_id => params["id"])
+    if @asistencia.count > 0
+      @asistencia.first.update(:ina_justificada => params["post"]["ina_justificada"])
+    else
+      Asistencium.create(:ina_justificada => params["post"]["ina_justificada"], :altas_bajas_hora_id => params["id"])
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraAsistenciaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
   def create
     @asistencium = Asistencium.new(asistencium_params)
     @asistencium.save

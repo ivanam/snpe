@@ -10,6 +10,8 @@ ProyectoBase::Application.routes.draw do
 
     get "asistencias/personal_activo/", to: "asistencia#index_personal_activo", as: :asistencia_index_personal_activo
 
+    put "asistencias/editar_inasistencia_justificada/:id", to: "asistencia#editar_inasistencia_justificada", as: :asistencia_editar_inasistencia_justificada
+
     resources :oficinas    
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
