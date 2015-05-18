@@ -1,5 +1,7 @@
 ProyectoBase::Application.routes.draw do
 
+  
+
   scope '/soft/snpe' do
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
@@ -37,6 +39,8 @@ ProyectoBase::Application.routes.draw do
     get "pagina_inicio/index"
 
     resources :personas
+
+    resources :licencia
 
     resources :localidads
 
