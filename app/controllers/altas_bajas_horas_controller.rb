@@ -64,7 +64,11 @@ class AltasBajasHorasController < ApplicationController
       @persona.apellidos = @apellidos
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento
-      @persona.save
+      if @persona.save then
+        format.html { redirect_to altas_bajas_horas_path, notice: 'La Persona se dio de alta correctamente' }
+      else
+        format.html { redirect_to altas_bajas_horas_path, alert: 'La Person no pudo ser dada de alta' }
+      end
     end
     # @fecha = params[:altas_bajas_hora][:fecha_alta]
     # @fecha2 = Util.fecha_a_es(AltasBajasHora.last.fecha_alta)
@@ -76,10 +80,12 @@ class AltasBajasHorasController < ApplicationController
       @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
       @altas_bajas_hora.persona_id = @persona.id
       @altas_bajas_hora.establecimiento_id = @establecimiento.id
-      @altas_bajas_hora.save
-      #respond_with(@altas_bajas_hora)
       respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+        if @altas_bajas_hora.save then
+          format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+        else
+          format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse. Por favor revise los campos' }
+        end
       end
     #end
   end
