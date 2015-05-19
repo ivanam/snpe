@@ -44,7 +44,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
-    debugger
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -66,9 +65,7 @@ class AltasBajasHorasController < ApplicationController
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
     if @persona.save then
-      format.html { redirect_to altas_bajas_horas_path, notice: 'La Persona se dio de alta correctamente' }
-    else
-      format.html { redirect_to altas_bajas_horas_path, alert: 'La Persona no pudo ser dada de alta' }
+
     end
 
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
@@ -78,7 +75,7 @@ class AltasBajasHorasController < ApplicationController
       if @altas_bajas_hora.save then
         format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
       else
-        format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse. Por favor revise los campos' }
+        format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
       end
     end
     #end
@@ -88,7 +85,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora = AltasBajasHora.find(params[:id])
   end
 
-  def guardar_edicion
+ def guardar_edicion
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -133,8 +130,13 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.save
 
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Se ha actualizado el alta correctamente' }
+      if @altas_bajas_hora.save then
+        format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+      else
+        format.html { redirect_to altas_bajas_horas_editar_alta_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+      end
     end
+  end
 
   
   def update
