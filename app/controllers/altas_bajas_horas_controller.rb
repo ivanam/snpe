@@ -82,11 +82,9 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
-    AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
-      
     respond_to do |format|
       if @altas_bajas_hora.save then
-        
+        AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
         format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
         format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
       else
@@ -222,6 +220,16 @@ class AltasBajasHorasController < ApplicationController
     AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, alert: 'Cancelado' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
+  def chequear
+    #debugger
+    @estado = Estado.where(:descripcion => "Chequeado").first
+    AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
     end
   end
