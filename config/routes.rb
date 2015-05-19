@@ -36,6 +36,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
+    get "altas_bajas_horas/cancelar/:id", to: "altas_bajas_horas#cancelar", as: :altas_bajas_horas_cancelar
+
     resources :altas_bajas_horas
 
     resources :establecimientos

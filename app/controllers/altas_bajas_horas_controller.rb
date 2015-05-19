@@ -203,6 +203,16 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def cancelar
+    #debugger
+    @estado = Estado.where(:descripcion => "Cancelado").first
+    AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_path, alert: 'Cancelado' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
   def buscar_alta
     if AltasBajasHora.where(:id => params[:id_alta]).count > 0 then
       @alta = AltasBajasHora.where(:id => params[:id_alta]).first
