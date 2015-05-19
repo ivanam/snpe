@@ -60,7 +60,6 @@ class AltasBajasHorasController < ApplicationController
     #si la persona no existe la creo
     if @persona == nil then
       @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
-      @persona.save
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.nro_documento = @dni
@@ -68,11 +67,11 @@ class AltasBajasHorasController < ApplicationController
       @persona.apellidos = @apellidos
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento
-      if @persona.save then
-        format.html { redirect_to altas_bajas_horas_path, notice: 'La Persona se dio de alta correctamente' }
-      else
-        format.html { redirect_to altas_bajas_horas_path, alert: 'La Person no pudo ser dada de alta' }
-      end
+    end
+    if @persona.save then
+      
+    else
+      
     end
     # @fecha = params[:altas_bajas_hora][:fecha_alta]
     # @fecha2 = Util.fecha_a_es(AltasBajasHora.last.fecha_alta)
@@ -88,7 +87,7 @@ class AltasBajasHorasController < ApplicationController
         if @altas_bajas_hora.save then
           format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
         else
-          format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse. Por favor revise los campos' }
+          format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
         end
       end
     #end

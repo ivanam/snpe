@@ -6,12 +6,12 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Validates from Silvio Andres "CHEQUEAR"
   validates :establecimiento_id, :fecha_alta, presence: true
-  validates_format_of :situacion_revista, with: /\A(\d{1})-(\d{3})\Z/, allow_blank: true
-  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, allow_blank: true
-  validates :ciclo_carrera, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, allow_blank: true
-  validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, allow_blank: true
-  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, allow_blank: true
-  validates :codificacion, length: { is: 4}, numericality: { only_integer: true }, allow_blank: true
+  validates_format_of :situacion_revista, with: /\A(\d{1})-(\d{3})\Z/#, allow_blank: true
+  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :ciclo_carrera, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :codificacion, length: { is: 4}, numericality: { only_integer: true }#, allow_blank: true
   #-------------------------------------
 
   TURNO = ["M", "T"]
