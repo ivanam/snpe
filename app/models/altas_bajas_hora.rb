@@ -51,6 +51,15 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
+  def estado_actual
+    @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).last
+    if @relation == nil
+      return "Vacio"
+    else
+      return @relation.estado.descripcion
+    end
+  end
+
 end
 
 #SELECT * FROM detalle d inner join recibos r on r.nume_docu = d.nume_docu where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000

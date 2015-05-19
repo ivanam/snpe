@@ -1,7 +1,5 @@
 ProyectoBase::Application.routes.draw do
 
-  
-
   scope '/soft/snpe' do
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
@@ -20,6 +18,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
 
+    get "altas_bajas_horas/notificadas/", to: "altas_bajas_horas#index_notificadas", as: :altas_bajas_horas_index_notificadas
+
     put "altas_bajas_horas/dar_baja/:id", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_baja
 
     get "altas_bajas_horas/bajas_efectivas/", to: "altas_bajas_horas#index_bajas_efectivas", as: :altas_bajas_horas_index_bajas_efectivas
@@ -32,6 +32,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/editar_alta/:id/", to: "altas_bajas_horas#editar_alta", as: :altas_bajas_horas_editar_alta
 
+    get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
+
     resources :altas_bajas_horas
 
     resources :establecimientos
@@ -39,6 +41,8 @@ ProyectoBase::Application.routes.draw do
     get "establecimientos_de_usuario", to: "establecimientos#establecimientos_de_usuario", as: :establecimientos_de_usuario
 
     get "establecimiento/seleccionar/:id", to: "establecimientos#seleccionar", as: :establecimiento_seleccionar
+
+    resources :estados
 
     resources :oficinas
 

@@ -11,7 +11,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150518133132) do
+ActiveRecord::Schema.define(version: 20150519121840) do
+
+  create_table "alta_baja_horas", force: true do |t|
+    t.integer  "alta_baja_hora_id"
+    t.integer  "estado_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "alta_baja_horas", ["alta_baja_hora_id"], name: "index_alta_baja_horas_on_alta_baja_hora_id", using: :btree
+  add_index "alta_baja_horas", ["estado_id"], name: "index_alta_baja_horas_on_estado_id", using: :btree
+
+  create_table "altas_bajas_hora_estados", force: true do |t|
+    t.integer  "alta_baja_hora_id"
+    t.integer  "estado_id"
+    t.text     "observaciones"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "altas_bajas_hora_estados", ["alta_baja_hora_id"], name: "index_altas_bajas_hora_estados_on_alta_baja_hora_id", using: :btree
+  add_index "altas_bajas_hora_estados", ["estado_id"], name: "index_altas_bajas_hora_estados_on_estado_id", using: :btree
 
   create_table "altas_bajas_horas", force: true do |t|
     t.integer  "establecimiento_id"
@@ -100,6 +121,12 @@ ActiveRecord::Schema.define(version: 20150518133132) do
 
   create_table "estado_civils", force: true do |t|
     t.string   "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "estados", force: true do |t|
+    t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

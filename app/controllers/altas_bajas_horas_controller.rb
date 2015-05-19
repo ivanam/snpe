@@ -17,6 +17,13 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def index_notificadas
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas }) }
+    end
+  end
+
   def index_personal_activo
     respond_to do |format|
       format.html
@@ -56,7 +63,6 @@ class AltasBajasHorasController < ApplicationController
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(:nro_documento => @dni).first
     @establecimiento = Establecimiento.find(session[:establecimiento])
-    
     #si la persona no existe la creo
     if @persona == nil then
       @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
@@ -81,6 +87,8 @@ class AltasBajasHorasController < ApplicationController
       @altas_bajas_hora.persona_id = @persona.id
       @altas_bajas_hora.establecimiento_id = @establecimiento.id
       @altas_bajas_hora.save
+      @estado = Estado.where(:descripcion => "Ingresado").first
+      AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
       #respond_with(@altas_bajas_hora)
       respond_to do |format|
         format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
@@ -108,7 +116,6 @@ class AltasBajasHorasController < ApplicationController
     #@@client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
     #results = @@client.query("SELECT * FROM establecimientos LIMIT 0,1000")
 
-    debugger
     # Recorremos el conjunto de objetos
     results.each do |abh|
       # Aca deje algo medio armado, no puedo probar porque faltan datos. Escuela no esta el cue y algun otro mas
@@ -131,6 +138,16 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja correctamente realizada' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
+  def notificar
+    #debugger
+    @estado = Estado.where(:descripcion => "Notificado").first
+    AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Notificado correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
