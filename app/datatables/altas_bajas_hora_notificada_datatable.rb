@@ -27,6 +27,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
         '<a class="btn btn-default" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
+        '<a class="btn btn-default" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
       ]
     end
   end
