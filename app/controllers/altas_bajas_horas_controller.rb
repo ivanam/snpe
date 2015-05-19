@@ -43,10 +43,6 @@ class AltasBajasHorasController < ApplicationController
   def edit
   end
 
-  def editar_alta
-    @altas_bajas_hora = AltasBajasHora.find(params[:id])
-  end
-
   def create
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
