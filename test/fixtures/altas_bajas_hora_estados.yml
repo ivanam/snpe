@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  alta_baja_hora_id: 
+  estado_id: 
+  observaciones: MyText
+
+two:
+  alta_baja_hora_id: 
+  estado_id: 
+  observaciones: MyText
