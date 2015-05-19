@@ -1,8 +1,16 @@
  $(document).ready(function($) {
 
     $("#datos_persona").hide();
-    $("#datepicker").val($("#datepicker").val().split("-")[2]+"-"+$("#datepicker").val().split("-")[1]+"-"+$("#datepicker").val().split("-")[0]);
-    $("#datepicker3").val($("#datepicker3").val().split("-")[2]+"-"+$("#datepicker3").val().split("-")[1]+"-"+$("#datepicker3").val().split("-")[0]);
+
+    var fecha = $("#datepicker").val().split("-")[0];
+    var fecha3 = $("#datepicker3").val().split("-")[0];
+
+    if (fecha.length == 4){      
+       $("#datepicker").val($("#datepicker").val().split("-")[2]+"-"+$("#datepicker").val().split("-")[1]+"-"+$("#datepicker").val().split("-")[0]);
+    } 
+    if (fecha3.length == 4){
+       $("#datepicker3").val($("#datepicker3").val().split("-")[2]+"-"+$("#datepicker3").val().split("-")[1]+"-"+$("#datepicker3").val().split("-")[0]);
+    } 
 
     $(".solo_numerico").on("keypress keyup blur",function (event) {    
        $(this).val($(this).val().replace(/[^\d].+/, ""));
@@ -67,5 +75,4 @@ function validarCUIT (expresion) {
   }else{
     alert('cuil incorrecto')
   }
-}
 }
