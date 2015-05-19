@@ -1,6 +1,9 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "altas_bajas_horas.js" %>
-<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal" }) do |f| %>
+
+<% @altas_bajas_hora = altas_bajas_hora%>
+
+<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal", role: :form, 'data-model' => 'altas_bajas_hora' }) do |f| %>
 <style type="text/css">
 .form-group{
   margin-left: 0px;

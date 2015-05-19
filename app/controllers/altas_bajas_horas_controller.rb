@@ -4,6 +4,9 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
+    if @altas_bajas_hora == nil
+      @altas_bajas_hora = AltasBajasHora.new
+    end
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas }) }
@@ -83,12 +86,16 @@ class AltasBajasHorasController < ApplicationController
       
     respond_to do |format|
       if @altas_bajas_hora.save then
+        
         format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+        format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
       else
-        format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+        format.html { render action: 'index' }
+        #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+        format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
+        #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
       end
     end
-    #end
   end
 
   def editar_alta
@@ -136,14 +143,20 @@ class AltasBajasHorasController < ApplicationController
     # @altas_bajas_hora.persona_id = @persona.id
     # @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @altas_bajas_hora.save
-
+     
     respond_to do |format|
       if @altas_bajas_hora.save then
+        
         format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+        format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
       else
-        format.html { redirect_to altas_bajas_horas_editar_alta_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+        format.html { render action: 'editar_alta' }
+        #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+        format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
+        #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
       end
     end
+
   end
 
   
