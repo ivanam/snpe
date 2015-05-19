@@ -4,13 +4,14 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :persona
 
 
-  #Validates from Silvio Andres "CHQUEAR"
-  #validates :establecimiento_id, :presence => true
-  #validates :division, :presence => true, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
-  
-
-
-
+  #Validates from Silvio Andres "CHEQUEAR"
+  validates :establecimiento_id, :fecha_alta, presence: true
+  validates_format_of :situacion_revista, with: /\A(\d{1})-(\d{3})\Z/#, allow_blank: true
+  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :ciclo_carrera, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :codificacion, length: { is: 4}, numericality: { only_integer: true }#, allow_blank: true
   #-------------------------------------
 
   TURNO = ["M", "T"]
@@ -65,3 +66,4 @@ end
 #SELECT * FROM detalle d inner join recibos r on r.nume_docu = d.nume_docu where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000
 #SELECT * FROM detalle d where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000
 # TRAER CARGOS ACTIVOS DE UNA PERSONA SELECT * FROM paddoc p where nume_docu = 30284359 and estado = "ALT" LIMIT 0,1000
+

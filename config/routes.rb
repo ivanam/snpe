@@ -30,7 +30,9 @@ ProyectoBase::Application.routes.draw do
 
     post "altas_bajas_horas/buscar_alta/:id_alta/", to: "altas_bajas_horas#buscar_alta", as: :altas_bajas_horas_buscar_alta
 
-    get "altas_bajas_horas/editar_alta/:id/", to: "altas_bajas_horas#editar_alta", as: :altas_bajas_horas_editar_alta
+    get "altas_bajas_horas/:id/editar_alta/", to: "altas_bajas_horas#editar_alta", as: :altas_bajas_horas_editar_alta
+
+    patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
