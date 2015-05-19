@@ -12,68 +12,67 @@
 */
 
 body { 
-    padding-top: 60px; 
-    padding-bottom: 55px;
+  padding-top: 60px; 
+  padding-bottom: 55px;
 }
 
 .logo {
-    margin-top: 25px;
+  margin-top: 25px;
 }
 .title{
-    margin-top: 140px;
+  margin-top: 140px;
 }
 
 .button-menu{
-    min-height: 200px;
+  min-height: 200px;
 }
 
 .margin-top{
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
 .form-snpe{
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 
 .form-alta{
-    width: 129px !important;
-    float:left;
-    padding: 1px 2px !important;
-    margin:2px 1px !important;
-    text-align: center;
+  width: 129px !important;
+  float:left;
+  padding: 1px 2px !important;
+  margin:2px 1px !important;
+  text-align: center;
 }
 
 .form-select{
-    min-height: 34px !important;
-    
+  min-height: 34px !important;    
 }
 
 .form-fecha{
-    max-width: 100px;
+  max-width: 100px;
 }
 
 #select_tipo_documento{
-    max-width: 56px;
+  max-width: 56px;
 }
 
 #input_dni{
-    max-width: 100px;
+  max-width: 100px;
 }
 
 
 #input_cuil{
-    max-width: 105px;
+  max-width: 105px;
 }
 
 
 
 #secuencia, #division, #horas, #ciclo-carrera, #curso{
-    max-width: 38px;
+  max-width: 38px;
 }
 
 #sit-revista {
-    max-width: 55px;
+  max-width: 55px;
 }
 
 #horas {
@@ -105,19 +104,44 @@ body {
 }
 
 #observaciones{
-    max-width: 888px;
-    min-width: 788px;
-    float:left;
-    padding: 1px 2px !important;
-    margin:2px 1px !important;
-    text-align: center;
-    height: 43px;
+  max-width: 888px;
+  min-width: 888px;
+  float:left;
+  padding: 1px 2px !important;
+  margin:2px 1px !important;
+  text-align: center;
+  height: 43px;
+}
+
+#observaciones-edit{
+  max-width: 805px;
+  min-width: 805px;
+  float:left;
+  padding: 1px 2px !important;
+  margin:2px 1px !important;
+  text-align: center;
+  height: 43px;
 }
 
 #btn-guardar{
-    margin:2px 1px !important;
-    height: 43px;
-    float:left;
+  margin:2px 1px !important;
+  height: 43px;
+  float:left;
+}
+
+#btn-guardar-edit{
+  margin:2px 1px !important;
+  width:80px;
+  height: 43px;
+  float:left;
+}
+
+#btn-cancelar-edit{
+  margin:2px 1px !important;
+  width:80px;
+  height: 43px;
+  float:left;
+  padding-top: 10px;
 }
 
 

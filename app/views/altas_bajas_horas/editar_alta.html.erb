@@ -47,10 +47,10 @@
           <%= f.select(:turno, AltasBajasHora::TURNO, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
           <%= f.text_field :codificacion, :placeholder => "Codific", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Codicación - ej: 0009",:class => "form-alta form-control", :id => "codificacion", :maxlength=>"4"%>        
           <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control"%>
-          <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>
-          <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
-          <%= link_to altas_bajas_horas_path, :class => 'btn btn-default' do %>
-            <span class="glyphicon glyphicon-list-alt"></span>Cancelar
+          <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-edit" %>
+          <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar-edit" %>
+          <%= link_to altas_bajas_horas_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>
+            Cancelar
           <% end %>
         </div>
       </div>
