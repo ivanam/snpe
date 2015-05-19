@@ -44,6 +44,51 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
+    debugger
+    @tipo_documento = params["tipo_documento"]
+    @dni = params["dni"]
+    @nombres = params["nombres"]
+    @apellidos = params["apellidos"]
+    @cuil = params["cuil"]
+    @fecha_nacimiento = params["fecha_nacimiento"]
+    @persona = Persona.where(:nro_documento => @dni).first
+    @establecimiento = Establecimiento.find(session[:establecimiento])
+    
+    #si la persona no existe la creo
+    if @persona == nil then
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+    else
+      @persona.tipo_documento_id = @tipo_documento
+      @persona.nro_documento = @dni
+      @persona.nombres = @nombres
+      @persona.apellidos = @apellidos
+      @persona.cuil = @cuil
+      @persona.fecha_nacimiento = @fecha_nacimiento      
+    end
+    if @persona.save then
+      format.html { redirect_to altas_bajas_horas_path, notice: 'La Persona se dio de alta correctamente' }
+    else
+      format.html { redirect_to altas_bajas_horas_path, alert: 'La Persona no pudo ser dada de alta' }
+    end
+
+    @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
+    @altas_bajas_hora.persona_id = @persona.id
+    @altas_bajas_hora.establecimiento_id = @establecimiento.id
+    respond_to do |format|
+      if @altas_bajas_hora.save then
+        format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+      else
+        format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse. Por favor revise los campos' }
+      end
+    end
+    #end
+  end
+
+  def editar_alta
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])
+  end
+
+  def guardar_edicion
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -64,32 +109,34 @@ class AltasBajasHorasController < ApplicationController
       @persona.apellidos = @apellidos
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento
-      if @persona.save then
-        format.html { redirect_to altas_bajas_horas_path, notice: 'La Persona se dio de alta correctamente' }
-      else
-        format.html { redirect_to altas_bajas_horas_path, alert: 'La Person no pudo ser dada de alta' }
-      end
+      @persona.save      
     end
-    # @fecha = params[:altas_bajas_hora][:fecha_alta]
-    # @fecha2 = Util.fecha_a_es(AltasBajasHora.last.fecha_alta)
-    # if (@fecha.split("-") == @fecha2.split("/")) then
-    #   respond_to do |format|
-    #     format.html { redirect_to altas_bajas_horas_path, notice: 'falta chequear materias cursos etc' }
-    #   end
-    # else
-      @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
-      @altas_bajas_hora.persona_id = @persona.id
-      @altas_bajas_hora.establecimiento_id = @establecimiento.id
-      respond_to do |format|
-        if @altas_bajas_hora.save then
-          format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
-        else
-          format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse. Por favor revise los campos' }
-        end
-      end
-    #end
-  end
 
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])
+    @altas_bajas_hora.persona_id = @persona.id
+    @altas_bajas_hora.secuencia = params[:altas_bajas_hora][:secuencia]
+    @altas_bajas_hora.fecha_alta = params[:altas_bajas_hora][:fecha_alta]
+    @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
+    @altas_bajas_hora.horas = params[:altas_bajas_hora][:horas]
+    @altas_bajas_hora.ciclo_carrera = params[:altas_bajas_hora][:ciclo_carrera]
+    @altas_bajas_hora.anio = params[:altas_bajas_hora][:anio]
+    @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
+    @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
+    @altas_bajas_hora.codificacion = params[:altas_bajas_hora][:codificacion]
+    @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
+    @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
+
+
+    # @altas_bajas_hora = AltasBajasHora.find
+    # @altas_bajas_hora.persona_id = @persona.id
+    # @altas_bajas_hora.establecimiento_id = @establecimiento.id
+    @altas_bajas_hora.save
+
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Se ha actualizado el alta correctamente' }
+    end
+
+  
   def update
     @altas_bajas_hora.update(altas_bajas_hora_params)
     respond_with(@altas_bajas_hora)
