@@ -146,7 +146,7 @@ class AltasBajasHorasController < ApplicationController
       if @altas_bajas_hora.save then
         
         format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
-        format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
+        #format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
       else
         format.html { render action: 'editar_alta' }
         #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
