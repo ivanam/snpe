@@ -6,7 +6,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   end
 
   def searchable_columns
-    @searchable_columns ||= ['altas_bajas_horas.id', 'AltasBajasHora.fecha_alta']
+    @searchable_columns ||= ['AltasBajasHora.fecha_alta', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres']
   end
 
   private
@@ -26,8 +26,8 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.codificacion,
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
-        '<a class="btn btn-default" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_alta_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
-        '<a class="btn btn-default" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_notificar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
+        '<a class="btn btn-primary btn-sm" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_alta_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'+
+        '<a class="btn btn-success btn-sm" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_notificar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>',
       ]
     end
   end
