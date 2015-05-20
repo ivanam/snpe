@@ -64,7 +64,6 @@ class UsersController < ApplicationController
 
   def update
     @user.update(user_params)
-    debugger
     respond_with(@user)
   end
 
@@ -85,6 +84,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:apellidos, :nombres, :email, :password, :password_confirmation, :role_ids)
+      params.require(:user).permit(:email, :password, :password_confirmation, :remember_me, {:role_ids => []}, :apellidos, :nombres, establecimientos_users_attributes: [:id, :establecimiento_id, :_destroy])
     end
 end

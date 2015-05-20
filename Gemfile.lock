@@ -124,6 +124,7 @@ GEM
     multi_xml (0.5.5)
     mysql (2.9.1)
     mysql2 (0.3.17)
+    nested_form (0.3.2)
     orm_adapter (0.5.0)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -208,6 +209,7 @@ DEPENDENCIES
   less-rails
   mysql
   mysql2
+  nested_form
   rails (= 4.0.13)
   rails4-autocomplete
   railties

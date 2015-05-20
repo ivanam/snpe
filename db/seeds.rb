@@ -4,6 +4,7 @@
 Role.create(description: 'sadmin')
 Role.create(description: 'admin')
 Role.create(description: 'user')
+Role.create(description: 'escuela')
 
 # Carga de usuarios
 User.create(email:"sadmin@sadmin.com", password:"sadmin123456")
@@ -23,13 +24,37 @@ UserRole.create(user_id:3,role_id:3)
 
 #Carga de permisos
 
-Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"read",descripcion:"Acceso al show de establecimientos")
+Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"index",descripcion:"Acceso al show de establecimientos")
 Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"show",descripcion:"Acceso al show de establecimientos")
+
+#Permisos de Horas
+Permission.create(nombre:"Index Horas",subject_class:"AltasBajasHora",subject_id:0,action:"index",descripcion:"Acceso al show de Horas")
+Permission.create(nombre:"Show Horas",subject_class:"AltasBajasHora",subject_id:0,action:"show",descripcion:"Acceso al show de Horas")
+Permission.create(nombre:"Edit Horas",subject_class:"AltasBajasHora",subject_id:0,action:"edit")
+Permission.create(nombre:"Update Horas",subject_class:"AltasBajasHora",subject_id:0,action:"update")
+Permission.create(nombre:"Create Horas",subject_class:"AltasBajasHora",subject_id:0,action:"create")
+Permission.create(nombre:"New Horas",subject_class:"AltasBajasHora",subject_id:0,action:"new")
+Permission.create(nombre:"Destroy Horas",subject_class:"AltasBajasHora",subject_id:0,action:"destroy")
+Permission.create(nombre:"Notificar Horas",subject_class:"AltasBajasHora",subject_id:0,action:"notificar")
+Permission.create(nombre:"Cancelar Horas",subject_class:"AltasBajasHora",subject_id:0,action:"cancelar")
+Permission.create(nombre:"Chequear Horas",subject_class:"AltasBajasHora",subject_id:0,action:"chequear")
+Permission.create(nombre:"Editar Alta Horas",subject_class:"AltasBajasHora",subject_id:0,action:"editar_alta")
+#Permisos de Personas
 
 # Carga de permisos a Roles
 
-RolePermission.create(role_id:3,regulator:1)
-RolePermission.create(role_id:3,regulator:2)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Index Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Show Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Edit Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Update Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Create Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "New Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Destroy Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Notificar Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cancelar Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Chequear Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Notificadas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
 
 #Carga de sexos
 Sexo.create(nombre:"Masculino")

@@ -1,5 +1,5 @@
-  
-<%= form_for(@user, :html => { :class => "form-horizontal" }) do |f| %>
+
+<%= nested_form_for(@user,multipart: true, :html => { :class => "form-horizontal" }) do |f| %>
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -20,13 +20,33 @@
   
   <div></div>
     <%=  build_role_list('/users/role_checkbox') %>
+    </br>
+
+   <legend>Organizaciones</legend>
+
+      <div class="form-group">
+        <%= f.fields_for :establecimientos_users do |e|%>
+          <div class="form-group"> 
+            <%= f.label "Establecimiento", :class => "col-sm-2 control-label" %>
+            <div class="col-sm-9"> 
+              <%= e.collection_select(:establecimiento_id, Establecimiento.all, :id, :to_s, {},:style=>"width:100%") %>         
+            </div>       
+            <%= e.link_to_remove "", :class => "btn btn-danger glyphicon glyphicon-trash pull-right" %>
+          </div>
+
+        <% end %>
+        <%= f.link_to_add "Agregar establecimiento", :establecimientos_users, :class => "label label-success" %><hr/>
+      </div>
+
   </div></br> </br>
+
+
 
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
       <%= link_to users_path, :class => 'btn btn-default' do %>
-        <span class="glyphicon glyphicon-list-alt"></span>
+        <span class="glyphicon glyphicon-circle-arrow-left"></span>
         Atrás
       <% end %>    
     </div>

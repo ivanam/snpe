@@ -1,5 +1,6 @@
 class AltasBajasHorasController < ApplicationController
   before_action :set_altas_bajas_hora, only: [:show, :edit, :update, :destroy, :dar_baja]
+  load_and_authorize_resource
 
   respond_to :html
 

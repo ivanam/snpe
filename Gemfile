@@ -53,6 +53,8 @@ gem 'rails4-autocomplete'
 gem 'jquery_datepicker', github: 'foodforarabbit/jquery_datepicker'
 
 gem 'select2-rails'
+
+gem "nested_form"
 # ---------------------------
 
 # GEMAS PARA DATATABLES
