@@ -1,8 +1,7 @@
-
 class AltasBajasHora < ActiveRecord::Base
   belongs_to :establecimiento
   belongs_to :persona
-
+  has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
 
   #Validates from Silvio Andres "CHEQUEAR"
   validates :establecimiento_id, :fecha_alta, presence: true
@@ -49,6 +48,15 @@ class AltasBajasHora < ActiveRecord::Base
       return "0"
     else
       return @asistencia.lleg_tarde_injustificada.to_s
+    end
+  end
+
+  def estado_actual
+    @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).last
+    if @relation == nil
+      return "Vacio"
+    else
+      return @relation.estado.descripcion
     end
   end
 

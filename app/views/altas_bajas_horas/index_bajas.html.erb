@@ -1,8 +1,15 @@
+<%= javascript_include_tag "daterangepicker"%>
+<%= stylesheet_link_tag "daterangepicker-bs3" %>
+
 <% @altas_bajas_hora = AltasBajasHora.new %>
 <div class="container">
 
-  <legend>Listado de Bajas Permitidas y Realizadas</legend>
+  <div class="">
+    <b>Periodo: </b> <input type="text" id="daterange" /> </br></br>
+  </div>
 
+  <legend>Listado de Bajas Permitidas y Realizadas</legend>
+ 
   <div class="panel panel-info">
     <div class="panel-heading">
       <h3 class="panel-title">
@@ -71,7 +78,7 @@
   $(document).ready(function($) {
 
     //Define el idioma de combodate
-    moment.lang('es');
+    moment.locale('es');
 
     //define el modo de visualizacion del x-editable
     $.fn.editable.defaults.mode = 'popup';
@@ -104,5 +111,29 @@
         pagingType: "simple",
         "pageLength": 5,
       });
+
+    //JS para el periodo
+    var date = new Date();
+    $('#daterange').daterangepicker({
+      format: 'DD/MM/YYYY',
+      startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+      endDate: Date.today,
+      minDate: '01/01/2015',
+      maxDate: '31/12/2030',
+      locale: {
+        applyLabel: 'Ir',
+        cancelLabel: 'Cancelar',
+        fromLabel: 'Desde',
+        toLabel: 'Hasta',
+        firstDay: 1
+      }
+    });
+
+    //Evento del apply
+    $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+      //do something, like clearing an input
+      alert("Periodo seleccionado: "+$('#daterange').val());
+    });
+
   });
 </script>

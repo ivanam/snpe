@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150519121840) do
+ActiveRecord::Schema.define(version: 20150520215751) do
 
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
@@ -155,6 +155,26 @@ ActiveRecord::Schema.define(version: 20150519121840) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "periodo_asistencia", force: true do |t|
+    t.string   "mes"
+    t.integer  "anio"
+    t.integer  "asistencia_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "periodo_asistencia", ["asistencia_id"], name: "index_periodo_asistencia_on_asistencia_id", using: :btree
+
+  create_table "periodo_liq_cargos", force: true do |t|
+    t.string   "mes"
+    t.integer  "anio"
+    t.integer  "altas_bajas_cargo_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "periodo_liq_cargos", ["altas_bajas_cargo_id"], name: "index_periodo_liq_cargos_on_altas_bajas_cargo_id", using: :btree
 
   create_table "periodo_liq_horas", force: true do |t|
     t.integer  "mes"
