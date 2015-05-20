@@ -156,7 +156,6 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
             format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
