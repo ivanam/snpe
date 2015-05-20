@@ -1,7 +1,7 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "altas_bajas_horas.js" %>
 
-<% @altas_bajas_hora = altas_bajas_hora%>
+<% @altas_bajas_hora = altas_bajas_hora %>
 
 <%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal", role: :form, 'data-model' => 'altas_bajas_hora' }) do |f| %>
 <style type="text/css">
@@ -22,18 +22,29 @@
       </ul>
     </div>
   <% end %>
+
+  <% @persona = Persona.new %>
+  <% @persona.nombres = "" %>
+  <% @persona.apellidos = "" %>
+  <% @persona.fecha_nacimiento = "" %>
+  <% @persona.cuil = "" %>
+  <% @persona.tipo_documento_id = 1 %>
+  <% @persona.nro_documento = "" %>
+  <% if @altas_bajas_hora.persona_id != nil then %> 
+    <% @persona = Persona.find(@altas_bajas_hora.persona_id) %>
+  <% end %>
   
   <fieldset>
     <div class="form-snpe" >
         <div class="row">
           <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
-          <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+          <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
         </div>
         <div class="row">
-          <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>          
-          <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>
-          <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
-          <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
+          <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>          
+          <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>
+          <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s", :value => @persona.nombres } %>
+          <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s", :value => @persona.apellidos } %>
           <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
           <%= f.text_field :situacion_revista, :placeholder => "Sit Rev",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ej: 1-002", :class => "form-alta form-control", :id => "sit-revista", :maxlength=>"5"%>
           <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
