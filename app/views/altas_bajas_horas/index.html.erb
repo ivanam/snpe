@@ -1,39 +1,42 @@
 <%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
 <div class="container">
   <hr/>
-  <div class="panel panel-primary ">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        Altas Realizadas
-      </h3>
-    </div>
-    <div class="panel-body">
-    <div class="table-responsive">
-        <table id="tabla-altas_bajas_hora" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_path(format: :json) %>" >
-          <thead>
-            <tr>
-              <th>DNI</th>
-              <th>Nombres</th>
-              <th>Apellidos</th>
-              <th>Sit. Rev</th>
-              <th>Horas</th>              
-              <th>Ciclo Carrera</th>
-              <th>Curso</th>
-              <th>Div</th>
-              <th>Turno</th>
-              <th>Codif.</th>
-              <th>Oblig</th>
-              <th>Fecha Alta</th>
-              <th>Editar</th>
-              <th>Notificar</th>
-            </tr>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
+
+  <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+    <div class="panel panel-primary ">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Altas Realizadas
+        </h3>
+      </div>
+      <div class="panel-body">
+      <div class="table-responsive">
+          <table id="tabla-altas_bajas_hora" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_path(format: :json) %>" >
+            <thead>
+              <tr>
+                <th>DNI</th>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Sit. Rev</th>
+                <th>Horas</th>              
+                <th>Ciclo Carrera</th>
+                <th>Curso</th>
+                <th>Div</th>
+                <th>Turno</th>
+                <th>Codif.</th>
+                <th>Oblig</th>
+                <th>Fecha Alta</th>
+                <th>Editar</th>
+                <th>Notificar</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 
   <div class="panel panel-success ">
     <div class="panel-heading">
