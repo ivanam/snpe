@@ -27,6 +27,8 @@ gem 'will_paginate'
 gem "therubyracer"
 
 gem "less-rails"
+
+gem 'thin'
 # ---------------------------
 
 # GEMAS DE BOOTSTRAP

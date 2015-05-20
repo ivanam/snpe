@@ -1,9 +1,7 @@
 <% @altas_bajas_hora = AltasBajasHora.new %>
 <div class="container">
 
-<legend>Listado de Bajas Permitidas y Realizadas</legend>
-
-<input id="username" data-type="text" data-resource="post" data-name="username" data-url="/posts/1" data-original-title="Enter username">
+  <legend>Listado de Bajas Permitidas y Realizadas</legend>
 
   <div class="panel panel-info">
     <div class="panel-heading">
@@ -16,14 +14,18 @@
       <table id="tabla-bajas" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_bajas_path(format: :json) %>" >
         <thead>
           <tr>
-            <th>Cód Jus</th>
-            <th>Cue</th>
             <th>DNI</th>
+            <th>CUIL</th>
             <th>Apellido</th>
             <th>Nombre</th>
-            <th>CUIL</th>
+            <th>Secuencia</th>
+            <th>CJ</th>
+            <th>Cue</th>
+            <th>Establecimiento</th>
+            <th>Curso</th>
+            <th>Div</th>
             <th>Fecha Alta</th>
-            <th class="text-center">Acciones</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -46,7 +48,7 @@
         <table id="tabla-bajas_efectivas" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_bajas_efectivas_path(format: :json) %>" >
           <thead>
             <tr>
-              <th>Cód Jus</th>
+              <th>CJ</th>
               <th>Cue</th>
               <th>DNI</th>
               <th>Apellido</th>
@@ -67,27 +69,40 @@
 
 <script type="text/javascript">
   $(document).ready(function($) {
+
+    //Define el idioma de combodate
+    moment.lang('es');
+
+    //define el modo de visualizacion del x-editable
     $.fn.editable.defaults.mode = 'popup';
-    $('#username').editable();
+
+    //Carga DT
     $('#tabla-bajas_efectivas')
-      .on('xhr.dt', function ( e, settings, json ) {
-          $('.popup-fecha').editable();
-      })
       .dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-bajas_efectivas').data('source'),
         pagingType: "simple",
-        //"pageLength": 5,
+        "pageLength": 5,
       });
-    $('#tabla-bajas').dataTable({
-      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-      processing : true,
-      serverSide : true,
-      ajax : $('#tabla-bajas').data('source'),
-      pagingType: "simple",
-      "pageLength": 5,
-    });
+
+    //Carga DT
+    $('#tabla-bajas')
+      .on('draw.dt', function () {
+        $('.popup-fecha')
+          .on('save', function(e, params) {
+            location.reload();
+          })
+          .editable();
+      })
+      .dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing: true,
+        serverSide: true,
+        ajax : $('#tabla-bajas').data('source'),
+        pagingType: "simple",
+        "pageLength": 5,
+      });
   });
 </script>

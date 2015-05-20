@@ -17,6 +17,8 @@
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag    "bootstrap-editable" %>
+  <%= javascript_include_tag "combodate"%> 
+  <%= javascript_include_tag "moment-with-locales"%> 
 
 </head>
 <body>
@@ -122,7 +124,7 @@
     </div>
   </nav>
   <!-- BODY 1-->
-  <div class="container">
+  <div class="container" id="contenedor_principal">
     <div class="row">
       <% if user_signed_in? then %>
         <% if session[:establecimiento] != nil then%>

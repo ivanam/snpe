@@ -123,9 +123,11 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def dar_baja
-    @altas_bajas_hora.update(:fecha_baja => Date.today)
+    #debugger
+    @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja correctamente realizada' }
+      format.json { head :no_content } # 204 No Content
     end
   end
 
