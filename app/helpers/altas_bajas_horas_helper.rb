@@ -8,15 +8,11 @@ module AltasBajasHorasHelper
       end
     end
     #AltasBajasHoraEstado.where()
-    return AltasBajasHora.where(:id => @altasbajashoras_ids)
+    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)
   end
 
   def altas_bajas_horas_permitidas_bajas
     return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where(:fecha_baja => nil).includes(:establecimiento, :persona)
-  end
-
-  def altas_bajas_horas_efectivas_bajas
-    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").includes(:establecimiento, :persona)
   end
 
   def altas_bajas_horas_efectivas_bajas
