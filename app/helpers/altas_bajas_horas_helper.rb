@@ -23,11 +23,23 @@ module AltasBajasHorasHelper
     @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('extract(month from fecha_alta) = ?', 5).where('extract(year   from fecha_alta) = ?', 2015)
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
-      if a.estado_actual == "Notificado"
+      if a.estado_actual == "Notificado" || a.estado_actual == "Chequeado"
         @altasbajashoras_ids << a.id
       end
     end
     #AltasBajasHoraEstado.where()
+    return AltasBajasHora.where(:id => @altasbajashoras_ids)
+  end
+
+
+  def horas_novedades
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('extract(month from fecha_alta) = ?', 5).where('extract(year   from fecha_alta) = ?', 2015)
+    @altasbajashoras_ids = []
+    @altasbajashoras.each do |a|
+      if a.estado_actual == "Chequeado"
+        @altasbajashoras_ids << a.id
+      end
+    end
     return AltasBajasHora.where(:id => @altasbajashoras_ids)
   end
   #altas_bajas_horas_permitidas_altas_notificadas

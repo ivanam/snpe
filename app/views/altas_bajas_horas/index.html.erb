@@ -1,4 +1,6 @@
-<%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
+<% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+  <%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
+<% end %>
 <div class="container">
   <hr/>
 

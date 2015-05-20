@@ -14,6 +14,14 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def index_novedades
+    respond_to do |format|
+      format.html
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades }) }
+    end
+  end
+
+
   def index_bajas
     respond_to do |format|
       format.html
