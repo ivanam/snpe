@@ -40,6 +40,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/chequear/:id", to: "altas_bajas_horas#chequear", as: :altas_bajas_horas_chequear
 
+    get "altas_bajas_horas/novedades/", to: "altas_bajas_horas#index_novedades", as: :horas_index_novedades
+
     resources :altas_bajas_horas
 
     resources :establecimientos
