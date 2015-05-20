@@ -41,7 +41,10 @@
        
     });
 
-    $("#input_dni").keyup(function(){
+    $("#input_dni").bind("propertychange change click keyup input paste",function(){
+      var elem = $(this);
+      elem.data('oldVal', elem.val());
+      if (elem.data('oldVal') != elem.val()) {alert("cambio");}
        var dni = parseInt($("#input_dni").val(),10);
        $("#datos_persona").show();
         $.ajax({
