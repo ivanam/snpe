@@ -41,6 +41,7 @@ Permission.create(nombre:"Cancelar Horas",subject_class:"AltasBajasHora",subject
 Permission.create(nombre:"Chequear Horas",subject_class:"AltasBajasHora",subject_id:0,action:"chequear")
 Permission.create(nombre:"Editar Alta Horas",subject_class:"AltasBajasHora",subject_id:0,action:"editar_alta")
 Permission.create(nombre:"Guardar Edicion Alta Horas",subject_class:"AltasBajasHora",subject_id:0,action:"guardar_edicion")
+Permission.create(nombre:"Horas Notificadas",subject_class:"AltasBajasHora",subject_id:0,action:"index_notificadas")
 #Permisos de Personas
 
 # Carga de permisos a Roles
