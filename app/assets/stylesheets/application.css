@@ -170,10 +170,10 @@ body {
 }
 
 .profile-usertitle-job {
-  text-transform: uppercase;
-  color: #5b9bd1;
-  font-size: 12px;
-  font-weight: 600;
+  text-transform: capitalize;
+  color: #19629F;
+  font-size: 14px;
+  font-weight: 500;
   margin-bottom: 15px;
 }
 
