@@ -15,8 +15,7 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.nombres,
-        record.persona.apellidos,
+        record.persona.apellidos + " " + record.persona.nombres.to_s,
         record.situacion_revista,
         record.horas,        
         record.ciclo_carrera,        
@@ -26,6 +25,7 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
         record.codificacion,
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
+        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
       ]
     end
   end

@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>lote_impresion</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Fecha impresion:</dt>
+  <dd><%= @lote_impresion.fecha_impresion %></dd>
+
+  <dt>Observaciones:</dt>
+  <dd><%= @lote_impresion.observaciones %></dd>
+
+  <br/><br/>
+  <%= link_to lote_impresions_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_lote_impresion_path(@lote_impresion), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to lote_impresion_path(@lote_impresion), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

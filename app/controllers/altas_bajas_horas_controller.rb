@@ -36,10 +36,52 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def index_cola_impresion
+    @lote = LoteImpresion.all.last
+    if  @lote.fecha_impresion != nil
+      horas_novedades.where(lote_impresion_id: nil).each do |h|
+        if h.estado_actual == "Impreso"
+          @novedades_ids << h.id
+        end
+      end
+      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+    else
+      @novedades_en_cola_impresion = horas_novedades.where(lote_impresion_id: @lote.id)
+    end
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+    end
+  end
+
   def index_personal_activo
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
+  def imprimir_cola
+    @lote = LoteImpresion.all.last
+    if @lote.fecha_impresion != nil
+      horas_novedades.where(lote_impresion_id: nil).each do |h|
+        if h.estado_actual == "Impreso"
+          @novedades_ids << h.id
+        end
+      end
+      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+      respond_to do |format|
+        format.html
+        format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      end
+    else
+      @lote.update(fecha_impresion: Date.today)
+      
+      respond_to do |format|
+        format.html { redirect_to lote_impresion_path(@lote)}
+        #format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      end
     end
   end
 
@@ -248,6 +290,29 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
+    end
+  end
+
+  def imprimir
+    #debugger
+    @hora = AltasBajasHora.find(params["id"])
+    if @hora.estado_actual == "Impreso"
+      respond_to do |format|
+        format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
+        format.json { head :no_content } # 204 No Content
+      end
+    else
+      @estado = Estado.where(:descripcion => "Impreso").first
+      @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
+      if @lote_impresion == nil
+        @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
+      end
+      @hora.update(lote_impresion_id: @lote_impresion.id)
+      AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id)
+      respond_to do |format|
+        format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
+        format.json { head :no_content } # 204 No Content
+      end
     end
   end
 
