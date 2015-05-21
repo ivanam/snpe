@@ -42,6 +42,18 @@ Permission.create(nombre:"Chequear Horas",subject_class:"AltasBajasHora",subject
 Permission.create(nombre:"Editar Alta Horas",subject_class:"AltasBajasHora",subject_id:0,action:"editar_alta")
 Permission.create(nombre:"Guardar Edicion Alta Horas",subject_class:"AltasBajasHora",subject_id:0,action:"guardar_edicion")
 Permission.create(nombre:"Horas Notificadas",subject_class:"AltasBajasHora",subject_id:0,action:"index_notificadas")
+Permission.create(nombre:"Horas Novedades",subject_class:"AltasBajasHora",subject_id:0,action:"index_novedades")
+Permission.create(nombre:"Horas Imprimir",subject_class:"AltasBajasHora",subject_id:0,action:"imprimir")
+Permission.create(nombre:"Horas Index Cola De Impresion",subject_class:"AltasBajasHora",subject_id:0,action:"index_cola_impresion")
+Permission.create(nombre:"Horas Imprimir Cola",subject_class:"AltasBajasHora",subject_id:0,action:"imprimir_cola")
+Permission.create(nombre:"Index Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"index",descripcion:"Acceso al show de Horas")
+Permission.create(nombre:"Show Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"show",descripcion:"Acceso al show de Horas")
+Permission.create(nombre:"Edit Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"edit")
+Permission.create(nombre:"Update Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"update")
+Permission.create(nombre:"Create Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"create")
+Permission.create(nombre:"New Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"new")
+Permission.create(nombre:"Destroy Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"destroy")
+
 #Permisos de Personas
 
 # Carga de permisos a Roles
@@ -72,6 +84,12 @@ RolePermission.create(role_id: Role.where(description: "personal").first.id ,reg
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Guardar Edicion Alta Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Notificadas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Novedades").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Imprimir").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Index Cola De Impresion").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Imprimir Cola").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Index Lote Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Show Lote Horas").first.id)
 
 #Carga de sexos
 Sexo.create(nombre:"Masculino")
