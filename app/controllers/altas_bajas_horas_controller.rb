@@ -30,9 +30,10 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def index_notificadas
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas }) }
+      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas, rol: @rol }) }
     end
   end
 
