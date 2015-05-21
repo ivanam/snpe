@@ -13,7 +13,6 @@
             <tr>
               <th>DNI</th>
               <th>Nombres</th>
-              <th>Apellidos</th>
               <th>Sit. Rev</th>
               <th>Horas</th>              
               <th>Ciclo</th>
@@ -23,6 +22,7 @@
               <th>Codif.</th>
               <th>Oblig</th>
               <th>Fecha Alta</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -31,6 +31,45 @@
       </div>
     </div>
   </div>
+
+
+  <div class="panel panel-success ">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Cola de impresión
+      </h3>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+        <table id="tabla-cola_impresion" class="table table-striped table-bordered table-hover" data-source = "<%= horas_index_cola_impresion_path(format: :json) %>" >
+          <thead>
+            <tr>
+              <th>DNI</th>
+              <th>Nombres</th>
+              <th>Sit. Rev</th>
+              <th>Horas</th>              
+              <th>Ciclo</th>
+              <th>Curso</th>
+              <th>Div</th>
+              <th>Turno</th>
+              <th>Codif.</th>
+              <th>Oblig</th>
+              <th>Fecha Alta</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <%= link_to horas_imprimir_cola_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Imprimir
+  <% end %>
+
 </div>
 
 <script type="text/javascript">
@@ -40,6 +79,13 @@
         processing : true,
         serverSide : true,
         ajax : $('#tabla-horas_novedades').data('source'),
+        pagingType: "simple",
+      });
+      $('#tabla-cola_impresion').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
       });
     });

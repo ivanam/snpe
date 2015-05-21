@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150520215751) do
+ActiveRecord::Schema.define(version: 20150521113202) do
+
+  create_table "alta_baja_horas", force: true do |t|
+    t.integer  "alta_baja_hora_id"
+    t.integer  "estado_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "alta_baja_horas", ["alta_baja_hora_id"], name: "index_alta_baja_horas_on_alta_baja_hora_id", using: :btree
+  add_index "alta_baja_horas", ["estado_id"], name: "index_alta_baja_horas_on_estado_id", using: :btree
 
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
@@ -43,6 +53,7 @@ ActiveRecord::Schema.define(version: 20150520215751) do
     t.string   "observaciones"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "lote_impresion_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -139,6 +150,13 @@ ActiveRecord::Schema.define(version: 20150520215751) do
     t.string   "nombre"
     t.integer  "region_id"
     t.integer  "cp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "lote_impresions", force: true do |t|
+    t.date     "fecha_impresion"
+    t.text     "observaciones"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
