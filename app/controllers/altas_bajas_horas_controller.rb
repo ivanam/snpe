@@ -9,15 +9,16 @@ class AltasBajasHorasController < ApplicationController
       @mindate = params["rango"][0..9]
       @maxdate = params["rango"][13..22]
     else
-      @mindate = "2015/05/01"
-      @maxdate = "2015/05/31"
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
     end
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
     end
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate, @maxdate) }) }
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 
