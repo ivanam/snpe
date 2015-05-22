@@ -18,6 +18,7 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
       [
         record.fecha_impresion,
         record.observaciones,
+        '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Impresion" href="lote_impresions/'+record.id.to_s+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
       ]
     end
   end
