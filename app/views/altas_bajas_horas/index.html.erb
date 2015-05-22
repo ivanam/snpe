@@ -82,6 +82,10 @@
 
 <script type="text/javascript">
     $(document).ready(function($) {
+
+      //Define el idioma de combodate
+      moment.locale('es');
+
       $('#tabla-altas_bajas_hora').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
