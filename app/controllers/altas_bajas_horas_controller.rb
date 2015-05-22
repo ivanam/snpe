@@ -5,7 +5,6 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
-    debugger
     if params["rango"] != nil
       @mindate = params["rango"][0..9]
       @maxdate = params["rango"][13..22]
@@ -207,7 +206,7 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente actualizada' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'editar_alta' }
