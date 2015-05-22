@@ -46,7 +46,7 @@
           <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s", :value => @persona.nombres } %>
           <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s", :value => @persona.apellidos } %>
           <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
-          <%= f.text_field :situacion_revista, :placeholder => "Sit Rev",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ej: 1-002", :class => "form-alta form-control", :id => "sit-revista", :maxlength=>"5"%>
+          <%= f.select(:turno, AltasBajasHora::SITUACION_REVISTA, {:prompt => "Sit Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
           <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
           <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ciclo/Carrera - ej: 58", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"2"%>
           <%= f.text_field :anio, :placeholder => "Cur",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso - ej: 4", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
