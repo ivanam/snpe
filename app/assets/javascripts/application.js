@@ -21,5 +21,6 @@
 //$(document).ready(function() { $('select').select2(); });
 
 $(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip()
+    $('.dropdown-submenu > a').submenupicker();
 })
