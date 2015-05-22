@@ -26,21 +26,34 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.codificacion,
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
-        if record.estado_actual == "Chequeado" then
-          '<span class="label label-primary">Aceptado por personal</span>'
+        if (options[:rol] == "escuela") then
+          if record.estado_actual == "Chequeado" then
+            '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>' +
+            '<span class="label label-success">Aceptado por personal</span>'
+          elsif record.estado_actual == "Impreso" then
+            '<span class="label label-success">Pasado a sueldo</span>'
+          else
+            '<span class="label label-warning">Esperando aprobación</span>'
+          end
         else
-          '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>' +
-          '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_notificar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>' +
-          '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
+          if record.estado_actual == "Chequeado" then
+            '<center><span class="label label-success">Aceptado por personal</span></center>'
+          elsif record.estado_actual == "Impreso" then
+            '<center><span class="label label-success">Pasado a sueldo</span><center>'
+          else
+            '<center><div class="btn-acciones">'+
+              '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>' +
+              '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_notificar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>' +
+              '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>' +
+            '</div></center'
+          end
         end,
       ]
     end
   end
 
-  def get_raw_records
+  def get_raw_records    
     return options[:query]
   end
 
 end
-
-# => '<a class="btn btn-default" onClick="editar_alta('+record.id.to_s+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'

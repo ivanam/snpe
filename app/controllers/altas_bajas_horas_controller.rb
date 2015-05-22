@@ -5,19 +5,35 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
     end
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas }) }
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 
   def index_novedades
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
     respond_to do |format|
       format.html
-      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades }) }
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 
@@ -30,9 +46,42 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def index_notificadas
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas }) }
+      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas(@mindate.to_date, @maxdate.to_date), rol: @rol }) }
+    end
+  end
+
+  def index_cola_impresion
+    @lote = LoteImpresion.all.last
+    #if  @lote.fecha_impresion != nil
+    #  horas_novedades(nil, nil).where(lote_impresion_id: nil).each do |h|
+    #    if h.estado_actual == "Impreso"
+    #      @novedades_ids << h.id
+    #    end
+    #  end
+    #  @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+    #else
+    #  @novedades_en_cola_impresion = horas_novedades(nil, nil).where(lote_impresion_id: @lote.id)
+    #end
+    if  @lote.fecha_impresion != nil
+      @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
+    else
+      @novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id)
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
     end
   end
 
@@ -40,6 +89,29 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
+  def imprimir_cola
+    @lote = LoteImpresion.all.last
+    if @lote.fecha_impresion != nil
+      horas_novedades.where(lote_impresion_id: nil).each do |h|
+        if h.estado_actual == "Impreso"
+          @novedades_ids << h.id
+        end
+      end
+      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+      respond_to do |format|
+        format.html
+        format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      end
+    else
+      @lote.update(fecha_impresion: Date.today)
+      
+      respond_to do |format|
+        format.html { redirect_to lote_impresion_path(@lote)}
+        #format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      end
     end
   end
 
@@ -156,7 +228,7 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente actualizada' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'editar_alta' }
@@ -248,6 +320,29 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
+    end
+  end
+
+  def imprimir
+    #debugger
+    @hora = AltasBajasHora.find(params["id"])
+    if @hora.estado_actual == "Impreso"
+      respond_to do |format|
+        format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
+        format.json { head :no_content } # 204 No Content
+      end
+    else
+      @estado = Estado.where(:descripcion => "Impreso").first
+      @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
+      if @lote_impresion == nil
+        @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
+      end
+      @hora.update(lote_impresion_id: @lote_impresion.id)
+      AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id)
+      respond_to do |format|
+        format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
+        format.json { head :no_content } # 204 No Content
+      end
     end
   end
 

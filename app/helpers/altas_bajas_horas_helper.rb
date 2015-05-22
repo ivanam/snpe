@@ -1,6 +1,6 @@
 module AltasBajasHorasHelper
-  def altas_bajas_horas_permitidas_altas
-     @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('extract(month from fecha_alta) = ?', 5).where('extract(year   from fecha_alta) = ?', 2015)
+  def altas_bajas_horas_permitidas_altas(mindate, maxdate)
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
       if a.estado_actual == "Ingresado" || a.estado_actual == "Cancelado"
@@ -19,11 +19,11 @@ module AltasBajasHorasHelper
     return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").includes(:establecimiento, :persona)
   end
 
-  def altas_bajas_horas_permitidas_altas_notificadas
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('extract(month from fecha_alta) = ?', 5).where('extract(year   from fecha_alta) = ?', 2015)
+  def altas_bajas_horas_permitidas_altas_notificadas(mindate, maxdate)
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
-      if a.estado_actual == "Notificado" || a.estado_actual == "Chequeado"
+      if a.estado_actual == "Notificado" || a.estado_actual == "Chequeado" || a.estado_actual == "Impreso"
         @altasbajashoras_ids << a.id
       end
     end
@@ -32,11 +32,11 @@ module AltasBajasHorasHelper
   end
 
 
-  def horas_novedades
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('extract(month from fecha_alta) = ?', 5).where('extract(year   from fecha_alta) = ?', 2015)
+  def horas_novedades(mindate, maxdate)
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
-      if a.estado_actual == "Chequeado"
+      if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso"
         @altasbajashoras_ids << a.id
       end
     end
