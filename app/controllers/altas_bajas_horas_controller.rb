@@ -37,14 +37,6 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-
-  def index_bajas
-    respond_to do |format|
-      format.html
-      format.json { render json: AltasBajasHoraBajaPermitidaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
-    end
-  end
-
   def index_notificadas
     if params["rango"] != nil
       @mindate = params["rango"][0..9]
@@ -115,10 +107,25 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-  def index_bajas_efectivas
+  def index_bajas
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas }) }
+      format.json { render json: AltasBajasHoraBajaPermitidaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
+  def index_bajas_efectivas
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 
