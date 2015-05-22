@@ -5,12 +5,19 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate = "2015/05/01"
+      @maxdate = "2015/05/31"
+    end
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
     end
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas }) }
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate, @maxdate) }) }
     end
   end
 
@@ -199,7 +206,7 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente actualizada' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'editar_alta' }
