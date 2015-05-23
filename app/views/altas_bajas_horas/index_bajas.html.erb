@@ -131,8 +131,7 @@
 
     //Evento del apply
     $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-      //do something, like clearing an input
-      alert("Periodo seleccionado: "+$('#daterange').val());
+      window.open ('<%= altas_bajas_horas_index_bajas_path %>'+'?rango='+$('#daterange').val(),'_self',false)
     });
 
   });

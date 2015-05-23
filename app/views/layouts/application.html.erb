@@ -14,11 +14,11 @@
 
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %> 
-  <%= javascript_include_tag "bootstrap-submenu", "data-turbolinks-track" => true %> 
+  <%# javascript_include_tag "bootstrap-submenu" %> 
   <%= csrf_meta_tags %>
   <%= javascript_include_tag :defaults, 'nested_form' %>
   <%= stylesheet_link_tag    "bootstrap-editable" %>
-  <%= stylesheet_link_tag    "bootstrap-submenu" %>
+  <%# stylesheet_link_tag    "bootstrap-submenu" %>
   <%= javascript_include_tag "combodate"%>
   <%= javascript_include_tag "moment-with-locales"%> 
 
@@ -229,7 +229,14 @@
 
 </html>
 
-
 <style type="text/css">
   body { padding-top: 60px; }
 </style>
+
+
+<script type="text/javascript">
+//Parche para el submenu
+$(document).ready(function($) {
+  $('.dropdown').find("a").not('.dropdown-toggle').on("click",function(e){e.stopImmediatePropagation();});
+});
+</script>

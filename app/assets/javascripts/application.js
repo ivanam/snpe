@@ -16,11 +16,4 @@
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon.js
 //= require autocomplete-rails
-
-
-//$(document).ready(function() { $('select').select2(); });
-
-$(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-    $('.dropdown-submenu > a').submenupicker();
-})
+//= require_tree .
