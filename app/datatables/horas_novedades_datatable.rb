@@ -25,7 +25,7 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
         record.codificacion,
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
-        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
+        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>',
       ]
     end
   end

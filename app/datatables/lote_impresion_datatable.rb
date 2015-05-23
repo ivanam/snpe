@@ -16,9 +16,9 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.fecha_impresion,
+        Util.fecha_a_es(record.fecha_impresion),
         record.observaciones,
-        '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Impresion" href="lote_impresions/'+record.id.to_s+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>',
+        '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Impresión" href="lote_impresions/'+record.id.to_s+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>',
       ]
     end
   end
