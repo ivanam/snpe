@@ -174,7 +174,7 @@ class AltasBajasHorasController < ApplicationController
       if @persona.save then       
           if @altas_bajas_hora.save then
             AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'index' }
@@ -237,7 +237,7 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente actualizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'editar_alta' }
@@ -297,7 +297,7 @@ class AltasBajasHorasController < ApplicationController
     #debugger
     @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja correctamente realizada' }
+      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -307,7 +307,7 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Notificado").first
     AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Notificado correctamente' }
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -317,7 +317,7 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Cancelado").first
     AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, alert: 'Cancelado' }
+      format.html { redirect_to altas_bajas_horas_path, alert: 'Alta cancelada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
