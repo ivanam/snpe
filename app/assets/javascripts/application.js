@@ -3,17 +3,16 @@
 // be included in the compiled file accessible from http://example.com/assets/application.js
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
-//
+
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require jquery-ui-timepicker-addon.js
+//= require autocomplete-rails
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require select2
 //= require twitter/bootstrap
+//= require allPages
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
-//= require allPages
-//= require jquery-ui
-//= require jquery-ui-timepicker-addon.js
-//= require autocomplete-rails
-//= require_tree .
