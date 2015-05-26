@@ -14,5 +14,16 @@
 //= require select2
 //= require twitter/bootstrap
 //= require allPages
+//= require jquery-ui
+//= require jquery-ui-timepicker-addon.js
+//= require autocomplete-rails
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
+
+
+//$(document).ready(function() { $('select').select2(); });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+    
+})
