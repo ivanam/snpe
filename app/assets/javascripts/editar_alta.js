@@ -2,14 +2,20 @@
 
     $("#datos_persona").hide();
 
-    var fecha = $("#datepicker").val().split("-")[0];
-    var fecha3 = $("#datepicker3").val().split("-")[0];
+    if ($("#datepicker").val() != null) {
+      var fecha = $("#datepicker").val().split("-")[0];
 
-    if (fecha.length == 4){      
-       $("#datepicker").val($("#datepicker").val().split("-")[2]+"-"+$("#datepicker").val().split("-")[1]+"-"+$("#datepicker").val().split("-")[0]);
-    } 
-    if (fecha3.length == 4){
-       $("#datepicker3").val($("#datepicker3").val().split("-")[2]+"-"+$("#datepicker3").val().split("-")[1]+"-"+$("#datepicker3").val().split("-")[0]);
+      if (fecha.length == 4){      
+         $("#datepicker").val($("#datepicker").val().split("-")[2]+"-"+$("#datepicker").val().split("-")[1]+"-"+$("#datepicker").val().split("-")[0]);
+      } 
+    }   
+
+    if ($("#datepicker3").val() != null) {
+      var fecha3 = $("#datepicker3").val().split("-")[0];
+      
+      if (fecha3.length == 4){
+         $("#datepicker3").val($("#datepicker3").val().split("-")[2]+"-"+$("#datepicker3").val().split("-")[1]+"-"+$("#datepicker3").val().split("-")[0]);
+      }
     } 
 
     $(".solo_numerico").on("keypress keyup blur",function (event) {    

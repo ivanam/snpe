@@ -9,54 +9,68 @@ class AltasBajasHorasController < ApplicationController
       @mindate = params["rango"][0..9]
       @maxdate = params["rango"][13..22]
     else
-      @mindate = "2015/05/01"
-      @maxdate = "2015/05/31"
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
     end
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
     end
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate, @maxdate) }) }
+      format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 
   def index_novedades
-    respond_to do |format|
-      format.html
-      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades }) }
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
     end
-  end
-
-
-  def index_bajas
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaPermitidaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 
   def index_notificadas
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas, rol: @rol }) }
+      format.json { render json: AltasBajasHoraNotificadaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas_notificadas(@mindate.to_date, @maxdate.to_date), rol: @rol }) }
     end
   end
 
   def index_cola_impresion
     @lote = LoteImpresion.all.last
+    #if  @lote.fecha_impresion != nil
+    #  horas_novedades(nil, nil).where(lote_impresion_id: nil).each do |h|
+    #    if h.estado_actual == "Impreso"
+    #      @novedades_ids << h.id
+    #    end
+    #  end
+    #  @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+    #else
+    #  @novedades_en_cola_impresion = horas_novedades(nil, nil).where(lote_impresion_id: @lote.id)
+    #end
     if  @lote.fecha_impresion != nil
-      horas_novedades.where(lote_impresion_id: nil).each do |h|
-        if h.estado_actual == "Impreso"
-          @novedades_ids << h.id
-        end
-      end
-      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+      @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
     else
-      @novedades_en_cola_impresion = horas_novedades.where(lote_impresion_id: @lote.id)
+      @novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id)
     end
-    
+
     respond_to do |format|
       format.html
       format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
@@ -93,10 +107,25 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-  def index_bajas_efectivas
+  def index_bajas
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas }) }
+      format.json { render json: AltasBajasHoraBajaPermitidaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
+  def index_bajas_efectivas
+    if params["rango"] != nil
+      @mindate = params["rango"][0..9]
+      @maxdate = params["rango"][13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date) }) }
     end
   end
 

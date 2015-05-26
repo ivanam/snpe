@@ -1,15 +1,46 @@
 <div class="page-header">
-  <h1>lote_impresion</h1>
+  <h1>Impresión N° <%= @lote_impresion.id %></h1>
+  <h4>Fecha impresion: <%= @lote_impresion.fecha_impresion %></h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Fecha impresion:</dt>
-  <dd><%= @lote_impresion.fecha_impresion %></dd>
+  
+  <legend>Novedades de Horas</legend>
 
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Agente</th>         
+        <th>Ciclo</th>
+        <th>Curso</th>
+        <th>Situacion Revista</th>
+        <th>Horas</th>
+        <th>Codificación</th>
+        <th>Fecha Alta</th>
+        <th>Fecha Baja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lote_impresion.altas_bajas_horas.each do |h| %>
+        <tr>
+          <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
+          <td><%= h.ciclo_carrera %></td>
+          <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
+          <td><%= h.situacion_revista %></td>
+          <td><%= h.horas %></td>
+          <td><%= h.codificacion %></td>
+          <td><%= h.fecha_alta %></td>
+          <td><%= h.fecha_baja %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
   <dt>Observaciones:</dt>
   <dd><%= @lote_impresion.observaciones %></dd>
 
-  <br/><br/>
+    <br/><br/>
+
+
   <%= link_to lote_impresions_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
