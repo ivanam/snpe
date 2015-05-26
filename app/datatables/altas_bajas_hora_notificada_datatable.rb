@@ -32,7 +32,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
           elsif record.estado_actual == "Impreso" then
             '<span class="label label-success">Pasado a sueldo</span>'
           else
-            '<span class="label label-danger">Esperando aprobación</span>' +
+            '<span class="label label-danger">Esperando aprobación</span>' + " " +
             '<a class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Cancelar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'            
           end
         else
