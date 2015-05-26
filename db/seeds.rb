@@ -96,6 +96,7 @@ RolePermission.create(role_id: Role.where(description: "personal").first.id ,reg
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Imprimir Cola").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Index Lote Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Show Lote Horas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
 
 #Carga de sexos
 Sexo.create(nombre:"Masculino")
