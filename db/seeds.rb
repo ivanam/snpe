@@ -23,8 +23,14 @@ UserRole.create(user_id:1,role_id:1)
 UserRole.create(user_id:2,role_id:2)
 UserRole.create(user_id:3,role_id:3)
 
-#Carga de permisos
+#Carga de Estados
+Estado.create(descripcion:"Ingresado")
+Estado.create(descripcion:"Notificado")
+Estado.create(descripcion:"Cancelado")
+Estado.create(descripcion:"Chequeado")
+Estado.create(descripcion:"Impreso")
 
+#Carga de permisos
 Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"index",descripcion:"Acceso al show de establecimientos")
 Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"show",descripcion:"Acceso al show de establecimientos")
 
