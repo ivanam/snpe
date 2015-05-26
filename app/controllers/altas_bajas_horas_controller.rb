@@ -164,6 +164,8 @@ class AltasBajasHorasController < ApplicationController
     end
 
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
+    @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
+    @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
