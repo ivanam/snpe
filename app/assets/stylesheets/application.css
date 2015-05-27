@@ -1,4 +1,5 @@
 /*
+ *= require dataTables/extras/dataTables.responsive
  *= require_self
  *= require bootstrap_and_overrides
  *= require tables
