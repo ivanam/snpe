@@ -3,12 +3,13 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :persona
   belongs_to :lote_impresion
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
+  has_many :estados, :class_name => 'AltasBajasHoraEstado', :foreign_key => 'alta_baja_hora_id', dependent: :destroy
 
   #Validates from Silvio Andres "CHEQUEAR"
   validates :establecimiento_id, :fecha_alta, presence: true
   #validates_format_of :situacion_revista, with: /\A(\d{1})-(\d{3})\Z/#, allow_blank: true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
-  validates :ciclo_carrera, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :codificacion, length: { is: 4}, numericality: { only_integer: true }#, allow_blank: true

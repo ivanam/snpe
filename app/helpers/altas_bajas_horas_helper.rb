@@ -11,7 +11,7 @@ module AltasBajasHorasHelper
     return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)
   end
 
-  def altas_bajas_horas_permitidas_bajas(mindate, maxdate)
+  def altas_bajas_horas_permitidas_bajas
     return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where(:fecha_baja => nil).includes(:establecimiento, :persona)
   end
 

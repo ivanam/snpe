@@ -4,10 +4,6 @@
 <% @altas_bajas_hora = AltasBajasHora.new %>
 <div class="container">
 
-  <div class="">
-    <b>Periodo: </b> <input type="text" id="daterange" /> </br></br>
-  </div>
-
   <legend>Listado de Bajas Permitidas y Realizadas</legend>
  
   <div class="panel panel-info">
@@ -51,6 +47,9 @@
       </h3>
     </div>
     <div class="panel-body">
+      <div class="">
+        <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
+      </div>
       <div class="table-responsive">
         <table id="tabla-bajas_efectivas" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_bajas_efectivas_path(format: :json) %>" >
           <thead>
@@ -71,68 +70,71 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function($) {
+$(document).ready(function($) {
 
-    //Define el idioma de combodate
-    moment.locale('es');
+  //Define el idioma de combodate
+  moment.locale('es');
 
-    //define el modo de visualizacion del x-editable
-    $.fn.editable.defaults.mode = 'popup';
+  //define el modo de visualizacion del x-editable
+  $.fn.editable.defaults.mode = 'popup';
 
-    //Carga DT
-    $('#tabla-bajas_efectivas')
-      .dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-bajas_efectivas').data('source'),
-        pagingType: "simple",
-        "pageLength": 5,
-      });
-
-    //Carga DT
-    $('#tabla-bajas')
-      .on('draw.dt', function () {
-        $('.popup-fecha')
-          .on('save', function(e, params) {
-            location.reload();
-          })
-          .editable();
-      })
-      .dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing: true,
-        serverSide: true,
-        ajax : $('#tabla-bajas').data('source'),
-        pagingType: "simple",
-        "pageLength": 5,
-      });
-
-    //JS para el periodo
-    var date = new Date();
-    $('#daterange').daterangepicker({
-      format: 'DD/MM/YYYY',
-      startDate: new Date(date.getFullYear(), date.getMonth(), 1),
-      endDate: Date.today,
-      minDate: '01/01/2015',
-      maxDate: '31/12/2030',
-      locale: {
-        applyLabel: 'Ir',
-        cancelLabel: 'Cancelar',
-        fromLabel: 'Desde',
-        toLabel: 'Hasta',
-        firstDay: 1
-      }
+  //Carga DT
+  var tabla_bajas_efectivas = $('#tabla-bajas_efectivas').dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      ajax : $('#tabla-bajas_efectivas').data('source'),
+      pagingType: "simple",
+      "pageLength": 5,
     });
 
-    //Evento del apply
-    $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-      window.open ('<%= altas_bajas_horas_index_bajas_path %>'+'?rango='+$('#daterange').val(),'_self',false)
+  //Carga DT
+  var tabla_bajas_permitidas = $('#tabla-bajas')
+    .on('draw.dt', function () {
+      $('.popup-fecha')
+        .on('save', function(e, params) {
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+        })
+        .editable();
+    })
+    .dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing: true,
+      serverSide: true,
+      ajax : $('#tabla-bajas').data('source'),
+      pagingType: "simple",
+      "pageLength": 5,
     });
 
+  //JS para el periodo
+  var date = new Date();
+  $('#daterange').daterangepicker({
+    format: 'DD/MM/YYYY',
+    startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+    endDate: Date.today,
+    minDate: '01/01/2015',
+    maxDate: '31/12/2030',
+    locale: {
+      applyLabel: 'Ir',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      firstDay: 1
+    }
   });
+
+  // Evento del daterangepicker para filtrar por rangos
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    // Cambia la url agregando el campo rango como atributo
+    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/altas_bajas_horas/bajas_efectivas.json?rango='+$('#daterange').val());
+    // Recarga por ajax la tabla
+    tabla_bajas_efectivas.api().ajax.reload();
+    
+  });
+
+});
 </script>
