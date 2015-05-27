@@ -13,7 +13,6 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require select2
 //= require twitter/bootstrap
-//= require allPages
 //= require jquery-ui
 //= require jquery-ui-timepicker-addon.js
 //= require autocomplete-rails

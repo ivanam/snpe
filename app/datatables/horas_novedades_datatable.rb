@@ -25,7 +25,15 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
         record.codificacion,
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
-        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>',
+        if options[:tipo_tabla] == "novedades" then
+          if record.estado_actual == "Impreso" then
+            '<span class="label label-info">Pasado a cola de impresión</span>'
+          else
+            '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a cola de impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>'
+          end
+        else
+          ""
+        end,
       ]
     end
   end
@@ -35,5 +43,3 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
   end
 
 end
-
-# => '<a class="btn btn-default" onClick="editar_alta('+record.id.to_s+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'

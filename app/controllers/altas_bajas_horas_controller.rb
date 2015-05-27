@@ -33,7 +33,7 @@ class AltasBajasHorasController < ApplicationController
     end
     respond_to do |format|
       format.html
-      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades(@mindate.to_date, @maxdate.to_date) }) }
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades(@mindate.to_date, @maxdate.to_date), :tipo_tabla => "novedades" }) }
     end
   end
 
@@ -55,16 +55,6 @@ class AltasBajasHorasController < ApplicationController
 
   def index_cola_impresion
     @lote = LoteImpresion.all.last
-    #if  @lote.fecha_impresion != nil
-    #  horas_novedades(nil, nil).where(lote_impresion_id: nil).each do |h|
-    #    if h.estado_actual == "Impreso"
-    #      @novedades_ids << h.id
-    #    end
-    #  end
-    #  @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
-    #else
-    #  @novedades_en_cola_impresion = horas_novedades(nil, nil).where(lote_impresion_id: @lote.id)
-    #end
     if  @lote.fecha_impresion != nil
       @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
     else
@@ -278,13 +268,18 @@ class AltasBajasHorasController < ApplicationController
 
     # Recorremos el conjunto de objetos
     results.each do |abh|
-      # Aca deje algo medio armado, no puedo probar porque faltan datos. Escuela no esta el cue y algun otro mas
-      # los campos de abh se recorren con ['nombre_columna'] ejemplo, abh['nume_docu']
-      @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
-      @persona = Persona.where(:nro_documento => abh['nume_docu']).first
-      if not(@establecimiento == nil or @persona == nil) then
-        @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil)
-        @data.save
+      if abh['escuela'] == 724 then
+        @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
+        @persona = Persona.where(:nro_documento => abh['nume_docu']).first
+        if not(@establecimiento == nil or @persona == nil) then
+          @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => 9999)
+          if @data.save == false
+            break
+          else
+            @estado = Estado.where(:descripcion => "Ingresado").first
+            AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @data.id)
+          end
+        end
       end
     end
     respond_to do |format|
