@@ -96,13 +96,36 @@
               <li><%= link_to 'Salir', destroy_user_session_path, :tabindex => "-1" %></li>        
             </ul>
           <% else %>
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">No ha iniciado sesión<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><%= link_to "Iniciar Sesión", new_user_session_path , :tabindex => "-1" %></li> 
-              <li class="divider"></li>
-              <li><%= link_to "Registrar", new_user_registration_path, :tabindex => "-1"%></li> 
-            </ul>        
-          <% end %>
+          <li>
+            <p class="navbar-text">¿Ya tienes una cuenta?</p>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Entrar</b> <span class="caret"></span></a>
+            <ul id="login-dp" class="dropdown-menu">
+              <li>
+                <div class="row">
+                  <div class="col-md-12">
+                    <%= form_for(:user, :url => session_path(:user), html: { class: "form" }) do |f| %>
+                      <div class="form-group">
+                        <%= f.text_field :email, :placeholder => "Email", class: "form-control" %> 
+                      </div>
+                      <div class="form-group">
+                        <%= f.password_field :password, :placeholder => "Password", class: "form-control"  %>
+                      </div>
+                      <div class="checkbox">
+                        <%= f.check_box :remember_me %><%= f.label "Recordarme" %>
+                      </div>
+                      <%= f.submit 'Entrar', class: "btn btn-primary btn-block btn-login" %>
+                    <% end %>
+                  </div>
+                  <div class="bottom text-center">
+                    ¿Eres nuevo? <%= link_to "Registrarse", new_user_registration_path, :tabindex => "-1"%>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        <% end %>
         </li>
       </ul>
     </div>
