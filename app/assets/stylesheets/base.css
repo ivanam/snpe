@@ -38,7 +38,7 @@ body {
 
 
 .form-alta{
-  width: 129px !important;
+  width: 110px;
   float:left;
   padding: 1px 2px !important;
   margin:2px 1px !important;
@@ -50,12 +50,14 @@ body {
 }
 
 .form-fecha{
-  max-width: 100px;
+  max-width: 95px;
 }
 
 #select_tipo_documento{
   max-width: 56px;
 }
+
+
 
 #input_dni{
   max-width: 100px;
@@ -63,9 +65,16 @@ body {
 
 
 #input_cuil{
-  max-width: 105px;
+  max-width: 100px;
 }
 
+#input_nombres{
+  max-width: 110px;
+}
+
+#input_apellidos{
+  max-width: 100px;
+}
 
 
 #secuencia, #division, #horas, #ciclo-carrera, #curso{
@@ -73,7 +82,7 @@ body {
 }
 
 #sit-revista {
-  max-width: 55px;
+  max-width: 66px;
 }
 
 #horas {
@@ -105,8 +114,8 @@ body {
 }
 
 #observaciones{
-  max-width: 888px;
-  min-width: 888px;
+  max-width: 829px;
+  min-width: 839px;
   float:left;
   padding: 1px 2px !important;
   margin:2px 1px !important;
