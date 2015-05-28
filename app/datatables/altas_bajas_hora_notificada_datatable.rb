@@ -26,17 +26,17 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         Util.fecha_a_es(record.fecha_alta),        
         if (options[:rol] == "escuela") then
           if record.estado_actual == "Chequeado" then            
-            '<span class="label label-success">Aceptado por personal</span>'
+            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Aceptado por personal</b></button>'
           elsif record.estado_actual == "Impreso" then
-            '<span class="label label-success">Pasado a sueldo</span>'
+            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Pasado a sueldo</b></button>'
           else
-            '<span class="label label-danger">Esperando aprobación</span>'            
+            '<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Esperando aprobación</b></button>'           
           end
         else
           if record.estado_actual == "Chequeado" then
-            '<center><span class="label label-success">Aceptado por personal</span></center>'
+            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Aceptado por personal</b></button>'           
           elsif record.estado_actual == "Impreso" then
-            '<center><span class="label label-success">Pasado a sueldo</span><center>'
+            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Pasado a sueldo</b></button>'           
           end
         end,
         if (options[:rol] == "escuela") then
