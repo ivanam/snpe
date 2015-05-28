@@ -63,8 +63,9 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
-  def estado_actual
+  def estado_anterior
     @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).last
+    @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).where.not(id: @relation.id).last
     if @relation == nil
       return "Vacio"
     else

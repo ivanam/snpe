@@ -10,4 +10,13 @@ class UtilController < ApplicationController
     render json: @persona
   end
 
+  def buscar_estados_altas_bajas_hora
+  	@estados = AltasBajasHoraEstado.where(:alta_baja_hora_id => params[:id])
+  	@observaciones = Array.new
+  	@estados.all.each do |e|
+  		@observaciones << (Estado.find(e.estado_id).descripcion.to_s + " - " + e.observaciones.to_s + " - " + Util.fecha_a_es(e.created_at.to_date))
+  	end
+    render json: @observaciones
+  end
+
 end

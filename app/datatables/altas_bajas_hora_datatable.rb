@@ -15,8 +15,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.nombres,
-        record.persona.apellidos,
+        record.persona.nombres + " " + record.persona.apellidos,
         record.situacion_revista,
         record.horas,        
         record.ciclo_carrera,        
@@ -24,8 +23,10 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.division,
         record.turno,
         record.codificacion,
-        record.oblig,
         Util.fecha_a_es(record.fecha_alta),
+        if record.estado_actual == "Cancelado" then
+          '<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Cancelado por personal</b></button>'
+        end,
         '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar alta" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_alta_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'+
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Notificar alta" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_notificar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a></div></center>',
       ]
@@ -38,4 +39,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
 
 end
 
-# => '<a class="btn btn-default" onClick="editar_alta('+record.id.to_s+')"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'
+
+      #    <% link_to '#new_servicio_modal', 'data-toggle'=>"tooltip", 'data-placement'=>"top", 'title'=>"Nuevo servicio", 'data-toggle' => 'modal', 'cant_horas' => p.asignatura_plan_estudio.horas, 'data-id' => p.id, 'fecha_desde' => p.fecha_desde_fun, 'fecha_hasta' => p.fecha_hasta_fun, :class => 'btn btn-sm btn-success' do %>
+       #     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        #  <% end %>
