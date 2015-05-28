@@ -1,0 +1,110 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "SNPE", root_path, :class => "navbar-brand" %>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? then %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-home"></span><% Establecimiento.where(:id => session[:establecimiento]).first() %> <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Establecimientos", establecimientos_de_usuario_path,  :tabindex => "-1" %></li>
+            </ul>
+          </li>            
+        <% end %>
+      </ul>
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? then %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carga de Novedades <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <% if ver_model("AltasBajasHora") then %>
+                <li class="dropdown-submenu">
+                  <a tabindex="-1" href="#" onclick='return false;'>Horas</a>
+                  <ul class="dropdown-menu">
+                    <li><%=link_to "Altas", altas_bajas_horas_path, :tabindex => "-1"%></li>
+                    <% if (current_user.role? :sadmin) then %>
+                    <li><%=link_to "Bajas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Asistencias", asistencia_path, :tabindex => "-1"%></li>  
+                    <% end %>
+                    <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
+                      <li><%=link_to "Novedades", horas_index_novedades_path, :tabindex => "-1"%></li>  
+                      <li><%=link_to "Impresiones", lote_impresions_path, :tabindex => "-1"%></li>  
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+              <% if ver_model("AltasBajasCargo") then %>
+                <li class="dropdown-submenu">
+                  <a tabindex="-1" href="#">Cargos</a>
+                  <ul class="dropdown-menu">
+                    <li><%=link_to "Altas", altas_bajas_horas_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Bajas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Asistencias", asistencia_path, :tabindex => "-1"%></li>  
+                  </ul>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? then %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Información <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <% if ver_model("Establecimiento") then %>
+                  <li><%=link_to "Establecimientos", establecimientos_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("Persona") then %>
+                  <li><%=link_to "Personas", personas_path, :tabindex => "-1"%></li>
+                <% end %>
+              </ul>
+            </li>
+        <% end %>
+      </ul>
+
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? then %>
+          <% if (current_user.role? :sadmin) then %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Importar Liquidacion <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                  <li><%=link_to "Importar AltasBajasHoras", altas_bajas_horas_importar_path, :tabindex => "-1"%></li>
+                  <li><%=link_to "Usuarios", users_path, :tabindex => "-1"%></li>
+                  <li><%=link_to "Roles", roles_path, :tabindex => "-1"%></li>
+              </ul>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li class="dropdown">
+          <% if user_signed_in? %>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Bienvenido: <%= current_user.email %><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%=link_to "Mi cuenta", edit_user_registration_path, :tabindex => "-1"%></li>
+              <li class="divider"></li>
+              <li><%= link_to 'Salir', destroy_user_session_path, :tabindex => "-1" %></li>        
+            </ul>
+          <% else %>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">No ha iniciado sesión<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Iniciar Sesión", new_user_session_path , :tabindex => "-1" %></li> 
+              <li class="divider"></li>
+              <li><%= link_to "Registrar", new_user_registration_path, :tabindex => "-1"%></li> 
+            </ul>        
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

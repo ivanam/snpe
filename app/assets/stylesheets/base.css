@@ -158,13 +158,25 @@ body {
 /*PERFIL CSS*/
 
 /* Profile container */
-.profile {margin: 20px 0;}
-
-/* Profile sidebar */
-.profile-sidebar {padding: 20px 0 10px 0;background: #fff;
+.profile {
+  margin: 20px 0;
 }
 
-.profile-userpic img {float: none;margin: 0 auto;width: 50%;height: 50%;-webkit-border-radius: 50% !important;-moz-border-radius: 50% !important;border-radius: 50% !important;
+/* Profile sidebar */
+.profile-sidebar {
+  padding: 20px 0 10px 0;
+  background: #fff;
+}
+
+.profile-userpic img {
+  float: none;
+  margin: 0 auto;
+  max-width: 200px;
+  width: 50%;
+  height: 50%;
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
 }
 
 .profile-usertitle {
@@ -348,6 +360,7 @@ body {
 }
 .profile-img
 {
+
     width: 96px;
     height: 96px;
     margin: 0 auto 10px;
