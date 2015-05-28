@@ -1,15 +1,21 @@
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
-<div class="">
-  <b>Periodo: </b> <input type="text" id="daterange" /> </br></br>
-</div>
-
 <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
-  <%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
+  <legend class="legend-small">Carga de un Alta</legend>  
+  <div class="form-carga-efecto">
+    <%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
+  </div>
 <% end %>
 <div class="container">
-  <hr/>
+
+  </br>
+
+  <legend class="legend-small">Listado de Altas</legend>  
+
+  <div class="">
+    <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
+  </div>
 
   <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
     <div class="panel panel-primary ">
@@ -44,6 +50,7 @@
         </div>
       </div>
     </div>
+    <hr/>
   <% end %>
 
   <div class="panel panel-success ">
@@ -81,50 +88,52 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function($) {
+$(document).ready(function($) {
 
-      //Define el idioma de combodate
-      moment.locale('es');
+  //Define el idioma de combodate
+  moment.locale('es');
 
-      $('#tabla-altas_bajas_hora').dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-altas_bajas_hora').data('source'),
-        pagingType: "simple",
-      });
+  var tabla_altas_bajas = $('#tabla-altas_bajas_hora').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-altas_bajas_hora').data('source'),
+    pagingType: "simple",
+  });
 
-      $('#tabla-altas_bajas_hora_notificadas').dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
-        pagingType: "simple",
-      });
+  var tabla_altas_bajas_notificadas = $('#tabla-altas_bajas_hora_notificadas').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
+    pagingType: "simple",
+  });
 
-    var date = new Date();
-    $('#daterange').daterangepicker({
-      format: 'DD/MM/YYYY',
-      startDate: new Date(date.getFullYear(), date.getMonth(), 1),
-      endDate: Date.today,
-      minDate: '01/01/2015',
-      maxDate: '31/12/2030',
-      locale: {
-        applyLabel: 'Ir',
-        cancelLabel: 'Cancelar',
-        fromLabel: 'Desde',
-        toLabel: 'Hasta',
-        firstDay: 1
-      }
-    });
+  var date = new Date();
+  $('#daterange').daterangepicker({
+    format: 'DD/MM/YYYY',
+    startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+    endDate: Date.today,
+    minDate: '01/01/2015',
+    maxDate: '31/12/2030',
+    locale: {
+      applyLabel: 'Ir',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      firstDay: 1
+    }
+  });
 
-    //Evento del apply
-    $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-      //do something, like clearing an input
-      //alert("Periodo seleccionado: "+$('#daterange').datepicker( "option", "maxDate" ));
-      //open('<%= altas_bajas_horas_path %>');
-      window.open ('<%= altas_bajas_horas_path %>'+'?rango='+$('#daterange').val(),'_self',false)
-    });
+  // Evento del daterangepicker para filtrar por rangos
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    // Cambia la url agregando el campo rango como atributo
+    tabla_altas_bajas.api().ajax.url('/soft/snpe/altas_bajas_horas.json?rango='+$('#daterange').val());
+    tabla_altas_bajas_notificadas.api().ajax.url('/soft/snpe/altas_bajas_horas/notificadas.json?rango='+$('#daterange').val());
+    // Recarga por ajax la tabla
+    tabla_altas_bajas.api().ajax.reload();
+    tabla_altas_bajas_notificadas.api().ajax.reload();
+  });
 
-   });
+});
 </script>

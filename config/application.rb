@@ -2,12 +2,12 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 
-if defined?(Bundler) 
-  Bundler.require(:default, :assets, Rails.env)
-end
-Bundler.require(:default, Rails.env)
+# if defined?(Bundler) 
+#   Bundler.require(:default, :assets, Rails.env)
+# end
+# Bundler.require(:default, Rails.env)
 
-#Bundler.require(*Rails.groups)
+Bundler.require(*Rails.groups)
 
 module ProyectoBase
   class Application < Rails::Application
