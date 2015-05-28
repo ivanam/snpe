@@ -33,7 +33,7 @@ class AltasBajasHorasController < ApplicationController
     end
     respond_to do |format|
       format.html
-      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades(@mindate.to_date, @maxdate.to_date) }) }
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: horas_novedades(@mindate.to_date, @maxdate.to_date), :tipo_tabla => "novedades" }) }
     end
   end
 
@@ -55,16 +55,6 @@ class AltasBajasHorasController < ApplicationController
 
   def index_cola_impresion
     @lote = LoteImpresion.all.last
-    #if  @lote.fecha_impresion != nil
-    #  horas_novedades(nil, nil).where(lote_impresion_id: nil).each do |h|
-    #    if h.estado_actual == "Impreso"
-    #      @novedades_ids << h.id
-    #    end
-    #  end
-    #  @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
-    #else
-    #  @novedades_en_cola_impresion = horas_novedades(nil, nil).where(lote_impresion_id: @lote.id)
-    #end
     if  @lote.fecha_impresion != nil
       @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
     else
@@ -164,6 +154,8 @@ class AltasBajasHorasController < ApplicationController
     end
 
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
+    @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
+    @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
@@ -172,7 +164,7 @@ class AltasBajasHorasController < ApplicationController
       if @persona.save then       
           if @altas_bajas_hora.save then
             AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente realizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'index' }
@@ -235,7 +227,7 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta correctamente actualizada' }
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
             format.html { render action: 'editar_alta' }
@@ -276,13 +268,18 @@ class AltasBajasHorasController < ApplicationController
 
     # Recorremos el conjunto de objetos
     results.each do |abh|
-      # Aca deje algo medio armado, no puedo probar porque faltan datos. Escuela no esta el cue y algun otro mas
-      # los campos de abh se recorren con ['nombre_columna'] ejemplo, abh['nume_docu']
-      @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
-      @persona = Persona.where(:nro_documento => abh['nume_docu']).first
-      if not(@establecimiento == nil or @persona == nil) then
-        @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil)
-        @data.save
+      if abh['escuela'] == 724 then
+        @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
+        @persona = Persona.where(:nro_documento => abh['nume_docu']).first
+        if not(@establecimiento == nil or @persona == nil) then
+          @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => 9999)
+          if @data.save == false
+            break
+          else
+            @estado = Estado.where(:descripcion => "Ingresado").first
+            AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @data.id)
+          end
+        end
       end
     end
     respond_to do |format|
@@ -295,7 +292,7 @@ class AltasBajasHorasController < ApplicationController
     #debugger
     @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja correctamente realizada' }
+      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -305,7 +302,7 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Notificado").first
     AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Notificado correctamente' }
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -315,7 +312,7 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Cancelado").first
     AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, alert: 'Cancelado' }
+      format.html { redirect_to altas_bajas_horas_path, alert: 'Alta cancelada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
