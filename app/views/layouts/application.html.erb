@@ -1,68 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Sistema de Novedades de Personal de Educación</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+  <head>
+    <meta charset="utf-8">
+    <title>Sistema de Novedades de Personal de Educación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-    <%= javascript_include_tag "https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js", "https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js" %>
-  <![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <%= javascript_include_tag "https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js", "https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js" %>
+    <![endif]-->
 
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %> 
-  <%= javascript_include_tag "bootstrap-submenu", "data-turbolinks-track" => true %> 
-  <%= csrf_meta_tags %>
-  <%= javascript_include_tag 'nested_form' %>
-  <%= stylesheet_link_tag    "bootstrap-editable" %>
-  <%= stylesheet_link_tag    "bootstrap-submenu" %>
-  <%= javascript_include_tag "combodate"%>
-  <%= javascript_include_tag "moment-with-locales"%> 
-</head>
-<body>
-  <%= render :partial => "layouts/navbar" %>
-  <!-- BODY 1-->
-  <div class="container" id="contenedor_principal">
+    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %> 
+    <%= javascript_include_tag "bootstrap-submenu", "data-turbolinks-track" => true %> 
+    <%= csrf_meta_tags %>
+    <%= javascript_include_tag 'nested_form' %>
+    <%= stylesheet_link_tag    "bootstrap-editable" %>
+    <%= stylesheet_link_tag    "bootstrap-submenu" %>
+    <%= javascript_include_tag "combodate"%>
+    <%= javascript_include_tag "moment-with-locales"%> 
+  </head>
+  <body>
+    <%= render :partial => "layouts/navbar" %>
     <%= render :partial => "layouts/header" %>
-    <% flash.each do |name, msg| %>
-      <%if name.to_s=="info"%>
-        <div class="alert alert-info">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <%= msg %>
-        </div>
-      <%elsif name.to_s=="danger" || name.to_s=="alert"%>
-        <div class="alert alert-danger">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <%= msg %>
-        </div>
-      <%elsif name.to_s=="warning"%>
-        <div class="alert alert-warning"
- >         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <%= msg %>
-        </div>
-      <%elsif name.to_s=="success" || name.to_s=="notice"%>
-        <div class="alert alert-success">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <%= msg %>
-        </div>
-      <%else%>
-        <div class="alert alert-danger">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          <%= msg %>
-        </div>
+    <!-- BODY 1-->
+    <div class="container" id="contenedor_principal">
+      <% flash.each do |name, msg| %>
+        <%if name.to_s=="info"%>
+          <div class="alert alert-info">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= msg %>
+          </div>
+        <%elsif name.to_s=="danger" || name.to_s=="alert"%>
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= msg %>
+          </div>
+        <%elsif name.to_s=="warning"%>
+          <div class="alert alert-warning"
+   >         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= msg %>
+          </div>
+        <%elsif name.to_s=="success" || name.to_s=="notice"%>
+          <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= msg %>
+          </div>
+        <%else%>
+          <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= msg %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-    <%= yield %>
-  </div>
-  <%= render :partial => "layouts/footer" %>
-</body>
-
+      <%= yield %>
+    </div>
+    <%= render :partial => "layouts/footer" %>
+  </body>
 </html>
-
-
-<style type="text/css">
-  body { padding-top: 60px; }
-</style>
