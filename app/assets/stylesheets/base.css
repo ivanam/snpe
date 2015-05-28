@@ -115,7 +115,7 @@ body {
 
 #observaciones{
   max-width: 829px;
-  min-width: 839px;
+  min-width: 829px;
   float:left;
   padding: 1px 2px !important;
   margin:2px 1px !important;
@@ -171,7 +171,7 @@ body {
 .profile-userpic img {
   float: none;
   margin: 0 auto;
-  max-width: 200px;
+  max-width: 95px;
   width: 50%;
   height: 50%;
   -webkit-border-radius: 50% !important;

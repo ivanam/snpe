@@ -24,9 +24,9 @@
 </head>
 <body>
   <%= render :partial => "layouts/navbar" %>
+  <%= render :partial => "layouts/header" %>
   <!-- BODY 1-->
   <div class="container" id="contenedor_principal">
-    <%= render :partial => "layouts/header" %>
     <% flash.each do |name, msg| %>
       <%if name.to_s=="info"%>
         <div class="alert alert-info">
