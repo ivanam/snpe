@@ -74,8 +74,30 @@
         })
     });
 
-  });
+    $('#modal_altas').on('shown.bs.modal', function (event) {
+      var alta_id = $(event.relatedTarget).attr('alta-id');
+      $.ajax({
+          url: '/soft/snpe/util/buscar_estados_altas_bajas_hora/'+alta_id,
+          type: 'POST',
+        })
+        .done(function(data) {
+          if (data != null) {
+            for (var i = data.length - 1; i >= 0; i--) {      
+              $("#div_estados").append('<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+data[i]+'</span></div>')
+            };
+            
+          }
+          else{
+          
+          }
+        })
+    })
 
+    $("#cerrar_modal_altas").click(function(){
+      $(".limpiable").remove();
+    });
+
+  });
 
 function validarCUIT (expresion) {
   if ((/^\d{2}\d{8}\d{1}$/).test(expresion.val())){
