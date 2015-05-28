@@ -32,7 +32,7 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
             '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a cola de impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>'
           end
         else
-          ""
+          '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar impresión" href="'+Rails.application.routes.url_helpers.horas_cancelar_cola_path(id: record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'
         end,
       ]
     end

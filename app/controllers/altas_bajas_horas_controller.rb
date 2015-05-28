@@ -97,6 +97,16 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def cancelar_cola
+    @estado = Estado.where(descripcion: "Chequeado").first
+    AltasBajasHora.find(params["id"]).update(lote_impresion_id: nil)
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id)
+    respond_to do |format|
+      format.html { redirect_to horas_index_novedades_path, notice: 'Alta chequeada' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
   def index_bajas
     respond_to do |format|
       format.html

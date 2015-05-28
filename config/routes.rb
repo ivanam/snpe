@@ -50,6 +50,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/imprimir-cola/", to: "altas_bajas_horas#imprimir_cola", as: :horas_imprimir_cola
 
+    get "altas_bajas_horas/cancelar-cola/", to: "altas_bajas_horas#cancelar_cola", as: :horas_cancelar_cola
+
     resources :altas_bajas_horas
 
     resources :establecimientos
