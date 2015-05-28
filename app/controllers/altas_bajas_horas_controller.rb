@@ -173,7 +173,7 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if @persona.save then       
           if @altas_bajas_hora.save then
-            AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @altas_bajas_hora.id)
+            AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
             format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
@@ -287,7 +287,7 @@ class AltasBajasHorasController < ApplicationController
             break
           else
             @estado = Estado.where(:descripcion => "Ingresado").first
-            AltasBajasHoraEstado.create(:estado_id => @estado.id, :alta_baja_hora_id => @data.id)
+            AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
           end
         end
       end
@@ -309,8 +309,8 @@ class AltasBajasHorasController < ApplicationController
 
   def notificar
     #debugger
-    @estado = Estado.where(:descripcion => "Notificado").first
-    AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
+    @estado = Estado.where(descripcion: "Notificado").first
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
       format.json { head :no_content } # 204 No Content
@@ -319,8 +319,8 @@ class AltasBajasHorasController < ApplicationController
 
   def cancelar
     #debugger
-    @estado = Estado.where(:descripcion => "Cancelado").first
-    AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
+    @estado = Estado.where(descripcion: "Cancelado").first
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, alert: 'Alta cancelada correctamente' }
       format.json { head :no_content } # 204 No Content
@@ -329,8 +329,8 @@ class AltasBajasHorasController < ApplicationController
 
   def chequear
     #debugger
-    @estado = Estado.where(:descripcion => "Chequeado").first
-    AltasBajasHoraEstado.create( :alta_baja_hora_id => params["id"], :estado_id => @estado.id)
+    @estado = Estado.where(descripcion: "Chequeado").first
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
@@ -346,13 +346,13 @@ class AltasBajasHorasController < ApplicationController
         format.json { head :no_content } # 204 No Content
       end
     else
-      @estado = Estado.where(:descripcion => "Impreso").first
+      @estado = Estado.where(descripcion: "Impreso").first
       @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
       if @lote_impresion == nil
         @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
       end
       @hora.update(lote_impresion_id: @lote_impresion.id)
-      AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id)
+      AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
       respond_to do |format|
         format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
         format.json { head :no_content } # 204 No Content
