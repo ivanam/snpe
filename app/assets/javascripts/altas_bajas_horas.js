@@ -80,7 +80,7 @@
           url: '/soft/snpe/util/buscar_estados_altas_bajas_hora/'+alta_id,
           type: 'POST',
         })
-        .done(function(data) {
+        .done(function(data) {debugger;
           if (data != null) {
             for (var i = data.length - 1; i >= 0; i--) {      
               $("#div_estados").append('<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+data[i]+'</span></div>')
