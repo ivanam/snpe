@@ -5,6 +5,7 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
+    debugger
     if params["rango"] != nil
       @mindate = params["rango"][0..9]
       @maxdate = params["rango"][13..22]
@@ -171,22 +172,23 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Ingresado").first
 
     respond_to do |format|
-      if @persona.save then       
+      if @persona.save then      
           if @altas_bajas_hora.save then
             AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
             format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
+            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
             format.html { render action: 'index' }
             #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
             #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
           end        
       else
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
           format.html { render action: 'index' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
           #debugger
-          format.json { render json: @persona.errors, status: :unprocessable_entity }
+          
       end
     end
   end

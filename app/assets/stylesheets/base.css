@@ -38,7 +38,7 @@ body {
 
 
 .form-alta{
-  width: 110px;
+  width: 137px;
   float:left;
   padding: 1px 2px !important;
   margin:2px 1px !important;
@@ -50,7 +50,7 @@ body {
 }
 
 .form-fecha{
-  max-width: 95px;
+  max-width: 85px;
 }
 
 #select_tipo_documento{
@@ -68,12 +68,9 @@ body {
   max-width: 100px;
 }
 
-#input_nombres{
-  max-width: 110px;
-}
 
 #input_apellidos{
-  max-width: 100px;
+  max-width: 170px;
 }
 
 
