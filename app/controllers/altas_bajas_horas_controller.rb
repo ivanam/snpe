@@ -5,7 +5,6 @@ class AltasBajasHorasController < ApplicationController
   respond_to :html
 
   def index
-    debugger
     if params["rango"] != nil
       @mindate = params["rango"][0..9]
       @maxdate = params["rango"][13..22]

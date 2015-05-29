@@ -130,7 +130,12 @@ $(document).ready(function($) {
     ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
     pagingType: "simple",
     "initComplete": function(settings, json) {
-      $('.cancelar_notificacion').editable();
+      $('.cancelar_notificacion')
+        .on('save', function(e, params) {
+          tabla_altas_bajas.api().ajax.reload();
+          tabla_altas_bajas_notificadas.api().ajax.reload();
+        })
+        .editable();
     },
   });
 

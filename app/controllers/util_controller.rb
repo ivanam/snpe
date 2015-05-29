@@ -21,20 +21,20 @@ class UtilController < ApplicationController
   		  elsif Role.where(:id => (UserRole.where(:user_id => e.user_id).first.role_id)).first.description == "escuela" then
   		  	@estado = "Cancelado por escuela"
   		  end
-  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-danger">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'  		  	
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-danger">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'  		  	
   		elsif @estado == "Chequeado" then
   		  if Role.where(:id => (UserRole.where(:user_id => e.user_id).first.role_id)).first.description == "personal" then
   		    @estado = "Chequeado por personal" 
   		  end
-  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
   	    elsif @estado == "Notificado" then
   		  @estado = "Notificado por escuela"
-  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
   	    elsif @estado == "Ingresado" then
   		  @estado = "Ingresado por escuela"
-  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-warning">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-warning">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
   		else
-  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
         end
   		@observaciones << @cadena
   	end
