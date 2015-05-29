@@ -109,6 +109,7 @@ $(document).ready(function($) {
 
   //Define el idioma de combodate
   moment.locale('es');
+  $.fn.editable.defaults.mode = 'popup';
 
   var tabla_altas_bajas = $('#tabla-altas_bajas_hora').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -124,6 +125,9 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
     pagingType: "simple",
+    "initComplete": function(settings, json) {
+      $('.cancelar_notificacion').editable();
+    },
   });
 
   var date = new Date();
@@ -151,6 +155,8 @@ $(document).ready(function($) {
     tabla_altas_bajas.api().ajax.reload();
     tabla_altas_bajas_notificadas.api().ajax.reload();
   });
+
+
 
 });
 </script>
