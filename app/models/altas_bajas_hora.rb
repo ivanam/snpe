@@ -5,14 +5,31 @@ class AltasBajasHora < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
   has_many :estados, :class_name => 'AltasBajasHoraEstado', :foreign_key => 'alta_baja_hora_id', dependent: :destroy
 
+  validates_presence_of :persona
+
+
   #Validates from Silvio Andres "CHEQUEAR"
-  validates :establecimiento_id, :fecha_alta, presence: true
+  validates :fecha_alta, presence: true
   validates :situacion_revista, presence: true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :codificacion, length: { is: 4}, numericality: { only_integer: true }#, allow_blank: true
+  
+  validates :persona_id, :presence => true
+
+  #Validates de persona en AltasBajas
+  #validates :persona_id,:nro_documento, presence: true
+  #validates :persona_id,:nombres, :presence => true
+  #validates :person_id,:apellidos, presence: true
+  #validates :person_id,:cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+
+  #validates :nro_documento, presence: true
+  #validates :nombres, presence: true
+  #validates :apellidos, presence: true
+  #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+
   #-------------------------------------
 
   TURNO = ["M", "T"]

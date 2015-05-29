@@ -39,9 +39,9 @@
       <div class="row">
         <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>          
         <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>
-        <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s", :value => @persona.nombres } %>
-        <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s", :value => @persona.apellidos } %>
-        <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
+        <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Nombre Completo", :value => @persona.apellidos } %>
+        <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
+        <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
         <%= f.select(:situacion_revista, AltasBajasHora::SITUACION_REVISTA, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
         <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
         <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ciclo/Carrera - ej: 58", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"2"%>
@@ -58,7 +58,7 @@
 <% end %>
 
         
-<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3'] %>
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3', 'datepicker4'] %>
 
 <% @listado_de_datepickers.each do |l| %>
 
