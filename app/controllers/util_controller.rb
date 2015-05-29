@@ -15,16 +15,26 @@ class UtilController < ApplicationController
   	@observaciones = Array.new
   	@estados.all.each do |e|
   		@estado = Estado.find(e.estado_id).descripcion.to_s
-  		if @estado == "Cancelado" then   			
-  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-danger">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		if @estado == "Cancelado" then
+  		  if Role.where(:id => (UserRole.where(:user_id => e.user_id).first.role_id)).first.description == "personal" then
+  		    @estado = "Cancelado por personal"  			
+  		  elsif Role.where(:id => (UserRole.where(:user_id => e.user_id).first.role_id)).first.description == "escuela" then
+  		  	@estado = "Cancelado por escuela"
+  		  end
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-danger">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'  		  	
   		elsif @estado == "Chequeado" then
-  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		  if Role.where(:id => (UserRole.where(:user_id => e.user_id).first.role_id)).first.description == "personal" then
+  		    @estado = "Chequeado por personal" 
+  		  end
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
   	    elsif @estado == "Notificado" then
-  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		  @estado = "Notificado por escuela"
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-success">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
   	    elsif @estado == "Ingresado" then
-  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-warning">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  		  @estado = "Ingresado por escuela"
+  		  @cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-warning">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
   		else
-  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+@estado + ' - ' + e.observaciones.to_s + ' - ' + Util.fecha_a_es(e.created_at.to_date)+'</span></div>'
+  			@cadena = '<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+ @estado + '</span>' + ' - ' + Util.fecha_a_es(e.created_at.to_date) + '<br/><b>' + e.observaciones.to_s + '</b></div>'
         end
   		@observaciones << @cadena
   	end
