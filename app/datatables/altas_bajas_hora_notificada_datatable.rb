@@ -23,21 +23,13 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.division,
         record.turno,
         record.codificacion,
-        Util.fecha_a_es(record.fecha_alta),        
-        if (options[:rol] == "escuela") then
-          if record.estado_actual == "Chequeado" then            
-            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Aceptado por personal</b></button>'
-          elsif record.estado_actual == "Impreso" then
-            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Pasado a sueldo</b></button>'
-          else
-            '<button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Esperando aprobación</b></button>'           
-          end
+        Util.fecha_a_es(record.fecha_alta),    
+        if record.estado_actual == "Chequeado" then            
+          '<button class="btn btn-success btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Aceptado por personal</b></button>'
+        elsif record.estado_actual == "Impreso" then
+          '<button class="btn btn-warning btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Pasado a sueldo</b></button>'
         else
-          if record.estado_actual == "Chequeado" then
-            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Aceptado por personal</b></button>'           
-          elsif record.estado_actual == "Impreso" then
-            '<button class="btn btn-success btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Pasado a sueldo</b></button>'           
-          end
+          '<button class="btn btn-danger btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Esperando aprobación</b></button>'           
         end,
         if (options[:rol] == "escuela") then
           if record.estado_actual == "Notificado" then
@@ -46,7 +38,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         else
           if record.estado_actual == "Notificado" then
             '<center><div class="btn-acciones">'+
-              '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>' +
+              '<a class="cancelar_notificacion btn btn-sm btn-danger data-type="text" data-container="body" data-placement="left" data-original-title="Observaciones" data-resource="altas_bajas_hora" data-name="observaciones" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></a>'+
               '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar notificación" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_alta_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>' +
               '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>' +
             '</div></center'

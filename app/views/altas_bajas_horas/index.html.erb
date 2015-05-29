@@ -1,3 +1,5 @@
+<%= javascript_include_tag "altas_bajas_horas" %>
+<%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
@@ -93,8 +95,12 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Observaciones</h4>
       </div>
-      <div class="modal-body" id="div_estados">
-      </div>
+      <div class="modal-body">
+        <div id="div_estados"></div>      
+        <div id="div_historial"></div>
+        <div class="text-center"><button class="btn btn-primary btn-sm" id="boton_mostrar_historial">Historial de estados</button></div>
+        <div class="text-center"><button class="btn btn-primary btn-sm" id="boton_ocultar_historial">Ocultar historial</button></div>
+      </div>   
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_modal_altas">Cerrar</button>
       </div>
@@ -107,6 +113,7 @@ $(document).ready(function($) {
 
   //Define el idioma de combodate
   moment.locale('es');
+  $.fn.editable.defaults.mode = 'popup';
 
   var tabla_altas_bajas = $('#tabla-altas_bajas_hora').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -122,6 +129,9 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
     pagingType: "simple",
+    "initComplete": function(settings, json) {
+      $('.cancelar_notificacion').editable();
+    },
   });
 
   var date = new Date();
@@ -149,6 +159,8 @@ $(document).ready(function($) {
     tabla_altas_bajas.api().ajax.reload();
     tabla_altas_bajas_notificadas.api().ajax.reload();
   });
+
+
 
 });
 </script>

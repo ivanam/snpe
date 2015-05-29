@@ -320,9 +320,9 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cancelar
-    #debugger
+    debugger
     @estado = Estado.where(descripcion: "Cancelado").first
-    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id, observaciones: params["altas_bajas_hora"]["observaciones"])
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, alert: 'Alta cancelada correctamente' }
       format.json { head :no_content } # 204 No Content
@@ -375,6 +375,6 @@ class AltasBajasHorasController < ApplicationController
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :user_id)
     end
 end
