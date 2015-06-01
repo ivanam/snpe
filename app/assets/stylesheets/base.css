@@ -74,7 +74,11 @@ body {
 }
 
 
-#secuencia, #division, #horas, #ciclo-carrera, #curso{
+#ciclo-carrera{
+  max-width: 56px;
+}
+
+#secuencia, #division, #horas, #curso{
   max-width: 38px;
 }
 
@@ -107,7 +111,7 @@ body {
 }
 
 #oblig{
-    max-width: 55px;
+    max-width: 38px;
 }
 
 #observaciones{
@@ -422,4 +426,9 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
     max-width: 948px;
+}
+
+
+.modal-header{
+  text-align: center;
 }

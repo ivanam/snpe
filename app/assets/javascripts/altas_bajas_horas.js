@@ -74,8 +74,7 @@
         })
     });
 
-    $('#modal_altas').on('shown.bs.modal', function (event) {
-      $("#div_historial").hide();
+    $('#modal_altas').on('shown.bs.modal', function (event) {      
       var alta_id = $(event.relatedTarget).attr('alta-id');
       $.ajax({
           url: '/soft/snpe/util/buscar_estados_altas_bajas_hora/'+alta_id,
@@ -85,9 +84,12 @@
           if (data != null) {
             for (var i = data.length - 1; i >= 0; i--) {
               if (i == data.length - 1){
-                $("#div_estados").append(data[i]);
-              }else{     
-                $("#div_historial").append(data[i]);
+                $("#historial").append(data[i]);
+              }else{
+                var datos = data[i];
+                var respuesta = datos.replace('<tr class="limpiable">', '<tr class="ocultable limpiable">');
+                $("#historial").append(respuesta);
+                $(".ocultable").hide();
               }
             };
             
@@ -98,16 +100,16 @@
         })
     });
 
-    $("#boton_ocultar_historial").hide();
+    $("#boton_ocultar_historial").hide();    
 
     $("#boton_ocultar_historial").click(function(){
-      $("#div_historial").hide();
+      $(".ocultable").hide();
       $("#boton_ocultar_historial").hide();
       $("#boton_mostrar_historial").show();
     });
 
     $("#boton_mostrar_historial").click(function(){
-      $("#div_historial").show();
+      $(".ocultable").show();
       $("#boton_mostrar_historial").hide();
       $("#boton_ocultar_historial").show();
     });
