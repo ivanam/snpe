@@ -16,6 +16,9 @@ class AltasBajasHorasController < ApplicationController
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
     end
+    if @persona == nil
+      @persona = Persona.new
+    end
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate.to_date, @maxdate.to_date) }) }
@@ -194,6 +197,7 @@ class AltasBajasHorasController < ApplicationController
 
   def editar_alta
     @altas_bajas_hora = AltasBajasHora.find(params[:id])
+    @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 
  def guardar_edicion
