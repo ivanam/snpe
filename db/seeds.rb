@@ -15,13 +15,17 @@ User.create(email:"admin@admin.com", password:"admin123456")
 #User.find(2).update_attribute(:confirmation_sent_at,"2001-01-01 00:00:00")
 #User.find(2).update_attribute(:confirmed_at,"2001-01-01 00:00:10")
 User.create(email:"user@user.com", password:"user123456")
-#User.find(3).update_attribute(:confirmation_sent_at,"2001-01-01 00:00:00")
-#User.find(3).update_attribute(:confirmed_at,"2001-01-01 00:00:10")
+
+User.create(email:"escuela@escuela.com", password:"escuela123456")
+
+User.create(email:"personal@personal.com", password:"personal123456")
 
 #Carga de Roles de los Usuarios
 UserRole.create(user_id:1,role_id:1)
 UserRole.create(user_id:2,role_id:2)
 UserRole.create(user_id:3,role_id:3)
+UserRole.create(user_id:4,role_id:4)
+UserRole.create(user_id:5,role_id:5)
 
 #Carga de Estados
 Estado.create(descripcion:"Ingresado")
@@ -60,6 +64,11 @@ Permission.create(nombre:"Create Lote Horas",subject_class:"LoteImpresion",subje
 Permission.create(nombre:"New Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"new")
 Permission.create(nombre:"Destroy Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"destroy")
 
+Permission.create(nombre:"Horas Index Bajas",subject_class:"AltasBajasHora",subject_id:0,action:"index_bajas")
+Permission.create(nombre:"Horas Index Bajas Efectivas",subject_class:"AltasBajasHora",subject_id:0,action:"index_bajas_efectivas")
+Permission.create(nombre:"Horas Dar Baja",subject_class:"AltasBajasHora",subject_id:0,action:"dar_baja")
+
+
 #Permisos de Personas
 
 # Carga de permisos a Roles
@@ -77,6 +86,10 @@ RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regu
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Notificadas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Guardar Edicion Alta Horas").first.id)
+
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas Efectivas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Dar Baja").first.id)
 
 #Permisos de personal
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Chequear Horas").first.id)
@@ -97,6 +110,10 @@ RolePermission.create(role_id: Role.where(description: "personal").first.id ,reg
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Index Lote Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Show Lote Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
+
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas Efectivas").first.id)
+
 
 #Carga de sexos
 Sexo.create(nombre:"Masculino")
