@@ -112,7 +112,8 @@
       $("#boton_ocultar_historial").show();
     });
 
-    $("#cerrar_modal_altas").click(function(){
+    //acá limpiamos el modal cada vez que se cierra
+    $('#modal_altas').on('hidden.bs.modal', function () {
       $(".limpiable").remove();
       $("#boton_ocultar_historial").hide();
       $("#boton_mostrar_historial").show();
