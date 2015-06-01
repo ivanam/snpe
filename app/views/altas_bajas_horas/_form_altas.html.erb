@@ -20,16 +20,19 @@
     </div>
   <% end %>
 
-  <% @persona = Persona.new %>
-  <% @persona.nombres = "" %>
-  <% @persona.apellidos = "" %>
-  <% @persona.fecha_nacimiento = "" %>
-  <% @persona.cuil = "" %>
-  <% @persona.tipo_documento_id = 1 %>
-  <% @persona.nro_documento = "" %>
-  <% if @altas_bajas_hora.persona_id != nil then %> 
-    <% @persona = Persona.find(@altas_bajas_hora.persona_id) %>
+  <% if @persona.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+
+      <ul>
+      <% @persona.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
   <% end %>
+
   
   <div class="form-snpe" >
       <div class="row">
