@@ -15,7 +15,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.nombres + " " + record.persona.apellidos,
+        record.persona.apellidos,
         record.situacion_revista,
         record.horas,        
         record.ciclo_carrera,        
