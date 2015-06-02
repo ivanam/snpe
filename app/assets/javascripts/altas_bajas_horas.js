@@ -44,6 +44,36 @@ $(document).ready(function($) {
      validarCUIT(cuil);
      
   });
+
+   $("#input_dni").bind("propertychange change click keyup input paste",function(){
+      var elem = $(this);
+      elem.data('oldVal', elem.val());
+      if (elem.data('oldVal') != elem.val()) {alert("cambio");}
+       var dni = parseInt($("#input_dni").val(),10);
+       $("#datos_persona").show();
+        $.ajax({
+          url: '/soft/snpe/util/buscar_persona/'+dni,
+          type: 'POST',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#input_nombres").val(data.nombres);
+            $("#input_apellidos").val(data.apellidos);
+            $("#input_cuil").val(data.cuil);
+            $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+            $("#select_tipo_documento").val(data.tipo_documento_id);
+          }
+          else{
+            //alert("La persona no existe. Por favor cargue sus datos");
+            $("#input_nombres").val("");
+            $("#input_apellidos").val("");
+            $("#input_cuil").val("");
+            $("#datepicker3").val("");
+            $("#select_tipo_documento").val(1);
+          }
+        })
+    });
+
   $('#modal_altas').on('shown.bs.modal', function (event) {      
     var alta_id = $(event.relatedTarget).attr('alta-id');
     $.ajax({
