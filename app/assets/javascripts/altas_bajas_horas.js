@@ -44,46 +44,23 @@ $(document).ready(function($) {
      validarCUIT(cuil);
      
   });
-
-  $("#input_dni").bind("propertychange change click keyup input paste",function(){
-    var elem = $(this);
-    elem.data('oldVal', elem.val());
-    if (elem.data('oldVal') != elem.val()) {alert("cambio");}
-     var dni = parseInt($("#input_dni").val(),10);
-     $("#datos_persona").show();
-      $.ajax({
-        url: '/soft/snpe/util/buscar_persona/'+dni,
-        type: 'POST',
-      })
-      .done(function(data) {
-        if (data != null) {
-          $("#input_nombres").val(data.nombres);
-          $("#input_apellidos").val(data.apellidos);
-          $("#input_cuil").val(data.cuil);
-          $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
-          $("#select_tipo_documento").val(data.tipo_documento_id);
-        }
-        else{
-          //alert("La persona no existe. Por favor cargue sus datos");
-          $("#input_nombres").val("");
-          $("#input_apellidos").val("");
-          $("#input_cuil").val("");
-          $("#datepicker3").val("");
-          $("#select_tipo_documento").val(1);
-        }
-      })
-  });
-
-  $('#modal_altas').on('shown.bs.modal', function (event) {
+  $('#modal_altas').on('shown.bs.modal', function (event) {      
     var alta_id = $(event.relatedTarget).attr('alta-id');
     $.ajax({
         url: '/soft/snpe/util/buscar_estados_altas_bajas_hora/'+alta_id,
         type: 'POST',
       })
-      .done(function(data) {debugger;
+      .done(function(data) {
         if (data != null) {
-          for (var i = data.length - 1; i >= 0; i--) {      
-            $("#div_estados").append('<div class="limpiable" style="padding: 5px;"><span class="label label-primary">'+data[i]+'</span></div>')
+          for (var i = data.length - 1; i >= 0; i--) {
+            if (i == data.length - 1){
+              $("#historial").append(data[i]);
+            }else{
+              var datos = data[i];
+              var respuesta = datos.replace('<tr class="limpiable">', '<tr class="ocultable limpiable">');
+              $("#historial").append(respuesta);
+              $(".ocultable").hide();
+            }
           };
           
         }
@@ -91,7 +68,28 @@ $(document).ready(function($) {
         
         }
       })
-  })
+  });
+
+  $("#boton_ocultar_historial").hide();    
+
+  $("#boton_ocultar_historial").click(function(){
+    $(".ocultable").hide();
+    $("#boton_ocultar_historial").hide();
+    $("#boton_mostrar_historial").show();
+  });
+
+  $("#boton_mostrar_historial").click(function(){
+    $(".ocultable").show();
+    $("#boton_mostrar_historial").hide();
+    $("#boton_ocultar_historial").show();
+  });
+
+  //acá limpiamos el modal cada vez que se cierra
+  $('#modal_altas').on('hidden.bs.modal', function () {
+    $(".limpiable").remove();
+    $("#boton_ocultar_historial").hide();
+    $("#boton_mostrar_historial").show();
+  });
 
   $("#cerrar_modal_altas").click(function(){
     $(".limpiable").remove();

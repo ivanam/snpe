@@ -16,6 +16,9 @@ class AltasBajasHorasController < ApplicationController
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
     end
+    if @persona == nil
+      @persona = Persona.new
+    end
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_altas(@mindate.to_date, @maxdate.to_date) }) }
@@ -171,28 +174,30 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Ingresado").first
 
     respond_to do |format|
-      if @persona.save then       
+      if @persona.save then      
           if @altas_bajas_hora.save then
             AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
             format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
           else
+            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
             format.html { render action: 'index' }
             #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
             #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
           end        
       else
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
           format.html { render action: 'index' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
           #debugger
-          format.json { render json: @persona.errors, status: :unprocessable_entity }
+          
       end
     end
   end
 
   def editar_alta
     @altas_bajas_hora = AltasBajasHora.find(params[:id])
+    @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 
  def guardar_edicion
@@ -320,7 +325,7 @@ class AltasBajasHorasController < ApplicationController
   def cancelar
     #debugger
     @estado = Estado.where(descripcion: "Cancelado").first
-    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id, observaciones: params["altas_bajas_hora"]["observaciones"])
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, alert: 'Alta cancelada correctamente' }
       format.json { head :no_content } # 204 No Content
