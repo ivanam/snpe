@@ -304,16 +304,46 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def dar_baja
-    #debugger
-    @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
+    if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
+      @estado = Estado.where(:descripcion => "Ingresado_Baja").first
+      AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
+    end
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
 
+  def notificar_baja
+    @estado = Estado.where(descripcion: "Notificado_Baja").first
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja notificada correctamente' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
+  def cancelar_baja
+    if @altas_bajas_hora.update(:fecha_baja => "")
+      @estado = Estado.where(descripcion: "Cancelado_Baja").first
+      AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    end
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'Baja cancelada correctamente' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
+  def chequear_baja
+    @estado = Estado.where(descripcion: "Chequeado_Baja").first
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja chequeada correctamente' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
   def notificar
-    #debugger
     @estado = Estado.where(descripcion: "Notificado").first
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
@@ -323,7 +353,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cancelar
-    #debugger
     @estado = Estado.where(descripcion: "Cancelado").first
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id, observaciones: params["altas_bajas_hora"]["observaciones"])
     respond_to do |format|
@@ -333,7 +362,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def chequear
-    #debugger
     @estado = Estado.where(descripcion: "Chequeado").first
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
@@ -343,7 +371,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def imprimir
-    #debugger
     @hora = AltasBajasHora.find(params["id"])
     if @hora.estado_actual == "Impreso"
       respond_to do |format|

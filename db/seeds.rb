@@ -33,6 +33,10 @@ Estado.create(descripcion:"Notificado")
 Estado.create(descripcion:"Cancelado")
 Estado.create(descripcion:"Chequeado")
 Estado.create(descripcion:"Impreso")
+Estado.create(descripcion:"Ingresado_Baja")
+Estado.create(descripcion:"Notificado_Baja")
+Estado.create(descripcion:"Cancelado_Baja")
+Estado.create(descripcion:"Chequeado_Baja")
 
 #Carga de permisos
 Permission.create(nombre:"Ver Establecimientos",subject_class:"Establecimiento",subject_id:0,action:"index",descripcion:"Acceso al show de establecimientos")
