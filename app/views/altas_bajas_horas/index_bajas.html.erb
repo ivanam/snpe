@@ -100,7 +100,7 @@ $(document).ready(function($) {
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
         })
-        .editable();
+    .editable();
     })
     .dataTable({
       language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -136,6 +136,9 @@ $(document).ready(function($) {
     tabla_bajas_efectivas.api().ajax.reload();
     
   });
+
+  //tabla_bajas_efectivas.api().ajax.url('/soft/snpe/altas_bajas_horas/bajas_efectivas.json?rango='+$('#daterange').val());
+  //tabla_bajas_efectivas.api().ajax.reload();
 
 });
 </script>

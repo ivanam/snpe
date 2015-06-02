@@ -305,26 +305,18 @@ class AltasBajasHorasController < ApplicationController
 
   def dar_baja
     if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
-      @estado = Estado.where(:descripcion => "Ingresado_Baja").first
+      @estado = Estado.where(:descripcion => "Notificado_Baja").first
       AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
     end
+    debugger
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
 
-  def notificar_baja
-    @estado = Estado.where(descripcion: "Notificado_Baja").first
-    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
-    respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja notificada correctamente' }
-      format.json { head :no_content } # 204 No Content
-    end
-  end
-
   def cancelar_baja
-    if @altas_bajas_hora.update(:fecha_baja => "")
+    if @altas_bajas_hora.update(:fecha_baja => nil)
       @estado = Estado.where(descripcion: "Cancelado_Baja").first
       AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     end

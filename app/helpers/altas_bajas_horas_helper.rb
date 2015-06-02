@@ -36,7 +36,7 @@ module AltasBajasHorasHelper
     @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
-      if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso"
+      if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso" || a.estado_actual == "Chequeado_Baja"
         @altasbajashoras_ids << a.id
       end
     end
