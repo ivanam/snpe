@@ -305,6 +305,7 @@ body {
   padding: 14px 14px 0;
   overflow:hidden ;
   background-color:rgb(250,250,255);
+  margin-left: -165px;
 }
 #login-dp .help-block{
   font-size:12px    
