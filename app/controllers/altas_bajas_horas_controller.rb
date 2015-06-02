@@ -308,7 +308,6 @@ class AltasBajasHorasController < ApplicationController
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
       AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
     end
-    debugger
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
       format.json { head :no_content } # 204 No Content
