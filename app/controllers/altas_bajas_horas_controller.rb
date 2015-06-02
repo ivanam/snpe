@@ -61,7 +61,9 @@ class AltasBajasHorasController < ApplicationController
     if  @lote.fecha_impresion != nil
       @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
     else
-      @novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id)
+      #debugger
+      #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
+      @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
     end
 
     respond_to do |format|
@@ -182,15 +184,10 @@ class AltasBajasHorasController < ApplicationController
           else
             format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
             format.html { render action: 'index' }
-            #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
           end        
       else
           format.json { render json: @persona.errors, status: :unprocessable_entity }
           format.html { render action: 'index' }
-          #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
-          
       end
     end
   end
@@ -241,20 +238,20 @@ class AltasBajasHorasController < ApplicationController
    
     respond_to do |format|
       if @persona.save then       
-          if @altas_bajas_hora.save then
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
-            format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
-          else
-            format.html { render action: 'editar_alta' }
-            #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
-            #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
-          end        
-      else
+        if @altas_bajas_hora.save then
+          format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
+          format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
+        else
           format.html { render action: 'editar_alta' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
-          format.json { render json: @persona.errors, status: :unprocessable_entity }
+          format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
+          #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
+        end        
+      else
+        format.html { render action: 'editar_alta' }
+        #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+        #debugger
+        format.json { render json: @persona.errors, status: :unprocessable_entity }
       end
     end
 
@@ -374,7 +371,11 @@ class AltasBajasHorasController < ApplicationController
       if @lote_impresion == nil
         @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
       end
-      @hora.update(lote_impresion_id: @lote_impresion.id)
+      if @hora.estado_actual == "Chequeado"
+        @hora.update(lote_impresion_id: @lote_impresion.id)
+      elsif @hora.estado_actual == "Chequeado_Baja"
+        @hora.update(baja_lote_impresion_id: @lote_impresion.id)
+      end
       AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
       respond_to do |format|
         format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
