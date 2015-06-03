@@ -1,5 +1,6 @@
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
+<%= javascript_include_tag "util.js" %>
 
 <% @altas_bajas_hora = AltasBajasHora.new %>
 <div class="container">
@@ -58,17 +59,50 @@
               <th>CJ</th>
               <th>Cue</th>
               <th>DNI</th>
-              <th>Apellido</th>
               <th>Nombre</th>
               <th>CUIL</th>
               <th>Fecha Alta</th>
               <th>Fecha Baja</th>
+              <th>Notificaciones</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_bajas_efectivas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Historial de Cambios</h4>
+      </div>
+      <div class="modal-body">
+     
+      <table class='table table-striped table-bordered'>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody id='historial'>
+        </tbody>
+      </table>
+
+
+        <div class="text-center"><button class="btn btn-primary btn-sm" id="boton_mostrar_historial">Historial de estados</button></div>
+        <div class="text-center"><button class="btn btn-primary btn-sm" id="boton_ocultar_historial">Ocultar historial</button></div>
+      </div>   
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_modal_altas">Cerrar</button>
       </div>
     </div>
   </div>

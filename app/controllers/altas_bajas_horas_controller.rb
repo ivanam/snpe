@@ -132,9 +132,10 @@ class AltasBajasHorasController < ApplicationController
       @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
       @maxdate = Date.today.end_of_month
     end
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date) }) }
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date), rol: @rol }) }
     end
   end
 
