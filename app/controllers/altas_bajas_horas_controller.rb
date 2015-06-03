@@ -103,9 +103,15 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cancelar_cola
-    @estado = Estado.where(descripcion: "Chequeado").first
-    AltasBajasHora.find(params["id"]).update(lote_impresion_id: nil)
-    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id)
+    @hora = AltasBajasHora.find(params["id"])
+    if @hora.estado_anterior == "Chequeado_Baja"
+      @estado = Estado.where(descripcion: "Chequeado_Baja").first
+      @hora.update(baja_lote_impresion_id: nil)
+    elsif @hora.estado_anterior == "Chequeado"
+      @estado = Estado.where(descripcion: "Chequeado").first
+      @hora.update(lote_impresion_id: nil)
+    end
+    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id)
     respond_to do |format|
       format.html { redirect_to horas_index_novedades_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
