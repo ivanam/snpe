@@ -16,6 +16,14 @@
       if (fecha3.length == 4){
          $("#datepicker3").val($("#datepicker3").val().split("-")[2]+"-"+$("#datepicker3").val().split("-")[1]+"-"+$("#datepicker3").val().split("-")[0]);
       }
+    }
+
+    if ($("#datepicker4").val() != null) {
+      var fecha4 = $("#datepicker4").val().split("-")[0];
+      
+      if (fecha4.length == 4){
+         $("#datepicker4").val($("#datepicker4").val().split("-")[2]+"-"+$("#datepicker4").val().split("-")[1]+"-"+$("#datepicker4").val().split("-")[0]);
+      }
     } 
 
     $(".solo_numerico").on("keypress keyup blur",function (event) {    
@@ -26,8 +34,7 @@
         if (event.which < 48 || event.which > 57) {
                   event.preventDefault();
              }
-      }
-            
+      }            
     });
 
     $("#input_cuil").on("keypress keyup blur",function (event) {    
@@ -37,14 +44,12 @@
         if (event.which < 48 || event.which > 57) {
                   event.preventDefault();
              }
-      }
-            
+      }            
     });
 
     $("#input_cuil").blur(function(){
        var cuil = $("#input_cuil");
-       validarCUIT(cuil);
-       
+       validarCUIT(cuil);       
     });
 
     $("#input_dni").bind("propertychange change click keyup input paste",function(){
@@ -75,7 +80,6 @@
           }
         })
     });
-
   });
 
 
