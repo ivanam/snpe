@@ -1,7 +1,5 @@
 ProyectoBase::Application.routes.draw do
 
-  
-
   scope '/soft/snpe' do
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
