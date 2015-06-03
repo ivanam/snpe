@@ -67,10 +67,12 @@ Permission.create(nombre:"Update Lote Horas",subject_class:"LoteImpresion",subje
 Permission.create(nombre:"Create Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"create")
 Permission.create(nombre:"New Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"new")
 Permission.create(nombre:"Destroy Lote Horas",subject_class:"LoteImpresion",subject_id:0,action:"destroy")
-
 Permission.create(nombre:"Horas Index Bajas",subject_class:"AltasBajasHora",subject_id:0,action:"index_bajas")
 Permission.create(nombre:"Horas Index Bajas Efectivas",subject_class:"AltasBajasHora",subject_id:0,action:"index_bajas_efectivas")
 Permission.create(nombre:"Horas Dar Baja",subject_class:"AltasBajasHora",subject_id:0,action:"dar_baja")
+Permission.create(nombre:"Horas Cancelar Baja",subject_class:"AltasBajasHora",subject_id:0,action:"cancelar_baja")
+Permission.create(nombre:"Horas Chequear Baja",subject_class:"AltasBajasHora",subject_id:0,action:"chequear_baja")
+Permission.create(nombre:"Horas Cancelar Cola",subject_class:"AltasBajasHora",subject_id:0,action:"cancelar_cola")
 
 
 #Permisos de Personas
@@ -90,7 +92,6 @@ RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regu
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Notificadas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Guardar Edicion Alta Horas").first.id)
-
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas Efectivas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Dar Baja").first.id)
@@ -114,9 +115,11 @@ RolePermission.create(role_id: Role.where(description: "personal").first.id ,reg
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Index Lote Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Show Lote Horas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Editar Alta Horas").first.id)
-
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas Efectivas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Cancelar Baja").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Chequear Baja").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Cancelar Cola").first.id)
 
 
 #Carga de sexos

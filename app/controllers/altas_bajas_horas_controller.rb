@@ -320,21 +320,32 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cancelar_baja
-    if @altas_bajas_hora.update(:fecha_baja => nil)
-      @estado = Estado.where(descripcion: "Cancelado_Baja").first
-      AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
-    end
-    respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'Baja cancelada correctamente' }
-      format.json { head :no_content } # 204 No Content
+    if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
+      if @altas_bajas_hora.update(:fecha_baja => nil)
+        @estado = Estado.where(descripcion: "Cancelado_Baja").first
+        AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+      end
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'Baja cancelada correctamente' }
+        format.json { head :no_content } # 204 No Content
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'No se pudo cancelar' }
+        format.json { head :no_content } # 204 No Content
+      end
     end
   end
 
   def chequear_baja
-    @estado = Estado.where(descripcion: "Chequeado_Baja").first
-    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja chequeada correctamente' }
+      if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
+        @estado = Estado.where(descripcion: "Chequeado_Baja").first
+        AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja chequeada correctamente' }
+      else
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'No se pudo chequear' }
+      end
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -367,28 +378,29 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def imprimir
-    @hora = AltasBajasHora.find(params["id"])
-    if @hora.estado_actual == "Impreso"
-      respond_to do |format|
-        format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
-        format.json { head :no_content } # 204 No Content
+    respond_to do |format|
+      @hora = AltasBajasHora.find(params["id"])
+      if @hora.estado_actual == "Chequeado" || @hora.estado_actual == "Chequeado_Baja"
+        if @hora.estado_actual == "Impreso"
+          format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
+        else
+          @estado = Estado.where(descripcion: "Impreso").first
+          @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
+          if @lote_impresion == nil
+            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
+          end
+          if @hora.estado_actual == "Chequeado"
+            @hora.update(lote_impresion_id: @lote_impresion.id)
+          elsif @hora.estado_actual == "Chequeado_Baja"
+            @hora.update(baja_lote_impresion_id: @lote_impresion.id)
+          end
+          AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
+          format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
+        end
+      else
+        format.html { redirect_to horas_index_novedades_path, notice: 'No se pudo pasar a impresión' }
       end
-    else
-      @estado = Estado.where(descripcion: "Impreso").first
-      @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
-      if @lote_impresion == nil
-        @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
-      end
-      if @hora.estado_actual == "Chequeado"
-        @hora.update(lote_impresion_id: @lote_impresion.id)
-      elsif @hora.estado_actual == "Chequeado_Baja"
-        @hora.update(baja_lote_impresion_id: @lote_impresion.id)
-      end
-      AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
-      respond_to do |format|
-        format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
-        format.json { head :no_content } # 204 No Content
-      end
+      format.json { head :no_content } # 204 No Content
     end
   end
 
