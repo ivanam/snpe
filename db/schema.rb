@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150528143059) do
+ActiveRecord::Schema.define(version: 20150602122758) do
 
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20150528143059) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "lote_impresion_id"
+    t.integer  "baja_lote_impresion_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
