@@ -294,7 +294,7 @@ class AltasBajasHorasController < ApplicationController
               @data.save!
               @estado = Estado.where(:descripcion => "Ingresado").first
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
-              end
+              
             end
           end
         end
