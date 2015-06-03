@@ -95,6 +95,7 @@ RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regu
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas Efectivas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Dar Baja").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Cancelar Baja").first.id)
 
 #Permisos de personal
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Chequear Horas").first.id)
