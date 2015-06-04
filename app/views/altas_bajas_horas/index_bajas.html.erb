@@ -7,7 +7,7 @@
 
   <legend>Listado de Bajas Permitidas y Realizadas</legend>
   
-  <% if (current_user.role? :escuela) %>
+  <% if (current_user.role? :escuela or current_user.role? :sadmin) %>
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -30,7 +30,7 @@
               <th>Curso</th>
               <th>Div</th>
               <th>Fecha Alta</th>
-              <th></th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -63,7 +63,6 @@
               <th>CUIL</th>
               <th>Fecha Alta</th>
               <th>Fecha Baja</th>
-              <th>Notificaciones</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -118,7 +117,21 @@ $(document).ready(function($) {
   $.fn.editable.defaults.mode = 'popup';
 
   //Carga DT
-  var tabla_bajas_efectivas = $('#tabla-bajas_efectivas').dataTable({
+  var tabla_bajas_efectivas = $('#tabla-bajas_efectivas')
+    .on('draw.dt', function () {
+      $( ".btn-ajax" ).on( "click", function() {
+        var data_url = $(this).attr('data-url');
+        $.ajax({
+          url: data_url,
+          type: 'GET',
+        })
+        .done(function(data) { //if (data[status] == 'ok')
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+        });
+      });
+    })
+    .dataTable({
       language : {"sUrl": "<%= asset_path('language.es.json') %>",},
       processing : true,
       serverSide : true,
@@ -135,7 +148,12 @@ $(document).ready(function($) {
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
         })
-    .editable();
+        .editable({
+          savenochange: true,
+          success: function(response, newValue) {
+            if(response.status == 'error') return response.msg; //msg will be shown in editable form
+          }
+        });
     })
     .dataTable({
       language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -171,5 +189,6 @@ $(document).ready(function($) {
     tabla_bajas_efectivas.api().ajax.reload();
     
   });
+  
 });
 </script>

@@ -436,3 +436,13 @@ body {
 .modal-header{
   text-align: center;
 }
+
+.centrar-todo { 
+  text-align:center
+  vertical-align:middle
+}
+
+.vcenter {
+  display: flex;
+  align-items: center;
+}

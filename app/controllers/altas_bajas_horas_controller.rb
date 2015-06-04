@@ -277,8 +277,8 @@ class AltasBajasHorasController < ApplicationController
     # Conexion a la base, ya la probe localmente y funciona
     @client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
-    # Aca el result es un conjunto de objetos, asi que joya =) (fijate la parte del where, nose si es asi. Yo probe local con las query de abajo)
-    results = @client.query("SELECT * FROM padhc where estado='ALT'")     
+    # Aca el result es un conjunto de objetos
+    results = @client.query("SELECT * FROM padhc ")# where estado='ALT'")     
 
     #@@client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
     #results = @@client.query("SELECT * FROM establecimientos LIMIT 0,1000")
@@ -291,10 +291,10 @@ class AltasBajasHorasController < ApplicationController
             @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
             @persona = Persona.where(:nro_documento => abh['nume_docu']).first
             if not(@establecimiento == nil or @persona == nil) then
-              @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => 9999)
+              @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'])
               @data.save!
               @estado = Estado.where(:descripcion => "Ingresado").first
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
+              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id, :codificacion => abh['materia'])
             end
           end
         end
@@ -313,10 +313,15 @@ class AltasBajasHorasController < ApplicationController
     if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
       AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-    end
-    respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
-      format.json { head :no_content } # 204 No Content
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
+        format.json { render json: {status: 'ok'}}
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_index_bajas_path }
+        format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity} # 204 No Content
+      end
     end
   end
 
@@ -327,13 +332,11 @@ class AltasBajasHorasController < ApplicationController
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
       end
       respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'Baja cancelada correctamente' }
-        format.json { head :no_content } # 204 No Content
+        format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
       end
     else
       respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'No se pudo cancelar' }
-        format.json { head :no_content } # 204 No Content
+        format.json { render json: {status: 'error', msj: "No se pudo realizar la baja"} }
       end
     end
   end
@@ -342,12 +345,14 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
         @estado = Estado.where(descripcion: "Chequeado_Baja").first
-        AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja chequeada correctamente' }
+        if AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
+          format.json { render json: {status: 'ok', msj: "Baja chequeada correctamente"} }
+        else
+          format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+        end
       else
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'No se pudo chequear' }
+        format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
       end
-      format.json { head :no_content } # 204 No Content
     end
   end
 
