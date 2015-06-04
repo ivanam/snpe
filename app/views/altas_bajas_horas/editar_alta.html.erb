@@ -41,7 +41,7 @@
   <fieldset>
     <div class="form-snpe" >
         <div class="row">
-          <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta", :value => @persona.tipo_documento} %>
+          <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", @persona.tipo_documento_id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta", :value => @persona.tipo_documento_id} %>
           <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
         </div>
         <div class="row">
