@@ -35,8 +35,8 @@ class AltasBajasHora < ActiveRecord::Base
   TURNO = ["M", "T"]
   SITUACION_REVISTA = ["1-002", "1-003"]
 
-  def ina_justificada(periodo)
-    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+  def ina_justificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "0"
     else
@@ -44,8 +44,8 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
-  def ina_injustificada(periodo)
-    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+  def ina_injustificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "0"
     else
@@ -53,8 +53,8 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
-  def lleg_tarde_justificada(periodo)
-    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+  def lleg_tarde_justificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "0"
     else
@@ -62,8 +62,8 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
-  def lleg_tarde_injustificada(periodo)
-    @asistencia = Asistencium.where(:altas_bajas_hora_id => self.id).first
+  def lleg_tarde_injustificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "0"
     else

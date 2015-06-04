@@ -41,32 +41,34 @@ class AsistenciaController < ApplicationController
   end
 
   def editar_asistencia
-    @asistencia = Asistencium.where(:altas_bajas_hora_id => params["id"])
+    anio = params["anio"]
+    mes = params["mes"]
+    @asistencia = Asistencium.where(altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
     if @asistencia.count > 0
       if params["post"]["ina_justificada"] != nil
-        @asistencia.first.update(:ina_justificada => params["post"]["ina_justificada"])
+        @asistencia.first.update(ina_justificada: params["post"]["ina_justificada"])
       end 
       if params["post"]["ina_injustificada"] != nil
-        @asistencia.first.update(:ina_injustificada => params["post"]["ina_injustificada"])
+        @asistencia.first.update(ina_injustificada: params["post"]["ina_injustificada"])
       end
       if params["post"]["lleg_tarde_justificada"] != nil
-        @asistencia.first.update(:lleg_tarde_justificada => params["post"]["lleg_tarde_justificada"])
+        @asistencia.first.update(lleg_tarde_justificada: params["post"]["lleg_tarde_justificada"])
       end
       if params["post"]["lleg_tarde_injustificada"] != nil
-        @asistencia.first.update(:lleg_tarde_injustificada => params["post"]["lleg_tarde_injustificada"])
+        @asistencia.first.update(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"])
       end
     else
       if params["post"]["ina_justificada"] != nil
-        Asistencium.create(:ina_justificada => params["post"]["ina_justificada"], :altas_bajas_hora_id => params["id"])
+        Asistencium.create(ina_justificada: params["post"]["ina_justificada"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end 
       if params["post"]["ina_injustificada"] != nil
-        Asistencium.create(:ina_injustificada => params["post"]["ina_injustificada"], :altas_bajas_hora_id => params["id"])
+        Asistencium.create(ina_injustificada: params["post"]["ina_injustificada"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end
       if params["post"]["lleg_tarde_justificada"] != nil
-        Asistencium.create(:lleg_tarde_justificada => params["post"]["lleg_tarde_justificada"], :altas_bajas_hora_id => params["id"])
+        Asistencium.create(lleg_tarde_justificada: params["post"]["lleg_tarde_justificada"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end
       if params["post"]["lleg_tarde_injustificada"] != nil
-        Asistencium.create(:lleg_tarde_injustificada => params["post"]["lleg_tarde_injustificada"], :altas_bajas_hora_id => params["id"])
+        Asistencium.create(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end
     end
 
