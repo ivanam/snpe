@@ -83,7 +83,7 @@
   });
 
   $('#btn-ir').click(function(){
-    window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&select_mes=" + $('#select_mes').val(),"_self");
+    window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
   });
  
   var mes = $("#select_mes").attr('value')
