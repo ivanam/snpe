@@ -78,7 +78,7 @@ $(document).ready(function($) {
             $("#select_tipo_documento").val(1);
           }
         })
-    });  
+    });
 
 });
 

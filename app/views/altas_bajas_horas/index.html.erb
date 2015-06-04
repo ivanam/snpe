@@ -133,7 +133,22 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-altas_bajas_hora').data('source'),
     pagingType: "simple",
+  })
+  .on('draw.dt', function () {
+      $( ".btn-ajax" ).on( "click", function() {
+        var data_url = $(this).attr('data-url');
+        $.ajax({
+          url: data_url,
+          type: 'GET',
+        })
+        .done(function(data) { //if (data[status] == 'ok')
+          tabla_altas_bajas.api().ajax.reload();
+          tabla_altas_bajas_notificadas.api().ajax.reload();
+        });
+      });
   });
+
+    
 
   var tabla_altas_bajas_notificadas = $('#tabla-altas_bajas_hora_notificadas').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -149,8 +164,20 @@ $(document).ready(function($) {
         })
         .editable();
     },
+  })
+  .on('draw.dt', function () {
+      $( ".btn-ajax" ).on( "click", function() {
+        var data_url = $(this).attr('data-url');
+        $.ajax({
+          url: data_url,
+          type: 'GET',
+        })
+        .done(function(data) { //if (data[status] == 'ok')
+          tabla_altas_bajas.api().ajax.reload();
+          tabla_altas_bajas_notificadas.api().ajax.reload();
+        });
+      });
   });
-
   var date = new Date();
   $('#daterange').daterangepicker({
     format: 'DD/MM/YYYY',
