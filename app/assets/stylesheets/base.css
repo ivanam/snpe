@@ -116,7 +116,7 @@ body {
 
 #observaciones{
   max-width: 829px;
-  min-width: 829px;
+  min-width: 498px;
   float:left;
   padding: 1px 2px !important;
   margin:2px 1px !important;
@@ -278,10 +278,11 @@ body {
 }
 
 .btn-acciones > .btn{
-  margin: 3px 3px;
+  margin: 3px 1px;
 }
 
 
+.dropdown-menu{margin-left: -41px;}
 .dropdown-submenu{position:relative;}
 .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
 .dropdown-submenu:hover>.dropdown-menu{display:block;}
