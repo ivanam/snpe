@@ -31,7 +31,7 @@
                   <ul class="dropdown-menu">
                     <li><%=link_to "Altas", altas_bajas_horas_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
-                    <% if (current_user.role? :sadmin) then %>
+                    <% if ver_model("Asistencium")%>
                     <li><%=link_to "Asistencias", asistencia_path, :tabindex => "-1"%></li>  
                     <% end %>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>

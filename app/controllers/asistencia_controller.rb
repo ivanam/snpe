@@ -4,16 +4,27 @@ class AsistenciaController < ApplicationController
   respond_to :html
 
   def index
+    @anio = params["anio"]
+    @mes = params["mes"]
+    if @anio == nil || @mes == nil
+      @anio = Date.today.year
+      @mes = Date.today.month
+    end
     respond_to do |format|
       format.html
-      format.json { render json: AsistenciaDatatable.new(view_context, { query: Asistencium.all }) }
     end
   end
 
   def index_personal_activo
+    @anio = params["anio"]
+    @mes = params["mes"]
+    if @anio == nil || @mes == nil
+      @anio = Date.today.year
+      @mes = Date.today.month
+    end
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraAsistenciaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+      format.json { render json: AltasBajasHoraAsistenciaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas, anio: @anio, mes:@mes }) }
     end
   end
 
