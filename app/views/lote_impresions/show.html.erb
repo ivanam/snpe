@@ -7,6 +7,7 @@
   
   <legend>Novedades de Horas</legend>
 
+  <legend>Altas</legend>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
@@ -35,10 +36,41 @@
       <% end %>
     </tbody>
   </table>
+
+  <legend>Bajas</legend>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Agente</th>         
+        <th>Ciclo</th>
+        <th>Curso</th>
+        <th>Situacion Revista</th>
+        <th>Horas</th>
+        <th>Codificación</th>
+        <th>Fecha Alta</th>
+        <th>Fecha Baja</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lote_impresion.impresion_bajas.each do |h| %>
+        <tr>
+          <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
+          <td><%= h.ciclo_carrera %></td>
+          <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
+          <td><%= h.situacion_revista %></td>
+          <td><%= h.horas %></td>
+          <td><%= h.codificacion %></td>
+          <td><%= h.fecha_alta %></td>
+          <td><%= h.fecha_baja %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
   <dt>Observaciones:</dt>
   <dd><%= @lote_impresion.observaciones %></dd>
 
-    <br/><br/>
+  <br/><br/>
 
 
   <%= link_to lote_impresions_path, :class => 'btn btn-default' do %>

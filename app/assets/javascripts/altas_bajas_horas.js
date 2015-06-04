@@ -16,6 +16,14 @@ $(document).ready(function($) {
     }
   }   
 
+  if ($("#datepicker4").val() != null) {
+    var fecha4 = $("#datepicker4").val().split("-")[0];
+    
+    if (fecha4.length == 4){
+       $("#datepicker4").val($("#datepicker4").val().split("-")[2]+"-"+$("#datepicker4").val().split("-")[1]+"-"+$("#datepicker4").val().split("-")[0]);
+    }
+  }  
+
   $(".solo_numerico").on("keypress keyup blur",function (event) {    
      $(this).val($(this).val().replace(/[^\d].+/, ""));
      if ( event.which == 8) {
@@ -24,8 +32,7 @@ $(document).ready(function($) {
       if (event.which < 48 || event.which > 57) {
                 event.preventDefault();
       }
-    }
-          
+    }          
   });
 
   $("#input_cuil").on("keypress keyup blur",function (event) {    
@@ -41,8 +48,7 @@ $(document).ready(function($) {
 
   $("#input_cuil").blur(function(){
      var cuil = $("#input_cuil");
-     validarCUIT(cuil);
-     
+     validarCUIT(cuil);     
   });
 
    $("#input_dni").bind("propertychange change click keyup input paste",function(){
@@ -72,58 +78,7 @@ $(document).ready(function($) {
             $("#select_tipo_documento").val(1);
           }
         })
-    });
-
-  $('#modal_altas').on('shown.bs.modal', function (event) {      
-    var alta_id = $(event.relatedTarget).attr('alta-id');
-    $.ajax({
-        url: '/soft/snpe/util/buscar_estados_altas_bajas_hora/'+alta_id,
-        type: 'POST',
-      })
-      .done(function(data) {
-        if (data != null) {
-          for (var i = data.length - 1; i >= 0; i--) {
-            if (i == data.length - 1){
-              $("#historial").append(data[i]);
-            }else{
-              var datos = data[i];
-              var respuesta = datos.replace('<tr class="limpiable">', '<tr class="ocultable limpiable">');
-              $("#historial").append(respuesta);
-              $(".ocultable").hide();
-            }
-          };
-          
-        }
-        else{
-        
-        }
-      })
-  });
-
-  $("#boton_ocultar_historial").hide();    
-
-  $("#boton_ocultar_historial").click(function(){
-    $(".ocultable").hide();
-    $("#boton_ocultar_historial").hide();
-    $("#boton_mostrar_historial").show();
-  });
-
-  $("#boton_mostrar_historial").click(function(){
-    $(".ocultable").show();
-    $("#boton_mostrar_historial").hide();
-    $("#boton_ocultar_historial").show();
-  });
-
-  //acá limpiamos el modal cada vez que se cierra
-  $('#modal_altas').on('hidden.bs.modal', function () {
-    $(".limpiable").remove();
-    $("#boton_ocultar_historial").hide();
-    $("#boton_mostrar_historial").show();
-  });
-
-  $("#cerrar_modal_altas").click(function(){
-    $(".limpiable").remove();
-  });
+    });  
 
 });
 

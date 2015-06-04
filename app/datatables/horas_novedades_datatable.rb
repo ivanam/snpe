@@ -25,10 +25,9 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
         record.codificacion,
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
+        '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if options[:tipo_tabla] == "novedades" then
-          if record.estado_actual == "Impreso" then
-            '<span class="label label-info">Pasado a cola de impresión</span>'
-          else
+          if (record.estado_actual != "Impreso") then
             '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a cola de impresión" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>'
           end
         else
@@ -43,3 +42,6 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
   end
 
 end
+
+#en cola de impresion: relacionado con lote y ese lote no tiene fecha de impresion
+#impreso: estado impreso y ademas lote de impresion tiene fecha

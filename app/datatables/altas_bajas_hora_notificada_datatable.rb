@@ -23,14 +23,8 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.division,
         record.turno,
         record.codificacion,
-        Util.fecha_a_es(record.fecha_alta),    
-        if record.estado_actual == "Chequeado" then            
-          '<button class="btn btn-success btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Aceptado por personal</b></button>'
-        elsif record.estado_actual == "Impreso" then
-          '<button class="btn btn-warning btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Pasado a sueldo</b></button>'
-        else
-          '<button class="btn btn-danger btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>Esperando aprobación</b></button>'           
-        end,
+        Util.fecha_a_es(record.fecha_alta),           
+        '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if (options[:rol] == "escuela") then
           if record.estado_actual == "Notificado" then
             '<a class="cancelar_notificacion btn btn-sm btn-danger data-type="text" data-container="body" data-placement="left" data-original-title="Observaciones" data-resource="altas_bajas_hora" data-name="observaciones" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></a>'

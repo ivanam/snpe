@@ -18,21 +18,26 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
         record.establecimiento.cue,
         record.persona.nro_documento,
         record.persona.apellidos,
-        record.persona.nombres,
         record.persona.cuil,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
-        '<center><div class="btn-acciones">'+
-          '<a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Cancelar baja" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
-          '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_baja_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'+
-        '</div></center>', 
+        '<button class="btn btn-xs btn-'+record.estados.last.color_estado+'" data-toggle="modal" data-target="#modal_bajas_efectivas" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',        
+        if options[:rol] == "escuela" then
+            '<center><div class="btn-acciones"><a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Cancelar baja" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>''</div></center>'
+        else          
+            '<center><div class="btn-acciones"><a class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Cancelar baja" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
+            '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_baja_path(record.id.to_s)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>''</div></center>'
+        end,
       ]
     end
   end
 
   def get_raw_records
-    #RelevamientoJardine.all.includes(:establecimiento, :localidad)
     return options[:query]
   end
 
 end
+
+
+
+#options[:rol]
