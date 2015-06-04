@@ -3,7 +3,7 @@
 </div>
 
 <div>
-  <select name="mes" id="mes" value="<%= @mes %>">
+  <select name="mes" id="select_mes" value="<%= @mes %>">
     <option value="1">Enero </option>
     <option value="2">Febrero </option>
     <option value="3">Marzo </option>
@@ -18,7 +18,7 @@
     <option value="12">Diciembre </option>
   </select>
   <select name="anio" id="anio" value=" <%= @anio %>">
-      <script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">
       var k;
       var d = new Date();
       var n = d.getFullYear(); 
@@ -83,7 +83,10 @@
   });
 
   $('#btn-ir').click(function(){
-    window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&mes=" + $('#mes').val(),"_self");
+    window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&select_mes=" + $('#select_mes').val(),"_self");
   });
+ 
+  var mes = $("#select_mes").attr('value')
+  $('#select_mes option[value='+mes+']').prop('selected', true);
 
 </script>
