@@ -31,7 +31,6 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    #RelevamientoJardine.all.includes(:establecimiento, :localidad)
     return options[:query]
   end
 

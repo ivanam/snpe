@@ -27,7 +27,6 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
-    #AltasBajasHoraEstado.where()
     return AltasBajasHora.where(:id => @altasbajashoras_ids)
   end
 
@@ -48,5 +47,4 @@ module AltasBajasHorasHelper
     end
     return AltasBajasHora.where(:id => @altasbajashoras_ids)
   end
-  #altas_bajas_horas_permitidas_altas_notificadas
 end
