@@ -14,7 +14,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.id,
+        record.altas_bajas_hora,
         record.fecha_desde,
         record.fecha_hasta,
         record.articulo.to_s,

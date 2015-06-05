@@ -34,6 +34,9 @@
                     <% if ver_model("Asistencium")%>
                     <li><%=link_to "Asistencias", asistencia_path, :tabindex => "-1"%></li>  
                     <% end %>
+                    <% if ver_model("licencium")%>
+                    <li><%=link_to "Licencias", licencia_path, :tabindex => "-1"%></li>  
+                    <% end %>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                       <li><%=link_to "Novedades", horas_index_novedades_path, :tabindex => "-1"%></li>  
                       <li><%=link_to "Impresiones", lote_impresions_path, :tabindex => "-1"%></li>  
