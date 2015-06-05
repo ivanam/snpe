@@ -73,6 +73,8 @@ Permission.create(nombre:"Horas Dar Baja",subject_class:"AltasBajasHora",subject
 Permission.create(nombre:"Horas Cancelar Baja",subject_class:"AltasBajasHora",subject_id:0,action:"cancelar_baja")
 Permission.create(nombre:"Horas Chequear Baja",subject_class:"AltasBajasHora",subject_id:0,action:"chequear_baja")
 Permission.create(nombre:"Horas Cancelar Cola",subject_class:"AltasBajasHora",subject_id:0,action:"cancelar_cola")
+Permission.create(nombre:"Asistencia index",subject_class:"Asistencium",subject_id:0,action:"index")
+Permission.create(nombre:"Asistencia Show",subject_class:"Asistencium",subject_id:0,action:"show")
 
 
 #Permisos de Personas
@@ -96,6 +98,8 @@ RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regu
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Index Bajas Efectivas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Dar Baja").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Horas Cancelar Baja").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Asistencia Show").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Asistencia index").first.id)
 
 #Permisos de personal
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Chequear Horas").first.id)
