@@ -132,9 +132,10 @@ class AltasBajasHorasController < ApplicationController
       @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
       @maxdate = Date.today.end_of_month
     end
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date) }) }
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date), rol: @rol }) }
     end
   end
 
@@ -314,7 +315,7 @@ class AltasBajasHorasController < ApplicationController
       AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
       respond_to do |format|
         format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
-        format.json { head :no_content } # 204 No Content
+        format.json { render json: {status: 'ok'}}
       end
     else
       respond_to do |format|
@@ -322,7 +323,6 @@ class AltasBajasHorasController < ApplicationController
         format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity} # 204 No Content
       end
     end
-
   end
 
   def cancelar_baja
@@ -332,13 +332,11 @@ class AltasBajasHorasController < ApplicationController
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
       end
       respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'Baja cancelada correctamente' }
-        format.json { head :no_content } # 204 No Content
+        format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
       end
     else
       respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'No se pudo cancelar' }
-        format.json { head :no_content } # 204 No Content
+        format.json { render json: {status: 'error', msj: "No se pudo realizar la baja"} }
       end
     end
   end
@@ -347,12 +345,14 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
         @estado = Estado.where(descripcion: "Chequeado_Baja").first
-        AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja chequeada correctamente' }
+        if AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
+          format.json { render json: {status: 'ok', msj: "Baja chequeada correctamente"} }
+        else
+          format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+        end
       else
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, alert: 'No se pudo chequear' }
+        format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
       end
-      format.json { head :no_content } # 204 No Content
     end
   end
 
