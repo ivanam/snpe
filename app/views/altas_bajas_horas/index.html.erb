@@ -135,34 +135,43 @@ $(document).ready(function($) {
     pagingType: "simple",
   })
   .on('draw.dt', function () {
-      $( ".btn-ajax" ).on( "click", function() {
-        var data_url = $(this).attr('data-url');
-        $.ajax({
-          url: data_url,
-          type: 'GET',
-        })
-        .done(function(data) { //if (data[status] == 'ok')
-          tabla_altas_bajas.api().ajax.reload();
-          tabla_altas_bajas_notificadas.api().ajax.reload();
-        });
+    $( ".btn-ajax" ).on( "click", function() {
+      var data_url = $(this).attr('data-url');
+      $.ajax({
+        url: data_url,
+        type: 'GET',
+      })
+      .done(function(data) {
+        tabla_altas_bajas.api().ajax.reload();
+        tabla_altas_bajas_notificadas.api().ajax.reload();
       });
+    });
   });
-
-    
 
   var tabla_altas_bajas_notificadas = $('#tabla-altas_bajas_hora_notificadas')
   .on('draw.dt', function () {
-      $( ".btn-ajax" ).on( "click", function() {
-        var data_url = $(this).attr('data-url');
-        $.ajax({
-          url: data_url,
-          type: 'GET',
-        })
-        .done(function(data) { //if (data[status] == 'ok')
-          tabla_altas_bajas.api().ajax.reload();
-          tabla_altas_bajas_notificadas.api().ajax.reload();
-        });
-      });
+    $( ".btn-ajax" ).on( "click", function() {
+      var data_url = $(this).attr('data-url');
+      $.ajax({
+        url: data_url,
+        type: 'GET',
+      })
+      .done(function(data) { //if (data[status] == 'ok')
+        tabla_altas_bajas.api().ajax.reload();
+        tabla_altas_bajas_notificadas.api().ajax.reload();
+      })
+    });
+    $('.cancelar_notificacion')
+    .on('save', function(e, params) {
+      tabla_altas_bajas.api().ajax.reload();
+      tabla_altas_bajas_notificadas.api().ajax.reload();
+    })
+    .editable({
+      savenochange: true,
+      success: function(response, newValue) {
+        if(response.status == 'error') return response.msg; //msg will be shown in editable form
+      }
+    });
   })
   .dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -170,24 +179,14 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
     pagingType: "simple",
-    "initComplete": function(settings, json) {
-      $('.cancelar_notificacion')
-        .on('save', function(e, params) {
-          tabla_altas_bajas.api().ajax.reload();
-          tabla_altas_bajas_notificadas.api().ajax.reload();
-        })
-        .editable();
-    },
   });
-  
-
 
   var date = new Date();
   $('#daterange').daterangepicker({
     format: 'DD/MM/YYYY',
     startDate: new Date(date.getFullYear(), date.getMonth(), 1),
     endDate: Date.today,
-    minDate: '01/01/2015',
+    minDate: '01/01/2000',
     maxDate: '31/12/2030',
     locale: {
       applyLabel: 'Ir',
@@ -207,8 +206,5 @@ $(document).ready(function($) {
     tabla_altas_bajas.api().ajax.reload();
     tabla_altas_bajas_notificadas.api().ajax.reload();
   });
-
-
-
 });
 </script>

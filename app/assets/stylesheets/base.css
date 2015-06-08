@@ -448,3 +448,9 @@ body {
   display: flex;
   align-items: center;
 }
+
+.cargando {
+   position: fixed;
+   top: 50%;
+   left: 50%;
+}

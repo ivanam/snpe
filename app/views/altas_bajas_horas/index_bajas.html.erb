@@ -144,16 +144,16 @@ $(document).ready(function($) {
   var tabla_bajas_permitidas = $('#tabla-bajas')
     .on('draw.dt', function () {
       $('.popup-fecha')
-        .on('save', function(e, params) {
-          tabla_bajas_permitidas.api().ajax.reload();
-          tabla_bajas_efectivas.api().ajax.reload();
-        })
-        .editable({
-          savenochange: true,
-          success: function(response, newValue) {
-            if(response.status == 'error') return response.msg; //msg will be shown in editable form
-          }
-        });
+      .on('save', function(e, params) {
+        tabla_bajas_permitidas.api().ajax.reload();
+        tabla_bajas_efectivas.api().ajax.reload();
+      })
+      .editable({
+        savenochange: true,
+        success: function(response, newValue) {
+          if(response.status == 'error') return response.msg; //msg will be shown in editable form
+        }
+      });
     })
     .dataTable({
       language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -170,7 +170,7 @@ $(document).ready(function($) {
     format: 'DD/MM/YYYY',
     startDate: new Date(date.getFullYear(), date.getMonth(), 1),
     endDate: Date.today,
-    minDate: '01/01/2015',
+    minDate: '01/01/2010',
     maxDate: '31/12/2030',
     locale: {
       applyLabel: 'Ir',
