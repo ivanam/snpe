@@ -17,7 +17,6 @@ class AltasBajasHoraBajaPermitidaDatatable < AjaxDatatablesRails::Base
         record.persona.nro_documento,
         record.persona.cuil,
         record.persona.apellidos,
-        record.persona.nombres,
         record.secuencia,
         record.establecimiento.codigo_jurisdiccional,
         record.establecimiento.cue,
