@@ -1,0 +1,61 @@
+<div class="page-header">
+  <h1>cargo</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Establecimiento:</dt>
+  <dd><%= @cargo.establecimiento %></dd>
+
+  <dt>Persona:</dt>
+  <dd><%= @cargo.persona %></dd>
+
+  <dt>Cargo:</dt>
+  <dd><%= @cargo.cargo %></dd>
+
+  <dt>Secuencia:</dt>
+  <dd><%= @cargo.secuencia %></dd>
+
+  <dt>Situacion revista:</dt>
+  <dd><%= @cargo.situacion_revista %></dd>
+
+  <dt>Turno:</dt>
+  <dd><%= @cargo.turno %></dd>
+
+  <dt>Anio:</dt>
+  <dd><%= @cargo.anio %></dd>
+
+  <dt>Curso:</dt>
+  <dd><%= @cargo.curso %></dd>
+
+  <dt>Fecha alta:</dt>
+  <dd><%= @cargo.fecha_alta %></dd>
+
+  <dt>Fecha baja:</dt>
+  <dd><%= @cargo.fecha_baja %></dd>
+
+  <dt>Persona reemplazada:</dt>
+  <dd><%= @cargo.persona_reemplazada %></dd>
+
+  <dt>Observatorio:</dt>
+  <dd><%= @cargo.observatorio %></dd>
+
+  <dt>Alta lote impresion:</dt>
+  <dd><%= @cargo.alta_lote_impresion_id %></dd>
+
+  <dt>Baja lote impresion:</dt>
+  <dd><%= @cargo.baja_lote_impresion %></dd>
+
+  <br/><br/>
+  <%= link_to cargos_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_cargo_path(@cargo), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to cargo_path(@cargo), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

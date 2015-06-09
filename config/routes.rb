@@ -62,6 +62,27 @@ ProyectoBase::Application.routes.draw do
 
     resources :altas_bajas_horas
 
+    #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
+    resources :cargos
+
+    get "cargo/:id/editar_alta/", to: "cargos#editar_alta", as: :cargo_editar_alta
+
+    #Cambios de estado
+    
+    get "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
+
+    get "cargo/chequear/:id", to: "cargos#chequear", as: :cargo_chequear
+
+    get "cargo/notificar/:id", to: "cargos#notificar", as: :cargo_notificar
+
+    #Datatables
+
+    get "cargo/cargos_notificados/", to: "cargos#cargos_notificados", as: :cargos_notificados    
+
+    get "cargo/cargos_nuevos/", to: "cargos#cargos_nuevos", as: :cargos_nuevos
+
+    #----------------------------------------------------------------------------------------------------------------------------------
+
     resources :establecimientos
 
     get "establecimientos_de_usuario", to: "establecimientos#establecimientos_de_usuario", as: :establecimientos_de_usuario
