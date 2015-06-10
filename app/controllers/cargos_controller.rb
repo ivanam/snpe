@@ -13,8 +13,7 @@ class CargosController < ApplicationController
     end
     
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-    @cargos = Cargo.all
-    respond_with(@cargos)
+    respond_with(@cargo)
   end
 
   def show
@@ -85,10 +84,54 @@ class CargosController < ApplicationController
     respond_with(@cargo)
   end
 
+  def editar_alta
+    @cargo = Cargo.find(params[:id])
+    @persona = Persona.find(@cargo.persona_id)
+  end
+
+  def guardar_edicion
+    @tipo_documento = params["tipo_documento"]
+    @dni = params["dni"]
+    @nombres = params["nombres"]
+    @apellidos = params["apellidos"]
+    @cuil = params["cuil"]
+    @fecha_nacimiento = params["fecha_nacimiento"]
+    @persona = Persona.where(nro_documento: @dni).first
+    @establecimiento = Establecimiento.find(session[:establecimiento])
+    #si la persona no existe la creo
+    if @persona == nil then
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
+                                fecha_nacimiento: @fecha_nacimiento)
+    else
+      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil,
+                                  fecha_nacimiento: @fecha_nacimiento})
+    end
+    @cargo = Cargo.find(params[:id])
+    @cargo.assign_attributes({ persona_id: @persona.id, secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
+                              situacion_revista: params[:cargo][:situacion_revista], anio: params[:cargo][:anio], division: params[:cargo][:division],
+                              turno: params[:cargo][:turno]})
+    respond_to do |format|
+      if @persona.save then       
+        if @cargo.save then
+          format.html { redirect_to cargos_path, notice: 'Alta actualizada correctamente' }
+          format.json { render action: 'show', status: :created, location: @cargo }
+        else
+          format.html { render action: 'editar_alta' }
+          format.json { render json: @cargo.errors, status: :unprocessable_entity }
+        end        
+      else
+        format.html { render action: 'editar_alta' }
+        format.json { render json: @persona.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
   #------------------------------------------- FUNCIONES DE CAMBIO DE ESTADO ------------------------------------------------------------------------
   
   def cancelar
     @estado = Estado.where(descripcion: "Cancelado").first
+    debugger
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id, observaciones: params["cargo"]["observaciones"])
     respond_to do |format|
       format.html { redirect_to cargos_path, notice: 'Alta cancelada correctamente' }

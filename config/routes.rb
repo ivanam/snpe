@@ -67,9 +67,11 @@ ProyectoBase::Application.routes.draw do
 
     get "cargo/:id/editar_alta/", to: "cargos#editar_alta", as: :cargo_editar_alta
 
+    patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
+
     #Cambios de estado
     
-    get "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
+    put "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
 
     get "cargo/chequear/:id", to: "cargos#chequear", as: :cargo_chequear
 

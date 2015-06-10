@@ -84,6 +84,10 @@
 
 <script type="text/javascript">
 $(document).ready(function($) {
+
+  moment.locale('es');
+  $.fn.editable.defaults.mode = 'popup';
+
   var tabla_cargos_nuevos = $('#tabla-cargos-nuevos').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,
@@ -105,7 +109,7 @@ $(document).ready(function($) {
     });
   });
 
-  var tabla_cargos_nuevos = $('#tabla-cargos-notificados').dataTable({
+  var tabla_cargos_notificados = $('#tabla-cargos-notificados').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,
     serverSide : true,
@@ -124,6 +128,43 @@ $(document).ready(function($) {
         tabla_cargos_notificados.api().ajax.reload();
       });
     });
+    $('.cancelar_notificacion')
+    .on('save', function(e, params) {
+      tabla_cargos_nuevos.api().ajax.reload();
+      tabla_cargos_notificados.api().ajax.reload();
+    })
+    .editable({
+      savenochange: true,
+      success: function(response, newValue) {
+        if(response.status == 'error') return response.msg; //msg will be shown in editable form
+      }
+    });
+  });
+
+  var date = new Date();
+  $('#daterange').daterangepicker({
+    format: 'DD/MM/YYYY',
+    startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+    endDate: Date.today,
+    minDate: '01/01/2000',
+    maxDate: '31/12/2030',
+    locale: {
+      applyLabel: 'Ir',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      firstDay: 1
+    }
+  });
+
+  // Evento del daterangepicker para filtrar por rangos
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    // Cambia la url agregando el campo rango como atributo
+    tabla_cargos_nuevos.api().ajax.url('/soft/snpe/cargo/cargos_nuevos.json?rango='+$('#daterange').val());
+    tabla_cargos_notificados.api().ajax.url('/soft/snpe/cargo/cargos_notificados.json?rango='+$('#daterange').val());
+    // Recarga por ajax la tabla
+    tabla_cargos_nuevos.api().ajax.reload();
+    tabla_cargos_notificados.api().ajax.reload();
   });
 
 });
