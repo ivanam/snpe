@@ -5,7 +5,7 @@
 
 <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
   <legend class="legend-small">Carga de un Alta</legend>  
-  <div class="form-carga-efecto">
+  <div class="form-carga-efecto form-carga-efecto-alta">
     <%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
   </div>
 <% end %>
