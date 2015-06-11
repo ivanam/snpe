@@ -16,6 +16,11 @@ class CargosController < ApplicationController
     respond_with(@cargo)
   end
 
+  def index_novedades
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_with(@cargo)
+  end
+
   def show
     respond_with(@cargo)
   end
@@ -171,6 +176,13 @@ class CargosController < ApplicationController
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
       format.json { render json: CargosNotificadosDatatable.new(view_context, { query: cargos_notificados_permitidos(@mindate, @maxdate), rol: @rol }) }
+    end
+  end
+
+  def cargos_novedades
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_to do |format|
+      format.json { render json: CargosNovedadesDatatable.new(view_context, { query: cargos_novedades_permitidas(@mindate, @maxdate), :tipo_tabla => "novedades" }) }
     end
   end
 

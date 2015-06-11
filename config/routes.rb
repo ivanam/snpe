@@ -69,17 +69,23 @@ ProyectoBase::Application.routes.draw do
 
     patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
 
+    get "cargo/novedades/", to: "cargos#index_novedades", as: :cargos_index_novedades
+
     #Cambios de estado
     
     put "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
 
     get "cargo/chequear/:id", to: "cargos#chequear", as: :cargo_chequear
 
+    get "cargo/imprimir/:id", to: "cargos#imprimir", as: :cargo_imprimir
+
     get "cargo/notificar/:id", to: "cargos#notificar", as: :cargo_notificar
 
     #Datatables
 
-    get "cargo/cargos_notificados/", to: "cargos#cargos_notificados", as: :cargos_notificados    
+    get "cargo/cargos_notificados/", to: "cargos#cargos_notificados", as: :cargos_notificados
+
+    get "cargo/cargos_novedades/", to: "cargos#cargos_novedades", as: :cargos_novedades
 
     get "cargo/cargos_nuevos/", to: "cargos#cargos_nuevos", as: :cargos_nuevos
 
