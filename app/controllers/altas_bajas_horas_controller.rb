@@ -259,14 +259,14 @@ class AltasBajasHorasController < ApplicationController
     AltasBajasHora.transaction do
       AltasBajasHoraEstado.transaction do
         results.each do |abh|
-          if abh['escuela'] == 724 then
+          if abh['escuela'] == 702 then
             @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
             @persona = Persona.where(:nro_documento => abh['nume_docu']).first
             if not(@establecimiento == nil or @persona == nil) then
               @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'])
               @data.save!
               @estado = Estado.where(:descripcion => "Ingresado").first
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id, :codificacion => abh['materia'])
+              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id) #, :codificacion => abh['materia'])
             end
           end
         end
