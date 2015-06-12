@@ -261,7 +261,6 @@ class AltasBajasHorasController < ApplicationController
     end
 
   end
-
   
   def update
     @altas_bajas_hora.update(altas_bajas_hora_params)
@@ -278,7 +277,7 @@ class AltasBajasHorasController < ApplicationController
     @client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
     # Aca el result es un conjunto de objetos
-    results = @client.query("SELECT * FROM padhc ")# where estado='ALT'")     
+    results = @client.query("SELECT * FROM padhc")# where estado='ALT'")     
 
     #@@client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
     #results = @@client.query("SELECT * FROM establecimientos LIMIT 0,1000")
@@ -291,10 +290,10 @@ class AltasBajasHorasController < ApplicationController
             @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
             @persona = Persona.where(:nro_documento => abh['nume_docu']).first
             if not(@establecimiento == nil or @persona == nil) then
-              @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :codificacion => abh['materia'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'])
+              @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => abh['materia'], :situacion_revista => abh['tipo_emp'])
               @data.save!
               @estado = Estado.where(:descripcion => "Ingresado").first
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id, :codificacion => abh['materia'])
+              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
             end
           end
         end

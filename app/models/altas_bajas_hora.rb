@@ -15,7 +15,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
-  validates :codificacion, length: { is: 4}, numericality: { only_integer: true }#, allow_blank: true
+  validates :codificacion, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   
   validates :persona_id, :presence => true
 
