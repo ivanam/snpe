@@ -8,6 +8,8 @@ ProyectoBase::Application.routes.draw do
 
     post "util/buscar_estados_altas_bajas_hora/:id", to: 'util#buscar_estados_altas_bajas_hora'    
 
+    post "util/buscar_estados_cargo/:id", to: 'util#buscar_estados_cargo'  
+
     resources :articulos
 
     resources :asistencia

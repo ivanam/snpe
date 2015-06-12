@@ -114,7 +114,7 @@ class CargosController < ApplicationController
     @cargo = Cargo.find(params[:id])
     @cargo.assign_attributes({ persona_id: @persona.id, secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
                               situacion_revista: params[:cargo][:situacion_revista], anio: params[:cargo][:anio], division: params[:cargo][:division],
-                              turno: params[:cargo][:turno]})
+                              turno: params[:cargo][:turno], observaciones: params[:cargo][:observaciones]})
     respond_to do |format|
       if @persona.save then       
         if @cargo.save then
@@ -136,7 +136,6 @@ class CargosController < ApplicationController
   
   def cancelar
     @estado = Estado.where(descripcion: "Cancelado").first
-    debugger
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id, observaciones: params["cargo"]["observaciones"])
     respond_to do |format|
       format.html { redirect_to cargos_path, notice: 'Alta cancelada correctamente' }

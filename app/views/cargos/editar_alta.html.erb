@@ -50,7 +50,7 @@
           <%= f.select(:turno, Cargo::TURNO, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
           <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-edit" %>
           <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar-edit" %>
-          <%= link_to altas_bajas_horas_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>
+          <%= link_to cargos_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>
             Cancelar
           <% end %>
         </div>
