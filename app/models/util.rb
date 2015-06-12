@@ -17,4 +17,18 @@ class Util < ActiveRecord::Base
   	end  	
   end
 
+  def self.max_min_periodo(periodo)
+    # Recibe el periodo en formato String y devuelve fecha minima y fecha maxima en formato Date
+    if periodo != nil
+      @mindate = periodo[0..9]
+      @maxdate = periodo[13..22]
+    else
+      @mindate_year = Date.today.year
+      @mindate = Date.today.year.to_s + '/' + Date.today.month.to_s + '/01'
+      @maxdate = Date.today.end_of_month
+    end
+
+    return @mindate.to_date, @maxdate.to_date
+  end
+
 end

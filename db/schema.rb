@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150521113202) do
+ActiveRecord::Schema.define(version: 20150609133459) do
 
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150521113202) do
     t.text     "observaciones"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
 
   add_index "altas_bajas_hora_estados", ["alta_baja_hora_id"], name: "index_altas_bajas_hora_estados_on_alta_baja_hora_id", using: :btree
@@ -38,12 +39,13 @@ ActiveRecord::Schema.define(version: 20150521113202) do
     t.integer  "anio"
     t.integer  "division"
     t.string   "turno"
-    t.integer  "codificacion"
+    t.string   "codificacion"
     t.string   "oblig"
     t.string   "observaciones"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "lote_impresion_id"
+    t.integer  "baja_lote_impresion_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -68,10 +70,50 @@ ActiveRecord::Schema.define(version: 20150521113202) do
     t.integer  "altas_bajas_cargo_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "anio_periodo"
+    t.integer  "mes_periodo"
   end
 
   add_index "asistencia", ["altas_bajas_cargo_id"], name: "index_asistencia_on_altas_bajas_cargo_id", using: :btree
   add_index "asistencia", ["altas_bajas_hora_id"], name: "index_asistencia_on_altas_bajas_hora_id", using: :btree
+
+  create_table "cargo_estados", force: true do |t|
+    t.integer  "cargo_id"
+    t.integer  "estado_id"
+    t.integer  "user_id"
+    t.text     "observaciones"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cargo_estados", ["cargo_id"], name: "index_cargo_estados_on_cargo_id", using: :btree
+  add_index "cargo_estados", ["estado_id"], name: "index_cargo_estados_on_estado_id", using: :btree
+  add_index "cargo_estados", ["user_id"], name: "index_cargo_estados_on_user_id", using: :btree
+
+  create_table "cargos", force: true do |t|
+    t.integer  "establecimiento_id"
+    t.integer  "persona_id"
+    t.string   "cargo"
+    t.integer  "secuencia"
+    t.string   "situacion_revista"
+    t.string   "turno"
+    t.integer  "anio"
+    t.integer  "curso"
+    t.date     "fecha_alta"
+    t.date     "fecha_baja"
+    t.integer  "persona_reemplazada_id"
+    t.string   "observatorio"
+    t.integer  "alta_lote_impresion_id"
+    t.integer  "baja_lote_impresion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "division"
+    t.integer  "observaciones"
+  end
+
+  add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
+  add_index "cargos", ["persona_id"], name: "index_cargos_on_persona_id", using: :btree
+  add_index "cargos", ["persona_reemplazada_id"], name: "index_cargos_on_persona_reemplazada_id", using: :btree
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"

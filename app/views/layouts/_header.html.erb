@@ -1,0 +1,47 @@
+  <div class="container">
+    <div class="row" style="margin-bottom: -10px;">
+        <% if user_signed_in? then %>
+          <% if session[:establecimiento] != nil then%>
+            <%@e = Establecimiento.find(session[:establecimiento])%>                  
+            <!-- SIDEBAR -->
+            <div class="col-sm-1 col-md-2">
+              <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                <%= image_tag("establecimientos/"+@e.cue_anexo.to_s+".jpg", :class => "img-circle img-responsive", :onerror => "this.onerror=null;this.src='/assets/establecimientos/escuela_perfil.png';")%>
+                <!--<img src="imagenotfound.gif" alt="Image not found" onError="this.src='imagefound.gif';" />-->
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                  <div class="profile-usertitle-job text-center">
+                    Escuela Nº: <%= @e.codigo_jurisdiccional %> </br>
+                    <%= @e.nombre.titleize %></br>
+                    <%= @e.localidad.to_s.titleize %>
+                  </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+              </div>
+            </div>
+            <!-- SIDEBAR END -->
+          <% end %>          
+        <% end %>
+        <!--  -->
+        <% if user_signed_in? then %>
+          <div class="col-sm-11 col-md-10">
+        <% else %>
+          <div class="col-md-12">
+        <% end %>
+          <div class="col-md-12 logo">
+              <p align="center">
+                <%=image_tag("logo.png", :class => "img-responsive")%>
+
+              </p>
+          </div>
+          <div class="title">
+            <h1 align="center"> Sistema de Novedades del Personal Educativo </h1>
+          </div>
+      </div>
+      <!--  -->
+    </div>
+</div>

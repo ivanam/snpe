@@ -27,7 +27,6 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
-    #AltasBajasHoraEstado.where()
     return AltasBajasHora.where(:id => @altasbajashoras_ids)
   end
 
@@ -40,7 +39,12 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
+    @altasbajashoras.each do |a|
+      if a.estado_actual == "Impreso" || a.estado_actual == "Chequeado_Baja"
+        @altasbajashoras_ids << a.id
+      end
+    end
     return AltasBajasHora.where(:id => @altasbajashoras_ids)
   end
-  #altas_bajas_horas_permitidas_altas_notificadas
 end

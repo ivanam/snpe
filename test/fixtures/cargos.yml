@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  establecimiento_id: 
+  persona_id: 
+  cargo: MyString
+  secuencia: 1
+  situacion_revista: MyString
+  turno: MyString
+  anio: 1
+  curso: 1
+  fecha_alta: 2015-06-09
+  fecha_baja: 2015-06-09
+  persona_reemplazada_id: 
+  observatorio: MyString
+  alta_lote_impresion_id: 1
+  baja_lote_impresion: 1
+
+two:
+  establecimiento_id: 
+  persona_id: 
+  cargo: MyString
+  secuencia: 1
+  situacion_revista: MyString
+  turno: MyString
+  anio: 1
+  curso: 1
+  fecha_alta: 2015-06-09
+  fecha_baja: 2015-06-09
+  persona_reemplazada_id: 
+  observatorio: MyString
+  alta_lote_impresion_id: 1
+  baja_lote_impresion: 1

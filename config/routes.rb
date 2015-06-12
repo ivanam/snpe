@@ -1,12 +1,12 @@
 ProyectoBase::Application.routes.draw do
 
-  
-
   scope '/soft/snpe' do
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
 
     post "util/buscar_persona_por_id/:id", to: 'util#buscar_persona_por_id'
+
+    post "util/buscar_estados_altas_bajas_hora/:id", to: 'util#buscar_estados_altas_bajas_hora'    
 
     resources :articulos
 
@@ -20,7 +20,7 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
 
-    get "altas_bajas_horas/notificadas/", to: "altas_bajas_horas#index_notificadas", as: :altas_bajas_horas_index_notificadas
+    get "altas_bajas_horas/notificadas/", to: "altas_bajas_horas#index_notificadas", as: :altas_bajas_horas_index_notificadas    
 
     put "altas_bajas_horas/dar_baja/:id", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_baja
 
@@ -38,11 +38,19 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
-    get "altas_bajas_horas/cancelar/:id", to: "altas_bajas_horas#cancelar", as: :altas_bajas_horas_cancelar
+    put "altas_bajas_horas/cancelar/:id", to: "altas_bajas_horas#cancelar", as: :altas_bajas_horas_cancelar
 
     get "altas_bajas_horas/chequear/:id", to: "altas_bajas_horas#chequear", as: :altas_bajas_horas_chequear
 
     get "altas_bajas_horas/imprimir/:id", to: "altas_bajas_horas#imprimir", as: :altas_bajas_horas_imprimir
+
+    get "altas_bajas_horas/notificar_baja/:id", to: "altas_bajas_horas#notificar_baja", as: :altas_bajas_horas_notificar_baja
+
+    get "altas_bajas_horas/cancelar_baja/:id", to: "altas_bajas_horas#cancelar_baja", as: :altas_bajas_horas_cancelar_baja
+
+    get "altas_bajas_horas/chequear_baja/:id", to: "altas_bajas_horas#chequear_baja", as: :altas_bajas_horas_chequear_baja
+
+    get "altas_bajas_horas/imprimir_baja/:id", to: "altas_bajas_horas#imprimir_baja", as: :altas_bajas_horas_imprimir_baja
 
     get "altas_bajas_horas/novedades/", to: "altas_bajas_horas#index_novedades", as: :horas_index_novedades
 
@@ -50,7 +58,38 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/imprimir-cola/", to: "altas_bajas_horas#imprimir_cola", as: :horas_imprimir_cola
 
+    get "altas_bajas_horas/cancelar-cola/", to: "altas_bajas_horas#cancelar_cola", as: :horas_cancelar_cola
+
     resources :altas_bajas_horas
+
+    #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
+    resources :cargos
+
+    get "cargo/:id/editar_alta/", to: "cargos#editar_alta", as: :cargo_editar_alta
+
+    patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
+
+    get "cargo/novedades/", to: "cargos#index_novedades", as: :cargos_index_novedades
+
+    #Cambios de estado
+    
+    put "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
+
+    get "cargo/chequear/:id", to: "cargos#chequear", as: :cargo_chequear
+
+    get "cargo/imprimir/:id", to: "cargos#imprimir", as: :cargo_imprimir
+
+    get "cargo/notificar/:id", to: "cargos#notificar", as: :cargo_notificar
+
+    #Datatables
+
+    get "cargo/cargos_notificados/", to: "cargos#cargos_notificados", as: :cargos_notificados
+
+    get "cargo/cargos_novedades/", to: "cargos#cargos_novedades", as: :cargos_novedades
+
+    get "cargo/cargos_nuevos/", to: "cargos#cargos_nuevos", as: :cargos_nuevos
+
+    #----------------------------------------------------------------------------------------------------------------------------------
 
     resources :establecimientos
 

@@ -7,7 +7,7 @@ class LoteImpresionsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { render json: LoteImpresionDatatable.new(view_context, { query: LoteImpresion.all }) }
+      format.json { render json: LoteImpresionDatatable.new(view_context, { query: lote_impresion_permitido }) }
     end
   end
 

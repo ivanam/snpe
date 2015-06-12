@@ -18,16 +18,34 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
         record.establecimiento.cue,
         record.persona.nro_documento,
         record.persona.apellidos,
-        record.persona.nombres,
         record.persona.cuil,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
+        if record.estado_actual == "Notificado_Baja" then
+          if options[:rol] == "escuela" then
+          '<center><div class="btn-acciones">'+
+            '<a class="btn btn-sm btn-danger btn-ajax" data-toggle="tooltip" data-placement="top" title="Cancelar baja" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
+          '</div></center>'
+          elsif options[:rol] == "personal" then
+          '<center><div class="btn-acciones">'+
+            '<a class="btn btn-success btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_baja_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'+
+          '</div></center>'
+          elsif options[:rol] == "sadmin"
+          '<center><div class="btn-acciones">'+
+            '<a class="btn btn-sm btn-danger btn-ajax" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s, :format => :json)+'" data-toggle="tooltip" data-placement="top" title="Cancelar baja" ><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
+            '<a class="btn btn-success btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_chequear_baja_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'+
+          '</div></center>'
+          end
+        else
+          '<center><div class="btn-acciones">'+
+            '<a class="btn btn-sm"><span class="label label-success">Chequeada</span></a>'+
+          '</div></center>'
+        end,
       ]
     end
   end
 
   def get_raw_records
-    #RelevamientoJardine.all.includes(:establecimiento, :localidad)
     return options[:query]
   end
 

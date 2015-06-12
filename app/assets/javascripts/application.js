@@ -19,10 +19,6 @@
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
 
-
-//$(document).ready(function() { $('select').select2(); });
-
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
-    
 })
