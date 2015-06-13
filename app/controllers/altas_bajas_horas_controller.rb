@@ -280,6 +280,62 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def importar_recibos
+    # Conexion a la base
+    @client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
+
+    # Aca el result es un conjunto de objetos
+    results = @client.query("SELECT * FROM recibos where (mes = 5 and anio = 2015 and hab_c_apor != 0.00)")# where estado='ALT'")     
+
+    # Recorremos el conjunto de objetos y captura las transacciones
+    AltasBajasHora.transaction do
+      PeriodoLiqHora.transaction do
+        results.each do |recibo|
+          if recibo['escuela'] == 724 then
+
+            # Recupero el agente dle recibo
+            @agente = Persona.where(nro_documento: recibo['nume_docu']).first()
+
+            # Recupero las Altas/Bajas del agente
+            @horas_agente = AltasBajasHora.where(persona_id: @agente.id).includes(:establecimiento)
+
+            @primer_recibo? = true
+            
+            # Recorro cada una de las horas que tiene el agente y comparo la secuencia
+            @horas_agente.each do |h|
+
+              # Si la secuencia y la escuela coinciden, hay unicidad
+              if recibo['secuencia'] == h.secuencia and recibo['escuela'] == h.establecimiento.codigo_jurisdiccional
+                @periodo_recibo = PeriodoLiqHora.new(mes: 5, anio: 2015, altas_bajas_hora_id: h.id)
+                @periodo_recibo.save!
+                @primer_recibo? = false
+                break                
+              end
+            end
+
+            # Si es la primera vez que cobra, entonces hay que cargar la secuencia en AltasBajasHora
+            if @primer_recibo? == true
+
+              #Recorro todas las horas del agente
+              @horas_agente.each do |h|
+                if recibo['escuela'] == h.establecimiento.codigo_jurisdiccional
+
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+    respond_to do |format|
+      if @data.id != nil
+        format.html { redirect_to altas_bajas_horas_path, notice: 'Importacion correcta' }
+      else
+        format.html { redirect_to altas_bajas_horas_path, alert: 'Importacion incorrecta' }
+      end
+    end
+  end
+
   def dar_baja
     if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first

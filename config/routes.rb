@@ -28,6 +28,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/importar/", to: "altas_bajas_horas#importar", as: :altas_bajas_horas_importar
 
+    get "altas_bajas_horas/importar_recibos/", to: "altas_bajas_horas#importar", as: :altas_bajas_horas_importar_recibos
+
     get "altas_bajas_horas/personal_activo/", to: "altas_bajas_horas#index_personal_activo", as: :altas_bajas_horas_index_personal_activo
 
     post "altas_bajas_horas/buscar_alta/:id_alta/", to: "altas_bajas_horas#buscar_alta", as: :altas_bajas_horas_buscar_alta
