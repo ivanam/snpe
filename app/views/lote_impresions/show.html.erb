@@ -3,69 +3,74 @@
   <h4>Fecha impresion: <%= @lote_impresion.fecha_impresion %></h1>
 </div>
 
-<dl class="dl-horizontal">
-  
-  <legend>Novedades de Horas</legend>
+<% if @lote_impresion.tipo_id == 1 %>
 
-  <legend>Altas</legend>
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Agente</th>         
-        <th>Ciclo</th>
-        <th>Curso</th>
-        <th>Situacion Revista</th>
-        <th>Horas</th>
-        <th>Codificación</th>
-        <th>Fecha Alta</th>
-        <th>Fecha Baja</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @lote_impresion.altas_bajas_horas.each do |h| %>
-        <tr>
-          <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
-          <td><%= h.ciclo_carrera %></td>
-          <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
-          <td><%= h.situacion_revista %></td>
-          <td><%= h.horas %></td>
-          <td><%= h.codificacion %></td>
-          <td><%= h.fecha_alta %></td>
-          <td><%= h.fecha_baja %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <dl class="dl-horizontal">
+    
+    <legend>Novedades de Horas</legend>
 
-  <legend>Bajas</legend>
-  <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>Agente</th>         
-        <th>Ciclo</th>
-        <th>Curso</th>
-        <th>Situacion Revista</th>
-        <th>Horas</th>
-        <th>Codificación</th>
-        <th>Fecha Alta</th>
-        <th>Fecha Baja</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @lote_impresion.impresion_bajas.each do |h| %>
+    <legend>Altas</legend>
+    <table class="table table-bordered table-striped">
+      <thead>
         <tr>
-          <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
-          <td><%= h.ciclo_carrera %></td>
-          <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
-          <td><%= h.situacion_revista %></td>
-          <td><%= h.horas %></td>
-          <td><%= h.codificacion %></td>
-          <td><%= h.fecha_alta %></td>
-          <td><%= h.fecha_baja %></td>
+          <th>Agente</th>         
+          <th>Ciclo</th>
+          <th>Curso</th>
+          <th>Situacion Revista</th>
+          <th>Horas</th>
+          <th>Codificación</th>
+          <th>Fecha Alta</th>
+          <th>Fecha Baja</th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @lote_impresion.altas_bajas_horas.each do |h| %>
+          <tr>
+            <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
+            <td><%= h.ciclo_carrera %></td>
+            <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
+            <td><%= h.situacion_revista %></td>
+            <td><%= h.horas %></td>
+            <td><%= h.codificacion %></td>
+            <td><%= h.fecha_alta %></td>
+            <td><%= h.fecha_baja %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <legend>Bajas</legend>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Agente</th>         
+          <th>Ciclo</th>
+          <th>Curso</th>
+          <th>Situacion Revista</th>
+          <th>Horas</th>
+          <th>Codificación</th>
+          <th>Fecha Alta</th>
+          <th>Fecha Baja</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @lote_impresion.impresion_bajas.each do |h| %>
+          <tr>
+            <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
+            <td><%= h.ciclo_carrera %></td>
+            <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
+            <td><%= h.situacion_revista %></td>
+            <td><%= h.horas %></td>
+            <td><%= h.codificacion %></td>
+            <td><%= h.fecha_alta %></td>
+            <td><%= h.fecha_baja %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <%= render 'cargos' %>
+  <% end %>
 
   <dt>Observaciones:</dt>
   <dd><%= @lote_impresion.observaciones %></dd>

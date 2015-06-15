@@ -34,7 +34,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def index_cola_impresion
-    @lote = LoteImpresion.all.last
+    @lote = LoteImpresion.all.where(tipo_id: 1).last
     if  @lote.fecha_impresion != nil
       @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
     else
@@ -57,7 +57,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def imprimir_cola
-    @lote = LoteImpresion.all.last
+    @lote = LoteImpresion.all.where(tipo_id: 1).last
     if @lote.fecha_impresion != nil
       horas_novedades.where(lote_impresion_id: nil).each do |h|
         if h.estado_actual == "Impreso"
@@ -365,9 +365,9 @@ class AltasBajasHorasController < ApplicationController
           format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
         else
           @estado = Estado.where(descripcion: "Impreso").first
-          @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
+          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1).last
           if @lote_impresion == nil
-            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
+            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
           end
           if @hora.estado_actual == "Chequeado"
             @hora.update(lote_impresion_id: @lote_impresion.id)

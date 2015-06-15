@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150612112402) do
+ActiveRecord::Schema.define(version: 20150615131950) do
+
+  create_table "alta_baja_horas", force: true do |t|
+    t.integer  "alta_baja_hora_id"
+    t.integer  "estado_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "alta_baja_horas", ["alta_baja_hora_id"], name: "index_alta_baja_horas_on_alta_baja_hora_id", using: :btree
+  add_index "alta_baja_horas", ["estado_id"], name: "index_alta_baja_horas_on_estado_id", using: :btree
 
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
@@ -20,6 +30,7 @@ ActiveRecord::Schema.define(version: 20150612112402) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "tipo_lote_id"
   end
 
   add_index "altas_bajas_hora_estados", ["alta_baja_hora_id"], name: "index_altas_bajas_hora_estados_on_alta_baja_hora_id", using: :btree
@@ -104,11 +115,11 @@ ActiveRecord::Schema.define(version: 20150612112402) do
     t.integer  "persona_reemplazada_id"
     t.string   "observatorio"
     t.integer  "alta_lote_impresion_id"
-    t.integer  "baja_lote_impresion"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "division"
     t.text     "observaciones"
+    t.integer  "baja_lote_impresion_id"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -191,6 +202,7 @@ ActiveRecord::Schema.define(version: 20150612112402) do
     t.text     "observaciones"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo_id"
   end
 
   create_table "nivels", force: true do |t|

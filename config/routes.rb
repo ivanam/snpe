@@ -67,9 +67,13 @@ ProyectoBase::Application.routes.draw do
     #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
     resources :cargos
 
+    get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
+
     get "cargo/:id/editar_alta/", to: "cargos#editar_alta", as: :cargo_editar_alta
 
     patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
+
+    get "cargo/imprimir-cola/", to: "cargos#imprimir_cola", as: :cargos_imprimir_cola
 
     get "cargo/novedades/", to: "cargos#index_novedades", as: :cargos_index_novedades
 
@@ -84,6 +88,7 @@ ProyectoBase::Application.routes.draw do
     get "cargo/notificar/:id", to: "cargos#notificar", as: :cargo_notificar
 
     #Datatables
+    get "cargo/cola-impresion/", to: "cargos#cola_impresion", as: :cargos_cola_impresion
 
     get "cargo/cargos_notificados/", to: "cargos#cargos_notificados", as: :cargos_notificados
 

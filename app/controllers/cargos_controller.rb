@@ -132,6 +132,28 @@ class CargosController < ApplicationController
 
   end
 
+  def imprimir_cola
+    @lote = LoteImpresion.all.where(tipo_id: 2).last
+    if @lote.fecha_impresion != nil
+      cargos_novedades.where(alta_lote_impresion_id: nil).each do |h|
+        if h.estado_actual == "Impreso"
+          @novedades_ids << h.id
+        end
+      end
+      @novedades_en_cola_impresion = Cargo.where(id: @novedades_ids)
+      respond_to do |format|
+        format.html
+        format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      end
+    else
+      @lote.update(fecha_impresion: Date.today)
+      
+      respond_to do |format|
+        format.html { redirect_to lote_impresion_path(@lote)}
+      end
+    end
+  end
+
   #------------------------------------------- FUNCIONES DE CAMBIO DE ESTADO ------------------------------------------------------------------------
   
   def cancelar
@@ -161,6 +183,33 @@ class CargosController < ApplicationController
     end
   end
 
+  def imprimir
+    respond_to do |format|
+      @cargo = Cargo.find(params["id"])
+      if @cargo.estado_actual == "Chequeado" || @cargo.estado_actual == "Chequeado_Baja"
+        if @cargo.estado_actual == "Impreso"
+          format.html { redirect_to cargos_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
+        else
+          @estado = Estado.where(descripcion: "Impreso").first
+          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2).last
+          if @lote_impresion == nil
+            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
+          end
+          if @cargo.estado_actual == "Chequeado"
+            @cargo.update(alta_lote_impresion_id: @lote_impresion.id)
+          elsif @cargo.estado_actual == "Chequeado_Baja"
+            @cargo.update(baja_lote_impresion_id: @lote_impresion.id)
+          end
+          CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
+          format.html { redirect_to cargos_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
+        end
+      else
+        format.html { redirect_to cargos_index_novedades_path, notice: 'No se pudo pasar a impresión' }
+      end
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
   #------------------------------------------- FUNCIONES PARA DATATABLES ----------------------------------------------------------------------------
 
   def cargos_nuevos
@@ -182,6 +231,20 @@ class CargosController < ApplicationController
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_to do |format|
       format.json { render json: CargosNovedadesDatatable.new(view_context, { query: cargos_novedades_permitidas(@mindate, @maxdate), :tipo_tabla => "novedades" }) }
+    end
+  end
+
+  def cola_impresion
+    @lote = LoteImpresion.all.where(tipo_id: 2).last
+    if  @lote.fecha_impresion != nil
+      @novedades_en_cola_impresion =  Cargo.where(id: -1)
+    else
+      @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
     end
   end
 
