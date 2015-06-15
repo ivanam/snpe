@@ -35,12 +35,13 @@ class AltasBajasHorasController < ApplicationController
 
   def index_cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 1).last
-    if  @lote.fecha_impresion != nil
-      @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
-    else
-      #debugger
-      #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-      @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1)
+    if @lote != nil then
+      if  @lote.fecha_impresion == nil
+        #debugger
+        #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
+        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+      end
     end
 
     respond_to do |format|
