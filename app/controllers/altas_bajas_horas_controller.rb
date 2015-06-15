@@ -88,7 +88,7 @@ class AltasBajasHorasController < ApplicationController
       @estado = Estado.where(descripcion: "Chequeado").first
       @hora.update(lote_impresion_id: nil)
     end
-    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id)
+    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to horas_index_novedades_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
@@ -273,7 +273,7 @@ class AltasBajasHorasController < ApplicationController
       end
     end
     respond_to do |format|
-      if @data.id != nil
+      if @data != nil
         format.html { redirect_to altas_bajas_horas_path, notice: 'Importacion correcta' }
       else
         format.html { redirect_to altas_bajas_horas_path, alert: 'Importacion incorrecta' }
