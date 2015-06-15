@@ -236,12 +236,12 @@ class CargosController < ApplicationController
 
   def cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 2).last
-    if  @lote.fecha_impresion != nil
-      @novedades_en_cola_impresion =  Cargo.where(id: -1)
-    else
-      @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+    @novedades_en_cola_impresion =  Cargo.where(id: -1)
+     if @lote != nil then
+      if @lote.fecha_impresion == nil
+        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+      end
     end
-
     respond_to do |format|
       format.html
       format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
