@@ -21,7 +21,7 @@ class CargosNotificadosDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         Util.fecha_a_es(record.fecha_alta),           
-        '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
+        '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_cargos" cargo-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if (options[:rol] == "escuela") then
           if record.estado_actual == "Notificado" then
             '<a class="cancelar_notificacion btn btn-sm btn-danger data-type="text" data-container="body" data-placement="left" data-original-title="Observaciones" data-resource="cargo" data-name="observaciones" data-url="'+Rails.application.routes.url_helpers.cargo_cancelar_path(record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></a>'

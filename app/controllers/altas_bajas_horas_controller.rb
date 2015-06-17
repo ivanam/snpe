@@ -34,13 +34,14 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def index_cola_impresion
-    @lote = LoteImpresion.all.last
-    if  @lote.fecha_impresion != nil
-      @novedades_en_cola_impresion =  AltasBajasHora.where(id: -1)
-    else
-      #debugger
-      #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-      @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+    @lote = LoteImpresion.all.where(tipo_id: 1).last
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1)
+    if @lote != nil then
+      if  @lote.fecha_impresion == nil
+        #debugger
+        #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
+        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+      end
     end
 
     respond_to do |format|
@@ -57,7 +58,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def imprimir_cola
-    @lote = LoteImpresion.all.last
+    @lote = LoteImpresion.all.where(tipo_id: 1).last
     if @lote.fecha_impresion != nil
       horas_novedades.where(lote_impresion_id: nil).each do |h|
         if h.estado_actual == "Impreso"
@@ -88,7 +89,7 @@ class AltasBajasHorasController < ApplicationController
       @estado = Estado.where(descripcion: "Chequeado").first
       @hora.update(lote_impresion_id: nil)
     end
-    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id)
+    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to horas_index_novedades_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
@@ -258,13 +259,14 @@ class AltasBajasHorasController < ApplicationController
     AltasBajasHora.transaction do
       AltasBajasHoraEstado.transaction do
         results.each do |abh|
-          if abh['escuela'] == 724 then
+          if abh['escuela'] == 702 then
             @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
             @persona = Persona.where(:nro_documento => abh['nume_docu']).first
             if not(@establecimiento == nil or @persona == nil) then
               @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => abh['materia'], :situacion_revista => abh['tipo_emp'])
               @data.save!
               @estado = Estado.where(:descripcion => "Ingresado").first
+<<<<<<< HEAD
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
             end
           end
@@ -322,13 +324,16 @@ class AltasBajasHorasController < ApplicationController
 
                 end
               end
+=======
+              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id) #, :codificacion => abh['materia'])
+>>>>>>> 22eb692e698e749d2859d67fcbefe8778cf3d845
             end
           end
         end
       end
     end
     respond_to do |format|
-      if @data.id != nil
+      if @data != nil
         format.html { redirect_to altas_bajas_horas_path, notice: 'Importacion correcta' }
       else
         format.html { redirect_to altas_bajas_horas_path, alert: 'Importacion incorrecta' }
@@ -420,9 +425,9 @@ class AltasBajasHorasController < ApplicationController
           format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
         else
           @estado = Estado.where(descripcion: "Impreso").first
-          @lote_impresion = LoteImpresion.where(fecha_impresion: nil).last
+          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1).last
           if @lote_impresion == nil
-            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil)
+            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
           end
           if @hora.estado_actual == "Chequeado"
             @hora.update(lote_impresion_id: @lote_impresion.id)

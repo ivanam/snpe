@@ -14,9 +14,9 @@ class CargoEstado < ActiveRecord::Base
      @resultado = "warning"
    elsif (@estado == "Impreso") then
      @resultado = "primary"
-     if (Cargo.where(:id => self.cargo_id).first.lote_impresion_id != nil) || (Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id != nil) then
-        if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.lote_impresion_id).count > 0) then 
-          if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.lote_impresion_id).first.fecha_impresion == nil) then
+     if (Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id != nil) || (Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id != nil) then
+        if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id).count > 0) then 
+          if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id).first.fecha_impresion == nil) then
             @resultado = "warning" 
           end
         elsif (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id).count > 0) then
@@ -46,9 +46,9 @@ class CargoEstado < ActiveRecord::Base
     
      elsif @estado == "Impreso" then
         @resultado = "Impreso"
-        if (Cargo.where(:id => self.cargo_id).first.lote_impresion_id != nil) || (Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id != nil) then
-          if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.lote_impresion_id).count > 0) then 
-            if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.lote_impresion_id).first.fecha_impresion == nil) then
+        if (Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id != nil) || (Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id != nil) then
+          if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id).count > 0) then 
+            if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id).first.fecha_impresion == nil) then
               @resultado = "En cola de impresión" 
             end
           elsif (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id).count > 0) then

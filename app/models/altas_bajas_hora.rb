@@ -10,13 +10,12 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Validates from Silvio Andres "CHEQUEAR"
   validates :fecha_alta, presence: true
-  validates :situacion_revista, presence: true
+  #validates :situacion_revista, presence: true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :codificacion, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
-  
   validates :persona_id, :presence => true
 
   #Validates de persona en AltasBajas

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150609133459) do
+ActiveRecord::Schema.define(version: 20150615131950) do
 
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
@@ -104,11 +104,11 @@ ActiveRecord::Schema.define(version: 20150609133459) do
     t.integer  "persona_reemplazada_id"
     t.string   "observatorio"
     t.integer  "alta_lote_impresion_id"
-    t.integer  "baja_lote_impresion"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "division"
-    t.integer  "observaciones"
+    t.text     "observaciones"
+    t.integer  "baja_lote_impresion_id"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -191,6 +191,7 @@ ActiveRecord::Schema.define(version: 20150609133459) do
     t.text     "observaciones"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "tipo_id"
   end
 
   create_table "nivels", force: true do |t|
