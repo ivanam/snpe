@@ -11,7 +11,6 @@ module CargosHelper
     return Cargo.where(:id => @cargos_ids).includes(:persona)
   end
 
-
   def cargos_notificados_permitidos(mindate, maxdate)
     @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
     @cargos_ids = []
@@ -20,7 +19,6 @@ module CargosHelper
         @cargos_ids << c.id
       end
     end
-    #AltasBajasHoraEstado.where()
     return Cargo.where(:id => @cargos_ids).includes(:persona)
   end
 
@@ -40,4 +38,13 @@ module CargosHelper
     end
     return Cargo.where(:id => @cargos_ids)
   end
+
+  def cargo_bajas_efectivas(mindate, maxdate)
+    return Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate).includes(:establecimiento, :persona)
+  end
+
+   def cargos_bajas_permitidas
+    return Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:secuencia => nil).where(:fecha_baja => nil).includes(:establecimiento, :persona)
+  end
+
 end

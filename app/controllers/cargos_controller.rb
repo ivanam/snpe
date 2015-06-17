@@ -4,6 +4,7 @@ class CargosController < ApplicationController
 
   respond_to :html
 
+  # ---------------------------------------------- Index -------------------------------------------------------------------------------------------
   def index
     if @cargo == nil
       @cargo = Cargo.new
@@ -16,11 +17,18 @@ class CargosController < ApplicationController
     respond_with(@cargo)
   end
 
+  def index_bajas
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_with(@cargo)
+  end
+
   def index_novedades
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
   end
 
+  # ------------------------------------------------------------------------------------------------------------------------------------------------
+  
   def show
     respond_with(@cargo)
   end
@@ -174,6 +182,23 @@ class CargosController < ApplicationController
     end
   end
 
+  def dar_baja
+    #debugger
+    if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
+      @estado = Estado.where(:descripcion => "Notificado_Baja").first
+      CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
+      respond_to do |format|
+        #format.html { redirect_to cargos_index_bajas_path, notice: 'Baja realizada correctamente' }
+        format.json { render json: {status: 'ok'}}
+      end
+    else
+      respond_to do |format|
+        #format.html { redirect_to cargos_index_bajas_path }
+        format.json { render json: @cargo.errors, status: :unprocessable_entity} # 204 No Content
+      end
+    end
+  end
+
   def notificar
     @estado = Estado.where(descripcion: "Notificado").first
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
@@ -211,6 +236,20 @@ class CargosController < ApplicationController
   end
 
   #------------------------------------------- FUNCIONES PARA DATATABLES ----------------------------------------------------------------------------
+
+  def cargos_bajas
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_to do |format|
+      format.json { render json: CargosBajasDatatable.new(view_context, { query: cargos_bajas_permitidas }) }
+    end
+  end
+
+  def cargos_bajas_efectivas
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_to do |format|
+      format.json { render json: CargosBajasEfectivasDatatable.new(view_context, { query: cargo_bajas_efectivas(@mindate, @maxdate) }) }
+    end
+  end
 
   def cargos_nuevos
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
