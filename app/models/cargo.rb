@@ -17,4 +17,17 @@ class Cargo < ActiveRecord::Base
       return @relation.estado.descripcion
     end
   end
+
+  def estado_anterior
+    @relation = CargoEstado.where(:cargo_id => self.id).last
+    @relation = CargoEstado.where(:cargo_id => self.id).where.not(id: @relation.id).last
+    if @relation == nil
+      return "Vacio"
+    else
+      return @relation.estado.descripcion
+    end
+  end 
+
 end
+
+  

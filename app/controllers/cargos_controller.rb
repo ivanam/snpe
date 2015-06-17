@@ -140,6 +140,8 @@ class CargosController < ApplicationController
 
   end
 
+
+  #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
     @lote = LoteImpresion.all.where(tipo_id: 2).last
     if @lote.fecha_impresion != nil
@@ -159,6 +161,22 @@ class CargosController < ApplicationController
       respond_to do |format|
         format.html { redirect_to lote_impresion_path(@lote)}
       end
+    end
+  end
+
+  def cancelar_cola
+    @cargo = Cargo.find(params["id"])
+    if @cargo.estado_anterior == "Chequeado_Baja"
+      @estado = Estado.where(descripcion: "Chequeado_Baja").first
+      @cargo.update(baja_lote_impresion_id: nil)
+    elsif @cargo.estado_anterior == "Chequeado"
+      @estado = Estado.where(descripcion: "Chequeado").first
+      @cargo.update(alta_lote_impresion_id: nil)
+    end
+    CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
+    respond_to do |format|
+      format.html { redirect_to cargos_index_novedades_path, notice: 'Alta chequeada' }
+      format.json { head :no_content } # 204 No Content
     end
   end
 

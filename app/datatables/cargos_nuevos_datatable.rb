@@ -19,7 +19,7 @@ class CargosNuevosDatatable < AjaxDatatablesRails::Base
         record.situacion_revista,
         record.turno,
         record.anio,
-        record.curso,
+        record.division,
         Util.fecha_a_es(record.fecha_alta),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs" data-toggle="modal" data-target="#modal_cargos" cargo-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar alta" href="'+Rails.application.routes.url_helpers.cargo_editar_alta_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'+
