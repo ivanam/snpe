@@ -24,10 +24,10 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if options[:tipo_tabla] == "novedades" then
           if (record.estado_actual != "Impreso") then
-            '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Pasar a cola de impresión" href="'+Rails.application.routes.url_helpers.cargo_imprimir_path(record.id.to_s)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>'
+            '<a class="btn btn-primary btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Pasar a cola de impresión" data-url="'+Rails.application.routes.url_helpers.cargo_imprimir_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>'
           end
         else
-          '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar impresión" href="'+Rails.application.routes.url_helpers.cargo_cancelar_cola_path(id: record.id.to_s)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'
+          '<a class="btn btn-danger btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Cancelar impresión" data-url="'+Rails.application.routes.url_helpers.cargo_cancelar_cola_path(id: record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'
         end,
       ]
     end
@@ -38,13 +38,3 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
   end
 
 end
-
-
-# '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
-#         if options[:tipo_tabla] == "novedades" then
-#           if (record.estado_actual != "Impreso") then
-#             '<a class="btn btn-primary btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Pasar a cola de impresión" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_imprimir_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>'
-#           end
-#         else
-#           '<a class="btn btn-danger btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Cancelar impresión" data-url="'+Rails.application.routes.url_helpers.horas_cancelar_cola_path(id: record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'
-#         end,
