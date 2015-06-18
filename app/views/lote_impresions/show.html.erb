@@ -1,10 +1,10 @@
 <div class="page-header">
   <h1>Impresión N° <%= @lote_impresion.id %></h1>
-  <h4>Fecha impresion: <%= @lote_impresion.fecha_impresion %></h1>
+  <h4>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h1>
 </div>
 
   <% if @lote_impresion.tipo_id == 1 %>
-    <%= render 'cargos' %>
+    <%= render 'horas' %>
   <% else %>
     <%= render 'cargos' %>
   <% end %>
@@ -18,13 +18,5 @@
   <%= link_to lote_impresions_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
-  <% end %>
-  <%= link_to edit_lote_impresion_path(@lote_impresion), :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Editar
-  <% end %>
-  <%= link_to lote_impresion_path(@lote_impresion), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
-    <span class="glyphicon glyphicon-trash"></span>
-    Eliminar
   <% end %>
 </dl>
