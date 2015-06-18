@@ -201,17 +201,16 @@ class CargosController < ApplicationController
   end
 
   def dar_baja
-    #debugger
+
     if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
       CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
       respond_to do |format|
-        #format.html { redirect_to cargos_index_bajas_path, notice: 'Baja realizada correctamente' }
+        format.html { redirect_to cargos_index_bajas_path, notice: 'Baja realizada correctamente' }
         format.json { render json: {status: 'ok'}}
       end
     else
       respond_to do |format|
-        #format.html { redirect_to cargos_index_bajas_path }
         format.json { render json: @cargo.errors, status: :unprocessable_entity} # 204 No Content
       end
     end
