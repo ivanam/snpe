@@ -37,6 +37,9 @@
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                       <li><%=link_to "Novedades", horas_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
+                    <% if ver_model("asistencium") %>
+                      <li><%=link_to "Asistencia", asistencia_path, :tabindex => "-1"%></li>  
+                    <% end %>
                   </ul>
                 </li>
               <% end %>
@@ -48,6 +51,9 @@
                     <li><%=link_to "Bajas", cargos_index_bajas_path, :tabindex => "-1"%></li>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                       <li><%=link_to "Novedades", cargos_index_novedades_path, :tabindex => "-1"%></li>  
+                    <% end %>
+                    <% if ver_model("asistencium") %>
+                      <li><%=link_to "Asistencia", asistencia_index_cargo_path, :tabindex => "-1"%></li>  
                     <% end %>
                   </ul>
                 </li>

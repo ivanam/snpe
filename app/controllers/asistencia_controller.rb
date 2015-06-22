@@ -3,30 +3,40 @@ class AsistenciaController < ApplicationController
 
   respond_to :html
 
+  #---------------------------------------------- Páginas de inicio de asistencia ---------------------------------------------------------------------------
+
   def index
-    @anio = params["anio"]
-    @mes = params["mes"]
-    if @anio == nil || @mes == nil
-      @anio = Date.today.year
-      @mes = Date.today.month
-    end
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     respond_to do |format|
       format.html
     end
   end
 
-  def index_personal_activo
-    @anio = params["anio"]
-    @mes = params["mes"]
-    if @anio == nil || @mes == nil
-      @anio = Date.today.year
-      @mes = Date.today.month
+  def index_cargo
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    respond_to do |format|
+      format.html
     end
+  end
+
+  #--------------------------------------------- Funciones para Datatables ----------------------------------------------------------------------------------
+
+  def index_personal_activo
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraAsistenciaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas, anio: @anio, mes:@mes }) }
     end
   end
+
+  def personal_cargo
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    respond_to do |format|
+      format.json { render json: CargoAsistenciaDatatable.new(view_context, { query: cargos_bajas_permitidas, anio: @anio, mes:@mes }) }
+    end
+  end
+
+  #----------------------------------------------------------------------------------------------------------------------------------------------------------
 
   def show
     respond_with(@asistencium)
@@ -75,6 +85,43 @@ class AsistenciaController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraAsistenciaDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
+    end
+  end
+
+  def editar_asistencia_cargo
+    anio = params["anio"]
+    mes = params["mes"]
+    @asistencia = Asistencium.where(altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+    if @asistencia.count > 0
+      if params["post"]["ina_justificada"] != nil
+        @asistencia.first.update(ina_justificada: params["post"]["ina_justificada"])
+      end 
+      if params["post"]["ina_injustificada"] != nil
+        @asistencia.first.update(ina_injustificada: params["post"]["ina_injustificada"])
+      end
+      if params["post"]["lleg_tarde_justificada"] != nil
+        @asistencia.first.update(lleg_tarde_justificada: params["post"]["lleg_tarde_justificada"])
+      end
+      if params["post"]["lleg_tarde_injustificada"] != nil
+        @asistencia.first.update(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"])
+      end
+    else
+      if params["post"]["ina_justificada"] != nil
+        Asistencium.create(ina_justificada: params["post"]["ina_justificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end 
+      if params["post"]["ina_injustificada"] != nil
+        Asistencium.create(ina_injustificada: params["post"]["ina_injustificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["lleg_tarde_justificada"] != nil
+        Asistencium.create(lleg_tarde_justificada: params["post"]["lleg_tarde_justificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["lleg_tarde_injustificada"] != nil
+        Asistencium.create(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+    end
+
+    respond_to do |format|
+      format.json { render json: CargoAsistenciaDatatable.new(view_context, { query: cargos_bajas_permitidas }) }
     end
   end
 

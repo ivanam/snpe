@@ -12,11 +12,27 @@ ProyectoBase::Application.routes.draw do
 
     resources :articulos
 
+    #---------------------------------------------------------------------------------------------------------------------------------------
+
     resources :asistencia
+
+    #Páginas de asistencia
+
+    get "asistencias/index_cargo/", to: "asistencia#index_cargo", as: :asistencia_index_cargo
+
+    #Datatables
 
     get "asistencias/personal_activo/", to: "asistencia#index_personal_activo", as: :asistencia_index_personal_activo
 
+    get "asistencias/personal_cargo/", to: "asistencia#personal_cargo", as: :asistencia_personal_cargo
+
+    #Otras funciones
+
     put "asistencias/editar_asistencia/:id", to: "asistencia#editar_asistencia", as: :asistencia_editar_asistencia
+
+    put "asistencias/editar_asistencia_cargo/:id", to: "asistencia#editar_asistencia_cargo", as: :asistencia_editar_asistencia_cargo
+
+    #---------------------------------------------------------------------------------------------------------------------------------------
 
     resources :oficinas    
 
