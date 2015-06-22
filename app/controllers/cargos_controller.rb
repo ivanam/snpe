@@ -220,7 +220,7 @@ class CargosController < ApplicationController
     @estado = Estado.where(descripcion: "Notificado").first
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
+      format.html { redirect_to cargos_path, notice: 'Alta notificada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -252,6 +252,37 @@ class CargosController < ApplicationController
     end
   end
 
+  def cancelar_baja
+    if Cargo.find(params["id"]).estado_actual == "Notificado_Baja"
+      if @cargo.update(:fecha_baja => nil)
+        @estado = Estado.where(descripcion: "Cancelado_Baja").first
+        CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+      end
+      respond_to do |format|
+        format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: {status: 'error', msj: "No se pudo realizar la baja"} }
+      end
+    end
+  end
+
+  def chequear_baja
+    respond_to do |format|
+      if Cargo.find(params["id"]).estado_actual == "Notificado_Baja"
+        @estado = Estado.where(descripcion: "Chequeado_Baja").first
+        if CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
+          format.json { render json: {status: 'ok', msj: "Baja chequeada correctamente"} }
+        else
+          format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+        end
+      else
+        format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+      end
+    end
+  end
+
   #------------------------------------------- FUNCIONES PARA DATATABLES ----------------------------------------------------------------------------
 
   def cargos_bajas
@@ -263,8 +294,9 @@ class CargosController < ApplicationController
 
   def cargos_bajas_efectivas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
-      format.json { render json: CargosBajasEfectivasDatatable.new(view_context, { query: cargo_bajas_efectivas(@mindate, @maxdate) }) }
+      format.json { render json: CargosBajasEfectivasDatatable.new(view_context, { query: cargo_bajas_efectivas(@mindate, @maxdate), rol: @rol }) }
     end
   end
 

@@ -9,7 +9,7 @@
       <th>Agente</th>         
       <th>Ciclo</th>
       <th>Curso</th>
-      <th>Situacion Revista</th>
+      <th>Situación Revista</th>
       <th>Horas</th>
       <th>Codificación</th>
       <th>Fecha Alta</th>
@@ -25,8 +25,8 @@
         <td><%= h.situacion_revista %></td>
         <td><%= h.horas %></td>
         <td><%= h.codificacion %></td>
-        <td><%= h.fecha_alta %></td>
-        <td><%= h.fecha_baja %></td>
+        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -39,7 +39,7 @@
       <th>Agente</th>         
       <th>Ciclo</th>
       <th>Curso</th>
-      <th>Situacion Revista</th>
+      <th>Situación Revista</th>
       <th>Horas</th>
       <th>Codificación</th>
       <th>Fecha Alta</th>
@@ -55,8 +55,8 @@
         <td><%= h.situacion_revista %></td>
         <td><%= h.horas %></td>
         <td><%= h.codificacion %></td>
-        <td><%= h.fecha_alta %></td>
-        <td><%= h.fecha_baja %></td>
+        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
       </tr>
     <% end %>
   </tbody>

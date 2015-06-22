@@ -99,7 +99,11 @@ ProyectoBase::Application.routes.draw do
     
     put "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
 
+    get "cargo/cancelar_baja/:id", to: "cargos#cancelar_baja", as: :cargo_cancelar_baja
+
     get "cargo/chequear/:id", to: "cargos#chequear", as: :cargo_chequear
+
+    get "cargo/chequear_baja/:id", to: "cargos#chequear_baja", as: :cargo_chequear_baja
 
     put "cargo/dar_baja/:id", to: "cargos#dar_baja", as: :cargo_dar_baja
 
