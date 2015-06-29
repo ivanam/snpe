@@ -28,6 +28,8 @@ ProyectoBase::Application.routes.draw do
 
     #Otras funciones
 
+    get "asistencias/cargos_informar", to: "asistencia#cargos_informar", as: :cargos_informar_asistencia
+
     put "asistencias/editar_asistencia/:id", to: "asistencia#editar_asistencia", as: :asistencia_editar_asistencia
 
     put "asistencias/editar_asistencia_cargo/:id", to: "asistencia#editar_asistencia_cargo", as: :asistencia_editar_asistencia_cargo

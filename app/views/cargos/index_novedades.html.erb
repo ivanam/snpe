@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <%= link_to cargos_imprimir_cola_path, :class => 'btn btn-primary' do %>
+  <%= link_to cargos_imprimir_cola_path(anio: @anio, mes: @mes), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     Imprimir
   <% end %>

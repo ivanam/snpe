@@ -19,6 +19,19 @@ class AsistenciaController < ApplicationController
     end
   end
 
+
+  def cargos_informar
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    @estado = Estado.where(descripcion: "Notificado").first
+    @asistencias = Asistencium.where(anio_periodo: @anio, mes_periodo: @mes).where.not(altas_bajas_cargo_id: nil)
+    @asistencias.each do |a|
+      AsistenciaEstado.create( asistencia_id: a.id, estado_id: @estado.id, user_id: current_user.id)
+    end
+    respond_to do |format|
+      format.html { redirect_to asistencia_index_cargo_path}
+    end
+
+  end
   #--------------------------------------------- Funciones para Datatables ----------------------------------------------------------------------------------
 
   def index_personal_activo
