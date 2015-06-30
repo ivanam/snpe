@@ -7,7 +7,6 @@ class AltasBajasHora < ActiveRecord::Base
 
   validates_presence_of :persona
 
-
   #Validates from Silvio Andres "CHEQUEAR"
   validates :fecha_alta, presence: true
   #validates :situacion_revista, presence: true

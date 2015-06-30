@@ -266,7 +266,6 @@ class AltasBajasHorasController < ApplicationController
               @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => abh['materia'], :situacion_revista => abh['tipo_emp'])
               @data.save!
               @estado = Estado.where(:descripcion => "Ingresado").first
-<<<<<<< HEAD
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
             end
           end
@@ -286,55 +285,129 @@ class AltasBajasHorasController < ApplicationController
     # Conexion a la base
     @client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
-    # Aca el result es un conjunto de objetos
-    results = @client.query("SELECT * FROM recibos where (mes = 5 and anio = 2015 and hab_c_apor != 0.00)")# where estado='ALT'")     
+    # Recupera el mes actual
+    mes = Date.today.month
+
+    # Recupera el año actual
+    anio = Date.today.year
+
+    # Verifica si el mes actual es enero
+    if mes == 1 then
+      mes = 12
+      anio = anio - 1
+    else
+      mes = mes - 1
+    end
+
+    mes = mes.to_s
+    anio = anio.to_s
+
+    escuela = 702
+    escuela = escuela.to_s
+
+    puts "1 - Realizando las consultas a la base MEC"
+
+    # Recibos de MEC
+    recibos = @client.query("SELECT nume_docu, tipo_docu, secuencia, apynom, escuela, mes, anio, empresa FROM recibos where (secuencia != 0 and mes = "+mes+" and anio = "+anio+" and escuela = "+escuela+")").to_a
+
+    # Detalle de los recibos con la cantidad de horas catedras
+    recibos_detalles = @client.query("SELECT nume_docu, secuencia, escuela, importe FROM detalle r where (codigo = 2808 and mes = "+mes+" and anio = "+anio+" and escuela = "+escuela+")").to_a
+
+    # Padron de horas
+    padhc = @client.query("SELECT nume_docu, escuela, ciclo, curso, division, materia, secuencia, estado, fecha_ing, fecha_alta, fecha_baja FROM padhc where escuela = "+escuela).to_a
+
+    #recibos.select {|r| r["nume_docu"] == 17759477 and r["nume_docu"] == 000}
+
+    puts "2 - Procesando los codigos de materias y las horas de los recibos"
+
+    # Recorre todos los recibos para actualizar la cantidad de horas y el codigo de materia
+    recibos.each do |r|
+
+      #Recorre el detalle de los recibos buscando la cantidad de horas catedras
+      r['horas'] = nil
+      recibos_detalles.each do |rd|
+        if r['nume_docu'] == rd['nume_docu'] and r['escuela'] == rd['escuela'] and r['secuencia'] == rd['secuencia']
+          r['horas'] = rd['importe']
+        end
+      end
+
+      #Recorre el padron de horas buscando el codigo de materia
+      r['materia'] = nil
+      padhc.each do |p|
+        if r['nume_docu'] == p['nume_docu'] and r['escuela'] == p['escuela'] and r['secuencia'] == p['secuencia']
+          r['materia'] = p['materia']
+        end
+      end
+
+    end
+
+    puts "3 - Cargando los datos en la base"
 
     # Recorremos el conjunto de objetos y captura las transacciones
     AltasBajasHora.transaction do
       PeriodoLiqHora.transaction do
-        results.each do |recibo|
-          if recibo['escuela'] == 724 then
 
-            # Recupero el agente dle recibo
-            @agente = Persona.where(nro_documento: recibo['nume_docu']).first()
+        # Inicializo para compapara al final
+        @periodo_recibo = "nada"
+
+        recibos.each do |recibo|
+
+          # Recupero el agente del recibo
+          @agente = Persona.where(nro_documento: recibo['nume_docu'].to_i).first()
+
+          # Verifico que el agente este cargado
+          if @agente != nil then
 
             # Recupero las Altas/Bajas del agente
             @horas_agente = AltasBajasHora.where(persona_id: @agente.id).includes(:establecimiento)
 
-            @primer_recibo? = true
-            
-            # Recorro cada una de las horas que tiene el agente y comparo la secuencia
-            @horas_agente.each do |h|
+            # Verifico que el agente tenga horas
+            if @horas_agente != nil then
 
-              # Si la secuencia y la escuela coinciden, hay unicidad
-              if recibo['secuencia'] == h.secuencia and recibo['escuela'] == h.establecimiento.codigo_jurisdiccional
-                @periodo_recibo = PeriodoLiqHora.new(mes: 5, anio: 2015, altas_bajas_hora_id: h.id)
-                @periodo_recibo.save!
-                @primer_recibo? = false
-                break                
-              end
-            end
-
-            # Si es la primera vez que cobra, entonces hay que cargar la secuencia en AltasBajasHora
-            if @primer_recibo? == true
-
-              #Recorro todas las horas del agente
-              @horas_agente.each do |h|
-                if recibo['escuela'] == h.establecimiento.codigo_jurisdiccional
-
+              @primer_recibo = true
+              
+              # Recorro cada una de las horas que tiene el agente y comparo la secuencia
+              @horas_agente.each do |horas|
+                # Si la secuencia y la escuela coinciden, hay unicidad
+                if recibo['secuencia'] != 0 and recibo['secuencia'] == horas.secuencia and recibo['escuela'] == horas.establecimiento.codigo_jurisdiccional.to_i
+                  if PeriodoLiqHora.where(mes: mes, anio: anio, altas_bajas_hora_id: horas.id).count == 0
+                    @periodo_recibo = PeriodoLiqHora.new(mes: mes, anio: anio, altas_bajas_hora_id: horas.id)
+                    @periodo_recibo.save!
+                  end
+                  @primer_recibo = false
+                  break
                 end
               end
-=======
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id) #, :codificacion => abh['materia'])
->>>>>>> 22eb692e698e749d2859d67fcbefe8778cf3d845
+
+              # Si es la primera vez que cobra, entonces hay que cargar la secuencia en AltasBajasHora
+              if @primer_recibo == true
+
+                #Recorro todas las horas del agente
+                @horas_agente.each do |horas|
+                  if recibo['escuela'] == horas.establecimiento.codigo_jurisdiccional.to_i and recibo['horas'] == horas.horas and recibo['materia'] == horas.codificacion
+                    if PeriodoLiqHora.where(mes: mes, anio: anio, altas_bajas_hora_id: horas.id).count == 0
+                      horas.update(secuencia: recibo['secuencia'])
+                      @periodo_recibo = PeriodoLiqHora.new(mes: mes, anio: anio, altas_bajas_hora_id: horas.id)
+                      @periodo_recibo.save!
+                    end
+                    @primer_recibo = false
+                    break
+                  end
+                end
+              end
             end
           end
         end
       end
     end
+
+    puts "4 - Termino!!"
+
     respond_to do |format|
-      if @data != nil
-        format.html { redirect_to altas_bajas_horas_path, notice: 'Importacion correcta' }
+      if @periodo_recibo != nil and @periodo_recibo != "nada"
+        format.html { redirect_to altas_bajas_horas_path, notice: 'Se realizo correctamente la importación de los recibos del mes ' }
+      elsif @periodo_recibo != nil and @periodo_recibo == "nada"
+        format.html { redirect_to altas_bajas_horas_path, notice: 'La base se encuentra actualizada' }
       else
         format.html { redirect_to altas_bajas_horas_path, alert: 'Importacion incorrecta' }
       end
