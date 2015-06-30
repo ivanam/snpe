@@ -8,13 +8,33 @@ ProyectoBase::Application.routes.draw do
 
     post "util/buscar_estados_altas_bajas_hora/:id", to: 'util#buscar_estados_altas_bajas_hora'    
 
+    post "util/buscar_estados_cargo/:id", to: 'util#buscar_estados_cargo'  
+
     resources :articulos
+
+    #---------------------------------------------------------------------------------------------------------------------------------------
 
     resources :asistencia
 
+    #Páginas de asistencia
+
+    get "asistencias/index_cargo/", to: "asistencia#index_cargo", as: :asistencia_index_cargo
+
+    #Datatables
+
     get "asistencias/personal_activo/", to: "asistencia#index_personal_activo", as: :asistencia_index_personal_activo
 
+    get "asistencias/personal_cargo/", to: "asistencia#personal_cargo", as: :asistencia_personal_cargo
+
+    #Otras funciones
+
+    get "asistencias/cargos_informar", to: "asistencia#cargos_informar", as: :cargos_informar_asistencia
+
     put "asistencias/editar_asistencia/:id", to: "asistencia#editar_asistencia", as: :asistencia_editar_asistencia
+
+    put "asistencias/editar_asistencia_cargo/:id", to: "asistencia#editar_asistencia_cargo", as: :asistencia_editar_asistencia_cargo
+
+    #---------------------------------------------------------------------------------------------------------------------------------------
 
     resources :oficinas    
 
@@ -65,9 +85,15 @@ ProyectoBase::Application.routes.draw do
     #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
     resources :cargos
 
+    get "cargo/bajas/", to: "cargos#index_bajas", as: :cargos_index_bajas
+    
+    get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
+
     get "cargo/:id/editar_alta/", to: "cargos#editar_alta", as: :cargo_editar_alta
 
     patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
+
+    get "cargo/imprimir-cola/", to: "cargos#imprimir_cola", as: :cargos_imprimir_cola
 
     get "cargo/novedades/", to: "cargos#index_novedades", as: :cargos_index_novedades
 
@@ -75,13 +101,25 @@ ProyectoBase::Application.routes.draw do
     
     put "cargo/cancelar/:id", to: "cargos#cancelar", as: :cargo_cancelar
 
+    get "cargo/cancelar_baja/:id", to: "cargos#cancelar_baja", as: :cargo_cancelar_baja
+
     get "cargo/chequear/:id", to: "cargos#chequear", as: :cargo_chequear
+
+    get "cargo/chequear_baja/:id", to: "cargos#chequear_baja", as: :cargo_chequear_baja
+
+    put "cargo/dar_baja/:id", to: "cargos#dar_baja", as: :cargo_dar_baja
 
     get "cargo/imprimir/:id", to: "cargos#imprimir", as: :cargo_imprimir
 
     get "cargo/notificar/:id", to: "cargos#notificar", as: :cargo_notificar
 
     #Datatables
+    
+    get "cargo/cargos_bajas/", to: "cargos#cargos_bajas", as: :cargos_bajas
+
+    get "cargo/cargos_bajas_efectivas/", to: "cargos#cargos_bajas_efectivas", as: :cargos_bajas_efectivas
+
+    get "cargo/cola-impresion/", to: "cargos#cola_impresion", as: :cargos_cola_impresion
 
     get "cargo/cargos_notificados/", to: "cargos#cargos_notificados", as: :cargos_notificados
 

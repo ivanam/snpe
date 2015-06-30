@@ -6,9 +6,10 @@
   <table id="tabla-lote_impresion" class="table table-striped table-bordered table-hover" data-source = "<%= lote_impresions_path(format: :json) %>" >
     <thead>
       <tr>
-            <th>Fecha impresión</th>
-            <th>Observaciones</th>
-            <th>Ver impresión</th>
+        <th>Fecha impresión</th>
+        <th>Tipo Impresión</th>
+        <th>Observaciones</th>
+        <th>Ver impresión</th>
       </tr>
     </thead>
     <tbody>
@@ -16,15 +17,14 @@
   </table>
 </div>
 
-
 <script type="text/javascript">
-    $(document).ready(function($) {
-      $('#tabla-lote_impresion').dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-lote_impresion').data('source'),
-        pagingType: "simple",
-      });
+  $(document).ready(function($) {
+    $('#tabla-lote_impresion').dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      ajax : $('#tabla-lote_impresion').data('source'),
+      pagingType: "simple",
     });
+  });
 </script>

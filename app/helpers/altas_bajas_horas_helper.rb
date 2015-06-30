@@ -16,7 +16,14 @@ module AltasBajasHorasHelper
   end
 
   def altas_bajas_horas_efectivas_bajas(mindate, maxdate)
-    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate).includes(:establecimiento, :persona)
+    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
+    @horas_ids = []
+    @horas.each do |h|
+      if h.estado_actual == "Notificado_Baja" || h.estado_actual == "Chequeado_Baja" || h.estado_actual == "Impreso"
+        @horas_ids << h.id
+      end
+    end
+    return AltasBajasHora.where(:id => @horas_ids).includes(:establecimiento, :persona)
   end
 
   def altas_bajas_horas_permitidas_altas_notificadas(mindate, maxdate)
