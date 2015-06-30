@@ -4,6 +4,7 @@ class CargosController < ApplicationController
 
   respond_to :html
 
+  # ---------------------------------------------- Index -------------------------------------------------------------------------------------------
   def index
     if @cargo == nil
       @cargo = Cargo.new
@@ -16,11 +17,18 @@ class CargosController < ApplicationController
     respond_with(@cargo)
   end
 
+  def index_bajas
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_with(@cargo)
+  end
+
   def index_novedades
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
   end
 
+  # ------------------------------------------------------------------------------------------------------------------------------------------------
+  
   def show
     respond_with(@cargo)
   end
@@ -132,6 +140,8 @@ class CargosController < ApplicationController
 
   end
 
+
+  #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
     @lote = LoteImpresion.all.where(tipo_id: 2).last
     if @lote.fecha_impresion != nil
@@ -151,6 +161,22 @@ class CargosController < ApplicationController
       respond_to do |format|
         format.html { redirect_to lote_impresion_path(@lote)}
       end
+    end
+  end
+
+  def cancelar_cola
+    @cargo = Cargo.find(params["id"])
+    if @cargo.estado_anterior == "Chequeado_Baja"
+      @estado = Estado.where(descripcion: "Chequeado_Baja").first
+      @cargo.update(baja_lote_impresion_id: nil)
+    elsif @cargo.estado_anterior == "Chequeado"
+      @estado = Estado.where(descripcion: "Chequeado").first
+      @cargo.update(alta_lote_impresion_id: nil)
+    end
+    CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
+    respond_to do |format|
+      format.html { redirect_to cargos_index_novedades_path, notice: 'Alta chequeada' }
+      format.json { head :no_content } # 204 No Content
     end
   end
 
@@ -174,11 +200,27 @@ class CargosController < ApplicationController
     end
   end
 
+  def dar_baja
+
+    if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
+      @estado = Estado.where(:descripcion => "Notificado_Baja").first
+      CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
+      respond_to do |format|
+        format.html { redirect_to cargos_index_bajas_path, notice: 'Baja realizada correctamente' }
+        format.json { render json: {status: 'ok'}}
+      end
+    else
+      respond_to do |format|
+        format.json { render json: @cargo.errors, status: :unprocessable_entity} # 204 No Content
+      end
+    end
+  end
+
   def notificar
     @estado = Estado.where(descripcion: "Notificado").first
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
+      format.html { redirect_to cargos_path, notice: 'Alta notificada correctamente' }
       format.json { head :no_content } # 204 No Content
     end
   end
@@ -210,7 +252,53 @@ class CargosController < ApplicationController
     end
   end
 
+  def cancelar_baja
+    if Cargo.find(params["id"]).estado_actual == "Notificado_Baja"
+      if @cargo.update(:fecha_baja => nil)
+        @estado = Estado.where(descripcion: "Cancelado_Baja").first
+        CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+      end
+      respond_to do |format|
+        format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: {status: 'error', msj: "No se pudo realizar la baja"} }
+      end
+    end
+  end
+
+  def chequear_baja
+    respond_to do |format|
+      if Cargo.find(params["id"]).estado_actual == "Notificado_Baja"
+        @estado = Estado.where(descripcion: "Chequeado_Baja").first
+        if CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
+          format.json { render json: {status: 'ok', msj: "Baja chequeada correctamente"} }
+        else
+          format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+        end
+      else
+        format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+      end
+    end
+  end
+
   #------------------------------------------- FUNCIONES PARA DATATABLES ----------------------------------------------------------------------------
+
+  def cargos_bajas
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    respond_to do |format|
+      format.json { render json: CargosBajasDatatable.new(view_context, { query: cargos_bajas_permitidas }) }
+    end
+  end
+
+  def cargos_bajas_efectivas
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    respond_to do |format|
+      format.json { render json: CargosBajasEfectivasDatatable.new(view_context, { query: cargo_bajas_efectivas(@mindate, @maxdate), rol: @rol }) }
+    end
+  end
 
   def cargos_nuevos
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])

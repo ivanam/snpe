@@ -35,8 +35,7 @@ class SituacionRevistaDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     SituacionRevistum.all
   end
-
-    # Esto sirve momentaneamente para el ordenar
+  # Esto sirve momentaneamente para el ordenar
   def sort_records(records)
     records
   end

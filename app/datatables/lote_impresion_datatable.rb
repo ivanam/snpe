@@ -17,6 +17,11 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         Util.fecha_a_es(record.fecha_impresion),
+        if record.tipo_id == 1
+          'Horas'
+        else
+          'Cargos'
+        end,
         record.observaciones,
         '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Impresión" href="lote_impresions/'+record.id.to_s+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>',
       ]

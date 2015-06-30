@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <%= link_to cargos_imprimir_cola_path, :class => 'btn btn-primary' do %>
+  <%= link_to cargos_imprimir_cola_path(anio: @anio, mes: @mes), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     Imprimir
   <% end %>
@@ -114,19 +114,46 @@
       //Define el idioma de combodate
       moment.locale('es');
 
-      $('#tabla-cargos-novedades').dataTable({
+      var tabla_cargos_novedades = $('#tabla-cargos-novedades').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-cargos-novedades').data('source'),
         pagingType: "simple",
+      })
+      .on('draw.dt', function () {
+        $( ".btn-ajax" ).on( "click", function() {
+          var data_url = $(this).attr('data-url');
+          $.ajax({
+            url: data_url,
+            type: 'GET',
+          })
+          .done(function(data) {
+            tabla_cargos_novedades.api().ajax.reload();
+            tabla_cola_impresion.api().ajax.reload();
+          });
+        });
       });
-      $('#tabla-cola_impresion').dataTable({
+      
+      var tabla_cola_impresion = $('#tabla-cola_impresion').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
+      })
+      .on('draw.dt', function () {
+        $( ".btn-ajax" ).on( "click", function() {
+          var data_url = $(this).attr('data-url');
+          $.ajax({
+            url: data_url,
+            type: 'GET',
+          })
+          .done(function(data) {
+            tabla_cargos_novedades.api().ajax.reload();
+            tabla_cola_impresion.api().ajax.reload();
+          });
+        });
       });
 
         var date = new Date();

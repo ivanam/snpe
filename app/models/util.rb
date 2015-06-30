@@ -31,4 +31,13 @@ class Util < ActiveRecord::Base
     return @mindate.to_date, @maxdate.to_date
   end
 
+  def self.anio_mes_periodo(anio, mes)
+    # Recibe el año y el mes en formato String, y retorna el mismo año y mes en caso que vengan con algun valor, y sino retorna el año y mes actual
+    if anio == nil || mes == nil
+      return Date.today.year, Date.today.month
+    else
+      return anio, mes
+    end
+  end
+
 end
