@@ -1,0 +1,1 @@
+SELECT nume_docu, secuencia, escuela, importe, empresa FROM detalle r where (codigo = 2808 and mes = 6 and anio = 2015) LIMIT 0,1000

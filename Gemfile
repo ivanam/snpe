@@ -29,6 +29,8 @@ gem "therubyracer"
 gem "less-rails"
 
 gem 'thin'
+
+gem 'activeadmin', github: 'activeadmin'
 # ---------------------------
 
 # GEMAS DE BOOTSTRAP
@@ -71,6 +73,4 @@ gem 'attribute-defaults'
 # GEMAS PARA PRODUCCION
 # ---------------------------
 gem 'unicorn'
-
-#gem 'rails_admin'
 # ---------------------------
