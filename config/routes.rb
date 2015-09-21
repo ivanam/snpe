@@ -20,15 +20,21 @@ ProyectoBase::Application.routes.draw do
 
     get "asistencias/index_cargo/", to: "asistencia#index_cargo", as: :asistencia_index_cargo
 
+    get "asistencias/index_novedades_cargo/", to: "asistencia#index_novedades_cargo", as: :asistencia_index_novedades_cargo
+
     #Datatables
 
     get "asistencias/personal_activo/", to: "asistencia#index_personal_activo", as: :asistencia_index_personal_activo
 
     get "asistencias/personal_cargo/", to: "asistencia#personal_cargo", as: :asistencia_personal_cargo
 
+    get "asistencias/novedades_cargo/", to: "asistencia#novedades_cargo", as: :asistencia_novedades_cargo
+
     #Otras funciones
 
     get "asistencias/cargos_informar", to: "asistencia#cargos_informar", as: :cargos_informar_asistencia
+
+    get "asistencias/cargos_imprimir", to: "asistencias#cargos_imprimir", as: :cargos_imprimir_asistencia
 
     put "asistencias/editar_asistencia/:id", to: "asistencia#editar_asistencia", as: :asistencia_editar_asistencia
 

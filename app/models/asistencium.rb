@@ -10,4 +10,24 @@ class Asistencium < ActiveRecord::Base
   attr_default :lleg_tarde_justificada, 0
   attr_default :lleg_tarde_injustificada, 0
 
+
+  def estado_actual
+    @relation = AsistenciaEstado.where(:asistencia_id => self.id).last
+    if @relation == nil
+      return "Vacio"
+    else
+      return @relation.estado.descripcion
+    end
+  end
+
+  def estado_anterior
+    @relation = AsistenciaEstado.where(:asistencia_id => self.id).last
+    @relation = AsistenciaEstado.where(:asistencia_id => self.id).where.not(id: @relation.id).last
+    if @relation == nil
+      return "Vacio"
+    else
+      return @relation.estado.descripcion
+    end
+  end
+
 end
