@@ -34,7 +34,9 @@ ProyectoBase::Application.configure do
   config.active_support.deprecation = :notify
 
   # Aca va el scope
-  # config.relative_url_root = ""
+  config.relative_url_root = "/soft/snpe"
+
+  config.assets.prefix = "/soft/snpe/assets"
 
   #SMTP
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }  

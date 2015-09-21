@@ -1,6 +1,8 @@
 ProyectoBase::Application.routes.draw do
 
   scope '/soft/snpe' do
+
+    ActiveAdmin.routes(self)
   
     post "util/buscar_persona/:dni", to: 'util#buscar_persona'
 
@@ -53,6 +55,8 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/bajas_efectivas/", to: "altas_bajas_horas#index_bajas_efectivas", as: :altas_bajas_horas_index_bajas_efectivas
 
     get "altas_bajas_horas/importar/", to: "altas_bajas_horas#importar", as: :altas_bajas_horas_importar
+
+    get "altas_bajas_horas/importar_recibos/", to: "altas_bajas_horas#importar_recibos", as: :altas_bajas_horas_importar_recibos
 
     get "altas_bajas_horas/personal_activo/", to: "altas_bajas_horas#index_personal_activo", as: :altas_bajas_horas_index_personal_activo
 
