@@ -99,11 +99,16 @@ Permission.create(nombre:"Cargo Imprimir",subject_class:"Cargo",subject_id:0,act
 Permission.create(nombre:"Cargo Index Cola De Impresion",subject_class:"Cargo",subject_id:0,action:"index_cola_impresion")
 Permission.create(nombre:"Cargo Imprimir Cola",subject_class:"Cargo",subject_id:0,action:"imprimir_cola")
 Permission.create(nombre:"Cargo Index Bajas",subject_class:"Cargo",subject_id:0,action:"index_bajas")
+
 Permission.create(nombre:"Cargo Index Bajas Efectivas",subject_class:"Cargo",subject_id:0,action:"index_bajas_efectivas")
+Permission.create(nombre:"Cargo Bajas Permitidas",subject_class:"Cargo",subject_id:0,action:"cargos_baja")
+Permission.create(nombre:"Cargo Bajas Efectivas",subject_class:"Cargo",subject_id:0,action:"cargos_bajas_efectivas")
+
 Permission.create(nombre:"Cargo Dar Baja",subject_class:"Cargo",subject_id:0,action:"dar_baja")
 Permission.create(nombre:"Cargo Cancelar Baja",subject_class:"Cargo",subject_id:0,action:"cancelar_baja")
 Permission.create(nombre:"Cargo Chequear Baja",subject_class:"Cargo",subject_id:0,action:"chequear_baja")
 Permission.create(nombre:"Cargo Cancelar Cola",subject_class:"Cargo",subject_id:0,action:"cancelar_cola")
+
 
 #Permisos de Personas
 
@@ -145,7 +150,11 @@ RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regu
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Notificadas").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Guardar Edicion Alta Cargo").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Index Bajas").first.id)
+
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Index Bajas Efectivas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Bajas Efectivas").first.id)
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Bajas Permitidas").first.id)
+
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Dar Baja").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Cancelar Baja").first.id)
 
@@ -173,6 +182,31 @@ RolePermission.create(role_id: Role.where(description: "personal").first.id ,reg
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Cancelar Baja").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Chequear Baja").first.id)
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Horas Cancelar Cola").first.id)
+
+
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Chequear Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cancelar Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Index Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Show Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Edit Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Update Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "New Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Destroy Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Editar Alta Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Guardar Edicion Alta Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Notificadas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Novedades").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Imprimir").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Index Cola De Impresion").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Imprimir Cola").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Index Lote Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Show Lote Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Editar Alta Cargo").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Index Bajas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Index Bajas Efectivas").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Cancelar Baja").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Chequear Baja").first.id)
+RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Cargo Cancelar Cola").first.id)
 
 
 #Carga de sexos

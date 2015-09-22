@@ -46,6 +46,16 @@ ActiveRecord::Schema.define(version: 20150625185310) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "alta_baja_horas", force: true do |t|
+    t.integer  "alta_baja_hora_id"
+    t.integer  "estado_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "alta_baja_horas", ["alta_baja_hora_id"], name: "index_alta_baja_horas_on_alta_baja_hora_id", using: :btree
+  add_index "alta_baja_horas", ["estado_id"], name: "index_alta_baja_horas_on_estado_id", using: :btree
+
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
     t.integer  "estado_id"
@@ -53,6 +63,7 @@ ActiveRecord::Schema.define(version: 20150625185310) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
+    t.integer  "tipo_lote_id"
   end
 
   add_index "altas_bajas_hora_estados", ["alta_baja_hora_id"], name: "index_altas_bajas_hora_estados_on_alta_baja_hora_id", using: :btree
@@ -109,6 +120,19 @@ ActiveRecord::Schema.define(version: 20150625185310) do
 
   add_index "asistencia", ["altas_bajas_cargo_id"], name: "index_asistencia_on_altas_bajas_cargo_id", using: :btree
   add_index "asistencia", ["altas_bajas_hora_id"], name: "index_asistencia_on_altas_bajas_hora_id", using: :btree
+
+  create_table "asistencia_estados", force: true do |t|
+    t.integer  "asistencia_id"
+    t.integer  "estado_id"
+    t.integer  "user_id"
+    t.text     "observaciones"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "asistencia_estados", ["asistencia_id"], name: "index_asistencia_estados_on_asistencia_id", using: :btree
+  add_index "asistencia_estados", ["estado_id"], name: "index_asistencia_estados_on_estado_id", using: :btree
+  add_index "asistencia_estados", ["user_id"], name: "index_asistencia_estados_on_user_id", using: :btree
 
   create_table "cargo_estados", force: true do |t|
     t.integer  "cargo_id"

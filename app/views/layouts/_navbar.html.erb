@@ -43,6 +43,7 @@
                   </ul>
                 </li>
               <% end %>
+              <% if (current_user.role? :sadmin)  then %>
               <% if ver_model("Cargo") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos</a>
@@ -58,6 +59,7 @@
                   </ul>
                 </li>
               <% end %>
+              <% end %>
             </ul>
           </li>
         <% end %>
@@ -65,6 +67,7 @@
 
       <ul class="nav navbar-nav">
         <% if user_signed_in? then %>
+        <% if (current_user.role? :sadmin) || (current_user.role? :personal)  then %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Novedades para imprimir<b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -79,7 +82,8 @@
                   </ul>
                 </li>
               <% end %>
-              <% if ver_model("Cargo") then %>
+
+              <% if ver_model("Cargo") and (current_user.role? :sadmin) then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos</a>
                   <ul class="dropdown-menu">
@@ -92,6 +96,7 @@
               <% end %>
             </ul>
           </li>
+        <% end %>
         <% end %>
       </ul>      
 
