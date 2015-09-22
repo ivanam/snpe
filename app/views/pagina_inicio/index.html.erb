@@ -15,6 +15,9 @@
             <%= link_to "Listado de Personas", personas_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
           </center>
       </div>
+
+      <% if (current_user.role? :sadmin) then %>
+
       <div class="col-md-4">
       <legend> Novedades de Cargo</legend>
         <center>
@@ -23,6 +26,8 @@
           <%= link_to "Listado de Establecimientos", establecimientos_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
         </center>
       </div>
+      
+      <% end %>
 
       </div>
       
