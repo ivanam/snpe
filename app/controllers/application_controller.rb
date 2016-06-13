@@ -31,4 +31,25 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_user, session[:establecimiento])
   end
 
+
+  class SelectClass
+    def initialize(id, descripcion)  
+      # Instance variables  
+      @id = id  
+      @descripcion = descripcion  
+    end
+    def id
+      return @id
+    end
+    def descripcion
+      return @descripcion
+    end
+  end 
+
+  def select_motivo_baja
+    return [SelectClass.new(1,"Renuncia"),SelectClass.new(2,"Jubilación"),SelectClass.new(3,"Fallecimiento"),SelectClass.new(4,"Presentación de titular")]
+  end
+
+  
+
 end

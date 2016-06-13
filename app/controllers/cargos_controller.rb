@@ -12,7 +12,7 @@ class CargosController < ApplicationController
     if @persona == nil
       @persona = Persona.new
     end
-    
+    @motivo_baja = select_motivo_baja
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
   end
