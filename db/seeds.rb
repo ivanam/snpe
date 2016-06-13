@@ -1315,3 +1315,12 @@ Articulo.create(codigo: '31.b', descripcion: 'Por viaje', cantidad_maxima_dias:'
 Articulo.create(codigo: '31.c', descripcion: 'Por donación de sangre', cantidad_maxima_dias:'1')
 Articulo.create(codigo: '31.d', descripcion: 'Por citación autoridad judicial', cantidad_maxima_dias:'1')
 Articulo.create(codigo: '39', descripcion: 'Licencias por actividad cultural', cantidad_maxima_dias:'0')
+
+
+
+Empresa.create(nombre: 'TA', descripcion: 'Personal auxiliar administrativo')
+Empresa.create(nombre: 'DA', descripcion: 'Personal auxiliar docente')
+Empresa.create(nombre: 'DO', descripcion: 'Cargos docentes de primaria')
+Empresa.create(nombre: 'DM', descripcion: 'Cargos docentes de secundaria y superior')
+Empresa.create(nombre: 'DT', descripcion: 'Cargos docentes de secundaria de escuelas transferidas')
+Empresa.create(nombre: 'HS', descripcion: 'Horas cátedra de secundaria y superior')

@@ -12,6 +12,7 @@ log/
 rerun.txt
 pickle-email-*.html
 config/secrets.yml
+config/database.yml
 
 ## Environment normalisation:
 /.bundle
