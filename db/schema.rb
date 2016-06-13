@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160613131019) do
+
+ActiveRecord::Schema.define(version: 20160613130826) do
+
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -79,6 +81,13 @@ ActiveRecord::Schema.define(version: 20160613131019) do
     t.datetime "updated_at"
     t.integer  "lote_impresion_id"
     t.integer  "baja_lote_impresion_id"
+    t.integer  "empresa_id"
+    t.integer  "lugar_pago_id"
+    t.string   "estado"
+    t.boolean  "con_movilidad"
+    t.integer  "materia_id"
+    t.integer  "grupo_id"
+    t.string   "motivo_baja"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -169,6 +178,13 @@ ActiveRecord::Schema.define(version: 20160613131019) do
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
   add_index "cargos", ["persona_id"], name: "index_cargos_on_persona_id", using: :btree
   add_index "cargos", ["persona_reemplazada_id"], name: "index_cargos_on_persona_reemplazada_id", using: :btree
+
+  create_table "empresas", force: true do |t|
+    t.string   "nombre"
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
