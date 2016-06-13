@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625185310) do
+ActiveRecord::Schema.define(version: 20160608134413) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -46,16 +46,6 @@ ActiveRecord::Schema.define(version: 20150625185310) do
   add_index "admin_users", ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
   add_index "admin_users", ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "alta_baja_horas", force: true do |t|
-    t.integer  "alta_baja_hora_id"
-    t.integer  "estado_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "alta_baja_horas", ["alta_baja_hora_id"], name: "index_alta_baja_horas_on_alta_baja_hora_id", using: :btree
-  add_index "alta_baja_horas", ["estado_id"], name: "index_alta_baja_horas_on_estado_id", using: :btree
-
   create_table "altas_bajas_hora_estados", force: true do |t|
     t.integer  "alta_baja_hora_id"
     t.integer  "estado_id"
@@ -63,7 +53,6 @@ ActiveRecord::Schema.define(version: 20150625185310) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "user_id"
-    t.integer  "tipo_lote_id"
   end
 
   add_index "altas_bajas_hora_estados", ["alta_baja_hora_id"], name: "index_altas_bajas_hora_estados_on_alta_baja_hora_id", using: :btree
@@ -166,6 +155,15 @@ ActiveRecord::Schema.define(version: 20150625185310) do
     t.integer  "division"
     t.text     "observaciones"
     t.integer  "baja_lote_impresion_id"
+    t.integer  "empresa_id"
+    t.integer  "lugar_pago_id"
+    t.boolean  "con_movilidad"
+    t.integer  "grupo_id"
+    t.integer  "ina_injustificadas"
+    t.date     "licencia_desde"
+    t.date     "licencia_hasta"
+    t.integer  "cantidad_dias_licencia"
+    t.text     "motivo_baja"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree

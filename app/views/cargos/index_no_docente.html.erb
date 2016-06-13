@@ -1,0 +1,206 @@
+<%= javascript_include_tag "cargos" %>
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "daterangepicker"%>
+<%= stylesheet_link_tag "daterangepicker-bs3" %>
+<% @cargo = Cargo.new %>
+<% @persona = Persona.new %>
+
+<% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+  <legend class="legend-small">Carga de un Alta no docente</legend>  
+  <div class="form-carga-efecto form-carga-efecto-cargos">
+    <%= render 'form_cargo_no_docente', cargo: @cargo %>
+  </div>
+<% end %>
+
+<div class="container">
+
+  </br>
+
+  <legend class="legend-small">Listado de Altas</legend>  
+
+  <div class="">
+    <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
+  </div>
+
+  <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+    <div class="panel panel-primary ">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Altas Realizadas
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table id="tabla-cargos-nuevos" class="table table-striped table-bordered table-hover" data-source = "<%= cargos_nuevos_path(format: :json) %>" >
+            <thead>
+              <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Sit. Rev</th>                
+                <th>Turno</th>
+                <th>Curso</th>
+                <th>División</th>
+                <th>Fecha Alta</th>
+                <th>Notificaciones</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <hr/>
+  <% end %>
+
+  <div class="panel panel-success ">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Altas Notificadas
+      </h3>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+        <table id="tabla-cargos-notificados" class="table table-striped table-bordered table-hover" data-source = "<%= cargos_notificados_path(format: :json, rango: params['rango']) %>" >
+          <thead>
+            <tr>
+              <th>DNI</th>
+              <th>Nombre</th>
+              <th>Sit. Rev</th>              
+              <th>Turno</th>
+              <th>Curso</th>
+              <th>Div</th>
+              <th>Fecha Alta</th>
+              <th>Notificaciones</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal_cargos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Historial de Cambios</h4>
+      </div>
+      <div class="modal-body">
+     
+      <table class='table table-striped table-bordered'>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Observaciones</th>
+          </tr>
+        </thead>
+        <tbody id='historial'>
+        </tbody>
+      </table>
+
+
+        <div class="text-center"><button class="btn btn-primary btn-sm" id="boton_mostrar_historial">Historial de estados</button></div>
+        <div class="text-center"><button class="btn btn-primary btn-sm" id="boton_ocultar_historial">Ocultar historial</button></div>
+      </div>   
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="cerrar_modal_cargos">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function($) {
+
+  moment.locale('es');
+  $.fn.editable.defaults.mode = 'popup';
+
+  var tabla_cargos_nuevos = $('#tabla-cargos-nuevos').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-cargos-nuevos').data('source'),
+    pagingType: "simple",
+  })
+  .on('draw.dt', function () {
+    $( ".btn-ajax" ).on( "click", function() {
+      var data_url = $(this).attr('data-url');
+      $.ajax({
+        url: data_url,
+        type: 'GET',
+      })
+      .done(function(data) {
+        tabla_cargos_nuevos.api().ajax.reload();
+        tabla_cargos_notificados.api().ajax.reload();
+      });
+    });
+  });
+
+  var tabla_cargos_notificados = $('#tabla-cargos-notificados').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-cargos-notificados').data('source'),
+    pagingType: "simple",
+  })
+  .on('draw.dt', function () {
+    $( ".btn-ajax" ).on( "click", function() {
+      var data_url = $(this).attr('data-url');
+      $.ajax({
+        url: data_url,
+        type: 'GET',
+      })
+      .done(function(data) {
+        tabla_cargos_nuevos.api().ajax.reload();
+        tabla_cargos_notificados.api().ajax.reload();
+      });
+    });
+    $('.cancelar_notificacion')
+    .on('save', function(e, params) {
+      tabla_cargos_nuevos.api().ajax.reload();
+      tabla_cargos_notificados.api().ajax.reload();
+    })
+    .editable({
+      savenochange: true,
+      success: function(response, newValue) {
+        if(response.status == 'error') return response.msg; //msg will be shown in editable form
+      }
+    });
+  });
+
+  var date = new Date();
+  $('#daterange').daterangepicker({
+    format: 'DD/MM/YYYY',
+    startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+    endDate: Date.today,
+    minDate: '01/01/2000',
+    maxDate: '31/12/2030',
+    locale: {
+      applyLabel: 'Ir',
+      cancelLabel: 'Cancelar',
+      fromLabel: 'Desde',
+      toLabel: 'Hasta',
+      firstDay: 1
+    }
+  });
+
+  // Evento del daterangepicker para filtrar por rangos
+  $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+    // Cambia la url agregando el campo rango como atributo
+    tabla_cargos_nuevos.api().ajax.url('/soft/snpe/cargo/cargos_nuevos.json?rango='+$('#daterange').val());
+    tabla_cargos_notificados.api().ajax.url('/soft/snpe/cargo/cargos_notificados.json?rango='+$('#daterange').val());
+    // Recarga por ajax la tabla
+    tabla_cargos_nuevos.api().ajax.reload();
+    tabla_cargos_notificados.api().ajax.reload();
+  });
+
+});
+</script>

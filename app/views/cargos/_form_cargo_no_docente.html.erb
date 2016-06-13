@@ -38,7 +38,6 @@
       <div class="row">
         <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
-        <%= f.select(:con_movilidad, [['Si', true], ['No', false]], {:prompt => "Movilidad"}, :id => "movilidad",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"movilidad", :class=>"form-control form-alta form-select")%>
       </div>
       <div class="row">
         <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>          

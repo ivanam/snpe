@@ -95,6 +95,8 @@ ProyectoBase::Application.routes.draw do
     #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
     resources :cargos
 
+    get "cargo/no_docente/", to: "cargos#index_no_docente", as: :cargos_index_no_docente
+       
     get "cargo/bajas/", to: "cargos#index_bajas", as: :cargos_index_bajas
     
     get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
