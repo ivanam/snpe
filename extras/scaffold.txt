@@ -95,3 +95,5 @@ rails d scaffold Establecimiento
 rails d scaffold Persona
 
 
+---------------------- Scaffold agregados----------------------------------
+rails g scaffold Grupo nombre:string descripcion:text

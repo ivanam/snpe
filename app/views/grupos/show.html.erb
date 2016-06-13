@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>grupo</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nombre:</dt>
+  <dd><%= @grupo.nombre %></dd>
+
+  <dt>Descripcion:</dt>
+  <dd><%= @grupo.descripcion %></dd>
+
+  <br/><br/>
+  <%= link_to grupos_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_grupo_path(@grupo), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to grupo_path(@grupo), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
