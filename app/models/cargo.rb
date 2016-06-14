@@ -6,7 +6,7 @@ class Cargo < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
-  TURNO = ["M", "T"]
+  
   SITUACION_REVISTA = ["1-002", "1-003"]
 
    def ina_justificada(anio, mes)

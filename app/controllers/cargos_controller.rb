@@ -12,7 +12,9 @@ class CargosController < ApplicationController
     if @persona == nil
       @persona = Persona.new
     end
+
     @motivo_baja = select_motivo_baja
+    @turno = select_turno
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
   end
@@ -42,6 +44,7 @@ class CargosController < ApplicationController
   end
 
   def create
+    debugger 
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -66,6 +69,7 @@ class CargosController < ApplicationController
     @cargo = Cargo.new(cargo_params)
     @cargo.situacion_revista = params[:cargo][:situacion_revista]
     @cargo.turno = params[:cargo][:turno]
+    @cargo.con_movilidad = params[:cargo][:con_movilidad]
     @cargo.persona_id = @persona.id
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
