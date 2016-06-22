@@ -2,8 +2,7 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
-<% @cargo = Cargo.new %>
-<% @persona = Persona.new %>
+
 
 <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
   <legend class="legend-small">Carga de un Alta no docente</legend>  

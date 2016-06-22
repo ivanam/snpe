@@ -48,7 +48,7 @@
         <%= f.select(:situacion_revista, Cargo::SITUACION_REVISTA, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
         <%= f.text_field :anio, :placeholder => "Cur",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso - ej: 4", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
         <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
-        <%= f.select(:turno, Cargo::TURNO, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
+        <%= f.collection_select(:turno, @turno, :id, :descripcion, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-cargos" %>  
         <%= button_to "Guardar", {:controller => "cargos", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
       </div>
