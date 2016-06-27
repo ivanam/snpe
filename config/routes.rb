@@ -1,7 +1,7 @@
 ProyectoBase::Application.routes.draw do
 
 
-  resources :grupos
+  
 
   scope '/soft/snpe' do
 
@@ -185,6 +185,8 @@ ProyectoBase::Application.routes.draw do
     resources :roles
     
     resources :users
+    
+    resources :grupos
 
     root :to => "pagina_inicio#index"
 
