@@ -113,7 +113,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def show
-    respond_with(@altas_bajas_hora)
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])
   end
 
   def new

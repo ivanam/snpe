@@ -4,6 +4,7 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :lote_impresion
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
   has_many :estados, :class_name => 'AltasBajasHoraEstado', :foreign_key => 'alta_baja_hora_id', dependent: :destroy
+  belongs_to :empresa
 
   validates_presence_of :persona
 

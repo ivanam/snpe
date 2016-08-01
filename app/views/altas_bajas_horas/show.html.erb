@@ -1,67 +1,162 @@
-<div class="page-header">
-  <h1>altas_bajas_hora</h1>
+<div class="row">
+  <div class="col-lg-12">
+      <h1 class="page-header">Novedad - <%= @altas_bajas_hora.persona %></h1>
+    </div>
 </div>
 
-<dl class="dl-horizontal">
-  <dt>Establecimiento:</dt>
-  <dd><%= @altas_bajas_hora.establecimiento %></dd>
+<form>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Agente</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.persona %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">DNI</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.persona.nro_documento %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Cuil</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.persona.cuil %></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label">Establecimiento</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.establecimiento %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Mes periodo</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.mes_periodo %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Año periodo</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.anio_periodo %></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Secuencia</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.secuencia %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Fecha de alta</label>
+            <p class="form-control-static"><%= Util.fecha_a_es(@altas_bajas_hora.fecha_alta) %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Fecha de baja</label>
+            <p class="form-control-static"><%= Util.fecha_a_es(@altas_bajas_hora.fecha_baja) %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Situación de revista</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.situacion_revista %></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Horas</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.horas %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Ciclo carrera</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.ciclo_carrera %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Año</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.anio %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">División</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.division %></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Turno</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.turno %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Codificación</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.codificacion %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Obligaciones</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.oblig %></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Movilidad</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.con_movilidad %></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Empresa</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.empresa %></p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label class="control-label">Observaciones</label>
+            <p class="form-control-static"><%= @altas_bajas_hora.observaciones %></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="text-center">
+    <%= link_to altas_bajas_horas_path, :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Atrás
+    <% end %>
+    <%= link_to edit_altas_bajas_hora_path(@altas_bajas_hora), :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      Editar
+    <% end %>
+    <%= link_to altas_bajas_hora_path(@altas_bajas_hora), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+      <span class="glyphicon glyphicon-trash"></span>
+      Eliminar
+    <% end %>
+  </div>
 
-  <dt>Mes periodo:</dt>
-  <dd><%= @altas_bajas_hora.mes_periodo %></dd>
-
-  <dt>Anio periodo:</dt>
-  <dd><%= @altas_bajas_hora.anio_periodo %></dd>
-
-  <dt>Persona:</dt>
-  <dd><%= @altas_bajas_hora.persona %></dd>
-
-  <dt>Secuencia:</dt>
-  <dd><%= @altas_bajas_hora.secuencia %></dd>
-
-  <dt>Fecha alta:</dt>
-  <dd><%= @altas_bajas_hora.fecha_alta %></dd>
-
-  <dt>Fecha baja:</dt>
-  <dd><%= @altas_bajas_hora.fecha_baja %></dd>
-
-  <dt>Situacion revista:</dt>
-  <dd><%= @altas_bajas_hora.situacion_revista %></dd>
-
-  <dt>Horas:</dt>
-  <dd><%= @altas_bajas_hora.horas %></dd>
-
-  <dt>Ciclo carrera:</dt>
-  <dd><%= @altas_bajas_hora.ciclo_carrera %></dd>
-
-  <dt>Anio:</dt>
-  <dd><%= @altas_bajas_hora.anio %></dd>
-
-  <dt>Division:</dt>
-  <dd><%= @altas_bajas_hora.division %></dd>
-
-  <dt>Turno:</dt>
-  <dd><%= @altas_bajas_hora.turno %></dd>
-
-  <dt>Codificacion:</dt>
-  <dd><%= @altas_bajas_hora.codificacion %></dd>
-
-  <dt>Oblig:</dt>
-  <dd><%= @altas_bajas_hora.oblig %></dd>
-
-  <dt>Observaciones:</dt>
-  <dd><%= @altas_bajas_hora.observaciones %></dd>
-
-  <br/><br/>
-  <%= link_to altas_bajas_horas_path, :class => 'btn btn-default' do %>
-    <span class="glyphicon glyphicon-list-alt"></span>
-    Atrás
-  <% end %>
-  <%= link_to edit_altas_bajas_hora_path(@altas_bajas_hora), :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Editar
-  <% end %>
-  <%= link_to altas_bajas_hora_path(@altas_bajas_hora), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
-    <span class="glyphicon glyphicon-trash"></span>
-    Eliminar
-  <% end %>
-</dl>
+</form>
