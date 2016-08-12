@@ -1,0 +1,139 @@
+<%= form_for(@cargo_no_docente, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @cargo_no_docente.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+
+      <ul>
+      <% @cargo_no_docente.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :establecimiento, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :establecimiento, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :persona, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :persona, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :cargo, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :cargo, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :secuencia, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :secuencia, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :turno, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :turno, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fecha_alta, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :fecha_alta, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fecha_baja, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :fecha_baja, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :persona_reemplazada, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :persona_reemplazada, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :observatorio, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :observatorio, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :alta_lote_impresion_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :alta_lote_impresion_id, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :baja_lote_impresion, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :baja_lote_impresion, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :empresa_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :empresa_id, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :lugar_pago_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :lugar_pago_id, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :con_movilidad, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.check_box :con_movilidad, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :ina_injustificadas, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :ina_injustificadas, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :licencia_desde, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :licencia_desde, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :licencia_hasta, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :licencia_hasta, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :cantidad_dias_licencia, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :cantidad_dias_licencia, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :motivo_baja, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_area :motivo_baja, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+
+      <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      <%= link_to cargo_no_docentes_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Atrás
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -23,6 +23,7 @@ class LicenciaController < ApplicationController
   end
 
   def create
+    debugger
     @licencium = Licencium.new(licencium_params)
     @licencium.save
     respond_with(@licencium)
@@ -37,6 +38,25 @@ class LicenciaController < ApplicationController
     @licencium.destroy
     respond_with(@licencium)
   end
+
+  def cargos_licencia_permitida
+    respond_to do |format|
+      format.json { render json: CargosLicenciaPermitidaDatatable.new(view_context, { query: Cargo.all}) }
+    end
+  end
+
+  def altas_bajas_horas_licencia_permitida
+    respond_to do |format|
+      format.json { render json: AltasBajasHoraLicenciaPermitidaDatatable.new(view_context, { query: AltasBajasHora.all}) }
+    end
+  end
+
+  def guardar_licencia_horas
+    
+    @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo])
+    
+    @licencia.save
+  end 
 
   private
     def set_licencium

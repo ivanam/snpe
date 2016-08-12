@@ -1,0 +1,43 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  establecimiento_id: 
+  persona_id: 
+  cargo: MyString
+  secuencia: 1
+  turno: MyString
+  fecha_alta: 2016-07-29
+  fecha_baja: 2016-07-29
+  persona_reemplazada_id: 
+  observatorio: MyString
+  alta_lote_impresion_id_id: 
+  baja_lote_impresion_id: 
+  empresa_id: 1
+  lugar_pago_id: 1
+  con_movilidad: false
+  ina_injustificadas: 1
+  licencia_desde: 2016-07-29
+  licencia_hasta: 2016-07-29
+  cantidad_dias_licencia: 1
+  motivo_baja: MyText
+
+two:
+  establecimiento_id: 
+  persona_id: 
+  cargo: MyString
+  secuencia: 1
+  turno: MyString
+  fecha_alta: 2016-07-29
+  fecha_baja: 2016-07-29
+  persona_reemplazada_id: 
+  observatorio: MyString
+  alta_lote_impresion_id_id: 
+  baja_lote_impresion_id: 
+  empresa_id: 1
+  lugar_pago_id: 1
+  con_movilidad: false
+  ina_injustificadas: 1
+  licencia_desde: 2016-07-29
+  licencia_hasta: 2016-07-29
+  cantidad_dias_licencia: 1
+  motivo_baja: MyText

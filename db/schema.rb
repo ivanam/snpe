@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160613142244) do
+ActiveRecord::Schema.define(version: 20160808141257) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -143,6 +143,49 @@ ActiveRecord::Schema.define(version: 20160613142244) do
   add_index "cargo_estados", ["estado_id"], name: "index_cargo_estados_on_estado_id", using: :btree
   add_index "cargo_estados", ["user_id"], name: "index_cargo_estados_on_user_id", using: :btree
 
+  create_table "cargo_no_docente_estados", force: true do |t|
+    t.integer  "cargo_no_docente_id"
+    t.integer  "estado_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.text     "observaciones"
+  end
+
+  add_index "cargo_no_docente_estados", ["cargo_no_docente_id"], name: "index_cargo_no_docente_estados_on_cargo_no_docente_id", using: :btree
+  add_index "cargo_no_docente_estados", ["estado_id"], name: "index_cargo_no_docente_estados_on_estado_id", using: :btree
+  add_index "cargo_no_docente_estados", ["user_id"], name: "index_cargo_no_docente_estados_on_user_id", using: :btree
+
+  create_table "cargo_no_docentes", force: true do |t|
+    t.integer  "establecimiento_id"
+    t.integer  "persona_id"
+    t.string   "cargo"
+    t.integer  "secuencia"
+    t.string   "turno"
+    t.date     "fecha_alta"
+    t.date     "fecha_baja"
+    t.integer  "persona_reemplazada_id"
+    t.string   "observatorio"
+    t.integer  "alta_lote_impresion_id_id"
+    t.integer  "baja_lote_impresion_id"
+    t.integer  "empresa_id"
+    t.integer  "lugar_pago_id"
+    t.boolean  "con_movilidad"
+    t.integer  "ina_injustificadas"
+    t.date     "licencia_desde"
+    t.date     "licencia_hasta"
+    t.integer  "cantidad_dias_licencia"
+    t.text     "motivo_baja"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cargo_no_docentes", ["alta_lote_impresion_id_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id_id", using: :btree
+  add_index "cargo_no_docentes", ["baja_lote_impresion_id"], name: "index_cargo_no_docentes_on_baja_lote_impresion_id", using: :btree
+  add_index "cargo_no_docentes", ["establecimiento_id"], name: "index_cargo_no_docentes_on_establecimiento_id", using: :btree
+  add_index "cargo_no_docentes", ["persona_id"], name: "index_cargo_no_docentes_on_persona_id", using: :btree
+  add_index "cargo_no_docentes", ["persona_reemplazada_id"], name: "index_cargo_no_docentes_on_persona_reemplazada_id", using: :btree
+
   create_table "cargos", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "persona_id"
@@ -242,17 +285,19 @@ ActiveRecord::Schema.define(version: 20160613142244) do
 
   create_table "licencia", force: true do |t|
     t.integer  "altas_bajas_hora_id"
-    t.integer  "altas_bajas_cargo_id"
     t.date     "fecha_desde"
     t.date     "fecha_hasta"
     t.integer  "articulo_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cargo_id"
+    t.integer  "cargo_no_docente_id"
   end
 
-  add_index "licencia", ["altas_bajas_cargo_id"], name: "index_licencia_on_altas_bajas_cargo_id", using: :btree
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
+  add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
+  add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"

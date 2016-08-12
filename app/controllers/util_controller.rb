@@ -5,6 +5,11 @@ class UtilController < ApplicationController
     render json: @persona
   end
 
+  def buscar_hora
+    @horas = AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))
+    render json: @horas
+  end
+
   def buscar_persona_por_id
     @persona = Persona.where(:id => params[:id]).first()
     render json: @persona

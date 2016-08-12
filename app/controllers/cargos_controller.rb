@@ -19,20 +19,6 @@ class CargosController < ApplicationController
     respond_with(@cargo)
   end
 
-  def index_no_docente
-   
-    if @cargo == nil
-      @cargo = Cargo.new
-    end
-    if @persona == nil
-      @persona = Persona.new
-    end
-    @motivo_baja = select_motivo_baja
-    @turno = select_turno
-    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-    respond_with(@cargo)
-  end
-
   def index_bajas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
@@ -58,7 +44,6 @@ class CargosController < ApplicationController
   end
 
   def create
-    debugger 
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]

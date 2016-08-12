@@ -3,6 +3,8 @@ ProyectoBase::Application.routes.draw do
 
   
 
+  
+
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -100,8 +102,7 @@ ProyectoBase::Application.routes.draw do
     #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
     resources :cargos
 
-    get "cargo/no_docente/", to: "cargos#index_no_docente", as: :cargos_index_no_docente
-       
+        
     get "cargo/bajas/", to: "cargos#index_bajas", as: :cargos_index_bajas
     
     get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
@@ -146,6 +147,14 @@ ProyectoBase::Application.routes.draw do
 
     #----------------------------------------------------------------------------------------------------------------------------------
 
+    resources :cargo_no_docentes
+
+    get "cargo_no_docente/cargo_no_docentes_nuevos/", to: "cargo_no_docentes#cargo_no_docentes_nuevos", as: :cargo_no_docentes_nuevos
+    
+    get "cargo_no_docente/notificar/:id", to: "cargo_no_docentes#notificar", as: :cargo_no_docentes_notificar
+
+    get "cargo_no_docente/cargo_no_docentes_notificados/", to: "cargo_no_docentes#cargo_no_docentes_notificados", as: :cargo_no_docentes_notificados
+
     resources :establecimientos
 
     get "establecimientos_de_usuario", to: "establecimientos#establecimientos_de_usuario", as: :establecimientos_de_usuario
@@ -161,6 +170,13 @@ ProyectoBase::Application.routes.draw do
     resources :personas
 
     resources :licencia
+
+    get "util/buscar_hora/:dni", to: 'util#buscar_hora'
+    post "util/buscar_hora/:dni", to: 'util#buscar_hora'
+    get "altas_bajas_horas_licencia_permitida", to: "licencia#altas_bajas_horas_licencia_permitida", as: :altas_bajas_horas_licencia_permitida
+    get "cargos_licencia_permitida", to: "licencia#cargos_licencia_permitida", as: :cargos_licencia_permitida
+    post "licencia/guardar_licencia_horas/:id_horas/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_horas", as: :guardar_licencia_horas
+  
 
     resources :localidads
 

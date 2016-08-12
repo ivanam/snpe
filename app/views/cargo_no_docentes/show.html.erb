@@ -1,0 +1,76 @@
+<div class="page-header">
+  <h1>cargo_no_docente</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Establecimiento:</dt>
+  <dd><%= @cargo_no_docente.establecimiento %></dd>
+
+  <dt>Persona:</dt>
+  <dd><%= @cargo_no_docente.persona %></dd>
+
+  <dt>Cargo:</dt>
+  <dd><%= @cargo_no_docente.cargo %></dd>
+
+  <dt>Secuencia:</dt>
+  <dd><%= @cargo_no_docente.secuencia %></dd>
+
+  <dt>Turno:</dt>
+  <dd><%= @cargo_no_docente.turno %></dd>
+
+  <dt>Fecha alta:</dt>
+  <dd><%= @cargo_no_docente.fecha_alta %></dd>
+
+  <dt>Fecha baja:</dt>
+  <dd><%= @cargo_no_docente.fecha_baja %></dd>
+
+  <dt>Persona reemplazada:</dt>
+  <dd><%= @cargo_no_docente.persona_reemplazada %></dd>
+
+  <dt>Observatorio:</dt>
+  <dd><%= @cargo_no_docente.observatorio %></dd>
+
+  <dt>Alta lote impresion:</dt>
+  <dd><%= @cargo_no_docente.alta_lote_impresion_id %></dd>
+
+  <dt>Baja lote impresion:</dt>
+  <dd><%= @cargo_no_docente.baja_lote_impresion %></dd>
+
+  <dt>Empresa:</dt>
+  <dd><%= @cargo_no_docente.empresa_id %></dd>
+
+  <dt>Lugar pago:</dt>
+  <dd><%= @cargo_no_docente.lugar_pago_id %></dd>
+
+  <dt>Con movilidad:</dt>
+  <dd><%= @cargo_no_docente.con_movilidad %></dd>
+
+  <dt>Ina injustificadas:</dt>
+  <dd><%= @cargo_no_docente.ina_injustificadas %></dd>
+
+  <dt>Licencia desde:</dt>
+  <dd><%= @cargo_no_docente.licencia_desde %></dd>
+
+  <dt>Licencia hasta:</dt>
+  <dd><%= @cargo_no_docente.licencia_hasta %></dd>
+
+  <dt>Cantidad dias licencia:</dt>
+  <dd><%= @cargo_no_docente.cantidad_dias_licencia %></dd>
+
+  <dt>Motivo baja:</dt>
+  <dd><%= @cargo_no_docente.motivo_baja %></dd>
+
+  <br/><br/>
+  <%= link_to cargo_no_docentes_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_cargo_no_docente_path(@cargo_no_docente), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to cargo_no_docente_path(@cargo_no_docente), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
