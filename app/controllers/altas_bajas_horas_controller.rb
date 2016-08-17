@@ -3,6 +3,8 @@ class AltasBajasHorasController < ApplicationController
   load_and_authorize_resource
 
   def index
+    @motivo_baja = select_motivo_baja
+    @turno = select_turno
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new

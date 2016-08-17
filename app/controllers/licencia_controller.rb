@@ -23,7 +23,7 @@ class LicenciaController < ApplicationController
   end
 
   def create
-    debugger
+    
     @licencium = Licencium.new(licencium_params)
     @licencium.save
     respond_with(@licencium)
@@ -89,7 +89,7 @@ class LicenciaController < ApplicationController
   def guardar_licencia_cargos
     
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: true)
-    debugger
+    
     @licencia.save
     render json: 0
   end 
