@@ -32,44 +32,16 @@
         <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
         <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
        
-        <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Guardar</button>
+        <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
       </div>
     </div>
   </fieldset>
 
 
 
-      <div class="modal-body">
-       <table id="tabla" class="table table-striped table-bordered table-hover">
-         
-       </table>
-      </div>
-     
+          
 
-<div class="modal fade" id="dias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generar licencia</h4>
-      </div>
-      <div class="modal-body">
-        <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_inicio' %>
-        <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin' %>
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo" %>
 
-       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="btn_licencia_horas" class="btn btn-default" data-dismiss="modal">Guardar</button>
-      
-      </div>
-    </div>
-  </div>
-</div>
 
 <% end %>
 
@@ -127,62 +99,7 @@
         })
     });
 
-  var id_horas;
+  
 
-  $('#dias').on('shown.bs.modal', function (event) {      
-      id_horas = $(event.relatedTarget).attr('id_horas');
-    });
-
-  $('#btn_licencia_horas').on('click', function () {
-      fecha_inicio = $("#input_fecha_inicio").val();
-      fecha_fin = $("#input_fecha_fin").val();
-      articulo = $("#select_articulo").val();
-        
-      $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/'+id_horas+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
-          type: 'POST',
-        })
-      .done(function(data) {
-        
-        tabla_liquidacion.api().ajax.reload();      
-      })
-    });
-
-  $('#btn_buscar_persona').on('click', function () {
-      var dni = parseInt($("#input_dni2").val(),10);
-        
-      $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/'+id_horas+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
-          type: 'POST',
-        })
-      .done(function(data) {
-        
-        tabla_liquidacion.api().ajax.reload();      
-      })
-    });
-
-
-
-  $( "#input_fecha_inicio" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
-$( "#input_fecha_fin" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
+  
 </script>

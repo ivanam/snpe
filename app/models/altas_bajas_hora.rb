@@ -89,6 +89,10 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
+  def cant_horas
+    return self.horas
+    
+  end
 end
 
 #SELECT * FROM detalle d inner join recibos r on r.nume_docu = d.nume_docu where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000
