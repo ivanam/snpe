@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>plan</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Codigo:</dt>
+  <dd><%= @plan.codigo %></dd>
+
+  <dt>Descripcion:</dt>
+  <dd><%= @plan.descripcion %></dd>
+
+  <br/><br/>
+  <%= link_to plans_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_plan_path(@plan), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to plan_path(@plan), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

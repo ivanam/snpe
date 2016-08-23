@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>despliegue</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Anio:</dt>
+  <dd><%= @despliegue.anio %></dd>
+
+  <dt>Plan:</dt>
+  <dd><%= @despliegue.plan %></dd>
+
+  <dt>Materia:</dt>
+  <dd><%= @despliegue.materia %></dd>
+
+  <dt>Carga horaria:</dt>
+  <dd><%= @despliegue.carga_horaria %></dd>
+
+  <br/><br/>
+  <%= link_to despliegues_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_despliegue_path(@despliegue), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to despliegue_path(@despliegue), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
