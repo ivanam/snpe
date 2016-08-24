@@ -3,14 +3,14 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Anio:</dt>
+  <dt>Año:</dt>
   <dd><%= @despliegue.anio %></dd>
 
   <dt>Plan:</dt>
-  <dd><%= @despliegue.plan %></dd>
+  <dd><%= Plan.find(@despliegue.plan_id).to_s %></dd>
 
   <dt>Materia:</dt>
-  <dd><%= @despliegue.materia %></dd>
+  <dd><%= Materium.find(@despliegue.materia_id).to_s %></dd>
 
   <dt>Carga horaria:</dt>
   <dd><%= @despliegue.carga_horaria %></dd>

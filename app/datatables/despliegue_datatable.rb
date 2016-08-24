@@ -1,14 +1,14 @@
-class PlanDatatable < AjaxDatatablesRails::Base
+class DespliegueDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['plans.id']
+    @sortable_columns ||= ['despliegues.id']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['plans.id']
+    @searchable_columns ||= ['despliegues.id']
   end
 
   private
@@ -18,17 +18,19 @@ class PlanDatatable < AjaxDatatablesRails::Base
       [
         # comma separated list of the values for each cell of a table row
         # example: record.attribute,
-        record.codigo,
-        record.descripcion,
+        record.anio,
+        Plan.find(record.plan_id).to_s,
+        Materium.find(record.materia_id).to_s,
+        record.carga_horaria,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="plans/'+record.id.to_s+'">Ver</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="plans/'+record.id.to_s+'/edit">Editar</a></li>
-            <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="plans/'+record.id.to_s+'">Eliminar</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="despliegues/'+record.id.to_s+'">Ver</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="despliegues/'+record.id.to_s+'/edit">Editar</a></li>
+            <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="despliegues/'+record.id.to_s+'">Eliminar</a></li>
           </ul>
         </div>',
       ]
