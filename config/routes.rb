@@ -181,10 +181,10 @@ ProyectoBase::Application.routes.draw do
 
     get "util/buscar_hora/:dni", to: 'util#buscar_hora'
     post "util/buscar_hora/:dni", to: 'util#buscar_hora'
-    get "altas_bajas_horas_licencia_permitida", to: "licencia#altas_bajas_horas_licencia_permitida", as: :altas_bajas_horas_licencia_permitida
-    get 'licencia/altas_bajas_horas_licencia_permitida2/:dni', to: 'licencia#altas_bajas_horas_licencia_permitida2', as: :altas_bajas_horas_licencia_permitida2
+    get 'licencia/altas_bajas_horas_licencia_permitida/:dni', to: 'licencia#altas_bajas_horas_licencia_permitida', as: :altas_bajas_horas_licencia_permitida
     get 'licencia/cargos_licencia_permitida/:dni', to: 'licencia#cargos_licencia_permitida', as: :cargos_licencia_permitida
     get 'licencia/licencia_dadas/:dni', to: 'licencia#licencia_dadas', as: :licencia_dadas
+    get 'licencia/buscar_articulo_dias/:id_articulo/:id_horas', to: 'licencia#buscar_articulo_dias', as: :buscar_articulo_dias
 
 
     
