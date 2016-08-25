@@ -45,7 +45,7 @@
     </div>
     <div class="panel-body">
     <div class="table-responsive">
-      <table id="tabla-horas-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_licencia_permitida2_path(format: :json, dni: 1) %>" >
+      <table id="tabla-horas-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_licencia_permitida_path(format: :json, dni: 1) %>" >
         <thead>
           <tr>
             <th>Secuencia</th>
@@ -139,8 +139,13 @@
         <%= text_field_tag 'input_fecha_inicio' %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin' %>
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo" %>
-
+        <hr/>
+        <div class="row">
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo_horas" %>
+        </div>
+        <hr/>
+        
+        <div id="alerta-dias" class="alert alert-info"></div>
        
       </div>
       <div class="modal-footer">
@@ -247,6 +252,29 @@
  $("#div_licencias").hide();
  
 
+  $("#select_articulo_horas" ).change(function() {
+          
+          var id_articulo = parseInt($("#select_articulo_horas option:selected").val(),10);
+         
+          $.ajax({
+            url: '/soft/snpe/licencia/buscar_articulo_dias/'+id_articulo+'/'+id_horas,
+            type: 'GET',
+          })
+          .done(function(data) {
+       
+            
+            $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
+            //$("#select_origen" ).val(data.nombre);
+            //$("#origen_text_field").attr('disabled',true);
+          }) 
+
+
+
+  });
+
+
+
+
   var tabla_personal_activo = $('#tabla-personal-activo')
     .on('draw.dt', function () {
       $('.popup-fecha')
@@ -282,7 +310,7 @@
       $("#div_hr_licencias").show();
       $("#div_licencias").show();
       
-      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida2/'+dni);
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
       tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
       
       tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
@@ -299,6 +327,10 @@
   $('#dias').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
     });
+
+  $('#dias').on('hidden.bs.modal', function (e) {
+  console.log("se cerro");
+});
 
   $('#btn_licencia_horas').on('click', function () {
       fecha_inicio = $("#input_fecha_inicio").val();
