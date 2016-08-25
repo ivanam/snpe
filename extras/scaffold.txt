@@ -101,3 +101,12 @@ rails g scaffold Grupo nombre:string descripcion:text
 
 == AB CARGOS NO DOCENTES==
 rails g scaffold CargoNoDocente establecimiento:references persona:references cargo:string secuencia:integer  turno:string fecha_alta:date fecha_baja:date persona_reemplazada:references observatorio:string alta_lote_impresion_id:references baja_lote_impresion:references empresa_id:integer lugar_pago_id:integer con_movilidad:boolean ina_injustificadas:integer licencia_desde:date licencia_hasta:date cantidad_dias_licencia:integer motivo_baja:text
+
+
+---------------------- Planes, materias y despliegue ----------------------
+
+
+rails g scaffold Materia codigo:integer descripcion:string
+rails g scaffold Plan codigo:integer descripcion:string
+rails g scaffold EstablecimientoPlan establecimiento:references plan:references
+rails g scaffold Despliegue anio:integer plan:references materia:references carga_horaria:integer

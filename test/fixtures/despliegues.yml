@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  anio: 1
+  plan_id: 
+  materia_id: 
+  carga_horaria: 1
+
+two:
+  anio: 1
+  plan_id: 
+  materia_id: 
+  carga_horaria: 1

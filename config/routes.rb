@@ -19,6 +19,14 @@ ProyectoBase::Application.routes.draw do
 
     resources :articulos
 
+    resources :despliegues
+
+    resources :establecimiento_plans
+
+    resources :plans
+
+    resources :materia
+
     #---------------------------------------------------------------------------------------------------------------------------------------
     
     resources :empresas

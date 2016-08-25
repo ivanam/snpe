@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>establecimiento_plan</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Establecimiento:</dt>
+  <dd><%= @establecimiento_plan.establecimiento %></dd>
+
+  <dt>Plan:</dt>
+  <dd><%= @establecimiento_plan.plan %></dd>
+
+  <br/><br/>
+  <%= link_to establecimiento_plans_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_establecimiento_plan_path(@establecimiento_plan), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to establecimiento_plan_path(@establecimiento_plan), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

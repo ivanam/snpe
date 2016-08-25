@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816215115) do
+ActiveRecord::Schema.define(version: 20160823132633) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -220,12 +220,34 @@ ActiveRecord::Schema.define(version: 20160816215115) do
   add_index "cargos", ["persona_id"], name: "index_cargos_on_persona_id", using: :btree
   add_index "cargos", ["persona_reemplazada_id"], name: "index_cargos_on_persona_reemplazada_id", using: :btree
 
+  create_table "despliegues", force: true do |t|
+    t.integer  "anio"
+    t.integer  "plan_id"
+    t.integer  "materia_id"
+    t.integer  "carga_horaria"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "despliegues", ["materia_id"], name: "index_despliegues_on_materia_id", using: :btree
+  add_index "despliegues", ["plan_id"], name: "index_despliegues_on_plan_id", using: :btree
+
   create_table "empresas", force: true do |t|
     t.string   "nombre"
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "establecimiento_plans", force: true do |t|
+    t.integer  "establecimiento_id"
+    t.integer  "plan_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "establecimiento_plans", ["establecimiento_id"], name: "index_establecimiento_plans_on_establecimiento_id", using: :btree
+  add_index "establecimiento_plans", ["plan_id"], name: "index_establecimiento_plans_on_plan_id", using: :btree
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
@@ -317,6 +339,13 @@ ActiveRecord::Schema.define(version: 20160816215115) do
     t.integer  "tipo_id"
   end
 
+  create_table "materia", force: true do |t|
+    t.integer  "codigo"
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "nivels", force: true do |t|
     t.string   "nombre"
     t.datetime "created_at"
@@ -389,6 +418,13 @@ ActiveRecord::Schema.define(version: 20160816215115) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+  end
+
+  create_table "plans", force: true do |t|
+    t.integer  "codigo"
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "rails_admin_histories", force: true do |t|
