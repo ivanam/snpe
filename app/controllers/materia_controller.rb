@@ -1,5 +1,6 @@
 class MateriaController < InheritedResources::Base
   before_action :set_materium, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   respond_to :html
 
