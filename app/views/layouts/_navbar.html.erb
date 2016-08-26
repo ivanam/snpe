@@ -131,6 +131,18 @@
                 <% if ver_model("Persona") then %>
                   <li><%=link_to "Personas", personas_path, :tabindex => "-1"%></li>
                 <% end %>
+                <% if ver_model("Materium") then %>
+                  <li><%=link_to "Materias", materia_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("Plans") then %>
+                  <li><%=link_to "Planes de Estudio", plans_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("Despliegues") then %>
+                  <li><%=link_to "Despliegues", despliegues_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("EstablecimientoPlans") then %>
+                  <li><%=link_to "Establecimientos y planes", establecimiento_plans_path, :tabindex => "-1"%></li>
+                <% end %>
               </ul>
             </li>
           <% end %>
