@@ -7,7 +7,7 @@
 </div>
 
 <div class="table-responsive">
-  <table id="tabla-establecimiento_plan" class="table table-striped table-bordered table-hover" data-source = "<#= establecimiento_plans_path(format: :json) #>" >
+  <table id="tabla-establecimiento_plan" class="table table-striped table-bordered table-hover" data-source = "<%= establecimiento_plans_path(format: :json) %>" >
     <thead>
       <tr>
             <th>Establecimiento</th>
@@ -24,7 +24,7 @@
 <script type="text/javascript">
     $(document).ready(function($) {
       $('#tabla-establecimiento_plan').dataTable({
-        language : {"sUrl": "<#= asset_path('language.es.json') #>",},
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-establecimiento_plan').data('source'),

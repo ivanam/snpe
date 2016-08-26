@@ -1,5 +1,6 @@
 class PlansController < InheritedResources::Base
   before_action :set_plan, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
 
   respond_to :html
 
