@@ -98,12 +98,25 @@ class LicenciaController < ApplicationController
     render json: 0
   end 
 
-  def buscar_articulo_dias
+  def buscar_articulo_dias_hora
 
     @licencia_hora = Licencium.where(altas_bajas_hora_id: params[:id_horas])
     @licencia_articulo = @licencia_hora.where(articulo_id: params[:id_articulo])
     @dias=0
     @licencia_hora.each do |l|
+      @dias = @dias + (l.fecha_desde - l.fecha_hasta).to_i
+    end
+    
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+    render json:  @dias_disponibles
+  end
+
+  def buscar_articulo_dias_cargo
+
+    @licencia_cargo = Licencium.where(cargo_id: params[:id_cargos])
+    @licencia_articulo = @licencia_cargo.where(articulo_id: params[:id_articulo])
+    @dias=0
+    @licencia_cargo.each do |l|
       @dias = @dias + (l.fecha_desde - l.fecha_hasta).to_i
     end
     
@@ -117,6 +130,6 @@ class LicenciaController < ApplicationController
     end
 
     def licencium_params
-      params.require(:licencium).permit(:altas_bajas_hora_id, :altas_bajas_cargo_id, :fecha_desde, :fecha_hasta, :articulo_id)
+      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :observaciones)
     end
 end
