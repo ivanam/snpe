@@ -36,7 +36,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         record.fecha_hasta,
         record.articulo.codigo + record.articulo.descripcion[0..30].html_safe+"...",
         if record.vigente == true 
-        '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" id_art="'+record.articulo_id.to_s+'" data-target="#dias3" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 
+        '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" id_art="'+record.articulo_id.to_s+'" data-target="#modal_licencia_final" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 
  
            else
         "Cerrada" 

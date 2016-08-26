@@ -127,7 +127,7 @@
   <hr/>
 
 
-  <div class="modal fade" id="dias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal fade" id="modal_licencia_horas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -158,7 +158,7 @@
 </div>
 
 
-<div class="modal fade" id="dias2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal_licencia_cargos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -170,8 +170,9 @@
         <%= text_field_tag 'input_fecha_inicio2' %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin2' %>
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo2" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo_cargos" %>
 
+        <div id="alerta-dias" class="alert alert-info"></div>
        
       </div>
       <div class="modal-footer">
@@ -184,7 +185,7 @@
 </div>
 
 
-<div class="modal fade" id="dias3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="modal_licencia_final" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -209,6 +210,30 @@
   </div>
 </div>
 
+<% @listado_de_datepickers = ['input_fecha_inicio', 'input_fecha_fin', 'input_fecha_inicio2', 'input_fecha_fin2','input_fecha_inicio3', 'input_fecha_fin3'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+
+
+  </script>
+
+<% end %>
+
 <script type="text/javascript">
  
     var tabla_licencia = $('#tabla-licencium').dataTable({
@@ -220,9 +245,7 @@
       retrieve: true,
     });
 
-    
-
-    var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
+     var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
       language : {"sUrl": "<%= asset_path('language.es.json') %>",},
       processing : true,
       serverSide : true,
@@ -250,6 +273,7 @@
  $("#div_hr_cargos").hide();
  $("#div_hr_licencias").hide();
  $("#div_licencias").hide();
+ $("#alerta-dias").hide();
  
 
   $("#select_articulo_horas" ).change(function() {
@@ -257,21 +281,38 @@
           var id_articulo = parseInt($("#select_articulo_horas option:selected").val(),10);
          
           $.ajax({
-            url: '/soft/snpe/licencia/buscar_articulo_dias/'+id_articulo+'/'+id_horas,
+            url: '/soft/snpe/licencia/buscar_articulo_dias_hora/'+id_articulo+'/'+id_horas,
             type: 'GET',
           })
           .done(function(data) {
        
             
             $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
-            //$("#select_origen" ).val(data.nombre);
-            //$("#origen_text_field").attr('disabled',true);
+            $("#alerta-dias").show();
           }) 
 
 
 
   });
 
+  $("#select_articulo_cargos" ).change(function() {
+          
+          var id_articulo = parseInt($("#select_articulo_cargos option:selected").val(),10);
+         
+          $.ajax({
+            url: '/soft/snpe/licencia/buscar_articulo_dias_cargo/'+id_articulo+'/'+id_horas,
+            type: 'GET',
+          })
+          .done(function(data) {
+       
+            
+            $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
+            $("#alerta-dias").show();
+          }) 
+
+
+
+  });
 
 
 
@@ -324,18 +365,18 @@
     var id_horas;
   var id_cargos;
 
-  $('#dias').on('shown.bs.modal', function (event) {      
+  $('#modal_licencia_horas').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
     });
 
-  $('#dias').on('hidden.bs.modal', function (e) {
-  
+  $('#modal_licencia_horas').on('hidden.bs.modal', function (e) {
+    $("#alerta-dias").hide();
   });
 
   $('#btn_licencia_horas').on('click', function () {
       fecha_inicio = $("#input_fecha_inicio").val();
       fecha_fin = $("#input_fecha_fin").val();
-      articulo = $("#select_articulo").val();
+      articulo = $("#select_articulo_horas").val();
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_horas/'+id_horas+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -343,7 +384,7 @@
         })
       .done(function(data) {
         
-        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida2/'+dni); 
+        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni); 
         tabla_horas_licencia.api().ajax.reload();
         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
         tabla_licencia.api().ajax.reload();    
@@ -351,9 +392,14 @@
     });
 
   
-$('#dias2').on('shown.bs.modal', function (event) {      
+  $('#modal_licencia_cargos').on('shown.bs.modal', function (event) {      
       id_cargos = $(event.relatedTarget).attr('id_cargos');
     });
+
+  $('#modal_licencia_horas').on('hidden.bs.modal', function (e) {
+    $("#alerta-dias").hide();
+  });
+
 
   $('#btn_licencia_cargos').on('click', function () {
       fecha_inicio = $("#input_fecha_inicio2").val();
@@ -374,7 +420,7 @@ $('#dias2').on('shown.bs.modal', function (event) {
  });
 
 
-  $('#dias3').on('shown.bs.modal', function (event) {      
+  $('#modal_licencia_final').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
       
       $('#input_fecha_inicio3').val($(event.relatedTarget).attr('fecha_desde'));
@@ -382,6 +428,9 @@ $('#dias2').on('shown.bs.modal', function (event) {
       $("#input_fecha_fin3").val($(event.relatedTarget).attr('fecha_hasta'));
       
     });
+  $('#modal_licencia_cargos').on('hidden.bs.modal', function (e) {
+    
+  });
 
   $('#btn_licencia_final').on('click', function () {
       fecha_inicio = $("#input_fecha_inicio3").val();
@@ -393,7 +442,7 @@ $('#dias2').on('shown.bs.modal', function (event) {
           type: 'POST',
         })
       .done(function(data) {
-        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida2/'+dni);
+        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
       tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
       
       tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
@@ -405,70 +454,7 @@ $('#dias2').on('shown.bs.modal', function (event) {
       })
  });
 
-  $( "#input_fecha_inicio" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
-$( "#input_fecha_fin" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
-$( "#input_fecha_inicio2" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
-$( "#input_fecha_fin2" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
-$( "#input_fecha_inicio3" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
-$( "#input_fecha_fin3" ).datepicker({dateFormat:"dd-mm-yy",
-              dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-              changeYear: true,
-              yearRange: "1910:<%= Date.today.year + 10 %>", 
-              monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-              navigationAsDateFormat: true,
-              nextText: "Sig", 
-              prevText: "Ant", 
-              showAnim: "explode"
-  });
+  
+
+
 </script>
