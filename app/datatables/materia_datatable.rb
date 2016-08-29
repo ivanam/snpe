@@ -3,12 +3,12 @@ class MateriaDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['materia.id']
+    @sortable_columns ||= ['materia.codigo', 'materia.descripcion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['materia.id']
+    @searchable_columns ||= ['materia.codigo', 'materia.descripcion']
   end
 
   private
