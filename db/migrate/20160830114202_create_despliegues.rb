@@ -3,7 +3,7 @@ class CreateDespliegues < ActiveRecord::Migration
     create_table :despliegues do |t|
       t.integer :anio
       t.references :plan, index: true
-      t.references :materia, index: true
+      t.references :materium, index: true
       t.integer :carga_horaria
 
       t.timestamps

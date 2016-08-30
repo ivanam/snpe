@@ -7,7 +7,7 @@ class DesplieguesController < InheritedResources::Base
   def index
     respond_to do |format|
       format.html
-      format.json { render json: DespliegueDatatable.new(view_context, { query: Despliegue.all }) }
+      format.json { render json: DespliegueDatatable.new(view_context, { query: Despliegue.includes(:plan, :materium) }) }
     end
   end
 
@@ -45,7 +45,6 @@ class DesplieguesController < InheritedResources::Base
     end
 
     def despliegue_params
-      params.require(:despliegue).permit(:anio, :plan_id, :materia_id, :carga_horaria)
+      params.require(:despliegue).permit(:anio, :plan_id, :materium_id, :carga_horaria)
     end
 end
-

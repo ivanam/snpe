@@ -3,12 +3,12 @@ class DespliegueDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['despliegues.id']
+    @sortable_columns ||= ['despliegues.anio','plans.codigo','materia.codigo','despliegues.carga_horaria']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['despliegues.id']
+    @searchable_columns ||= ['despliegues.anio','plans.descripcion','materia.descripcion','despliegues.carga_horaria']
   end
 
   private
@@ -19,8 +19,8 @@ class DespliegueDatatable < AjaxDatatablesRails::Base
         # comma separated list of the values for each cell of a table row
         # example: record.attribute,
         record.anio,
-        Plan.find(record.plan_id).to_s,
-        Materium.find(record.materia_id).to_s,
+        record.plan.to_s,
+        record.materium.to_s,
         record.carga_horaria,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

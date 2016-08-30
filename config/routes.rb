@@ -5,6 +5,8 @@ ProyectoBase::Application.routes.draw do
 
   
 
+  resources :despliegues
+
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
