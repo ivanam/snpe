@@ -11,7 +11,8 @@ class Util < ActiveRecord::Base
 
   def self.fecha_a_es(fecha)
   	if fecha then
-  		return I18n.l fecha
+      
+  		return fecha.strftime("%d-%m-%Y")
   	else
   		return ""
   	end  	

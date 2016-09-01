@@ -191,7 +191,7 @@ ProyectoBase::Application.routes.draw do
     
     post "licencia/guardar_licencia_horas/:id_horas/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_horas", as: :guardar_licencia_horas
     post "licencia/guardar_licencia_cargos/:id_cargos/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_cargos", as: :guardar_licencia_cargos
-    post "licencia/guardar_licencia_final/:id_lic", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
+    post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
   
 
     resources :localidads
