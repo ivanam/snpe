@@ -78,14 +78,14 @@ class LicenciaController < ApplicationController
 
   def guardar_licencia_horas
     
-    @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: true)
+    @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     
     @licencia.save
     render json: 0
   end 
   def guardar_licencia_cargos
     
-    @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: true)
+    @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     
     @licencia.save
     render json: 0
@@ -94,19 +94,19 @@ class LicenciaController < ApplicationController
     
     @licencia = Licencium.where(id: params[:id_lic]).first
     
-    @licencia.update(:vigente => false)
+    @licencia.update(:vigente => "Finalizada")
     render json: 0
   end 
 
   def buscar_articulo_dias_hora
 
     @licencia_hora = Licencium.where(altas_bajas_hora_id: params[:id_horas])
-    @licencia_articulo = @licencia_hora.where(articulo_id: params[:id_articulo])
+    @licencia_articulo = @licencia_hora.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
-    @licencia_hora.each do |l|
-      @dias = @dias + (l.fecha_desde - l.fecha_hasta).to_i
+    @licencia_articulo.each do |l|
+      @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i + 1
     end
-    
+   
     @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
     render json:  @dias_disponibles
   end
@@ -114,10 +114,10 @@ class LicenciaController < ApplicationController
   def buscar_articulo_dias_cargo
 
     @licencia_cargo = Licencium.where(cargo_id: params[:id_cargos])
-    @licencia_articulo = @licencia_cargo.where(articulo_id: params[:id_articulo])
+    @licencia_articulo = @licencia_cargo.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
-    @licencia_cargo.each do |l|
-      @dias = @dias + (l.fecha_desde - l.fecha_hasta).to_i
+    @licencia_articulo.each do |l|
+      @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
     end
     
     @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias

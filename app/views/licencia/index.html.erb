@@ -136,12 +136,12 @@
       </div>
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_inicio' %>
+        <%= text_field_tag 'input_fecha_inicio', Date.today %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin' %>
+        <%= text_field_tag 'input_fecha_fin', Date.today %>
         <hr/>
         <div class="row">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
         </div>
         <hr/>
         
@@ -167,10 +167,10 @@
       </div>
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_inicio2' %>
+        <%= text_field_tag 'input_fecha_inicio2', Date.today %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin2' %>
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:class => "col-sm-6", :id => "select_articulo_cargos" %>
+        <%= text_field_tag 'input_fecha_fin2' , Date.today%>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
 
         <div id="alerta-dias" class="alert alert-info"></div>
        
@@ -203,7 +203,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Guardar</button>
+        <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Guardar licencia</button>
       
       </div>
     </div>
@@ -371,6 +371,7 @@
 
   $('#modal_licencia_horas').on('hidden.bs.modal', function (e) {
     $("#alerta-dias").hide();
+    $("#select_articulo_horas" ).val("");
   });
 
   $('#btn_licencia_horas').on('click', function () {
@@ -387,7 +388,8 @@
         tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni); 
         tabla_horas_licencia.api().ajax.reload();
         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
-        tabla_licencia.api().ajax.reload();    
+        tabla_licencia.api().ajax.reload();
+        $("#select_articulo_horas" ).val("");    
       })
     });
 
@@ -438,7 +440,7 @@
      
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic,
+          url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin,
           type: 'POST',
         })
       .done(function(data) {
@@ -453,8 +455,5 @@
               
       })
  });
-
-  
-
 
 </script>
