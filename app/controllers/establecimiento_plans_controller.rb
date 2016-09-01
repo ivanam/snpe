@@ -7,7 +7,7 @@ class EstablecimientoPlansController < InheritedResources::Base
   def index
     respond_to do |format|
       format.html
-      format.json { render json: EstablecimientoPlanDatatable.new(view_context, { query: EstablecimientoPlan.all }) }
+      format.json { render json: EstablecimientoPlanDatatable.new(view_context, { query: EstablecimientoPlan.includes(:establecimiento, :plan) }) }
     end
   end
 

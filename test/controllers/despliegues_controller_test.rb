@@ -18,7 +18,7 @@ class DesplieguesControllerTest < ActionController::TestCase
 
   test "should create despliegue" do
     assert_difference('Despliegue.count') do
-      post :create, despliegue: { anio: @despliegue.anio, carga_horaria: @despliegue.carga_horaria, materia_id: @despliegue.materia_id, plan_id: @despliegue.plan_id }
+      post :create, despliegue: { anio: @despliegue.anio, carga_horaria: @despliegue.carga_horaria, materium_id: @despliegue.materium_id, plan_id: @despliegue.plan_id }
     end
 
     assert_redirected_to despliegue_path(assigns(:despliegue))
@@ -35,7 +35,7 @@ class DesplieguesControllerTest < ActionController::TestCase
   end
 
   test "should update despliegue" do
-    patch :update, id: @despliegue, despliegue: { anio: @despliegue.anio, carga_horaria: @despliegue.carga_horaria, materia_id: @despliegue.materia_id, plan_id: @despliegue.plan_id }
+    patch :update, id: @despliegue, despliegue: { anio: @despliegue.anio, carga_horaria: @despliegue.carga_horaria, materium_id: @despliegue.materium_id, plan_id: @despliegue.plan_id }
     assert_redirected_to despliegue_path(assigns(:despliegue))
   end
 

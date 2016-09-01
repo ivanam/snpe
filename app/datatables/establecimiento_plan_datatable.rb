@@ -2,12 +2,12 @@ class EstablecimientoPlanDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['establecimiento_plans.id']
+    @sortable_columns ||= ['establecimientos.codigo_jurisdiccional', 'plans.codigo']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['establecimiento_plans.id']
+    @searchable_columns ||= ['establecimientos.codigo_jurisdiccional', 'plans.codigo']
   end
 
   private
@@ -17,7 +17,7 @@ class EstablecimientoPlanDatatable < AjaxDatatablesRails::Base
       [
         # comma separated list of the values for each cell of a table row
         # example: record.attribute,
-        record.establecimiento.to_s,
+        "#{record.establecimiento.codigo_jurisdiccional} - #{record.establecimiento.to_s}",
         record.plan.to_s,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

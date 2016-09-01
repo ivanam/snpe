@@ -3,12 +3,12 @@ class PlanDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['plans.id']
+    @sortable_columns ||= ['plans.codigo', 'plans.descripcion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['plans.id']
+    @searchable_columns ||= ['plans.codigo', 'plans.descripcion']
   end
 
   private

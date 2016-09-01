@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20160830153313) do
+=======
+ActiveRecord::Schema.define(version: 20160830114202) do
+>>>>>>> bbff537c2aafebe944c9747a3ae941aed3eb20de
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -223,13 +227,13 @@ ActiveRecord::Schema.define(version: 20160830153313) do
   create_table "despliegues", force: true do |t|
     t.integer  "anio"
     t.integer  "plan_id"
-    t.integer  "materia_id"
+    t.integer  "materium_id"
     t.integer  "carga_horaria"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "despliegues", ["materia_id"], name: "index_despliegues_on_materia_id", using: :btree
+  add_index "despliegues", ["materium_id"], name: "index_despliegues_on_materium_id", using: :btree
   add_index "despliegues", ["plan_id"], name: "index_despliegues_on_plan_id", using: :btree
 
   create_table "empresas", force: true do |t|

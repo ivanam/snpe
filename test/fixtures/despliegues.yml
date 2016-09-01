@@ -3,11 +3,11 @@
 one:
   anio: 1
   plan_id: 
-  materia_id: 
+  materium_id: 
   carga_horaria: 1
 
 two:
   anio: 1
   plan_id: 
-  materia_id: 
+  materium_id: 
   carga_horaria: 1
