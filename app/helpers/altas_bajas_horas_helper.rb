@@ -15,6 +15,18 @@ module AltasBajasHorasHelper
     return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:secuencia => nil).where(:fecha_baja => nil).includes(:establecimiento, :persona)
   end
 
+  def select_materias_permitidas 
+    if current_user.role? :sadmin
+      #Si el usuario es superadmin muestro todas las materias
+      @materias_permitidas = Materium.all 
+    else
+      #Si el usuario es otro muestro las materias de ese establecimiento
+      @establecimiento_plan = EstablecimientoPlan.where(:establecimiento_id => session[:establecimiento]).map(&:plan_id)          
+      @materias_ids = Despliegue.where(:plan_id => @establecimiento_plan).map(&:materium_id)
+      @materias_permitidas = Materium.where(:id => @materias_ids)
+    end
+  end
+
   def altas_bajas_horas_efectivas_bajas(mindate, maxdate)
     @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
     @horas_ids = []

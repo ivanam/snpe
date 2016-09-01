@@ -5,6 +5,7 @@ class AltasBajasHorasController < ApplicationController
   def index
     @motivo_baja = select_motivo_baja
     @turno = select_turno
+    @materias_permitidas = select_materias_permitidas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
@@ -127,6 +128,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
+    @materias_permitidas = select_materias_permitidas
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -154,9 +156,12 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
 
+
+   
+
     respond_to do |format|
-      if @persona.save then      
-          if @altas_bajas_hora.save then
+      if @persona.save then  
+          if @altas_bajas_hora.save then            
             AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
             format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
             format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
