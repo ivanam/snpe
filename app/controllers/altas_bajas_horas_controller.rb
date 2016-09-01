@@ -177,11 +177,12 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def editar_alta
+    @materias_permitidas = select_materias_permitidas
     @altas_bajas_hora = AltasBajasHora.find(params[:id])
     @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 
- def guardar_edicion
+ def guardar_edicion    
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -211,7 +212,8 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.anio = params[:altas_bajas_hora][:anio]
     @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
-    @altas_bajas_hora.codificacion = params[:altas_bajas_hora][:codificacion]
+    #@altas_bajas_hora.codificacion = params[:altas_bajas_hora][:codificacion]
+    @altas_bajas_hora.materia_id = params[:altas_bajas_hora][:materia_id]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
