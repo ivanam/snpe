@@ -149,7 +149,7 @@
        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn_licencia_horas" class="btn btn-default" data-dismiss="modal">Guardar</button>
       
       </div>
@@ -170,13 +170,16 @@
         <%= text_field_tag 'input_fecha_inicio2', Date.today %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin2' , Date.today%>
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
-
-        <div id="alerta-dias" class="alert alert-info"></div>
+        <hr/>
+        <div class="row">
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
+        </div>
+        <hr/>
+        <div id="alerta-dias-cargo" class="alert alert-info"></div>
        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn_licencia_cargos" class="btn btn-default" data-dismiss="modal">Guardar</button>
       
       </div>
@@ -202,7 +205,7 @@
        
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Guardar licencia</button>
       
       </div>
@@ -236,85 +239,47 @@
 
 <script type="text/javascript">
  
-    var tabla_licencia = $('#tabla-licencium').dataTable({
-      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-      processing : true,
-      serverSide : true,
-      ajax : $('#tabla-licencium').data('source'),
-      pagingType: "simple",
-      retrieve: true,
-    });
-
-     var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
-      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-      processing : true,
-      serverSide : true,
-      ajax : $('#tabla-horas-licencia').data('source'),
-      pagingType: "simple",
-      paginate: false,
-      filter: false,
-     
-    });
-
-    var tabla_cargos_licencia = $('#tabla-cargos-licencia').dataTable({
-      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-      processing : true,
-      serverSide : true,
-      ajax : $('#tabla-cargos-licencia').data('source'),
-      pagingType: "simple",
-      paginate: false,
-      filter: false,
-     
-    });
-  
- $("#div_horas").hide();
- $("#div_cargos").hide();
- $("#div_hr_horas").hide();
- $("#div_hr_cargos").hide();
- $("#div_hr_licencias").hide();
- $("#div_licencias").hide();
- $("#alerta-dias").hide();
- 
-
-  $("#select_articulo_horas" ).change(function() {
-          
-          var id_articulo = parseInt($("#select_articulo_horas option:selected").val(),10);
-         
-          $.ajax({
-            url: '/soft/snpe/licencia/buscar_articulo_dias_hora/'+id_articulo+'/'+id_horas,
-            type: 'GET',
-          })
-          .done(function(data) {
-       
-            
-            $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
-            $("#alerta-dias").show();
-          }) 
-
-
-
+  var tabla_licencia = $('#tabla-licencium').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-licencium').data('source'),
+    pagingType: "simple",
+    retrieve: true,
   });
 
-  $("#select_articulo_cargos" ).change(function() {
-          
-          var id_articulo = parseInt($("#select_articulo_cargos option:selected").val(),10);
-         
-          $.ajax({
-            url: '/soft/snpe/licencia/buscar_articulo_dias_cargo/'+id_articulo+'/'+id_horas,
-            type: 'GET',
-          })
-          .done(function(data) {
-       
-            
-            $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
-            $("#alerta-dias").show();
-          }) 
-
-
-
+  var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-horas-licencia').data('source'),
+    pagingType: "simple",
+    paginate: false,
+    filter: false,
+   
   });
 
+  var tabla_cargos_licencia = $('#tabla-cargos-licencia').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-cargos-licencia').data('source'),
+    pagingType: "simple",
+    paginate: false,
+    filter: false,
+   
+  });
 
+  var id_horas;
+  var id_cargos;
+  $("#div_horas").hide();
+  $("#div_cargos").hide();
+  $("#div_hr_horas").hide();
+  $("#div_hr_cargos").hide();
+  $("#div_hr_licencias").hide();
+  $("#div_licencias").hide();
+  $("#alerta-dias").hide();
+  $("#alerta-dias-cargo").hide();
 
   var tabla_personal_activo = $('#tabla-personal-activo')
     .on('draw.dt', function () {
@@ -362,8 +327,7 @@
     });
 
 
-    var id_horas;
-  var id_cargos;
+  //--------------------------------Horas------------------------------------
 
   $('#modal_licencia_horas').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
@@ -393,67 +357,89 @@
       })
     });
 
+  $("#select_articulo_horas" ).change(function() {
+    var id_articulo = parseInt($("#select_articulo_horas option:selected").val(),10);
+    $.ajax({
+      url: '/soft/snpe/licencia/buscar_articulo_dias_hora/'+id_articulo+'/'+id_horas,
+      type: 'GET',
+      })
+        .done(function(data) {
+        $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
+        $("#alerta-dias").show();
+      }) 
+  });
+
+//---------------------------Cargos-------------------------------------
   
   $('#modal_licencia_cargos').on('shown.bs.modal', function (event) {      
       id_cargos = $(event.relatedTarget).attr('id_cargos');
     });
 
-  $('#modal_licencia_horas').on('hidden.bs.modal', function (e) {
-    $("#alerta-dias").hide();
+  $('#modal_licencia_cargos').on('hidden.bs.modal', function (e) {
+    $("#alerta-dias-cargo").hide();
+    $("#select_articulo_cargos").val("");
   });
 
 
   $('#btn_licencia_cargos').on('click', function () {
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
-      articulo = $("#select_articulo2").val();
+      articulo = $("#select_articulo_cargos").val();
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
           type: 'POST',
         })
       .done(function(data) {
-        
-        tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni); 
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni); 
         tabla_cargos_licencia.api().ajax.reload();
-         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
-        tabla_licencia.api().ajax.reload();          
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.reload();
+        $("#select_articulo_cargos" ).val("");          
       })
- });
+  });
 
+  $("#select_articulo_cargos" ).change(function() {
+    var id_articulo = parseInt($("#select_articulo_cargos option:selected").val(),10);
+      $.ajax({
+        url: '/soft/snpe/licencia/buscar_articulo_dias_cargo/'+id_articulo+'/'+id_cargos,
+        type: 'GET',
+      })
+        .done(function(data) {
+          $("#alerta-dias-cargo").html("Le quedan "+data+" dias de licencias en este Articulo");
+          $("#alerta-dias-cargo").show();
+        }) 
+  });
+
+//----------------------------Confirmacion de licencia-----------------------
 
   $('#modal_licencia_final').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
-      
       $('#input_fecha_inicio3').val($(event.relatedTarget).attr('fecha_desde'));
-      
       $("#input_fecha_fin3").val($(event.relatedTarget).attr('fecha_hasta'));
-      
-    });
+  });
+
   $('#modal_licencia_cargos').on('hidden.bs.modal', function (e) {
     
   });
 
   $('#btn_licencia_final').on('click', function () {
-      fecha_inicio = $("#input_fecha_inicio3").val();
-      fecha_fin = $("#input_fecha_fin3").val();
-     
-        
-      $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin,
-          type: 'POST',
-        })
-      .done(function(data) {
-        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
+    fecha_inicio = $("#input_fecha_inicio3").val();
+    fecha_fin = $("#input_fecha_fin3").val();
+   
+      
+    $.ajax({
+      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin,
+      type: 'POST',
+      })
+    .done(function(data) {
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
       tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
-      
       tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
-      
       tabla_horas_licencia.api().ajax.reload();
       tabla_cargos_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
-              
-      })
- });
+    })
+  });
 
 </script>

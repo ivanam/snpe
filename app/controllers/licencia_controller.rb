@@ -41,9 +41,9 @@ class LicenciaController < ApplicationController
 
   def cargos_licencia_permitida
     @cargos_persona = Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))
-    @licencias_cargo = Licencium.where(:cargo_id => @cargos_persona, :vigente => true).map(&:cargo_id)
-    @cargos_persona_permitida = @cargos_persona.where.not(:id => @licencia_cargo)
-
+    @licencia_cargos = Licencium.where(:cargo_id => @cargos_persona, :vigente => "Vigente").map(&:cargo_id)
+    @cargos_persona_permitida = @cargos_persona.where.not(:id => @licencia_cargos)
+ 
     respond_to do |format|
       format.json { render json: CargosLicenciaPermitidaDatatable.new(view_context, { query: @cargos_persona_permitida}) }
     end
@@ -51,7 +51,7 @@ class LicenciaController < ApplicationController
 
   def altas_bajas_horas_licencia_permitida
     @horas_persona = AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))
-    @licencia_horas = Licencium.where(:altas_bajas_hora_id => @horas_persona, :vigente => true).map(&:altas_bajas_hora_id)
+    @licencia_horas = Licencium.where(:altas_bajas_hora_id => @horas_persona, :vigente => "Vigente").map(&:altas_bajas_hora_id)
     @horas_persona_permitida = @horas_persona.where.not(:id => @licencia_horas)
     respond_to do |format|
       format.json { render json: AltasBajasHoraLicenciaPermitidaDatatable.new(view_context, { query: @horas_persona_permitida}) }
