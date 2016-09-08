@@ -19,6 +19,8 @@ ProyectoBase::Application.routes.draw do
 
     post "util/buscar_estados_cargo/:id", to: 'util#buscar_estados_cargo'  
 
+    post "util/buscar_materias_plan/:plan_id", to: 'util#buscar_materias_plan'
+
     resources :articulos
 
     resources :despliegues

@@ -123,9 +123,14 @@ body {
     
 }
 
+#plan{
+    max-width: 350px;
+    width: 350px;
+}
+
 #materium{
-    max-width: 400px;
-    width: 400px;
+    max-width: 350px;
+    width: 350px;
 }
 
 #oblig{
@@ -513,7 +518,7 @@ body {
 }
 
 .form-carga-efecto-alta {    
-  max-width: 948px;
+  max-width: 1024px;
 }
 
 .form-carga-efecto-cargos {    

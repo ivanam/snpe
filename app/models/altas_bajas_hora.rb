@@ -17,6 +17,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   #validates :codificacion, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :persona_id, :presence => true
+  validates :plan_id, :presence => true
   validates :materia_id, :presence => true
 
   #Validates de persona en AltasBajas

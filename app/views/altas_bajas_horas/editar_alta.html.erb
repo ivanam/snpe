@@ -57,7 +57,9 @@
           <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
           <%= f.select(:turno, AltasBajasHora::TURNO, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
 
-          <%= f.select(:materia_id, @materias_permitidas.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
+          <%= f.select(:plan_id, @planes_permitidos.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :class=>"form-control form-alta form-select")%>        
+        
+          <%= f.select(:materia_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]} : "", {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
 
           <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control"%>
           <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-edit" %>
@@ -93,3 +95,27 @@
   </script>
 
 <% end %>
+
+<script type="text/javascript">
+  $("#plan").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       $("#datos_persona").show();
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id,
+          type: 'POST',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#materium").empty();
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option>'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+          else{
+            //alert("La persona no existe. Por favor cargue sus datos");
+            $("#materium").empty();
+          }
+        })
+    });
+</script>
