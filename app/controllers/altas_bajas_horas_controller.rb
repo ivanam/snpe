@@ -180,7 +180,7 @@ class AltasBajasHorasController < ApplicationController
   def editar_alta
     @planes_permitidos = select_planes_permitidos
     @altas_bajas_hora = AltasBajasHora.find(params[:id])    
-    @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id)
+    @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)
     @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 

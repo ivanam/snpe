@@ -17,7 +17,7 @@ module AltasBajasHorasHelper
 
   def select_planes_permitidos 
     if current_user.role? :sadmin
-      #Si el usuario es superadmin muestro todas las materias
+      #Si el usuario es superadmin muestro todos las planes
       @planes_permitidos = Plan.all 
     else
       #Si el usuario es otro muestro los planes de ese establecimiento
@@ -26,9 +26,8 @@ module AltasBajasHorasHelper
     end
   end
 
-  def select_materias_permitidas plan_id
-    #Si el usuario es otro muestro las materias de ese plan      
-    @materias_ids = Despliegue.where(:plan_id => plan_id).map(&:materium_id)
+  def select_materias_permitidas(plan_id, anio)
+    @materias_ids = Despliegue.where(:plan_id => plan_id, :anio => anio).map(&:materium_id)
     @materias_permitidas = Materium.where(:id => @materias_ids)
   end
 
