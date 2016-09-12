@@ -45,7 +45,7 @@
     </div>
     <div class="panel-body">
     <div class="table-responsive">
-      <table id="tabla-horas-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_licencia_permitida_path(format: :json, dni: 1) %>" >
+      <table id="tabla-horas-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_licencia_permitida_path(format: :json, dni: 0) %>" >
         <thead>
           <tr>
             <th>Secuencia</th>
@@ -207,6 +207,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Guardar licencia</button>
+        <button type="button" id="btn_cancelar" class="btn btn-default" data-dismiss="modal">Cancelar licencia</button>
       
       </div>
     </div>
@@ -430,6 +431,21 @@
       
     $.ajax({
       url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin,
+      type: 'POST',
+      })
+    .done(function(data) {
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
+      tabla_horas_licencia.api().ajax.reload();
+      tabla_cargos_licencia.api().ajax.reload();
+      tabla_licencia.api().ajax.reload();
+    })
+  });
+
+  $('#btn_cancelar').on('click', function () {
+    $.ajax({
+      url: '/soft/snpe/licencia/cancelar_licencia/'+id_lic,
       type: 'POST',
       })
     .done(function(data) {

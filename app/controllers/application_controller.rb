@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   include ::LoteImpresionsHelper
   include ::CargosHelper
   include ::AsistenciaHelper
+  include ::LicenciaHelper
   
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message

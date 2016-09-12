@@ -23,7 +23,6 @@ class LicenciaController < ApplicationController
   end
 
   def create
-    
     @licencium = Licencium.new(licencium_params)
     @licencium.save
     respond_with(@licencium)
@@ -40,66 +39,52 @@ class LicenciaController < ApplicationController
   end
 
   def cargos_licencia_permitida
-    @cargos_persona = Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))
-    @licencia_cargos = Licencium.where(:cargo_id => @cargos_persona, :vigente => "Vigente").map(&:cargo_id)
-    @cargos_persona_permitida = @cargos_persona.where.not(:id => @licencia_cargos)
- 
+    @dni=params[:dni]
     respond_to do |format|
-      format.json { render json: CargosLicenciaPermitidaDatatable.new(view_context, { query: @cargos_persona_permitida}) }
+      format.json { render json: CargosLicenciaPermitidaDatatable.new(view_context, { query: cargos_persona_permitida(@dni)}) }
     end
   end
 
   def altas_bajas_horas_licencia_permitida
-    @horas_persona = AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))
-    @licencia_horas = Licencium.where(:altas_bajas_hora_id => @horas_persona, :vigente => "Vigente").map(&:altas_bajas_hora_id)
-    @horas_persona_permitida = @horas_persona.where.not(:id => @licencia_horas)
+    @dni=params[:dni]
     respond_to do |format|
-      format.json { render json: AltasBajasHoraLicenciaPermitidaDatatable.new(view_context, { query: @horas_persona_permitida}) }
+      format.json { render json: AltasBajasHoraLicenciaPermitidaDatatable.new(view_context, { query: horas_persona_permitida(@dni)}) }
     end
   end
 
   def licencia_dadas
-    
+    @dni=params[:dni]
     #@altas = Licencium.where{(altas_bajas_hora_id == AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))) | (cargo_id == Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni])))}
-    @licencia_cargo=Licencium.where(:cargo_id => Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
-    @licencia_horas=Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
-    @licencia_cargo.each do |l|
-      @licencia_horas.push(l)
-    end 
-
-     @licencias=Licencium.where(:id => @licencia_horas)
-    
     respond_to do |format|
-      format.json { render json: LicenciaDatatable.new(view_context, { query: @licencias}) }
+      format.json { render json: LicenciaDatatable.new(view_context, { query: licencias(@dni)}) }
     end
   end 
 
-  
-
   def guardar_licencia_horas
-    
     @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    
     @licencia.save
     render json: 0
   end 
+
   def guardar_licencia_cargos
-    
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    
     @licencia.save
     render json: 0
-  end 
+  end
+
   def guardar_licencia_final
-    
     @licencia = Licencium.where(id: params[:id_lic]).first
-    
     @licencia.update(:vigente => "Finalizada")
     render json: 0
   end 
 
-  def buscar_articulo_dias_hora
+  def cancelar_licencia
+    @licencia = Licencium.where(id: params[:id_lic]).first
+    @licencia.update(:vigente => "Cancelada")
+    render json: 0
+  end
 
+  def buscar_articulo_dias_hora
     @licencia_hora = Licencium.where(altas_bajas_hora_id: params[:id_horas])
     @licencia_articulo = @licencia_hora.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
@@ -112,14 +97,12 @@ class LicenciaController < ApplicationController
   end
 
   def buscar_articulo_dias_cargo
-
     @licencia_cargo = Licencium.where(cargo_id: params[:id_cargos])
     @licencia_articulo = @licencia_cargo.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
     @licencia_articulo.each do |l|
       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
     end
-    
     @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
     render json:  @dias_disponibles
   end
