@@ -1,12 +1,5 @@
 ProyectoBase::Application.routes.draw do
 
-
-  
-
-  
-
-  
-
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -197,6 +190,7 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_horas/:id_horas/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_horas", as: :guardar_licencia_horas
     post "licencia/guardar_licencia_cargos/:id_cargos/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_cargos", as: :guardar_licencia_cargos
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
+    post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
   
 
     resources :localidads
