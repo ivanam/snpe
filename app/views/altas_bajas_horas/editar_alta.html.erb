@@ -101,30 +101,25 @@
 <script type="text/javascript">
   $("#plan").change(function(){
        var plan_id = parseInt($("#plan").val(),10);
-       $("#datos_persona").show();
+       var anio = parseInt($("#curso").val(),10);
         $.ajax({
-          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id,
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
           type: 'POST',
         })
         .done(function(data) {
+          $("#materium").empty();
           if (data != null) {
-            $("#materium").empty();
             $("#materium").append('<option value="">Materia</option>');
             for (var i = 0; i < data.length; i++) {
               $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
             };            
           }
-          else{
-            //alert("La persona no existe. Por favor cargue sus datos");
-            $("#materium").empty();
-          }
         })
     });
 
-  $("#anio").change(function(){
+  $("#curso").change(function(){
        var plan_id = parseInt($("#plan").val(),10);
        var anio = parseInt($("#curso").val(),10);
-       $("#datos_persona").show();
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
           type: 'POST',
