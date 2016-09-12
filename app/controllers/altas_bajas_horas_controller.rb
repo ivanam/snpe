@@ -5,7 +5,8 @@ class AltasBajasHorasController < ApplicationController
   def index
     @motivo_baja = select_motivo_baja
     @turno = select_turno
-    @materias_permitidas = select_materias_permitidas
+    @planes_permitidos = select_planes_permitidos
+
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     if @altas_bajas_hora == nil
       @altas_bajas_hora = AltasBajasHora.new
@@ -128,7 +129,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
-    @materias_permitidas = select_materias_permitidas
+    @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
@@ -177,8 +178,9 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def editar_alta
-    @materias_permitidas = select_materias_permitidas
-    @altas_bajas_hora = AltasBajasHora.find(params[:id])
+    @planes_permitidos = select_planes_permitidos
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])    
+    @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)
     @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 
@@ -538,6 +540,6 @@ class AltasBajasHorasController < ApplicationController
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :materia_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materia_id, :grupo_id)
     end
 end

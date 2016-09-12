@@ -22,7 +22,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         record.turno,
-        record.codificacion,
+        Materium.find(record.materia_id).codigo,        
         Util.fecha_a_es(record.fecha_alta),           
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if (options[:rol] == "escuela") then

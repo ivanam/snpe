@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20160830153313) do
-=======
-ActiveRecord::Schema.define(version: 20160830114202) do
->>>>>>> bbff537c2aafebe944c9747a3ae941aed3eb20de
+ActiveRecord::Schema.define(version: 20160907163731) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -90,6 +86,7 @@ ActiveRecord::Schema.define(version: 20160830114202) do
     t.integer  "materia_id"
     t.integer  "grupo_id"
     t.string   "motivo_baja"
+    t.integer  "plan_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree

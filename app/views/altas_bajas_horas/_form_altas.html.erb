@@ -43,18 +43,22 @@
         <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellidos", :value => @persona.apellidos } %>
         <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombres", :value => @persona.nombres } %>
         <%= f.select(:con_movilidad, [['Si', true], ['No', false]], {:prompt => "Movilidad"}, :id => "movilidad",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Movilidad", :class=>"form-control form-alta form-select")%>
-        <%= f.select(:empresa_id,  Empresa.all.collect {|e| [ e.to_s, e.id ] }, {:prompt => "Empresa"}, :id => "empresa", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Empresa", :class=>"form-control form-alta form-select") %>
-      </div>
-      <div class="row">        
+        <%= f.select(:empresa_id,  Empresa.all.collect {|e| [ e.to_s, e.id ] }, {:prompt => "Empresa"}, :id => "empresa", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Empresa", :class=>"form-control form-alta form-select") %>        
         <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
         <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
+      </div>
+      <div class="row">        
         <%= f.select(:situacion_revista, AltasBajasHora::SITUACION_REVISTA, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
         <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
         <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ciclo/Carrera - ej: 58", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"4"%>
-        <%= f.text_field :anio, :placeholder => "Cur",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso - ej: 4", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
+
         <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
+
+        <%= f.select(:anio, AltasBajasHora::ANIO, {:prompt => "Curso"}, :id => "curso",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class=>"form-control form-alta form-select")%>
+
+        <%= f.select(:plan_id, @planes_permitidos.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :class=>"form-control form-alta form-select")%>        
         
-        <%= f.select(:materia_id, @materias_permitidas.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
+        <%= f.select(:materia_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
         
         <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control", :maxlength=>"2"%>
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>  
@@ -86,3 +90,43 @@
   </script>
 
 <% end %>
+
+<script type="text/javascript">
+  $("#plan").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+       $("#datos_persona").show();
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'POST',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#anio").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+       $("#datos_persona").show();
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'POST',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+</script>

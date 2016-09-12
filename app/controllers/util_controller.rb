@@ -37,4 +37,11 @@ class UtilController < ApplicationController
     render json: @observaciones
   end
 
+  def buscar_materias_plan
+    @materias_ids = Despliegue.where(:plan_id => params[:plan_id], :anio => params[:anio]).map(&:materium_id)
+    @materias_permitidas = Materium.where(:id => @materias_ids)
+
+    render json: @materias_permitidas
+  end
+
 end
