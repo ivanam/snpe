@@ -120,6 +120,21 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora = AltasBajasHora.find(params[:id])
   end
 
+  def show
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => 'file_name',
+        #:template => 'entradas/show.html.erb',
+        :template => 'altas_bajas_horas/pdf.html.erb',
+        #:layout => 'application.html.erb',
+        :layout => 'pdf.html.erb',
+        :show_as_html => params[:debug].present?
+      end
+    end
+  end
+
   def new
     @altas_bajas_hora = AltasBajasHora.new
     respond_with(@altas_bajas_hora)
@@ -129,6 +144,9 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
+
+    #AltasBajasHora.where(params)
+    params[:altas_bajas_hora][:division]
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
