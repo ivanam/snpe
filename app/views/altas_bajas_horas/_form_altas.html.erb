@@ -95,7 +95,6 @@
   $("#plan").change(function(){
        var plan_id = parseInt($("#plan").val(),10);
        var anio = parseInt($("#curso").val(),10);
-       $("#datos_persona").show();
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
           type: 'POST',
@@ -111,10 +110,9 @@
         })
     });
 
-  $("#anio").change(function(){
+  $("#curso").change(function(){
        var plan_id = parseInt($("#plan").val(),10);
        var anio = parseInt($("#curso").val(),10);
-       $("#datos_persona").show();
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
           type: 'POST',
