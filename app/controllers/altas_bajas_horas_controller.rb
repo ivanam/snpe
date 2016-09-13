@@ -144,14 +144,10 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
-<<<<<<< HEAD
     @planes_permitidos = select_planes_permitidos    
-=======
-
     #AltasBajasHora.where(params)
     params[:altas_bajas_hora][:division]
     @planes_permitidos = select_planes_permitidos
->>>>>>> eb90f97197b97e5c63da2f7eb22dd3c83f91b8b2
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]
