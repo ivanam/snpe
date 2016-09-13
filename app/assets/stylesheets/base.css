@@ -513,9 +513,7 @@ body {
   border:1px solid #999;
   border-radius:8px;
   box-shadow:0 0 10px #999;
-  padding-left: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
 }
 
 .form-carga-efecto-alta {    
