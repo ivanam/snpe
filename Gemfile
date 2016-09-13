@@ -74,3 +74,10 @@ gem 'attribute-defaults'
 # ---------------------------
 gem 'unicorn'
 # ---------------------------
+
+# GEMAS PARA PDF
+# ---------------------------
+gem 'wicked_pdf'
+
+gem 'wkhtmltopdf-binary'
+#----------------------------

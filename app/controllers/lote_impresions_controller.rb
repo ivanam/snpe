@@ -17,6 +17,20 @@ class LoteImpresionsController < ApplicationController
     respond_with(@lote_impresion)
   end
 
+  def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => 'file_name',
+        #:template => 'entradas/show.html.erb',
+        :template => 'lote_impresions/pdf.html.erb',
+        #:layout => 'application.html.erb',
+        :layout => 'pdf.html.erb',
+        :show_as_html => params[:debug].present?
+      end
+    end
+  end
+
   def new
     @lote_impresion = LoteImpresion.new
     respond_with(@lote_impresion)

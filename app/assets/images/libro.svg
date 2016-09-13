@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="792pt"
+   height="612pt"
+   id="svg3038"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="Nuevo documento 3">
+  <defs
+     id="defs3040" />
+  <sodipodi:namedview
+     inkscape:document-units="in"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.86831672"
+     inkscape:cx="71.106578"
+     inkscape:cy="624.34296"
+     inkscape:current-layer="layer1"
+     id="namedview3042"
+     showgrid="false"
+     inkscape:window-width="1600"
+     inkscape:window-height="834"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata3044">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#2d68af;fill-opacity:1"
+       d="m 214.33419,375.72651 c -9.27723,-1.82134 -17.54207,-4.36171 -22.46475,-9.93875 -9.6236,-10.90281 -8.4871,-2.54074 -8.90116,-144.88842 -0.41269,-141.8785 -1.18935,-138.806784 7.65578,-150.279258 2.41561,-3.133125 7.81742,-7.229471 12.25157,-9.239842 5.82193,-2.639557 11.18135,-2.811837 17.99947,-3.792123 4.80964,-0.691513 57.59173,-1.269546 117.29354,-1.284519 l 108.54875,-0.02723 0,133.360382 0,133.36037 -7.48612,0 -7.48612,0 0,-125.2369 0,-125.236904 -104.46541,0.04156 -109.59181,2.660115 -3.34864,0.179433 c -13.57577,0.727441 -16.57492,17.479524 -9.67146,26.209426 6.02726,7.62188 3.75966,7.46504 107.93623,7.46504 l 96.00217,0 0,134.03733 0,134.03733 -94.25706,-0.14835 c -51.84139,-0.0816 -96.84814,-0.65702 -100.01498,-1.27875 z"
+       id="path3071"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="csssssscccccccccssscccscc"
+       inkscape:export-filename="/home/bihos/libro-gde.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>

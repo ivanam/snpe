@@ -1,0 +1,21 @@
+
+<dl class="dl-horizontal">
+
+<div class="page-header">
+  <h1>Impresión N° <%= @lote_impresion.id %></h1>
+  <h4>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h1>
+</div>
+
+  <% if @lote_impresion.tipo_id == 1 %>
+    <%= render 'horas' %>
+  <% else %>
+    <%= render 'cargos' %>
+  <% end %>
+
+  <dt>Observaciones:</dt>
+  <dd><%= @lote_impresion.observaciones %></dd>
+
+  <br/><br/>
+
+
+</dl>
