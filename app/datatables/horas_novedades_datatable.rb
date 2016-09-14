@@ -22,7 +22,7 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         record.turno,
-        Materium.find(record.materia_id).codigo.to_s.rjust(4,'0'),                
+        Materium.find(record.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),                
         record.oblig,
         Util.fecha_a_es(record.fecha_alta),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
