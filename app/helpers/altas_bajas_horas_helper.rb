@@ -16,14 +16,8 @@ module AltasBajasHorasHelper
   end
 
   def select_planes_permitidos 
-    if current_user.role? :sadmin
-      #Si el usuario es superadmin muestro todos las planes
-      @planes_permitidos = Plan.all 
-    else
-      #Si el usuario es otro muestro los planes de ese establecimiento
-      @plan_ids = EstablecimientoPlan.where(:establecimiento_id => session[:establecimiento]).map(&:plan_id)          
-      @planes_permitidos = Plan.where(:id => @plan_ids)
-    end
+    @plan_ids = EstablecimientoPlan.where(:establecimiento_id => session[:establecimiento]).map(&:plan_id)          
+    @planes_permitidos = Plan.where(:id => @plan_ids)
   end
 
   def select_materias_permitidas(plan_id, anio)
