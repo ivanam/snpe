@@ -174,6 +174,8 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
+    @empresa = Empresa.where(:nombre => "HS").first
+    @altas_bajas_hora.empresa_id = @empresa.id
 
     respond_to do |format|
       if @persona.save then  

@@ -44,4 +44,8 @@ class UtilController < ApplicationController
     render json: @materias_permitidas
   end
 
+  def buscar_carga_horaria_materia
+    @despliegue = Despliegue.where(:materium_id => params[:materium_id], :plan_id => params[:plan_id], :anio => params[:anio]).first
+    render json: @despliegue.carga_horaria
+  end
 end
