@@ -144,9 +144,11 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def create
-    @planes_permitidos = select_planes_permitidos    
-    #AltasBajasHora.where(params)
-    params[:altas_bajas_hora][:division]
+    @planes_permitidos = select_planes_permitidos  
+    
+    @alta_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id],situacion_revista: params[:altas_bajas_hora][:situacion_revista])
+  
+    
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
@@ -174,25 +176,36 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
+
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
+
     respond_to do |format|
-      if @persona.save then  
-          if @altas_bajas_hora.save then            
-            AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
-            format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
-          else                        
+      if (params[:altas_bajas_hora][:situacion_revista] =="Titular" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
+        if @persona.save then  
+            if @altas_bajas_hora.save then            
+              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
+              format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
+              format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
+            else                        
+              @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
+              format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
+              format.html { render action: 'index' }
+            end        
+        else
             @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
-            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
+            format.json { render json: @persona.errors, status: :unprocessable_entity }
             format.html { render action: 'index' }
-          end        
+        end
       else
-          @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
-          format.json { render json: @persona.errors, status: :unprocessable_entity }
-          format.html { render action: 'index' }
-      end
+        if params[:altas_bajas_hora][:situacion_revista] =="Titular" then
+          flash[:error] = "Ya existe un agente en ese cargo"
+        else 
+          flash[:error] = "El titular en el cargo se encuentra activo"
+        end
+        format.html { render action: 'index' }
+      end 
     end
   end
 

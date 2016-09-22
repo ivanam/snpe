@@ -22,3 +22,19 @@
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
 })
+
+function abrir_reporte(direccion, pantallacompleta, herramientas, direcciones, estado, barramenu, barrascroll, cambiatamano, ancho, alto, izquierda, arriba, sustituir){
+	var opciones = "fullscreen=" + pantallacompleta +
+                   ",toolbar=" + herramientas +
+                   ",location=" + direcciones +
+                   ",status=" + estado +
+                   ",menubar=" + barramenu +
+                   ",scrollbars=" + barrascroll +
+                   ",resizable=" + cambiatamano +
+                   ",width=" + ancho +
+                   ",height=" + alto +
+                   ",left=" + izquierda +
+                   ",top=" + arriba;
+    var ventana = window.open(direccion,"venta",opciones,sustituir);
+}                    
+  
