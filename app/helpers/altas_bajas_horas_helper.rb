@@ -62,6 +62,11 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
+
     return AltasBajasHora.where(:id => @altasbajashoras_ids)
+  end
+
+  def con_licencia(altasbajashoras)
+      return Licencium.where(altas_bajas_hora_id: altasbajashoras, vigente: "Vigente")
   end
 end

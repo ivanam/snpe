@@ -145,12 +145,9 @@ class AltasBajasHorasController < ApplicationController
 
   def create
     @planes_permitidos = select_planes_permitidos  
-
-     
-    @alta_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
-      
-      
-      
+    
+    @alta_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id],situacion_revista: params[:altas_bajas_hora][:situacion_revista])
+  
     
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
@@ -185,7 +182,7 @@ class AltasBajasHorasController < ApplicationController
 
 
     respond_to do |format|
-      if @alta_escuela == [] then
+      if (params[:altas_bajas_hora][:situacion_revista] =="Titular" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
@@ -202,7 +199,11 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
         end
       else
-        flash[:error] = "ya existe"
+        if params[:altas_bajas_hora][:situacion_revista] =="Titular" then
+          flash[:error] = "Ya existe un agente en ese cargo"
+        else 
+          flash[:error] = "El titular en el cargo se encuentra activo"
+        end
         format.html { render action: 'index' }
       end 
     end
