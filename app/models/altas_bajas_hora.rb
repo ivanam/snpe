@@ -35,7 +35,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   TURNO = ["M", "T"]
   SITUACION_REVISTA = ["1-002", "1-003"]
-  ANIO = ["1","2","3","4","5","6"]
+  ANIO = ["0","1","2","3","4","5","6"]
   LONGITUD_CODIGO = 4
 
   def ina_justificada(anio, mes)

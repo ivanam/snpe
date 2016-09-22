@@ -17,7 +17,7 @@ class EstablecimientoPlanDatatable < AjaxDatatablesRails::Base
       [
         # comma separated list of the values for each cell of a table row
         # example: record.attribute,
-        "#{record.establecimiento.codigo_jurisdiccional} - #{record.establecimiento.to_s}",
+        "#{record.establecimiento.to_s}",
         record.plan.to_s,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

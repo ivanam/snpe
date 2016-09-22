@@ -17,7 +17,7 @@ class Establecimiento < ActiveRecord::Base
 	belongs_to :organizacion_superior, :class_name => 'Establecimiento', :foreign_key => 'organizacion_id'
 
 	def to_s
-	  	"#{ self.nombre } - #{ self.nivel }"
+	  	"#{self.codigo_jurisdiccional} - #{ self.nombre } - #{ self.nivel }"
 	end
   
   	def peso
