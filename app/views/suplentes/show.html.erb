@@ -1,0 +1,37 @@
+<div class="page-header">
+  <h1>suplente</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Altas bajas hora:</dt>
+  <dd><%= @suplente.altas_bajas_hora %></dd>
+
+  <dt>Altas bajas hora suplantada:</dt>
+  <dd><%= @suplente.altas_bajas_hora_suplantada %></dd>
+
+  <dt>Fecha desde:</dt>
+  <dd><%= @suplente.fecha_desde %></dd>
+
+  <dt>Fecha hasta:</dt>
+  <dd><%= @suplente.fecha_hasta %></dd>
+
+  <dt>Observaciones:</dt>
+  <dd><%= @suplente.observaciones %></dd>
+
+  <dt>Estado:</dt>
+  <dd><%= @suplente.estado %></dd>
+
+  <br/><br/>
+  <%= link_to suplentes_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_suplente_path(@suplente), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to suplente_path(@suplente), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

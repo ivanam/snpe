@@ -1,0 +1,38 @@
+<div class="page-header">
+  <%= link_to new_suplente_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Suplente
+  <% end %>
+  <h1>Listado de suplentes</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-suplente" class="table table-striped table-bordered table-hover" data-source = "<#= suplentes_path(format: :json) #>" >
+    <thead>
+      <tr>
+            <th>Altas bajas hora</th>
+            <th>Altas bajas hora suplantada</th>
+            <th>Fecha desde</th>
+            <th>Fecha hasta</th>
+            <th>Observaciones</th>
+            <th>Estado</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-suplente').dataTable({
+        language : {"sUrl": "<#= asset_path('language.es.json') #>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-suplente').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>
