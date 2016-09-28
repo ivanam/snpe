@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907163731) do
+ActiveRecord::Schema.define(version: 20160922154031) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -479,6 +479,20 @@ ActiveRecord::Schema.define(version: 20160907163731) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "suplentes", force: true do |t|
+    t.integer  "altas_bajas_hora_id"
+    t.integer  "altas_bajas_hora_suplantada_id"
+    t.date     "fecha_desde"
+    t.date     "fecha_hasta"
+    t.text     "observaciones"
+    t.string   "estado"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "suplentes", ["altas_bajas_hora_id"], name: "index_suplentes_on_altas_bajas_hora_id", using: :btree
+  add_index "suplentes", ["altas_bajas_hora_suplantada_id"], name: "index_suplentes_on_altas_bajas_hora_suplantada_id", using: :btree
 
   create_table "tipo_documentos", force: true do |t|
     t.string   "nombre"

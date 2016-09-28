@@ -186,6 +186,12 @@ class AltasBajasHorasController < ApplicationController
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
+              if @alta_escuela.situacion_revista == "Titular" && params[:altas_bajas_hora][:situacion_revista] == "Titular"
+                Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
+              else 
+                Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
+              end
+
               format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
               format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
             else                        

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  altas_bajas_hora_id: 
+  altas_bajas_hora_suplantada_id: 
+  fecha_desde: 2016-09-22
+  fecha_hasta: 2016-09-22
+  observaciones: MyText
+  estado: MyString
+
+two:
+  altas_bajas_hora_id: 
+  altas_bajas_hora_suplantada_id: 
+  fecha_desde: 2016-09-22
+  fecha_hasta: 2016-09-22
+  observaciones: MyText
+  estado: MyString

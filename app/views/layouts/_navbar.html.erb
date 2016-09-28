@@ -43,7 +43,7 @@
                   </ul>
                 </li>
               <% end %>
-              <% if (current_user.role? :sadmin)  then %>
+              <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
               <% if ver_model("Cargo") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos</a>
