@@ -26,6 +26,8 @@ class LoteImpresionsController < ApplicationController
         :template => 'lote_impresions/pdf.html.erb',
         #:layout => 'application.html.erb',
         :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
         :show_as_html => params[:debug].present?
       end
     end

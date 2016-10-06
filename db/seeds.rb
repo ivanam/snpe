@@ -243,9 +243,15 @@ Nivel.create(nombre:"Terciario")
 Nivel.create(nombre:"Universitario")
 
 #Carga de situacion de revista
-SituacionRevistum.create(nombre:"Interino")
-SituacionRevistum.create(nombre:"Suplente")
-SituacionRevistum.create(nombre:"Titular")
+SituacionRevistum.create(codigo: "1-1", descripcion:"Titular", planta_pre: 1, tipo_emp: 1) # Docentes
+SituacionRevistum.create(codigo: "1-2", descripcion:"Interino", planta_pre: 1, tipo_emp: 2) # Docentes
+SituacionRevistum.create(codigo: "1-3", descripcion:"Reemplazante", planta_pre: 1, tipo_emp: 3) # Docentes
+SituacionRevistum.create(codigo: "2-3", descripcion:"Suplente larga", planta_pre: 2, tipo_emp: 3) # Docentes
+SituacionRevistum.create(codigo: "2-4", descripcion:"Suplente corta (primaria)", planta_pre: 2, tipo_emp: 4) # Docentes
+SituacionRevistum.create(codigo: "2-5", descripcion:"Pago diferido (no se usa)", planta_pre: 2, tipo_emp: 5) # Docentes
+SituacionRevistum.create(codigo: "1-1", descripcion:"Titular", planta_pre: 1, tipo_emp: 1) # No docentes
+SituacionRevistum.create(codigo: "1-2", descripcion:"Interino", planta_pre: 1, tipo_emp: 2) # No docentes
+SituacionRevistum.create(codigo: "3-5", descripcion:"Planta transitoria", planta_pre: 3, tipo_emp: 5) # No docentes
 
 #Carga de localidades
 Localidad.create(region_id:4, nombre:"28 DE JULIO")

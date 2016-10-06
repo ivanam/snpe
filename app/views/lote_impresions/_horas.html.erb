@@ -1,62 +1,70 @@
 <dl class="dl-horizontal">
 
-<legend>Novedades de Horas</legend>
+<legend><h5>Novedades de Horas</h5></legend>
 
-<legend>Altas</legend>
-<table class="table table-bordered table-striped">
+<legend><h5>Altas</h5></legend>
+<table class="table table-bordered table-striped table-compact">
   <thead>
     <tr>
-      <th>Agente</th>         
+      <th>Apellido y nombre</th>         
+      <th>CUIL</th>
+      <th>Plan</th>
       <th>Ciclo</th>
-      <th>Curso</th>
-      <th>Situación Revista</th>
+      <th>Año</th>
+      <th>División</th>
+      <th>Fecha de alta</th>
       <th>Horas</th>
-      <th>Codificación</th>
-      <th>Fecha Alta</th>
-      <th>Fecha Baja</th>
+      <th>Sit. Rev</th>
+      <th>Cod. de Materia</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.altas_bajas_horas.each do |h| %>
       <tr>
-        <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
+        <td><%= h.persona.to_s %></td>
+        <td><%= h.persona.cuil %></td>
+        <td><%= Plan.find(h.plan_id).to_s %></td>
         <td><%= h.ciclo_carrera %></td>
-        <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
-        <td><%= h.situacion_revista %></td>
-        <td><%= h.horas %></td>
-        <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+        <td><%= h.anio.to_s %></td>
+        <td><%= h.division.to_s %></td>
         <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
-        <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
+        <td><%= h.horas %></td>
+        <td><%= h.situacion_revista %></td>
+        <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<legend>Bajas</legend>
+<legend><h5>Bajas</h5></legend>
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th>Agente</th>         
+      <th>Apellido y nombre</th>         
+      <th>CUIL</th>
+      <th>Plan</th>
       <th>Ciclo</th>
-      <th>Curso</th>
-      <th>Situación Revista</th>
+      <th>Año</th>
+      <th>División</th>
+      <th>Fecha de alta</th>
       <th>Horas</th>
-      <th>Codificación</th>
-      <th>Fecha Alta</th>
-      <th>Fecha Baja</th>
+      <th>Sit. Rev</th>
+      <th>Cod. de Materia</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.impresion_bajas.each do |h| %>
       <tr>
-        <td><%=h.persona.nro_documento.to_s + ' - ' + h.persona.to_s %></td>
+        <td><%= h.persona.to_s %></td>
+        <td><%= h.persona.cuil %></td>
+        <td><%= Plan.find(h.plan_id).to_s %></td>
         <td><%= h.ciclo_carrera %></td>
-        <td><%= h.anio.to_s + ' / ' + h.division.to_s %></td>
-        <td><%= h.situacion_revista %></td>
-        <td><%= h.horas %></td>
-        <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>      
+        <td><%= h.anio.to_s %></td>
+        <td><%= h.division.to_s %></td>
         <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
-        <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
+        <td><%= h.horas %></td>
+        <td><%= h.situacion_revista %></td>
+        <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
       </tr>
     <% end %>
   </tbody>

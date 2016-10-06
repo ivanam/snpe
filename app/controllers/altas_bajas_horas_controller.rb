@@ -181,12 +181,14 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.empresa_id = @empresa.id
 
 
+    
+
     respond_to do |format|
-      if (params[:altas_bajas_hora][:situacion_revista] =="Titular" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
+      if (params[:altas_bajas_hora][:situacion_revista] =="1-002" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              if @alta_escuela.situacion_revista == "Titular" && params[:altas_bajas_hora][:situacion_revista] == "Titular"
+              if @alta_escuela.situacion_revista == "1-002" && params[:altas_bajas_hora][:situacion_revista] == "1-002"
                 Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
               else 
                 Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
@@ -205,11 +207,14 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
         end
       else
-        if params[:altas_bajas_hora][:situacion_revista] =="Titular" then
+        if params[:altas_bajas_hora][:situacion_revista] =="1-002" then
           flash[:error] = "Ya existe un agente en ese cargo"
         else 
           flash[:error] = "El titular en el cargo se encuentra activo"
         end
+        @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
+        format.json { render json: @persona.errors, status: :unprocessable_entity }           
+
         format.html { render action: 'index' }
       end 
     end
