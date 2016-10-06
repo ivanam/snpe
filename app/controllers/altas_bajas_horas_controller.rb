@@ -146,7 +146,7 @@ class AltasBajasHorasController < ApplicationController
   def create
     @planes_permitidos = select_planes_permitidos  
     
-    @alta_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id],situacion_revista: params[:altas_bajas_hora][:situacion_revista])
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
   
     
     @planes_permitidos = select_planes_permitidos
@@ -180,18 +180,19 @@ class AltasBajasHorasController < ApplicationController
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
-
     respond_to do |format|
-      if (params[:altas_bajas_hora][:situacion_revista] =="Titular" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
+      if (params[:altas_bajas_hora][:situacion_revista] =="1-002" && @altas_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              if @alta_escuela.situacion_revista == "Titular" && params[:altas_bajas_hora][:situacion_revista] == "Titular"
-                Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
-              else 
-                Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
+              if @altas_escuela != [] then
+                if @altas_escuela.first.situacion_revista == "1-002" && params[:altas_bajas_hora][:situacion_revista] == "1-002" then
+                    @suplente=Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
+                else 
+                    @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
+                end
+                @altas_escuela.first.suplente_id = @suplente.id
               end
-
               format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
               format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
             else                        
@@ -205,10 +206,14 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
         end
       else
-        if params[:altas_bajas_hora][:situacion_revista] =="Titular" then
+        if params[:altas_bajas_hora][:situacion_revista] =="1-002" then
           flash[:error] = "Ya existe un agente en ese cargo"
-        else 
-          flash[:error] = "El titular en el cargo se encuentra activo"
+        else
+          if @altas_escuela == [] then
+            flash[:error] = "no existe un titular en el cargo"
+          else
+            flash[:error] = "El titular en el cargo se encuentra activo"
+          end
         end
         format.html { render action: 'index' }
       end 

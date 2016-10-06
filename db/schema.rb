@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928142140) do
+ActiveRecord::Schema.define(version: 20161004123101) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -87,10 +87,12 @@ ActiveRecord::Schema.define(version: 20160928142140) do
     t.integer  "grupo_id"
     t.string   "motivo_baja"
     t.integer  "plan_id"
+    t.integer  "suplente_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
   add_index "altas_bajas_horas", ["persona_id"], name: "index_altas_bajas_horas_on_persona_id", using: :btree
+  add_index "altas_bajas_horas", ["suplente_id"], name: "index_altas_bajas_horas_on_suplente_id", using: :btree
 
   create_table "articulos", force: true do |t|
     t.string   "codigo"
@@ -483,7 +485,6 @@ ActiveRecord::Schema.define(version: 20160928142140) do
 
   create_table "suplentes", force: true do |t|
     t.integer  "altas_bajas_hora_id"
-    t.integer  "altas_bajas_hora_suplantada_id"
     t.date     "fecha_desde"
     t.date     "fecha_hasta"
     t.text     "observaciones"
@@ -494,7 +495,6 @@ ActiveRecord::Schema.define(version: 20160928142140) do
   end
 
   add_index "suplentes", ["altas_bajas_hora_id"], name: "index_suplentes_on_altas_bajas_hora_id", using: :btree
-  add_index "suplentes", ["altas_bajas_hora_suplantada_id"], name: "index_suplentes_on_altas_bajas_hora_suplantada_id", using: :btree
 
   create_table "tipo_documentos", force: true do |t|
     t.string   "nombre"
