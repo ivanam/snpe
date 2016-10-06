@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20161006144729) do
     t.integer  "cantidad_maxima_dias"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "suplencia"
   end
 
   create_table "asistencia", force: true do |t|
