@@ -180,6 +180,7 @@ class AltasBajasHorasController < ApplicationController
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
+
     respond_to do |format|
       if (params[:altas_bajas_hora][:situacion_revista] =="1-002" && @altas_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
         if @persona.save then  
@@ -215,6 +216,9 @@ class AltasBajasHorasController < ApplicationController
             flash[:error] = "El titular en el cargo se encuentra activo"
           end
         end
+        @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
+        format.json { render json: @persona.errors, status: :unprocessable_entity }           
+
         format.html { render action: 'index' }
       end 
     end
