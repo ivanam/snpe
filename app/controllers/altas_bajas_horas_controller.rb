@@ -147,7 +147,6 @@ class AltasBajasHorasController < ApplicationController
     @planes_permitidos = select_planes_permitidos  
     
     @alta_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id],situacion_revista: params[:altas_bajas_hora][:situacion_revista])
-  
     
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
@@ -184,11 +183,11 @@ class AltasBajasHorasController < ApplicationController
     
 
     respond_to do |format|
-      if (params[:altas_bajas_hora][:situacion_revista] =="1-002" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
+      if (params[:altas_bajas_hora][:situacion_revista] =="1-1" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              if @alta_escuela.situacion_revista == "1-002" && params[:altas_bajas_hora][:situacion_revista] == "1-002"
+              if @alta_escuela.situacion_revista == "1-2" && params[:altas_bajas_hora][:situacion_revista] == "1-2"
                 Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
               else 
                 Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
@@ -207,7 +206,7 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
         end
       else
-        if params[:altas_bajas_hora][:situacion_revista] =="1-002" then
+        if params[:altas_bajas_hora][:situacion_revista] =="1-2" then
           flash[:error] = "Ya existe un agente en ese cargo"
         else 
           flash[:error] = "El titular en el cargo se encuentra activo"

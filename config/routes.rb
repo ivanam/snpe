@@ -14,9 +14,9 @@ ProyectoBase::Application.routes.draw do
 
     post "util/buscar_estados_cargo/:id", to: 'util#buscar_estados_cargo'  
 
-    post "util/buscar_materias_plan/:plan_id/:anio", to: 'util#buscar_materias_plan'
+    get "util/buscar_materias_plan/:plan_id/:anio", to: 'util#buscar_materias_plan'
 
-    post "util/buscar_carga_horaria_materia/:materium_id/:plan_id/:anio", to: 'util#buscar_carga_horaria_materia'
+    get "util/buscar_carga_horaria_materia/:materium_id/:plan_id/:anio", to: 'util#buscar_carga_horaria_materia'
 
     resources :articulos
 
