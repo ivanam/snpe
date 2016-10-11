@@ -182,7 +182,9 @@ class AltasBajasHorasController < ApplicationController
 
 
     respond_to do |format|
-      if (params[:altas_bajas_hora][:situacion_revista] =="1-002" && @altas_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
+      if (params[:altas_bajas_hora][:situacion_revista] =="1-1" && @altas_escuela == []) then
+
+        #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
