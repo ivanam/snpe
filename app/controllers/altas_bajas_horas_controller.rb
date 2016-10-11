@@ -183,7 +183,6 @@ class AltasBajasHorasController < ApplicationController
 
 
     respond_to do |format|
-<<<<<<< HEAD
       if (params[:altas_bajas_hora][:situacion_revista] =="1-1" && @alta_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "Suplente" && @alta_escuela != [] && con_licencia(@alta_escuela))  then
         if @persona.save then  
             if @altas_bajas_hora.save then            
@@ -192,19 +191,6 @@ class AltasBajasHorasController < ApplicationController
                 Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
               else 
                 Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, altas_bajas_hora_suplantada_id: @alta_escuela.id, estado: "Activo")
-=======
-      if (params[:altas_bajas_hora][:situacion_revista] =="1-002" && @altas_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
-        if @persona.save then  
-            if @altas_bajas_hora.save then            
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              if @altas_escuela != [] then
-                if @altas_escuela.first.situacion_revista == "1-002" && params[:altas_bajas_hora][:situacion_revista] == "1-002" then
-                    @suplente=Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-                else 
-                    @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-                end
-                @altas_escuela.first.suplente_id = @suplente.id
->>>>>>> 375c4179508b132755e8b39a0fe3765b50574ee1
               end
               format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
               format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
