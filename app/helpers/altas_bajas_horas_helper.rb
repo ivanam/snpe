@@ -85,4 +85,27 @@ module AltasBajasHorasHelper
     end
     return Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente")
   end
+
+  
+  def con_licencia_interino(altasbajashoras)
+    @titular = altasbajashoras.where(situacion_revista: "1-1").first
+    return Licencium.where(altas_bajas_hora_id: @titular, vigente: "Vigente")
+  end
+
+  def con_licencia_reemplazante(altasbajashoras)
+  end 
+
+  def con_licencia_suplente (altasbajashoras)
+    @titular = altasbajashoras.where(situacion_revista: "1-1").first
+    if @titular.suplente_id != 0 then
+      @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
+      while @suplente.suplente_id != 0 do
+        @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
+      end
+      @ver_licencia = @suplente
+    else
+      @ver_licencia = @titular
+    end
+    return Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente")
+  end
 end

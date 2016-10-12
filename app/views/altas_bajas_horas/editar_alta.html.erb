@@ -49,7 +49,7 @@
           <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s", :value => @persona.apellidos} %>
           <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
           <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
-          <%= f.select(:situacion_revista, AltasBajasHora::SITUACION_REVISTA, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
+          <%= f.select(:situacion_revista, SituacionRevistum.all.collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
           <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ciclo/Carrera - ej: 58", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"2"%>
           
           <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
@@ -107,7 +107,7 @@
        var anio = parseInt($("#curso").val(),10);
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
-          type: 'POST',
+          type: 'GET',
         })
         .done(function(data) {
           $("#materium").empty();
@@ -125,7 +125,7 @@
        var anio = parseInt($("#curso").val(),10);
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
-          type: 'POST',
+          type: 'GET',
         })
         .done(function(data) {
           $("#materium").empty();
@@ -144,7 +144,7 @@
     var anio = parseInt($("#curso").val(),10);
     $.ajax({
           url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
-          type: 'POST',
+          type: 'GET',
         })
         .done(function(data) {
           if (data != null) {
