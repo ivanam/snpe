@@ -39,7 +39,7 @@ class AltasBajasHorasController < ApplicationController
 
   def index_cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 1).last
-    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1)
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona)
     if @lote != nil then
       if  @lote.fecha_impresion == nil
         #debugger
