@@ -216,14 +216,9 @@ class AltasBajasHorasController < ApplicationController
           @caso = 8
         end
       end
-          
-
-
-      
-        
-
 
     respond_to do |format|
+
         #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
 
       if (params[:altas_bajas_hora][:situacion_revista] =="1-2" && @altas_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "1-3" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
