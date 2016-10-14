@@ -2,11 +2,13 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['altas_bajas_horas.id']
+    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
+    'AltasBajasHora.division', 'AltasBajasHora.turno','AltasBajasHora.codificacion', 'AltasBajasHora.fecha_alta']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['AltasBajasHora.fecha_alta', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
+    'AltasBajasHora.division', 'AltasBajasHora.turno','AltasBajasHora.codificacion', 'AltasBajasHora.fecha_alta']
   end
 
   private
@@ -15,7 +17,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.apellidos,
+        record.persona.to_s,
         record.situacion_revista,
         record.horas,        
         record.ciclo_carrera,        

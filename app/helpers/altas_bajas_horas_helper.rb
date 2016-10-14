@@ -44,7 +44,7 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
-    return AltasBajasHora.where(:id => @altasbajashoras_ids)
+    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)
   end
 
 
@@ -63,7 +63,7 @@ module AltasBajasHorasHelper
       end
     end
 
-    return AltasBajasHora.where(:id => @altasbajashoras_ids)
+    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)
   end
 
   def con_licencia(altasbajashoras)
