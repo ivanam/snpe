@@ -93,6 +93,12 @@ module AltasBajasHorasHelper
   end
 
   def con_licencia_reemplazante(altasbajashoras)
+    if altasbajashoras.where(situacion_revista: "1-2").first then
+      @titular = altasbajashoras.where(situacion_revista: "1-1").first
+    else 
+      @titular = altasbajashoras.where(situacion_revista: "1-2").first
+    end
+    return Licencium.where(altas_bajas_hora_id: @titular, vigente: "Vigente")
   end 
 
   def con_licencia_suplente (altasbajashoras)

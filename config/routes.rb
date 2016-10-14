@@ -107,6 +107,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/cancelar-cola/", to: "altas_bajas_horas#cancelar_cola", as: :horas_cancelar_cola
 
+    get "altas_bajas_horas/cargo_por_materia/:materium_id/:plan_id/:anio/:division", to: 'licencia#cargo_por_materia', as: :cargo_por_materia
+
     resources :altas_bajas_horas
 
     #--------------------------- Bloque de Cargos -------------------------------------------------------------------------------------
