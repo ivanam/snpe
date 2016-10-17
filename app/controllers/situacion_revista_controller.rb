@@ -4,11 +4,9 @@ class SituacionRevistaController < ApplicationController
   # GET /situacion_revista
   # GET /situacion_revista.json
   def index
-    @situacion_revista = SituacionRevistum.all
-
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @situacion_revista }
+      format.json { render json: SituacionRevistaDatatable.new(view_context, { query: SituacionRevistum.all.order(:codigo) }) }
     end
   end
 

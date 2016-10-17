@@ -1,29 +1,31 @@
 <div class="page-header">
   <%= link_to new_situacion_revistum_path, :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Situacion revistum
+    Nueva Situación de Revista
   <% end %>
-  <h1>Listado de situaciones de revista</h1>
+  <h1>Listado de Situaciones de Revista</h1>
 </div>
 
 <div class="table-responsive">
   <table id="tabla-situacion_revistum" class="table table-striped table-bordered table-hover">
     <thead>
       <tr>
-            <th>Nombre</th>
-            <th class="text-center">Acciones</th>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th class="text-center col-md-1">Acciones</th>
       </tr>
     </thead>
 
     <tbody>
       <%= content_tag_for(:tr, @situacion_revista) do |situacion_revistum| %>
-            <td><%= situacion_revistum.nombre %></td>
+            <td><%= situacion_revistum.codigo %></td>
+            <td><%= situacion_revistum.descripcion %></td>
             <td class="text-center">
           <div class="btn-group">
             <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
               Acciones
               <span class="caret"></span>
-            </a>
+            </a>            
             <ul class="dropdown-menu">
               <li><%= link_to 'Ver', situacion_revistum %></li>
               <li><%= link_to 'Editar', edit_situacion_revistum_path(situacion_revistum) %></li>
@@ -39,16 +41,12 @@
 
 <script type="text/javascript">
     $(document).ready(function($) {
-      var cantidad = $("table > tbody").find("> tr:first > td").length - 1;
-      var pepe = $('#tabla-situacion_revistum').dataTable({
-        "sPaginationType": "bootstrap",
-        "aoColumnDefs": [
-          { "bSearchable": false, "aTargets": [ cantidad ] }
-        ],
-        "oLanguage": {
-              "sUrl": "language.es.json",
-          },
-        "aaSorting": [[ 0, "desc" ]],
+      $('#tabla-situacion_revistum').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-situacion_revistum').data('source'),
+        pagingType: "simple",
       });
     });
 </script>
