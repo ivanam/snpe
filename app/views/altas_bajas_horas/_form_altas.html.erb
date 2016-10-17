@@ -135,8 +135,21 @@
     var materia_id = parseInt($("#materium").val(),10);
     var plan_id = parseInt($("#plan").val(),10);
     var anio = parseInt($("#curso").val(),10);
+
+    var division = parseInt($("#division").val(),10);
+    
     $.ajax({
           url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#horas").val(data);
+          }
+        })
+
+      $.ajax({
+          url: '/soft/snpe/altas_bajas_horas/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio+'/'+division,
           type: 'GET',
         })
         .done(function(data) {

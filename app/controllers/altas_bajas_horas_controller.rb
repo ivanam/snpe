@@ -181,39 +181,33 @@ class AltasBajasHorasController < ApplicationController
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
-    #1- no existe titular
-    #2- ya existe titular
-    #3- interino titular con licencia
-    #4- titular sin licencia
-    #5- Remplazante titular interino con licencia
-    #6- titular interino sin licencia
     @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
  
-    if params[:altas_bajas_hora][:situacion_revista] =="1-1" then 
+      if params[:altas_bajas_hora][:situacion_revista] =="1-1" then 
         if @altas_escuela == [] then
-          @caso = 1
+          @caso = 1 #1- no existe titular
         else
-          @caso = 2
+          @caso = 2 #2- ya existe titular
         end
       elsif @altas_escuela == [] then
-          @caso = 1
+          @caso = 9 #1- no existe titular y se quiero dar de alto algo distinto
       elsif params[:altas_bajas_hora][:situacion_revista] =="1-2" then
         if con_licencia_interino(@altas_escuela) then
-          @caso = 3
+          @caso = 3 #3- titular con licencia
         else
-          @caso = 4
+          @caso = 4 #4- titular sin licencia
         end
       elsif params[:altas_bajas_hora][:situacion_revista] =="1-3" then
         if con_licencia_reemplazante(@altas_escuela) then
-          @caso = 5
+          @caso = 5 #5- Remplazante titular interino con licencia
         else
-          @caso = 6
+          @caso = 6 #6- titular interino sin licencia
         end
       elsif params[:altas_bajas_hora][:situacion_revista] =="2-3" then
         if con_licencia_suplente(@altas_escuela) then
-          @caso = 7
+          @caso = 7 #7- tiene licencia el suplente
         else
-          @caso = 8
+          @caso = 8 #8- no tiene licencia el suplente
         end
       end
 
@@ -221,19 +215,20 @@ class AltasBajasHorasController < ApplicationController
 
         #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
 
-      if (params[:altas_bajas_hora][:situacion_revista] =="1-2" && @altas_escuela == []) || (params[:altas_bajas_hora][:situacion_revista] == "1-3" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
-
+      if [1,3,5,7].include? @caso then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              if @altas_escuela != [] then
-                if @altas_escuela.first.situacion_revista == "1-2" && params[:altas_bajas_hora][:situacion_revista] == "1-2" then
-                    @suplente=Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-                else 
-                    @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-                end
-                @altas_escuela.first.suplente_id = @suplente.id
+              
+              if @caso == 3 then
+                 @suplente=Suplente.create(tipo_suplencia: "Interino",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
+              elsif @caso == 5 then
+                @suplente=Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
+              elsif @caso == 7 then
+                @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
               end
+              @altas_escuela.first.suplente_id = @suplente.id #ver q cada metodo devuelva si tiene licencia y el ultimo alta para poner este valor y enlazar
+              
               format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
               format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
             else                        
@@ -247,14 +242,16 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
         end
       else
-        if params[:altas_bajas_hora][:situacion_revista] =="1-2" then
-          flash[:error] = "Ya existe un agente en ese cargo"
-        else
-          if @altas_escuela == [] then
-            flash[:error] = "no existe un titular en el cargo"
-          else
-            flash[:error] = "El titular en el cargo se encuentra activo"
-          end
+        if @caso == 9 then
+          flash[:error] = "No existe un titular"
+        elsif @caso == 2 then
+          flash[:error] = "Se intenta dar de alta un titular y ya existe"
+        elsif @caso == 4 then
+          flash[:error] = "El titular se encuentra activo"
+        elsif @caso == 6 then 
+          flash[:error] = "El interino se encuentra activo"
+        elsif @caso == 8 then 
+          flash[:error] = "El suplente se encuentra activo"
         end
         @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
         format.json { render json: @persona.errors, status: :unprocessable_entity }           
@@ -263,6 +260,11 @@ class AltasBajasHorasController < ApplicationController
       end 
     end
   end
+
+  def cargo_por_materia
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
+
+    end
 
   def editar_alta
     @planes_permitidos = select_planes_permitidos
