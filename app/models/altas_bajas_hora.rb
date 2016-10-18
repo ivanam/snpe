@@ -33,7 +33,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   #-------------------------------------
 
-  TURNO = ["M", "T"]
+  TURNO = ["M", "T", "M/T", "JC", "V", "N"]
   ANIO = ["0","1","2","3","4","5","6"]
   LONGITUD_CODIGO = 4
 
