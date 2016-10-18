@@ -1,5 +1,7 @@
 ProyectoBase::Application.routes.draw do
 
+  resources :turnos
+
   resources :suplentes
 
   scope '/soft/snpe' do

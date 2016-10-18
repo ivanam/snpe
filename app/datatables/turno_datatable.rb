@@ -1,14 +1,13 @@
-class SituacionRevistaDatatable < AjaxDatatablesRails::Base
-  include AjaxDatatablesRails::Extensions::Kaminari
+class TurnoDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['SituacionRevistum.codigo','SituacionRevistum.descripcion']
+    @sortable_columns ||= ['Turno.descripcion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['SituacionRevistum.codigo','SituacionRevistum.descripcion']
+    @searchable_columns ||= ['Turno.descripcion']
   end
 
   private
@@ -16,7 +15,6 @@ class SituacionRevistaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.codigo,
         record.descripcion,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -24,9 +22,9 @@ class SituacionRevistaDatatable < AjaxDatatablesRails::Base
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="situacion_revista/'+record.id.to_s+'">Ver</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="situacion_revista/'+record.id.to_s+'/edit">Editar</a></li>
-            <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="situacion_revista/'+record.id.to_s+'">Eliminar</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="turnos/'+record.id.to_s+'">Ver</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="turnos/'+record.id.to_s+'/edit">Editar</a></li>
+            <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="turnos/'+record.id.to_s+'">Eliminar</a></li>
           </ul>
         </div>',
       ]

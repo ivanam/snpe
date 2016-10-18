@@ -6,23 +6,26 @@
 <table class="table table-bordered table-striped table-compact">
   <thead>
     <tr>
+      <th>Tipo doc.</th>
+      <th>N° doc.</th>
       <th>Apellido y nombre</th>         
-      <th>CUIL</th>
-      <th>Plan</th>
-      <th>Ciclo</th>
-      <th>Año</th>
-      <th>División</th>
-      <th>Fecha de alta</th>
+      <th>Ca</th>
+      <th>Ci</th>
+      <th>Cu</th>
+      <th>Di</th>
+      <th>Fecha alta</th>
       <th>Horas</th>
       <th>Sit. Rev</th>
-      <th>Cod. de Materia</th>
+      <th>Materia</th>
+      <th>Oblig.</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.altas_bajas_horas.each do |h| %>
       <tr>
+        <td><%= h.persona.tipo_documento.to_s %></td>
+        <td><%= h.persona.nro_documento %></td>
         <td><%= h.persona.to_s %></td>
-        <td><%= h.persona.cuil %></td>
         <td><%= Plan.find(h.plan_id).to_s %></td>
         <td><%= h.ciclo_carrera %></td>
         <td><%= h.anio.to_s %></td>
@@ -31,6 +34,7 @@
         <td><%= h.horas %></td>
         <td><%= h.situacion_revista %></td>
         <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+        <td><%= h.oblig %></td>
       </tr>
     <% end %>
   </tbody>
@@ -40,23 +44,26 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
+      <th>Tipo doc.</th>
+      <th>N° doc.</th>
       <th>Apellido y nombre</th>         
-      <th>CUIL</th>
-      <th>Plan</th>
-      <th>Ciclo</th>
-      <th>Año</th>
-      <th>División</th>
+      <th>Ca</th>
+      <th>Ci</th>
+      <th>Cu</th>
+      <th>Di</th>
       <th>Fecha de alta</th>
       <th>Horas</th>
       <th>Sit. Rev</th>
-      <th>Cod. de Materia</th>
+      <th>Materia</th>
+      <th>Oblig.</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.impresion_bajas.each do |h| %>
       <tr>
+        <td><%= h.persona.tipo_documento.to_s %></td>
+        <td><%= h.persona.nro_documento %></td>
         <td><%= h.persona.to_s %></td>
-        <td><%= h.persona.cuil %></td>
         <td><%= Plan.find(h.plan_id).to_s %></td>
         <td><%= h.ciclo_carrera %></td>
         <td><%= h.anio.to_s %></td>
@@ -65,6 +72,7 @@
         <td><%= h.horas %></td>
         <td><%= h.situacion_revista %></td>
         <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+        <td><%= h.oblig %></td>
       </tr>
     <% end %>
   </tbody>

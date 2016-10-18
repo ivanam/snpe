@@ -253,6 +253,14 @@ SituacionRevistum.create(codigo: "1-1", descripcion:"Titular", planta_pre: 1, ti
 SituacionRevistum.create(codigo: "1-2", descripcion:"Interino", planta_pre: 1, tipo_emp: 2) # No docentes
 SituacionRevistum.create(codigo: "3-5", descripcion:"Planta transitoria", planta_pre: 3, tipo_emp: 5) # No docentes
 
+#Carga de turnos
+Turno.create(descripcion: "M")
+Turno.create(descripcion: "T")
+Turno.create(descripcion: "M/T")
+Turno.create(descripcion: "JC")
+Turno.create(descripcion: "V")
+Turno.create(descripcion: "N")
+
 #Carga de localidades
 Localidad.create(region_id:4, nombre:"28 DE JULIO")
 Localidad.create(region_id:5, nombre:"ALDA BELEIRO")
