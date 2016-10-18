@@ -131,6 +131,9 @@
                 <% if ver_model("Persona") then %>
                   <li><%=link_to "Personas", personas_path, :tabindex => "-1"%></li>
                 <% end %>
+                <% if ver_model("SituacionRevista") then %>
+                  <li><%=link_to "Situaciones de Revista", situacion_revista_path, :tabindex => "-1"%></li>
+                <% end %>
                 <% if ver_model("Materium") then %>
                   <li><%=link_to "Materias", materia_path, :tabindex => "-1"%></li>
                 <% end %>

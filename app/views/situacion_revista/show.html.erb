@@ -1,10 +1,13 @@
 <div class="page-header">
-  <h1>situación de revista</h1>
+  <h1>Situación de revista</h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Nombre:</dt>
-  <dd><%= @situacion_revistum.nombre %></dd>
+  <dt>Código:</dt>
+  <dd><%= @situacion_revistum.codigo %></dd>
+
+  <dt>Descripción:</dt>
+  <dd><%= @situacion_revistum.descripcion %></dd>
 
   <br/><br/>
   <%= link_to situacion_revista_path, :class => 'btn btn-default' do %>

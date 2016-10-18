@@ -3,12 +3,12 @@ class SituacionRevistaDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['situacion_revista.nombre']
+    @sortable_columns ||= ['situacion_revista.codigo','situacion_revista.descripcion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['situacion_revista.nombre']
+    @searchable_columns ||= ['situacion_revista.codigo','situacion_revista.descripcion']
   end
 
   private
@@ -16,7 +16,8 @@ class SituacionRevistaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.nombre,
+        record.codigo,
+        record.descripcion,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones
@@ -33,10 +34,9 @@ class SituacionRevistaDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    SituacionRevistum.all
+    # insert query here
+    return options[:query]
   end
-  # Esto sirve momentaneamente para el ordenar
-  def sort_records(records)
-    records
-  end
+
+  # ==== Insert 'presenter'-like methods below if necessary
 end
