@@ -135,4 +135,7 @@ module AltasBajasHorasHelper
       return []
     end
   end
+  def cargopormateria(altasbajashoras)
+    return altasbajashoras.all
+  end
 end

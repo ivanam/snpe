@@ -145,11 +145,6 @@ class AltasBajasHorasController < ApplicationController
 
   def create
     @planes_permitidos = select_planes_permitidos  
-    
-
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
-    
-    
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
@@ -201,17 +196,15 @@ class AltasBajasHorasController < ApplicationController
       @reemplazante_de = con_licencia_reemplazante(@altas_escuela)
       if  reemplazante_de != [] then
           @caso = 6 #2- tiene licencia para reemplazar
-        else
+      else
           @caso = 7 #3- no tiene licencia el suplente
-        end
       end
     elsif params[:altas_bajas_hora][:situacion_revista] == "2-3" then
       @suplente_de = con_licencia_suplente(@altas_escuela)
       if  suplente_de != [] then
           @caso = 8 #4- tiene licencia para suplente 
-        else
+      else
           @caso = 9 #5- no tiene licencia el suplente
-        end
       end
     else
       @caso=0
@@ -233,7 +226,7 @@ class AltasBajasHorasController < ApplicationController
                   @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
                 end
                 @altas_escuela.first.suplente_id = @suplente.id #ver q cada metodo devuelva si tiene licencia y el ultimo alta para poner este valor y enlazar
-              end <  
+              end  
               format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
               format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
             else                        
@@ -269,9 +262,13 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cargo_por_materia
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
-
+   @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
+    debugger
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraMateriaDatatable.new(view_context, { query: @altas_escuela }) }
     end
+  end
 
   def editar_alta
     @planes_permitidos = select_planes_permitidos
