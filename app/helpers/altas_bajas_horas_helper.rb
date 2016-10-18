@@ -93,25 +93,46 @@ module AltasBajasHorasHelper
   end
 
   def con_licencia_reemplazante(altasbajashoras)
-    if altasbajashoras.where(situacion_revista: "1-2").first then
-      @titular = altasbajashoras.where(situacion_revista: "1-1").first
+    if altasbajashoras.where(situacion_revista: "1-1").first then
+      @primer = altasbajashoras.where(situacion_revista: "1-1").first
     else 
-      @titular = altasbajashoras.where(situacion_revista: "1-2").first
+      @primer = altasbajashoras.where(situacion_revista: "1-2").first
     end
-    return Licencium.where(altas_bajas_hora_id: @titular, vigente: "Vigente")
-  end 
-
-  def con_licencia_suplente (altasbajashoras)
-    @titular = altasbajashoras.where(situacion_revista: "1-1").first
-    if @titular.suplente_id != 0 then
-      @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
+     if @primer.suplente_id != 0 then
+      @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
       while @suplente.suplente_id != 0 do
         @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
     else
-      @ver_licencia = @titular
+      @ver_licencia = @primer
     end
-    return Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente")
+    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente") then
+      return @ver_licencia
+    else
+      return []
+    end
+  end 
+
+  def con_licencia_suplente (altasbajashoras)
+    if altasbajashoras.where(situacion_revista: "1-1").first then
+      @primer = altasbajashoras.where(situacion_revista: "1-1").first
+    else 
+      @primer = altasbajashoras.where(situacion_revista: "1-2").first
+    end
+    if @primer.suplente_id != 0 then
+      @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
+      while @suplente.suplente_id != 0 do
+        @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
+      end
+      @ver_licencia = @suplente
+    else
+      @ver_licencia = @primer
+    end
+    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente") then
+      return @ver_licencia
+    else
+      return []
+    end
   end
 end
