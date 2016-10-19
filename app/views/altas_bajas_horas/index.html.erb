@@ -136,6 +136,26 @@ $(document).ready(function($) {
     retrieve: true,
   });
 
+  $("#materium").change(function(){
+    var materia_id = parseInt($("#materium").val(),10);
+    var plan_id = parseInt($("#plan").val(),10);
+    var anio = parseInt($("#curso").val(),10);
+
+    var division = parseInt($("#division").val(),10);
+    
+    $.ajax({
+          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#horas").val(data);
+          }
+        })
+        tabla_materia.api().ajax.url('/soft/snpe/altas_bajas_horas/cargo_por_materia/'+materia_id+'/'+plan_id+'/'+anio+'/'+division);
+        tabla_materia.api().ajax.reload();
+    });
+
   var tabla_altas_bajas = $('#tabla-altas_bajas_hora').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,

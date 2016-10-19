@@ -262,8 +262,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cargo_por_materia
-   @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
-    debugger
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraMateriaDatatable.new(view_context, { query: @altas_escuela }) }
