@@ -123,6 +123,8 @@
 <script type="text/javascript">
 $(document).ready(function($) {
 
+  $("#div_cargo_materia").hide();
+  $("#cargo_materia").hide();
   //Define el idioma de combodate
   moment.locale('es');
   $.fn.editable.defaults.mode = 'popup';
@@ -134,6 +136,8 @@ $(document).ready(function($) {
     ajax : $('#tabla-altas_bajas_hora_materia').data('source'),
     pagingType: "simple",
     retrieve: true,
+    paginate: false,
+    filter: false,
   });
 
   $("#materium").change(function(){
@@ -154,6 +158,8 @@ $(document).ready(function($) {
         })
         tabla_materia.api().ajax.url('/soft/snpe/altas_bajas_horas/cargo_por_materia/'+materia_id+'/'+plan_id+'/'+anio+'/'+division);
         tabla_materia.api().ajax.reload();
+        $("#div_cargo_materia").show();
+        $("#cargo_materia").show();
     });
 
   var tabla_altas_bajas = $('#tabla-altas_bajas_hora').dataTable({
