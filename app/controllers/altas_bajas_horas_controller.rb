@@ -243,11 +243,11 @@ class AltasBajasHorasController < ApplicationController
         if @caso == 2 then
           flash[:error] = "Se quiere dar de alta un titular y ya existe"
         elsif @caso == 3 then
-          flash[:error] = "Se quiere dar de alta un interino y ya existe un titular"
+          flash[:error] = "Se quiere dar de alta un titular y ya existe un interino"
         elsif @caso == 4 then
           flash[:error] = "Se quiere dar de alta un interino y ya existe"
         elsif @caso == 5 then 
-          flash[:error] = "Se quiere dar de alta un titular y ya existe un interino"
+          flash[:error] = "Se quiere dar de alta un interino y ya existe un titular"
         elsif @caso == 7 then 
           flash[:error] = "El cargo que se quiere reemplazar no se encuentra con licencia"
         elsif @caso == 9 then
