@@ -109,6 +109,7 @@ Permission.create(nombre:"Cargo Cancelar Baja",subject_class:"Cargo",subject_id:
 Permission.create(nombre:"Cargo Chequear Baja",subject_class:"Cargo",subject_id:0,action:"chequear_baja")
 Permission.create(nombre:"Cargo Cancelar Cola",subject_class:"Cargo",subject_id:0,action:"cancelar_cola")
 
+Permission.create(nombre:"Buscar Cargo Materia",subject_class:"AltasBajasHora",subject_id:0,action:"cargo_por_materia")
 
 #Permisos de Personas
 
@@ -157,6 +158,8 @@ RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regu
 
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Dar Baja").first.id)
 RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Cargo Cancelar Baja").first.id)
+
+RolePermission.create(role_id: Role.where(description: "escuela").first.id ,regulator: Permission.where(nombre: "Buscar Cargo Materia").first.id)
 
 #Permisos de personal
 RolePermission.create(role_id: Role.where(description: "personal").first.id ,regulator: Permission.where(nombre: "Chequear Horas").first.id)
