@@ -40,7 +40,7 @@ class TurnosController < InheritedResources::Base
   # POST /turno
   # POST /turno.json
   def create
-    @turno = Turno.new(params[:turno])
+    @turno = Turno.new(turno_params)
 
     respond_to do |format|
       if @turno.save
@@ -59,7 +59,7 @@ class TurnosController < InheritedResources::Base
     @turno = Turno.find(params[:id])
 
     respond_to do |format|
-      if @turno.update_attributes(params[:turno])
+      if @turno.update(turno_params)
         format.html { redirect_to @turno, notice: 'Turno was successfully updated.' }
         format.json { head :no_content }
       else
@@ -80,5 +80,14 @@ class TurnosController < InheritedResources::Base
       format.json { head :no_content }
     end
   end
+
+  private
+    def set_turno
+      @turno = Turno.find(params[:id])
+    end
+
+    def turno_params
+      params.require(:turno).permit(:descripcion)
+    end
 end
 

@@ -10,7 +10,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Validates from Silvio Andres "CHEQUEAR"
   validates :fecha_alta, presence: true
-  #validates :situacion_revista, presence: true
+  validates :situacion_revista, presence: true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
@@ -33,7 +33,6 @@ class AltasBajasHora < ActiveRecord::Base
 
   #-------------------------------------
 
-  TURNO = ["M", "T", "M/T", "JC", "V", "N"]
   ANIO = ["0","1","2","3","4","5","6"]
   LONGITUD_CODIGO = 4
 

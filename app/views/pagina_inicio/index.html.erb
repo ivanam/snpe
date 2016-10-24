@@ -12,7 +12,9 @@
           <center>
             <%= link_to "Alta de Horas", altas_bajas_horas_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
             <%= link_to "Baja de Horas", altas_bajas_horas_index_bajas_path, :tabindex => "-1", :class => "btn btn-danger btn-block" %>
-            <%= link_to "Listado de Personas", personas_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
+            <% if (current_user.role? :sadmin) then %>
+              <%= link_to "Listado de Personas", personas_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
+            <% end %>
           </center>
       </div>
 
