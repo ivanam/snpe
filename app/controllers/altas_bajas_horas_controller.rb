@@ -175,8 +175,8 @@ class AltasBajasHorasController < ApplicationController
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
-    #@materia = Materium.find(params[:altas_bajas_hora][:materia_id])
-    #@altas_bajas_hora.codificacion = @materia.codigo
+    @materia = Materium.find(params[:altas_bajas_hora][:materia_id])
+    @altas_bajas_hora.codificacion = @materia.codigo
 
     @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
  
