@@ -75,7 +75,7 @@ $(document).ready(function($) {
             $("#input_apellidos").val("");
             $("#input_cuil").val("");
             $("#datepicker3").val("");
-            $("#select_tipo_documento").val(1);
+            $("#select_tipo_documento").val(5); //ID 5, para tipo de documento DNI
           }
         })
     });

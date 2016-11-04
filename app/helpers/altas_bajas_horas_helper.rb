@@ -8,7 +8,7 @@ module AltasBajasHorasHelper
       end
     end
     #AltasBajasHoraEstado.where()
-    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)    
+    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona, :materium)  
   end
 
   def altas_bajas_horas_permitidas_bajas
@@ -44,7 +44,7 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
-    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)
+    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona).includes(:materium)
   end
 
 
@@ -63,7 +63,7 @@ module AltasBajasHorasHelper
       end
     end
 
-    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona)
+    return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona, :materium)
   end
 
   def con_licencia(altasbajashoras)

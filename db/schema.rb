@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161018135616) do
+ActiveRecord::Schema.define(version: 20161104121214) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20161018135616) do
     t.integer  "lugar_pago_id"
     t.string   "estado"
     t.boolean  "con_movilidad"
-    t.integer  "materia_id"
+    t.integer  "materium_id"
     t.integer  "grupo_id"
     t.string   "motivo_baja"
     t.integer  "plan_id"
@@ -343,6 +343,13 @@ ActiveRecord::Schema.define(version: 20161018135616) do
     t.integer  "tipo_id"
   end
 
+  create_table "lugar_pagos", force: true do |t|
+    t.integer  "codigo"
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "materia", force: true do |t|
     t.integer  "codigo"
     t.string   "descripcion"
@@ -503,6 +510,7 @@ ActiveRecord::Schema.define(version: 20161018135616) do
     t.string   "nombre"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "codigo"
   end
 
   create_table "turnos", force: true do |t|

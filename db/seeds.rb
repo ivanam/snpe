@@ -217,11 +217,11 @@ Sexo.create(nombre:"Masculino")
 Sexo.create(nombre:"Femenino")
 
 #Carga de tipo de documento
-TipoDocumento.create(nombre:"DNI")
-TipoDocumento.create(nombre:"LC")
-TipoDocumento.create(nombre:"LE")
-TipoDocumento.create(nombre:"CI")
-TipoDocumento.create(nombre:"Pasaporte")
+TipoDocumento.create(nombre:"Libreta Cívia", codigo: 1)
+TipoDocumento.create(nombre:"Lib. Enrol.", codigo: 2)
+TipoDocumento.create(nombre:"Pasaporte", codigo: 3)
+TipoDocumento.create(nombre:"Cédula Ident.", codigo: 4)
+TipoDocumento.create(nombre:"DNI", codigo: 5)
 
 #Carga de tipo de documentos
 EstadoCivil.create(nombre:"Soltero/a")

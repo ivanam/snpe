@@ -131,9 +131,21 @@
                 <% if ver_model("Persona") then %>
                   <li><%=link_to "Personas", personas_path, :tabindex => "-1"%></li>
                 <% end %>
+                <% if ver_model("TipoDocumentos") then %>
+                  <li><%=link_to "Tipos de documentos", tipo_documentos_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("LugarPago") then %>
+                  <li><%=link_to "Lugares de pago", lugar_pagos_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("Grupo") then %>
+                  <li><%=link_to "Grupos", grupos_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("Empresa") then %>
+                  <li><%=link_to "Empresas", empresas_path, :tabindex => "-1"%></li>
+                <% end %>
                 <% if ver_model("SituacionRevista") then %>
                   <li><%=link_to "Situaciones de Revista", situacion_revista_path, :tabindex => "-1"%></li>
-                <% end %>
+                <% end %>                
                 <% if ver_model("Turno") then %>
                   <li><%=link_to "Turnos", turnos_path, :tabindex => "-1"%></li>
                 <% end %>

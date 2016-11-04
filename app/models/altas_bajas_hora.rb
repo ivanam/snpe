@@ -5,6 +5,9 @@ class AltasBajasHora < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
   has_many :estados, :class_name => 'AltasBajasHoraEstado', :foreign_key => 'alta_baja_hora_id', dependent: :destroy
   belongs_to :empresa
+  belongs_to :lugar_pago
+  belongs_to :materium
+  belongs_to :plan
 
   validates_presence_of :persona
 
@@ -18,7 +21,7 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :codificacion, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :persona_id, :presence => true
   validates :plan_id, :presence => true
-  validates :materia_id, :presence => true
+  validates :materium_id, :presence => true
 
   #Validates de persona en AltasBajas
   #validates :persona_id,:nro_documento, presence: true
@@ -34,6 +37,7 @@ class AltasBajasHora < ActiveRecord::Base
   #-------------------------------------
 
   ANIO = ["0","1","2","3","4","5","6"]
+  ESTADOS = ["ALT","BAJ","LIC"]
   LONGITUD_CODIGO = 4
 
   def ina_justificada(anio, mes)

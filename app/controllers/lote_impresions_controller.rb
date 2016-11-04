@@ -13,7 +13,7 @@ class LoteImpresionsController < ApplicationController
 
 
 
-  def show
+  def show    
     respond_with(@lote_impresion)
   end
 

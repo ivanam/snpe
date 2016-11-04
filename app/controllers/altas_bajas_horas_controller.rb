@@ -39,12 +39,12 @@ class AltasBajasHorasController < ApplicationController
 
   def index_cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 1).last
-    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona)
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
     if @lote != nil then
       if  @lote.fecha_impresion == nil
         #debugger
         #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
+        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
       end
     end
 
@@ -175,10 +175,10 @@ class AltasBajasHorasController < ApplicationController
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
-    @materia = Materium.find(params[:altas_bajas_hora][:materia_id])
+    @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
     @altas_bajas_hora.codificacion = @materia.codigo
 
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materium_id: params[:altas_bajas_hora][:materium_id])
  
     if @altas_escuela == [] then
       @caso = 1
@@ -264,7 +264,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cargo_por_materia
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materium_id: params[:materium_id])
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraMateriaDatatable.new(view_context, { query: @altas_escuela }) }
@@ -308,8 +308,11 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.anio = params[:altas_bajas_hora][:anio]
     @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
-    #@altas_bajas_hora.codificacion = params[:altas_bajas_hora][:codificacion]
-    @altas_bajas_hora.materia_id = params[:altas_bajas_hora][:materia_id]
+    @altas_bajas_hora.plan_id = params[:altas_bajas_hora][:plan_id]
+    @altas_bajas_hora.materium_id = params[:altas_bajas_hora][:materium_id]
+    @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
+    @altas_bajas_hora.codificacion = @materia.codigo
+    @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
@@ -638,6 +641,6 @@ class AltasBajasHorasController < ApplicationController
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materia_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
     end
 end

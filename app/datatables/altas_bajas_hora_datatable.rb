@@ -3,12 +3,12 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     @sortable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
-    'AltasBajasHora.division', 'AltasBajasHora.turno','AltasBajasHora.codificacion', 'AltasBajasHora.fecha_alta']
+    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   def searchable_columns
     @searchable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
-    'AltasBajasHora.division', 'AltasBajasHora.turno','AltasBajasHora.codificacion', 'AltasBajasHora.fecha_alta']
+    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   private
@@ -24,7 +24,7 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         record.turno,
-        Materium.find(record.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
+        record.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
         Util.fecha_a_es(record.fecha_alta),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar alta" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_alta_path(record.id.to_s)+'"><span class="glyphicon glyphicon-pencil" aria-hidden="true" ></span></a>'+

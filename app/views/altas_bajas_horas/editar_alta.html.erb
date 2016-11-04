@@ -65,20 +65,31 @@
         
           <%= f.select(:anio, AltasBajasHora::ANIO, {:prompt => "Curso"}, :id => "curso",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class=>"form-control form-alta form-select")%>
 
-          <%= f.select(:materia_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]} : "", {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
+          <%= f.select(:materium_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]} : "", {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
 
           <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
           
           <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control"%>
           <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-edit" %>
+          
+          </div>
+        </div>
+    </fieldset>   
+    <br/>
+    <legend>Asignar lugar de pago</legend>
+    <fieldset>
+      <div class="form-snpe" >
+        <div class="row">
+          <%= f.select(:lugar_pago_id, LugarPago.all.collect{|l| [l.to_s, l.id]}, {:prompt => "Lugar de pago"}, :id => "lugar_de_pago",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Lugar de pago", :class=>"form-control form-alta form-select")%>              
+
           <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar-edit" %>
           <%= link_to altas_bajas_horas_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>
             Cancelar
           <% end %>
         </div>
       </div>
-    </div>
-  </fieldset>
+    </fieldset>   
+
 <% end %>
 
         
