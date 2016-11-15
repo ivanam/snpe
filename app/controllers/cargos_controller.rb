@@ -14,9 +14,14 @@ class CargosController < ApplicationController
     end
 
     @motivo_baja = select_motivo_baja
-    @turno = select_turno
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
+    
+    #@rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    #respond_to do |format|
+    #  format.html
+    #  format.json { render json: CargosNotificadosDatatable.new(view_context, { query: cargos_notificados_permitidos(@mindate, @maxdate), rol: @rol }) }      
+    #end
   end
 
   def index_bajas
@@ -347,7 +352,7 @@ class CargosController < ApplicationController
     end
 
     def cargo_params
-      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja)
+      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja)
     end
 end
 

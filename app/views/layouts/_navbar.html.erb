@@ -30,6 +30,7 @@
                   <a tabindex="-1" href="#" onclick='return false;'>Horas</a>
                   <ul class="dropdown-menu">
                     <li><%=link_to "Altas", altas_bajas_horas_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Modificacion", altas_bajas_horas_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
                     <!--% if ver_model("licencium")%-->
                       
@@ -43,7 +44,6 @@
                   </ul>
                 </li>
               <% end %>
-              <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
               <% if ver_model("Cargo") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos</a>
@@ -59,18 +59,18 @@
                     <% end %>
                   </ul>
                 </li>
-              <% end %>
                <% if ver_model("Cargo") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos no docente</a>
                   <ul class="dropdown-menu">
                     <li><%=link_to "Altas", cargo_no_docentes_path, :tabindex => "-1"%></li>
-                    <li><%=link_to "Bajas", cargos_index_bajas_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Modificacion", cargo_no_docentes_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Bajas", cargo_no_docentes_index_bajas_path, :tabindex => "-1"%></li>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
-                      <li><%=link_to "Novedades", cargos_index_novedades_path, :tabindex => "-1"%></li>  
+                      <li><%=link_to "Novedades", cargo_no_docentes_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
                     <% if ver_model("asistencium") %>
-                      <li><%=link_to "Asistencia", asistencia_index_cargo_path, :tabindex => "-1"%></li>  
+                      <li><%=link_to "Asistencia", asistencia_index_cargo_no_docente_path, :tabindex => "-1"%></li>  
                     <% end %>
                   </ul>
                 </li>

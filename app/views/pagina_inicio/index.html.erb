@@ -7,7 +7,7 @@
 
 
       <div class="col-sm-11 col-md-10">
-        <div class="col-md-4 col-md-offset-2">
+        <div class="col-md-4">
           <legend>Novedades de Horas</legend>
           <center>
             <%= link_to "Alta de Horas", altas_bajas_horas_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
@@ -18,18 +18,27 @@
           </center>
       </div>
 
-      <% if (current_user.role? :sadmin) then %>
-
       <div class="col-md-4">
       <legend> Novedades de Cargo</legend>
         <center>
           <%= link_to "Alta de Cargos", cargos_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
-          <%= link_to "Baja de Cargos", cargos_path, :tabindex => "-1", :class => "btn btn-danger btn-block" %>
-          <%= link_to "Listado de Establecimientos", establecimientos_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
+          <%= link_to "Baja de Cargos", cargos_index_bajas_path, :tabindex => "-1", :class => "btn btn-danger btn-block" %>
+          <% if (current_user.role? :sadmin) then %>
+            <%= link_to "Listado de Establecimientos", establecimientos_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
+          <% end %>
         </center>
       </div>
-      
-      <% end %>
+
+      <div class="col-md-4">
+      <legend> Novedades de Auxiliares</legend>
+        <center>
+          <%= link_to "Alta de Auxiliares", cargo_no_docentes_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
+          <%= link_to "Baja de Auxiliares", cargos_index_bajas_path, :tabindex => "-1", :class => "btn btn-danger btn-block" %>
+          <% if (current_user.role? :sadmin) then %>
+            <%= link_to "Listado de Establecimientos", establecimientos_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
+          <% end %>
+        </center>
+      </div>
 
       </div>
       

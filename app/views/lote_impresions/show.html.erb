@@ -6,7 +6,11 @@
   <% if @lote_impresion.tipo_id == 1 %>
     <%= render 'horas' %>
   <% else %>
-    <%= render 'cargos' %>
+    <% if @lote_impresion.tipo_id == 2 %>
+      <%= render 'cargos' %>
+    <% else %>
+      <%= render 'cargos_no_docentes' %>
+    <% end %>
   <% end %>
 
   <dt>Observaciones:</dt>

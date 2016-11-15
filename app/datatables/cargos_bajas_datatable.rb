@@ -2,11 +2,11 @@ class CargosBajasDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Cargo.fecha_alta', 'Persona.nro_documento']
+    @sortable_columns ||= ['Establecimiento.cue', 'Establecimiento.codigo_jurisdiccional', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres', 'Persona.cuil']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Cargo.id', 'Establecimiento.cue', 'Establecimiento.codigo_jurisdiccional', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres', 'Persona.cuil']
+    @searchable_columns ||= ['Establecimiento.cue', 'Establecimiento.codigo_jurisdiccional', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres', 'Persona.cuil']
   end
 
   private
@@ -35,10 +35,6 @@ class CargosBajasDatatable < AjaxDatatablesRails::Base
 
   def get_raw_records
     return options[:query]
-  end
-  
-  def sort_records(records)
-    records
   end
 
 end

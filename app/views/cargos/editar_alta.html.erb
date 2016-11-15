@@ -37,8 +37,7 @@
         <div class="row">
           <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", @persona.tipo_documento_id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta", :value => @persona.tipo_documento_id} %>
           <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
-        </div>
-        <div class="row">
+          
           <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>          
           <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>
           <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s", :value => @persona.apellidos} %>
@@ -47,7 +46,9 @@
           <%= f.select(:situacion_revista, Cargo::SITUACION_REVISTA, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
           <%= f.text_field :anio, :placeholder => "Cur",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso - ej: 4", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
           <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
-          <%= f.select(:turno, Cargo::TURNO, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
+
+          <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
+
           <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-edit" %>
           <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar-edit" %>
           <%= link_to cargos_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>

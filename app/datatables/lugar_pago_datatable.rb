@@ -1,4 +1,5 @@
 class LugarPagoDatatable < AjaxDatatablesRails::Base
+  include AjaxDatatablesRails::Extensions::Kaminari
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name

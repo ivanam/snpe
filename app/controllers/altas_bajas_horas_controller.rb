@@ -4,7 +4,6 @@ class AltasBajasHorasController < ApplicationController
 
   def index
     @motivo_baja = select_motivo_baja
-    @turno = select_turno
     @planes_permitidos = select_planes_permitidos    
 
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])

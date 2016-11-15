@@ -17,24 +17,6 @@
     </thead>
 
     <tbody>
-      <%= content_tag_for(:tr, @situacion_revista) do |situacion_revistum| %>
-            <td><%= situacion_revistum.codigo %></td>
-            <td><%= situacion_revistum.descripcion %></td>
-            <td class="text-center">
-          <div class="btn-group">
-            <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
-              Acciones
-              <span class="caret"></span>
-            </a>            
-            <ul class="dropdown-menu">
-              <li><%= link_to 'Ver', situacion_revistum %></li>
-              <li><%= link_to 'Editar', edit_situacion_revistum_path(situacion_revistum) %></li>
-              <li><%= link_to 'Eliminar', situacion_revistum, method: :delete, data: { confirm: '¿Seguro desea eliminar?' } %></li>
-              </li>
-            </ul>
-          </div>
-        </td>
-      <% end %>
     </tbody>
   </table>
 </div>
