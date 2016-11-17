@@ -198,6 +198,16 @@ ProyectoBase::Application.routes.draw do
 
     get "cargo_no_docente/chequear/:id", to: "cargo_no_docentes#chequear", as: :cargo_no_docentes_chequear
 
+    get "cargo_no_docente/cargo_no_docentes_bajas/", to: "cargo_no_docentes#cargo_no_docentes_bajas", as: :cargo_no_docentes_bajas
+
+    get "cargo_no_docente/cargo_no_docentes_bajas_efectivas/", to: "cargo_no_docentes#cargo_no_docentes_bajas_efectivas", as: :cargo_no_docentes_bajas_efectivas
+
+    put "cargo_no_docente/dar_baja/:id", to: "cargo_no_docentes#dar_baja", as: :cargo_no_docentes_dar_baja
+
+    get "cargo_no_docente/cancelar_baja/:id", to: "cargo_no_docentes#cancelar_baja", as: :cargo_no_docente_cancelar_baja
+
+    get "cargo_no_docente/chequear_baja/:id", to: "cargo_no_docentes#chequear_baja", as: :cargo_no_docente_chequear_baja
+
     resources :establecimientos
 
     get "establecimientos_de_usuario", to: "establecimientos#establecimientos_de_usuario", as: :establecimientos_de_usuario

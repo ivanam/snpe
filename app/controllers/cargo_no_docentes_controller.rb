@@ -196,7 +196,7 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
   def dar_baja
-
+    @cargo_no_docente = CargoNoDocente.find(params[:id])
     if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
       CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
@@ -248,6 +248,7 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
   def cancelar_baja
+    @cargo_no_docente = CargoNoDocente.find(params[:id])
     if CargoNoDocente.find(params["id"]).estado_actual == "Notificado_Baja"
       if @cargo_no_docente.update(:fecha_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
@@ -291,7 +292,7 @@ class CargoNoDocentesController < InheritedResources::Base
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
-      format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: cargo_no_docentes_bajas_efectivas(@mindate, @maxdate), rol: @rol }) }
+      format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: cargo_no_docentes_bajas_efectivas_permitidas(@mindate, @maxdate), rol: @rol }) }
     end
   end
   def cargo_no_docentes_nuevos
@@ -332,6 +333,10 @@ class CargoNoDocentesController < InheritedResources::Base
 
 
   private
+
+    def set_cargo_no_docente
+      @cargo_no_docente = CargoNoDocente.find(params[:id])
+    end
 
     def cargo_no_docente_params
       params.require(:cargo_no_docente).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :turno, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id_id, :baja_lote_impresion_id, :empresa_id, :lugar_pago_id, :con_movilidad, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja)

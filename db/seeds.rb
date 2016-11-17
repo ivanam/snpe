@@ -102,7 +102,7 @@ Permission.create(nombre:"Cargo Imprimir Cola",subject_class:"Cargo",subject_id:
 Permission.create(nombre:"Cargo Index Bajas",subject_class:"Cargo",subject_id:0,action:"index_bajas")
 
 Permission.create(nombre:"Cargo Index Bajas Efectivas",subject_class:"Cargo",subject_id:0,action:"index_bajas_efectivas")
-Permission.create(nombre:"Cargo Bajas Permitidas",subject_class:"Cargo",subject_id:0,action:"cargos_baja")
+Permission.create(nombre:"Cargo Bajas Permitidas",subject_class:"Cargo",subject_id:0,action:"cargos_bajas")
 Permission.create(nombre:"Cargo Bajas Efectivas",subject_class:"Cargo",subject_id:0,action:"cargos_bajas_efectivas")
 
 Permission.create(nombre:"Cargo Dar Baja",subject_class:"Cargo",subject_id:0,action:"dar_baja")
