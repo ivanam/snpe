@@ -1,5 +1,9 @@
 ProyectoBase::Application.routes.draw do
 
+  resources :funcions
+
+  resources :cargosnds
+
   resources :turnos
 
   resources :suplentes
@@ -66,6 +70,11 @@ ProyectoBase::Application.routes.draw do
     resources :oficinas    
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
+ 
+    put "altas_bajas_horas/editar_campos/", to: "altas_bajas_horas#editar_campos", as: :altas_bajas_horas_editar_campos
+
+    
+    get "altas_bajas_horas/modificacion/", to: "altas_bajas_horas#modificacion", as: :altas_bajas_horas_modificacion
 
     get "altas_bajas_horas/notificadas/", to: "altas_bajas_horas#index_notificadas", as: :altas_bajas_horas_index_notificadas    
 

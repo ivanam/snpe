@@ -15,6 +15,11 @@ module AltasBajasHorasHelper
     return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:secuencia => nil).where(:fecha_baja => nil).includes(:establecimiento, :persona)
   end
 
+  def altas_bajas_horas_modificacion
+    
+    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).includes(:establecimiento, :persona)
+  end
+
   def select_planes_permitidos 
     @plan_ids = EstablecimientoPlan.where(:establecimiento_id => session[:establecimiento]).map(&:plan_id)          
     @planes_permitidos = Plan.where(:id => @plan_ids)

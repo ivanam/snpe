@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h1>cargosnd</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Cargo agrup:</dt>
+  <dd><%= @cargosnd.cargo_agrup %></dd>
+
+  <dt>Cargo cod:</dt>
+  <dd><%= @cargosnd.cargo_cod %></dd>
+
+  <dt>Cargo categ:</dt>
+  <dd><%= @cargosnd.cargo_categ %></dd>
+
+  <dt>Nivel:</dt>
+  <dd><%= @cargosnd.nivel %></dd>
+
+  <dt>Cargo desc:</dt>
+  <dd><%= @cargosnd.cargo_desc %></dd>
+
+  <br/><br/>
+  <%= link_to cargosnds_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_cargosnd_path(@cargosnd), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to cargosnd_path(@cargosnd), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

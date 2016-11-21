@@ -90,6 +90,7 @@ class AsistenciaController < ApplicationController
     mes = params["mes"]
     @asistencia = Asistencium.where(altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
     if @asistencia.count > 0
+      debugger
       if params["post"]["ina_justificada"] != nil
         @asistencia.first.update(ina_justificada: params["post"]["ina_justificada"])
       end 

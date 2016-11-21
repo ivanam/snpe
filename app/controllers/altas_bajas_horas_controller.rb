@@ -632,6 +632,37 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+def modificacion
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+    end
+  end
+
+def editar_campos
+    @altas_bajas_hora = AltasBajasHora.where(id: params["id"])
+    if @altas_bajas_hora.count > 0
+      if params["post"]["division"] != nil
+        @altas_bajas_hora.first.update(division: params["post"]["division"])
+      end 
+      if params["post"]["anio"] != nil
+        @altas_bajas_hora.first.update(anio: params["post"]["anio"])
+      end
+    else
+      if params["post"]["division"] != nil
+        AltasBajasHora.create(division: params["post"]["division"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["post"]["anio"] != nil
+        AltasBajasHora.create(anio: params["post"]["anio"], altas_bajas_hora_id: params["id"])
+      end
+    end
+   respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+    end
+end
+
+
   private
     def set_altas_bajas_hora
       @altas_bajas_hora = AltasBajasHora.find(params[:id])
@@ -640,4 +671,6 @@ class AltasBajasHorasController < ApplicationController
     def altas_bajas_hora_params
       params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materia_id, :grupo_id)
     end
+
+
 end
