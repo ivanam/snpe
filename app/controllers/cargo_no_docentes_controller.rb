@@ -11,19 +11,18 @@ class CargoNoDocentesController < InheritedResources::Base
       @persona = Persona.new
     end
     @motivo_baja = select_motivo_baja
-    @turno = select_turno
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo_no_docente)
   end
 
   def index_bajas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-    respond_with(@cargo)
+    respond_with(@cargo_no_docente)
   end
 
   def index_novedades
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-    respond_with(@cargo)
+    respond_with(@cargo_no_docente)
   end
 
 
@@ -98,7 +97,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def editar_alta
     @cargo_no_docente = CargoNoDocente.find(params[:id])
-    @persona = Persona.find(@cargo.persona_id)
+    @persona = Persona.find(@cargo_no_docente.persona_id)
   end
 
   def guardar_edicion
@@ -119,7 +118,7 @@ class CargoNoDocentesController < InheritedResources::Base
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo_no_docente = CargoNoDocente.find(params[:id])
-    @cargo_no_docente.assign_attributes({ persona_id: @persona.id, secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta], turno: params[:cargo][:turno], observaciones: params[:cargo][:observaciones]})
+    @cargo_no_docente.assign_attributes({ persona_id: @persona.id, secuencia: params[:cargo_no_docente][:secuencia], fecha_alta: params[:cargo_no_docente][:fecha_alta], turno: params[:cargo_no_docente][:turno], observaciones: params[:cargo_no_docente][:observaciones]})    
     respond_to do |format|
       if @persona.save then       
         if @cargo_no_docente.save then
@@ -139,7 +138,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
 #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
-    @lote = LoteImpresion.all.where(tipo_id: 2).last
+    @lote = LoteImpresion.all.where(tipo_id: 3).last
     if @lote.fecha_impresion != nil
       cargo_no_docentes_novedades.where(alta_lote_impresion_id: nil).each do |h|
         if h.estado_actual == "Impreso"
@@ -197,7 +196,7 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
   def dar_baja
-
+    @cargo_no_docente = CargoNoDocente.find(params[:id])
     if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
       CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
@@ -229,9 +228,9 @@ class CargoNoDocentesController < InheritedResources::Base
           format.html { redirect_to cargo_no_docentes_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
         else
           @estado = Estado.where(descripcion: "Impreso").first
-          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2).last
+          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 3).last
           if @lote_impresion == nil
-            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
+            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 3)
           end
           if @cargo_no_docente.estado_actual == "Chequeado"
             @cargo_no_docente.update(alta_lote_impresion_id: @lote_impresion.id)
@@ -249,6 +248,7 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
   def cancelar_baja
+    @cargo_no_docente = CargoNoDocente.find(params[:id])
     if CargoNoDocente.find(params["id"]).estado_actual == "Notificado_Baja"
       if @cargo_no_docente.update(:fecha_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
@@ -292,7 +292,7 @@ class CargoNoDocentesController < InheritedResources::Base
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     respond_to do |format|
-      format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: cargo_no_docentes_bajas_efectivas(@mindate, @maxdate), rol: @rol }) }
+      format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: cargo_no_docentes_bajas_efectivas_permitidas(@mindate, @maxdate), rol: @rol }) }
     end
   end
   def cargo_no_docentes_nuevos
@@ -318,7 +318,7 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
   def cola_impresion
-    @lote = LoteImpresion.all.where(tipo_id: 2).last
+    @lote = LoteImpresion.all.where(tipo_id: 3).last
     @novedades_en_cola_impresion =  CargoNoDocente.where(id: -1)
      if @lote != nil then
       if @lote.fecha_impresion == nil
@@ -327,12 +327,16 @@ class CargoNoDocentesController < InheritedResources::Base
     end
     respond_to do |format|
       format.html
-      format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      format.json { render json: CargoNoDocentesNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
     end
   end
 
 
   private
+
+    def set_cargo_no_docente
+      @cargo_no_docente = CargoNoDocente.find(params[:id])
+    end
 
     def cargo_no_docente_params
       params.require(:cargo_no_docente).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :turno, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id_id, :baja_lote_impresion_id, :empresa_id, :lugar_pago_id, :con_movilidad, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja)

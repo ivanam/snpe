@@ -2,11 +2,11 @@ class TipoDocumentoDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::Kaminari
 
   def sortable_columns
-    @sortable_columns ||= ['tipo_documentos.nombre']
+    @sortable_columns ||= ['TipoDocumento.codigo','TipoDocumento.nombre']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['tipo_documentos.nombre']
+    @searchable_columns ||= ['TipoDocumento.codigo','TipoDocumento.nombre']
   end
 
   private
@@ -14,6 +14,7 @@ class TipoDocumentoDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
+        record.codigo,
         record.nombre,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -31,11 +32,7 @@ class TipoDocumentoDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    TipoDocumento.all
-  end
-
-  def sort_records(records)
-    records
+    return options[:query]
   end
 
 end

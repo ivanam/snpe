@@ -36,7 +36,8 @@
   
   <div class="form-snpe" >
       <div class="row">
-        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
+        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
+
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
         <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>
          <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>      
@@ -60,7 +61,7 @@
 
         <%= f.select(:anio, AltasBajasHora::ANIO, {:prompt => "Curso"}, :id => "curso",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class=>"form-control form-alta form-select")%>
         
-        <%= f.select(:materia_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
+        <%= f.select(:materium_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
         
         <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
 

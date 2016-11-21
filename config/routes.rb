@@ -1,5 +1,6 @@
 ProyectoBase::Application.routes.draw do
 
+<<<<<<< HEAD
   resources :funcions
 
   resources :cargosnds
@@ -8,6 +9,8 @@ ProyectoBase::Application.routes.draw do
 
   resources :suplentes
 
+=======
+>>>>>>> bd8ee9bdc21f8d32f07b936a3ccec1a1d37f6a17
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -19,6 +22,8 @@ ProyectoBase::Application.routes.draw do
     post "util/buscar_estados_altas_bajas_hora/:id", to: 'util#buscar_estados_altas_bajas_hora'    
 
     post "util/buscar_estados_cargo/:id", to: 'util#buscar_estados_cargo'  
+
+    post "util/buscar_estados_cargo_no_docente/:id", to: 'util#buscar_estados_cargo_no_docente'  
 
     get "util/buscar_materias_plan/:plan_id/:anio", to: 'util#buscar_materias_plan'
 
@@ -33,7 +38,12 @@ ProyectoBase::Application.routes.draw do
     resources :plans
 
     resources :materia
-    resources :despliegues
+
+    resources :turnos
+
+    resources :lugar_pagos
+
+    resources :suplentes
 
     #---------------------------------------------------------------------------------------------------------------------------------------
     
@@ -46,6 +56,10 @@ ProyectoBase::Application.routes.draw do
     get "asistencias/index_cargo/", to: "asistencia#index_cargo", as: :asistencia_index_cargo
 
     get "asistencias/index_novedades_cargo/", to: "asistencia#index_novedades_cargo", as: :asistencia_index_novedades_cargo
+
+    get "asistencias/index_cargo_no_docente/", to: "asistencia#index_cargo_no_docente", as: :asistencia_index_cargo_no_docente
+
+    get "asistencias/index_novedades_cargo_no_docente/", to: "asistencia#index_novedades_cargo_no_docente", as: :asistencia_index_novedades_cargo_no_docente
 
     #Datatables
 
@@ -172,11 +186,43 @@ ProyectoBase::Application.routes.draw do
 
     resources :cargo_no_docentes
 
+    get "cargo_no_docente/cancelar-cola/", to: "cargo_no_docentes#cancelar_cola", as: :cargo_no_docentes_cancelar_cola
+
+    get "cargo_no_docente/bajas/", to: "cargo_no_docentes#index_bajas", as: :cargo_no_docentes_index_bajas
+
+    get "cargo_no_docente/novedades/", to: "cargo_no_docentes#index_novedades", as: :cargo_no_docentes_index_novedades
+
+    get "cargo_no_docente/cargo_no_docentes_novedades/", to: "cargo_no_docentes#cargo_no_docentes_novedades", as: :cargo_no_docentes_novedades
+
     get "cargo_no_docente/cargo_no_docentes_nuevos/", to: "cargo_no_docentes#cargo_no_docentes_nuevos", as: :cargo_no_docentes_nuevos
+
+    get "cargo_no_docente/cola-impresion/", to: "cargo_no_docentes#cola_impresion", as: :cargo_no_docentes_cola_impresion
+
+    get "cargo_no_docente/imprimir-cola/", to: "cargo_no_docentes#imprimir_cola", as: :cargo_no_docentes_imprimir_cola
+
+    get "cargo_no_docente/imprimir/:id", to: "cargo_no_docentes#imprimir", as: :cargo_no_docentes_imprimir
     
     get "cargo_no_docente/notificar/:id", to: "cargo_no_docentes#notificar", as: :cargo_no_docentes_notificar
 
     get "cargo_no_docente/cargo_no_docentes_notificados/", to: "cargo_no_docentes#cargo_no_docentes_notificados", as: :cargo_no_docentes_notificados
+
+    get "cargo_no_docente/:id/editar_alta/", to: "cargo_no_docentes#editar_alta", as: :cargo_no_docentes_editar_alta
+
+    patch "cargo_no_docente/guardar_edicion/:id", to: "cargo_no_docentes#guardar_edicion", as: :cargo_no_docentes_guardar_edicion
+
+    put "cargo_no_docente/cancelar/:id", to: "cargo_no_docentes#cancelar", as: :cargo_no_docentes_cancelar
+
+    get "cargo_no_docente/chequear/:id", to: "cargo_no_docentes#chequear", as: :cargo_no_docentes_chequear
+
+    get "cargo_no_docente/cargo_no_docentes_bajas/", to: "cargo_no_docentes#cargo_no_docentes_bajas", as: :cargo_no_docentes_bajas
+
+    get "cargo_no_docente/cargo_no_docentes_bajas_efectivas/", to: "cargo_no_docentes#cargo_no_docentes_bajas_efectivas", as: :cargo_no_docentes_bajas_efectivas
+
+    put "cargo_no_docente/dar_baja/:id", to: "cargo_no_docentes#dar_baja", as: :cargo_no_docentes_dar_baja
+
+    get "cargo_no_docente/cancelar_baja/:id", to: "cargo_no_docentes#cancelar_baja", as: :cargo_no_docente_cancelar_baja
+
+    get "cargo_no_docente/chequear_baja/:id", to: "cargo_no_docentes#chequear_baja", as: :cargo_no_docente_chequear_baja
 
     resources :establecimientos
 

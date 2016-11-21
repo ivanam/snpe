@@ -9,8 +9,8 @@ class CreateCargoNoDocentes < ActiveRecord::Migration
       t.date :fecha_alta
       t.date :fecha_baja
       t.references :persona_reemplazada, index: true
-      t.string :observatorio
-      t.references :alta_lote_impresion_id, index: true
+      t.string :observaciones
+      t.references :alta_lote_impresion, index: true
       t.references :baja_lote_impresion, index: true
       t.integer :empresa_id
       t.integer :lugar_pago_id
