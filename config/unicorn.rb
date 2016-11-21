@@ -29,7 +29,7 @@ listen "/tmp/unicorn.snpe.sock", :backlog => 2048
 #listen 3002, :tcp_nopush => true
 
 # nuke workers after 30 seconds instead of 60 seconds (the default)
-timeout 30
+timeout 360
 
 # feel free to point this anywhere accessible on the filesystem
 pid "/home/ubuntu/webapps/snpe/tmp/unicorn.pid"
