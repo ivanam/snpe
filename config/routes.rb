@@ -1,16 +1,6 @@
 ProyectoBase::Application.routes.draw do
 
-<<<<<<< HEAD
-  resources :funcions
 
-  resources :cargosnds
-
-  resources :turnos
-
-  resources :suplentes
-
-=======
->>>>>>> bd8ee9bdc21f8d32f07b936a3ccec1a1d37f6a17
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -30,6 +20,15 @@ ProyectoBase::Application.routes.draw do
     get "util/buscar_carga_horaria_materia/:materium_id/:plan_id/:anio", to: 'util#buscar_carga_horaria_materia'
 
     resources :articulos
+
+    resources :funcions
+
+    resources :cargosnds
+
+    resources :turnos
+
+    resources :suplentes
+
 
     resources :despliegues
 
