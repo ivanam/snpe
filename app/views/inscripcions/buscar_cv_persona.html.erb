@@ -1,0 +1,50 @@
+<div class="page-header">
+ <hr style="height:0px;border-width:0;color:red;background-color:black" />
+   <center>
+  <font align="center" face="Times New Roman" size="9" color="#1b85c3"> CV.edu</font>
+  </center >
+  <center>
+  <h1><font align="center" face="Times New Roman" size="9" color="#1b85c3"> Buscar mis datos </font></h1>
+  </center >
+  <legend>
+  <p align="Left"><font align="center" face="Times New Roman" size="5" color="#black"> Buscar Persona</font>
+  <p align="Left"><font align="center" face="Times New Roman" size="3" color="#ABA8A8">(para la prueba use el DNI: 52489246)</font>
+</div>
+
+<div class="hidden-print">
+  <form action="" method="POST" class="form-horizontal" role="form">
+      <div class="form-group">
+                     <label for="inputEmail3" class="col-sm-5 control-label">Ingrese DNI de la persona </label>
+          <input class="text_field" id="input_buscar_persona"></input>&nbsp;&nbsp;&nbsp;&nbsp;<button id="buscar" type="button" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"> Buscar</span></button>
+      </div>      
+  </form>
+</div>
+
+
+
+<script type="text/javascript">
+     $(document).ready(function($) {
+      // $("#btn-busqueda-persona").click(function(event) {
+      //   var busqueda_persona = $("#busqueda_persona option:selected").val();
+      //   open('/soft/teg/personas/'+busqueda_persona,"_self");
+      // });
+      $( "#buscar" ).bind("propertychange click input paste",function(){ 
+      //$("#input_buscar_persona" ).change(function() {
+        var dni = parseInt($("#input_buscar_persona").val(),10);
+        $.ajax({
+          url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            open('/soft/snpe/inscripcions/cv/'+data.id);
+          }
+          else{
+            alert("La persona no existe");
+            $('#input_buscar_persona').text("");
+          }
+        })
+      });
+
+    });
+</script>

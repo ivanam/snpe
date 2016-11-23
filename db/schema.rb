@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161006144729) do
+ActiveRecord::Schema.define(version: 20161118124843) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -255,6 +255,7 @@ ActiveRecord::Schema.define(version: 20161006144729) do
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
+    t.string   "cabecera",              limit: 15, null: false
     t.integer  "cue"
     t.integer  "anexo"
     t.integer  "cue_anexo"
@@ -302,12 +303,42 @@ ActiveRecord::Schema.define(version: 20161006144729) do
     t.datetime "updated_at"
   end
 
+  create_table "funcions", force: true do |t|
+    t.string   "categoria"
+    t.string   "tipo_cargo"
+    t.string   "descripcion"
+    t.integer  "grupo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "grupos", force: true do |t|
     t.string   "nombre"
     t.text     "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "inscripcions", force: true do |t|
+    t.integer  "establecimiento_id"
+    t.integer  "funcion_id"
+    t.integer  "nivel_id"
+    t.string   "escuela_titular"
+    t.string   "serv_activo"
+    t.string   "lugar_serv_act"
+    t.string   "documentacion"
+    t.integer  "rubro_id"
+    t.date     "fecha_incripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "persona_id"
+    t.integer  "cabecera"
+  end
+
+  add_index "inscripcions", ["establecimiento_id"], name: "index_inscripcions_on_establecimiento_id", using: :btree
+  add_index "inscripcions", ["funcion_id"], name: "index_inscripcions_on_funcion_id", using: :btree
+  add_index "inscripcions", ["nivel_id"], name: "index_inscripcions_on_nivel_id", using: :btree
+  add_index "inscripcions", ["rubro_id"], name: "index_inscripcions_on_rubro_id", using: :btree
 
   create_table "licencia", force: true do |t|
     t.integer  "altas_bajas_hora_id"
@@ -471,6 +502,28 @@ ActiveRecord::Schema.define(version: 20161006144729) do
     t.datetime "updated_at"
   end
 
+  create_table "rubros", force: true do |t|
+    t.integer  "pesona_id"
+    t.integer  "escuela_id"
+    t.string   "rubro_titulo"
+    t.string   "rubro_concepto"
+    t.string   "rubro_asis_perf"
+    t.string   "rubro_ser_prest"
+    t.string   "rubro_residencia"
+    t.string   "rubro_gestion"
+    t.string   "rubro_cursos"
+    t.string   "ant_doc"
+    t.integer  "total"
+    t.integer  "promedio"
+    t.integer  "persona_id"
+    t.integer  "establecimiento_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rubros", ["establecimiento_id"], name: "index_rubros_on_establecimiento_id", using: :btree
+  add_index "rubros", ["persona_id"], name: "index_rubros_on_persona_id", using: :btree
+
   create_table "sexos", force: true do |t|
     t.string   "nombre"
     t.datetime "created_at"
@@ -504,6 +557,25 @@ ActiveRecord::Schema.define(version: 20161006144729) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "titulo_personas", force: true do |t|
+    t.integer  "titulo_id"
+    t.integer  "persona_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "titulo_personas", ["persona_id"], name: "index_titulo_personas_on_persona_id", using: :btree
+  add_index "titulo_personas", ["titulo_id"], name: "index_titulo_personas_on_titulo_id", using: :btree
+
+  create_table "titulos", force: true do |t|
+    t.string   "nombre"
+    t.integer  "persona_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "titulos", ["persona_id"], name: "index_titulos_on_persona_id", using: :btree
 
   create_table "user_roles", force: true do |t|
     t.integer  "user_id"

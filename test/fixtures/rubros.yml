@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pesona_id: 1
+  escuela_id: 1
+  rubro_titulo: MyString
+  rubro_concepto: MyString
+  rubro_asis_perf: MyString
+  rubro_ser_prest: MyString
+  rubro_residencia: MyString
+  rubro_gestion: MyString
+  rubro_cursos: MyString
+  ant_doc: MyString
+  rubro_titulo: MyString
+  total: 1
+  promedio: 1
+  persona_id: 
+  establecimiento_id: 
+
+two:
+  pesona_id: 1
+  escuela_id: 1
+  rubro_titulo: MyString
+  rubro_concepto: MyString
+  rubro_asis_perf: MyString
+  rubro_ser_prest: MyString
+  rubro_residencia: MyString
+  rubro_gestion: MyString
+  rubro_cursos: MyString
+  ant_doc: MyString
+  rubro_titulo: MyString
+  total: 1
+  promedio: 1
+  persona_id: 
+  establecimiento_id: 

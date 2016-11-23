@@ -1,0 +1,34 @@
+<div class="page-header">
+  <%= link_to new_titulo_persona_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Titulo persona
+  <% end %>
+  <h1>Listado de titulo_personas</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-titulo_persona" class="table table-striped table-bordered table-hover" data-source = "<%= titulo_personas_path(format: :json) %>" >
+    <thead>
+      <tr>
+            <th>Titulo</th>
+            <th>Persona</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-titulo_persona').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-titulo_persona').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

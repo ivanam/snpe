@@ -1,0 +1,130 @@
+<%= form_for(@inscripcion, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @inscripcion.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+      <ul>
+      <% @inscripcion.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+       <div class="col-sm-offset-2 col-sm-6">
+     </div>
+  </div>
+    <body>
+        <table border="2px" WIDTH=10000 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
+            <tr>
+                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %><%= f.text_field :escuela_titular, :class => "form-control" %></td>
+            </tr>    
+            <tr>
+                <td WIDTH=6000 ALIGN=LEFT ><%= f.label :Presta_Servicios_en_el_ámbito%></td>
+                <td WIDTH=3000 HEIGHT=100>Nac. Prov. Municipal. Otro <%= f.text_field :serv_activo, :class => "form-control" %></td>
+              
+            
+             <tr>
+                <td WIDTH=6000 HEIGHT=100 ALIGN=LEFT ><%= f.label :Lugar_donde_presta_servicio %></td>
+                <td WIDTH=3000 HEIGHT=100><%= f.text_field :lugar_serv_act, :class => "form-control" %></td>
+            </tr>
+        </table>
+    </body>
+    Cargos que solicita (marcar)
+      <TABLE BORDER>
+             <TR>
+                <TH COLSPAN=1>Educación (Selecione): <%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
+                <TH COLSPAN=1>Educación (Selecione):<%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
+                 <TH COLSPAN=1>Educación (Selecione): <%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
+                <TH COLSPAN=1>Educación (Selecione):<%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
+                 <TH COLSPAN=1>Educación (Selecione): <%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
+                <TH COLSPAN=1>Educación (Selecione):<%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
+             </TR>
+             <TR>
+                 <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
+                 <TD><%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
+                 <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
+                 <TD><%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>  
+                 <TD>C</TD> <TD>D</TD> 
+              </TR>
+              <TR>  
+                  <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
+                  <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
+              </TR>       
+               <TR>        
+                 <TD>F</TD>
+                 <TD>H</TD> 
+               </TR>
+                  <TD>G</TD> 
+                  <TD>H</TD> 
+              </TR>
+                  <TR>        
+                 <TD>F</TD>
+                 <TD>H</TD> 
+               </TR>
+                  <TD>G</TD> 
+                  <TD>H</TD> 
+              </TR>
+                  <TR>        
+                 <TD>F</TD>
+                 <TD>H</TD> 
+               </TR>
+                  <TD>G</TD> 
+                  <TD>H</TD> 
+              </TR>
+                  <TR>        
+                 <TD>F</TD>
+                 <TD>H</TD> 
+               </TR>
+                  <TD>G</TD> 
+                  <TD>H</TD> 
+              </TR>
+                  <TR>        
+                 <TD>F</TD>
+                 <TD>H</TD> 
+               </TR>
+                  <TD>G</TD> 
+                  <TD>H</TD> 
+              </TR>
+           </TABLE>
+    <br/>
+    <div class="form-group">
+      <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+      <div class="col-sm-6">
+      <%= f.text_field :persona_id, :class => "form-control hidden" %>
+      </div>
+    </div>
+    <div class="form-group">
+     <%= f.label :fecha_de_incripción, :class => "col-sm-2 control-label" %>
+     <div class="col-sm-6">
+      <%= f.date_select :fecha_incripcion, :class => "form-control" %>
+     </div>
+    </div>
+    <div class="form-group">
+        <%= f.label "Títulos", :class => "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= text_field_tag :nombre, nil, :class => "form-control", :name => "titulo[nombre]", :value => ""%>
+        </div>
+     </div>
+     <div class="form-group">
+     <%= f.label :cabecera, :class => "col-sm-2 control-label" %>
+     <div class="col-sm-6">
+      <%= f.text_field :cabecera, :class => "form-control" %>
+     </div>
+    </div>
+    <div class="form-group">
+    <%= f.label :documentacion, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-6">
+      <%= f.text_field :documentacion, :class => "form-control" %>
+    </div>
+    </div>      
+    <br/>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      <%= link_to cv_path(@persona.id), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Atrás
+      <% end %>
+    </div>
+<% end %>

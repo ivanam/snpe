@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>funcion</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Categoria:</dt>
+  <dd><%= @funcion.categoria %></dd>
+
+  <dt>Tipo cargo:</dt>
+  <dd><%= @funcion.tipo_cargo %></dd>
+
+  <dt>Descripcion:</dt>
+  <dd><%= @funcion.descripcion %></dd>
+
+  <dt>Grupo:</dt>
+  <dd><%= @funcion.grupo %></dd>
+
+  <br/><br/>
+  <%= link_to funcions_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_funcion_path(@funcion), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to funcion_path(@funcion), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

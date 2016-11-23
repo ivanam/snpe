@@ -1,8 +1,7 @@
 ProyectoBase::Application.routes.draw do
 
-  resources :suplentes
 
-  scope '/soft/snpe' do
+   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
   
@@ -18,6 +17,26 @@ ProyectoBase::Application.routes.draw do
 
     get "util/buscar_carga_horaria_materia/:materium_id/:plan_id/:anio", to: 'util#buscar_carga_horaria_materia'
 
+    post "/formulario_inscrip_docente.pdf", to: 'formulario_inscrip_docente#index'
+
+    post "/formulario_Inscripcion_Doc_.pdf", to: 'formulario_inscrip_docente#index'
+
+    post "/formulario_inscrip_docente/formulario_Inscripcion_Doc_pdf", to: 'formulario_inscrip_docente#formulario_Inscripcion_Doc_pdf'
+
+    get "/inscripcions/index", to: 'inscripcions#index'
+
+    get "inscripcions/cv/:id", to: "inscripcions#cv", as: :cv
+
+    get "buscar_cv_persona/", to: 'inscripcions#buscar_cv_persona'
+
+    get "inscripcions/buscar_persona/:dni", to: 'inscripcions#buscar_persona'
+
+    get "inscripcions/new", to: "inscripcions#new", as: :new_inscripcions
+
+    get "/titulos/index", to: 'titulos#index' 
+
+    get "/titulo_personas/index", to: 'titulo_personas#index'   
+
     resources :articulos
 
     resources :despliegues
@@ -27,7 +46,23 @@ ProyectoBase::Application.routes.draw do
     resources :plans
 
     resources :materia
+
     resources :despliegues
+
+    resources :formulario_inscrip_docente
+
+    resources :rubros
+
+    resources :inscripcions
+
+    resources :funcions
+
+    resources :suplentes
+
+    resources :titulo_personas
+
+    resources :titulos
+
 
     #---------------------------------------------------------------------------------------------------------------------------------------
     
