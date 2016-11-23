@@ -108,4 +108,41 @@
 	    $(".limpiable").remove();
 	  });
 
+
+	  $('#modal_cargos_no_docentes').on('shown.bs.modal', function (event) {      
+	    var alta_id = $(event.relatedTarget).attr('cargo-no-docente-id');
+	    $.ajax({
+	        url: '/soft/snpe/util/buscar_estados_cargo_no_docente/'+alta_id,
+	        type: 'POST',
+	      })
+	      .done(function(data) {
+	        if (data != null) {
+	          for (var i = data.length - 1; i >= 0; i--) {
+	            if (i == data.length - 1){
+	              $("#historial").append(data[i]);
+	            }else{
+	              var datos = data[i];
+	              var respuesta = datos.replace('<tr class="limpiable">', '<tr class="ocultable limpiable">');
+	              $("#historial").append(respuesta);
+	              $(".ocultable").hide();
+	            }
+	          };          
+	        }
+	        else{
+	        
+	        }
+	      })
+	  });
+
+	  //acá limpiamos el modal cada vez que se cierra
+	  $('#modal_cargos_no_docentes').on('hidden.bs.modal', function () {
+	    $(".limpiable").remove();
+	    $("#boton_ocultar_historial").hide();
+	    $("#boton_mostrar_historial").show();
+	  });
+
+	  $("#cerrar_modal_cargos_no_docentes").click(function(){
+	    $(".limpiable").remove();
+	  });
+
  });

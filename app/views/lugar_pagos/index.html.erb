@@ -1,0 +1,34 @@
+<div class="page-header">
+  <%= link_to new_lugar_pago_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Lugar de pago
+  <% end %>
+  <h1>Listado de Lugares de pago</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-lugar_pago" class="table table-striped table-bordered table-hover" data-source = "<%= lugar_pagos_path(format: :json) %>" >
+    <thead>
+      <tr>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th class="text-center col-md-1">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-lugar_pago').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-lugar_pago').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

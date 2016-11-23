@@ -20,7 +20,11 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
         if record.tipo_id == 1
           'Horas'
         else
-          'Cargos'
+          if record.tipo_id == 2
+            'Cargos'
+          else
+            'Cargos no docentes'
+          end
         end,
         record.observaciones,
         '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Impresión" href="lote_impresions/'+record.id.to_s+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>',

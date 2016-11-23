@@ -6,31 +6,47 @@
 <table class="table table-bordered table-striped table-compact">
   <thead>
     <tr>
+      <th>TD</th>
+      <th>N° doc.</th>
+      <th>Sec.</th>
       <th>Apellido y nombre</th>         
-      <th>CUIL</th>
-      <th>Plan</th>
-      <th>Ciclo</th>
-      <th>Año</th>
-      <th>División</th>
-      <th>Fecha de alta</th>
+      <th>Ca</th>
+      <th>Ci</th>
+      <th>Cu</th>
+      <th>Di</th>
+      <th>Tu</th>
+      <th>Ma</th>
       <th>Horas</th>
       <th>Sit. Rev</th>
-      <th>Cod. de Materia</th>
+      <th>Fecha alta</th>
+      <th>Oblig.</th>
+      <th>LP</th>
+      <th>Observaciones</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.altas_bajas_horas.each do |h| %>
       <tr>
+        <td><%= h.persona.tipo_documento.codigo %></td>
+        <td><%= h.persona.nro_documento %></td>
+        <td><%= h.secuencia %></td>
         <td><%= h.persona.to_s %></td>
-        <td><%= h.persona.cuil %></td>
-        <td><%= Plan.find(h.plan_id).to_s %></td>
+        <td><%= h.plan.codigo %></td>
         <td><%= h.ciclo_carrera %></td>
         <td><%= h.anio.to_s %></td>
         <td><%= h.division.to_s %></td>
-        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <td><%= h.turno.to_s %></td>
+        <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
         <td><%= h.horas %></td>
         <td><%= h.situacion_revista %></td>
-        <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <td><%= h.oblig %></td>
+        <% if !h.lugar_pago.nil? %>
+          <td><%= h.lugar_pago.codigo %></td>
+        <% else %>
+          <td>&nbsp;</td>
+        <% end %> 
+        <td><%= h.observaciones %></td>
       </tr>
     <% end %>
   </tbody>
@@ -40,31 +56,47 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
+      <th>TD</th>
+      <th>N° doc.</th>
+      <th>Sec.</th>
       <th>Apellido y nombre</th>         
-      <th>CUIL</th>
-      <th>Plan</th>
-      <th>Ciclo</th>
-      <th>Año</th>
-      <th>División</th>
-      <th>Fecha de alta</th>
+      <th>Ca</th>
+      <th>Ci</th>
+      <th>Cu</th>
+      <th>Di</th>
+      <th>Tu</th>
+      <th>Ma</th>
       <th>Horas</th>
       <th>Sit. Rev</th>
-      <th>Cod. de Materia</th>
+      <th>Fecha alta</th>
+      <th>Oblig.</th>
+      <th>LP</th>
+      <th>Observaciones</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.impresion_bajas.each do |h| %>
       <tr>
+        <td><%= h.persona.tipo_documento.codigo %></td>
+        <td><%= h.persona.nro_documento %></td>
+        <td><%= h.secuencia %></td>
         <td><%= h.persona.to_s %></td>
-        <td><%= h.persona.cuil %></td>
-        <td><%= Plan.find(h.plan_id).to_s %></td>
+        <td><%= h.plan.codigo %></td>
         <td><%= h.ciclo_carrera %></td>
         <td><%= h.anio.to_s %></td>
         <td><%= h.division.to_s %></td>
-        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <td><%= h.turno.to_s %></td>
+        <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
         <td><%= h.horas %></td>
         <td><%= h.situacion_revista %></td>
-        <td><%= Materium.find(h.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <td><%= h.oblig %></td>
+        <% if !h.lugar_pago.nil? %>
+          <td><%= h.lugar_pago.codigo %></td>
+        <% else %>
+          <td>&nbsp;</td>
+        <% end %> 
+        <td><%= h.observaciones %></td>
       </tr>
     <% end %>
   </tbody>

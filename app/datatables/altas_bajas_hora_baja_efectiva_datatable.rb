@@ -2,11 +2,11 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['AltasBajasHora.id']
+    @sortable_columns ||= ['Establecimiento.codigo_jurisdiccional','Establecimiento.cue','Persona.nro_documento','Persona.apellidos', 'Persona.nombres','Persona.cuil','AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['AltasBajasHora.id', 'Establecimiento.cue', 'Establecimiento.codigo_jurisdiccional', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres', 'Persona.cuil']
+    @searchable_columns ||= ['Establecimiento.codigo_jurisdiccional','Establecimiento.cue', 'Persona.nro_documento', 'Persona.apellidos', 'Persona.nombres', 'Persona.cuil','AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
   end
 
   private

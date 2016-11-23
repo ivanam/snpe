@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  cargo_agrup: 1
+  cargo_cod: 1
+  cargo_categ: 1
+  nivel: 1
+  cargo_desc: MyString
+
+two:
+  cargo_agrup: 1
+  cargo_cod: 1
+  cargo_categ: 1
+  nivel: 1
+  cargo_desc: MyString

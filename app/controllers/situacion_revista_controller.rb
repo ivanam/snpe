@@ -4,11 +4,9 @@ class SituacionRevistaController < ApplicationController
   # GET /situacion_revista
   # GET /situacion_revista.json
   def index
-    @situacion_revista = SituacionRevistum.all
-
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @situacion_revista }
+      format.json { render json: SituacionRevistaDatatable.new(view_context, { query: SituacionRevistum.all.order(:codigo) }) }
     end
   end
 
@@ -42,7 +40,7 @@ class SituacionRevistaController < ApplicationController
   # POST /situacion_revista
   # POST /situacion_revista.json
   def create
-    @situacion_revistum = SituacionRevistum.new(params[:situacion_revistum])
+    @situacion_revistum = SituacionRevistum.new(situacion_revistum_params)
 
     respond_to do |format|
       if @situacion_revistum.save
@@ -61,7 +59,7 @@ class SituacionRevistaController < ApplicationController
     @situacion_revistum = SituacionRevistum.find(params[:id])
 
     respond_to do |format|
-      if @situacion_revistum.update_attributes(params[:situacion_revistum])
+      if @situacion_revistum.update(situacion_revistum_params)
         format.html { redirect_to @situacion_revistum, notice: 'Situacion revistum was successfully updated.' }
         format.json { head :no_content }
       else
@@ -81,5 +79,14 @@ class SituacionRevistaController < ApplicationController
       format.html { redirect_to situacion_revista_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def set_situacion_revistum
+    @situacion_revistum = SituacionRevistum.find(params[:id])
+  end
+
+  def situacion_revistum_params
+    params.require(:situacion_revistum).permit(:codigo,:descripcion,:planta_pre,:tipo_emp)
   end
 end

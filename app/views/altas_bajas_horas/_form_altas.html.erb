@@ -36,7 +36,8 @@
   
   <div class="form-snpe" >
       <div class="row">
-        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
+        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
+
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
         <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>
          <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>      
@@ -45,8 +46,9 @@
         <%= f.select(:con_movilidad, [['Si', true], ['No', false]], {:prompt => "Movilidad"}, :id => "movilidad",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Movilidad", :class=>"form-control form-alta form-select")%>
         
         <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
-        <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
-        <%= f.select(:turno, AltasBajasHora::TURNO, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
+        <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>        
+
+        <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
 
         <%= f.select(:situacion_revista, SituacionRevistum.all.collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
       </div>
@@ -59,7 +61,7 @@
 
         <%= f.select(:anio, AltasBajasHora::ANIO, {:prompt => "Curso"}, :id => "curso",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class=>"form-control form-alta form-select")%>
         
-        <%= f.select(:materia_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
+        <%= f.select(:materium_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
         
         <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
 
@@ -68,6 +70,31 @@
         <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
       </div>
     </div>
+  </div>
+  <hr id="div_cargo_materia"/>
+  <div id="cargo_materia" class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Cargos por materia
+        </h3>
+      </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+        <table id="tabla-altas_bajas_hora_materia" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_cargo_por_materia_path(format: :json, materium_id: 0, plan_id: 0, anio:0, division:0)%>" >
+          <thead>
+            <tr>
+              <th>Cuil</th>
+              <th>Nombre</th>
+              <th>Sit. Rev</th>
+                            
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
   </div>
 <% end %>
 
@@ -95,6 +122,9 @@
 <% end %>
 
 <script type="text/javascript">
+
+  
+
   $("#plan").change(function(){
        var plan_id = parseInt($("#plan").val(),10);
        var anio = parseInt($("#curso").val(),10);
@@ -131,32 +161,5 @@
         })
     });
 
-  $("#materium").change(function(){
-    var materia_id = parseInt($("#materium").val(),10);
-    var plan_id = parseInt($("#plan").val(),10);
-    var anio = parseInt($("#curso").val(),10);
-
-    var division = parseInt($("#division").val(),10);
-    
-    $.ajax({
-          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
-          type: 'GET',
-        })
-        .done(function(data) {
-          if (data != null) {
-            $("#horas").val(data);
-          }
-        })
-
-      $.ajax({
-          url: '/soft/snpe/altas_bajas_horas/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio+'/'+division,
-          type: 'GET',
-        })
-        .done(function(data) {
-          if (data != null) {
-            $("#horas").val(data);
-          }
-        })
-
-  });
+  
 </script>

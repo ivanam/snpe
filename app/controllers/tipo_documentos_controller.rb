@@ -4,11 +4,9 @@ class TipoDocumentosController < ApplicationController
   # GET /tipo_documentos
   # GET /tipo_documentos.json
   def index
-    @tipo_documentos = TipoDocumento.all
-
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @tipo_documentos }
+      format.html
+      format.json { render json: TipoDocumentoDatatable.new(view_context, { query: TipoDocumento.all.order(:codigo) }) }
     end
   end
 

@@ -49,12 +49,6 @@ class ApplicationController < ActionController::Base
 
   def select_motivo_baja
     return [SelectClass.new(1,"Renuncia"),SelectClass.new(2,"Jubilación"),SelectClass.new(3,"Fallecimiento"),SelectClass.new(4,"Presentación de titular")]
-  end
-
-  def select_turno
-    return [SelectClass.new(1,"Mañana"),SelectClass.new(2,"Tarde"),SelectClass.new(3,"Vespertino"),SelectClass.new(4,"Mañana/Tarde"),SelectClass.new(5,"Jornada Completa")]
-  end
-
-  
+  end  
 
 end

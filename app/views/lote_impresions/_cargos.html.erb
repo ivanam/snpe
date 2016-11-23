@@ -4,21 +4,31 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th>Agente</th>         
-      <th>Curso</th>
-      <th>Situación Revista</th>
-      <th>Fecha Alta</th>
-      <th>Fecha Baja</th>
+      <th>TD</th>
+      <th>N° doc.</th>
+      <th>Sec.</th>
+      <th>Apellido y nombre</th>         
+      <th>Cu</th>
+      <th>Di</th>
+      <th>Tu</th>
+      <th>Sit. Rev</th>
+      <th>Fecha alta</th>
+      <th>Observaciones</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.alta_cargos.each do |c| %>
       <tr>
-        <td><%= c.persona.nro_documento.to_s + ' - ' + c.persona.to_s %></td>
-        <td><%= c.anio.to_s + ' / ' + c.division.to_s %></td>
+        <td><%= c.persona.tipo_documento.codigo %></td>
+        <td><%= c.persona.nro_documento %></td>
+        <td><%= c.secuencia %></td>
+        <td><%= c.persona.to_s %></td>
+        <td><%= c.curso.to_s %></td>
+        <td><%= c.division.to_s %></td>
+        <td><%= c.turno.to_s %></td>
         <td><%= c.situacion_revista %></td>
-        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>
-        <td><%= Util.fecha_a_es(c.fecha_baja) %></td>
+        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
+        <td><%= c.observaciones %></td>
       </tr>
     <% end %>
   </tbody>
@@ -28,21 +38,31 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th>Agente</th>
-      <th>Curso</th>
-      <th>Situación Revista</th>
-      <th>Fecha Alta</th>
-      <th>Fecha Baja</th>
+      <th>TD</th>
+      <th>N° doc.</th>
+      <th>Sec.</th>
+      <th>Apellido y nombre</th>         
+      <th>Cu</th>
+      <th>Di</th>
+      <th>Tu</th>
+      <th>Sit. Rev</th>
+      <th>Fecha alta</th>
+      <th>Observaciones</th>
     </tr>
   </thead>
   <tbody>
     <% @lote_impresion.baja_cargos.each do |c| %>
       <tr>
-        <td><%=c.persona.nro_documento.to_s + ' - ' + c.persona.to_s %></td>
-        <td><%= c.anio.to_s + ' / ' + c.division.to_s %></td>
+        <td><%= c.persona.tipo_documento.codigo %></td>
+        <td><%= c.persona.nro_documento %></td>
+        <td><%= c.secuencia %></td>
+        <td><%= c.persona.to_s %></td>
+        <td><%= c.curso.to_s %></td>
+        <td><%= c.division.to_s %></td>
+        <td><%= c.turno.to_s %></td>
         <td><%= c.situacion_revista %></td>
-        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>
-        <td><%= Util.fecha_a_es(c.fecha_baja) %></td>
+        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
+        <td><%= c.observaciones %></td>
       </tr>
     <% end %>
   </tbody>

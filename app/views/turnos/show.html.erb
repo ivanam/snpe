@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h1>Turno</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Descripción:</dt>
+  <dd><%= @turno.descripcion %></dd>
+
+  <br/><br/>
+  <%= link_to turno_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_turno_path(@turno), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to turno_path(@turno), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

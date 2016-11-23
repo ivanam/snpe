@@ -4,7 +4,6 @@ class AltasBajasHorasController < ApplicationController
 
   def index
     @motivo_baja = select_motivo_baja
-    @turno = select_turno
     @planes_permitidos = select_planes_permitidos    
 
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
@@ -39,12 +38,12 @@ class AltasBajasHorasController < ApplicationController
 
   def index_cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 1).last
-    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona)
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
     if @lote != nil then
       if  @lote.fecha_impresion == nil
         #debugger
         #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
+        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
       end
     end
 
@@ -143,13 +142,7 @@ class AltasBajasHorasController < ApplicationController
   def edit
   end
 
-  def create
-    @planes_permitidos = select_planes_permitidos  
-    
-
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
-    
-    
+  def create 
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
@@ -181,54 +174,60 @@ class AltasBajasHorasController < ApplicationController
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
 
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materia_id: params[:altas_bajas_hora][:materia_id])
+    @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
+    @altas_bajas_hora.codificacion = @materia.codigo
+
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materium_id: params[:altas_bajas_hora][:materium_id])
  
-      if params[:altas_bajas_hora][:situacion_revista] =="1-1" then 
-        if @altas_escuela == [] then
-          @caso = 1 #1- no existe titular
-        else
-          @caso = 2 #2- ya existe titular
-        end
-      elsif @altas_escuela == [] then
-          @caso = 9 #1- no existe titular y se quiero dar de alto algo distinto
-      elsif params[:altas_bajas_hora][:situacion_revista] =="1-2" then
-        if con_licencia_interino(@altas_escuela) then
-          @caso = 3 #3- titular con licencia
-        else
-          @caso = 4 #4- titular sin licencia
-        end
-      elsif params[:altas_bajas_hora][:situacion_revista] =="1-3" then
-        if con_licencia_reemplazante(@altas_escuela) then
-          @caso = 5 #5- Remplazante titular interino con licencia
-        else
-          @caso = 6 #6- titular interino sin licencia
-        end
-      elsif params[:altas_bajas_hora][:situacion_revista] =="2-3" then
-        if con_licencia_suplente(@altas_escuela) then
-          @caso = 7 #7- tiene licencia el suplente
-        else
-          @caso = 8 #8- no tiene licencia el suplente
-        end
+    if @altas_escuela == [] then
+      @caso = 1
+    elsif params[:altas_bajas_hora][:situacion_revista] =="1-1" then 
+      if @altas_escuela.where(situacion_revista: "1-1").first then 
+        @caso = 2 #1- hay un titular y se quiere dar de alta un titular
+      else
+        @caso = 3 #2- hay un interino y se quiere de alta un interino
       end
+    elsif params[:altas_bajas_hora][:situacion_revista] =="1-2" then
+      if @altas_escuela.where(situacion_revista: "1-2").first then
+        @caso = 4 #3- hay un interino y se quiere dar de alta un interino
+      else
+        @caso = 5 #4- hay un titular  y se quiere dar de alta interino
+      end
+    elsif params[:altas_bajas_hora][:situacion_revista] == "1-3" then
+      @reemplazante_de = con_licencia_reemplazante(@altas_escuela)
+      if  reemplazante_de != [] then
+          @caso = 6 #2- tiene licencia para reemplazar
+      else
+          @caso = 7 #3- no tiene licencia el suplente
+      end
+    elsif params[:altas_bajas_hora][:situacion_revista] == "2-3" then
+      @suplente_de = con_licencia_suplente(@altas_escuela)
+      if  suplente_de != [] then
+          @caso = 8 #4- tiene licencia para suplente 
+      else
+          @caso = 9 #5- no tiene licencia el suplente
+      end
+    else
+      @caso=0
+    end
+
 
     respond_to do |format|
 
         #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
 
-      if [1,3,5,7].include? @caso then
+      if [1,6,8].include? @caso then
         if @persona.save then  
             if @altas_bajas_hora.save then            
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              
-              if @caso == 3 then
-                 @suplente=Suplente.create(tipo_suplencia: "Interino",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-              elsif @caso == 5 then
-                @suplente=Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-              elsif @caso == 7 then
-                @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-              end
-              @altas_escuela.first.suplente_id = @suplente.id #ver q cada metodo devuelva si tiene licencia y el ultimo alta para poner este valor y enlazar
-              
+              if @caso != 1 then
+                if @caso == 6 then
+                  @suplente=Suplente.create(tipo_suplencia: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
+                elsif @caso == 8 then
+                  @suplente =Suplente.create(tipo_suplencia: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
+                end
+                @altas_escuela.first.suplente_id = @suplente.id #ver q cada metodo devuelva si tiene licencia y el ultimo alta para poner este valor y enlazar
+              end  
               format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
               format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
             else                        
@@ -242,16 +241,18 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
         end
       else
-        if @caso == 9 then
-          flash[:error] = "No existe un titular"
-        elsif @caso == 2 then
-          flash[:error] = "Se intenta dar de alta un titular y ya existe"
+        if @caso == 2 then
+          flash[:error] = "Se quiere dar de alta un titular y ya existe"
+        elsif @caso == 3 then
+          flash[:error] = "Se quiere dar de alta un titular y ya existe un interino"
         elsif @caso == 4 then
-          flash[:error] = "El titular se encuentra activo"
-        elsif @caso == 6 then 
-          flash[:error] = "El interino se encuentra activo"
-        elsif @caso == 8 then 
-          flash[:error] = "El suplente se encuentra activo"
+          flash[:error] = "Se quiere dar de alta un interino y ya existe"
+        elsif @caso == 5 then 
+          flash[:error] = "Se quiere dar de alta un interino y ya existe un titular"
+        elsif @caso == 7 then 
+          flash[:error] = "El cargo que se quiere reemplazar no se encuentra con licencia"
+        elsif @caso == 9 then
+          flash[:error] = "El cargo que se quiere suplantar no se encuentra con licencia"
         end
         @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
         format.json { render json: @persona.errors, status: :unprocessable_entity }           
@@ -262,9 +263,12 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def cargo_por_materia
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materia_id: params[:materium_id])
-
+    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:division], anio: params[:anio], plan_id: params[:plan_id], materium_id: params[:materium_id])
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraMateriaDatatable.new(view_context, { query: @altas_escuela }) }
     end
+  end
 
   def editar_alta
     @planes_permitidos = select_planes_permitidos
@@ -303,8 +307,11 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.anio = params[:altas_bajas_hora][:anio]
     @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
-    #@altas_bajas_hora.codificacion = params[:altas_bajas_hora][:codificacion]
-    @altas_bajas_hora.materia_id = params[:altas_bajas_hora][:materia_id]
+    @altas_bajas_hora.plan_id = params[:altas_bajas_hora][:plan_id]
+    @altas_bajas_hora.materium_id = params[:altas_bajas_hora][:materium_id]
+    @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
+    @altas_bajas_hora.codificacion = @materia.codigo
+    @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
@@ -627,12 +634,45 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+def modificacion
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+    end
+  end
+
+def editar_campos
+    @altas_bajas_hora = AltasBajasHora.where(id: params["id"])
+    if @altas_bajas_hora.count > 0
+      if params["post"]["division"] != nil
+        @altas_bajas_hora.first.update(division: params["post"]["division"])
+      end 
+      if params["post"]["anio"] != nil
+        @altas_bajas_hora.first.update(anio: params["post"]["anio"])
+      end
+    else
+      if params["post"]["division"] != nil
+        AltasBajasHora.create(division: params["post"]["division"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["post"]["anio"] != nil
+        AltasBajasHora.create(anio: params["post"]["anio"], altas_bajas_hora_id: params["id"])
+      end
+    end
+   respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+    end
+end
+
+
   private
     def set_altas_bajas_hora
       @altas_bajas_hora = AltasBajasHora.find(params[:id])
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materia_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
     end
+
+
 end
