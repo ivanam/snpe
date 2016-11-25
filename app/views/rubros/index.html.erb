@@ -1,0 +1,47 @@
+<div class="page-header">
+  <%= link_to new_rubro_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Rubro
+  <% end %>
+  <h1>Listado de rubros</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-rubro" class="table table-striped table-bordered table-hover" data-source = "<#= rubros_path(format: :json) #>" >
+    <thead>
+      <tr>
+            <th>Pesona</th>
+            <th>Escuela</th>
+            <th>Rubro titulo</th>
+            <th>Rubro concepto</th>
+            <th>Rubro asis perf</th>
+            <th>Rubro ser prest</th>
+            <th>Rubro residencia</th>
+            <th>Rubro gestion</th>
+            <th>Rubro cursos</th>
+            <th>Ant doc</th>
+            <th>Rubro titulo</th>
+            <th>Total</th>
+            <th>Promedio</th>
+            <th>Persona</th>
+            <th>Establecimiento</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-rubro').dataTable({
+        language : {"sUrl": "<#= asset_path('language.es.json') #>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-rubro').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

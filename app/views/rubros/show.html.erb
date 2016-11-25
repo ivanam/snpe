@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1>rubro</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Pesona:</dt>
+  <dd><%= @rubro.pesona_id %></dd>
+
+  <dt>Escuela:</dt>
+  <dd><%= @rubro.escuela_id %></dd>
+
+  <dt>Rubro titulo:</dt>
+  <dd><%= @rubro.rubro_titulo %></dd>
+
+  <dt>Rubro concepto:</dt>
+  <dd><%= @rubro.rubro_concepto %></dd>
+
+  <dt>Rubro asis perf:</dt>
+  <dd><%= @rubro.rubro_asis_perf %></dd>
+
+  <dt>Rubro ser prest:</dt>
+  <dd><%= @rubro.rubro_ser_prest %></dd>
+
+  <dt>Rubro residencia:</dt>
+  <dd><%= @rubro.rubro_residencia %></dd>
+
+  <dt>Rubro gestion:</dt>
+  <dd><%= @rubro.rubro_gestion %></dd>
+
+  <dt>Rubro cursos:</dt>
+  <dd><%= @rubro.rubro_cursos %></dd>
+
+  <dt>Ant doc:</dt>
+  <dd><%= @rubro.ant_doc %></dd>
+
+  <dt>Rubro titulo:</dt>
+  <dd><%= @rubro.rubro_titulo %></dd>
+
+  <dt>Total:</dt>
+  <dd><%= @rubro.total %></dd>
+
+  <dt>Promedio:</dt>
+  <dd><%= @rubro.promedio %></dd>
+
+  <dt>Persona:</dt>
+  <dd><%= @rubro.persona %></dd>
+
+  <dt>Establecimiento:</dt>
+  <dd><%= @rubro.establecimiento %></dd>
+
+  <br/><br/>
+  <%= link_to rubros_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_rubro_path(@rubro), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to rubro_path(@rubro), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
