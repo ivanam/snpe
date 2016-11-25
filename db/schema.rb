@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161104121214) do
-
+ActiveRecord::Schema.define(version: 20161121134945) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -84,7 +83,7 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.integer  "lugar_pago_id"
     t.string   "estado"
     t.boolean  "con_movilidad"
-    t.integer  "materia_id"
+    t.integer  "materium_id"
     t.integer  "grupo_id"
     t.string   "motivo_baja"
     t.integer  "plan_id"
@@ -170,8 +169,8 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.date     "fecha_alta"
     t.date     "fecha_baja"
     t.integer  "persona_reemplazada_id"
-    t.string   "observatorio"
-    t.integer  "alta_lote_impresion_id_id"
+    t.string   "observaciones"
+    t.integer  "alta_lote_impresion_id"
     t.integer  "baja_lote_impresion_id"
     t.integer  "empresa_id"
     t.integer  "lugar_pago_id"
@@ -185,7 +184,7 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.datetime "updated_at"
   end
 
-  add_index "cargo_no_docentes", ["alta_lote_impresion_id_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id_id", using: :btree
+  add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
   add_index "cargo_no_docentes", ["baja_lote_impresion_id"], name: "index_cargo_no_docentes_on_baja_lote_impresion_id", using: :btree
   add_index "cargo_no_docentes", ["establecimiento_id"], name: "index_cargo_no_docentes_on_establecimiento_id", using: :btree
   add_index "cargo_no_docentes", ["persona_id"], name: "index_cargo_no_docentes_on_persona_id", using: :btree
