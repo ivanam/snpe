@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pesona_id: 1
+  establecimiento_id: 1
+  funcion_id: 1
+  nivel_id: 1
+  escuela_titular: MyString
+  serv_activo: MyString
+  lugar_serv_act: MyString
+  documentacion: MyString
+  rubro_id: 1
+  fecha_incripcion: 2016-11-07
+  rubro_id: 
+  persona_id: 
+  establecimiento_id: 
+  funcion_id: 
+  nivel_id: 
+
+two:
+  pesona_id: 1
+  establecimiento_id: 1
+  funcion_id: 1
+  nivel_id: 1
+  escuela_titular: MyString
+  serv_activo: MyString
+  lugar_serv_act: MyString
+  documentacion: MyString
+  rubro_id: 1
+  fecha_incripcion: 2016-11-07
+  rubro_id: 
+  persona_id: 
+  establecimiento_id: 
+  funcion_id: 
+  nivel_id: 

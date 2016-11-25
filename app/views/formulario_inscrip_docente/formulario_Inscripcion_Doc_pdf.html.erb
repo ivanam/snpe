@@ -1,0 +1,189 @@
+<center>
+  <div class="A4">
+    <%= form_tag('/soft/notas-ministerio/formularios/formularioInscripDocente.pdf', :class => "form-horizontal", :id => "form-baja") do -%>
+      <div class="form-baja-header">
+        <div class="row"> <!-- Fila Header -->
+          <div class="col-xs-4 escudo">
+            <%=image_tag("logo-gob.png")%>
+          </div>
+          <div class="col-xs-4">
+            <center>
+              <div class="text-center box-code">
+                <div>ANEXO I</div>
+              </div>
+            <center>
+          </div>
+          <div class="col-xs-4">
+            <div class="text-center box-descrip">
+              <div>CONCURSO DE TITULOS Y ANTECEDENTES PARA CUBRIR POR INGRESO EL PRIMER GRADO DEL ESCALAFON DOCENTE</div>
+            </div>
+          </div>&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+          <div style="text-align:right; " class="btn-pdf"><%= submit_tag 'Imprimir PDF', :class=>('btn btn-danger btn-lg') %></div>
+        </div><!-- End Fila Header-->
+      </div>
+         <div class="form-title" >SOLICITUD DE INSCRIPCION PARA INGRESO A LA DOCENCIA</div>
+          <div style="text-align:left; font-size:0.9em;" class="col-xs-9 titulo">SEGUN SU TITULO DOCENTE, CARGO QUE SOLICITA:</div>
+          <div style="margin:0px 0px;border-bottom: 2px solid black;padding-bottom:26px;"></div><Br>
+          <div style="text-align:left;">OPCION 1.-</div>
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div>
+          <div style="text-align:left;">OPCION 2.-</div>
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div>
+          <div style="text-align:left;">OPCION 3.-</div>
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div> 
+          <div style="text-align:left; font-size:0.9em;" class="col-xs-9 titulo">SEGUN LAS OPCIONES ANTERIORES, ESCUELAS QUE SOLICITA:</div>
+          <div style="margin:0px 0px;border-bottom: 2px solid black;padding-bottom:26px;"> </div><Br>
+          <div style="text-align:left;">OPCION 1.-</div>
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div>
+          <div style="text-align:left;">OPCION 2.-</div>
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div>  
+          <div style="text-align:left;">OPCION 3.-</div>
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div><Br>
+          Datos personales<Br>
+          <div style="text-align:left;"> APELLIDO Y NOMBRE&nbsp; &nbsp; &nbsp;<Br>
+            <input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required></div><Br>
+          <div style="text-align:left;"> FECHA DE NAC. (D/M/A)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
+            <input id="agente-nombres" class="input-number input-number" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required>&nbsp; &nbsp;TIPO Y N° DE DOCUMENTO&nbsp; &nbsp; &nbsp;
+            <input id="agente-nombres" class="input-number input-number" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required> <Br> <div style="text-align:left;">NACIONALIDAD
+            <input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required><div style="text-align:left;">DOMICILIO:
+          <div><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required><div style="text-align:left;">LOCALIDAD:
+          <div ><input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required><div style="text-align:left;">TEL. N°:
+          <div> <input id="agente-nombres" class="input-number input-nombre" type="text" maxlength="40" pattern="^[a-zA-Z0-9 \s]+{40}" name="agente[nombres]" required>
+          <div style="margin:8px 0px;border-bottom: 2px solid black;padding-bottom:16px;">
+        <div style="text-align:left;"" firma">DOCUMENTACION PRESENTADA -FOJAS N°:
+        <input class="sub-puntos input-sac" type="text" maxlength="4" pattern="^[0-9]{1,4}" name="liquidacion[lic-sac-dias]"></div>
+        <div class="form-title" style="text-align:center;" class="form-title">DECLARACION JURADA</div>
+        <div class="form-title" style="text-align:left;" class="form-title">POSSE CARGOS DOCENTES TITULARES</div>
+          <div style="width:95%;float:left;" class="form-title" >PROVINCIALES</div>
+              <p>PROVINCIALES:
+                <input id="sexo_f" type="checkbox" name="agente[sexo_f]" value="F" />SI
+                <input id="sexo_m" type="checkbox" name="agente[sexo_m]" value="M" />NO
+              </p>
+            <div style="text-align:left"> Donde?<input id="esc_nombre" style="text-align:left" class="sub-puntos input-donde?" type="text"> </div>
+            <div style="width:95%;float:left;" class="form-title">PRIVADOS</div>
+              <p>PRIVADOS:
+                <input id="sexo_f" type="checkbox" name="agente[sexo_f]" value="F" />SI
+                <input id="sexo_m" type="checkbox" name="agente[sexo_m]" value="M" />NO
+              </p>
+            <div style="text-align:left"> Donde?<input id="esc_nombre" style="text-align:left" class="sub-puntos input-donde?" type="text">
+            <div style="width:95%;float:left;" class="form-title" >MUNICIPALES</div>
+              <p>MUNICIPALES:
+                <input id="sexo_f" type="checkbox" name="agente[sexo_f]" value="F" />SI
+                <input id="sexo_m" type="checkbox" name="agente[sexo_m]" value="M" />NO
+              </p>
+            <div style="text-align:left">Donde?<input id="esc_nombre" style="text-align:left" class="sub-puntos input-donde?" type="text">
+        </div>
+          <div style="width:95%;float:left;" class="form-title" >POSEE CARGO/S EN LA ADMINISTRACION PUBLICA NACIONAL-PROVINCIAL Y/O MUNICIPAL</div>
+          <div style="text-align:left">REPARTICION: <input id="esc_nombre" style="text-align:left" class="sub-puntos input-donde?" type="text"><Br/></div>
+          <div style="text-align:left">SITUACION DE REVISTA: <input id="esc_nombre" style="text-align:left" class="sub-puntos input-donde?" type="text"></div>
+          <Br/>
+          <Br/>
+        <div style="text-align:left" >Declaro bajo juramento que todos los cargos consignados son veraces y exactos, de acuerdo a mi leal saber y entender. Asimismo declaro conocer el Articulo 67° de la Constitución Provincial y el Acta de Acuerdo Homologada por Resolucion N°648/95 de la Subsecretaria de Trabajo de la Provincia del Chubut</div>
+        <Br/>
+        <div>
+        <table  border="1" cellspacing="20" cellpadding="1" >
+          <tr>
+             <th style="text-align:center" scope="col">En caso de ser adjudicado en 1 cargo de Bibliotecario Escolar hago expresa renuncia al cargo de M. de GRADO titular que ostento actualmente
+             </th>
+          </tr>
+        </table>
+        </div>
+        <Br/>
+        <table>
+            <th style="text-align:left">Lugar y Fecha:<input style="text-align:left" class="sub-puntos input-donde?" type="text"></th>
+            <th style="text-align:right" ><br> <br> </span>&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;...............................................<br>FIRMA<br></th>
+         </table>
+        <div>
+           <div style="text-align:left" > Devolución de documentación: Causales
+           <input style="text-align:left" class="sub-puntos input-Devolución de documentación: Causales" type="text"> 
+         </div><br>
+        <HR background-color: black; width=50% align="center">
+        <center> ESPACIO RESERVADO PARA JUNTA DE CLASIFICACION DOCENTE RUBROS(ART.29 LEY VIII - N° 20)<br><br>
+        <table  border="1" cellspacing="4" cellpadding="4" >
+          <tr>
+             <th align="center"; scope="col">&nbsp;R.I TITULO&nbsp;</th>
+             <th scope="col">&nbsp;R.II PROMEDIO&nbsp;</th>
+             <th scope="col">&nbsp;R.IV A. TIT.&nbsp;</th>
+             <th scope="col">&nbsp;R.V S. PREST.&nbsp;</th>
+             <th scope="col">&nbsp;R.VII RESIDENCIA&nbsp;</th>
+             <th scope="col">&nbsp;R.IX CURSOS&nbsp;</th>
+             <th scope="col">&nbsp;TOTAL&nbsp;</th>
+          </tr>
+          <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+          <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+          <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+          <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+          <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+          <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+          <td><input name="nombre" type="number" size="35" maxlength="35"></td>
+          <tr>
+             <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="number" size="35" maxlength="35"></td>
+          </tr>
+             <tr>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="text" size="35" maxlength="35"></td>
+              <td><input name="nombre" type="number" size="35" maxlength="35"></td>
+          </tr>
+        </table>
+      <% end -%>     
+<script type="text/javascript">
+  
+$( "#agente_dni" ).bind("propertychange change click keyup input paste",function(){
+  var dni = parseInt($( "#agente_dni" ).val());
+  $( "#agente-cuil-dni" ).val(dni);
+  if($( "#agente_dni" ).val().length > 7){
+    $.ajax({
+      url: '/soft/notas-ministerio/formularios/consulta_dni/'+dni,
+      type: 'POST',
+    })
+    .done(function(data) {
+
+      if(data != 0){
+        $("#agente-nombres").val(data.apeynom);
+        if (data.cuit > 0){
+        $("#agente-cuil-sexo").val(data.cuit.substring(0, 2));
+        
+        
+        if( $("#agente-cuil-sexo").val() == "27"){
+          $( "#sexo_f" ).prop('checked', true);
+          $( "#sexo_m" ).prop('checked', false);
+        }else{
+          $( "#sexo_f" ).prop('checked', false);
+          $( "#sexo_m" ).prop('checked', true);
+        }
+
+        $("#agente-cuil-venc").val(data.cuit.substring(10, 11));
+
+      }
+        $("#agente-sec").val(data.secuencia);
+        $("#esc_nombre").val("ESTABLECIMIENTO ESCOLAR: " + data.nombre);
+        $("#esc_numero").val("Nº: " + data.escuela);
+        $("#cargo1").val(data.descripcion);
+        
+        var d = new Date(data.fecha_ing);
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+        var output = ((day<10 ? '0' : '') + day) + '/' + ((''+month).length<2 ? '0' : '') + month + '/' +  d.getFullYear();
+        
+        $("#fecha_ingreso1").val(output);
+
+        var d = new Date();
+        var month = d.getMonth()+1;
+        var day = d.getDate();
+        var output = ((day<10 ? '0' : '') + day) + '/' + ((''+month).length<2 ? '0' : '') + month + '/' +  d.getFullYear();
+        $("#fecha_cese").val(output);
+      }
+    })
+  }
+});
+
+</script>

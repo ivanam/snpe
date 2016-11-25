@@ -1,0 +1,383 @@
+<div class="page-break">
+  <%= form_tag('/soft/notas-ministerio/formularios.pdf', :class => "form-horizontal", :id => "form-baja") do -%>
+    <div class="form-baja-header">
+      <div class="row"> <!-- Fila Header -->
+        <div class="col-xs-4 escudo">
+          <%= wicked_pdf_image_tag 'logo-gob.png'%>
+        </div>
+        <div class="col-xs-4">
+          <center>
+            <div class="text-center box-code">
+              <div>BA-01</div>
+              <div>HOJA 1</div>
+            </div>
+          <center>
+        </div>
+        <div class="col-xs-4">
+          <div class="text-center box-descrip">
+            <div>BAJA DE PERSONAL DOCENTE</div>
+          </div>
+        </div>
+      </div><!-- End Fila Header-->
+    </div>
+
+    <div class="datos-agente">
+      <div class="form-title" >DATOS DEL AGENTE QUE SE DA DE BAJA</div>
+      <div class="row">
+        <div style="font-size:0.9em;" class="col-xs-2">
+          01 L.C.<br>
+          02 L.E.<br>
+          03 Pasaporte<br>
+          04 C.I.<br>
+          05 D.N.I.<br>
+        </div>
+        <div class="col-xs-10">
+          <div class="row">
+            <center>
+              <div class="col-xs-4 titulo">Tipo - Nº Documento</div>
+              <div class="col-xs-2 titulo">Secuencia</div>
+              <div class="col-xs-6 titulo">C.U.I.L.</div>
+            </center>
+          </div>
+          <div class="row">
+            <div class="col-xs-4">
+              <center>
+                <input class="input-number input-tipo-doc" value="<%=@agente['tipo']%>">
+                - 
+                <input id="agente_dni" class="input-number input-dni" value="<%=@agente['dni']%>">
+              </center>
+            </div>
+            <div class="col-xs-2">
+              <center>
+                <input class="input-number input-sec" type="text" value="<%=@agente['sec']%>"> 
+              </center>
+            </div>
+            <div class="col-xs-6">
+              <center>
+                <input id="agente_cuil_sexo" class="input-number input-sexo" value="<%=@agente['cuil_sexo']%>"> 
+                - 
+                <input id="agente_cuil_dni" class="input-number input-dni" value="<%=@agente['cuil_dni']%>">
+                - 
+                <input class="input-number input-venc" value="<%=@agente['cuil_venc']%>">
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div style="margin:8px 0px;border-bottom: 2px solid black;padding-bottom:16px;" class="col-xs-12">
+        <div style="text-align:left;" class="col-xs-12 titulo">
+          Apellido y Nombre
+        </div>
+        <div class="col-xs-9">
+          <input class="input-number input-nombre" value="<%=@agente['nombres']%>"> 
+        </div>
+        <div class="col-xs-3 sexo">
+          <fieldset>
+            <p>Sexo:
+              <% if @agente['sexo_m'] == nil %>
+                <input id="sexo_f" type="checkbox" name="agente[sexo_f]" value="F" checked />F
+                <input id="sexo_m" type="checkbox" name="agente[sexo_m]" value="M"/>M
+              <% else %>
+                <input id="sexo_f" type="checkbox" name="agente[sexo_f]" value="F"/>F
+                <input id="sexo_m" type="checkbox" name="agente[sexo_m]" value="M" checked/>M
+              <% end %>
+            </p>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div class="motivo-baja">
+      <div class="row">
+        <div class="col-xs-9">
+          <textarea rows="2" cols="52"><%=@baja['motivo']%></textarea> 
+        </div>
+        <div class="col-xs-3 titulo">
+          <center>
+            Fecha de Cese
+            <input class="fecha" type="text" pattern="\d{2}/\d{2}/\d{2}" name="date" value="<%=@baja['fecha_cese']%>"/>
+          </center>
+        </div>
+      </div>
+    </div>
+    <div class="datos-agente">
+      <div class="form-title" >DATOS DEL CARGO (Completar por el Director)</div>
+      <div class="row">
+        <div style="width:95%;float:left;">
+          <!-- ROW 1-->
+          <div class="row">    
+            <div class="col-xs-10 tabla">
+              <input class="tb tb-1-2" type="text" value="<%=@cargo['est-nombre']%>">
+            </div>
+            <div class="col-xs-2 tabla">
+              <input class="tb tb-2-2" type="text" value="<%=@cargo['est-numero']%>">
+            </div>
+          </div>
+          <!-- ROW 2-->
+          <div class="row">
+            <div class="col-xs-8 tabla">
+              <div class="tb tb-title tb-1-2">Cargo que Ocupa</div>
+            </div>
+            <div class="col-xs-2 tabla">
+              <div class="tb tb-title tb-2-2">Sit. Revista</div>
+            </div>
+            <div class="col-xs-2 tabla">
+              <div class="tb tb-title tb-2-2 tb">Fecha Ingreso</div>
+            </div>
+          </div>
+          <!-- ROW 3-->
+          <div class="row">
+            <div class="col-xs-8 tabla">
+              <% if @cargo['cargo-1'] != nil %>
+                <input class="tb tb-1-2" type="text" value="<%=@cargo['cargo-1']%>">
+              <% else %>
+                <input class="tb tb-1-2" type="text" value="">
+              <%end%>
+            </div>
+            <div class="col-xs-2 tabla">
+              <% if @cargo['cargo-1'] == "" %>
+                <input class="tb tb-2-2" type="text" value="">
+              <% else %>
+                <input class="tb tb-2-2" type="text" value="<%=@cargo['sit-rev-1']%>">
+              <%end%>  
+            </div>
+            <div class="col-xs-2 tabla">
+              <% if @cargo['fecha-ingreso-1'] != nil %>
+                <input class="tb-fecha tb tb-2-2" type="text" value="<%=@cargo['fecha-ingreso-1']%>"/>
+              <%else%>
+                <input class="tb-fecha tb tb-2-2" type="text" value=""/>
+              <%end%>
+            </div>
+          </div>
+          <!-- ROW 4-->
+          <div class="row">
+            <div class="col-xs-8 tabla">
+              <% if @cargo['cargo-2'] != nil %>
+                <input class="tb tb-1-2" type="text" value="<%=@cargo['cargo-2']%>">
+              <% else %>
+                <input class="tb tb-1-2" type="text" value="">
+              <%end%>
+            </div>
+            <div class="col-xs-2 tabla">
+              <% if @cargo['cargo-2'] == "" %>
+                <input class="tb tb-2-2" type="text" value=" ">
+              <% else %>
+                <input class="tb tb-2-2" type="text" value="<%=@cargo['sit-rev-2']%>">
+              <%end%>  
+            </div>
+            <div class="col-xs-2 tabla">
+              <% if @cargo['fecha-ingreso-2'] != nil %>
+                <input class="tb-fecha tb tb-2-2" type="text" value="<%=@cargo['fecha-ingreso-2']%>"/>
+              <%else%>
+                <input class="tb-fecha tb tb-2-2" type="text" value=""/>
+              <%end%>
+            </div>
+          </div>
+          <!-- ROW 5-->
+          <div class="row">
+            <div class="col-xs-8 tabla">
+              <% if @cargo['cargo-3'] != nil %>
+                <input class="tb tb-1-2 tb-end" type="text" value="<%=@cargo['cargo-3']%>">
+              <% else %>
+                <input class="tb tb-1-2 tb-end" type="text" value="">
+              <%end%>
+            </div>
+            <div class="col-xs-2 tabla">
+              <% if @cargo['cargo-3'] == "" %>
+                <input class="tb tb-2-2 tb-end" type="text" value=" ">
+              <% else %>
+                <input class="tb tb-2-2 tb-end" type="text" value="<%=@cargo['sit-rev-3']%>">
+              <%end%>  
+            </div>
+            <div class="col-xs-2 tabla">
+              <% if @cargo['fecha-ingreso-3'] != nil %>
+                <input class="tb-fecha tb tb-2-2 tb-end" type="text" value="<%=@cargo['fecha-ingreso-3']%>"/>
+              <%else%>
+                <input class="tb-fecha tb tb-2-2 tb-end" type="text" value=""/>
+              <%end%>
+            </div>
+          </div>
+        </div>
+        <div style="width:30px;"class="texto-vertical">
+          <span >HOJA 1: Expediente</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="subtitulo tabla col-xs-7">Licencia Actual</div>
+        <div class="subtitulo tabla col-xs-5">Licencias Pendientes</div>
+      </div>
+      <div class="row">
+        <div class="tabla col-xs-7">
+          <div class="tb tb-1-2 tb-end">
+            
+              <span class="tag-sub-puntos">Art:</span>
+              <input class="sub-puntos input-number input-date" type="text" value="<%=@cargo['lic-actual-art']%>" >  
+              <span class="tag-sub-puntos">Desde</span>
+              <input class="sub-puntos input-number input-date" type="text"value="<%=@cargo['lic-actual-desde-d']%>" > / 
+              <input class="sub-puntos input-number input-date" type="text" value="<%=@cargo['lic-actual-desde-m']%>" > / 
+              <input class="sub-puntos input-number input-date" type="text" value="<%=@cargo['lic-actual-desde-a']%>" >  
+              <span class="tag-sub-puntos">Hasta</span>
+              <input class="sub-puntos input-number input-date" type="text"value="<%=@cargo['lic-actual-hasta-d']%>" > / 
+              <input class="sub-puntos input-number input-date" type="text"value="<%=@cargo['lic-actual-hasta-m']%>" > / 
+              <input class="sub-puntos input-number input-date" type="text" value="<%=@cargo['lic-actual-hasta-a']%>">  
+            
+          </div>
+        </div>
+        <div class="tabla col-xs-5">
+          <input class="tb tb-2-2 tb-end" type="text" name="<%=@cargo['lic-pendiente']%>">
+        </div>
+      </div>
+      <div class="row">
+        <div class="tabla col-xs-6">
+          <div class="row">
+            <div class="subtitulo tabla col-xs-9">Lugar</div>
+            <div class="subtitulo tabla col-xs-1">D</div>
+            <div class="subtitulo tabla col-xs-1">M</div>
+            <div class="subtitulo tabla col-xs-1">A</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-9 tabla">
+              <input class="tb tb-1-2 tb-end input-lugar" type="text" value="<%=@cargo['lugar']%>">
+              
+            </div>
+            <div class="col-xs-1 tabla">
+              <input class="tb tb-2-2 tb-end input-lugar" type="text" value="<%=@cargo['dia']%>">
+            </div>
+            <div class="col-xs-1 tabla">
+              <input class="tb tb-2-2 tb-end input-lugar" type="text" value="<%=@cargo['mes']%>">
+            </div>
+            <div class="col-xs-1 tabla">
+              <input class="tb tb-2-2 tb-end input-lugar" type="text" value="<%=@cargo['anio']%>">
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-6">
+          <div class="row">
+            <div class="col-xs-6 firma">
+              <center>
+                ...................................................<br>
+                Interesado
+              </center>
+            </div>
+
+            <div class="col-xs-6 firma">
+              <center>
+                ....................................................<br>
+                Director<br>
+                Establecimiento
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="datos-liquidacion">
+        <div class="form-title" >DATOS PARA LA LIQUIDACION DE HABERES</div>
+          <div class="row">
+            <div class="subtitulo tabla col-xs-8">Licencia sin sueldo</div>
+            <div class="subtitulo tabla col-xs-4">Tipo de liquidación</div>
+          </div>
+          <div class="row">
+            <div class="tabla col-xs-8">
+              <div class="tb tb-1-2 tb-end">
+                <span class="tag-sub-puntos">Reintegro:</span>
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-reintegro']%>">  
+                <span class="tag-sub-puntos">Desde</span>
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-desde-d']%>" > / 
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-desde-m']%>" > / 
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-desde-a']%>" >  
+                <span class="tag-sub-puntos">Fecha</span>
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-fecha-d']%>"> / 
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-fecha-m']%>"> / 
+                <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['lic-ss-fecha-a']%>">  
+              </div>
+            </div>
+            <div class="tabla col-xs-4">
+              <div class="tb tb-2-2 tb-end">
+                <center>
+                  <span class="tag-sub-puntos">Tipo:</span>
+                  <input class="sub-puntos input-tipo" type="text" value="<%=@liquidacion['tipo-liquidacion']%>" > 
+                </center> 
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="subtitulo tabla col-xs-5">Licencia de S.A.C.</div>
+            <div class="subtitulo tabla col-xs-7">Liquidación Final</div>
+          </div>
+          <div class="row">
+            <div class="tabla col-xs-5">
+              <div class="tb tb-1-2 tb-end">
+                <center>
+                  <input class="sub-puntos input-sac" type="text" value="<%=@liquidacion['lic-sac-dias']%>" >
+                  <span class="tag-sub-puntos">Días</span>
+                </center>
+              </div>
+            </div>
+            <div class="tabla col-xs-7">
+              <div class="tb tb-2-2 tb-end">
+                <center>
+                  <span class="tag-sub-puntos">Res. Nº:</span>
+                  <input class="sub-puntos input-number input-res" type="text" value="<%=@liquidacion['final-numero']%>">  
+                  <span class="tag-sub-puntos">Fecha Liq:</span>
+                  <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['final-fecha-d']%>"> / 
+                  <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['final-fecha-m']%>"> / 
+                  <input class="sub-puntos input-number input-date" type="text" value="<%=@liquidacion['final-fecha-a']%>">
+                </center>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  <% end -%>
+</div>
+
+<div class="page-break">
+  <!--///////// LICENCIAS /////////// -->
+  <div class="col-xs-12"> 
+    <div class="box-departamento-pdf">
+      <div class="box-departamento-tittle-pdf box-departamento-tittle-licencias-pdf">
+        Departamento de Licencias
+      </div>
+      <div class="col-xs-8"> 
+        <div class="row">
+          <div class="verifica-datos-pdf">
+            <input id="verificar_licencias" type="checkbox" name="verificar_licencias" value="F" />Verifica Datos
+          </div>
+        </div>
+        <div class="row">
+          <div class="ultima-licencia-pdf">
+            <div class="ultima-licencia-tittle-pdf">
+              ULTIMA LICENCIA SIN HABERES
+            </div>
+            <div class="box-licencias-pdf">
+              <div class="box-licencia-pdf">
+                <div class="box-licencia-subtittle-pdf">
+                  Artículo
+                </div>
+              </div>
+              <div class="box-licencia-pdf">
+                <div class="box-licencia-subtittle-pdf">
+                  Desde
+                </div>
+              </div>
+              <div class="box-licencia-pdf">
+                <div class="box-licencia-subtittle-pdf">
+                  Hasta
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="row">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- ////////// SUELDOS //////////// -->
+  
+</div>

@@ -1,0 +1,52 @@
+<div class="page-header">
+  <h1>inscripcion</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Persona:</dt>
+  <dd><%= @inscripcion.persona_id %></dd>
+
+  <dt>Establecimiento:</dt>
+  <dd><%= @inscripcion.establecimiento_id %></dd>
+
+  <dt>Funcion:</dt>
+  <dd><%= @inscripcion.funcion_id %></dd>
+
+  <dt>Nivel:</dt>
+  <dd><%= @inscripcion.nivel_id %></dd>
+
+  <dt>Escuela titular:</dt>
+  <dd><%= @inscripcion.escuela_titular %></dd>
+
+  <dt>Serv activo:</dt>
+  <dd><%= @inscripcion.serv_activo %></dd>
+
+  <dt>Lugar serv act:</dt>
+  <dd><%= @inscripcion.lugar_serv_act %></dd>
+
+  <dt>Documentacion:</dt>
+  <dd><%= @inscripcion.documentacion %></dd>
+
+  <dt>Rubro:</dt>
+  <dd><%= @inscripcion.rubro_id %></dd>
+
+  <dt>Fecha incripcion:</dt>
+  <dd><%= @inscripcion.fecha_incripcion %></dd>
+
+  <dt>Cabecera:</dt>
+  <dd><%= @inscripcion.cabecera %></dd>
+
+  <br/><br/>
+  <%= link_to inscripcions_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_inscripcion_path(@inscripcion), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to inscripcion_path(@inscripcion), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
