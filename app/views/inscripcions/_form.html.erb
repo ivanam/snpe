@@ -1,4 +1,4 @@
-<%= form_for(@inscripcion, :html => { :class => "form-horizontal" }) do |f| %>
+<%= nested_form_for(@inscripcion, multipart: true, :html => { :class => "form-horizontal" }) do |f| %>
   <% if @inscripcion.errors.any? %>
     <div class="alert alert-danger alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -51,41 +51,6 @@
                   <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
                   <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
               </TR>       
-               <TR>        
-                 <TD>F</TD>
-                 <TD>H</TD> 
-               </TR>
-                  <TD>G</TD> 
-                  <TD>H</TD> 
-              </TR>
-                  <TR>        
-                 <TD>F</TD>
-                 <TD>H</TD> 
-               </TR>
-                  <TD>G</TD> 
-                  <TD>H</TD> 
-              </TR>
-                  <TR>        
-                 <TD>F</TD>
-                 <TD>H</TD> 
-               </TR>
-                  <TD>G</TD> 
-                  <TD>H</TD> 
-              </TR>
-                  <TR>        
-                 <TD>F</TD>
-                 <TD>H</TD> 
-               </TR>
-                  <TD>G</TD> 
-                  <TD>H</TD> 
-              </TR>
-                  <TR>        
-                 <TD>F</TD>
-                 <TD>H</TD> 
-               </TR>
-                  <TD>G</TD> 
-                  <TD>H</TD> 
-              </TR>
            </TABLE>
     <br/>
     <div class="form-group">
@@ -100,13 +65,7 @@
       <%= f.date_select :fecha_incripcion, :class => "form-control" %>
      </div>
     </div>
-    <div class="form-group">
-        <%= f.label "Títulos", :class => "col-sm-2 control-label" %>
-        <div class="col-sm-4">
-          <%= text_field_tag :nombre, nil, :class => "form-control", :name => "titulo[nombre]", :value => ""%>
-        </div>
-     </div>
-     <div class="form-group">
+        <div class="form-group">
      <%= f.label :cabecera, :class => "col-sm-2 control-label" %>
      <div class="col-sm-6">
       <%= f.text_field :cabecera, :class => "form-control" %>
@@ -117,7 +76,30 @@
     <div class="col-sm-6">
       <%= f.text_field :documentacion, :class => "form-control" %>
     </div>
-    </div>      
+    </div>
+  <div class="form-group">
+     <%= f.fields_for :titulo_personas do |pe|%>
+        <div class="form-group" title="Ingrese titulo">
+        <%= f.label :nombre, "Nombre Titulo", :class => "col-sm-2 control-label" %>
+        <div class="col-sm-4">
+          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {}, :style=>"width:100%") %>         
+        </div>
+        </div>
+        <div class="form-group">      
+          <div class="text-right">
+            <%= pe.link_to_remove "Eliminar", :class => "label label-danger eliminar_titulo" %>  
+          </div>
+        </div>
+        <div class="form-group">
+          <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+          <%= f.text_field :persona_id, :class => "form-control hidden" %>
+          </div>
+         </div>      
+      </div>
+    <% end %>    
+    <%= f.link_to_add "Agregar titulo", :titulo_personas, :class => "label label-success" %><hr/>
+    </div>
     <br/>
     <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">

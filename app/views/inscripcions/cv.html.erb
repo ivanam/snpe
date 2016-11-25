@@ -63,9 +63,12 @@
     </div>
      <div class="col-md-3 col-xs-3">
       <dt>Titulos:</dt>
-       <% Titulo.where(:persona_id => @persona.id).each do |r| %>
-       <% @titulo_persona = r.nombre  %>
-       <dd><%= @titulo_persona %></dd>
+       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+       <% @titulo_persona = r.titulo_id  %>
+       <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <% @titulo_nombre = t.nombre  %>
+       <dd><%= @titulo_nombre %></dd>
+       <% end %>
        <% end %>
       </div> 
   </div>

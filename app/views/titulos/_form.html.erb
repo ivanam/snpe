@@ -28,10 +28,12 @@
     <div class="col-sm-offset-2 col-sm-10">
 
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
-      <%= link_to titulos_path, :class => 'btn btn-default' do %>
+      <%= link_to inscripcions_path(@.id), :class => 'btn btn-default' do %>
         <span class="glyphicon glyphicon-list-alt"></span>
         Atrás
       <% end %>
     </div>
   </div>
 <% end %>
+
+

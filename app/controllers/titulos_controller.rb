@@ -15,7 +15,9 @@ class TitulosController < InheritedResources::Base
 
   def new
     @titulo = Titulo.new
-    respond_with(@titulo)
+    @persona=Persona.find(params[:persona_id])
+    @titulo.persona_id = @persona.id
+
   end
 
   def edit
@@ -25,8 +27,11 @@ class TitulosController < InheritedResources::Base
   def create
     @titulo = Titulo.new(titulo_params)
     @titulo.save
-    respond_with(@titulo)
+    respond_to do |format|
+    format.html { redirect_to new_inscripcions_path (@titulo.persona_id) }
+    end
   end
+
 
   def update
     @titulo.update(titulo_params)

@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-
-ActiveRecord::Schema.define(version: 20161104121214) do
-
+ActiveRecord::Schema.define(version: 20161124133738) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -150,6 +147,23 @@ ActiveRecord::Schema.define(version: 20161104121214) do
   add_index "cargo_estados", ["estado_id"], name: "index_cargo_estados_on_estado_id", using: :btree
   add_index "cargo_estados", ["user_id"], name: "index_cargo_estados_on_user_id", using: :btree
 
+  create_table "cargo_inscrip_docs", force: true do |t|
+    t.integer  "incripcion_id"
+    t.integer  "persona_id"
+    t.integer  "cargosnds_id"
+    t.integer  "cargo_id"
+    t.integer  "nivel_id"
+    t.integer  "inscripcion_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
+  add_index "cargo_inscrip_docs", ["cargosnds_id"], name: "index_cargo_inscrip_docs_on_cargosnds_id", using: :btree
+  add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
+  add_index "cargo_inscrip_docs", ["nivel_id"], name: "index_cargo_inscrip_docs_on_nivel_id", using: :btree
+  add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
+
   create_table "cargo_no_docente_estados", force: true do |t|
     t.integer  "cargo_no_docente_id"
     t.integer  "estado_id"
@@ -185,15 +199,6 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.text     "motivo_baja"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "situacion_revista"
-    t.integer  "aa_antig"
-    t.integer  "mm_antig"
-    t.integer  "dd_antig"
-    t.integer  "agrup_r"
-    t.integer  "cargo_r"
-    t.integer  "categ_r"
-    t.integer  "planta_pre"
-    t.integer  "tipo_emp"
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
@@ -277,7 +282,6 @@ ActiveRecord::Schema.define(version: 20161104121214) do
 
   create_table "establecimientos", force: true do |t|
     t.string   "codigo_jurisdiccional"
-    t.string   "cabecera",              limit: 15, null: false
     t.integer  "cue"
     t.integer  "anexo"
     t.integer  "cue_anexo"
@@ -342,6 +346,7 @@ ActiveRecord::Schema.define(version: 20161104121214) do
   end
 
   create_table "inscripcions", force: true do |t|
+    t.integer  "pesona_id"
     t.integer  "establecimiento_id"
     t.integer  "funcion_id"
     t.integer  "nivel_id"
@@ -351,15 +356,16 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.string   "documentacion"
     t.integer  "rubro_id"
     t.date     "fecha_incripcion"
+    t.integer  "persona_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "persona_id"
     t.integer  "cabecera"
   end
 
   add_index "inscripcions", ["establecimiento_id"], name: "index_inscripcions_on_establecimiento_id", using: :btree
   add_index "inscripcions", ["funcion_id"], name: "index_inscripcions_on_funcion_id", using: :btree
   add_index "inscripcions", ["nivel_id"], name: "index_inscripcions_on_nivel_id", using: :btree
+  add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
   add_index "inscripcions", ["rubro_id"], name: "index_inscripcions_on_rubro_id", using: :btree
 
   create_table "licencia", force: true do |t|
@@ -423,71 +429,6 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.datetime "updated_at"
   end
 
-  create_table "padaux", id: false, force: true do |t|
-    t.integer "escuela",               default: 0,  null: false
-    t.integer "prog",                  default: 0,  null: false
-    t.integer "ley_r",                 default: 0,  null: false
-    t.integer "agrup_r",               default: 0,  null: false
-    t.integer "cargo_r",               default: 0,  null: false
-    t.integer "categ_r",               default: 0,  null: false
-    t.integer "ley_s",                 default: 0,  null: false
-    t.integer "agrup_s",               default: 0,  null: false
-    t.integer "cargo_s",               default: 0,  null: false
-    t.integer "categ_s",               default: 0,  null: false
-    t.date    "fecha_ing",                          null: false
-    t.date    "fecha_alta",                         null: false
-    t.date    "fecha_baja",                         null: false
-    t.integer "planta_pre",            default: 0,  null: false
-    t.integer "tipo_emp",              default: 0,  null: false
-    t.integer "horas_cate",            default: 0,  null: false
-    t.integer "tipo_docu",             default: 0,  null: false
-    t.integer "nume_docu",             default: 0,  null: false
-    t.integer "secuencia",             default: 0,  null: false
-    t.string  "apeynom",    limit: 30, default: "", null: false
-    t.string  "estado",     limit: 3,  default: "", null: false
-    t.string  "empresa",    limit: 6,  default: "", null: false
-    t.integer "aa_antig",              default: 0,  null: false
-    t.integer "mm_antig",              default: 0,  null: false
-    t.integer "dd_antig",              default: 0,  null: false
-  end
-
-  add_index "padaux", ["escuela"], name: "PADAUX_ESC", using: :btree
-  add_index "padaux", ["estado"], name: "PADAUX_EST", using: :btree
-  add_index "padaux", ["nume_docu"], name: "PADAUX_NDOC", using: :btree
-
-  create_table "paddoc", id: false, force: true do |t|
-    t.integer "escuela",               default: 0,  null: false
-    t.integer "prog",                  default: 0,  null: false
-    t.integer "ley_r",                 default: 0,  null: false
-    t.integer "agrup_r",               default: 0,  null: false
-    t.integer "cargo_r",               default: 0,  null: false
-    t.integer "categ_r",               default: 0,  null: false
-    t.integer "ley_s",                 default: 0,  null: false
-    t.integer "agrup_s",               default: 0,  null: false
-    t.integer "cargo_s",               default: 0,  null: false
-    t.integer "categ_s",               default: 0,  null: false
-    t.date    "fecha_ing",                          null: false
-    t.date    "fecha_alta",                         null: false
-    t.date    "fecha_baja",                         null: false
-    t.integer "planta_pre",            default: 0,  null: false
-    t.integer "tipo_emp",              default: 0,  null: false
-    t.integer "horas_cate",            default: 0,  null: false
-    t.integer "tipo_docu",             default: 0,  null: false
-    t.integer "nume_docu",             default: 0,  null: false
-    t.integer "secuencia",             default: 0,  null: false
-    t.string  "apeynom",    limit: 30, default: "", null: false
-    t.string  "estado",     limit: 3,  default: "", null: false
-    t.string  "empresa",    limit: 6,  default: "", null: false
-    t.integer "aa_antig",              default: 0,  null: false
-    t.integer "mm_antig",              default: 0,  null: false
-    t.integer "dd_antig",              default: 0,  null: false
-  end
-
-  add_index "paddoc", ["escuela"], name: "PADDCO_ESC", using: :btree
-  add_index "paddoc", ["estado"], name: "PADDOC_EST", using: :btree
-  add_index "paddoc", ["nume_docu"], name: "paddoc_ndoc", using: :btree
-  add_index "paddoc", ["secuencia"], name: "PADDOC_SEC", using: :btree
-
   create_table "periodo_asistencia", force: true do |t|
     t.string   "mes"
     t.integer  "anio"
@@ -547,7 +488,6 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-    t.string   "apeynom"
   end
 
   create_table "plans", force: true do |t|
@@ -654,12 +594,6 @@ ActiveRecord::Schema.define(version: 20161104121214) do
     t.integer  "codigo"
   end
 
-  create_table "turnos", force: true do |t|
-    t.string   "descripcion"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "titulo_personas", force: true do |t|
     t.integer  "titulo_id"
     t.integer  "persona_id"
@@ -678,6 +612,12 @@ ActiveRecord::Schema.define(version: 20161104121214) do
   end
 
   add_index "titulos", ["persona_id"], name: "index_titulos_on_persona_id", using: :btree
+
+  create_table "turnos", force: true do |t|
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "user_roles", force: true do |t|
     t.integer  "user_id"

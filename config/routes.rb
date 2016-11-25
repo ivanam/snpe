@@ -1,6 +1,8 @@
 ProyectoBase::Application.routes.draw do
 
 
+  
+
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -35,7 +37,13 @@ ProyectoBase::Application.routes.draw do
 
     get "inscripcions/new", to: "inscripcions#new", as: :new_inscripcions
 
-    get "/titulos/index", to: 'titulos#index' 
+    get "cargo_inscrip_docs/new", to: "cargo_inscrip_docs#new", as: :new_cargo_inscrip_docs
+
+    get "/cargo_inscrip_docs/index", to: 'cargo_inscrip_docs#index'
+
+    get "/titulos/index", to: 'titulos#index'
+
+    get "titulos/new", to: "titulos#new", as: :new_titulos 
 
     get "/titulo_personas/index", to: 'titulo_personas#index'   
 
@@ -74,6 +82,8 @@ ProyectoBase::Application.routes.draw do
     resources :titulo_personas
 
     resources :titulos
+
+    resources :cargo_inscrip_docs
 
 
     #---------------------------------------------------------------------------------------------------------------------------------------
