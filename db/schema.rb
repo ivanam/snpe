@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161124133738) do
+ActiveRecord::Schema.define(version: 20161125112142) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -148,19 +148,17 @@ ActiveRecord::Schema.define(version: 20161124133738) do
   add_index "cargo_estados", ["user_id"], name: "index_cargo_estados_on_user_id", using: :btree
 
   create_table "cargo_inscrip_docs", force: true do |t|
-    t.integer  "incripcion_id"
+    t.integer  "inscripcion_id"
     t.integer  "persona_id"
     t.integer  "cargosnds_id"
     t.integer  "cargo_id"
     t.integer  "nivel_id"
-    t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
   add_index "cargo_inscrip_docs", ["cargosnds_id"], name: "index_cargo_inscrip_docs_on_cargosnds_id", using: :btree
-  add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["nivel_id"], name: "index_cargo_inscrip_docs_on_nivel_id", using: :btree
   add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
 
@@ -336,6 +334,7 @@ ActiveRecord::Schema.define(version: 20161124133738) do
     t.integer  "grupo"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "nivel"
   end
 
   create_table "grupos", force: true do |t|
