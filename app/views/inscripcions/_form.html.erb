@@ -31,28 +31,6 @@
         </table>
     </body>
     Cargos que solicita (marcar)
-      <TABLE BORDER>
-             <TR>
-                <TH COLSPAN=1>Educación (Selecione): <%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
-                <TH COLSPAN=1>Educación (Selecione):<%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
-                 <TH COLSPAN=1>Educación (Selecione): <%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
-                <TH COLSPAN=1>Educación (Selecione):<%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
-                 <TH COLSPAN=1>Educación (Selecione): <%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
-                <TH COLSPAN=1>Educación (Selecione):<%= select_tag 'nivel', options_from_collection_for_select(Nivel.all, "id", "nombre", @inscripcion.nivel_id), :id=>"select2-nivel"%></TH>
-             </TR>
-             <TR>
-                 <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
-                 <TD><%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
-                 <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
-                 <TD><%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>  
-                 <TD>C</TD> <TD>D</TD> 
-              </TR>
-              <TR>  
-                  <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
-                  <TD> <%= select_tag 'funcion', options_from_collection_for_select(Funcion.all, "id", "descripcion", @inscripcion.funcion_id), :id=>"select2-funcion"%></TD>
-              </TR>       
-           </TABLE>
-    <br/>
     <div class="form-group">
       <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
       <div class="col-sm-6">
@@ -77,28 +55,68 @@
       <%= f.text_field :documentacion, :class => "form-control" %>
     </div>
     </div>
-  <div class="form-group">
-     <%= f.fields_for :titulo_personas do |pe|%>
+   <div class="form-group">
+   <%= f.fields_for :titulo_persona do |pe|%>
         <div class="form-group" title="Ingrese titulo">
-        <%= f.label :nombre, "Nombre Titulo", :class => "col-sm-2 control-label" %>
-        <div class="col-sm-4">
+          <%= f.label :titulo_id, "Nombre Titulo", :class => "col-sm-2 control-label" %>
+          <div class="col-sm-4">
           <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {}, :style=>"width:100%") %>         
-        </div>
+          </div>
         </div>
         <div class="form-group">      
-          <div class="text-right">
+            <div class="text-right">
             <%= pe.link_to_remove "Eliminar", :class => "label label-danger eliminar_titulo" %>  
-          </div>
+            </div>
         </div>
         <div class="form-group">
-          <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
             <div class="col-sm-6">
-          <%= f.text_field :persona_id, :class => "form-control hidden" %>
-          </div>
-         </div>      
-      </div>
-    <% end %>    
-    <%= f.link_to_add "Agregar titulo", :titulo_personas, :class => "label label-success" %><hr/>
+            <%= pe.number_field :persona_id, :class => "form-control hidden" %>
+            </div>
+        </div>      
+    <% end %>
+    </div>    
+    <%= f.link_to_add "Agregar titulo", :titulo_persona, :class => "label label-success" %><hr/>
+
+     <div class="form-group">
+     <%= f.fields_for :cargo_inscrip_doc do |ca|%>
+         <div class="form-group" title="Ingrese Cargo o Funcion">
+            <%= f.label :cargo_id, "Nombre Funcion o Cargos", :class => "col-sm-2 control-label" %>
+            <div class="col-sm-4">
+            <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {}, :style=>"width:100%") %>         
+            </div>
+         </div>
+         <div class="form-group">      
+            <div class="text-right">
+            <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_funcion" %>  
+            </div>
+         </div>
+          <div class="form-group">
+            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%= ca.number_field :persona_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+         <div class="form-group">
+            <%= f.label :inscripcion_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-06">
+            <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+         <div class="form-group">
+            <%= f.label :cargosnds_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%= ca.text_field :cargosnds_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+         <div class="form-group">
+            <%= f.label :nivel_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%= ca.text_field :nivel_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+      <% end %>
+    <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %><hr/>
     </div>
     <br/>
     <div class="form-group">
