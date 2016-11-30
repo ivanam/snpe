@@ -5,9 +5,10 @@ class Inscripcion < ActiveRecord::Base
   has_many :funcion
   has_many :nivel
   has_many :cargo
+  has_many :titulo_persona
 
   
-  has_many :titulo_persona, :foreign_key => 'persona_id', :class_name => 'TituloPersona'
+  has_many :titulo_persona, :foreign_key => 'inscripcion_id', :class_name => 'TituloPersona'
   has_many :titulos, :through => :titulo_persona 
   accepts_nested_attributes_for :titulo_persona, allow_destroy: true
 
