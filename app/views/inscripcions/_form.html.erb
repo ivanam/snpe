@@ -17,16 +17,16 @@
     <body>
         <table border="2px" WIDTH=10000 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
             <tr>
-                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %><%= f.text_field :escuela_titular, :class => "form-control" %></td>
+                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %><%= f.collection_select(:escuela_titular, Establecimiento.all, :nombre, :nombre, {}, :style=>"width:100%")%></td>
             </tr>    
             <tr>
                 <td WIDTH=6000 ALIGN=LEFT ><%= f.label :Presta_Servicios_en_el_ámbito%></td>
-                <td WIDTH=3000 HEIGHT=100>Nac. Prov. Municipal. Otro <%= f.text_field :serv_activo, :class => "form-control" %></td>
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :nombre, :nombre, {}, :style=>"width:100%")%>
               
             
              <tr>
                 <td WIDTH=6000 HEIGHT=100 ALIGN=LEFT ><%= f.label :Lugar_donde_presta_servicio %></td>
-                <td WIDTH=3000 HEIGHT=100><%= f.text_field :lugar_serv_act, :class => "form-control" %></td>
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:lugar_serv_act, Localidad.all, :nombre, :nombre, {}, :style=>"width:100%")%></td>
             </tr>
         </table>
     </body>

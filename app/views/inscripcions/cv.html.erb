@@ -95,7 +95,7 @@
 <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Inscripciones Docentes</font></center></p></legend>
 <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
     <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
-    <div class="row" align="left">
+    <!-- <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left"  >
     <dt>Inscripción Persona Id:</dt></div>
     <dd><%= s.persona_id %></dd>
@@ -104,6 +104,11 @@
     <div class="col-md-7 col-xs-3" align="left">
     <dt>Inscripción Id:</dt></div>
     <dd><%= s.id %></dd>
+    </div> -->
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Fecha de Inscripción:</dt></div>
+    <dd><%= s.fecha_incripcion %></dd>
     </div>
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">

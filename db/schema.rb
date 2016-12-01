@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161130114242) do
+ActiveRecord::Schema.define(version: 20161201111157) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -94,6 +94,15 @@ ActiveRecord::Schema.define(version: 20161130114242) do
   add_index "altas_bajas_horas", ["persona_id"], name: "index_altas_bajas_horas_on_persona_id", using: :btree
   add_index "altas_bajas_horas", ["suplente_id"], name: "index_altas_bajas_horas_on_suplente_id", using: :btree
 
+  create_table "ambitos", force: true do |t|
+    t.string   "nombre"
+    t.integer  "inscripcion_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ambitos", ["inscripcion_id"], name: "index_ambitos_on_inscripcion_id", using: :btree
+
   create_table "articulos", force: true do |t|
     t.string   "codigo"
     t.string   "descripcion"
@@ -148,7 +157,6 @@ ActiveRecord::Schema.define(version: 20161130114242) do
   add_index "cargo_estados", ["user_id"], name: "index_cargo_estados_on_user_id", using: :btree
 
   create_table "cargo_inscrip_docs", force: true do |t|
-    t.integer  "incripcion_id"
     t.integer  "persona_id"
     t.integer  "cargosnds_id"
     t.integer  "cargo_id"
@@ -347,7 +355,6 @@ ActiveRecord::Schema.define(version: 20161130114242) do
   end
 
   create_table "inscripcions", force: true do |t|
-    t.integer  "pesona_id"
     t.integer  "establecimiento_id"
     t.integer  "funcion_id"
     t.integer  "nivel_id"
