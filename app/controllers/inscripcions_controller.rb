@@ -14,12 +14,8 @@ class InscripcionsController < InheritedResources::Base
 
   def new
     @inscripcion = Inscripcion.new
-    @titulo = Titulo.new
     @persona=Persona.find(params[:persona_id])
     @inscripcion.persona_id = @persona.id
-    @titulo.persona_id = @persona.id
-
-
   end
 
   def edit
@@ -30,29 +26,8 @@ class InscripcionsController < InheritedResources::Base
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save
-    debugger
-    #@titulo = Titulo.new(titulo_params)
-    #@titulo.persona_id = @inscripcion.persona_id
-    # @titulo.save
-    # if params[:inscripcion][:titulo_personas_attributes].count > 0
-    #   params[:inscripcion][:titulo_personas_attributes].each do |t|
-    #     TituloPersona.create(:titulo_id => t.last[:titulo_id], :persona_id => @inscripcion.persona_id)
-    #   end
-    # end
-    # @id=0
-    # if params[:inscripcion][:cargo_inscrip_doc_attributes].count > 0
-    #   debugger
-    #   params[:inscripcion][:cargo_inscrip_doc_attributes].each do |pe|
-    #    CargoInscripDoc.create(:inscripcion_id => @inscripcion.id, 
-    #                           :persona_id => @inscripcion.persona_id, 
-    #                           :cargosnds_id => pe.last[:cargosnds_id], 
-    #                           :cargo_id => pe.last[:cargo_id], 
-    #                           :nivel_id => @id)
-    #   end
-    # end
     respond_to do |format|
     format.html { redirect_to cv_path (@inscripcion.persona_id) }
-    #respond_with(@inscripcion)
     end
   end
 
@@ -89,7 +64,6 @@ class InscripcionsController < InheritedResources::Base
                    :bottom => 0,
                    :left => 2,
                    :right => 2}
-        #:layout => 'application.html.erb',
       end
     end
   end
