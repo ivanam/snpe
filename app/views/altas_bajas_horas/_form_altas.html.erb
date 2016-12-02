@@ -43,6 +43,9 @@
          <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>      
         <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellidos", :value => @persona.apellidos } %>
         <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombres", :value => @persona.nombres } %>
+
+        <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta" } %>
+
         <%= f.select(:con_movilidad, [['Si', true], ['No', false]], {:prompt => "Movilidad"}, :id => "movilidad",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Movilidad", :class=>"form-control form-alta form-select")%>
         
         <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
@@ -51,22 +54,26 @@
         <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
 
         <%= f.select(:situacion_revista, SituacionRevistum.all.collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
-      </div>
-      <div class="row">        
+
         <%= f.text_field :ciclo_carrera, :placeholder => "Cic", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Ciclo/Carrera - ej: 58", :class => "form-alta form-control", :id => "ciclo-carrera", :maxlength=>"4"%>
 
         <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
-
         <%= f.select(:plan_id, @planes_permitidos.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :class=>"form-control form-alta form-select")%>        
 
         <%= f.select(:anio, AltasBajasHora::ANIO, {:prompt => "Curso"}, :id => "curso",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class=>"form-control form-alta form-select")%>
         
         <%= f.select(:materium_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
+      </div>
+      <div class="row">        
         
         <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
 
-        <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control", :maxlength=>"2"%>
+        <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
+
+        <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control", :maxlength=>"2"%>        
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>  
+        </div>
+        <div class="row">        
         <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
       </div>
     </div>
