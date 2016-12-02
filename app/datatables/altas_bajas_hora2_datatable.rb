@@ -22,11 +22,14 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
         record.situacion_revista,
         record.horas,    
         record.ciclo_carrera,     
-        '<span class="anio" data-type="text" data-resource="post" data-name="anio" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.anio.to_s+'</span>',
-        '<span class="division" data-type="text" data-resource="post" data-name="division" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.division.to_s+'</span>',
-        record.turno,
-        Materium.find(record.materia_id).codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
+        '<span style="color:red" class="anio" data-type="text" data-resource="put" data-name="anio" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.anio.to_s+'</span>',
+        '<span style="color:red" class="division" data-type="text" data-resource="put" data-name="division" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.division.to_s+'</span>',
+        '<span style="color:red" class="turno" data-type="text" data-resource="put" data-name="turno" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.turno.to_s+'</span>',
+        '<span style="color:red" class="codificacion form-control form-alta form-select solo_numerico" min="1" max="6" data-type="number" data-resource="put" data-name="codificacion" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.codificacion.to_s+'</span>',   
+        record.oblig,
         Util.fecha_a_es(record.fecha_alta),
+
+
       ]
     end
   end

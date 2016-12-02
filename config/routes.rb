@@ -182,6 +182,11 @@ ProyectoBase::Application.routes.draw do
 
         
     get "cargo/bajas/", to: "cargos#index_bajas", as: :cargos_index_bajas
+
+
+    put "cargos/editar_campos/", to: "cargos#editar_campos", as: :cargo_editar_campos
+    
+    get "cargo/modificacion/", to: "cargos#modificacion", as: :cargos_modificacion
     
     get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
 

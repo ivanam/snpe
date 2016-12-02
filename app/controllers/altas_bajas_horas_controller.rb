@@ -644,23 +644,43 @@ def modificacion
 def editar_campos
     @altas_bajas_hora = AltasBajasHora.where(id: params["id"])
     if @altas_bajas_hora.count > 0
-      if params["post"]["division"] != nil
-        @altas_bajas_hora.first.update(division: params["post"]["division"])
+      if params["put"]["division"] != nil
+        @altas_bajas_hora.first.update(division: params["put"]["division"])
       end 
-      if params["post"]["anio"] != nil
-        @altas_bajas_hora.first.update(anio: params["post"]["anio"])
+      if params["put"]["anio"] != nil
+        @altas_bajas_hora.first.update(anio: params["put"]["anio"])
+      end
+      if params["put"]["turno"] != nil
+        @altas_bajas_hora.first.update(turno: params["put"]["turno"])
+      end 
+      if params["put"]["codificacion"] != nil
+        @altas_bajas_hora.first.update(codificacion: params["put"]["codificacion"])
       end
     else
-      if params["post"]["division"] != nil
-        AltasBajasHora.create(division: params["post"]["division"], altas_bajas_hora_id: params["id"])
+      if params["put"]["division"] != nil
+        AltasBajasHora.create(division: params["put"]["division"], altas_bajas_hora_id: params["id"])
       end 
-      if params["post"]["anio"] != nil
-        AltasBajasHora.create(anio: params["post"]["anio"], altas_bajas_hora_id: params["id"])
+      if params["put"]["anio"] != nil
+        AltasBajasHora.create(anio: params["put"]["anio"], altas_bajas_hora_id: params["id"])
       end
+      if params["put"]["turno"] != nil
+        AltasBajasHora.create(turno: params["put"]["turno"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["put"]["codificacion"] != nil
+        AltasBajasHora.create(codificacion: params["put"]["codificacion"], altas_bajas_hora_id: params["id"])
+      end
+
+
     end
+
    respond_to do |format|
-      format.html
-      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+      if @altas_bajas_hora.first.errors.messages.length > 0
+        format.html
+        format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }), status: :error }
+      else
+        format.html
+        format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+      end
     end
 end
 
