@@ -1,7 +1,11 @@
 ProyectoBase::Application.routes.draw do
 
 
-  scope '/soft/snpe' do
+  
+
+  resources :ambitos
+
+   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
   
@@ -18,6 +22,32 @@ ProyectoBase::Application.routes.draw do
     get "util/buscar_materias_plan/:plan_id/:anio", to: 'util#buscar_materias_plan'
 
     get "util/buscar_carga_horaria_materia/:materium_id/:plan_id/:anio", to: 'util#buscar_carga_horaria_materia'
+
+    post "/formulario_inscrip_docente.pdf", to: 'formulario_inscrip_docente#index'
+
+    post "/formulario_Inscripcion_Doc_.pdf", to: 'formulario_inscrip_docente#index'
+
+    post "/formulario_inscrip_docente/formulario_Inscripcion_Doc_pdf", to: 'formulario_inscrip_docente#formulario_Inscripcion_Doc_pdf'
+
+    get "/inscripcions/index", to: 'inscripcions#index'
+
+    get "inscripcions/cv/:id", to: "inscripcions#cv", as: :cv
+
+    get "buscar_cv_persona/", to: 'inscripcions#buscar_cv_persona'
+
+    get "inscripcions/buscar_persona/:dni", to: 'inscripcions#buscar_persona'
+
+    get "inscripcions/new", to: "inscripcions#new", as: :new_inscripcions
+
+    get "cargo_inscrip_docs/new", to: "cargo_inscrip_docs#new", as: :new_cargo_inscrip_docs
+
+    get "/cargo_inscrip_docs/index", to: 'cargo_inscrip_docs#index'
+
+    get "/titulos/index", to: 'titulos#index'
+
+    get "titulos/new", to: "titulos#new", as: :new_titulos 
+
+    get "/titulo_personas/index", to: 'titulo_personas#index'   
 
     resources :articulos
 
@@ -38,11 +68,25 @@ ProyectoBase::Application.routes.draw do
 
     resources :materia
 
-    resources :turnos
 
     resources :lugar_pagos
 
+    resources :formulario_inscrip_docente
+
+    resources :rubros
+
+    resources :inscripcions
+
+    resources :funcions
+
     resources :suplentes
+
+    resources :titulo_personas
+
+    resources :titulos
+
+    resources :cargo_inscrip_docs
+
 
     #---------------------------------------------------------------------------------------------------------------------------------------
     
@@ -140,6 +184,11 @@ ProyectoBase::Application.routes.draw do
 
         
     get "cargo/bajas/", to: "cargos#index_bajas", as: :cargos_index_bajas
+
+
+    put "cargos/editar_campos/", to: "cargos#editar_campos", as: :cargo_editar_campos
+    
+    get "cargo/modificacion/", to: "cargos#modificacion", as: :cargos_modificacion
     
     get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
 

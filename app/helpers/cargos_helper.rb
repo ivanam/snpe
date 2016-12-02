@@ -39,6 +39,12 @@ module CargosHelper
     return Cargo.where(:id => @cargos_ids)
   end
 
+  def cargos_modificacion
+       return Cargo.where(:establecimiento_id => session[:establecimiento]).includes(:establecimiento, :persona)
+  end
+
+
+
   def cargo_bajas_efectivas(mindate, maxdate)
     @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
     @cargos_ids = []

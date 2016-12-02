@@ -1,0 +1,43 @@
+<div class="page-header">
+  <%= link_to new_inscripcion_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    <font align="center" face="arial" size="5" color="#1b85c3"> Nueva Inscripción Docente</font>  
+  <% end %>
+  <h1>Listado de inscripcions</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-inscripcion" class="table table-striped table-bordered table-hover" data-source = "<%= inscripcions_path(format: :json) %>" >
+    <thead>
+      <tr>
+            <th>Fecha inscripcion</th> 
+            <th>Persona</th>
+            <th>Establecimiento</th>
+            <th>Funcion</th>
+            <th>Nivel</th>
+            <th>Escuela titular</th>
+            <th>Serv activo</th>
+            <th>Lugar serv act</th>
+            <th>Documentacion</th>
+            <th>Rubro</th>
+            <th>Cabecera</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-inscripcion').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-inscripcion').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

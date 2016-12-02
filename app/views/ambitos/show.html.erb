@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>ambito</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nombre:</dt>
+  <dd><%= @ambito.nombre %></dd>
+
+  <dt>Inscripcion:</dt>
+  <dd><%= @ambito.inscripcion %></dd>
+
+  <br/><br/>
+  <%= link_to ambitos_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_ambito_path(@ambito), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to ambito_path(@ambito), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

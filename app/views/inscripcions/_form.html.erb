@@ -1,0 +1,138 @@
+<%= nested_form_for(@inscripcion, multipart: true, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @inscripcion.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+      <ul>
+      <% @inscripcion.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-group">
+       <div class="col-sm-offset-2 col-sm-6">
+     </div>
+  </div>
+    <body>
+        <table border="2px" WIDTH=10000 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
+            <tr>
+                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %><%= f.collection_select(:escuela_titular, Establecimiento.all, :nombre, :nombre, {}, :style=>"width:100%")%></td>
+            </tr>    
+            <tr>
+                <td WIDTH=6000 ALIGN=LEFT ><%= f.label :Presta_Servicios_en_el_ámbito%></td>
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :nombre, :nombre, {}, :style=>"width:100%")%>
+              
+            
+             <tr>
+                <td WIDTH=6000 HEIGHT=100 ALIGN=LEFT ><%= f.label :Lugar_donde_presta_servicio %></td>
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:lugar_serv_act, Localidad.all, :nombre, :nombre, {}, :style=>"width:100%")%></td>
+            </tr>
+        </table>
+    </body>
+    <div class="form-group">
+       <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+       <div class="col-sm-6">
+       <%= f.text_field :persona_id, :class => "form-control hidden" %>
+       </div>
+    </div>
+    <div class="form-group">
+       <%= f.label :fecha_de_incripción, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.date_select :fecha_incripcion, :class => "form-control" %>
+       </div>
+     </div>
+     <div class="form-group">
+       <%= f.label :cabecera, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.text_field :cabecera, :class => "form-control" %>
+       </div>
+     </div>
+     <div class="form-group">
+       <%= f.label :Documentación_Presentada_Fojas_Nros, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.text_field :documentacion, :class => "form-control" %>
+       </div>
+     </div>
+    <font align="center" face="arial" size="5" color="#1b85c3"> Cargos que solicita</font>  
+   <div class="form-group">
+   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />   
+   <%= f.fields_for :titulo_persona do |pe|%>
+   <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
+       <div class="form-group" title="Ingrese titulo">
+          <%= f.label :titulo_id, "Nombre Titulo", :class => "col-sm-4 control-label" %>
+          <div class="col-sm-4">
+          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {}, :style=>"width:100%") %>         
+          </div>
+            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+          <div class="col-sm-4">
+            <%= pe.number_field :persona_id, :class => "form-control hidden", :value => @inscripcion.persona_id %>
+          </div>
+        </div>
+        <div class="form-group">      
+            <div class="text-right">
+            <%= pe.link_to_remove "Eliminar", :class => "label label-danger eliminar_titulo" %>  
+            </div>
+
+        </div>
+        <div class="form-group">
+            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%debugger%>
+            <%= pe.number_field :persona_id, :class => "form-control hidden" %>
+            </div>
+
+        </div>      
+    <% end %>
+    </div>
+    <%= f.link_to_add "Agregar titulo", :titulo_persona, :class => "label label-success" %><hr/>
+     <div class="form-group">
+      <%= f.fields_for :cargo_inscrip_doc do |ca|%>
+      <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
+         <div class="form-group" title="Ingrese Cargo o Funcion">
+            <%= f.label :cargo_id, "Nombre Funcion o Cargos", :class => "col-sm-4 control-label" %>
+            <div class="col-sm-4">
+            <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {}, :style=>"width:100%") %>         
+            </div>
+         </div>
+           <div class="form-group">
+            <%= f.label :inscripcion_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-06">
+            <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+         <div class="form-group">
+            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%= ca.number_field :persona_id, :class => "form-control hidden", :value => @inscripcion.persona_id  %>
+            </div>
+         </div>
+         <div class="form-group">
+            <%= f.label :cargosnds_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%= ca.text_field :cargosnds_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+         <div class="form-group">
+            <%= f.label :nivel_id, :class => "col-sm-2 control-label hidden" %>
+            <div class="col-sm-6">
+            <%= ca.text_field :nivel_id, :class => "form-control hidden" %>
+            </div>
+         </div>
+         <div class="form-group">      
+            <div class="text-right">
+            <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_funcion" %>  
+            </div>
+         </div>
+       <% end %>
+       </div>
+      <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %><hr/>
+    <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-6">
+      <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      <%= link_to cv_path(@persona.id), :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Atrás
+      <% end %>
+    </div>
+<% end %>
