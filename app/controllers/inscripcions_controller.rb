@@ -14,12 +14,8 @@ class InscripcionsController < InheritedResources::Base
 
   def new
     @inscripcion = Inscripcion.new
-    @titulo = Titulo.new
     @persona=Persona.find(params[:persona_id])
     @inscripcion.persona_id = @persona.id
-    @titulo.persona_id = @persona.id
-
-
   end
 
   def edit
@@ -30,18 +26,8 @@ class InscripcionsController < InheritedResources::Base
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save
-    # @titulo = Titulo.new(titulo_params)
-    # @titulo.persona_id = @inscripcion.persona_id
-    # @titulo.save
-    params[:inscripcion][:titulo_personas_attributes].each do |t|
-    TituloPersona.create(:titulo_id => t.last[:titulo_id], :persona_id => @inscripcion.persona_id)
-    end
-    params[:inscripcion][:cargo_inscrip_doc_attributes].each do |c|
-    TituloPersona.create(:inscripcion_id => @inscripcion.id, :persona_id => @inscripcion.persona_id, :cargosnds_id => c.last[:cargosnds_id], :cargo_id => c.last[:cargo_id], :nivel_id => c.last[:nivel_id])
-    end
     respond_to do |format|
     format.html { redirect_to cv_path (@inscripcion.persona_id) }
-    #respond_with(@inscripcion)
     end
   end
 
@@ -78,7 +64,6 @@ class InscripcionsController < InheritedResources::Base
                    :bottom => 0,
                    :left => 2,
                    :right => 2}
-        #:layout => 'application.html.erb',
       end
     end
   end
@@ -92,14 +77,6 @@ class InscripcionsController < InheritedResources::Base
 
     def inscripcion_params
       params.require(:inscripcion).permit(:pesona_id, :establecimiento_id, :funcion_id, :nivel_id, :escuela_titular, :serv_activo, :lugar_serv_act, :documentacion, :rubro_id, :fecha_incripcion, :rubro_id, :persona_id, :establecimiento_id, :funcion_id, :nivel_id, :cabecera, titulo_persona_attributes: [:id, :titulo_id, :persona_id, :_destroy], cargo_inscrip_doc_attributes: [:id, :inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id, :_destroy])
-    end
-
-    def titulo_persona_params
-      params.require(:titulo_persona).permit(:titulo_id, :persona_id)
-    end
-
-    def cargo_inscrip_doc_params
-      params.require(:cargo_inscrip_doc).permit(:inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id)
     end
 end
 

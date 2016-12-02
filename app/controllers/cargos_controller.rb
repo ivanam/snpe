@@ -2,7 +2,7 @@ class CargosController < ApplicationController
   before_action :set_cargo, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
-  respond_to :html
+
 
   # ---------------------------------------------- Index -------------------------------------------------------------------------------------------
   def index
@@ -343,6 +343,50 @@ class CargosController < ApplicationController
       format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
     end
   end
+
+def modificacion
+    respond_to do |format|
+      format.html
+      format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
+    end
+  end
+
+def editar_campos
+    @altas_bajas_hora = Cargo.where(id: params["id"])
+    if @altas_bajas_hora.count > 0
+      if params["post"]["division"] != nil
+        @altas_bajas_hora.first.update(division: params["post"]["division"])
+      end 
+      if params["post"]["anio"] != nil
+        @altas_bajas_hora.first.update(anio: params["post"]["anio"])
+      end
+      if params["post"]["turno"] != nil
+        @altas_bajas_hora.first.update(turno: params["post"]["turno"])
+      end 
+      if params["post"]["materia_id"] != nil
+        @altas_bajas_hora.first.update(materia_id: params["post"]["materia_id"])
+      end
+    else
+      if params["post"]["division"] != nil
+        Cargo.create(division: params["post"]["division"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["post"]["anio"] != nil
+        Cargo.create(anio: params["post"]["anio"], altas_bajas_hora_id: params["id"])
+      end
+      if params["post"]["turno"] != nil
+        Cargo.create(turno: params["post"]["turno"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["post"]["materia_id"] != nil
+        Cargo.create(materia_id: params["post"]["materia_id"], altas_bajas_hora_id: params["id"])
+      end
+    end
+   respond_to do |format|
+      format.html
+      format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
+    end
+end
+
+
 
   #---------------------------------------------------------------------------------------------------------------------------------------------------
 
