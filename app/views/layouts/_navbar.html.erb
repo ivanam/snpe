@@ -143,6 +143,12 @@
                 <% if ver_model("Empresa") then %>
                   <li><%=link_to "Empresas", empresas_path, :tabindex => "-1"%></li>
                 <% end %>
+                <% if ver_model("Funcions") then %>
+                  <li><%=link_to "Cargos docentes", funcions_path, :tabindex => "-1"%></li>
+                <% end %>
+                <% if ver_model("Cargosnds") then %>
+                  <li><%=link_to "Cargos no docentes", cargosnds_path, :tabindex => "-1"%></li>
+                <% end %>
                 <% if ver_model("SituacionRevista") then %>
                   <li><%=link_to "Situaciones de Revista", situacion_revista_path, :tabindex => "-1"%></li>
                 <% end %>                

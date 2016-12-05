@@ -50,6 +50,7 @@ class CargosController < ApplicationController
 
   def create
     @tipo_documento = params["tipo_documento"]
+    @sexo = params["sexo"]
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
@@ -60,9 +61,10 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, sexo_id: @sexo, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = @tipo_documento
+      @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
@@ -112,6 +114,7 @@ class CargosController < ApplicationController
 
   def guardar_edicion
     @tipo_documento = params["tipo_documento"]
+    @sexo = params["sexo"]
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
@@ -121,16 +124,16 @@ class CargosController < ApplicationController
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
                                 fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil,
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo = Cargo.find(params[:id])
-    @cargo.assign_attributes({ persona_id: @persona.id, secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
+    @cargo.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo][:cargo], secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
                               situacion_revista: params[:cargo][:situacion_revista], anio: params[:cargo][:anio], division: params[:cargo][:division],
-                              turno: params[:cargo][:turno], observaciones: params[:cargo][:observaciones]})
+                              turno: params[:cargo][:turno], grupo_id: params[:cargo][:grupo_id], observaciones: params[:cargo][:observaciones]})
     respond_to do |format|
       if @persona.save then       
         if @cargo.save then

@@ -48,4 +48,9 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
     return options[:query]
   end
 
+   # Esto sirve momentaneamente para el ordenar
+  def sort_records(records)
+    records
+  end
+
 end

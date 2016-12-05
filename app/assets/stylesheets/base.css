@@ -139,7 +139,7 @@ body {
 }
 
 #observaciones{
-  max-width: 829px;
+  max-width: 800px;
   min-width: 498px;
   float:left;
   padding: 1px 2px !important;
@@ -160,7 +160,7 @@ body {
 
 #observaciones-cargos{
   max-width: 632px;
-  min-width: 632px;
+  min-width: 232px;
   float:left;
   padding: 1px 2px !important;
   margin:2px 1px !important;
