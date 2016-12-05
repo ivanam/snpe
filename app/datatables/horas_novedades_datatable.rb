@@ -43,6 +43,10 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
     return options[:query]
   end
 
+  def sort_records(records)
+    records
+  end
+
 end
 
 #en cola de impresion: relacionado con lote y ese lote no tiene fecha de impresion

@@ -145,19 +145,21 @@ class AltasBajasHorasController < ApplicationController
   def create 
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
+    @sexo = params["sexo"]
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(:nro_documento => @dni).first
-    @establecimiento = Establecimiento.find(session[:establecimiento])
+    @establecimiento = Establecimiento.find(session[:establecimiento])    
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :sexo_id => @sexo, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
+      @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
@@ -284,6 +286,7 @@ class AltasBajasHorasController < ApplicationController
     @apellidos = params["apellidos"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
+    @sexo = params["sexo"]
     @persona = Persona.where(:nro_documento => @dni).first
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
@@ -291,6 +294,7 @@ class AltasBajasHorasController < ApplicationController
       @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
+      @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
@@ -312,6 +316,7 @@ class AltasBajasHorasController < ApplicationController
     @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
     @altas_bajas_hora.codificacion = @materia.codigo
     @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
+    @altas_bajas_hora.grupo_id = params[:altas_bajas_hora][:grupo_id]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
