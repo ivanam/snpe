@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20161202125653) do
+ActiveRecord::Schema.define(version: 20161201152526) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -247,7 +246,6 @@ ActiveRecord::Schema.define(version: 20161202125653) do
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
     t.string   "materium_id"
-    t.string   "estado"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
