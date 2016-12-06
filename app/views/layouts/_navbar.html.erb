@@ -32,7 +32,7 @@
                     <li><%=link_to "Altas", altas_bajas_horas_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Modificación", altas_bajas_horas_modificacion_path, :tabindex => "-1"%></li>
-                    <!--% if ver_model("licencium")%-->
+                     <!--% if ver_model("licencium")%-->
                       
                     <!--% end %-->
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
@@ -55,7 +55,8 @@
                       <li><%=link_to "Novedades", cargos_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
                     <% if ver_model("asistencium") %>
-                      <li><%=link_to "Asistencia", asistencia_index_cargo_path, :tabindex => "-1"%></li>  
+                      <li><%=link_to "Asistencia", asistencia_index_cargo_path, :tabindex => "-1"%></li>
+                      <li><%=link_to "Inscripciones Docente", buscar_cv_persona_path, :tabindex => "-1"%></li>  
                     <% end %>
                   </ul>
                 </li>

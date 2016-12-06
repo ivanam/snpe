@@ -1,45 +1,25 @@
-<style type="text/css">
-body{
-margin:0;
-padding:<length><length> 0;
-}
-div#header{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:<length>;
-}
-div#footer{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-height:<length>;
-}
-</style>
-<div id="header"></div>
-<div id="footer"></div>
-<div id="content"> Mi trayectoria Escolar CV.EDU </div><div class="page-header">
- <hr style="height:0px;border-width:0;color:red;background-color:black" />
-   <center>
-  <font align="center" face="Times New Roman" size="9" color="#1b85c3"> CV.edu</font>
-  </center >
+<div class="page-header">
   <center>
-  <font align="center" face="Times New Roman" size="9" color="#1b85c3"> Mi trayectoria Escolar </font>
+  <font align="center" face="arial" size="7" color="#1b85c3"> Inscripciones por docente seleccionado</font>
   </center >
-  <legend>
-  <p align="right">
-  <right><font align="right" face="arial" size="5" color="#1b85c3"> Datos personales </font></right>
-  </p>
-  </legend>
+   <div align="right">
+    </div>
+</div>
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+<center>
+  <font align="center" face="arial" size="4" color="#1b85c3"> Datos personales del docente</font>
+   </center >
   <br/>
-      <p align="right"><right><font align="right" face="arial" size="4" color="#1b85c3"><dd><%= @persona.apellidos %></dd></font></right></p>
-      <p align="right"><right><font align="right" face="arial" size="4" color="#1b85c3"><dd><%= @persona.nombres %></dd></font></right></p>
-    <br/>
-    <div style="page-break-after: always;">
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-    <div class="row">
+
+  <div class="row">
+    <div class="col-md-9 col-xs-15">
+      <dt>Nombres:</dt>
+      <dd><%= @persona.nombres %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Apellidos:</dt>
+      <dd><%= @persona.apellidos %></dd>
+    </div>
     <div class="col-md-3 col-xs-3">
       <dt>Tipo documento:</dt>
       <dd><%= @persona.tipo_documento %></dd>
@@ -50,12 +30,13 @@ height:<length>;
     </div>  
   </div>
     <br/>
-     <div class="row">
-    <div class="col-md-3 col-xs-3">
+
+    <div class="row">
+    <div class="col-md-4 col-xs-3">
       <dt>Localidad:</dt>
       <dd><%= @persona.localidad %></dd>
     </div>
-    <div class="col-md-3 col-xs-3">
+    <div class="col-md-4 col-xs-3">
       <dt>Estado civil:</dt>
       <dd><%= @persona.estado_civil %></dd>
     </div>
@@ -69,6 +50,7 @@ height:<length>;
     </div>
   </div>
   <br/>
+
   <div class="row">
     <div class="col-md-3 col-xs-3">
       <dt>Telefono contacto:</dt>
@@ -78,264 +60,69 @@ height:<length>;
       <dt>Email:</dt>
       <dd><%= @persona.email %></dd>
     </div>
+     <div class="col-md-3 col-xs-3">
+      <dt>Titulos:</dt>
+       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+       <% @titulo_persona = r.titulo_id  %>
+       <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <% @titulo_nombre = t.nombre  %>
+       <dd><%= @titulo_nombre %></dd>
+       <% end %>
+       <% end %>
+      </div> 
   </div>
+
   <br/>
   <div class="row">
     <div class="col-md-3 col-xs-3">
       <dt>Calle:</dt>
-      <dd><%= @persona.domicilio.calle %></dd>
+      <dd><%= @persona.calle %></dd>
     </div>
     <div class="col-md-3 col-xs-3">
       <dt>Nro calle:</dt>
-      <dd><%= @persona.domicilio.numero %></dd>
+      <dd><%= @persona.nro_calle %></dd>
     </div>
     <div class="col-md-3 col-xs-3">
       <dt>Piso:</dt>
-      <dd><%= @persona.domicilio.piso %></dd>
+      <dd><%= @persona.piso %></dd>
     </div>
     <div class="col-md-3 col-xs-3">
       <dt>Depto:</dt>
-      <dd><%= @persona.domicilio.departamento %></dd>
+      <dd><%= @persona.depto %></dd>
     </div>
   </div>
-   <br/>
+
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-<legend>  <p> <left> <font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Estudios Secundarios</font></left></p></legend> 
-    <div class="row">
-    <td><div class="col-md-3 col-xs-3"><dt><ul><li>Título:</li></ul></dt> </div>
-    <td><div class="col-md-3 col-xs-3"><dt><ul><li>Año de egreso:</li></ul></dt></div><td>
+<legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Inscripciones Docente</font></center></p></legend>
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
+    <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
+     <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Fecha de Inscripción:</dt></div>
+    <dd><%= s.fecha_incripcion %></dd>
     </div>
-  <br/>   
-  <dt><ul><li>Promedio general del último año:</li></ul></dt>
-  <br/>
-  <dt><ul><li>Promedio general de la secundaria:</li></ul></dt>
-  <br/>
-  <dt><ul><li>Nombre y numero de la escuela:</li></ul></dt>
-   <br/><br/>
-  </div>
-   <div style="page-break-after: always;">
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-     <p>
-     <em><strong><font align="rigth" face="arial" size="3" color="#1b85c3">Actividades intelectuales de Esparcimiento:</strong> Considera las actividades competitivas y no competitivas en las que se busca poner en evidencia el grado/nivel de conocimiento que poseen los participantes sobre una temática u área del conocimiento en particular. Ejemplo: Ferias de ciencia, olimpíadas del conocimiento, Clubes de Ciencias, certámenes disciplinares, cursos y/o talleres de idioma, etc <strong></font></em></p>
-   <br/>
-    <% Actividad.where(persona_id: @persona.id).each do |s| %>
-    <% if s.tipo_actividad_id == 6 %>
-    <hr style="height:1px;border-width:0;color:red;background-color:red" />
-    <div class="row">
-    <div class="col-md-3 col-xs-3">
-    <dt>Nombre Actividad:</dt></div>
-     <dd><%= s.nombre_actividad %></dd>
-      <div class="col-md-3 col-xs-3">
-     <dt>Fecha Desde:</dt></div>
-     <dd><%= s.fecha_desde %></dd>
-    <div class="col-md-3 col-xs-3">
-    <dt>Fecha Hasta :</dt></div>
-    <dd><%= s.fecha_hasta %></dd>
-  </div> 
-  <br/>   
-  <dt>Instancia:</dt>
-  <dd><%= s.instancia %></dd>
-  <br/>
-  <dt>Puesto / mención:</dt>
-  <dd><%= s.puesto_mencion %></dd>
-  <br/>
-  <dt>Institución Responsable:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <dt>Institución oferente:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-   <% end %>
-   <% end %>
-  <dt>[Dirección] * [Ciudad], [Estado] [Código postal] Teléfono: [Su teléfono] * Fax: [Su fax] * Correo electrónico: [Su correo electrónico]</dt>
-   <br/>
-   </div>
-   <div style="page-break-after: always;">
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-    <p>
-     <em><font align="rigth" face="arial" size="3" color="#1b85c3">Actividades deportivas y recreativas:</strong> Brinda encuadre a la participación de los estudiantes en actividades competitivas y no competitivas vinculadas  al deporte o  la recreación. Ejemplo: competencias deportivas interescolares como los “Juegos Evita Deportivos”, “Juegos de la Araucanía”, campamentos educativos y/o temáticos, etc <strong></font></em></p>
-     <br/>
-  <% Actividad.where(persona_id: @persona.id).each do |s| %>
-  <% if s.tipo_actividad_id == 5 %>
-   <hr style="height:1px;border-width:0;color:red;background-color:red" />
-    <div class="row">
-    <div class="col-md-3 col-xs-3">
-    <dt>Nombre Actividad:</dt></div>
-     <dd><%= s.nombre_actividad %></dd>
-      <div class="col-md-3 col-xs-3">
-     <dt>Fecha Desde:</dt></div>
-     <dd><%= s.fecha_desde %></dd>
-    <div class="col-md-3 col-xs-3">
-    <dt>Fecha Hasta :</dt></div>
-    <dd><%= s.fecha_hasta %></dd>
-  </div> 
-  <br/>   
-  <dt>Instancia:</dt>
-  <dd><%= s.instancia %></dd>
-  <br/>
-  <dt>Puesto / mención:</dt>
-  <dd><%= s.puesto_mencion %></dd>
-  <br/>
-  <dt>Institución Responsable:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <dt>Institución oferente:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/><br/><dt>[Dirección] * [Ciudad], [Estado] [Código postal] Teléfono: [Su teléfono] * Fax: [Su fax] * Correo electrónico: [Su correo electrónico]</dt>
-   <br/><br/>
-    <% end %> 
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Escuela y/o dependencia donde es TITULAR:</dt></div>
+    <dd><%= s.escuela_titular %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
+    <dd><%= s.serv_activo %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Lugar:</dt></div>
+    <dd><%= s.lugar_serv_act %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Cabecera:</dt></div>
+    <dd><%= s.cabecera %></dd>
+    </div>
+    <hr style="height:1px;border-width:0;color:red;background-color:red"/>
     <% end %>
-    </div>
-    </div>
-    </div>
-    <div style="page-break-after: always;">
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-   <p><em><font align="rigth" face="arial" size="3" color="#1b85c3">Actividades Artísticas y Culturales:</strong> Engloba todas aquellas actividades mediante las cuales lo jóvenes se vinculan con la cultura y los distintos lenguajes artísticos. Ejemplo: competencias deportivas interescolares como los “Juegos Evita Culturales”, participación en Coros y Orquestas, talleres artísticos, Centros de Actividades Juveniles, etc. <strong></font></em></p>
-     <br/>
-  <% Actividad.where(persona_id: @persona.id).each do |s| %>
-    <% if s.tipo_actividad_id == 1 %>
-    <hr style="height:1px;border-width:0;color:red;background-color:red" />
-    <div class="row">
-    <div class="col-md-3 col-xs-3">
-    <dt>Nombre Actividad:</dt></div>
-     <dd><%= s.nombre_actividad %></dd>
-      <div class="col-md-3 col-xs-3">
-     <dt>Fecha Desde:</dt></div>
-     <dd><%= s.fecha_desde %></dd>
-    <div class="col-md-3 col-xs-3">
-    <dt>Fecha Hasta :</dt></div>
-    <dd><%= s.fecha_hasta %></dd>
-  </div> 
-  <br/>   
-  <dt>Instancia:</dt>
-  <dd><%= s.instancia %></dd>
-  <br/>
-  <dt>Puesto / mención:</dt>
-  <dd><%= s.puesto_mencion %></dd>
-  <br/>
-  <dt>Institución Responsable:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <dt>Institución oferente:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <% end %>
-  <% end %>  
    <br/>
-   <dt>[Dirección] * [Ciudad], [Estado] [Código postal] Teléfono: [Su teléfono] * Fax: [Su fax] * Correo electrónico: [Su correo electrónico]</dt>
    <br/><br/>
-   </div>
-   <div style="page-break-after: always;">
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-   <p><em><font align="rigth" face="arial" size="3" color="#1b85c3">Cursos, talleres y seminarios:</strong> Contempla actividades temporales que se relacionan con un área del conocimiento o temática en particular. Ejemplo: Cursos de formación Profesional, talleres específicos, etc. <strong></font></em></p>
    <br/>
-  <% Actividad.where(persona_id: @persona.id).each do |s| %>
-    <% if s.tipo_actividad_id == 2 %>
-    <hr style="height:1px;border-width:0;color:red;background-color:red" />
-    <div class="row">
-    <div class="col-md-3 col-xs-3">
-    <dt>Nombre Actividad:</dt></div>
-     <dd><%= s.nombre_actividad %></dd>
-      <div class="col-md-3 col-xs-3">
-     <dt>Fecha Desde:</dt></div>
-     <dd><%= s.fecha_desde %></dd>
-    <div class="col-md-3 col-xs-3">
-    <dt>Fecha Hasta :</dt></div>
-    <dd><%= s.fecha_hasta %></dd>
-  </div> 
-  <br/>   
-  <dt>Instancia:</dt>
-  <dd><%= s.instancia %></dd>
-  <br/>
-  <dt>Puesto / mención:</dt>
-  <dd><%= s.puesto_mencion %></dd>
-  <br/>
-  <dt>Institución Responsable:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <dt>Institución oferente:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <% end %>
-  <% end %>  
-  <br/>
-   <dt>[Dirección] * [Ciudad], [Estado] [Código postal] Teléfono: [Su teléfono] * Fax: [Su fax] * Correo electrónico: [Su correo electrónico]</dt>
-   <br/><br/>
-   </div>
-   <div style="page-break-after: always;">
-  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
-  <p><em><font align="rigth" face="arial" size="3" color="#1b85c3">Distinciones escolares:</strong> Refiere a las distinciones escolares relacionadas con sus cualidades académicas y/o humanas. Ejemplo: abanderado, escolta, mejor compañero, delegado de curso, etc.<strong></font></em></p>
-  <br/>
-  <% Actividad.where(persona_id: @persona.id).each do |s| %>
-    <% if s.tipo_actividad_id == 3 %>
-    <div style="page-break-after: always;">
-    <hr style="height:1px;border-width:0;color:red;background-color:red" />
-    <div class="row">
-    <div class="col-md-3 col-xs-3">
-    <dt>Nombre Actividad:</dt></div>
-     <dd><%= s.nombre_actividad %></dd>
-      <div class="col-md-3 col-xs-3">
-     <dt>Fecha Desde:</dt></div>
-     <dd><%= s.fecha_desde %></dd>
-    <div class="col-md-3 col-xs-3">
-    <dt>Fecha Hasta :</dt></div>
-    <dd><%= s.fecha_hasta %></dd>
-  </div> 
-  <br/>   
-  <dt>Instancia:</dt>
-  <dd><%= s.instancia %></dd>
-  <br/>
-  <dt>Puesto / mención:</dt>
-  <dd><%= s.puesto_mencion %></dd>
-  <br/>
-  <dt>Institución Responsable:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <dt>Institución oferente:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <% end %>
-  <% end %>  
-   <br/><br/>
-   <dt>[Dirección] * [Ciudad], [Estado] [Código postal] Teléfono: [Su teléfono] * Fax: [Su fax] * Correo electrónico: [Su correo electrónico]</dt>
-   <br/><br/>
-   </div>
-   <div style="page-break-after: always;">
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-   <p><em><font align="rigth" face="arial" size="3" color="#1b85c3">Otras actividades:</strong>refiere a actividades que no se encuadran en las categorías anteriores.<strong></font></em></p>
-   <br/>
-   <% Actividad.where(persona_id: @persona.id).each do |s| %>
-    <% if s.tipo_actividad_id == 4 %>
-    <hr style="height:1px;border-width:0;color:red;background-color:red" />
-    <div class="row">
-    <div class="col-md-3 col-xs-3">
-    <dt>Nombre Actividad:</dt></div>
-     <dd><%= s.nombre_actividad %></dd>
-      <div class="col-md-3 col-xs-3">
-     <dt>Fecha Desde:</dt></div>
-     <dd><%= s.fecha_desde %></dd>
-    <div class="col-md-3 col-xs-3">
-    <dt>Fecha Hasta :</dt></div>
-    <dd><%= s.fecha_hasta %></dd>
-    </div> 
-  <br/>   
-  <dt>Instancia:</dt>
-  <dd><%= s.instancia %></dd>
-  <br/>
-  <dt>Puesto / mención:</dt>
-  <dd><%= s.puesto_mencion %></dd>
-  <br/>
-  <dt>Institución Responsable:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <dt>Institución oferente:</dt>
-  <dd><%= s.insti_respo %></dd>
-  <br/>
-  <% end %>
-  <% end %>  
-  <br/><br/>
-  <dt>[Dirección] * [Ciudad], [Estado] [Código postal] Teléfono: [Su teléfono] * Fax: [Su fax] * Correo electrónico: [Su correo electrónico]</dt>
-  <br/><br/>
-  </div>
-  <br/>
-   

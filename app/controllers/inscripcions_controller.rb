@@ -58,7 +58,7 @@ class InscripcionsController < InheritedResources::Base
         render :pdf => 'cv',
         :template => 'inscripcions/cv.html.erb',
         :template => 'inscripcions/cv.pdf.erb',
-        :layout => 'pdf.html.erb',
+        #:layout => 'pdf.html.erb',
         :page_size=>  'A4',
         :margin => {:top=> 0,
                    :bottom => 0,
