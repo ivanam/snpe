@@ -72,6 +72,9 @@ class CargoNoDocentesController < InheritedResources::Base
     @empresa = Empresa.where(:nombre => "TA").first
     @cargo_no_docente.empresa_id = @empresa.id
 
+    #Estado, necesario para Minsiterio de economia
+    @cargo_no_docente.estado = "ALT"
+
     respond_to do |format|
       if @persona.save then      
           if @cargo_no_docente.save then

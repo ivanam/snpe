@@ -36,7 +36,7 @@ module CargosHelper
         @cargos_ids << a.id
       end
     end
-    return Cargo.where(:id => @cargos_ids)
+    return Cargo.where(:id => @cargos_ids).includes(:persona)
   end
 
   def cargos_modificacion

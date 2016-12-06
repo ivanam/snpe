@@ -37,7 +37,7 @@ class AltasBajasHora < ActiveRecord::Base
   #-------------------------------------
 
   ANIO = ["0","1","2","3","4","5","6"]
-  ESTADOS = ["ALT","BAJ","LIC"]
+  ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
 
   def ina_justificada(anio, mes)
