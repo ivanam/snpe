@@ -133,8 +133,15 @@ $(document).ready(function($) {
       processing : true,
       serverSide : true,
       ajax : $('#tabla-bajas-efectivas').data('source'),
-      pagingType: "simple",
+      pagingType: "simple",      
       "pageLength": 5,
+      columnDefs: [
+            {
+                "targets": [ 7 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
     });
 
   //Carga DT
@@ -159,6 +166,13 @@ $(document).ready(function($) {
       ajax : $('#tabla-bajas').data('source'),
       pagingType: "simple",
       "pageLength": 5,
+      columnDefs: [
+            {
+                "targets": [ 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
     });
 
   //JS para el periodo

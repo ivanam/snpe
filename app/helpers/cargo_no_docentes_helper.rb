@@ -36,7 +36,7 @@ module CargoNoDocentesHelper
 	      @cargo_no_docentes_ids << a.id
 	    end
 	  end
-	  return CargoNoDocente.where(:id => @cargo_no_docentes_ids)
+	  return CargoNoDocente.where(:id => @cargo_no_docentes_ids).includes(:persona)
 	end
 
 	def cargo_no_docentes_bajas_efectivas_permitidas(mindate, maxdate)

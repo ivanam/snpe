@@ -128,10 +128,10 @@ class CargosController < ApplicationController
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, 
                                 fecha_nacimiento: @fecha_nacimiento)
     else
-      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil,
+      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil,
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo = Cargo.find(params[:id])
