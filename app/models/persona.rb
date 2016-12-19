@@ -11,6 +11,7 @@ class Persona < ActiveRecord::Base
   validates :nro_documento, presence: true
   validates :apellidos, presence: true
   validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+  has_many :user
 
   def to_s
   	"#{ self.apellidos } #{ self.nombres }"

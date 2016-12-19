@@ -1,128 +1,127 @@
+</style>
+<div id="header"></div>
+<div id="footer"></div>
 <div class="page-header">
   <center>
-  <font align="center" face="arial" size="7" color="#1b85c3"> Inscripciones por docente seleccionado</font>
+  <font align="center" face="arial" size="6" color="#1b85c3"> Inscripciones por docente seleccionado</font>
   </center >
-   <div align="right">
-    </div>
-</div>
 <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-<center>
-  <font align="center" face="arial" size="4" color="#1b85c3"> Datos personales del docente</font>
+   <center>
+   <font align="center" face="arial" size="4" color="#1b85c3"> Datos personales del docente</font>
    </center >
   <br/>
 
   <div class="row">
-    <div class="col-md-9 col-xs-15">
-      <dt>Nombres:</dt>
-      <dd><%= @persona.nombres %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Apellidos:</dt>
-      <dd><%= @persona.apellidos %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Tipo documento:</dt>
-      <dd><%= @persona.tipo_documento %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Nro documento:</dt>
-      <dd><%= @persona.nro_documento %></dd>
-    </div>  
-  </div>
-    <br/>
+      <div class="col-md-3 col-xs-3">
+       <dt>Nombres: <%= @persona.nombres %> </dt>
+       <dt><%= @persona.nombres %></dt>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Apellidos:</dt>
+       <dd><%= @persona.apellidos %></dd>
+      </div>
+   </div>    
+  <div class="row">    
+      <div class="col-md-3 col-xs-3">
+       <dt>Tipo documento:</dt>
+       <dd><%= @persona.tipo_documento %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Nro documento:</dt>
+       <dd><%= @persona.nro_documento %></dd>
+      </div>
+  </div>      
+  <br/>
 
-    <div class="row">
-    <div class="col-md-4 col-xs-3">
-      <dt>Localidad:</dt>
-      <dd><%= @persona.localidad %></dd>
-    </div>
-    <div class="col-md-4 col-xs-3">
-      <dt>Estado civil:</dt>
-      <dd><%= @persona.estado_civil %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Sexo:</dt>
-      <dd><%= @persona.sexo %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Fecha nacimiento:</dt>
-      <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
-    </div>
+  <div class="row">
+      <div class="col-md-4 col-xs-3">
+       <dt>Localidad:</dt>
+       <dd><%= @persona.localidad %></dd>
+      </div>
+      <div class="col-md-4 col-xs-3">
+       <dt>Estado civil:</dt>
+       <dd><%= @persona.estado_civil %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Sexo:</dt>
+       <dd><%= @persona.sexo %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Fecha nacimiento:</dt>
+       <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
+      </div>
   </div>
   <br/>
 
   <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Telefono contacto:</dt>
-      <dd><%= @persona.telefono_contacto %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Email:</dt>
-      <dd><%= @persona.email %></dd>
-    </div>
-     <div class="col-md-3 col-xs-3">
-      <dt>Titulos:</dt>
-       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
-       <% @titulo_persona = r.titulo_id  %>
-       <% Titulo.where(:id => @titulo_persona).each do |t| %>
-       <% @titulo_nombre = t.nombre  %>
+      <div class="col-md-3 col-xs-3">
+       <dt>Telefono contacto:</dt>
+       <dd><%= @persona.telefono_contacto %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Email:</dt>
+       <dd><%= @persona.email %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Titulos:</dt>
+        <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+        <% @titulo_persona = r.titulo_id  %>
+        <% Titulo.where(:id => @titulo_persona).each do |t| %>
+        <% @titulo_nombre = t.nombre  %>
        <dd><%= @titulo_nombre %></dd>
        <% end %>
        <% end %>
-      </div> 
-  </div>
-
+      </div>
+  </div> 
   <br/>
+  
   <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Calle:</dt>
-      <dd><%= @persona.calle %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Nro calle:</dt>
-      <dd><%= @persona.nro_calle %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Piso:</dt>
-      <dd><%= @persona.piso %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Depto:</dt>
-      <dd><%= @persona.depto %></dd>
-    </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Calle:</dt>
+       <dd><%= @persona.calle %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Nro calle:</dt>
+       <dd><%= @persona.nro_calle %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Piso:</dt>
+       <dd><%= @persona.piso %></dd>
+      </div>
+      <div class="col-md-3 col-xs-3">
+       <dt>Depto:</dt>
+       <dd><%= @persona.depto %></dd>
+      </div>
   </div>
 
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-<legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Inscripciones Docente</font></center></p></legend>
-<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
+   <div>
+   <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Mis Inscripciones</font></center></p> </legend>
+   </div>
+  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
     <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
-     <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-    <dt>Fecha de Inscripción:</dt></div>
-    <dd><%= s.fecha_incripcion %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-    <dt>Escuela y/o dependencia donde es TITULAR:</dt></div>
-    <dd><%= s.escuela_titular %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-    <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
-    <dd><%= s.serv_activo %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-    <dt>Lugar:</dt></div>
-    <dd><%= s.lugar_serv_act %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-    <dt>Cabecera:</dt></div>
-    <dd><%= s.cabecera %></dd>
+    <div class="row">
+      <div class="col-md-7 col-xs-3" align="left">
+       <dt>Fecha de Inscripcion:</dt>
+       <dd><%= s.fecha_incripcion %></dd>
+      </div> 
+      <div class="col-md-7 col-xs-3" align="left">
+        <dt>Escuela y/o dependencia donde es TITULAR:</dt>
+        <dd><%= s.escuela_titular %></dd>
+      </div>
+      <div class="col-md-7 col-xs-3" align="left">
+        <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt>
+        <dd><%= s.serv_activo %></dd>
+      </div>
+      <div class="col-md-7 col-xs-3" align="left">
+        <dt>Lugar:</dt>
+        <dd><%= s.lugar_serv_act %></dd>
+      </div>
+      <div class="col-md-7 col-xs-3" align="left">
+       <dt>Cabecera:</dt>
+       <dd><%= s.cabecera %></dd>
+      </div> 
     </div>
     <hr style="height:1px;border-width:0;color:red;background-color:red"/>
     <% end %>
-   <br/>
-   <br/><br/>
-   <br/>
+ </div>    

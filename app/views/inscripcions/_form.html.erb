@@ -1,8 +1,6 @@
 <script>
   $(document).ready(function() { $('select').select2(); });
 </script>
-
-
 <div class="page-header">
 <%= nested_form_for(@inscripcion, multipart: true, :html => { :class => "form-horizontal" }) do |f| %>
   <% if @inscripcion.errors.any? %>
@@ -20,20 +18,83 @@
        <div class="col-sm-offset-2 col-sm-6">
      </div>
   </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Nombres:</dt>
+      <dd><%= @persona.nombres %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Apellidos:</dt>
+      <dd><%= @persona.apellidos %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Tipo documento:</dt>
+      <dd><%= @persona.tipo_documento %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Nro documento:</dt>
+      <dd><%= @persona.nro_documento %></dd>
+    </div>  
+  </div>
+    <br/>
+     <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Localidad:</dt>
+      <dd><%= @persona.localidad %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Estado civil:</dt>
+      <dd><%= @persona.estado_civil %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Sexo:</dt>
+      <dd><%= @persona.sexo %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Fecha nacimiento:</dt>
+      <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Telefono contacto:</dt>
+      <dd><%= @persona.telefono_contacto %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Email:</dt>
+      <dd><%= @persona.email %></dd>
+    </div>
+     <div class="col-md-3 col-xs-3">
+      <dt>Titulos:</dt>
+       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+       <% @titulo_persona = r.titulo_id  %>
+       <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <% @titulo_nombre = t.nombre  %>
+       <dd><%= @titulo_nombre %></dd>
+       <% end %>
+       <% end %>
+      </div> 
+  </div>
+    <br/>
+      <br/>
     <div>
         <table border="2px" WIDTH=10000 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
             <tr>
-                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %><%= f.collection_select(:escuela_titular, Establecimiento.all, :nombre, :nombre, {}, :style=>"width:100%")%></td>
+                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %>
+                <%= f.collection_select(:escuela_titular, Establecimiento.all, :nombre, :nombre, {:prompt => 'Seleccione un establecimiento'}, :style=>"width:100%")%>
+                </td>
             </tr>    
             <tr>
                 <td WIDTH=6000 ALIGN=LEFT ><%= f.label :Presta_Servicios_en_el_ámbito%></td>
-                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :nombre, :nombre, {}, :style=>"width:100%")%>
-              
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :nombre, :nombre, {:prompt => 'Seleccione el Ambito -Nacional-Provincial-etc'}, :style=>"width:100%")%>
+            </tr>
             
              <tr>
                 <td WIDTH=6000 HEIGHT=100 ALIGN=LEFT ><%= f.label :Lugar_donde_presta_servicio %></td>
-                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:lugar_serv_act, Localidad.all, :nombre, :nombre, {}, :style=>"width:100%")%></td>
-            </tr>
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:lugar_serv_act, Localidad.all, :nombre, :nombre, {:prompt => 'Ciudad o Localidad donde trabaja'},:style=>"width:100%")%></td>
+              </tr>
         </table>
     </div>
     <div class="form-group">
@@ -68,7 +129,7 @@
        <div class="form-group" title="Ingrese titulo">
           <%= f.label :titulo_id, "Nombre Titulo", :class => "col-sm-4 control-label" %>
           <div class="col-sm-4">
-          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {}, :style=>"width:100%") %>         
+          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {:prompt => true}, :style=>"width:100%") %>         
           </div>
             <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
           <div class="col-sm-4">
@@ -89,7 +150,7 @@
          <div class="form-group" title="Ingrese Cargo o Funcion">
             <%= f.label :cargo_id, "Nombre Funcion o Cargos", :class => "col-sm-4 control-label" %>
             <div class="col-sm-4">
-            <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {}, :style=>"width:100%") %>         
+            <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>         
             </div>
          </div>
            <div class="form-group">

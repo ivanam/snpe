@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201111157) do
+ActiveRecord::Schema.define(version: 20161207144044) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -368,6 +368,7 @@ ActiveRecord::Schema.define(version: 20161201111157) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cabecera"
+    t.integer  "user_id"
   end
 
   add_index "inscripcions", ["establecimiento_id"], name: "index_inscripcions_on_establecimiento_id", using: :btree
@@ -496,6 +497,7 @@ ActiveRecord::Schema.define(version: 20161201111157) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+    t.integer  "user_id"
   end
 
   create_table "plans", force: true do |t|

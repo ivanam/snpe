@@ -56,7 +56,7 @@
                     <% end %>
                     <% if ver_model("asistencium") %>
                       <li><%=link_to "Asistencia", asistencia_index_cargo_path, :tabindex => "-1"%></li>
-                      <li><%=link_to "Inscripciones Docente", buscar_cv_persona_path, :tabindex => "-1"%></li>  
+                      <li><%=link_to "Inscripciones Docente", new_inscripcions_path(:user_id => current_user.id), :tabindex => "-1"%></li>  
                     <% end %>
                   </ul>
                 </li>
