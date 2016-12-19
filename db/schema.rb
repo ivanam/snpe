@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20161202125653) do
+ActiveRecord::Schema.define(version: 20161201152526) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -208,11 +207,8 @@ ActiveRecord::Schema.define(version: 20161202125653) do
     t.text     "motivo_baja"
     t.datetime "created_at"
     t.datetime "updated_at"
-<<<<<<< HEAD
     t.string   "estado"
     t.string   "situacion_revista"
-=======
->>>>>>> 0f7ffc6210c192bff0071716151564fd0d991edb
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
@@ -249,11 +245,8 @@ ActiveRecord::Schema.define(version: 20161202125653) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-<<<<<<< HEAD
-=======
-    t.string   "materium_id"
->>>>>>> 0f7ffc6210c192bff0071716151564fd0d991edb
     t.string   "estado"
+    t.string   "materium_id"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -507,6 +500,7 @@ ActiveRecord::Schema.define(version: 20161202125653) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+    t.string   "apeynom"
   end
 
   create_table "plans", force: true do |t|
