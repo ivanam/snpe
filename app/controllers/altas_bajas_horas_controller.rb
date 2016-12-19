@@ -145,22 +145,25 @@ class AltasBajasHorasController < ApplicationController
   def create 
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
+    @sexo = params["sexo"]
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(:nro_documento => @dni).first
-    @establecimiento = Establecimiento.find(session[:establecimiento])
+    @establecimiento = Establecimiento.find(session[:establecimiento])    
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :sexo_id => @sexo, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :apeynom => "#{@apellidos} #{@nombres}", :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
+      @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -170,6 +173,9 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
+
+    #Estado, necesario para Minsiterio de economia
+    @altas_bajas_hora.estado = "ALT"
 
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
@@ -284,16 +290,19 @@ class AltasBajasHorasController < ApplicationController
     @apellidos = params["apellidos"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
+    @sexo = params["sexo"]
     @persona = Persona.where(:nro_documento => @dni).first
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :apeynom => "#{@apellidos} #{@nombres}", :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
+      @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento    
     end
@@ -312,6 +321,7 @@ class AltasBajasHorasController < ApplicationController
     @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
     @altas_bajas_hora.codificacion = @materia.codigo
     @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
+    @altas_bajas_hora.grupo_id = params[:altas_bajas_hora][:grupo_id]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
@@ -644,23 +654,43 @@ def modificacion
 def editar_campos
     @altas_bajas_hora = AltasBajasHora.where(id: params["id"])
     if @altas_bajas_hora.count > 0
-      if params["post"]["division"] != nil
-        @altas_bajas_hora.first.update(division: params["post"]["division"])
+      if params["put"]["division"] != nil
+        @altas_bajas_hora.first.update(division: params["put"]["division"])
       end 
-      if params["post"]["anio"] != nil
-        @altas_bajas_hora.first.update(anio: params["post"]["anio"])
+      if params["put"]["anio"] != nil
+        @altas_bajas_hora.first.update(anio: params["put"]["anio"])
+      end
+      if params["put"]["turno"] != nil
+        @altas_bajas_hora.first.update(turno: params["put"]["turno"])
+      end 
+      if params["put"]["codificacion"] != nil
+        @altas_bajas_hora.first.update(codificacion: params["put"]["codificacion"])
       end
     else
-      if params["post"]["division"] != nil
-        AltasBajasHora.create(division: params["post"]["division"], altas_bajas_hora_id: params["id"])
+      if params["put"]["division"] != nil
+        AltasBajasHora.create(division: params["put"]["division"], altas_bajas_hora_id: params["id"])
       end 
-      if params["post"]["anio"] != nil
-        AltasBajasHora.create(anio: params["post"]["anio"], altas_bajas_hora_id: params["id"])
+      if params["put"]["anio"] != nil
+        AltasBajasHora.create(anio: params["put"]["anio"], altas_bajas_hora_id: params["id"])
       end
+      if params["put"]["turno"] != nil
+        AltasBajasHora.create(turno: params["put"]["turno"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["put"]["codificacion"] != nil
+        AltasBajasHora.create(codificacion: params["put"]["codificacion"], altas_bajas_hora_id: params["id"])
+      end
+
+
     end
+
    respond_to do |format|
-      format.html
-      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+      if @altas_bajas_hora.first.errors.messages.length > 0
+        format.html
+        format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }), status: :error }
+      else
+        format.html
+        format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+      end
     end
 end
 

@@ -7,9 +7,7 @@ class Cargo < ActiveRecord::Base
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
   
-  SITUACION_REVISTA = ["1-002", "1-003"]
-
-   def ina_justificada(anio, mes)
+  def ina_justificada(anio, mes)
     @asistencia = Asistencium.where(altas_bajas_cargo_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "0"

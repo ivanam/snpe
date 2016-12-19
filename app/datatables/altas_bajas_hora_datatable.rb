@@ -2,12 +2,12 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
+    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
     'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
     'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
@@ -36,6 +36,8 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     return options[:query]
   end
+
+  
 
 end
 

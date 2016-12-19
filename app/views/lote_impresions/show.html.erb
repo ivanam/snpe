@@ -1,6 +1,11 @@
 <div class="page-header">
   <h1>Impresión N° <%= @lote_impresion.id %></h1>
-  <h4>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h1>
+  <h4>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h4>
+</div>
+
+<% @e = Establecimiento.find(session[:establecimiento])%>            
+<div class="page-header">
+  <h3>Escuela N° <%= @e.to_s %></h3>
 </div>
 
   <% if @lote_impresion.tipo_id == 1 %>

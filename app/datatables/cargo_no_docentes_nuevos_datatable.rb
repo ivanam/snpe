@@ -2,11 +2,11 @@ class CargoNoDocentesNuevosDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','CargoNoDocente.turno','CargoNoDocente.fecha_alta']
+    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','CargoNoDocente.turno','CargoNoDocente.fecha_alta']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apellidos','CargoNoDocente.turno','CargoNoDocente.fecha_alta']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','CargoNoDocente.turno','CargoNoDocente.fecha_alta']
   end
 
   private
@@ -15,7 +15,7 @@ class CargoNoDocentesNuevosDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.apellidos,
+        record.persona.to_s,
         record.turno,
         Util.fecha_a_es(record.fecha_alta),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_cargos_no_docentes" cargo-no-docente-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',

@@ -14,7 +14,7 @@ class Persona < ActiveRecord::Base
   has_many :user
 
   def to_s
-  	"#{ self.apellidos } #{ self.nombres }"
+  	"#{ self.apeynom } "
   end
 
 end

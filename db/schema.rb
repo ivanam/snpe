@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20161207144044) do
 
+
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
@@ -207,6 +208,8 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.text     "motivo_baja"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "estado"
+    t.string   "situacion_revista"
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
@@ -243,6 +246,7 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
+    t.string   "materium_id"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -497,7 +501,11 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+<<<<<<< HEAD
     t.integer  "user_id"
+=======
+    t.string   "apeynom"
+>>>>>>> 0718d459099495848ef9a65b20bafc111791571b
   end
 
   create_table "plans", force: true do |t|

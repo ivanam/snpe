@@ -50,6 +50,7 @@ class CargosController < ApplicationController
 
   def create
     @tipo_documento = params["tipo_documento"]
+    @sexo = params["sexo"]
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
@@ -60,12 +61,14 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, sexo_id: @sexo, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos,  :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = @tipo_documento
+      @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -77,6 +80,9 @@ class CargosController < ApplicationController
     @cargo.persona_id = @persona.id
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
+
+    #Estado, necesario para Minsiterio de economia
+    @cargo.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      
@@ -112,6 +118,7 @@ class CargosController < ApplicationController
 
   def guardar_edicion
     @tipo_documento = params["tipo_documento"]
+    @sexo = params["sexo"]
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
@@ -121,16 +128,16 @@ class CargosController < ApplicationController
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, 
                                 fecha_nacimiento: @fecha_nacimiento)
     else
-      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil,
+      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil,
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo = Cargo.find(params[:id])
-    @cargo.assign_attributes({ persona_id: @persona.id, secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
+    @cargo.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo][:cargo], secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
                               situacion_revista: params[:cargo][:situacion_revista], anio: params[:cargo][:anio], division: params[:cargo][:division],
-                              turno: params[:cargo][:turno], observaciones: params[:cargo][:observaciones]})
+                              turno: params[:cargo][:turno], grupo_id: params[:cargo][:grupo_id], observaciones: params[:cargo][:observaciones]})
     respond_to do |format|
       if @persona.save then       
         if @cargo.save then
@@ -332,10 +339,10 @@ class CargosController < ApplicationController
 
   def cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 2).last
-    @novedades_en_cola_impresion =  Cargo.where(id: -1)
+    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona)
      if @lote != nil then
       if @lote.fecha_impresion == nil
-        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
       end
     end
     respond_to do |format|
@@ -343,6 +350,50 @@ class CargosController < ApplicationController
       format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
     end
   end
+
+def modificacion
+    respond_to do |format|
+      format.html
+      format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
+    end
+  end
+
+def editar_campos
+    @altas_bajas_hora = Cargo.where(id: params["id"])
+    if @altas_bajas_hora.count > 0
+      if params["post"]["division"] != nil
+        @altas_bajas_hora.first.update(division: params["post"]["division"])
+      end 
+      if params["post"]["anio"] != nil
+        @altas_bajas_hora.first.update(anio: params["post"]["anio"])
+      end
+      if params["post"]["turno"] != nil
+        @altas_bajas_hora.first.update(turno: params["post"]["turno"])
+      end 
+      if params["post"]["materia_id"] != nil
+        @altas_bajas_hora.first.update(materia_id: params["post"]["materia_id"])
+      end
+    else
+      if params["post"]["division"] != nil
+        Cargo.create(division: params["post"]["division"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["post"]["anio"] != nil
+        Cargo.create(anio: params["post"]["anio"], altas_bajas_hora_id: params["id"])
+      end
+      if params["post"]["turno"] != nil
+        Cargo.create(turno: params["post"]["turno"], altas_bajas_hora_id: params["id"])
+      end 
+      if params["post"]["materia_id"] != nil
+        Cargo.create(materia_id: params["post"]["materia_id"], altas_bajas_hora_id: params["id"])
+      end
+    end
+   respond_to do |format|
+      format.html
+      format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
+    end
+end
+
+
 
   #---------------------------------------------------------------------------------------------------------------------------------------------------
 
