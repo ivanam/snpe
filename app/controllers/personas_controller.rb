@@ -17,6 +17,7 @@ class PersonasController < ApplicationController
 
   def new
     @persona = Persona.new
+    @persona.user_id = current_user.id
     respond_with(@persona)
   end
 
@@ -26,7 +27,7 @@ class PersonasController < ApplicationController
   def create
     @persona = Persona.new(persona_params)
     @persona.save
-    respond_with(@persona)
+     respond_with(@persona)
   end
 
   def update

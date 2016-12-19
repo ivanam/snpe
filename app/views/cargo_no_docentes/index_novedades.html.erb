@@ -114,6 +114,13 @@
         serverSide : true,
         ajax : $('#tabla-cargo_no_docentes-novedades').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 4, 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {
@@ -135,6 +142,13 @@
         serverSide : true,
         ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 4, 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {

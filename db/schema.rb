@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201152526) do
+ActiveRecord::Schema.define(version: 20161207144044) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -245,7 +245,10 @@ ActiveRecord::Schema.define(version: 20161201152526) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
+<<<<<<< HEAD
     t.string   "estado"
+=======
+>>>>>>> 30488786aa2e8a15cd59111e3112eaecd6be6ca0
     t.string   "materium_id"
   end
 
@@ -372,6 +375,7 @@ ActiveRecord::Schema.define(version: 20161201152526) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "cabecera"
+    t.integer  "user_id"
   end
 
   add_index "inscripcions", ["establecimiento_id"], name: "index_inscripcions_on_establecimiento_id", using: :btree
@@ -500,7 +504,15 @@ ActiveRecord::Schema.define(version: 20161201152526) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+<<<<<<< HEAD
     t.string   "apeynom"
+=======
+<<<<<<< HEAD
+    t.integer  "user_id"
+=======
+    t.string   "apeynom"
+>>>>>>> 0718d459099495848ef9a65b20bafc111791571b
+>>>>>>> 30488786aa2e8a15cd59111e3112eaecd6be6ca0
   end
 
   create_table "plans", force: true do |t|

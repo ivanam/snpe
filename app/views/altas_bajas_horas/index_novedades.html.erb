@@ -21,7 +21,7 @@
           <thead>
             <tr>
               <th>DNI</th>
-              <th>Nombres</th>
+              <th>Nombre</th>
               <th>Sit. Rev</th>
               <th>Horas</th>              
               <th>Ciclo</th>
@@ -55,7 +55,7 @@
           <thead>
             <tr>
               <th>DNI</th>
-              <th>Nombres</th>
+              <th>Nombre</th>
               <th>Sit. Rev</th>
               <th>Horas</th>              
               <th>Ciclo</th>
@@ -128,6 +128,13 @@
         serverSide : true,
         ajax : $('#tabla-horas_novedades').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 11, 12 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {
@@ -150,6 +157,13 @@
         serverSide : true,
         ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 11, 12 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       })
        .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {

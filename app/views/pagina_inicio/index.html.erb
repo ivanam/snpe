@@ -33,10 +33,18 @@
       <legend> Novedades de Auxiliares</legend>
         <center>
           <%= link_to "Alta de Auxiliares", cargo_no_docentes_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
-          <%= link_to "Baja de Auxiliares", cargos_index_bajas_path, :tabindex => "-1", :class => "btn btn-danger btn-block" %>
+          <%= link_to "Baja de Auxiliares", cargo_no_docentes_index_bajas_path, :tabindex => "-1", :class => "btn btn-danger btn-block" %>
           <% if (current_user.role? :sadmin) then %>
             <%= link_to "Listado de Establecimientos", establecimientos_path, :tabindex => "-1", :class => "btn btn-primary btn-block" %>
           <% end %>
+        </center>
+      </div>
+
+      <div class="col-md-4">
+      <legend> Inscripciones</legend>
+        <center>
+          <%= link_to "Inscripciones Docentes", new_inscripcions_path(:persona_id => current_user.id), :tabindex => "-1", :class => "btn btn-success btn-block" %>
+
         </center>
       </div>
 

@@ -13,10 +13,16 @@ class InscripcionsController < InheritedResources::Base
   end
 
   def new
-    @inscripcion = Inscripcion.new
-    @persona=Persona.find(params[:persona_id])
-    @inscripcion.persona_id = @persona.id
-  end
+    # if current_user.id != nil 
+    #    @inscripcion = Inscripcion.new
+    #    @persona=Persona.where(:user_id => current_user.id).first()
+    #    else
+       @inscripcion = Inscripcion.new  
+       @persona=Persona.find(params[:persona_id])
+       @inscripcion.persona_id = @persona.id
+       # @inscripcion.user_id = @current_user.id
+    # end
+ end   
 
   def edit
     @inscripcion = Inscripcion.find(params[:id])
@@ -25,7 +31,12 @@ class InscripcionsController < InheritedResources::Base
 
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
-    @inscripcion.save
+      if current_user.id != nil
+        @inscripcion.user_id = @current_user.id
+        @inscripcion.save
+      else
+        @inscripcion.save 
+      end  
     respond_to do |format|
     format.html { redirect_to cv_path (@inscripcion.persona_id) }
     end
@@ -58,7 +69,7 @@ class InscripcionsController < InheritedResources::Base
         render :pdf => 'cv',
         :template => 'inscripcions/cv.html.erb',
         :template => 'inscripcions/cv.pdf.erb',
-        :layout => 'pdf.html.erb',
+        #:layout => 'pdf.html.erb',
         :page_size=>  'A4',
         :margin => {:top=> 0,
                    :bottom => 0,

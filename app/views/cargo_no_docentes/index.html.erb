@@ -122,6 +122,13 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-cargo_no_docentes-nuevos').data('source'),
     pagingType: "simple",
+    columnDefs: [
+            {
+                "targets": [ 4, 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
   })
   .on('draw.dt', function () {
     $( ".btn-ajax" ).on( "click", function() {
@@ -143,6 +150,13 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-cargo_no_docentes-notificados').data('source'),
     pagingType: "simple",
+    columnDefs: [
+            {
+                "targets": [ 4, 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
   })
   .on('draw.dt', function () {
     $( ".btn-ajax" ).on( "click", function() {

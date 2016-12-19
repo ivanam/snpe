@@ -156,13 +156,14 @@ class AltasBajasHorasController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :sexo_id => @sexo, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :sexo_id => @sexo, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :apeynom => "#{@apellidos} #{@nombres}", :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -172,6 +173,9 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
+
+    #Estado, necesario para Minsiterio de economia
+    @altas_bajas_hora.estado = "ALT"
 
     @empresa = Empresa.where(:nombre => "HS").first
     @altas_bajas_hora.empresa_id = @empresa.id
@@ -291,13 +295,14 @@ class AltasBajasHorasController < ApplicationController
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :apeynom => "#{@apellidos} #{@nombres}", :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento    
     end
