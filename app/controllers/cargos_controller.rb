@@ -82,7 +82,7 @@ class CargosController < ApplicationController
     @estado = Estado.where(:descripcion => "Ingresado").first
 
     #Estado, necesario para Minsiterio de economia
-    @cargo.estado = "ALT"
+    #@cargo.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      
