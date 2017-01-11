@@ -120,6 +120,13 @@
         serverSide : true,
         ajax : $('#tabla-cargos-novedades').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 7, 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {
@@ -141,6 +148,13 @@
         serverSide : true,
         ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 7, 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {

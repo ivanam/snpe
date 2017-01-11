@@ -72,6 +72,7 @@
        <% end %>
       </div> 
   </div>
+
   <br/>
   <div class="row">
     <div class="col-md-3 col-xs-3">
@@ -91,8 +92,9 @@
       <dd><%= @persona.depto %></dd>
     </div>
   </div>
+
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-<legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Inscripciones Docentes</font></center></p></legend>
+<legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mis Inscripciones</font></center></p></legend>
 <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
     <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
     <!-- <div class="row" align="left">

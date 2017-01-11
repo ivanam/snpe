@@ -2,7 +2,7 @@ class CargosController < ApplicationController
   before_action :set_cargo, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
 
-
+  respond_to :html
 
   # ---------------------------------------------- Index -------------------------------------------------------------------------------------------
   def index
@@ -61,13 +61,14 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, sexo_id: @sexo, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, sexo_id: @sexo, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos,  :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -79,6 +80,9 @@ class CargosController < ApplicationController
     @cargo.persona_id = @persona.id
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
+
+    #Estado, necesario para Minsiterio de economia
+    @cargo.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      
@@ -124,10 +128,10 @@ class CargosController < ApplicationController
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, 
                                 fecha_nacimiento: @fecha_nacimiento)
     else
-      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, cuil: @cuil,
+      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil,
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo = Cargo.find(params[:id])
@@ -335,10 +339,10 @@ class CargosController < ApplicationController
 
   def cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 2).last
-    @novedades_en_cola_impresion =  Cargo.where(id: -1)
+    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona)
      if @lote != nil then
       if @lote.fecha_impresion == nil
-        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
       end
     end
     respond_to do |format|

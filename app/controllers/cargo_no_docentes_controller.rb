@@ -52,13 +52,14 @@ class CargoNoDocentesController < InheritedResources::Base
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.nro_documento = @dni
       @persona.sexo_id = @sexo
       @persona.nombres = @nombres
       @persona.apellidos = @apellidos
+      @persona.apeynom = "#{@apellidos} #{@nombres}"
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -71,6 +72,9 @@ class CargoNoDocentesController < InheritedResources::Base
 
     @empresa = Empresa.where(:nombre => "TA").first
     @cargo_no_docente.empresa_id = @empresa.id
+
+    #Estado, necesario para Minsiterio de economia
+    @cargo_no_docente.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      
@@ -117,10 +121,10 @@ class CargoNoDocentesController < InheritedResources::Base
     @establecimiento = Establecimiento.find(session[:establecimiento])
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, cuil: @cuil, 
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, 
                                 fecha_nacimiento: @fecha_nacimiento)
     else
-      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, cuil: @cuil,
+      @persona.assign_attributes({tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil,
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo_no_docente = CargoNoDocente.find(params[:id])
@@ -325,10 +329,10 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 3).last
-    @novedades_en_cola_impresion =  CargoNoDocente.where(id: -1)
+    @novedades_en_cola_impresion =  CargoNoDocente.where(id: -1).includes(:persona)
      if @lote != nil then
       if @lote.fecha_impresion == nil
-        @novedades_en_cola_impresion = CargoNoDocente.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s)
+        @novedades_en_cola_impresion = CargoNoDocente.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
       end
     end
     respond_to do |format|

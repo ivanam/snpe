@@ -168,6 +168,13 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-altas_bajas_hora').data('source'),
     pagingType: "simple",
+    columnDefs: [
+            {
+                "targets": [ 10, 11 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
   })
   .on('draw.dt', function () {
     $( ".btn-ajax" ).on( "click", function() {
@@ -214,6 +221,13 @@ $(document).ready(function($) {
     serverSide : true,
     ajax : $('#tabla-altas_bajas_hora_notificadas').data('source'),
     pagingType: "simple",
+    columnDefs: [
+            {
+                "targets": [ 10, 11 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
   });
 
   var date = new Date();
