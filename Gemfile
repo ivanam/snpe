@@ -30,7 +30,6 @@ gem "less-rails"
 
 gem 'thin'
 
-
 gem 'activeadmin', github: 'activeadmin'
 # ---------------------------
 
