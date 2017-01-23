@@ -1,6 +1,6 @@
 <% @altas_bajas_hora = altas_bajas_hora %>
 
-<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal", role: :form, 'data-model' => 'altas_bajas_hora' }) do |f| %>
+<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal", role: :form, 'data-model' => 'altas_bajas_hora', :id => "horas_form" , :onsubmit => "return validateForm();"}) do |f| %>
 <style type="text/css">
 .form-group{
   margin-left: 0px;
@@ -74,7 +74,7 @@
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>  
         </div>
         <div class="row">        
-        <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>
+        <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar"%>
       </div>
     </div>
   </div>
@@ -168,5 +168,13 @@
         })
     });
 
+
+function validateForm(){
+
+   if ($("#materium").val()==""){
+    alert("No hay materia seleccionada.");
+    return false;
+   }
+}
   
 </script>

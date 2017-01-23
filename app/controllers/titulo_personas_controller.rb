@@ -23,7 +23,7 @@ class TituloPersonasController < InheritedResources::Base
   end
 
   def create
-    debugger
+
     @titulo_persona = TituloPersona.new(titulo_persona_params)
     @titulo_persona.save
     respond_with(@titulo_persona)
