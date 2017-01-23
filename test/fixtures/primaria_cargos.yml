@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  descripcion: MyString
+  codigo_nomen: 1
+  cargo_inscrip_doc_id: 
+  inscripcion_id: 
+  funcion_id: 
+
+two:
+  descripcion: MyString
+  codigo_nomen: 1
+  cargo_inscrip_doc_id: 
+  inscripcion_id: 
+  funcion_id: 
