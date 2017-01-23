@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207144044) do
+ActiveRecord::Schema.define(version: 20170111141104) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -88,6 +88,10 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.string   "motivo_baja"
     t.integer  "plan_id"
     t.integer  "suplente_id"
+    t.string   "lic_art"
+    t.date     "fecha_alta_licencia"
+    t.integer  "categ"
+    t.integer  "secuencia_aux"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -245,10 +249,7 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-<<<<<<< HEAD
     t.string   "estado"
-=======
->>>>>>> 30488786aa2e8a15cd59111e3112eaecd6be6ca0
     t.string   "materium_id"
   end
 
@@ -283,6 +284,72 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "esc702HS", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "carrera",                  default: 0,  null: false
+    t.integer "ciclo",                    default: 0,  null: false
+    t.integer "grupo",                    default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.string  "materia_desc",  limit: 30, default: "", null: false
+    t.string  "lic_art",       limit: 30, default: "", null: false
+    t.date    "alta_licencia",                         null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.integer "categ",                    default: 1,  null: false
+    t.integer "secuencia_aux",            default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
+  end
+
+  create_table "escuela4", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "ley_r",                    default: 0,  null: false
+    t.integer "agrup_r",                  default: 0,  null: false
+    t.integer "cargo_r",                  default: 0,  null: false
+    t.integer "categ_r",                  default: 0,  null: false
+    t.integer "ley_s",                    default: 0,  null: false
+    t.integer "agrup_s",                  default: 0,  null: false
+    t.integer "cargo_s",                  default: 0,  null: false
+    t.integer "categ_s",                  default: 0,  null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
   end
 
   create_table "establecimiento_plans", force: true do |t|
@@ -504,15 +571,7 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-<<<<<<< HEAD
     t.string   "apeynom"
-=======
-<<<<<<< HEAD
-    t.integer  "user_id"
-=======
-    t.string   "apeynom"
->>>>>>> 0718d459099495848ef9a65b20bafc111791571b
->>>>>>> 30488786aa2e8a15cd59111e3112eaecd6be6ca0
   end
 
   create_table "plans", force: true do |t|
