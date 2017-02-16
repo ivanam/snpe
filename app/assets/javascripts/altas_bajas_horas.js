@@ -48,7 +48,8 @@ $(document).ready(function($) {
 
   $("#input_cuil").blur(function(){
      var cuil = $("#input_cuil");
-     validarCUIT(cuil);     
+     var dni = $("#input_dni");
+     /*validarCUIT(cuil,dni);     */
   });
 
    $("#input_dni").bind("propertychange change click keyup input paste",function(){
@@ -64,7 +65,7 @@ $(document).ready(function($) {
         .done(function(data) {
           if (data != null) {
             $("#input_nombres").val(data.nombres);
-            $("#input_apellidos").val(data.apellidos);
+            $("#input_apellidos").val(data.apeynom);
             $("#input_cuil").val(data.cuil);
             $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
             $("#select_tipo_documento").val(data.tipo_documento_id);
@@ -82,9 +83,11 @@ $(document).ready(function($) {
 
 });
 
-function validarCUIT (expresion) {
-  if ((/^\d{2}\d{8}\d{1}$/).test(expresion.val())){
+function validarCUIT (expresion, dni) {
+  //    ^\d{2}31343209\d{1}$
+  patt = new RegExp("^\\d{2}"+dni.val()+"\\d{1}$");
+  if (patt.test(expresion.val())){
   }else{
-    alert('cuil incorrecto')
+    alert('CUIL incorrecto')
   }
 }
