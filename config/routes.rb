@@ -230,6 +230,8 @@ ProyectoBase::Application.routes.draw do
 
     get "cargo/cargos_nuevos/", to: "cargos#cargos_nuevos", as: :cargos_nuevos
 
+    get "cargo/persona_por_cargo/:cargo_id", to: 'cargo#persona_por_cargo', as: :persona_por_cargo
+
     #----------------------------------------------------------------------------------------------------------------------------------
 
     resources :cargo_no_docentes

@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20161207144044) do
 
-
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
@@ -501,11 +500,7 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-<<<<<<< HEAD
-    t.integer  "user_id"
-=======
     t.string   "apeynom"
->>>>>>> 0718d459099495848ef9a65b20bafc111791571b
   end
 
   create_table "plans", force: true do |t|

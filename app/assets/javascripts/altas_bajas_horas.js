@@ -49,7 +49,7 @@ $(document).ready(function($) {
   $("#input_cuil").blur(function(){
      var cuil = $("#input_cuil");
      var dni = $("#input_dni");
-     validarCUIT(cuil,dni);     
+     /*validarCUIT(cuil,dni);     */
   });
 
    $("#input_dni").bind("propertychange change click keyup input paste",function(){
@@ -65,7 +65,7 @@ $(document).ready(function($) {
         .done(function(data) {
           if (data != null) {
             $("#input_nombres").val(data.nombres);
-            $("#input_apellidos").val(data.apellidos);
+            $("#input_apellidos").val(data.apeynom);
             $("#input_cuil").val(data.cuil);
             $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
             $("#select_tipo_documento").val(data.tipo_documento_id);

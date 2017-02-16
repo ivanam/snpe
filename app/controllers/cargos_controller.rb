@@ -111,6 +111,14 @@ class CargosController < ApplicationController
     respond_with(@cargo)
   end
 
+  def persona_por_cargo
+    @altas_escuela = Cargo.where(:establecimiento_id => session[:establecimiento], cargo_id: params[:cargo_id])
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraMateriaDatatable.new(view_context, { query: @altas_escuela }) }
+    end
+  end
+
   def editar_alta
     @cargo = Cargo.find(params[:id])
     @persona = Persona.find(@cargo.persona_id)

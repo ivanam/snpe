@@ -181,8 +181,7 @@
     });
 
     $("#input_dni").blur(function(){
-       var dni = parseInt($("#input_dni").val(),10);
-       $("#datos_persona").show();
+          $("#datos_persona").show();
         $.ajax({
           url: '/soft/snpe/util/buscar_persona/'+dni,
           type: 'POST',
