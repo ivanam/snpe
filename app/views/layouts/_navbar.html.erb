@@ -51,12 +51,15 @@
                     <li><%=link_to "Altas", cargos_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Modificacion", cargos_modificacion_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", cargos_index_bajas_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Inscripciones Docente Primaria", buscar_cv_persona_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Puntaje Docente (Rubros)", rubros_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Titulos", titulos_path, :tabindex => "-1"%></li>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                       <li><%=link_to "Novedades", cargos_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
                     <% if ver_model("asistencium") %>
                       <li><%=link_to "Asistencia", asistencia_index_cargo_path, :tabindex => "-1"%></li>
-                      <li><%=link_to "Inscripciones Docente", new_inscripcions_path(:user_id => current_user.id), :tabindex => "-1"%></li>  
+                
                     <% end %>
                   </ul>
                 </li>

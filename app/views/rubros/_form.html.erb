@@ -13,93 +13,70 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :pesona_id, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :pesona_id, :class => "form-control" %>
-    </div>
-  </div>
   <div class="form-group">
-    <%= f.label :escuela_id, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :escuela_id, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_titulo, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_titulo, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_concepto, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_concepto, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_asis_perf, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_asis_perf, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_ser_prest, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_ser_prest, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_residencia, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_residencia, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_gestion, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_gestion, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_cursos, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_cursos, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :ant_doc, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :ant_doc, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :rubro_titulo, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_titulo, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :total, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :total, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :promedio, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :promedio, :class => "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :persona, :class => "col-sm-2 control-label" %>
+      <%= f.label :persona, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.text_field :persona, :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :establecimiento, :class => "col-sm-2 control-label" %>
+    <%= f.label :R_I, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :establecimiento, :class => "form-control" %>
+      <%= f.text_field :rubro_titulo, :class => "form-control" %>
+    </div>
+  </div>
+   <div class="form-group">
+    <%= f.label :R_II_promedio, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :promedio, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :R_III_ant_doc, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :ant_doc, :class => "form-control" %>
+    </div>
+  </div>
+   <div class="form-group">
+    <%= f.label :R_IV_rubro_gestion, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rubro_gestion, :class => "form-control" %>
+    </div>
+  </div>
+    <div class="form-group">
+    <%= f.label :R_V_rubro_ser_prest, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rubro_ser_prest, :class => "form-control" %>
+    </div>
+  </div>
+    <div class="form-group">
+    <%= f.label :R_VII_rubro_residencia, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rubro_residencia, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :R_XI_rubro_concepto, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rubro_concepto, :class => "form-control" %>
+    </div>
+  </div>
+   <div class="form-group">
+    <%= f.label :R_IX_rubro_cursos, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rubro_cursos, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :rubro_asis_perf, :class => "col-sm-2 control-label hidden" %>
+    <div class="col-sm-10">
+      <%= f.text_field :rubro_asis_perf, :class => "form-control hidden" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :total, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :total, :class => "form-control" , readonly: true  %>
     </div>
   </div>
   <div class="form-group">

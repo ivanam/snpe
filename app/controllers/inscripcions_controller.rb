@@ -31,12 +31,7 @@ class InscripcionsController < InheritedResources::Base
 
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
-      if current_user.id != nil
-        @inscripcion.user_id = @current_user.id
-        @inscripcion.save
-      else
-        @inscripcion.save 
-      end  
+    @inscripcion.save  
     respond_to do |format|
     format.html { redirect_to cv_path (@inscripcion.persona_id) }
     end
@@ -58,7 +53,10 @@ class InscripcionsController < InheritedResources::Base
 
   def buscar_persona
     @persona = Persona.where(:nro_documento => params[:dni]).first()
-    render json: @persona
+     render json: @persona
+
+    # @rubro_persona = Rubro.where(:persona_id => params[:dni]).first()
+    # render json: @rubro_persona
   end
 
   def cv

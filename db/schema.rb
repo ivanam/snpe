@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207144044) do
+
+ActiveRecord::Schema.define(version: 20170104142844) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -88,6 +89,10 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.string   "motivo_baja"
     t.integer  "plan_id"
     t.integer  "suplente_id"
+    t.string   "lic_art"
+    t.date     "fecha_alta_licencia"
+    t.integer  "categ"
+    t.integer  "secuencia_aux"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -245,6 +250,7 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
+    t.string   "estado"
     t.string   "materium_id"
   end
 
@@ -279,6 +285,39 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "escuela4", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "ley_r",                    default: 0,  null: false
+    t.integer "agrup_r",                  default: 0,  null: false
+    t.integer "cargo_r",                  default: 0,  null: false
+    t.integer "categ_r",                  default: 0,  null: false
+    t.integer "ley_s",                    default: 0,  null: false
+    t.integer "agrup_s",                  default: 0,  null: false
+    t.integer "cargo_s",                  default: 0,  null: false
+    t.integer "categ_s",                  default: 0,  null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
   end
 
   create_table "establecimiento_plans", force: true do |t|
@@ -500,6 +539,13 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+    t.integer  "user_id"
+=======
+>>>>>>> f0a75bba1faf48c714664a6b94b7c858e0203952
+>>>>>>> f7c92e4b4a33ff202d72f317f45c222c4b039f70
     t.string   "apeynom"
   end
 
@@ -509,6 +555,20 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "primaria_cargos", force: true do |t|
+    t.string   "descripcion"
+    t.integer  "codigo_nomen"
+    t.integer  "cargo_inscrip_doc_id"
+    t.integer  "inscripcion_id"
+    t.integer  "funcion_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "primaria_cargos", ["cargo_inscrip_doc_id"], name: "index_primaria_cargos_on_cargo_inscrip_doc_id", using: :btree
+  add_index "primaria_cargos", ["funcion_id"], name: "index_primaria_cargos_on_funcion_id", using: :btree
+  add_index "primaria_cargos", ["inscripcion_id"], name: "index_primaria_cargos_on_inscripcion_id", using: :btree
 
   create_table "rails_admin_histories", force: true do |t|
     t.text     "message"
@@ -551,22 +611,27 @@ ActiveRecord::Schema.define(version: 20161207144044) do
   end
 
   create_table "rubros", force: true do |t|
-    t.integer  "pesona_id"
     t.integer  "escuela_id"
-    t.string   "rubro_titulo"
-    t.string   "rubro_concepto"
-    t.string   "rubro_asis_perf"
-    t.string   "rubro_ser_prest"
-    t.string   "rubro_residencia"
-    t.string   "rubro_gestion"
-    t.string   "rubro_cursos"
-    t.string   "ant_doc"
-    t.integer  "total"
-    t.integer  "promedio"
+    t.float    "rubro_titulo"
+    t.float    "rubro_concepto"
+    t.float    "rubro_asis_perf"
+    t.float    "rubro_ser_prest"
+    t.float    "rubro_residencia"
+    t.float    "rubro_gestion"
+    t.float    "rubro_cursos"
+    t.float    "ant_doc"
+    t.float    "total"
+    t.float    "promedio"
     t.integer  "persona_id"
     t.integer  "establecimiento_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "orden"
+    t.string   "cargo"
+    t.string   "region"
+    t.integer  "cabecera"
+    t.string   "nombre_apellido"
+    t.string   "observaciones"
   end
 
   add_index "rubros", ["establecimiento_id"], name: "index_rubros_on_establecimiento_id", using: :btree
@@ -623,6 +688,11 @@ ActiveRecord::Schema.define(version: 20161207144044) do
     t.integer  "persona_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "alcance"
+    t.string   "tipotitulo"
+    t.string   "region"
+    t.text     "comentario"
+    t.string   "cargo"
   end
 
   add_index "titulos", ["persona_id"], name: "index_titulos_on_persona_id", using: :btree

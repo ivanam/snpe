@@ -3,50 +3,36 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Pesona:</dt>
-  <dd><%= @rubro.pesona_id %></dd>
-
-  <dt>Escuela:</dt>
-  <dd><%= @rubro.escuela_id %></dd>
-
-  <dt>Rubro titulo:</dt>
-  <dd><%= @rubro.rubro_titulo %></dd>
-
-  <dt>Rubro concepto:</dt>
-  <dd><%= @rubro.rubro_concepto %></dd>
-
-  <dt>Rubro asis perf:</dt>
-  <dd><%= @rubro.rubro_asis_perf %></dd>
-
-  <dt>Rubro ser prest:</dt>
-  <dd><%= @rubro.rubro_ser_prest %></dd>
-
-  <dt>Rubro residencia:</dt>
-  <dd><%= @rubro.rubro_residencia %></dd>
-
-  <dt>Rubro gestion:</dt>
-  <dd><%= @rubro.rubro_gestion %></dd>
-
-  <dt>Rubro cursos:</dt>
-  <dd><%= @rubro.rubro_cursos %></dd>
-
-  <dt>Ant doc:</dt>
-  <dd><%= @rubro.ant_doc %></dd>
-
-  <dt>Rubro titulo:</dt>
-  <dd><%= @rubro.rubro_titulo %></dd>
-
-  <dt>Total:</dt>
-  <dd><%= @rubro.total %></dd>
-
-  <dt>Promedio:</dt>
-  <dd><%= @rubro.promedio %></dd>
 
   <dt>Persona:</dt>
   <dd><%= @rubro.persona %></dd>
 
-  <dt>Establecimiento:</dt>
-  <dd><%= @rubro.establecimiento %></dd>
+  <dt>R.I (Rubro titulo):</dt>
+  <dd><%= @rubro.rubro_titulo %></dd>
+
+  <dt>R.II (Promedio):</dt>
+  <dd><%= @rubro.promedio %></dd>
+
+  <dt>R.III (Rubro Antiguedad del Titulo):</dt>
+  <dd><%= @rubro.ant_doc %></dd>
+
+  <dt>R.IV (Rubro Antiguead de Gestion):</dt>
+  <dd><%= @rubro.rubro_gestion %></dd>
+  
+  <dt>R.V (Rubro ser prest):</dt>
+  <dd><%= @rubro.rubro_ser_prest %></dd>
+  
+  <dt>R.VII (Rubro residencia):</dt>
+  <dd><%= @rubro.rubro_residencia %></dd>
+
+  <dt>R.IX (Rubro Capacitaciones:</dt>
+  <dd><%= @rubro.rubro_concepto %></dd>
+  
+  <dt>R.XI (Rubro Cursos):</dt>
+  <dd><%= @rubro.rubro_cursos %></dd>
+
+  <dt>Total:</dt>
+  <dd><%= @rubro.total %></dd>
 
   <br/><br/>
   <%= link_to rubros_path, :class => 'btn btn-default' do %>

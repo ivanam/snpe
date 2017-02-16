@@ -2,8 +2,7 @@ ProyectoBase::Application.routes.draw do
 
 
   
-
-  resources :ambitos
+  
 
    scope '/soft/snpe' do
 
@@ -59,6 +58,11 @@ ProyectoBase::Application.routes.draw do
 
     resources :suplentes
 
+    resources :primaria_cargos
+
+    resources :ambitos
+
+    resources :primaria_cargos
 
     resources :despliegues
 

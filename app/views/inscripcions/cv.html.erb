@@ -70,10 +70,20 @@
        <dd><%= @titulo_nombre %></dd>
        <% end %>
        <% end %>
-      </div> 
-  </div>
-
-  <br/>
+      </div>  
+       <% @alcance = 0 %>
+       <div class="col-md-3 col-xs-3">
+       <dt>Alcance del Titulo:</dt>
+       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+       <% @titulo_persona = r.titulo_id  %>
+       <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <% @alcance =  t.alcance + @alcance %>
+       <% end %>
+       <% end %>
+       <dd><%= @alcance %></dd>
+      </div>
+   </div>     
+    <br/>
   <div class="row">
     <div class="col-md-3 col-xs-3">
       <dt>Calle:</dt>
@@ -94,6 +104,65 @@
   </div>
 
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+  <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mi Rubros Totales </font></center></p></legend>
+  <% @total = 0 %>
+  <% Rubro.where(persona_id: @persona.nro_documento).each do |ru| %>
+    <div class="row">
+    <div class="col-md-2 col-xs-4">
+      <dt>Cargo:</dt>
+      <dd><%= ru.cargo %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>Region:</dt>
+      <dd><%= ru.region %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>Cabecera:</dt>
+      <dd><%= ru.cabecera %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>Orden:</dt>
+      <dd><%= ru.orden %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.I(Titulo):</dt>
+      <dd><%= ru.rubro_titulo %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.II(Promedio):</dt>
+      <dd><%= ru.promedio %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.III(Ant. Titulo):</dt>
+      <dd><%= ru.ant_doc %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.IV (Ant Gestión):</dt>
+      <dd><%= ru.rubro_gestion %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.V (Serv. Prestados):</dt>
+      <dd><%= ru.rubro_ser_prest %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.VII (Residencia):</dt>
+      <dd><%= ru.rubro_residencia %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.IX (Cursos):</dt>
+      <dd><%= ru.rubro_cursos %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.XI (Capacitaciones):</dt>
+      <dd><%= ru.rubro_concepto %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>Total de Rubros:</dt>
+       <dd><%=ru.total %></dd>
+      </div>
+    </div>
+    <% end %>
+     <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
 <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mis Inscripciones</font></center></p></legend>
 <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
     <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
@@ -107,6 +176,17 @@
     <dt>Inscripción Id:</dt></div>
     <dd><%= s.id %></dd>
     </div> -->
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+      <dt>Cargos:</dt> </div>  
+       <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
+       <% @cargo_id = ca.cargo_id  %>  
+       <% PrimariaCargo.where(:id => @cargo_id).each do |fu| %>
+       <% @cargo_descripcion = fu.descripcion  %>
+       <dd><%= @cargo_descripcion %></dd>
+       <% end %>
+       <% end %>
+    </div>    
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
     <dt>Fecha de Inscripción:</dt></div>

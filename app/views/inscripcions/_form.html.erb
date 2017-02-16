@@ -72,7 +72,9 @@
        <% @titulo_persona = r.titulo_id  %>
        <% Titulo.where(:id => @titulo_persona).each do |t| %>
        <% @titulo_nombre = t.nombre  %>
+       <% @alcance = t.alcance  %>
        <dd><%= @titulo_nombre %></dd>
+       <dd><%= @alcance %></dd>
        <% end %>
        <% end %>
       </div> 
@@ -80,7 +82,7 @@
     <br/>
       <br/>
     <div>
-        <table border="2px" WIDTH=10000 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
+        <table border="2px" WIDTH=0 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
             <tr>
                 <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %>
                 <%= f.collection_select(:escuela_titular, Establecimiento.all, :nombre, :nombre, {:prompt => 'Seleccione un establecimiento'}, :style=>"width:100%")%>
@@ -123,7 +125,7 @@
      </div>
     <font align="center" face="arial" size="5" color="#1b85c3"> Cargos que solicita</font>  
    <div class="form-group">
-   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />   
+   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2"/>   
    <%= f.fields_for :titulo_persona do |pe|%>
    <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
        <div class="form-group" title="Ingrese titulo">
@@ -140,14 +142,12 @@
             <div class="text-right">
             <%= pe.link_to_remove "Eliminar", :class => "label label-danger eliminar_titulo" %>  
             </div>
-
         </div>
         <div class="form-group">
             <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
             <div class="col-sm-6">
-            <%= pe.number_field :persona_id, :class => "form-control hidden" %>
+            <%= pe.number_field :persona_id, :class => "form-control hidden", :value => @inscripcion.persona_id  %>
             </div>
-
         </div>      
     <% end %>
     </div>
@@ -158,7 +158,7 @@
          <div class="form-group" title="Ingrese Cargo o Funcion">
             <%= f.label :cargo_id, "Nombre Funcion o Cargos", :class => "col-sm-4 control-label" %>
             <div class="col-sm-4">
-            <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>         
+            <%= ca.collection_select(:cargo_id, PrimariaCargo.all, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>     
             </div>
          </div>
            <div class="form-group">
