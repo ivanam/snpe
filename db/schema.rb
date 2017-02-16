@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20170104142844) do
-
-
+ActiveRecord::Schema.define(version: 20170111141104) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -289,7 +286,6 @@ ActiveRecord::Schema.define(version: 20170104142844) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
   create_table "esc702HS", id: false, force: true do |t|
     t.integer "escuela",                  default: 0,  null: false
     t.integer "tipo_docu",                default: 0,  null: false
@@ -323,8 +319,6 @@ ActiveRecord::Schema.define(version: 20170104142844) do
     t.string  "observaciones", limit: 50, default: "", null: false
   end
 
-=======
->>>>>>> f7c92e4b4a33ff202d72f317f45c222c4b039f70
   create_table "escuela4", id: false, force: true do |t|
     t.integer "escuela",                  default: 0,  null: false
     t.integer "prog",                     default: 0,  null: false
@@ -577,13 +571,6 @@ ActiveRecord::Schema.define(version: 20170104142844) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-    t.integer  "user_id"
-=======
->>>>>>> f0a75bba1faf48c714664a6b94b7c858e0203952
->>>>>>> f7c92e4b4a33ff202d72f317f45c222c4b039f70
     t.string   "apeynom"
   end
 
