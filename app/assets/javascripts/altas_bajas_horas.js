@@ -57,6 +57,8 @@ $(document).ready(function($) {
       elem.data('oldVal', elem.val());
       if (elem.data('oldVal') != elem.val()) {alert("cambio");}
        var dni = parseInt($("#input_dni").val(),10);
+       if ($('#input_dni').length > 0)
+       { 
        $("#datos_persona").show();
         $.ajax({
           url: '/soft/snpe/util/buscar_persona/'+dni,
@@ -79,6 +81,7 @@ $(document).ready(function($) {
             $("#select_tipo_documento").val(5); //ID 5, para tipo de documento DNI
           }
         })
+       } 
     });
 
 });
