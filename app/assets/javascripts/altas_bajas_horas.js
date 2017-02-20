@@ -57,7 +57,7 @@ $(document).ready(function($) {
       elem.data('oldVal', elem.val());
       if (elem.data('oldVal') != elem.val()) {alert("cambio");}
        var dni = parseInt($("#input_dni").val(),10);
-       if (!dni.isNaN()) //Verifico que se haya ingresaod un dni 
+       if (!Number.isNaN(dni)) //Verifico que se haya ingresaod un dni 
        { 
          $("#datos_persona").show();
           $.ajax({

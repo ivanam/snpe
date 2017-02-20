@@ -8,11 +8,6 @@
               <div class="profile-sidebar">
                 <!-- SIDEBAR USERPIC -->
                 
-                <!--<div class="profile-userpic">
-                <%= image_tag("establecimientos/"+@e.cue_anexo.to_s+".jpg", :class => "img-circle img-responsive", :onerror => "this.onerror=null;this.src='/assets/establecimientos/escuela_perfil.png';")%>
-                <!--<img src="imagenotfound.gif" alt="Image not found" onError="this.src='imagefound.gif';" />
-                </div> -->
-
                 <div class="profile-userpic">                  
                   <% if Rails.application.assets.find_asset("establecimientos/#{@e.cue_anexo.to_s}.jpg").present? %>
                       <%= image_tag("establecimientos/"+@e.cue_anexo.to_s+".jpg", :class => "img-circle img-responsive") %>
