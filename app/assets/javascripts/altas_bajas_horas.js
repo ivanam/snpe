@@ -57,30 +57,30 @@ $(document).ready(function($) {
       elem.data('oldVal', elem.val());
       if (elem.data('oldVal') != elem.val()) {alert("cambio");}
        var dni = parseInt($("#input_dni").val(),10);
-       if ($('#input_dni').length > 0)
+       if (!dni.isNaN()) //Verifico que se haya ingresaod un dni 
        { 
-       $("#datos_persona").show();
-        $.ajax({
-          url: '/soft/snpe/util/buscar_persona/'+dni,
-          type: 'POST',
-        })
-        .done(function(data) {
-          if (data != null) {
-            $("#input_nombres").val(data.nombres);
-            $("#input_apellidos").val(data.apeynom);
-            $("#input_cuil").val(data.cuil);
-            $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
-            $("#select_tipo_documento").val(data.tipo_documento_id);
-          }
-          else{
-            //alert("La persona no existe. Por favor cargue sus datos");
-            $("#input_nombres").val("");
-            $("#input_apellidos").val("");
-            $("#input_cuil").val("");
-            $("#datepicker3").val("");
-            $("#select_tipo_documento").val(5); //ID 5, para tipo de documento DNI
-          }
-        })
+         $("#datos_persona").show();
+          $.ajax({
+            url: '/soft/snpe/util/buscar_persona/'+dni,
+            type: 'POST',
+          })
+          .done(function(data) {
+            if (data != null) {
+              $("#input_nombres").val(data.nombres);
+              $("#input_apellidos").val(data.apeynom);
+              $("#input_cuil").val(data.cuil);
+              $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+              $("#select_tipo_documento").val(data.tipo_documento_id);
+            }
+            else{
+              //alert("La persona no existe. Por favor cargue sus datos");
+              $("#input_nombres").val("");
+              $("#input_apellidos").val("");
+              $("#input_cuil").val("");
+              $("#datepicker3").val("");
+              $("#select_tipo_documento").val(5); //ID 5, para tipo de documento DNI
+            }
+          })
        } 
     });
 
