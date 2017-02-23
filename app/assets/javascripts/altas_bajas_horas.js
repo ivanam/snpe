@@ -66,7 +66,7 @@ $(document).ready(function($) {
           })
           .done(function(data) {
             if (data != null) {
-              $("#input_nombres").val(data.nombres);
+              /*$("#input_nombres").val(data.nombres); */ //Comentar para no repetir apellido y nombre al buscar y guardar
               $("#input_apellidos").val(data.apeynom);
               $("#input_cuil").val(data.cuil);
               $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
