@@ -172,6 +172,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
+    @altas_bajas_hora.programatica = params[:altas_bajas_hora][:programatica]
     @estado = Estado.where(:descripcion => "Ingresado").first
 
     #Estado, necesario para Minsiterio de economia
@@ -611,7 +612,7 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-  def imprimir
+  def imprimir    
     respond_to do |format|
       @hora = AltasBajasHora.find(params["id"])
       if @hora.estado_actual == "Chequeado" || @hora.estado_actual == "Chequeado_Baja"
