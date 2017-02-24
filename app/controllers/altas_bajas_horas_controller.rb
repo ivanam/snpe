@@ -312,6 +312,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.secuencia = params[:altas_bajas_hora][:secuencia]
     @altas_bajas_hora.fecha_alta = params[:altas_bajas_hora][:fecha_alta]
+    @altas_bajas_hora.fecha_baja = params[:altas_bajas_hora][:fecha_baja]
     @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
     @altas_bajas_hora.horas = params[:altas_bajas_hora][:horas]
     @altas_bajas_hora.ciclo_carrera = params[:altas_bajas_hora][:ciclo_carrera]

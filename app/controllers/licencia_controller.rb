@@ -38,6 +38,14 @@ class LicenciaController < ApplicationController
     respond_with(@licencium)
   end
 
+  #Reporte de todas las licencias de todos los establecimientos
+  def listado_licencias        
+    respond_to do |format|
+      format.html 
+      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: licencias}) }
+    end
+  end
+
   def cargos_licencia_permitida
     @dni=params[:dni]
     respond_to do |format|
