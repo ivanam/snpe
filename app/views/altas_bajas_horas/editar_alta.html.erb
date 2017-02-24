@@ -81,20 +81,20 @@
         </div>
     </fieldset>   
     <br/>
-    <% if (current_user.role? :escuela ) %>
-    <legend>Asignar lugar de pago</legend>
-    <fieldset>
-      <div class="form-snpe" >
-        <div class="row">
-          <%= f.select(:lugar_pago_id, LugarPago.all.collect{|l| [l.to_s, l.id]}, {:prompt => "Lugar de pago"}, :id => "lugar_de_pago",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Lugar de pago", :class=>"form-control form-alta form-select")%>              
-
-          <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar-edit" %>
-          <%= link_to altas_bajas_horas_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>
-            Cancelar
-          <% end %>
+    <% if (current_user.role? :personal ) %>
+      <legend>Asignar lugar de pago</legend>
+      <fieldset>
+        <div class="form-snpe" >
+          <div class="row">
+            <%= f.select(:lugar_pago_id, LugarPago.all.collect{|l| [l.to_s, l.id]}, {:prompt => "Lugar de pago"}, :id => "lugar_de_pago",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Lugar de pago", :class=>"form-control form-alta form-select")%>              
+          </div>
         </div>
-      </div>
-    </fieldset>   
+      </fieldset>   
+    <% end %>
+
+    <%= button_to "Guardar", {:controller => "altas_bajas_horas", :action => "guardar_edicion"}, :class=>"btn btn-primary", :id=>"btn-guardar-edit" %>
+    <%= link_to altas_bajas_horas_path, :class => 'btn btn-danger', :id=>"btn-cancelar-edit" do %>
+      Cancelar
     <% end %>
 
 
