@@ -1,7 +1,7 @@
-class LicenciaDatatable < AjaxDatatablesRails::Base
+class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
-  def sortable_columns
+  def sortable_columns    
     @sortable_columns ||= ['licencia.id']
   end
 
@@ -13,7 +13,10 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
 
   def data
     records.map do |record|
-      [        
+      [
+        record.altas_bajas_hora.establecimiento.to_s,
+        record.altas_bajas_hora.persona.nro_documento.to_s+" / "+record.altas_bajas_hora.persona.cuil,
+        record.altas_bajas_hora.persona.to_s,
         if record.altas_bajas_hora_id != nil  
           "Horas"
         elsif record.cargo_id != nil
