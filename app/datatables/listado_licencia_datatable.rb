@@ -34,14 +34,14 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
             record.cargo_no_docente_id
         end,
 
-        record.articulo.codigo + record.articulo.descripcion[0..30].html_safe+"...",
+        record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
         Util.fecha_a_es(record.fecha_desde),
         Util.fecha_a_es(record.fecha_hasta),
         if record.vigente == "Vigente" 
           '<center>
             <div class="btn-acciones">
             <a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" id_art="'+record.articulo_id.to_s+'" data-target="#modal_licencia_final" title="Editar" >
-            <span class=aria-hidden="true" >Vigente</span>
+              <span class=aria-hidden="true" >Vigente</span>
             </a>'  
         else
           record.vigente 
