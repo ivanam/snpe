@@ -247,6 +247,7 @@
     ajax : $('#tabla-licencium').data('source'),
     pagingType: "simple",
     retrieve: true,
+
   });
 
   var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
@@ -257,6 +258,13 @@
     pagingType: "simple",
     paginate: false,
     filter: false,
+    columnDefs: [
+            {
+                "targets": [ 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
    
   });
 
@@ -268,6 +276,13 @@
     pagingType: "simple",
     paginate: false,
     filter: false,
+    columnDefs: [
+            {
+                "targets": [ 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
    
   });
 
