@@ -42,7 +42,7 @@ class LicenciaController < ApplicationController
   def listado_licencias        
     respond_to do |format|
       format.html 
-      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: licencias}) }
+      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: listado_de_licencias}) }
     end
   end
 
