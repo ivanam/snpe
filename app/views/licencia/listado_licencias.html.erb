@@ -36,5 +36,12 @@
 	    ajax : $('#tabla-licencia').data('source'),
 	    pagingType: "simple",
 	    retrieve: true,
+      columnDefs: [
+            {
+                "targets": [ 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
 	  });
 </script>

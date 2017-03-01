@@ -37,7 +37,8 @@ module LicenciaHelper
 	end
 
 	def licencias		
-		return Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona, :establecimiento))
+		#return Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona, :establecimiento))		
 		#return Licencium.joins("INNER JOIN altas_bajas_hora ON licencia.altas_bajas_hora_id = altas_bajas_hora.id").includes(:persona,:establecimiento)
+		return Licencium.select('establecimientos.*, personas.*, licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id')
 	end 	
 end
