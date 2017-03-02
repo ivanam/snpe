@@ -126,7 +126,7 @@
     <font align="center" face="arial" size="5" color="#1b85c3"> Cargos que solicita</font> 
     <div class="form-group">
    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2"/>   
-   <% if current_user.role? :sadmin %>
+   <% if current_user.role? :junta %>
    <%= f.fields_for :titulo_persona do |pe|%>
    <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
        <div class="form-group" title="Ingrese titulo">
