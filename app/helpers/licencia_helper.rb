@@ -35,4 +35,8 @@ module LicenciaHelper
     	end 
      	return Licencium.where(:id => @licencia_horas)
 	end
+
+	def listado_de_licencias		
+		return Licencium.select('establecimientos.*, personas.*, licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id')
+	end 	
 end

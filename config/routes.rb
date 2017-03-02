@@ -234,6 +234,8 @@ ProyectoBase::Application.routes.draw do
 
     get "cargo/cargos_nuevos/", to: "cargos#cargos_nuevos", as: :cargos_nuevos
 
+    get "cargo/persona_por_cargo/:cargo_id", to: 'cargo#persona_por_cargo', as: :persona_por_cargo
+
     #----------------------------------------------------------------------------------------------------------------------------------
 
     resources :cargo_no_docentes
@@ -290,6 +292,8 @@ ProyectoBase::Application.routes.draw do
 
     resources :personas
 
+    #----------------------------------------------------------------------------------------------------------------------------------
+
     resources :licencia
 
     get "util/buscar_hora/:dni", to: 'util#buscar_hora'
@@ -299,6 +303,7 @@ ProyectoBase::Application.routes.draw do
     get 'licencia/licencia_dadas/:dni', to: 'licencia#licencia_dadas', as: :licencia_dadas
     get 'licencia/buscar_articulo_dias_hora/:id_articulo/:id_horas', to: 'licencia#buscar_articulo_dias_hora', as: :buscar_articulo_dias_hora
     get 'licencia/buscar_articulo_dias_cargo/:id_articulo/:id_cargos', to: 'licencia#buscar_articulo_dias_cargo', as: :buscar_articulo_dias_cargo
+    get 'licencias/listado_licencias', to: 'licencia#listado_licencias', as: :listado_licencias
 
 
     
@@ -306,7 +311,8 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_cargos/:id_cargos/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_cargos", as: :guardar_licencia_cargos
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
-  
+
+    #----------------------------------------------------------------------------------------------------------------------------------  
 
     resources :localidads
 

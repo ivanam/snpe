@@ -36,6 +36,10 @@
   
   <div class="form-snpe" >
       <div class="row">
+        <%= label_tag "Programática 92" %>
+        <%= f.check_box :programatica %>
+      </div>
+      <div class="row">
         <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
 
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
@@ -46,7 +50,12 @@
 
         <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta" } %>
 
+        <%@e = Establecimiento.find(session[:establecimiento])%>                  
+        <% if (@e.requiere_movilidad) %>
+
         <%= f.select(:con_movilidad, [['Si', true], ['No', false]], {:prompt => "Movilidad"}, :id => "movilidad",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Movilidad", :class=>"form-control form-alta form-select")%>
+
+        <% end %>
         
         <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
         <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>        
@@ -173,6 +182,13 @@ function validateForm(){
 
    if ($("#materium").val()==""){
     alert("No hay materia seleccionada.");
+    return false;
+   }
+
+   //Si se trata de una programatica debe cargarse una fecha de baja
+   if ($("#altas_bajas_hora_programatica").prop('checked') && $("#datepicker4").val()=="")
+   {
+    alert("Si selecciona una programatica debe completar la fecha de baja")
     return false;
    }
 }

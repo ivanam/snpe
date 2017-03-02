@@ -82,7 +82,7 @@ class CargosController < ApplicationController
     @estado = Estado.where(:descripcion => "Ingresado").first
 
     #Estado, necesario para Minsiterio de economia
-    @cargo.estado = "ALT"
+    #@cargo.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      
@@ -109,6 +109,14 @@ class CargosController < ApplicationController
   def destroy
     @cargo.destroy
     respond_with(@cargo)
+  end
+
+  def persona_por_cargo
+    @altas_escuela = Cargo.where(:establecimiento_id => session[:establecimiento], cargo_id: params[:cargo_id])
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraMateriaDatatable.new(view_context, { query: @altas_escuela }) }
+    end
   end
 
   def editar_alta

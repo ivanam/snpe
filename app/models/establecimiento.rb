@@ -19,6 +19,10 @@ class Establecimiento < ActiveRecord::Base
 	def to_s
 	  	"#{self.codigo_jurisdiccional} - #{ self.nombre } - #{ self.nivel }"
 	end
+
+	def requiere_movilidad
+		(self.codigo_jurisdiccional >= "300" && self.codigo_jurisdiccional <= "399") || (self.codigo_jurisdiccional >= "500" && self.codigo_jurisdiccional <= "599")
+	end
   
   	def peso
   		@suborganizaciones = self.suborganizaciones
