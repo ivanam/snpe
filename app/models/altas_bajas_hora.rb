@@ -12,16 +12,20 @@ class AltasBajasHora < ActiveRecord::Base
   validates_presence_of :persona
 
   #Validates from Silvio Andres "CHEQUEAR"
-  validates :fecha_alta, presence: true
-  validates :situacion_revista, presence: true
+  validates :fecha_alta, :presence => true
+  validates :situacion_revista, :presence => true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   #validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
-  #validates :codificacion, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :persona_id, :presence => true
   #validates :plan_id, :presence => true
   validates :materium_id, :presence => true
+  validates :turno, :presence => true
+
+  #Validación de alta
+  #validate :validar_alta
+
 
   #Validates de persona en AltasBajas
   #validates :persona_id,:nro_documento, presence: true
@@ -40,6 +44,11 @@ class AltasBajasHora < ActiveRecord::Base
   ANIO = ["0","1","2","3","4","5","6"]
   ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
+
+  #Método que valida el alta de un paquete de horas
+  def validar_alta 
+    
+  end
 
   def ina_justificada(anio, mes)
     @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
@@ -101,8 +110,11 @@ class AltasBajasHora < ActiveRecord::Base
     
   end
 
+  #Revisar!!!
   def actualizar_materia    
-    self.materium_id = Materium.where(codigo: self.codificacion).first.id
+    if self.materium_id == nil || self.materium_id == ''
+      self.materium_id = Materium.where(codigo: self.codificacion).first.id
+    end
   end
 end
 
