@@ -58,12 +58,9 @@
                     <li><%=link_to "Altas", cargos_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Modificacion", cargos_modificacion_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", cargos_index_bajas_path, :tabindex => "-1"%></li>
-<<<<<<< HEAD
-=======
                     <!--<li><%=link_to "Inscripciones Docente Primaria", buscar_cv_persona_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Puntaje Docente (Rubros)", rubros_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Titulos", titulos_path, :tabindex => "-1"%></li>-->
->>>>>>> 2e2dc00d33ee196015a6e08ec0d886c419466250
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                       <li><%=link_to "Novedades", cargos_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
