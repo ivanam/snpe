@@ -572,7 +572,6 @@ ActiveRecord::Schema.define(version: 20170223121649) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-    t.integer  "user_id"
     t.string   "apeynom"
   end
 
