@@ -11,7 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170111141104) do
 
   create_table "active_admin_comments", force: true do |t|
@@ -575,10 +574,7 @@ ActiveRecord::Schema.define(version: 20170111141104) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-<<<<<<< HEAD
     t.integer  "user_id"
-=======
->>>>>>> 2e2dc00d33ee196015a6e08ec0d886c419466250
     t.string   "apeynom"
   end
 
