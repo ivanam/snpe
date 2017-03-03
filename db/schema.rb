@@ -286,8 +286,6 @@ ActiveRecord::Schema.define(version: 20170111141104) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
-=======
   create_table "esc702HS", id: false, force: true do |t|
     t.integer "escuela",                  default: 0,  null: false
     t.integer "tipo_docu",                default: 0,  null: false
