@@ -80,7 +80,7 @@ module AltasBajasHorasHelper
 
     if @titular.suplente_id != nil then
       @suplente = AltasBajasHora.where(id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != nil do
+      while @suplente.first.suplente_id != nil do
         @suplente = AltasBajasHora.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
