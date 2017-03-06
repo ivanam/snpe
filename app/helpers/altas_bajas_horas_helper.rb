@@ -78,10 +78,10 @@ module AltasBajasHorasHelper
       @titular = altasbajashoras.where(situacion_revista: "1-2").first
     end
 
-    if @titular.suplente_id != 0 then
-      @suplente = AltasBajasHora.where(altas_bajas_hora_id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != 0 do
-        @suplente = AltasBajasHora.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
+    if @titular.suplente_id != nil then
+      @suplente = AltasBajasHora.where(id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
+      while @suplente.suplente_id != nil do
+        @suplente = AltasBajasHora.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
     else
@@ -104,7 +104,7 @@ module AltasBajasHorasHelper
     end
      if @primer.suplente_id != nil then
       @suplente = altasbajashoras.where(id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != nil do
+      while @suplente.first.suplente_id != nil do
         @suplente = altasbajashoras.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
@@ -126,7 +126,7 @@ module AltasBajasHorasHelper
     end
     if @primer.suplente_id != nil then
       @suplente = altasbajashoras.where(id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != nil do
+      while @suplente.first.suplente_id != nil do
         @suplente = altasbajashoras.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente

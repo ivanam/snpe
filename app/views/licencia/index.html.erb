@@ -247,6 +247,13 @@
     ajax : $('#tabla-licencium').data('source'),
     pagingType: "simple",
     retrieve: true,
+    columnDefs: [
+            {
+                "targets": [ 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
 
   });
 
