@@ -11,6 +11,7 @@ class Ability
       if user.role? :escuela
         can :cargos_bajas_efectivas, [Cargo]
         can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
+        can :modificacion, [Cargo]
       end
       if user.role? :personal
         can :cargos_bajas_efectivas, [Cargo]

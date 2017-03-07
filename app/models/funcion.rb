@@ -1,5 +1,36 @@
 class Funcion < ActiveRecord::Base
+
+
+  DIRECTOR_CATEGORIAS = [ '206', '207', '210', '305', '306', '307', '310', '321', '322', '502', '503', '602', '603', '607', '610', '702', '703', '802', '803', '913', '914', '915', '950']
+
+  VICEDIRECTOR_CATEGORIAS = [ '104', '108', '208', '308', '508', '608', '708', '808',  '916', '917', '918', '951']
+
   def to_s
   	"#{ self.categoria }  -  #{self.descripcion}"
   end
+
+
+  def self.cargos_equivalentes(categoria)
+      if DIRECTOR_CATEGORIAS.include? categoria
+        return DIRECTOR_CATEGORIAS
+      elsif VICEDIRECTOR_CATEGORIAS.include? categoria
+        return VICEDIRECTOR_CATEGORIAS
+      else
+        return categoria
+      end
+  end
+
+
+  def self.cargos_jerarquicos
+    jerarquicos = []
+    DIRECTOR_CATEGORIAS.each do |c|
+      jerarquicos << c
+    end
+    VICEDIRECTOR_CATEGORIAS.each do |c|
+      jerarquicos << c
+    end
+    return jerarquicos
+  end
+
+
 end
