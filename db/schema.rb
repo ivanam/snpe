@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223121649) do
+ActiveRecord::Schema.define(version: 20170111141104) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -250,7 +250,6 @@ ActiveRecord::Schema.define(version: 20170223121649) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "estado"
     t.string   "materium_id"
   end
 
@@ -320,6 +319,7 @@ ActiveRecord::Schema.define(version: 20170223121649) do
     t.string  "observaciones", limit: 50, default: "", null: false
   end
 
+>>>>>>> 2e2dc00d33ee196015a6e08ec0d886c419466250
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
@@ -539,6 +539,7 @@ ActiveRecord::Schema.define(version: 20170223121649) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+    t.integer  "user_id"
     t.string   "apeynom"
   end
 

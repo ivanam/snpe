@@ -42,7 +42,7 @@ class LicenciaController < ApplicationController
   def listado_licencias        
     respond_to do |format|
       format.html 
-      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: licencias}) }
+      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: listado_de_licencias}) }
     end
   end
 
@@ -71,6 +71,8 @@ class LicenciaController < ApplicationController
   def guardar_licencia_horas
     @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     @licencia.save
+    @altas_bajas_hora = AltasBajasHora.where(id: params[:id_horas]).first
+    @altas_bajas_hora.update(:estado => 'LIC')
     render json: 0
   end 
 
