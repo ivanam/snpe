@@ -54,7 +54,15 @@ $(document).ready(function($) {
 		processing : true,
 		serverSide : true,
 		ajax : $('#tabla-cargos').data('source'),
-		pagingType: "simple",
+		paging: false,
+		columnDefs: [
+            {
+            		"targets": [ 1, 2, 3, 4, 5, 6 ],
+            		"searchable": false,
+                "orderable": false
+            }
+        ],
+		searching: false,
 		"initComplete": function(settings, json) {
 
         $('.division').editable();
@@ -77,22 +85,5 @@ $(document).ready(function($) {
 			});
 		});
 	});
-	
-	var date = new Date();
-	$('#daterange').daterangepicker({
-		format: 'DD/MM/YYYY',
-		startDate: new Date(date.getFullYear(), date.getMonth(), 1),
-		endDate: Date.today,
-		minDate: '01/01/2000',
-		maxDate: '31/12/2030',
-		locale: {
-			applyLabel: 'Ir',
-			cancelLabel: 'Cancelar',
-			fromLabel: 'Desde',
-			toLabel: 'Hasta',
-			firstDay: 1
-		}
-	});
-
 });
 </script>

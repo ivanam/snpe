@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170223121649) do
+ActiveRecord::Schema.define(version: 20170111141104) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -286,6 +286,43 @@ ActiveRecord::Schema.define(version: 20170223121649) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+=======
+  create_table "escuela4", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "ley_r",                    default: 0,  null: false
+    t.integer "agrup_r",                  default: 0,  null: false
+    t.integer "cargo_r",                  default: 0,  null: false
+    t.integer "categ_r",                  default: 0,  null: false
+    t.integer "ley_s",                    default: 0,  null: false
+    t.integer "agrup_s",                  default: 0,  null: false
+    t.integer "cargo_s",                  default: 0,  null: false
+    t.integer "categ_s",                  default: 0,  null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
+  end
+
+>>>>>>> 2e2dc00d33ee196015a6e08ec0d886c419466250
+>>>>>>> 896344592ff56909b7ffd85ad62c3e7b66f51e85
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
@@ -505,6 +542,7 @@ ActiveRecord::Schema.define(version: 20170223121649) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
+    t.integer  "user_id"
     t.string   "apeynom"
   end
 

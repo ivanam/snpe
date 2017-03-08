@@ -78,10 +78,10 @@ module AltasBajasHorasHelper
       @titular = altasbajashoras.where(situacion_revista: "1-2").first
     end
 
-    if @titular.suplente_id != 0 then
-      @suplente = AltasBajasHora.where(altas_bajas_hora_id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != 0 do
-        @suplente = AltasBajasHora.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
+    if @titular.suplente_id != nil then
+      @suplente = AltasBajasHora.where(id: Suplente.where(id: @titular.suplente_id).first.altas_bajas_hora_id)  
+      while @suplente.first.suplente_id != nil do
+        @suplente = AltasBajasHora.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
     else
@@ -97,24 +97,24 @@ module AltasBajasHorasHelper
   end
 
   def con_licencia_reemplazante(altasbajashoras)
-    if altasbajashoras.where(situacion_revista: "1-1").first then
-      @primer = altasbajashoras.where(situacion_revista: "1-1").first
+    if altasbajashoras.where(situacion_revista: "1-1").first then #Titular
+      @primer = altasbajashoras.where(situacion_revista: "1-1").first #Titular
     else 
-      @primer = altasbajashoras.where(situacion_revista: "1-2").first
+      @primer = altasbajashoras.where(situacion_revista: "1-2").first #Suplente
     end
-     if @primer.suplente_id != 0 then
-      @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != 0 do
-        @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
+     if @primer.suplente_id != nil then
+      @suplente = altasbajashoras.where(id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
+      while @suplente.first.suplente_id != nil do
+        @suplente = altasbajashoras.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
     else
       @ver_licencia = @primer
     end
-    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente") then
-      return @ver_licencia
+    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente").first then
+      return @ver_licencia #Hay licencias para esas horas
     else
-      return []
+      return [] #No hay licencias para esas horas
     end
   end 
 
@@ -124,19 +124,19 @@ module AltasBajasHorasHelper
     else 
       @primer = altasbajashoras.where(situacion_revista: "1-2").first
     end
-    if @primer.suplente_id != 0 then
-      @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
-      while @suplente.suplente_id != 0 do
-        @suplente = altasbajashoras.where(altas_bajas_hora_id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
+    if @primer.suplente_id != nil then
+      @suplente = altasbajashoras.where(id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
+      while @suplente.first.suplente_id != nil do
+        @suplente = altasbajashoras.where(id: Suplente.where(id: @suplente.suplente_id).first.altas_bajas_hora_id)
       end
       @ver_licencia = @suplente
     else
       @ver_licencia = @primer
     end
-    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente") then
-      return @ver_licencia
+    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente").first then
+      return @ver_licencia #Hay licencias para esas horas
     else
-      return []
+      return [] #No hay licencias para esas horas
     end
   end
   def cargopormateria(altasbajashoras)
