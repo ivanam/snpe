@@ -107,11 +107,11 @@ select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:es
 
 		   end
 
-	       cargo_id = Funcion.where(:categoria => cargo_concat).first.id
+	       categoria = Funcion.where(:categoria => cargo_concat).first.categoria
 
 	      	
 	      	situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
-	      	Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+	      	Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
 
 	     end
 
