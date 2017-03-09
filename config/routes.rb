@@ -313,7 +313,17 @@ ProyectoBase::Application.routes.draw do
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
 
     #----------------------------------------------------------------------------------------------------------------------------------  
+    # Migraciones
 
+    post "/migracion_hs/migrar_hs/:esc", to: 'migracion_hs#migrar_hs'
+
+    get "hs/", to: 'migracion_hs#hs'
+
+    post "/migracion_hs/migrar_cargos/:esc", to: 'migracion_hs#migrar_cargos'
+
+
+
+    #-----------------------------------------------------------------------------------------------------------------------------------
     resources :localidads
 
     resources :lote_impresions
