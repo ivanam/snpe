@@ -1,0 +1,267 @@
+.row {
+  margin:0px;
+}
+
+
+
+
+.box-code {
+  width: 85px;
+  padding: 3px;
+  border: 1px solid black;
+  font-size: 1.4em;
+}
+
+
+.box-descrip{
+  border: 1px solid black;
+  font-size: 1.2em; 
+  min-height: 48px;
+  padding: 5px 0px;
+  background-color:  rgba(0,0,0,0.3);
+}
+
+.form-title{
+  margin-top: 40px;
+  font-size: 1.8em;
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+
+.titulo{
+  font-size:1.7em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.subtitulo{
+  font-size:1.7em;
+  margin: 25px 0px 8px 0px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.input-number{
+  font-size: 1.6em;
+  text-align: center;
+}
+
+.input-tipo-doc, .input-sec, .input-sexo{
+  width:42px; 
+}
+
+.input-date{
+  width:29px;
+}
+
+.input-dni{
+  width:128px; 
+}
+
+.input-venc{
+  width: 27px;
+}
+
+.input-sac{
+  width:60px; 
+  text-align: right;
+}
+
+.input-res{
+  width:130px; 
+  text-align: left;
+}
+
+.input-tipo{
+  width:215px; 
+  text-align: left !important;
+}
+
+
+
+
+textarea{
+  background-size: 100% 100%, 100% 100%, 100% 31px;
+  line-height: 12px;
+  font-size: 1.0em;
+  font-family: Arial, Helvetica, Sans-serif;
+  padding: 7px;
+  border: 0px;
+  resize:none;
+}
+
+.tabla {
+  padding: 0px;
+}
+
+
+
+.tb{
+  width: 100%;
+  border: 0px;
+  font-size: 1.0em;
+  padding: 5px;
+  margin: 0px;
+  min-height: 55px;
+}
+
+.tb-title{
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.0em;
+}
+.tb-cont{
+
+}
+
+.tb-end{
+  border-bottom: 1px solid #000;
+}
+
+
+
+.tb-1-2{
+  border-top: 1px solid #000;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+
+
+.tb-2-2{
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+}
+
+.firma {
+  margin-top:200px;
+  font-size: 1.2em;
+  font-weight: bold
+}
+
+.sub-puntos {
+  border: 0px;
+  border-bottom: 1px dotted black;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.2em;
+  padding: 0;
+}
+
+.tag-sub-puntos{
+  margin-left:10px;
+  margin-right:5px;
+  font-size: 1.3em;
+}
+
+.texto-vertical{
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg); 
+  -o-transform: rotate(-90deg); 
+  -ms-transform: rotate(-90deg); 
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  float: left;
+  width:20px;
+  bottom: -125px;
+  position: relative;
+}
+
+.btn-pdf{
+  position: absolute;
+  margin: 0px 15px 15px;
+  top: 17px;
+  right: 990px;
+}
+
+
+.box-departamento{
+  min-height: 100px;
+  border: 1px solid black;
+  margin-bottom: 20px;
+  padding: 15px;
+  max-height: 370px;
+
+}
+
+
+
+.box-departamento-sueldos{
+  max-height: 300px;
+
+}
+
+.box-departamento-apoyo {
+  max-height: 280px;
+}
+
+.box-departamento-juridico {
+  max-height: 280px;
+}
+
+.box-departamento-personal{
+  max-height: 235px;
+}
+
+
+
+.box-departamento-tittle{
+  font-weight: bold;
+  font-size: 1.8em;
+  position: relative;
+  top: -30px;
+  background-color: white;
+  width: 100px;
+  display: inline;
+  padding: 5px;
+  
+}
+
+
+.box-departamento-tittle-licencias{
+  left: -510px;
+}
+
+.box-departamento-tittle-licencias-pdf{
+  left: -410px;
+}
+
+.box-departamento-tittle-sueldos{
+  left: -515px; 
+}
+
+.box-departamento-tittle-sueldos-pdf{
+  left: -415px; 
+}
+
+.box-departamento-tittle-apoyo{
+  left: -417px;  
+}
+
+.box-departamento-tittle-apoyo-pdf{
+  left: -317px;  
+}
+
+.box-departamento-tittle-juridco{
+  left: -475px;  
+}
+
+.box-departamento-tittle-juridco{
+  left: -375px;  
+}
+
+.box-departamento-tittle-personal{
+  left: -545px;  
+}
+
+.box-departamento-tittle-personal{
+  left: -445px;  
+}
+
+
+

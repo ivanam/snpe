@@ -1,0 +1,113 @@
+class MigracionHsController < ApplicationController
+
+	def migrar_hs
+	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
+	      res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate union
+select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
+
+	      esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
+
+	     for r in res
+
+			materia_id = Materium.where(codigo: r['materia']).first.id
+
+			if Persona.where(:nro_documento => r['nume_docu']).first == nil then
+
+				res2= client.query("select apeynom, fech_nac, tipo_docu,nume_docu from agentes a where nume_docu= "+ r['nume_docu'].to_s ).first
+	      		#res2= client.query("select apeynom, fech_nac, tipo_docu,nume_docu from agentes a where nume_docu= "+ "36869073" ).first
+	      		res3= client.query("SELECT * FROM agentes_dni_cuit a where nume_docu= "+ r['nume_docu'].to_s ).first
+	
+	  			if res3 == nil then
+		      		persona = Persona.create(nro_documento: res2['nume_docu'] ,fecha_nacimiento: res2['fech_nac'] ,tipo_documento_id: res2['tipo_docu'] ,apeynom: res2['apeynom'].force_encoding("ASCII-8BIT").encode('UTF-8', undef: :replace, replace: ''))
+		      		persona_id = persona.id
+
+		      	else
+		      		persona = Persona.create(nro_documento: res2['nume_docu'] ,fecha_nacimiento: res2['fech_nac'] ,tipo_documento_id: res2['tipo_docu'] ,apeynom: res2['apeynom'].force_encoding("ASCII-8BIT").encode('UTF-8', undef: :replace, replace: ''), cuil: res3['cuit'])
+		      		persona_id = persona.id
+		      	end
+
+			else
+				persona_id = Persona.where(:nro_documento => r['nume_docu']).first.id
+			end
+
+
+
+	      	if  r['ciclo'] < 1  then
+	      		plan_id = nil
+	      	elsif r['ciclo'] >= 1 then 
+	      		if Plan.where(:codigo => r['ciclo']).first == nil then
+	      			materia_id=Materium.where(codigo: r['ciclo']).first.id
+	      			plan_id= Plan.where(codigo: 122).first.id
+	      			ciclo = 122
+	      			if Despliegue.where(:anio => r['curso'] , :plan_id => plan_id, :materium_id => materia_id ).first == nil then
+	      				Despliegue.create(anio: r['curso'] , plan_id: plan_id, materium_id: materia_id )
+	      			end
+
+	      			if EstablecimientoPlan.where(:establecimiento_id => esc_id, :plan_id => plan_id).first == nil then 
+	      				EstablecimientoPlan.create(establecimiento_id: esc_id, plan_id: plan_id)
+	      			end
+
+	      		else 
+	      			plan_id =  Plan.where(:codigo => r['ciclo']).first.id
+	      			ciclo = r['ciclo']
+	      		end
+	      	end
+
+	      	
+	      	situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
+	      	AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+
+	     end
+
+		 return true
+	end
+
+
+
+def migrar_cargos
+	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
+	      res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
+select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
+
+
+	      esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
+
+	     for r in res
+
+			materia_id = nil
+
+			if Persona.where(:nro_documento => r['nume_docu']).first == nil then
+
+				res2= client.query("select apeynom, fech_nac, tipo_docu,nume_docu from agentes a where nume_docu= "+ r['nume_docu'].to_s ).first
+	      		#res2= client.query("select apeynom, fech_nac, tipo_docu,nume_docu from agentes a where nume_docu= "+ "36869073" ).first
+	      		res3= client.query("SELECT * FROM agentes_dni_cuit a where nume_docu= "+ r['nume_docu'].to_s ).first
+	
+	  			if res3 == nil then
+		      		persona = Persona.create(nro_documento: res2['nume_docu'] ,fecha_nacimiento: res2['fech_nac'] ,tipo_documento_id: res2['tipo_docu'] ,apeynom: res2['apeynom'].force_encoding("ASCII-8BIT").encode('UTF-8', undef: :replace, replace: ''))
+		      		persona_id = persona.id
+
+		      	else
+		      		persona = Persona.create(nro_documento: res2['nume_docu'] ,fecha_nacimiento: res2['fech_nac'] ,tipo_documento_id: res2['tipo_docu'] ,apeynom: res2['apeynom'].force_encoding("ASCII-8BIT").encode('UTF-8', undef: :replace, replace: ''), cuil: res3['cuit'])
+		      		persona_id = persona.id
+		      	end
+
+			else
+				persona_id = Persona.where(:nro_documento => r['nume_docu']).first.id
+			end
+
+
+		   cargo_concat=  r['agrup_r'].to_s+ r['cargo_r'].to_s
+	       cargo_id = Funcion.where(:categoria => cargo_concat).first.id
+
+	      	
+	      	situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
+	      	Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+
+	     end
+
+		 return true
+	end
+
+
+
+end
