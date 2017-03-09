@@ -98,7 +98,15 @@ select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:es
 			end
 
 
-		   cargo_concat=  r['agrup_r'].to_s+ r['cargo_r'].to_s
+		   if r['cargo_r'].to_s.size == 1 then
+
+		   			cargo_concat=  r['agrup_r'].to_s+ "0" + r['cargo_r'].to_s
+
+		   else 		
+		   		cargo_concat=  r['agrup_r'].to_s+ r['cargo_r'].to_s
+
+		   end
+
 	       cargo_id = Funcion.where(:categoria => cargo_concat).first.id
 
 	      	
