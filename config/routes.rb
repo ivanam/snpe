@@ -315,11 +315,13 @@ ProyectoBase::Application.routes.draw do
     #----------------------------------------------------------------------------------------------------------------------------------  
     # Migraciones
 
-    post "/migracion_hs/migrar_hs/:esc", to: 'migracion_hs#migrar_hs'
+    post "/migracion/migrar_hs/:esc", to: 'migracion#migrar_hs'
 
-    get "hs/", to: 'migracion_hs#hs'
+    get "migrar/", to: 'migracion#migrar'
 
-    post "/migracion_hs/migrar_cargos/:esc", to: 'migracion_hs#migrar_cargos'
+    post "/migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
+
+    post "/migracion/migrar_auxiliares/:esc", to: 'migracion#migrar_auxiliares'
 
 
 

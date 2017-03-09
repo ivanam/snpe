@@ -21,7 +21,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :persona_id, :presence => true
   #validates :plan_id, :presence => true
   validates :materium_id, :presence => true
-  validates :turno, :presence => true
+  #validates :turno, :presence => true
 
   #Validación de alta
   #validate :validar_alta
