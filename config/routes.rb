@@ -153,6 +153,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/:id/editar_alta/", to: "altas_bajas_horas#editar_alta", as: :altas_bajas_horas_editar_alta
 
+    get "altas_bajas_horas/:id/modificar/", to: "altas_bajas_horas#modificar", as: :altas_bajas_horas_modificar
+
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
@@ -180,6 +182,9 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/cancelar-cola/", to: "altas_bajas_horas#cancelar_cola", as: :horas_cancelar_cola
 
     get "altas_bajas_horas/cargo_por_materia/:materium_id/:plan_id/:anio/:division", to: 'altas_bajas_horas#cargo_por_materia', as: :altas_bajas_horas_cargo_por_materia
+
+    get "altas_bajas_horas/modificar", to: 'altas_bajas_horas#modificar', as: :modificar_hs
+
 
     resources :altas_bajas_horas
 

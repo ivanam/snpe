@@ -19,15 +19,14 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
 
         record.persona.nro_documento,
         record.persona.to_s,
-        record.secuencia,
         record.situacion_revista,
         record.horas,    
         record.ciclo_carrera,     
-        record.anio,
-        record.division,
-        record.turno,
-        record.codificacion,   
-        record.estado,
+        '<span style="color:red" class="anio" data-type="text" data-resource="put" data-name="anio" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.anio.to_s+'</span>',
+        '<span style="color:red" class="division" data-type="text" data-resource="put" data-name="division" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.division.to_s+'</span>',
+        '<span style="color:red" class="turno" data-type="text" data-resource="put" data-name="turno" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.turno.to_s+'</span>',
+        '<span style="color:red" class="codificacion form-control form-alta form-select solo_numerico" min="1" max="6" data-type="number" data-resource="put" data-name="codificacion" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.codificacion.to_s+'</span>',   
+        record.oblig,
         Util.fecha_a_es(record.fecha_alta),
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -36,7 +35,7 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
           </button>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'">Ver</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_modificar_path(record.id.to_s)+'"/modificar">Editar</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="altas_bajas_horas/'+record.id.to_s+'/edit">Editar</a></li>
           </ul>
         </div>',
 
