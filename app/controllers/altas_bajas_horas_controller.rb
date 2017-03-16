@@ -293,6 +293,17 @@ class AltasBajasHorasController < ApplicationController
     @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 
+
+  def editar_datos
+    @planes_permitidos = select_planes_permitidos
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])    
+    @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)    
+    @persona = Persona.find(@altas_bajas_hora.persona_id)
+  end
+
+
+
+
  def guardar_edicion    
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
