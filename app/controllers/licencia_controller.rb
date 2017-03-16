@@ -53,6 +53,13 @@ class LicenciaController < ApplicationController
     end
   end
 
+  def cargos_no_docentes_licencia_permitida
+    @dni=params[:dni]
+    respond_to do |format|
+        format.json { render json: CargoNoDocentesLicenciaPermitidaDatatable.new(view_context, { query: cargos_no_docente_persona_permitida(@dni)}) }
+    end
+  end
+
   def altas_bajas_horas_licencia_permitida
     @dni=params[:dni]
     respond_to do |format|
@@ -81,7 +88,12 @@ class LicenciaController < ApplicationController
     @licencia.save
     render json: 0
   end
-
+   
+   def guardar_licencia_cargos_no_docentes
+    @licencia = Licencium.create(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
+    @licencia.save
+    render json: 0
+  end
   def guardar_licencia_final
     @licencia = Licencium.where(id: params[:id_lic]).first
     @licencia.update(:vigente => "Finalizada")
@@ -109,6 +121,17 @@ class LicenciaController < ApplicationController
   def buscar_articulo_dias_cargo
     @licencia_cargo = Licencium.where(cargo_id: params[:id_cargos])
     @licencia_articulo = @licencia_cargo.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
+    @dias=0
+    @licencia_articulo.each do |l|
+      @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
+    end
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+    render json:  @dias_disponibles
+  end
+
+  def buscar_articulo_dias_cargo_no_docente
+    @licencia_cargo_no_docente = Licencium.where(cargo_no_docente_id: params[:id_cargos_no_docentes])
+    @licencia_articulo = @licencia_cargo_no_docente.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
     @licencia_articulo.each do |l|
       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
