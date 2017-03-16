@@ -6,9 +6,9 @@ class Cargo < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
-  validate :cargo_ocupado
+  #validate :cargo_ocupado
 
-  validate :cargo_jerarquico
+  #validate :cargo_jerarquico
 
   #-----------------------------------------------------------------------------------------------------------
   def cargo_ocupado

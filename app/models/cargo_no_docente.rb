@@ -7,10 +7,6 @@ class CargoNoDocente < ActiveRecord::Base
   has_many :estados, :class_name => 'CargoNoDocenteEstado', :foreign_key => 'cargo_no_docente_id', dependent: :destroy
 
 
-
-
-
-
   def estado_actual
     @relation = CargoNoDocenteEstado.where(:cargo_no_docente_id => self.id).last
     if @relation == nil
