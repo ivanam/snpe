@@ -96,6 +96,7 @@ module AltasBajasHorasHelper
     return Licencium.where(altas_bajas_hora_id: @titular, vigente: "Vigente")
   end
 
+  #Articulo sin goce de haberes
   def con_licencia_reemplazante(altasbajashoras)
     if altasbajashoras.where(situacion_revista: "1-1").first then #Titular
       @primer = altasbajashoras.where(situacion_revista: "1-1").first #Titular
@@ -111,13 +112,14 @@ module AltasBajasHorasHelper
     else
       @ver_licencia = @primer
     end
-    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente").first then
+    if Licencium.joins(:articulo).where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente", articulos: {con_goce: false}).first then
       return @ver_licencia #Hay licencias para esas horas
     else
       return [] #No hay licencias para esas horas
     end
   end 
 
+ #Articulo con goce de haberes
   def con_licencia_suplente (altasbajashoras)
     if altasbajashoras.where(situacion_revista: "1-1").first then
       @primer = altasbajashoras.where(situacion_revista: "1-1").first
@@ -132,8 +134,8 @@ module AltasBajasHorasHelper
       @ver_licencia = @suplente
     else
       @ver_licencia = @primer
-    end
-    if Licencium.where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente").first then
+    end    
+    if Licencium.joins(:articulo).where(altas_bajas_hora_id: @ver_licencia, vigente: "Vigente", articulos: {con_goce: true}).first then
       return @ver_licencia #Hay licencias para esas horas
     else
       return [] #No hay licencias para esas horas
