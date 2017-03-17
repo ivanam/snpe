@@ -2,6 +2,8 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
+<%= javascript_include_tag "editar_alta.js" %>
+
 
 
 <div class="container">
@@ -21,11 +23,73 @@
 			</div>
 			<div class="panel-body">
 			<div class="table-responsive">
+
+			<div id="editar">
+
+				<fieldset>
+					<legend>Editar registro</legend>
+				    <div class="form-snpe" >
+				        <div class="row">
+				    
+				      <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "tipo_documento_id", :class=>"form-control form-select form-doc form-alta", :readonly => :true} %>
+
+				      <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :readonly => :true} %>
+
+				      <%= text_field_tag 'apeynom', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
+
+				      <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :readonly => :true} %>
+
+				      <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>
+        
+			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :placeholder =>"Plan"} %>
+
+  					  <%= text_field 'situacion_revista', "", {:id => "sit-revista", :class=>"form-control form-alta form-select", :readonly => :true}%>
+
+  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), { :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%>  
+
+  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:id => "turno",:class=>"form-control form-alta form-select" } %>
+
+          			  <%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:id => "curso", :class=>"form-control form-alta form-select"}%>
+
+  					  <%= text_field 'division', "", { :class => "form-alta form-control", :id => "division", :maxlength=>"2"}%>
+
+     
+          			  <%= text_field_tag 'horas', "", { :class => "form-alta form-control", :id => "horas", :maxlength=>"2"}%>
+       
+          			  <% if @materias_permitidas == nil then
+          			  	@materias =[]
+          			  else
+          			  	@metrias = @materias_permitidas.all
+
+          			  	end%>
+          			  <%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "descripcion"), {:id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select"}%>  
+
+
+          			  <%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), { :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+
+			          <%= text_field_tag 'oblig', "", {:id=>"oblig", :class => "form-alta form-control"}%>
+
+         			  <%= text_area_tag 'observaciones', "", {:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
+
+
+				      </div>
+				      <a class="btn btn-primary btn-sm center" data-toggle="tooltip" data-placement="top" onclicK=guardar() title="Editar"><strong>Guardar</strong></a>
+
+
+
+
+		        	</div>
+		   		 </fieldset>   
+			<hr>
+			</div>
+		    <br/>
 					<table id="tabla-altas_bajas_hora2" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_modificacion_path(format: :json) %>" >
 
 
 						<thead>
+							
 							<tr>
+
 								<th>DNI</th>
 								<th>Nombre</th>
 								<th>Secuencia</th>
@@ -38,12 +102,14 @@
 								<th>Materia</th>
 								<th>Estado</th>
 								<th>Fecha Alta</th>
-								<th>Acciones</th>
+								<th>Ver</th>
+								<th>Editar</th>
 
 							</tr>
 						</thead>
 						<tbody>
-						</tbody>
+
+					</tbody>
 					</table>
 				</div>
 			</div>
@@ -51,8 +117,190 @@
 		<hr/>
 	<% end %>
 
+
+
+   
+
+
+        
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3', 'datepicker4'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+
+
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+  </script>
+
+<% end %>
+
 <script type="text/javascript">
+
+
+
+  $("#plan").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#curso").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#materium").change(function(){
+    var materia_id = parseInt($("#materium").val(),10);
+    var plan_id = parseInt($("#plan").val(),10);
+    var anio = parseInt($("#curso").val(),10);
+    $.ajax({
+          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#horas").val(data);
+          }
+        })
+
+  });
+</script>
+
+
+
+
+
+
+
+			</div>
+		</div>
+							  
+
+
+	</div>
+
+
+
+
+<script type="text/javascript">
+
+	function editar(id){
+
+			window.varId= id;
+
+			$.ajax({
+                url: '/soft/snpe/altas_bajas_horas/buscar_cuil/'+id,  
+                type: 'GET',
+              })
+              .done(function(data) {
+              	if (data.length != 0){
+              		console.log(data);
+                	$("#input_cuil").val(data[0].cuit);
+            	}
+
+                });
+
+
+
+			 $.ajax({
+                url: '/soft/snpe/altas_bajas_horas/mostrar_edicion2/'+id,  
+                type: 'GET',
+              })
+              .done(function(data) {
+              	if (data != null){
+              		console.log(data);
+                	$("#editar").show();	
+                	$("#turno").val(data.turno);
+                	$("#ciclo-carrera").val(data.ciclo_carrera);
+                	$("#division").val(data.division);
+                	$("#sit-revista").val(data.situacion_revista);
+                	$("#plan").val(data.plan_id);
+                	$("#curso").val(data.anio);
+                	$("#materium").val(data.materium);
+                	$("#horas").val(data.horas);
+                	$("#grupo").val(data.grupo_id);
+                	$("#oblig").val(data.oblig);
+                	$("#observaciones-edit").val(data.observaciones);
+            	}
+
+                });
+
+
+			 $.ajax({
+                url: '/soft/snpe/altas_bajas_horas/mostrar_edicion/'+id,  
+                type: 'GET',
+              })
+              .done(function(data) {
+              	if (data != null){
+              		console.log(data);
+                	$("#editar").show();	
+                	$("#tipo_documento_id").val(data.tipo_documento_id);
+                	$("#input_apellidos").val(data.apeynom);
+                	$("#input_dni").val(data.nro_documento);
+                	$("#datepicker3").val(data.fecha_nacimiento);
+                	$("#input_cuil").val(data.cuil);
+                	$("#select_sexo").val(data.sexo);
+            	}
+
+                });
+           };
+
+
+       function guardar(){
+
+
+		    $.ajax({
+		      url: '/soft/snpe/altas_bajas_horas/guardar_edicion/'+window.varId,
+		      type: 'PATCH',
+		    })
+
+		};
+
+	
+
+
 $(document).ready(function($) {
+
+	$("#edi").hide();
+	$("#editar").hide();
 
 	$.fn.editable.defaults.mode = 'inline';
 	var tabla_altas_bajas = $('#tabla-altas_bajas_hora2').dataTable({
@@ -100,5 +348,83 @@ $(document).ready(function($) {
 		}
 	});
 
+
 });
+</script>
+
+      
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3', 'datepicker4'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+  </script>
+
+<% end %>
+
+<script type="text/javascript">
+  $("#plan").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#curso").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#materium").change(function(){
+    var materia_id = parseInt($("#materium").val(),10);
+    var plan_id = parseInt($("#plan").val(),10);
+    var anio = parseInt($("#curso").val(),10);
+    $.ajax({
+          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#horas").val(data);
+          }
+        })
+
+  });
 </script>

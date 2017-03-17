@@ -155,7 +155,10 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/:id/modificar/", to: "altas_bajas_horas#modificar", as: :altas_bajas_horas_modificar
 
+
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
+
+    put "altas_bajas_horas/guardar_edicion2/:id", to: "altas_bajas_horas#guardar_edicion2", as: :altas_bajas_horas_guardar_edicion2
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
@@ -168,6 +171,12 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/notificar_baja/:id", to: "altas_bajas_horas#notificar_baja", as: :altas_bajas_horas_notificar_baja
 
     get "altas_bajas_horas/cancelar_baja/:id", to: "altas_bajas_horas#cancelar_baja", as: :altas_bajas_horas_cancelar_baja
+
+    get "altas_bajas_horas/mostrar_edicion/:id", to: "altas_bajas_horas#mostrar_edicion", as: :altas_bajas_horas_mostrar_edicion
+
+    get "altas_bajas_horas/mostrar_edicion2/:id", to: "altas_bajas_horas#mostrar_edicion2", as: :altas_bajas_horas_mostrar_edicion2
+
+    get "altas_bajas_horas/buscar_cuil/:id", to: "altas_bajas_horas#buscar_cuil", as: :altas_bajas_horas_buscar_cuil
 
     get "altas_bajas_horas/chequear_baja/:id", to: "altas_bajas_horas#chequear_baja", as: :altas_bajas_horas_chequear_baja
 
@@ -183,7 +192,7 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/cargo_por_materia/:materium_id/:plan_id/:anio/:division", to: 'altas_bajas_horas#cargo_por_materia', as: :altas_bajas_horas_cargo_por_materia
 
-    get "altas_bajas_horas/modificar", to: 'altas_bajas_horas#modificar', as: :modificar_hs
+   #get "altas_bajas_horas/modificar", to: 'altas_bajas_horas#modificar', as: :modificar_hs
 
 
     resources :altas_bajas_horas
