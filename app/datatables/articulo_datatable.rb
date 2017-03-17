@@ -1,14 +1,14 @@
 class ArticuloDatatable < AjaxDatatablesRails::Base
-    include AjaxDatatablesRails::Extensions::Kaminari
+  include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['articulo.codigo', 'articulo.descripcion']
+    @sortable_columns ||= ['Articulo.codigo', 'Articulo.descripcion','Articulo.cantidad_maxima_dias','TipoArticulo.descripcion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['articulo.codigo', 'articulo.descripcion']
+    @searchable_columns ||= ['Articulo.codigo', 'Articulo.descripcion','Articulo.cantidad_maxima_dias','TipoArticulo.descripcion']
   end
 
   private
@@ -19,6 +19,7 @@ class ArticuloDatatable < AjaxDatatablesRails::Base
         record.codigo,
         record.descripcion,
         record.cantidad_maxima_dias,
+        record.tipo_articulo.descripcion,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones
@@ -36,10 +37,5 @@ class ArticuloDatatable < AjaxDatatablesRails::Base
 
   def get_raw_records
     return options[:query]
-  end
-
-    # Esto sirve momentaneamente para el ordenar
-  def sort_records(records)
-    records
   end
 end

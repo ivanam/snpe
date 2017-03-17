@@ -179,6 +179,9 @@
                 <% if ver_model("EstablecimientoPlans") then %>
                   <li><%=link_to "Establecimientos y planes", establecimiento_plans_path, :tabindex => "-1"%></li>
                 <% end %>
+                <% if ver_model("Articulo") then %>
+                  <li><%=link_to "Articulos", articulos_path, :tabindex => "-1"%></li>
+                <% end %>
               </ul>
             </li>
           <% end %>
