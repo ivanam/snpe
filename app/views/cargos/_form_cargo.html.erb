@@ -53,7 +53,7 @@
         <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
         
 
-        <%= f.select(:cargo, Funcion.all.collect{|f| [f.to_s, f.categoria]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
+        <%= f.select(:cargo, funciones_permitidas.collect{|f| [f.to_s, f.categoria]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
         
 
         <%= f.select(:situacion_revista, SituacionRevistum.all.collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>

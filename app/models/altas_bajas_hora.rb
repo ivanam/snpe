@@ -21,7 +21,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :persona_id, :presence => true
   #validates :plan_id, :presence => true
   validates :materium_id, :presence => true
-  validates :turno, :presence => true
+  #validates :turno, :presence => true
 
   #Validación de alta
   #validate :validar_alta
@@ -112,7 +112,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Revisar!!!
   def actualizar_materia    
-    if self.materium_id == nil || self.materium_id == ''
+    if self.materium_id == nil || self.materium_id == '' || self.materium_id == 0
       self.materium_id = Materium.where(codigo: self.codificacion).first.id
     end
   end

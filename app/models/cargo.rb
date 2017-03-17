@@ -6,6 +6,33 @@ class Cargo < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
+  #validate :cargo_ocupado
+
+  #validate :cargo_jerarquico
+
+  #-----------------------------------------------------------------------------------------------------------
+  def cargo_ocupado
+    "Revisa si existe una persona en el cargo"
+    
+    if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_equivalentes(self.cargo)) != []
+      errors.add(:persona, "no puede tomar el cargo ya se encuentra ocupado")
+    end
+
+  end
+
+  def cargo_jerarquico
+    "Revisa si existe la persona en el establecimiento con un cargo jerarquico asignado"
+    
+    if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id) != []
+      errors.add(:persona, "no puede tomar el cargo porque posee un cargo jerarquico")
+    end
+
+  end
+
+  def incompatibilidad
+    print "cargar algo"
+  end
+  #-----------------------------------------------------------------------------------------------------------
   
   def ina_justificada(anio, mes)
     @asistencia = Asistencium.where(altas_bajas_cargo_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
