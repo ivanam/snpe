@@ -1,16 +1,19 @@
 <div class="page-header">
-  <h1>articulo</h1>
+  <h1>Artículo</h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Codigo:</dt>
+  <dt>Código:</dt>
   <dd><%= @articulo.codigo %></dd>
 
-  <dt>Descripcion:</dt>
+  <dt>Descripción:</dt>
   <dd><%= @articulo.descripcion %></dd>
 
-  <dt>Cantidad maxima dias:</dt>
+  <dt>Cantidad máxima dias:</dt>
   <dd><%= @articulo.cantidad_maxima_dias %></dd>
+
+  <dt>Tipo de artículo:</dt>
+  <dd><%= @articulo.tipo_articulo.to_s %></dd>
 
   <br/><br/>
   <%= link_to articulos_path, :class => 'btn btn-default' do %>

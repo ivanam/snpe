@@ -6,7 +6,7 @@ class ArticulosController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json { render json: ArticuloDatatable.new(view_context, { query: Articulo.all }) }
+      format.json { render json: ArticuloDatatable.new(view_context, { query: Articulo.includes(:tipo_articulo) }) }
     end
   end
 

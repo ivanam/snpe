@@ -260,9 +260,9 @@ class AltasBajasHorasController < ApplicationController
           elsif @caso == 5 then 
             flash[:error] = "Se quiere dar de alta un interino y ya existe un titular"          
           elsif @caso == 7 then 
-            flash[:error] = "El cargo que se quiere reemplazar no se encuentra con licencia"          
+            flash[:error] = "El cargo que se quiere reemplazar no se encuentra con licencia sin goce de haberes"          
           elsif @caso == 9 then
-            flash[:error] = "El cargo que se quiere suplantar no se encuentra con licencia"          
+            flash[:error] = "El cargo que se quiere suplantar no se encuentra con licencia con goce de haberes"          
           end
           @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
         else

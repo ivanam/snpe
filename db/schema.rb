@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170111141104) do
+ActiveRecord::Schema.define(version: 20170316140220) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20170111141104) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "suplencia"
+    t.boolean  "con_goce"
+    t.integer  "tipo_articulo_id"
   end
 
   create_table "asistencia", force: true do |t|
@@ -286,73 +288,6 @@ ActiveRecord::Schema.define(version: 20170111141104) do
     t.datetime "updated_at"
   end
 
-  create_table "esc702HS", id: false, force: true do |t|
-    t.integer "escuela",                  default: 0,  null: false
-    t.integer "tipo_docu",                default: 0,  null: false
-    t.integer "nume_docu",                default: 0,  null: false
-    t.integer "secuencia",                default: 0,  null: false
-    t.string  "apeynom",       limit: 30, default: "", null: false
-    t.integer "prog",                     default: 0,  null: false
-    t.integer "carrera",                  default: 0,  null: false
-    t.integer "ciclo",                    default: 0,  null: false
-    t.integer "grupo",                    default: 0,  null: false
-    t.integer "curso",                    default: 0,  null: false
-    t.integer "division",                 default: 0,  null: false
-    t.string  "turno",         limit: 3,  default: "", null: false
-    t.integer "materia",                  default: 0,  null: false
-    t.string  "materia_desc",  limit: 30, default: "", null: false
-    t.string  "lic_art",       limit: 30, default: "", null: false
-    t.date    "alta_licencia",                         null: false
-    t.date    "fecha_ing",                             null: false
-    t.date    "fecha_alta",                            null: false
-    t.date    "fecha_baja",                            null: false
-    t.integer "planta_pre",               default: 0,  null: false
-    t.integer "tipo_emp",                 default: 0,  null: false
-    t.integer "horas_cate",               default: 0,  null: false
-    t.string  "estado",        limit: 3,  default: "", null: false
-    t.string  "empresa",       limit: 6,  default: "", null: false
-    t.integer "aa_antig",                 default: 0,  null: false
-    t.integer "mm_antig",                 default: 0,  null: false
-    t.integer "dd_antig",                 default: 0,  null: false
-    t.integer "categ",                    default: 1,  null: false
-    t.integer "secuencia_aux",            default: 0,  null: false
-    t.string  "observaciones", limit: 50, default: "", null: false
-  end
-
-  create_table "escuela4", id: false, force: true do |t|
-    t.integer "escuela",                  default: 0,  null: false
-    t.integer "prog",                     default: 0,  null: false
-    t.integer "ley_r",                    default: 0,  null: false
-    t.integer "agrup_r",                  default: 0,  null: false
-    t.integer "cargo_r",                  default: 0,  null: false
-    t.integer "categ_r",                  default: 0,  null: false
-    t.integer "ley_s",                    default: 0,  null: false
-    t.integer "agrup_s",                  default: 0,  null: false
-    t.integer "cargo_s",                  default: 0,  null: false
-    t.integer "categ_s",                  default: 0,  null: false
-    t.date    "fecha_ing",                             null: false
-    t.date    "fecha_alta",                            null: false
-    t.date    "fecha_baja",                            null: false
-    t.integer "planta_pre",               default: 0,  null: false
-    t.integer "tipo_emp",                 default: 0,  null: false
-    t.integer "horas_cate",               default: 0,  null: false
-    t.integer "tipo_docu",                default: 0,  null: false
-    t.integer "nume_docu",                default: 0,  null: false
-    t.integer "secuencia",                default: 0,  null: false
-    t.string  "apeynom",       limit: 30, default: "", null: false
-    t.integer "materia",                  default: 0,  null: false
-    t.integer "curso",                    default: 0,  null: false
-    t.integer "division",                 default: 0,  null: false
-    t.string  "turno",         limit: 3,  default: "", null: false
-    t.string  "estado",        limit: 3,  default: "", null: false
-    t.string  "empresa",       limit: 6,  default: "", null: false
-    t.integer "aa_antig",                 default: 0,  null: false
-    t.integer "mm_antig",                 default: 0,  null: false
-    t.integer "dd_antig",                 default: 0,  null: false
-    t.string  "observaciones", limit: 50, default: "", null: false
-  end
-
->>>>>>> 2e2dc00d33ee196015a6e08ec0d886c419466250
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
@@ -572,7 +507,6 @@ ActiveRecord::Schema.define(version: 20170111141104) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "cuil"
-    t.integer  "user_id"
     t.string   "apeynom"
   end
 
@@ -691,6 +625,12 @@ ActiveRecord::Schema.define(version: 20170111141104) do
   end
 
   add_index "suplentes", ["altas_bajas_hora_id"], name: "index_suplentes_on_altas_bajas_hora_id", using: :btree
+
+  create_table "tipo_articulos", force: true do |t|
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tipo_documentos", force: true do |t|
     t.string   "nombre"
