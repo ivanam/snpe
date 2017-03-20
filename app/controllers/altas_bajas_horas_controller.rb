@@ -343,7 +343,6 @@ class AltasBajasHorasController < ApplicationController
 
 
 
-
  def guardar_edicion    
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
@@ -418,6 +417,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def guardar_edicion2   
+    debugger
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
     @nombres = params["nombres"]

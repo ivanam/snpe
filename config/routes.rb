@@ -153,6 +153,8 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/:id/modificar/", to: "altas_bajas_horas#modificar", as: :altas_bajas_horas_modificar
 
+     get "altas_bajas_horas/obtener_id/:id", to: "altas_bajas_horas#obtener_id", as: :altas_bajas_horas_obtener_id
+
 
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
 

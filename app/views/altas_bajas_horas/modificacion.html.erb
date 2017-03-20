@@ -24,8 +24,14 @@
 			<div class="panel-body">
 			<div class="table-responsive">
 
+			<div>
+	        <%= text_field_tag :edi, "", {:class => "text_field form-control", :id => "edi"}  %>
+	        <%=@altas_bajas_horas= AltasBajasHora.where(:id => :edi).first%>
+	        <%debugger%>
+			</div>
+			<% if @altas_bajas_horas != nil then %>
 			<div id="editar">
-
+			<%= form_for @altas_bajas_horas, :url => {:action => "guardar_edicion2", :id => @altas_bajas_horas },:html => { :class => "form-horizontal" } do |f| %> 
 				<fieldset>
 					<legend>Editar registro</legend>
 				    <div class="form-snpe" >
@@ -73,15 +79,17 @@
 
 
 				      </div>
-				      <a class="btn btn-primary btn-sm center" data-toggle="tooltip" data-placement="top" onclicK=guardar() title="Editar"><strong>Guardar</strong></a>
+      				<%= f.submit :class => "btn btn-primary", :value => "Guardar" , :id =>"formulario" %>
 
-
-
+				      </strong></a>
+				   	</div>
 
 		        	</div>
-		   		 </fieldset>   
+		   		 </fieldset>
+		   		 <%end%> 
 			<hr>
 			</div>
+			<%end%> 
 		    <br/>
 					<table id="tabla-altas_bajas_hora2" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_modificacion_path(format: :json) %>" >
 
@@ -225,6 +233,8 @@
 	function editar(id){
 
 			window.varId= id;
+			$("#edi").val(id);
+			$("#edi").show();
 
 			$.ajax({
                 url: '/soft/snpe/altas_bajas_horas/buscar_cuil/'+id,  
@@ -288,8 +298,8 @@
 
 
 		    $.ajax({
-		      url: '/soft/snpe/altas_bajas_horas/guardar_edicion/'+window.varId,
-		      type: 'PATCH',
+		      url: '/soft/snpe/altas_bajas_horas/guardar_edicion2/'+window.varId,
+		      type: 'PUT',
 		    })
 
 		};
