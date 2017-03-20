@@ -124,6 +124,17 @@
                   </ul>
                 </li>
               <% end %>
+
+              <% if ver_model("Cargo") and (current_user.role? :sadmin) then %>
+                <li class="dropdown-submenu">
+                  <a tabindex="-1" href="#">Cargos auxiliares</a>
+                  <ul class="dropdown-menu">
+                    <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
+                     <li><%=link_to "Altas y Bajas", cargo_no_docentes_index_novedades_path, :tabindex => "-1"%></li>  
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
             </ul>
           </li>
         <% end %>
@@ -198,6 +209,8 @@
           <% end %>
         <% end %>
       </ul>
+
+  </div>
       <ul class="nav navbar-nav pull-right">
         <li class="dropdown">
           <% if user_signed_in? %>

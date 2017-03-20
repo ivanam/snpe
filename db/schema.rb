@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309113658) do
+ActiveRecord::Schema.define(version: 20170310143736) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -403,6 +403,23 @@ ActiveRecord::Schema.define(version: 20170309113658) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciasV", id: false, force: true do |t|
+    t.integer  "id",                                  default: 0, null: false
+    t.date     "fecha_desde"
+    t.date     "fecha_hasta"
+    t.integer  "articulo_id"
+    t.datetime "created_at"
+    t.string   "vigente"
+    t.string   "apeynom"
+    t.string   "cargo_desc"
+    t.integer  "establecimiento_id"
+    t.string   "situacion_revista"
+    t.integer  "secuencia cargos"
+    t.integer  "secuencia cargos no docentes"
+    t.integer  "secuencia de altas y bajas de horas"
+    t.string   "Articulo licenciado"
+  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
