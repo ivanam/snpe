@@ -4,22 +4,15 @@
   xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:html="http://www.w3.org/TR/REC-html40">
-  <% @licencium.each do |s| %>
+  <% @res.each do |s| %>
     <Worksheet ss:Name="<%= s.to_s %>">
       <Table>
         <Row>
           <Cell><Data ss:Type="String">Fecha Desde</Data></Cell>
-          <Cell><Data ss:Type="String">Fecha Hasta</Data></Cell>
-          <Cell><Data ss:Type="String">Articulo</Data></Cell>
-          <Cell><Data ss:Type="String">Fecha de creación de la licencia</Data></Cell>
-          <Cell><Data ss:Type="String">Vigente</Data></Cell>
-        </Row>
+
         <Row>
              <Cell><Data ss:Type="String"><%= s.fecha_desde %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s.fecha_hasta %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s.articulo_id %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s.created_at %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s.vigente %></Data></Cell>
+        
           </Row>
         <% end %>
       </Table>

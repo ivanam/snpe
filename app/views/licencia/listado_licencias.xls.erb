@@ -10,22 +10,26 @@
           <Cell><Data ss:Type="String">Fecha Desde</Data></Cell>
           <Cell><Data ss:Type="String">Fecha Hasta</Data></Cell>
           <Cell><Data ss:Type="String">Articulo</Data></Cell>
-          <Cell><Data ss:Type="String">Fecha de creación de la licencia</Data></Cell>
-          <Cell><Data ss:Type="String">Vigente</Data></Cell>
+          <Cell><Data ss:Type="String">Descripción Articulo </Data></Cell>
           <Cell><Data ss:Type="String">Nombre y Apellido</Data></Cell>
-          <Cell><Data ss:Type="String">Descripcion del Cargo</Data></Cell>
-          <Cell><Data ss:Type="String">Descripcion del articulo</Data></Cell>
+          <Cell><Data ss:Type="String">Estado del Cargo</Data></Cell>
+          <Cell><Data ss:Type="String">Estado del Cargo no docente</Data></Cell>
+          <Cell><Data ss:Type="String">Estado de las horas asignadas</Data></Cell>
+          <Cell><Data ss:Type="String">Estado Licencia</Data></Cell>
+          <Cell><Data ss:Type="String">Establecimiento</Data></Cell>
         </Row>
         <% @res.each do |s| %>
         <Row>
               <Cell><Data ss:Type="String"><%= s["fecha_desde"].to_s %></Data></Cell>
               <Cell><Data ss:Type="String"><%= s["fecha_hasta"].to_s %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s["articulo_id"].to_s %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s["created_at"].to_s %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s["vigente"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["codigo"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["descripcion"].to_s %></Data></Cell>
               <Cell><Data ss:Type="String"><%= s["apeynom"].to_s %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s["cargo_desc"].to_s %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s["Articulo licenciado"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["cargos"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["estados cargnodoc"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["Estado AltBaHor"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["vigente"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= s["nombre_establecimi"].to_s %></Data></Cell>
         </Row>
         <% end %>
       </Table>

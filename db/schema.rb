@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 20170316140220) do
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
     t.string   "materium_id"
+    t.string   "estado",                 limit: 45, null: false
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
