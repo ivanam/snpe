@@ -158,7 +158,7 @@ ProyectoBase::Application.routes.draw do
 
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
 
-    put "altas_bajas_horas/guardar_edicion2/:id", to: "altas_bajas_horas#guardar_edicion2", as: :altas_bajas_horas_guardar_edicion2
+    post "altas_bajas_horas/guardar_edicion2", to: "altas_bajas_horas#guardar_edicion2", as: :altas_bajas_horas_guardar_edicion2
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
