@@ -7,7 +7,7 @@ class MateriaController < InheritedResources::Base
   def index
     respond_to do |format|
       format.html
-      format.json { render json: MateriaDatatable.new(view_context, { query: Materium.all.order(:codigo) }) }
+      format.json { render json: MateriaDatatable.new(view_context, { query: Materium.all }) }
     end
   end
 

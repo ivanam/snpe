@@ -47,7 +47,19 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Método que valida el alta de un paquete de horas
   def validar_alta 
-    
+    establecimiento = Establecimiento.find(id: self.establecimiento_id)
+    nivel = establecimiento.nivel
+    if nivel.descripcion = "Superior"
+
+      #Obtengo el despliegue correspondiente a la materia y el plan
+      despliegue = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id).first      
+      
+      #Cantidad de registros
+      @altas_escuela = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id)
+      if !(despliegue.cantidad_docentes < @altas_escuela)
+        errors.add(:base,"Ya se cumplio el limite de cantidad de docentes en esa Materia")
+      end
+    end
   end
 
   def ina_justificada(anio, mes)
