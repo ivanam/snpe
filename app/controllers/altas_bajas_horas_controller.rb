@@ -303,19 +303,19 @@ class AltasBajasHorasController < ApplicationController
 
 
   def modificacion
-        @planes_permitidos = select_planes_permitidos
+      @planes_permitidos = select_planes_permitidos
+      @altas_bajas_horas= AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).first
          
-
-
       respond_to do |format|
         format.html
         format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
       end
-    end
+  end
+
+
 
 
   def mostrar_edicion
-    @planes_permitidos = select_planes_permitidos
 
     @persona_id=AltasBajasHora.where(:id => params[:id]).first.persona_id
     @persona = Persona.where(:id => @persona_id).first
@@ -336,9 +336,13 @@ class AltasBajasHorasController < ApplicationController
   end
 
    def mostrar_edicion2
+    @altas_bajas_horas=AltasBajasHora.where(:id => params[:id]).first
     @registro=AltasBajasHora.where(:id => params[:id]).first
     @materias_permitidas = select_materias_permitidas(@registro.plan_id, @registro.anio)
-    render json: @registro
+
+    respond_to do |format|
+      format.json { render json: @altas_bajas_horas }
+    end
   end
 
 
@@ -417,77 +421,51 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def guardar_edicion2   
-    debugger
-    @tipo_documento = params["tipo_documento"]
-    @dni = params["dni"]
-    @nombres = params["nombres"]
-    @apellidos = params["apellidos"]
-    @cuil = params["cuil"]
-    @fecha_nacimiento = params["fecha_nacimiento"]
-    @sexo = params["sexo"]
-    @persona = Persona.where(:nro_documento => @dni).first
-    @establecimiento = Establecimiento.find(session[:establecimiento])
-    #si la persona no existe la creo
-    if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :apeynom => "#{@apellidos} #{@nombres}", :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
-    else
-      @persona.tipo_documento_id = @tipo_documento
-      @persona.sexo_id = @sexo
-      @persona.nro_documento = @dni
-      @persona.nombres = @nombres
-      @persona.apellidos = @apellidos
-      @persona.apeynom = "#{@apellidos} #{@nombres}"
-      @persona.cuil = @cuil
-      @persona.fecha_nacimiento = @fecha_nacimiento    
-    end
-    @altas_bajas_hora = AltasBajasHora.find(params[:id])
-    @altas_bajas_hora.persona_id = @persona.id
-    @altas_bajas_hora.secuencia = params[:altas_bajas_hora][:secuencia]
-    @altas_bajas_hora.fecha_alta = params[:altas_bajas_hora][:fecha_alta]
-    @altas_bajas_hora.fecha_baja = params[:altas_bajas_hora][:fecha_baja]
-    @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
-    @altas_bajas_hora.horas = params[:altas_bajas_hora][:horas]
-    @altas_bajas_hora.ciclo_carrera = params[:altas_bajas_hora][:ciclo_carrera]
-    @altas_bajas_hora.anio = params[:altas_bajas_hora][:anio]
-    @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
-    @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
-    @altas_bajas_hora.plan_id = params[:altas_bajas_hora][:plan_id]
-    @altas_bajas_hora.materium_id = params[:altas_bajas_hora][:materium_id]    
-    @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
-    @altas_bajas_hora.codificacion = @materia.codigo
-    @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
-    @altas_bajas_hora.grupo_id = params[:altas_bajas_hora][:grupo_id]
-    @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
-    @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
+
+    @persona = Persona.where(:nro_documento => params[:dni]).first
+    @altas_bajas_horas = AltasBajasHora.where(:id => params[:edi]).first
+    @altas_bajas_horas.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
+    #@persona.tipo_documento_id = TipoDocumento.where(:id => params[:tipo_documento]).first.id
+    @persona.fecha_nacimiento = params[:fecha_nacimiento]
+    @persona.cuil = params[:cuil] 
+    @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
+    @altas_bajas_horas.turno = params[:turno]
+    @altas_bajas_horas.horas = params[:horas]
+    @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
+    @altas_bajas_horas.plan_id = params[:plan_id]
+    @altas_bajas_horas.anio = params[:anio]
+    @altas_bajas_horas.division = params[:division]
+    @altas_bajas_horas.materium_id = params[:materium_id]
+    @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
+    @altas_bajas_horas.grupo_id = params[:grupo_id]
+    @altas_bajas_horas.oblig = params[:oblig]
+    @altas_bajas_horas.observaciones = params[:observaciones]
 
 
-    # @altas_bajas_hora = AltasBajasHora.find
-    # @altas_bajas_hora.persona_id = @persona.id
-    # @altas_bajas_hora.establecimiento_id = @establecimiento.id
-   
-    respond_to do |format|
-      if @persona.save then       
-        if @altas_bajas_hora.save then
-          format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
-          format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
+   respond_to do |format|
+        if @persona.save then       
+          if @altas_bajas_horas.save then
+            format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
+          else
+            @planes_permitidos = select_planes_permitidos
+            @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
+            format.html { render action: 'modificacion' }
+            #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+            format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+            #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
+          end        
         else
           @planes_permitidos = select_planes_permitidos
-          @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)
-          format.html { render action: 'editar_alta' }
+          @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
+          format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
-          #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
-        end        
-      else
-        @planes_permitidos = select_planes_permitidos
-        @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)
-        format.html { render action: 'editar_alta' }
-        #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-        #debugger
-        format.json { render json: @persona.errors, status: :unprocessable_entity }
-      end
-    end
-
+          #debugger
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
+        end
+    end    
+    
+  
   end
   
   def update

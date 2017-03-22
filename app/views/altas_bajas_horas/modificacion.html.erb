@@ -13,7 +13,6 @@
 	<legend class="legend-small">Modificacion de Horas</legend>  
 
 
-
 	<% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
 		<div class="panel panel-primary ">
 			<div class="panel-heading">
@@ -25,42 +24,45 @@
 			<div class="table-responsive">
 
 			<div>
-	        <%= text_field_tag :edi, "", {:class => "text_field form-control", :id => "edi"}  %>
-	        <%=@altas_bajas_horas= AltasBajasHora.where(:id => :edi).first%>
-	        <%debugger%>
+	       
+	       
+
 			</div>
 			<% if @altas_bajas_horas != nil then %>
 			<div id="editar">
-			<%= form_for @altas_bajas_horas, :url => {:action => "guardar_edicion2", :id => @altas_bajas_horas },:html => { :class => "form-horizontal" } do |f| %> 
+			<%= form_for AltasBajasHora.new, :url => {:action => "guardar_edicion2", :id => @altas_bajas_horas },:html => { :class => "form-horizontal" } do |f| %> 
 				<fieldset>
 					<legend>Editar registro</legend>
 				    <div class="form-snpe" >
 				        <div class="row">
+
+				      <%= text_field_tag :edi, "", {:class => "text_field form-control hidden", :id => "edi"}  %>
 				    
-				      <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "tipo_documento_id", :class=>"form-control form-select form-doc form-alta", :readonly => :true} %>
+				      <%= select_tag 'tipo_documento',  options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Doc.", :id => "tipo_documento_id", :class=>"form-control form-select form-doc form-alta", :prompt => "Tipo Doc.", :readonly => :true } %>
 
-				      <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :readonly => :true} %>
+				      <%= text_field_tag 'dni', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"N° Documento", :class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :readonly => :true} %>
 
-				      <%= text_field_tag 'apeynom', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
+				      <%= text_field_tag 'apeynom', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Apellido y Nombre", :class => "form-apeynom text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
 
-				      <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :readonly => :true} %>
+				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :required => true} %>
 
-				      <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>
+				      <%= text_field_tag 'fecha_alta', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Fecha de Alta", :id => "fecha_alta", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control" ,  :readonly => :true}%>
+
+    			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>  
         
-			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :placeholder =>"Plan"} %>
+			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Género", :id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :prompt =>"Género", :required => true} %>
 
-  					  <%= text_field 'situacion_revista', "", {:id => "sit-revista", :class=>"form-control form-alta form-select", :readonly => :true}%>
+  					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
 
-  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), { :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%>  
+  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan", :required => true }%>  
 
-  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:id => "turno",:class=>"form-control form-alta form-select" } %>
+  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
 
-          			  <%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:id => "curso", :class=>"form-control form-alta form-select"}%>
+          			  <%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso", :required => true }%>
 
-  					  <%= text_field 'division', "", { :class => "form-alta form-control", :id => "division", :maxlength=>"2"}%>
+  					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true}%>
 
-     
-          			  <%= text_field_tag 'horas', "", { :class => "form-alta form-control", :id => "horas", :maxlength=>"2"}%>
+          			  <%= text_field_tag 'horas', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :required => true}%>
        
           			  <% if @materias_permitidas == nil then
           			  	@materias =[]
@@ -68,14 +70,14 @@
           			  	@metrias = @materias_permitidas.all
 
           			  	end%>
-          			  <%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "descripcion"), {:id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select"}%>  
+          			  <%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", :required => true}%>  
 
 
-          			  <%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), { :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+          			  <%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
 
-			          <%= text_field_tag 'oblig', "", {:id=>"oblig", :class => "form-alta form-control"}%>
+			          <%= text_field_tag 'oblig', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Oblig.", :id=>"oblig", :class => "form-alta form-control", :placeholder => "Oblig."}%>
 
-         			  <%= text_area_tag 'observaciones', "", {:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
+         			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
 
 
 				      </div>
@@ -213,11 +215,6 @@
 </script>
 
 
-
-
-
-
-
 			</div>
 		</div>
 							  
@@ -233,22 +230,9 @@
 	function editar(id){
 
 			window.varId= id;
+
 			$("#edi").val(id);
-			$("#edi").show();
-
-			$.ajax({
-                url: '/soft/snpe/altas_bajas_horas/buscar_cuil/'+id,  
-                type: 'GET',
-              })
-              .done(function(data) {
-              	if (data.length != 0){
-              		console.log(data);
-                	$("#input_cuil").val(data[0].cuit);
-            	}
-
-                });
-
-
+		
 
 			 $.ajax({
                 url: '/soft/snpe/altas_bajas_horas/mostrar_edicion2/'+id,  
@@ -259,6 +243,7 @@
               		console.log(data);
                 	$("#editar").show();	
                 	$("#turno").val(data.turno);
+                	$("#fecha_alta").val(data.fecha_alta);
                 	$("#ciclo-carrera").val(data.ciclo_carrera);
                 	$("#division").val(data.division);
                 	$("#sit-revista").val(data.situacion_revista);
@@ -286,11 +271,30 @@
                 	$("#input_apellidos").val(data.apeynom);
                 	$("#input_dni").val(data.nro_documento);
                 	$("#datepicker3").val(data.fecha_nacimiento);
-                	$("#input_cuil").val(data.cuil);
-                	$("#select_sexo").val(data.sexo);
+                	$("#select_sexo").val(data.sexo_id);
+                	if (data.cuil != null) {
+                		$("#cuil").val(data.cuil);
+                	}else{
+
+                		$.ajax({
+			                url: '/soft/snpe/altas_bajas_horas/buscar_cuil/'+id,  
+			                type: 'GET',
+			              })
+			              .done(function(data) {
+			              	if (data.length != 0){
+			              		console.log(data[0].cuit);
+			                	$("#cuil").val(data[0].cuit);
+			            	}else{
+			            		$("#cuil").val("Ingrese Cuil");
+			            	}
+
+			                });
+
+                	}
             	}
 
                 });
+
            };
 
 
