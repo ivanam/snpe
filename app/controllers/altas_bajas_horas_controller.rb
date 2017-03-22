@@ -190,7 +190,7 @@ class AltasBajasHorasController < ApplicationController
  
     if @altas_escuela == [] then
       @caso = 1 #Caso ok 
-    elsif params[:altas_bajas_hora][:situacion_revista] =="1-1" then #Se quiere crear un titular
+    elsif params[:altas_bajas_hora][:situacion_revista] == "1-1" then #Se quiere crear un titular
       if @altas_escuela.where(situacion_revista: "1-1").first then 
         @caso = 2 #1- hay un titular y se quiere dar de alta un titular
       else

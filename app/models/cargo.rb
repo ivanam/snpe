@@ -10,15 +10,19 @@ class Cargo < ActiveRecord::Base
 
   validate :cargo_jerarquico
 
+  validate :situacion_revista
+
   #-----------------------------------------------------------------------------------------------------------
   def cargo_ocupado
     "Revisa si existe una persona en el cargo"
     if self.establecimiento.nivel_id == 1 # Inicial
-      print "lala"
+      cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
     elsif self.establecimiento.nivel_id == 2 # Primaria
-      cargo_ocupado_primaria(self.establecimiento_id, cargo)
+      cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
     elsif self.establecimiento.nivel_id == 3 # Secundaria
       print "lala"
+    else
+      errors.add(:establecimiento, "no tiene nivel asignado")
     end
   end
 
@@ -37,7 +41,21 @@ class Cargo < ActiveRecord::Base
     if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id) != []
       errors.add(:persona, "no puede tomar el cargo porque posee un cargo jerarquico")
     end
+  end
 
+  def situacion_revista
+    "Revisa si corresponde la sitacion revista"
+    if !(Funcion::DIRECTOR_CATEGORIAS.include? self.cargo) || (Funcion::VICEDIRECTOR_CATEGORIAS.include? self.cargo)
+      debugger
+      cargo_actual = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, estado: "ALT")
+      if  cargo_actual != []
+        if self.situacion_revista == "1-1"
+          cargo_actual.first
+
+      else
+
+      end
+    end
   end
 
   def incompatibilidad
