@@ -1,6 +1,4 @@
 ProyectoBase::Application.routes.draw do
-
-
   
   
 
@@ -153,7 +151,14 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/:id/editar_alta/", to: "altas_bajas_horas#editar_alta", as: :altas_bajas_horas_editar_alta
 
+    get "altas_bajas_horas/:id/modificar/", to: "altas_bajas_horas#modificar", as: :altas_bajas_horas_modificar
+
+     get "altas_bajas_horas/obtener_id/:id", to: "altas_bajas_horas#obtener_id", as: :altas_bajas_horas_obtener_id
+
+
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
+
+    post "altas_bajas_horas/guardar_edicion2", to: "altas_bajas_horas#guardar_edicion2", as: :altas_bajas_horas_guardar_edicion2
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
@@ -166,6 +171,12 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/notificar_baja/:id", to: "altas_bajas_horas#notificar_baja", as: :altas_bajas_horas_notificar_baja
 
     get "altas_bajas_horas/cancelar_baja/:id", to: "altas_bajas_horas#cancelar_baja", as: :altas_bajas_horas_cancelar_baja
+
+    get "altas_bajas_horas/mostrar_edicion/:id", to: "altas_bajas_horas#mostrar_edicion", as: :altas_bajas_horas_mostrar_edicion
+
+    get "altas_bajas_horas/mostrar_edicion2/:id", to: "altas_bajas_horas#mostrar_edicion2", as: :altas_bajas_horas_mostrar_edicion2
+
+    get "altas_bajas_horas/buscar_cuil/:id", to: "altas_bajas_horas#buscar_cuil", as: :altas_bajas_horas_buscar_cuil
 
     get "altas_bajas_horas/chequear_baja/:id", to: "altas_bajas_horas#chequear_baja", as: :altas_bajas_horas_chequear_baja
 
@@ -180,6 +191,9 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/cancelar-cola/", to: "altas_bajas_horas#cancelar_cola", as: :horas_cancelar_cola
 
     get "altas_bajas_horas/cargo_por_materia/:materium_id/:plan_id/:anio/:division", to: 'altas_bajas_horas#cargo_por_materia', as: :altas_bajas_horas_cargo_por_materia
+
+   #get "altas_bajas_horas/modificar", to: 'altas_bajas_horas#modificar', as: :modificar_hs
+
 
     resources :altas_bajas_horas
 
@@ -303,12 +317,15 @@ ProyectoBase::Application.routes.draw do
     get 'licencia/licencia_dadas/:dni', to: 'licencia#licencia_dadas', as: :licencia_dadas
     get 'licencia/buscar_articulo_dias_hora/:id_articulo/:id_horas', to: 'licencia#buscar_articulo_dias_hora', as: :buscar_articulo_dias_hora
     get 'licencia/buscar_articulo_dias_cargo/:id_articulo/:id_cargos', to: 'licencia#buscar_articulo_dias_cargo', as: :buscar_articulo_dias_cargo
+    get 'licencia/buscar_articulo_dias_cargo_no_docente/:id_articulo/:id_cargos_no_docentes', to: 'licencia#buscar_articulo_dias_cargo_no_docente', as: :buscar_articulo_dias_cargo_no_docente
     get 'licencias/listado_licencias', to: 'licencia#listado_licencias', as: :listado_licencias
+    get 'licencias/cargos_no_docentes_licencia_permitida', to: 'licencia#cargos_no_docentes_licencia_permitida', as: :cargos_no_docentes_licencia_permitida
 
 
     
     post "licencia/guardar_licencia_horas/:id_horas/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_horas", as: :guardar_licencia_horas
     post "licencia/guardar_licencia_cargos/:id_cargos/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_cargos", as: :guardar_licencia_cargos
+    post "licencia/guardar_licencia_cargos_no_docentes/:id_cargos_no_docentes/:fecha_inicio/:fecha_fin/:articulo", to: "licencia#guardar_licencia_cargos_no_docentes", as: :guardar_licencia_cargos_no_docentes
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
 

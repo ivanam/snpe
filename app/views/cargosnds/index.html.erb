@@ -7,7 +7,7 @@
 </div>
 
 <div class="table-responsive">
-  <table id="tabla-cargosnd" class="table table-striped table-bordered table-hover" data-source = "<#= cargosnds_path(format: :json) #>" >
+  <table id="tabla-cargosnd" class="table table-striped table-bordered table-hover" data-source = "<%= cargosnds_path(format: :json) %>" >
     <thead>
       <tr>
             <th>Cargo agrup</th>
@@ -27,7 +27,7 @@
 <script type="text/javascript">
     $(document).ready(function($) {
       $('#tabla-cargosnd').dataTable({
-        language : {"sUrl": "<#= asset_path('language.es.json') #>",},
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-cargosnd').data('source'),

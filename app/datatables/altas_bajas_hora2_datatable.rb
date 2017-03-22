@@ -19,15 +19,18 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
 
         record.persona.nro_documento,
         record.persona.to_s,
+        record.secuencia,
         record.situacion_revista,
         record.horas,    
         record.ciclo_carrera,     
-        '<span style="color:red" class="anio" data-type="text" data-resource="put" data-name="anio" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.anio.to_s+'</span>',
-        '<span style="color:red" class="division" data-type="text" data-resource="put" data-name="division" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.division.to_s+'</span>',
-        '<span style="color:red" class="turno" data-type="text" data-resource="put" data-name="turno" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.turno.to_s+'</span>',
-        '<span style="color:red" class="codificacion form-control form-alta form-select solo_numerico" min="1" max="6" data-type="number" data-resource="put" data-name="codificacion" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_editar_campos_path(:id => record.id.to_s)+'">'+record.codificacion.to_s+'</span>',   
-        record.oblig,
+        record.anio,
+        record.division,
+        record.turno,
+        record.codificacion,   
+        record.estado,
         Util.fecha_a_es(record.fecha_alta),
+        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'+"><strong>Ver</strong></a>',
+        '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
 
 
       ]

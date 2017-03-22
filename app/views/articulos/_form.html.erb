@@ -31,6 +31,12 @@
     </div>
   </div>
   <div class="form-group">
+    <%= f.label :tipo_articulo_id, "Tipo de Artículo", class: "col-sm-2 control-label" %>
+    <div class="col-sm-5">
+      <%= f.collection_select :tipo_articulo_id, TipoArticulo.all, :id, :to_s, {prompt: false}, {:class => "form-control"} %>
+    </div>
+  </div>
+  <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
 
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
