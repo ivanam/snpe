@@ -17,6 +17,7 @@ class CargosNuevosDatatable < AjaxDatatablesRails::Base
         record.persona.nro_documento,
         record.persona.to_s,
         record.situacion_revista,
+        record.cargo,
         record.turno,
         record.anio,
         record.division,

@@ -6,27 +6,56 @@ class Cargo < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
-  #validate :cargo_ocupado
+  validate :cargo_ocupado
 
-  #validate :cargo_jerarquico
+  validate :cargo_jerarquico
+
+  validate :situacion_revista
 
   #-----------------------------------------------------------------------------------------------------------
   def cargo_ocupado
     "Revisa si existe una persona en el cargo"
-    
-    if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_equivalentes(self.cargo)) != []
-      errors.add(:persona, "no puede tomar el cargo ya se encuentra ocupado")
+    if self.establecimiento.nivel_id == 1 # Inicial
+      cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
+    elsif self.establecimiento.nivel_id == 2 # Primaria
+      cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
+    elsif self.establecimiento.nivel_id == 3 # Secundaria
+      print "lala"
+    else
+      errors.add(:establecimiento, "no tiene nivel asignado")
     end
-
   end
 
+  def cargo_ocupado_primaria(establecimiento_id, cargo)
+    if (Funcion::DIRECTOR_CATEGORIAS.include? cargo) || (Funcion::VICEDIRECTOR_CATEGORIAS.include? cargo)
+      if Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)) != []
+        errors.add(:persona, "no puede tomar el cargo ya se encuentra ocupado")
+      end
+    end
+  end
+
+  #------------------------------------------------------------------------------------------------------------
   def cargo_jerarquico
     "Revisa si existe la persona en el establecimiento con un cargo jerarquico asignado"
     
     if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id) != []
       errors.add(:persona, "no puede tomar el cargo porque posee un cargo jerarquico")
     end
+  end
 
+  def situacion_revista
+    "Revisa si corresponde la sitacion revista"
+    if !(Funcion::DIRECTOR_CATEGORIAS.include? self.cargo) || (Funcion::VICEDIRECTOR_CATEGORIAS.include? self.cargo)
+      debugger
+      cargo_actual = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, estado: "ALT")
+      if  cargo_actual != []
+        if self.situacion_revista == "1-1"
+          cargo_actual.first
+
+      else
+
+      end
+    end
   end
 
   def incompatibilidad
@@ -88,6 +117,11 @@ class Cargo < ActiveRecord::Base
       return @relation.estado.descripcion
     end
   end 
+
+  def cargo_equivalentes_escuela
+    return Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_equivalentes(self.cargo))  
+  end
+  
 
 end
 

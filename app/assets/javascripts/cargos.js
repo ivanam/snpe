@@ -64,16 +64,14 @@ $(document).ready(function($) {
         })
         .done(function(data) {
           if (data != null) {
-            $("#input_nombres").val(data.nombres);
-            $("#input_apellidos").val(data.apellidos);
+            $("#input_apeynom").val(data.apeynom);
             $("#input_cuil").val(data.cuil);
             $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
             $("#select_tipo_documento").val(data.tipo_documento_id);
           }
           else{
             //alert("La persona no existe. Por favor cargue sus datos");
-            $("#input_nombres").val("");
-            $("#input_apellidos").val("");
+            $("#input_apeynom").val("");
             $("#input_cuil").val("");
             $("#datepicker3").val("");
             $("#select_tipo_documento").val(5);
