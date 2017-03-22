@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310143736) do
+ActiveRecord::Schema.define(version: 20170316140220) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20170310143736) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "suplencia"
+    t.boolean  "con_goce"
+    t.integer  "tipo_articulo_id"
   end
 
   create_table "asistencia", force: true do |t|
@@ -251,7 +253,6 @@ ActiveRecord::Schema.define(version: 20170310143736) do
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
     t.string   "materium_id"
-    t.string   "estado"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -403,23 +404,6 @@ ActiveRecord::Schema.define(version: 20170310143736) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
-
-  create_table "licenciasV", id: false, force: true do |t|
-    t.integer  "id",                                  default: 0, null: false
-    t.date     "fecha_desde"
-    t.date     "fecha_hasta"
-    t.integer  "articulo_id"
-    t.datetime "created_at"
-    t.string   "vigente"
-    t.string   "apeynom"
-    t.string   "cargo_desc"
-    t.integer  "establecimiento_id"
-    t.string   "situacion_revista"
-    t.integer  "secuencia cargos"
-    t.integer  "secuencia cargos no docentes"
-    t.integer  "secuencia de altas y bajas de horas"
-    t.string   "Articulo licenciado"
-  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
@@ -641,6 +625,12 @@ ActiveRecord::Schema.define(version: 20170310143736) do
   end
 
   add_index "suplentes", ["altas_bajas_hora_id"], name: "index_suplentes_on_altas_bajas_hora_id", using: :btree
+
+  create_table "tipo_articulos", force: true do |t|
+    t.string   "descripcion"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tipo_documentos", force: true do |t|
     t.string   "nombre"

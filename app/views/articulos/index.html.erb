@@ -1,19 +1,20 @@
 <div class="page-header">
   <%= link_to new_articulo_path, :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Articulo
+    Nuevo Artículo
   <% end %>
-  <h1>Listado de articulos</h1>
+  <h1>Listado de artículos</h1>
 </div>
 
 <div class="table-responsive">
   <table id="tabla-articulo" class="table table-striped table-bordered table-hover" data-source = "<%= articulos_path(format: :json) %>" >
     <thead>
       <tr>
-            <th>Codigo</th>
-            <th>Descripcion</th>
-            <th>Cantidad maxima dias</th>
-            <th class="text-center">Acciones</th>
+            <th>Código</th>
+            <th>Descripción</th>
+            <th>Cantidad máxima dias</th>
+            <th>Tipo de artículo</th>
+            <th class="text-center col-md-1">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -30,6 +31,13 @@
         serverSide : true,
         ajax : $('#tabla-articulo').data('source'),
         pagingType: "simple",
+        columnDefs: [
+            {
+                "targets": [ 4 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
       });
     });
 </script>
