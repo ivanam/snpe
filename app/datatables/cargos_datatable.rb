@@ -19,11 +19,17 @@ class CargosDatatable < AjaxDatatablesRails::Base
 
         record.persona.nro_documento,
         record.persona.to_s,
-        record.situacion_revista,     
-        '<span style="color:red" class="anio" data-type="text" data-resource="post" data-name="anio" data-url="'+Rails.application.routes.url_helpers.cargo_editar_campos_path(:id => record.id.to_s)+'">'+record.anio.to_s+'</span>',
-        '<span style="color:red" class="division" data-type="text" data-resource="post" data-name="division" data-url="'+Rails.application.routes.url_helpers.cargo_editar_campos_path(:id => record.id.to_s)+'">'+record.division.to_s+'</span>',
-        '<span style="color:red" class="codificacion solo_numerico" maxlength="8" data-type="text" data-resource="post" data-name="codificacion" data-url="'+Rails.application.routes.url_helpers.cargo_editar_campos_path(:id => record.id.to_s)+'">'+record.materium_id.to_s+'</span>',   
+        record.secuencia,
+        record.cargo.to_s,
+        record.situacion_revista,  
+        record.anio,
+        record.division,
+        record.turno,  
+        record.estado,
         Util.fecha_a_es(record.fecha_alta),
+        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/cargos/'+record.id.to_s+'"><strong>Ver</strong></a>',
+        '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
+
 
 
       ]
