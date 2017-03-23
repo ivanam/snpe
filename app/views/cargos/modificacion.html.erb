@@ -13,7 +13,7 @@
 
 
 
-	<% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+<% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
 		<div class="panel panel-primary ">
 			<div class="panel-heading">
 				<h3 class="panel-title">
@@ -22,22 +22,95 @@
 			</div>
 			<div class="panel-body">
 			<div class="table-responsive">
+
+
+			
+			<div id="editar">
+			<%= form_for Cargo.new, :url => {:action => "guardar_edicion2", :id => @cargos },:html => { :class => "form-horizontal" } do |f| %> 
+				<fieldset>
+					<legend>Editar registro</legend>
+				    <div class="form-snpe" >
+				        <div class="row">
+
+				      <%= text_field_tag :edi, "", {:class => "text_field form-control hidden", :id => "edi"}  %>
+				    
+				      <%= select_tag 'tipo_documento',  options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Doc.", :id => "tipo_documento_id", :class=>"form-control form-select form-doc form-alta", :prompt => "Tipo Doc.", :readonly => :true } %>
+
+				      <%= text_field_tag 'dni', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"N° Documento", :class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :readonly => :true} %>
+
+				      <%= text_field_tag 'apeynom', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Apellido y Nombre", :class => "form-apeynom text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
+
+				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :required => true} %>
+
+				      <%= text_field_tag 'fecha_alta', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Fecha de Alta", :id => "fecha_alta", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control" ,  :readonly => :true}%>
+
+    			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>  
+        
+			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Género", :id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :prompt =>"Género", :required => true} %>
+
+  					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
+
+  					  <%= select_tag 'cargo', options_from_collection_for_select(funciones_permitidas, "categoria", "descripcion"), {:prompt => "Cargos", :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select" , :readonly => :true}%>
+
+
+  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
+
+          			<%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso", }%>
+
+  					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
+
+       
+          		<%= select_tag 'materium_id',  options_from_collection_for_select( Materium.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", }%>  
+
+
+          		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+
+
+               <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+
+
+         			 <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
+
+
+				      </div>
+      				<%= f.submit :class => "btn btn-primary", :value => "Guardar" , :id =>"formulario" %>
+
+				      </strong></a>
+				   	</div>
+
+		        	</div>
+		   		 </fieldset>
+		   		 <%end%> 
+			<hr>
+			</div>
+			
+		    <br/>
+
 					<table id="tabla-cargos" class="table table-striped table-bordered table-hover" data-source = "<%= cargos_modificacion_path(format: :json) %>" >
 
 
 						<thead>
+							
 							<tr>
+
 								<th>DNI</th>
 								<th>Nombre</th>
-								<th>Sit. Rev</th>          
+								<th>Secuencia</th>
+								<th>Cargo</th>  
+								<th>Sit. Rev</th>            
 								<th>Curso</th>
 								<th>Div</th>
-								<th>Codif.</th>
+								<th>Turno</th>
+								<th>Estado</th>
 								<th>Fecha Alta</th>
+								<th>Ver</th>
+								<th>Editar</th>
+
 							</tr>
 						</thead>
 						<tbody>
-						</tbody>
+
+					</tbody>
 					</table>
 				</div>
 			</div>
@@ -46,7 +119,94 @@
 	<% end %>
 
 <script type="text/javascript">
+
+	function editar(id){
+
+			window.varId= id;
+			console.log(id);
+			$("#edi").val(id);
+			$("#editar").show();
+
+			 $.ajax({
+                url: '/soft/snpe/cargo/mostrar_edicion2/'+id,  
+                type: 'GET',
+              })
+              .done(function(data) {
+              	if (data != null){
+              		console.log(data);
+                	$("#editar").show();	
+                	$("#turno").val(data.turno);
+                	$("#fecha_alta").val(data.fecha_alta);
+                	$("#division").val(data.division);
+                	$("#cargo").val(data.cargo);
+                	$("#sit-revista").val(data.situacion_revista);
+                	$("#curso").val(data.anio);
+                	$("#materium").val(data.materium_id);
+                	$("#grupo").val(data.grupo_id);
+                  $("#estado").val(data.estado);
+                	$("#oblig").val(data.oblig);
+                	$("#observaciones-edit").val(data.observaciones);
+            	}
+
+                });
+
+
+			 $.ajax({
+                url: '/soft/snpe/cargo/mostrar_edicion/'+id,  
+                type: 'GET',
+              })
+              .done(function(data) {
+              	if (data != null){
+              		console.log(data);
+                	$("#editar").show();	
+                	$("#tipo_documento_id").val(data.tipo_documento_id);
+                	$("#input_apellidos").val(data.apeynom);
+                	$("#input_dni").val(data.nro_documento);
+                	$("#datepicker3").val(data.fecha_nacimiento);
+                	$("#select_sexo").val(data.sexo_id);
+                	if (data.cuil != null) {
+                		$("#cuil").val(data.cuil);
+                	}else{
+
+                		$.ajax({
+			                url: '/soft/snpe/cargo/buscar_cuil/'+id,  
+			                type: 'GET',
+			              })
+			              .done(function(data) {
+			              	if (data.length != 0){
+			              		console.log(data[0].cuit);
+			                	$("#cuil").val(data[0].cuit);
+			            	}else{
+			            		$("#cuil").val("Ingrese Cuil");
+			            	}
+
+			                });
+
+                	}
+            	}
+
+                });
+
+           };
+
+
+       function guardar(){
+
+
+		    $.ajax({
+		      url: '/soft/snpe/cargo/guardar_edicion2/'+window.varId,
+		      type: 'PUT',
+		    })
+
+		};
+
+
+
+
 $(document).ready(function($) {
+
+    $("#edi").hide();
+	$("#editar").hide();
 
 	$.fn.editable.defaults.mode = 'inline';
 	var tabla_altas_bajas = $('#tabla-cargos').dataTable({
@@ -54,7 +214,7 @@ $(document).ready(function($) {
 		processing : true,
 		serverSide : true,
 		ajax : $('#tabla-cargos').data('source'),
-		paging: false,
+		pagingType: "simple",
 		columnDefs: [
             {
             		"targets": [ 1, 2, 3, 4, 5, 6 ],
@@ -62,7 +222,7 @@ $(document).ready(function($) {
                 "orderable": false
             }
         ],
-		searching: false,
+		searching: true,
 		"initComplete": function(settings, json) {
 
         $('.division').editable();
@@ -85,5 +245,102 @@ $(document).ready(function($) {
 			});
 		});
 	});
+
+
+
+
+	var date = new Date();
+	$('#daterange').daterangepicker({
+		format: 'DD/MM/YYYY',
+		startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+		endDate: Date.today,
+		minDate: '01/01/2000',
+		maxDate: '31/12/2030',
+		locale: {
+			applyLabel: 'Ir',
+			cancelLabel: 'Cancelar',
+			fromLabel: 'Desde',
+			toLabel: 'Hasta',
+			firstDay: 1
+		}
+	});
+
 });
+</script>
+
+     
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3', 'datepicker4'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+  </script>
+
+<% end %>
+
+<script type="text/javascript">
+  $("#plan").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#curso").change(function(){
+       var plan_id = parseInt($("#plan").val(),10);
+       var anio = parseInt($("#curso").val(),10);
+        $.ajax({
+          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          $("#materium").empty();
+          if (data != null) {
+            $("#materium").append('<option value="">Materia</option>');
+            for (var i = 0; i < data.length; i++) {
+              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+            };            
+          }
+        })
+    });
+
+  $("#materium").change(function(){
+    var materia_id = parseInt($("#materium").val(),10);
+    var plan_id = parseInt($("#plan").val(),10);
+    var anio = parseInt($("#curso").val(),10);
+    $.ajax({
+          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            $("#horas").val(data);
+          }
+        })
+
+  });
 </script>

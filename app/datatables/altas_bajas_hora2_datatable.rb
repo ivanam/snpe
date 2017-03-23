@@ -18,6 +18,7 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
       [ 
 
         record.persona.nro_documento,
+        record.persona.cuil,
         record.persona.to_s,
         record.secuencia,
         record.situacion_revista,
@@ -29,16 +30,8 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
         record.codificacion,   
         record.estado,
         Util.fecha_a_es(record.fecha_alta),
-        '<div class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-            Acciones
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'">Ver</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="'+Rails.application.routes.url_helpers.altas_bajas_horas_modificar_path(record.id.to_s)+'"/modificar">Editar</a></li>
-          </ul>
-        </div>',
+        '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'"><strong>Ver</strong></a>',
+        '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
 
 
       ]

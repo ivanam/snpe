@@ -200,8 +200,9 @@
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin2' , Date.today%>
         <hr/>
-        <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
+        <div class="row">          
+          <%= 
+          select_tag "Articulo", options_from_collection_for_select(Articulo.join(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
         </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>

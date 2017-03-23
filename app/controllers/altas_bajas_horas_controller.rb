@@ -190,7 +190,7 @@ class AltasBajasHorasController < ApplicationController
  
     if @altas_escuela == [] then
       @caso = 1 #Caso ok 
-    elsif params[:altas_bajas_hora][:situacion_revista] =="1-1" then #Se quiere crear un titular
+    elsif params[:altas_bajas_hora][:situacion_revista] == "1-1" then #Se quiere crear un titular
       if @altas_escuela.where(situacion_revista: "1-1").first then 
         @caso = 2 #1- hay un titular y se quiere dar de alta un titular
       else
@@ -222,7 +222,7 @@ class AltasBajasHorasController < ApplicationController
 
     respond_to do |format|
 
-        #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
+      #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
 
       if [1,6,8].include? @caso then
         if @persona.save then           
@@ -294,13 +294,56 @@ class AltasBajasHorasController < ApplicationController
   end
 
 
-  def editar_datos
+  def modificar
     @planes_permitidos = select_planes_permitidos
     @altas_bajas_hora = AltasBajasHora.find(params[:id])    
     @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)    
     @persona = Persona.find(@altas_bajas_hora.persona_id)
   end
 
+
+  def modificacion
+      @planes_permitidos = select_planes_permitidos
+      @altas_bajas_horas= AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).first
+         
+      respond_to do |format|
+        format.html
+        format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
+      end
+  end
+
+
+
+
+  def mostrar_edicion
+
+    @persona_id=AltasBajasHora.where(:id => params[:id]).first.persona_id
+    @persona = Persona.where(:id => @persona_id).first
+    render json: @persona
+  end
+
+
+  def buscar_cuil
+    @persona_id=AltasBajasHora.where(:id => params[:id]).first.persona_id
+    @persona = Persona.where(:id => @persona_id).first.nro_documento
+    
+    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
+    @cuil= client.query("select cuit from agentes_dni_cuit a where '"+ @persona.to_s + "' = a.nume_docu")
+
+   respond_to do |format|
+        format.json { render json: @cuil}
+      end     
+  end
+
+   def mostrar_edicion2
+    @altas_bajas_horas=AltasBajasHora.where(:id => params[:id]).first
+    @registro=AltasBajasHora.where(:id => params[:id]).first
+    @materias_permitidas = select_materias_permitidas(@registro.plan_id, @registro.anio)
+
+    respond_to do |format|
+      format.json { render json: @altas_bajas_horas }
+    end
+  end
 
 
 
@@ -375,6 +418,55 @@ class AltasBajasHorasController < ApplicationController
       end
     end
 
+  end
+
+  def guardar_edicion2   
+
+    @persona = Persona.where(:nro_documento => params[:dni]).first
+    @altas_bajas_horas = AltasBajasHora.where(:id => params[:edi]).first
+    @altas_bajas_horas.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
+    #@persona.tipo_documento_id = TipoDocumento.where(:id => params[:tipo_documento]).first.id
+    @persona.fecha_nacimiento = params[:fecha_nacimiento]
+    @persona.cuil = params[:cuil] 
+    @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
+    @altas_bajas_horas.turno = params[:turno]
+    @altas_bajas_horas.horas = params[:horas]
+    @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
+    @altas_bajas_horas.plan_id = params[:plan_id]
+    @altas_bajas_horas.anio = params[:anio]
+    @altas_bajas_horas.division = params[:division]
+    @altas_bajas_horas.materium_id = params[:materium_id]
+    @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
+    @altas_bajas_horas.grupo_id = params[:grupo_id]
+    @altas_bajas_horas.oblig = params[:oblig]
+    @altas_bajas_horas.observaciones = params[:observaciones]
+    @altas_bajas_horas.estado = params[:estado]
+
+
+   respond_to do |format|
+        if @persona.save then       
+          if @altas_bajas_horas.save then
+            format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
+          else
+            @planes_permitidos = select_planes_permitidos
+            @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
+            format.html { render action: 'modificacion' }
+            #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+            format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+            #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
+          end        
+        else
+          @planes_permitidos = select_planes_permitidos
+          @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
+          format.html { render action: 'modificacion' }
+          #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+          #debugger
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
+        end
+    end    
+    
+  
   end
   
   def update
@@ -666,12 +758,7 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-def modificacion
-    respond_to do |format|
-      format.html
-      format.json { render json: AltasBajasHora2Datatable.new(view_context, { query: altas_bajas_horas_modificacion }) }
-    end
-  end
+
 
 def editar_campos
     @altas_bajas_hora = AltasBajasHora.where(id: params["id"])

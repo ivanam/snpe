@@ -37,7 +37,22 @@ class CargosController < ApplicationController
   # ------------------------------------------------------------------------------------------------------------------------------------------------
   
   def show
-    respond_with(@cargo)
+    @cargos = Cargo.find(params[:id])
+  end
+
+  def show
+    @cargos = Cargo.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => 'file_name',
+        #:template => 'entradas/show.html.erb',
+        :template => 'cargos/pdf.html.erb',
+        #:layout => 'application.html.erb',
+        :layout => 'pdf.html.erb',
+        :show_as_html => params[:debug].present?
+      end
+    end
   end
 
   def new
@@ -359,12 +374,6 @@ class CargosController < ApplicationController
     end
   end
 
-def modificacion
-    respond_to do |format|
-      format.html
-      format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
-    end
-  end
 
 def editar_campos
     @altas_bajas_hora = Cargo.where(id: params["id"])
@@ -400,6 +409,94 @@ def editar_campos
       format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
     end
 end
+
+
+
+
+  def modificacion
+    @cargos= Cargo.where(:establecimiento_id => session[:establecimiento]).first
+    respond_to do |format|
+      format.html
+      format.json { render json: CargosDatatable.new(view_context, { query: cargos_modificacion }) }
+    end
+  end
+
+
+
+  def mostrar_edicion
+
+    @persona_id=Cargo.where(:id => params[:id]).first.persona_id
+    @persona = Persona.where(:id => @persona_id).first
+    render json: @persona
+  end
+
+
+  def buscar_cuil
+    @persona_id=Cargo.where(:id => params[:id]).first.persona_id
+    @persona = Persona.where(:id => @persona_id).first.nro_documento
+    
+    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
+    @cuil= client.query("select cuit from agentes_dni_cuit a where '"+ @persona.to_s + "' = a.nume_docu")
+
+   respond_to do |format|
+        format.json { render json: @cuil}
+      end     
+  end
+
+   def mostrar_edicion2
+    @cargos=Cargo.where(:id => params[:id]).first
+    @registro=Cargo.where(:id => params[:id]).first
+ 
+
+    respond_to do |format|
+      format.json { render json: @cargos }
+    end
+  end
+
+
+ def guardar_edicion2   
+
+    @persona = Persona.where(:nro_documento => params[:dni]).first
+    @cargos = Cargo.where(:id => params[:edi]).first
+    @cargos.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
+    #@persona.tipo_documento_id = TipoDocumento.where(:id => params[:tipo_documento]).first.id
+    @persona.fecha_nacimiento = params[:fecha_nacimiento]
+    @persona.cuil = params[:cuil] 
+    @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
+    @cargos.turno = params[:turno]
+    @cargos.anio = params[:anio]
+    @cargos.division = params[:division]
+    @cargos.estado = params[:estado]
+    #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
+    if params[:materium_id] != "" then 
+      @cargos.materium_id = params[:materium_id]
+    end
+    @cargos.grupo_id = params[:grupo_id]
+    @cargos.observaciones = params[:observaciones]
+
+
+   respond_to do |format|
+        if @persona.save then       
+          if @cargos.save then
+            format.html { redirect_to cargos_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.json { render action: 'modificacion', status: :created, location: @cargos }
+          else
+            format.html { render action: 'modificacion' }
+            #format.html { redirect_to cargos_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+            format.json { render json: @cargos.errors, status: :unprocessable_entity }
+            #respond_with(@altas_bajas_hora, :location => cargos_path)  
+          end        
+        else
+
+          format.html { render action: 'modificacion' }
+          #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+          #debugger
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
+        end
+    end    
+    
+  
+  end
 
 
 

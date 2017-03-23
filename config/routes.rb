@@ -153,7 +153,12 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/:id/modificar/", to: "altas_bajas_horas#modificar", as: :altas_bajas_horas_modificar
 
+     get "altas_bajas_horas/obtener_id/:id", to: "altas_bajas_horas#obtener_id", as: :altas_bajas_horas_obtener_id
+
+
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
+
+    post "altas_bajas_horas/guardar_edicion2", to: "altas_bajas_horas#guardar_edicion2", as: :altas_bajas_horas_guardar_edicion2
 
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
@@ -166,6 +171,12 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/notificar_baja/:id", to: "altas_bajas_horas#notificar_baja", as: :altas_bajas_horas_notificar_baja
 
     get "altas_bajas_horas/cancelar_baja/:id", to: "altas_bajas_horas#cancelar_baja", as: :altas_bajas_horas_cancelar_baja
+
+    get "altas_bajas_horas/mostrar_edicion/:id", to: "altas_bajas_horas#mostrar_edicion", as: :altas_bajas_horas_mostrar_edicion
+
+    get "altas_bajas_horas/mostrar_edicion2/:id", to: "altas_bajas_horas#mostrar_edicion2", as: :altas_bajas_horas_mostrar_edicion2
+
+    get "altas_bajas_horas/buscar_cuil/:id", to: "altas_bajas_horas#buscar_cuil", as: :altas_bajas_horas_buscar_cuil
 
     get "altas_bajas_horas/chequear_baja/:id", to: "altas_bajas_horas#chequear_baja", as: :altas_bajas_horas_chequear_baja
 
@@ -181,7 +192,7 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/cargo_por_materia/:materium_id/:plan_id/:anio/:division", to: 'altas_bajas_horas#cargo_por_materia', as: :altas_bajas_horas_cargo_por_materia
 
-    get "altas_bajas_horas/modificar", to: 'altas_bajas_horas#modificar', as: :modificar_hs
+   #get "altas_bajas_horas/modificar", to: 'altas_bajas_horas#modificar', as: :modificar_hs
 
 
     resources :altas_bajas_horas
@@ -192,14 +203,23 @@ ProyectoBase::Application.routes.draw do
         
     get "cargo/bajas/", to: "cargos#index_bajas", as: :cargos_index_bajas
 
+    get "cargos/:id", to: "cargos#show", as: :cargos_show
 
-    put "cargos/editar_campos/", to: "cargos#editar_campos", as: :cargo_editar_campos
+    put "cargo/editar_campos/", to: "cargos#editar_campos", as: :cargo_editar_campos
     
     get "cargo/modificacion/", to: "cargos#modificacion", as: :cargos_modificacion
+
+    get "cargo/buscar_cuil/:id", to: "cargos#buscar_cuil", as: :cargos_buscar_cuil
     
     get "cargo/cancelar-cola/", to: "cargos#cancelar_cola", as: :cargo_cancelar_cola
 
     get "cargo/:id/editar_alta/", to: "cargos#editar_alta", as: :cargo_editar_alta
+
+    get "cargo/mostrar_edicion/:id", to: "cargos#mostrar_edicion", as: :cargos_mostrar_edicion
+
+    get "cargo/mostrar_edicion2/:id", to: "cargos#mostrar_edicion2", as: :cargos_mostrar_edicion2
+
+    post "cargo/guardar_edicion2", to: "cargos#guardar_edicion2", as: :cargos_guardar_edicion2
 
     patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
 
@@ -242,6 +262,18 @@ ProyectoBase::Application.routes.draw do
     #----------------------------------------------------------------------------------------------------------------------------------
 
     resources :cargo_no_docentes
+
+    get "cargo_no_docentes/:id", to: "cargo_no_docentes#show", as: :cargo_no_docentes_show
+    
+    get "cargo_no_docente/modificacion/", to: "cargo_no_docentes#modificacion", as: :cargo_no_docentes_modificacion
+
+    get "cargo_no_docente/mostrar_edicion/:id", to: "cargo_no_docentes#mostrar_edicion", as: :cargo_no_docentes_mostrar_edicion
+
+    get "cargo_no_docente/mostrar_edicion2/:id", to: "cargo_no_docentes#mostrar_edicion2", as: :cargo_no_docentes_mostrar_edicion2
+
+    post "cargo_no_docente/guardar_edicion2", to: "cargo_no_docentes#guardar_edicion2", as: :cargo_no_docentes_guardar_edicion2
+
+    get "cargo_no_docente/buscar_cuil/:id", to: "cargo_no_docentes#buscar_cuil", as: :cargo_no_docentes_buscar_cuil
 
     get "cargo_no_docente/cancelar-cola/", to: "cargo_no_docentes#cancelar_cola", as: :cargo_no_docentes_cancelar_cola
 
