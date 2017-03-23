@@ -222,7 +222,7 @@ class AltasBajasHorasController < ApplicationController
 
     respond_to do |format|
 
-        #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
+      #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
 
       if [1,6,8].include? @caso then
         if @persona.save then           

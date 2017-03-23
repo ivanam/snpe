@@ -46,7 +46,8 @@ class Cargo < ActiveRecord::Base
     end
   end
 
- 
+
+
 
   def incompatibilidad
     print "cargar algo"

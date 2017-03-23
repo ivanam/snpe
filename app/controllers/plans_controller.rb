@@ -7,7 +7,7 @@ class PlansController < InheritedResources::Base
   def index
     respond_to do |format|
       format.html
-      format.json { render json: PlanDatatable.new(view_context, { query: Plan.all.order(:codigo) }) }
+      format.json { render json: PlanDatatable.new(view_context, { query: Plan.all }) }
     end
   end
 

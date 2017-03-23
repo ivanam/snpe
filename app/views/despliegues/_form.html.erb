@@ -19,13 +19,13 @@
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :plan, :class => "col-sm-2 control-label" %>
+    <%= f.label :plan_id, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.collection_select(:plan_id, Plan.all.order(:codigo), :id, :to_s, {:prompt => true},:style=>"width:100%") %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :materium, "Materia", :class => "col-sm-2 control-label" %>
+    <%= f.label :materium_id, "Materia", :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.collection_select(:materium_id, Materium.all, :id, :to_s, {:prompt => true},:style=>"width:100%") %>
     </div>
@@ -34,6 +34,18 @@
     <%= f.label :carga_horaria, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.number_field :carga_horaria, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :cant_docentes, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :cant_docentes, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :observacion, "Observación", :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :observacion, :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
