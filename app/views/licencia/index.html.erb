@@ -36,6 +36,14 @@
 <% @licencia = Licencium.new %>
 <%= render 'form_licencia', licencia: @licencia %>
 
+  <div align="right">
+  <%= link_to listado_licencias_path(format: :xls), :target => "_blank", :class => 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Descargar licencias vigentes
+  <% end %>
+  </div>
+
+
 <hr id="div_hr_horas"/>
 <div id="div_horas" class="panel panel-info">
     <div class="panel-heading">
@@ -200,10 +208,9 @@
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin2' , Date.today%>
         <hr/>
-        <div class="row">          
-          <%= 
-          select_tag "Articulo", options_from_collection_for_select(Articulo.join(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
-        </div>
+        <div class="row">
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
+      </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>
        
@@ -231,7 +238,7 @@
         <%= text_field_tag 'input_fecha_fin4' , Date.today%>
         <hr/>
         <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos_no_docente" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos_no_docente" %>
         </div>
         <hr/>
         <div id="alerta-dias-cargo-no-docentes" class="alert alert-info"></div>

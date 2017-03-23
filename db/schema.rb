@@ -254,6 +254,10 @@ ActiveRecord::Schema.define(version: 20170321120051) do
     t.string   "motivo_baja"
     t.string   "estado"
     t.string   "materium_id"
+<<<<<<< HEAD
+    t.string   "estado",                 limit: 45, null: false
+=======
+>>>>>>> 6112659225d44e898c662f4b4b7088a5874c10cf
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree

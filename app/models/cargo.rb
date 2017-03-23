@@ -2,6 +2,7 @@ class Cargo < ActiveRecord::Base
   belongs_to :establecimiento
   belongs_to :persona
   belongs_to :persona_reemplazada
+  belongs_to :funcion
 
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
@@ -13,6 +14,8 @@ class Cargo < ActiveRecord::Base
   validate :sit_revista
 
   #-----------------------------------------------------------------------------------------------------------
+
+
   def cargo_ocupado
     "Revisa si existe una persona en el cargo"
     if self.establecimiento.nivel_id.to_i == 1 # Inicial
@@ -129,6 +132,8 @@ class Cargo < ActiveRecord::Base
   def cargo_equivalentes_escuela
     return Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_equivalentes(self.cargo))  
   end
+
+ 
   
 
 end
