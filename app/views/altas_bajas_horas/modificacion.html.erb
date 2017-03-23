@@ -72,6 +72,9 @@
 
 			          <%= text_field_tag 'oblig', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Oblig.", :id=>"oblig", :class => "form-alta form-control", :placeholder => "Oblig."}%>
 
+                <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+
+
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
 
 
@@ -96,6 +99,7 @@
 							<tr>
 
 								<th>DNI</th>
+                <th>Cuil</th>
 								<th>Nombre</th>
 								<th>Secuencia</th>
 								<th>Sit. Rev</th>
@@ -244,8 +248,9 @@
                 	$("#sit-revista").val(data.situacion_revista);
                 	$("#plan").val(data.plan_id);
                 	$("#curso").val(data.anio);
-                	$("#materium").val(data.materium);
+                	$("#materium").val(data.materium_id);
                 	$("#horas").val(data.horas);
+                  $("#estado").val(data.estado);
                 	$("#grupo").val(data.grupo_id);
                 	$("#oblig").val(data.oblig);
                 	$("#observaciones-edit").val(data.observaciones);
@@ -267,6 +272,7 @@
                 	$("#input_dni").val(data.nro_documento);
                 	$("#datepicker3").val(data.fecha_nacimiento);
                 	$("#select_sexo").val(data.sexo_id);
+
                 	if (data.cuil != null) {
                 		$("#cuil").val(data.cuil);
                 	}else{

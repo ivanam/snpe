@@ -210,8 +210,7 @@
         <hr/>
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
-
-        </div>
+      </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>
        

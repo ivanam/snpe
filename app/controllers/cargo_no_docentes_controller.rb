@@ -25,10 +25,23 @@ class CargoNoDocentesController < InheritedResources::Base
     respond_with(@cargo_no_docente)
   end
 
-
+  def show
+    @cargo_no_docente = CargoNoDocente.find(params[:id])
+  end
 
   def show
-    respond_with(@cargo_no_docente)
+    @cargo_no_docente = CargoNoDocente.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => 'file_name',
+        #:template => 'entradas/show.html.erb',
+        :template => 'cargo_no_docentes/pdf.html.erb',
+        #:layout => 'application.html.erb',
+        :layout => 'pdf.html.erb',
+        :show_as_html => params[:debug].present?
+      end
+    end
   end
 
   def new
@@ -393,23 +406,18 @@ class CargoNoDocentesController < InheritedResources::Base
     #@persona.tipo_documento_id = TipoDocumento.where(:id => params[:tipo_documento]).first.id
     @persona.fecha_nacimiento = params[:fecha_nacimiento]
     @persona.cuil = params[:cuil] 
+    @cargo_id = params[:cargo]
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
     @cargos.turno = params[:turno]
-    @cargos.anio = params[:anio]
-    @cargos.division = params[:division]
-    debugger
-    if params[:materium_id] != "" then 
-      @cargos.materium_id = params[:materium_id]
-      @cargos.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
-    end
-    @cargos.grupo_id = params[:grupo_id]
     @cargos.observaciones = params[:observaciones]
+    #@cargos.cargo = params[:cargo]
+    @cargos.estado= params[:estado]
 
 
    respond_to do |format|
         if @persona.save then       
           if @cargos.save then
-            format.html { redirect_to cargos_no_docentes_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.html { redirect_to cargo_no_docentes_modificacion_path, notice: 'Registro actualizado correctamente' }
             format.json { render action: 'modificacion', status: :created, location: @cargos }
           else
             format.html { render action: 'modificacion' }
