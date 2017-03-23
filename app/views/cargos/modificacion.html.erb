@@ -50,23 +50,26 @@
 
   					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
 
-  					  <%= select_tag 'cargo', options_from_collection_for_select(funciones_permitidas, "id", "categoria"), {:prompt => "Cargos", :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select"}%>
+  					  <%= select_tag 'cargo', options_from_collection_for_select(funciones_permitidas, "categoria", "descripcion"), {:prompt => "Cargos", :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select" , :readonly => :true}%>
 
 
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
 
-          			  <%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso", }%>
+          			<%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso", }%>
 
   					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
 
        
-          			  <%= select_tag 'materium_id',  options_from_collection_for_select( Materium.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", }%>  
+          		<%= select_tag 'materium_id',  options_from_collection_for_select( Materium.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", }%>  
 
 
-          			  <%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+          		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
 
 
-         			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
+               <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+
+
+         			 <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
 
 
 				      </div>
@@ -138,8 +141,9 @@
                 	$("#cargo").val(data.cargo);
                 	$("#sit-revista").val(data.situacion_revista);
                 	$("#curso").val(data.anio);
-                	$("#materium").val(data.materium);
+                	$("#materium").val(data.materium_id);
                 	$("#grupo").val(data.grupo_id);
+                  $("#estado").val(data.estado);
                 	$("#oblig").val(data.oblig);
                 	$("#observaciones-edit").val(data.observaciones);
             	}

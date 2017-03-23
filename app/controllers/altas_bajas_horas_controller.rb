@@ -440,6 +440,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.oblig = params[:oblig]
     @altas_bajas_horas.observaciones = params[:observaciones]
+    @altas_bajas_horas.estado = params[:estado]
 
 
    respond_to do |format|

@@ -51,7 +51,12 @@
   					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
 
 
+  					  <%= select_tag 'cargo', options_from_collection_for_select(Cargosnd.all, "id", "cargo_desc"), {:prompt => "Cargos", :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select", :readonly => :true}%>
+
+
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
+
+  					   <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
 
 
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
@@ -79,6 +84,7 @@
 							<tr>
 
 								<th>DNI</th>
+								<th>Cuil</th>
 								<th>Nombre</th>
 								<th>Secuencia</th>
 								<th>Cargo</th>  
@@ -120,8 +126,11 @@
                 	$("#editar").show();	
                 	$("#turno").val(data.turno);
                 	$("#fecha_alta").val(data.fecha_alta);
+                	$("#cargo").val(data.cargo);
                 	$("#sit-revista").val(data.situacion_revista);
                 	$("#observaciones-edit").val(data.observaciones);
+                	$("#estado").val(data.estado);
+
             	}
 
                 });

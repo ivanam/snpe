@@ -20,7 +20,7 @@ class CargosDatatable < AjaxDatatablesRails::Base
         record.persona.nro_documento,
         record.persona.to_s,
         record.secuencia,
-        record.cargo.to_s,
+        Funcion.where(categoria: record.cargo).first.to_s,
         record.situacion_revista,  
         record.anio,
         record.division,
@@ -30,8 +30,6 @@ class CargosDatatable < AjaxDatatablesRails::Base
         '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/cargos/'+record.id.to_s+'"><strong>Ver</strong></a>',
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
 
-
-
       ]
     end
   end
@@ -39,6 +37,8 @@ class CargosDatatable < AjaxDatatablesRails::Base
   def get_raw_records
     return options[:query]
   end
+
+
 
 end
 

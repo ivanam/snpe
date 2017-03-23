@@ -18,6 +18,7 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
       [ 
 
         record.persona.nro_documento,
+        record.persona.cuil,
         record.persona.to_s,
         record.secuencia,
         record.situacion_revista,
