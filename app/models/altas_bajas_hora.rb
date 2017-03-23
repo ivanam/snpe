@@ -50,13 +50,11 @@ class AltasBajasHora < ActiveRecord::Base
     establecimiento = Establecimiento.find(id: self.establecimiento_id)
     nivel = establecimiento.nivel
     if nivel.descripcion = "Superior"
-
       #Obtengo el despliegue correspondiente a la materia y el plan
-      despliegue = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id).first      
-      
+      despliegue = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id).first            
       #Cantidad de registros
-      @altas_escuela = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id)
-      if !(despliegue.cantidad_docentes < @altas_escuela)
+      @cantidad_registros = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).count
+      if !(despliegue.cantidad_docentes < cantidad_registros)
         errors.add(:base,"Ya se cumplio el limite de cantidad de docentes en esa Materia")
       end
     end

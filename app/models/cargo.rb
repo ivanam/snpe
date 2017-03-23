@@ -51,7 +51,7 @@ class Cargo < ActiveRecord::Base
       if  cargo_actual != []
         if self.situacion_revista == "1-1"
           cargo_actual.first
-
+        end
       else
 
       end
