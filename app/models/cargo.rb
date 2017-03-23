@@ -43,20 +43,6 @@ class Cargo < ActiveRecord::Base
     end
   end
 
-  def situacion_revista
-    "Revisa si corresponde la sitacion revista"
-    if !(Funcion::DIRECTOR_CATEGORIAS.include? self.cargo) || (Funcion::VICEDIRECTOR_CATEGORIAS.include? self.cargo)
-      debugger
-      cargo_actual = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, estado: "ALT")
-      if  cargo_actual != []
-        if self.situacion_revista == "1-1"
-          cargo_actual.first
-
-      else
-
-      end
-    end
-  end
 
   def incompatibilidad
     print "cargar algo"
