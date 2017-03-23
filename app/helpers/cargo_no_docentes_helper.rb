@@ -54,4 +54,8 @@ module CargoNoDocentesHelper
     	return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).where.not(:secuencia => nil).where(:fecha_baja => nil).includes(:establecimiento, :persona)
   	end
 
+  	 def cargo_no_docentes_modificacion
+       return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).includes(:establecimiento, :persona)
+  	end
+
 end

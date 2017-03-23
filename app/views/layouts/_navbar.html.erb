@@ -75,7 +75,7 @@
                   <a tabindex="-1" href="#">Cargos auxiliares</a>
                   <ul class="dropdown-menu">
                     <li><%=link_to "Altas", cargo_no_docentes_path, :tabindex => "-1"%></li>
-                    <li><%=link_to "Modificacion", cargo_no_docentes_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Modificacion", cargo_no_docentes_modificacion_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", cargo_no_docentes_index_bajas_path, :tabindex => "-1"%></li>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                       <li><%=link_to "Novedades", cargo_no_docentes_index_novedades_path, :tabindex => "-1"%></li>  
