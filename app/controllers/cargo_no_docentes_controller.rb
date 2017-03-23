@@ -342,6 +342,95 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
 
+
+
+  def modificacion
+    @cargos = CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).first
+    respond_to do |format|
+      format.html
+      format.json { render json: CargoNoDocente2Datatable.new(view_context, { query: cargo_no_docentes_modificacion }) }
+    end
+  end
+
+
+
+  def mostrar_edicion
+
+    @persona_id=CargoNoDocente.where(:id => params[:id]).first.persona_id
+    @persona = Persona.where(:id => @persona_id).first
+    render json: @persona
+  end
+
+
+  def buscar_cuil
+    @persona_id=CargoNoDocente.where(:id => params[:id]).first.persona_id
+    @persona = Persona.where(:id => @persona_id).first.nro_documento
+    
+    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
+    @cuil= client.query("select cuit from agentes_dni_cuit a where '"+ @persona.to_s + "' = a.nume_docu")
+
+   respond_to do |format|
+        format.json { render json: @cuil}
+      end     
+  end
+
+   def mostrar_edicion2
+    @cargos=CargoNoDocente.where(:id => params[:id]).first
+    @registro=CargoNoDocente.where(:id => params[:id]).first
+ 
+
+    respond_to do |format|
+      format.json { render json: @cargos }
+    end
+  end
+
+
+ def guardar_edicion2   
+
+    @persona = Persona.where(:nro_documento => params[:dni]).first
+    @cargos = CargoNoDocente.where(:id => params[:edi]).first
+    @cargos.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
+    #@persona.tipo_documento_id = TipoDocumento.where(:id => params[:tipo_documento]).first.id
+    @persona.fecha_nacimiento = params[:fecha_nacimiento]
+    @persona.cuil = params[:cuil] 
+    @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
+    @cargos.turno = params[:turno]
+    @cargos.anio = params[:anio]
+    @cargos.division = params[:division]
+    debugger
+    if params[:materium_id] != "" then 
+      @cargos.materium_id = params[:materium_id]
+      @cargos.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
+    end
+    @cargos.grupo_id = params[:grupo_id]
+    @cargos.observaciones = params[:observaciones]
+
+
+   respond_to do |format|
+        if @persona.save then       
+          if @cargos.save then
+            format.html { redirect_to cargos_no_docentes_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.json { render action: 'modificacion', status: :created, location: @cargos }
+          else
+            format.html { render action: 'modificacion' }
+            #format.html { redirect_to cargos_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+            format.json { render json: @cargos.errors, status: :unprocessable_entity }
+            #respond_with(@altas_bajas_hora, :location => cargos_path)  
+          end        
+        else
+
+          format.html { render action: 'modificacion' }
+          #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+          #debugger
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
+        end
+    end    
+    
+  
+  end
+
+
+
   private
 
     def set_cargo_no_docente
