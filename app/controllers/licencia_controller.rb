@@ -40,7 +40,7 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-    client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "root", :database => "snpe")
+    client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
       @res= client.query("select * from snpe.licenciasV", :cast_booleans => true)
     respond_to do |format|
       format.xls 
