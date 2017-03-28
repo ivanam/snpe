@@ -39,12 +39,19 @@ class LicenciaController < ApplicationController
   end
 
   #Reporte de todas las licencias de todos los establecimientos
-  def listado_licencias        
+  def listado_licencias
+    client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
+      @res= client.query("select * from snpe.licenciasV", :cast_booleans => true)
     respond_to do |format|
+      format.xls 
       format.html 
       format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: listado_de_licencias}) }
     end
   end
+
+
+
+
 
   def cargos_licencia_permitida
     @dni=params[:dni]

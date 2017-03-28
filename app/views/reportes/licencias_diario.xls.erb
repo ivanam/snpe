@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <% @res.each do |s| %>
+    <Worksheet ss:Name="<%= s.to_s %>">
+      <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Fecha Desde</Data></Cell>
+
+        <Row>
+             <Cell><Data ss:Type="String"><%= s.fecha_desde %></Data></Cell>
+        
+          </Row>
+        <% end %>
+      </Table>
+    </Worksheet>
+  <% end %>
+</Workbook>

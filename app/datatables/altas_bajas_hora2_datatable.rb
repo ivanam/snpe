@@ -18,6 +18,7 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
       [ 
 
         record.persona.nro_documento,
+        record.persona.cuil,
         record.persona.to_s,
         record.secuencia,
         record.situacion_revista,
@@ -42,7 +43,6 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
   end
 
 end
-
 
       #    <% link_to '#new_servicio_modal', 'data-toggle'=>"tooltip", 'data-placement'=>"top", 'title'=>"Nuevo servicio", 'data-toggle' => 'modal', 'cant_horas' => p.asignatura_plan_estudio.horas, 'data-id' => p.id, 'fecha_desde' => p.fecha_desde_fun, 'fecha_hasta' => p.fecha_hasta_fun, :class => 'btn btn-sm btn-success' do %>
        #     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

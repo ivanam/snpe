@@ -93,6 +93,7 @@ class CargosController < ApplicationController
     @cargo.turno = params[:cargo][:turno]
     @cargo.con_movilidad = params[:cargo][:con_movilidad]
     @cargo.persona_id = @persona.id
+    @cargo.estado = "ALT"
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
 
@@ -466,10 +467,10 @@ end
     @cargos.turno = params[:turno]
     @cargos.anio = params[:anio]
     @cargos.division = params[:division]
-    debugger
+    @cargos.estado = params[:estado]
+    #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
     if params[:materium_id] != "" then 
       @cargos.materium_id = params[:materium_id]
-      @cargos.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
     end
     @cargos.grupo_id = params[:grupo_id]
     @cargos.observaciones = params[:observaciones]
