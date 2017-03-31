@@ -28,7 +28,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         elsif record.cargo_id != nil
             Funcion.find(Cargo.find(record.cargo_id).cargo.to_i).to_s
         else
-            CargoNoDocente.find(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).to_s
+            Cargosnd.find(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).to_s
         end,
 
         Util.fecha_a_es(record.fecha_desde),

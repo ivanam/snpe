@@ -1,6 +1,6 @@
 module LicenciaHelper
 
-	def cargos_persona_permitida(dni)
+	def cargos_persona_permitida(dni) #funcion de busqueda para licencias
 		@cargos_persona = Cargo.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento])
 		if current_user.role? :escuela then
 			@cargos_persona_fecha = @cargos_persona.where(:establecimiento_id => session[:establecimiento], estado: 'ALT') #.where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
@@ -12,6 +12,7 @@ module LicenciaHelper
 	    return @cargos_persona.where.not(:id => @licencia_cargos)
 	end
 
+  
 	def cargos_no_docente_persona_permitida(dni)
 		@cargos_persona_aux = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento])
 		if current_user.role? :escuela then

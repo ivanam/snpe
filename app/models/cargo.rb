@@ -7,6 +7,8 @@ class Cargo < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
+  validates :turno, presence: true
+
 
   validate :sit_revista
   validate :cargo_jerarquico
@@ -59,25 +61,33 @@ class Cargo < ActiveRecord::Base
 
   def sit_revista
     # Revisa si corresponde la sitacion revista
-    if !(Funcion.cargos_jerarquicos.include? self.cargo)
-      # Cargos jerarquicos
-      cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, estado: "ALT")
-      if  cargo_actuales != []
-      # Existen cargos
-        if self.situacion_revista == "1-1"
-          errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.first.persona.to_s + " debe realizar la baja del cargo anterior")
-        elsif self.situacion_revista == "1-2"
-          errors.add(:persona, "ya se encuentra ocupado el cargo, genere la baja del cargo anterior")
+    if self.estado == "ALT"
+      if !(Funcion.cargos_jerarquicos.include? self.cargo)
+        # Cargos jerarquicos
+        cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso)
+        if  cargo_actuales.where(estado: "ALT") != []
+        # Existen cargos
+          errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.where(estado: "ALT").first.persona.to_s + " debe realizar la baja del cargo anterior")
+          # if self.situacion_revista == "1-1"
+          #   errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.first.persona.to_s + " debe realizar la baja del cargo anterior")
+          # else self.situacion_revista == "1-2"
+          #   errors.add(:persona, "ya se encuentra ocupado el cargo, genere la baja del cargo anterior")
+          #end
+        elsif cargo_actuales.where(estado: "LIC") != []
+          if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
+            errors.add(:base, "No se puede dar de alta el cargo, ya se ocupado por " + cargo_actuales.where(estado: "LIC").first.persona.to_s + "que se encuentra de licencia")
+          end
+        else
+        # No existen cargos
+          if (self.situacion_revista == "1-3") || (self.situacion_revista == "2-1") || (self.situacion_revista == "2-2") || (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-5")
+            errors.add(:base, "No posee titular o interino para reemplazar o suplir")
+          end
         end
       else
-      # No existen cargos
-        if (self.situacion_revista == "1-3") || (self.situacion_revista == "2-1") || (self.situacion_revista == "2-2") || (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-5")
-          errors.add(:base, "No posee titular o interino para reemplazar o suplir")
-        end
+        self.cargo_ocupado
       end
-    else
-      self.cargo_ocupado
     end
+
   end
 
   def incompatibilidad

@@ -18,6 +18,7 @@ class CargosLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
         record.establecimiento.codigo_jurisdiccional,
         record.establecimiento.cue,
         record.establecimiento.nombre,
+        record.turno.to_s,
         record.anio,
         record.division,
         record.observaciones,
