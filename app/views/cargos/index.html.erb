@@ -5,6 +5,13 @@
 
 <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
   <legend class="legend-small">Carga de un Alta</legend>  
+  <div align="right">
+    <%= link_to "http://www.chubut.edu.ar/agentes", :target => "_blank", :class => 'btn btn-success' do %>
+        <span class="glyphicon glyphicon-info-sign"></span>
+        Verificar incompatibilidades
+    <% end %>
+  </div>
+  <br/>
   <div class="form-carga-efecto form-carga-efecto-cargos">
     <%= render 'form_cargo', cargo: @cargo %>
   </div>
