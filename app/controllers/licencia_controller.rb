@@ -84,25 +84,16 @@ class LicenciaController < ApplicationController
 
   def guardar_licencia_horas
     @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    @licencia.save
-    @altas_bajas_hora = AltasBajasHora.where(id: params[:id_horas]).first
-    @altas_bajas_hora.update(:estado => 'LIC')
     render json: 0
   end 
 
   def guardar_licencia_cargos
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    @cargo = Cargo.where(id: params[:id_cargos]).first
-    @cargo.update(:estado => 'LIC')
-    @licencia.save
     render json: 0
   end
    
    def guardar_licencia_cargos_no_docentes
     @licencia = Licencium.create(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    @cargo_no_doc = CargoNoDocente.where(id: params[:id_cargos_no_docentes]).first
-    @cargo_no_doc.update(:estado => 'LIC')
-    @licencia.save
     render json: 0
   end
   def guardar_licencia_final

@@ -1,6 +1,6 @@
 <% @altas_bajas_hora = altas_bajas_hora %>
 
-<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal" }) do |f| %>
+<%= form_for(@altas_bajas_hora, :html => { :class => "form-horizontal",  onsubmit: "return validateForm()" }) do |f| %>
 <style type="text/css">
 .form-group{
   margin-left: 0px;
