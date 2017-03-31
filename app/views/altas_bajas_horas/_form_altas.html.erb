@@ -79,7 +79,6 @@
 
         <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
 
-        <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control", :maxlength=>"2"%>        
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones" %>  
         </div>
         <div class="row">        
@@ -91,7 +90,7 @@
   <div id="cargo_materia" class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
-          Cargos por materia
+          Docentes que tienen asignado este espacio curricular
         </h3>
       </div>
   <div class="panel-body">

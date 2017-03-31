@@ -60,11 +60,13 @@
             <th>CJ</th>
             <th>Cue</th>
             <th>Establecimiento</th>
-            <th>Curso</th>
+            <th>Ciclo</th>
+            <th>Año</th>
             <th>Div</th>
-            <th>Observaciones</th>
+            <th>Turno</th>
+            <th>Materia</th>
             <th>Fecha Alta</th>
-            <th>Acciones</th>
+            <th class="text-center col-md-1">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -94,7 +96,7 @@
             <th>Div</th>
             <th>Observaciones</th>
             <th>Fecha Alta</th>
-            <th>Acciones</th>
+            <th class="text-center col-md-1">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -123,7 +125,7 @@
             <th>Establecimiento</th>
             <th>Observaciones</th>
             <th>Fecha Alta</th>
-            <th>Acciones</th>
+            <th class="text-center col-md-1">Acciones</th>
            </tr>
           </thead>
           <tbody>
@@ -147,11 +149,11 @@
           <thead>
             <tr>
               <th>Tipo</th>
-              <th>Descripcion</th>
-              <th>Fecha Desde</th>
-              <th>Fecha Hasta</th>
-              <th>Articulo</th>
-              <th>Estado</th>
+              <th>Descripción</th>
+              <th style="width: 100px;">Fecha Desde</th>
+              <th style="width: 100px;">Fecha Hasta</th>
+              <th>Artículo</th>
+              <th class="text-center col-md-1">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -178,7 +180,7 @@
         <%= text_field_tag 'input_fecha_fin', Date.today %>
         <hr/>
         <div class="row">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
         </div>
         <hr/>
         
@@ -328,11 +330,10 @@
     serverSide : true,
     ajax : $('#tabla-horas-licencia').data('source'),
     pagingType: "simple",
-    paginate: false,
-    filter: false,
+    retrieve: true,
     columnDefs: [
             {
-                "targets": [ 8 ],
+                "targets": [ 10 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -346,8 +347,7 @@
     serverSide : true,
     ajax : $('#tabla-cargos-licencia').data('source'),
     pagingType: "simple",
-    paginate: false,
-    filter: false,
+    retrieve: true,
     columnDefs: [
             {
                 "targets": [ 8 ],
@@ -364,8 +364,7 @@
     serverSide : true,
     ajax : $('#tabla-cargos-no-docentes-licencia').data('source'),
     pagingType: "simple",
-    paginate: false,
-    filter: false,
+    retrieve: true,
     columnDefs: [
             {
                 "targets": [ 6 ],
@@ -483,7 +482,7 @@
       type: 'GET',
       })
         .done(function(data) {
-        $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
+        $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
       }) 
   });
@@ -525,7 +524,7 @@
         type: 'GET',
       })
         .done(function(data) {
-          $("#alerta-dias-cargo").html("Le quedan "+data+" dias de licencias en este Articulo");
+          $("#alerta-dias-cargo").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo").show();
         }) 
   });
@@ -567,7 +566,7 @@
         type: 'GET',
       })
         .done(function(data) {
-          $("#alerta-dias-cargo-no-docentes").html("Le quedan "+data+" dias de licencias en este Articulo");
+          $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes").show();
         }) 
   });
