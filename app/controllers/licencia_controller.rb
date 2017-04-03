@@ -89,6 +89,7 @@ class LicenciaController < ApplicationController
 
   def guardar_licencia_cargos
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
+    debugger
     render json: 0
   end
    

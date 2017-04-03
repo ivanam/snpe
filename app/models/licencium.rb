@@ -25,11 +25,11 @@ class Licencium < ActiveRecord::Base
 			estado = 'LIC' 		
 	 	end
 	 	if self.altas_bajas_hora_id != nil
-	 		AltasBajasHora.find(self.altas_bajas_hora_id).update(estado: estado)
+	 		AltasBajasHora.find(self.altas_bajas_hora_id).update!(estado: estado)
 	 	elsif self.cargo_id != nil
-	 		Cargo.find(self.cargo_id).update(estado: estado)
+	 		Cargo.find(self.cargo_id).update!(estado: estado)
 	 	elsif self.cargo_no_docente_id != nil
-	 		CargoNoDocente.find(self.cargo_id).update(estado: estado)
+	 		CargoNoDocente.find(self.cargo_id).update!(estado: estado)
 	 	end
 	 end  
 
@@ -38,7 +38,7 @@ class Licencium < ActiveRecord::Base
 	 		if self.altas_bajas_hora_id != nil
 	 			AltasBajasHora.find(self.altas_bajas_hora_id).update(estado: 'ALT')
 	 		elsif self.cargo_id != nil
-	 			Cargo.find(self.cargo_id).update(estado: 'ALT')
+	 			Cargo.find(self.cargo_id).update!(estado: 'ALT')
 	 		elsif self.cargo_no_docente_id != nil
 	 			CargoNoDocente.find(self.cargo_id).update(estado: 'ALT')
 	 		end
