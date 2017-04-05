@@ -434,7 +434,7 @@ class AltasBajasHorasController < ApplicationController
     @persona.cuil = params[:cuil] 
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
     @altas_bajas_horas.turno = params[:turno]
-    @altas_bajas_horas.horas = params[:horas]
+   #@altas_bajas_horas.horas = params[:horas]
     @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
     @altas_bajas_horas.plan_id = params[:plan_id]
     @altas_bajas_horas.anio = params[:anio]

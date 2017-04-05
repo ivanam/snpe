@@ -40,8 +40,8 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-    client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
-      @res= client.query("select * from snpe.licenciasV", :cast_booleans => true)
+     client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "root", :database => "snpe")
+     @res= client.query("select * from snpe.licencia", :cast_booleans => true)
     respond_to do |format|
       format.xls 
       format.html 
@@ -49,10 +49,7 @@ class LicenciaController < ApplicationController
     end
   end
 
-
-
-
-
+  
   def cargos_licencia_permitida
     @dni=params[:dni]
     respond_to do |format|
@@ -105,7 +102,7 @@ class LicenciaController < ApplicationController
 
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first
-    @licencia.update(:vigente => "Cancelada")
+    @licencia.update!(:vigente => "Cancelada")
     render json: 0
   end
 

@@ -2,13 +2,12 @@ class CargosDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-     @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','Cargo.situacion_revista','Cargo.horas', 'Cargo.anio',
-     'Cargo.division', 'Cargo.turno']
+     @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','Cargo.situacion_revista','Cargo.anio', 'Cargo.division', 'Cargo.turno', 'Cargo.fecha_alta', 'Persona.cuil', 'Cargo.estado']
+ 
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom', 'Cargo.situacion_revista','Cargo.horas','Cargo.anio',
-    'Cargo.division', 'Cargo.turno']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','Cargo.situacion_revista','Cargo.anio', 'Cargo.division', 'Cargo.turno', 'Cargo.fecha_alta', 'Persona.cuil', 'Cargo.estado']
   end
 
   private

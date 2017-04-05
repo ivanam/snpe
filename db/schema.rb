@@ -217,6 +217,8 @@ ActiveRecord::Schema.define(version: 20170405132022) do
     t.datetime "updated_at"
     t.string   "estado"
     t.string   "situacion_revista"
+    t.string   "resolucion"
+    t.string   "decreto"
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
@@ -254,7 +256,7 @@ ActiveRecord::Schema.define(version: 20170405132022) do
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
     t.string   "materium_id"
-    t.string   "estado"
+    t.string   "estado",                 limit: 45, null: false
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree

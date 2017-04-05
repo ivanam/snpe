@@ -29,7 +29,11 @@ class Licencium < ActiveRecord::Base
 	 	elsif self.cargo_id != nil
 	 		Cargo.find(self.cargo_id).update!(estado: estado)
 	 	elsif self.cargo_no_docente_id != nil
+<<<<<<< HEAD
+	 		CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
+=======
 	 		CargoNoDocente.find(self.cargo_id).update!(estado: estado)
+>>>>>>> fe0d9d781cd0dbd0f925aa5398bf6caf9e724957
 	 	end
 	 end  
 
@@ -40,7 +44,8 @@ class Licencium < ActiveRecord::Base
 	 		elsif self.cargo_id != nil
 	 			Cargo.find(self.cargo_id).update!(estado: 'ALT')
 	 		elsif self.cargo_no_docente_id != nil
-	 			CargoNoDocente.find(self.cargo_id).update(estado: 'ALT')
+
+	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
 	 		end
 		end
 	 end 

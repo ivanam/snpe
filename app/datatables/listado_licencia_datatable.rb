@@ -15,7 +15,7 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.altas_bajas_hora.establecimiento.to_s,
-        record.altas_bajas_hora.persona.nro_documento.to_s+" / "+record.altas_bajas_hora.persona.cuil,
+        record.altas_bajas_hora.persona.nro_documento.to_s+" / "+record.altas_bajas_hora.persona.cuil.to_s,
         record.altas_bajas_hora.persona.to_s,
         if record.altas_bajas_hora_id != nil  
           "Horas"
