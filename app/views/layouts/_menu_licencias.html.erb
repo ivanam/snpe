@@ -5,7 +5,7 @@
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Licencias <b class="caret"></b></a>
         <ul class="dropdown-menu">        
           <li><%=link_to "Licencias", licencia_path, :tabindex => "-1"%></li>
-          <% if (current_user.role? :personal) %>
+          <% if (current_user.role? :personal) || (current_user.role? :escuela)  then %>
             <li><%=link_to "Listado de licencias", listado_licencias_path, :tabindex => "-1"%></li>          
           <% end %>
         </ul>
