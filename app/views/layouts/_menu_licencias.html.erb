@@ -8,6 +8,10 @@
           <% if (current_user.role? :personal) %>
             <li><%=link_to "Listado de licencias", listado_licencias_path, :tabindex => "-1"%></li>          
           <% end %>
+          <li><%=link_to "Reportes", licencia_path, :tabindex => "-1"%></li>
+          <% if (current_user.role? :personal) %>
+            <li><%=link_to "Listado de licencias", listado_licencias_path, :tabindex => "-1"%></li>          
+          <% end %>
         </ul>
       </li>
     <% end %>

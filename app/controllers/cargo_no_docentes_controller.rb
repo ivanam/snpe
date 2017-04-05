@@ -128,6 +128,8 @@ class CargoNoDocentesController < InheritedResources::Base
     @dni = params["dni"]
     @nombres = params["nombres"]
     @apellidos = params["apellidos"]
+    @resolucion = params["resolucion"]
+    @decreto = params["decreto"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(nro_documento: @dni).first
@@ -141,7 +143,7 @@ class CargoNoDocentesController < InheritedResources::Base
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo_no_docente = CargoNoDocente.find(params[:id])
-    @cargo_no_docente.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo_no_docente][:cargo], secuencia: params[:cargo_no_docente][:secuencia], fecha_alta: params[:cargo_no_docente][:fecha_alta], turno: params[:cargo_no_docente][:turno], observaciones: params[:cargo_no_docente][:observaciones]})    
+    @cargo_no_docente.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo_no_docente][:cargo], secuencia: params[:cargo_no_docente][:secuencia], fecha_alta: params[:cargo_no_docente][:fecha_alta], turno: params[:cargo_no_docente][:turno], observaciones: params[:cargo_no_docente][:observaciones], resolucion: params[:cargo_no_docente][:resolucion], decreto: params[:cargo_no_docente][:decreto]})    
     respond_to do |format|
       if @persona.save then       
         if @cargo_no_docente.save then
@@ -412,6 +414,8 @@ class CargoNoDocentesController < InheritedResources::Base
     @cargos.observaciones = params[:observaciones]
     #@cargos.cargo = params[:cargo]
     @cargos.estado= params[:estado]
+    @resolucion = params[:resolucion]
+    @decreto = params[:decreto]
 
 
    respond_to do |format|
@@ -446,7 +450,7 @@ class CargoNoDocentesController < InheritedResources::Base
     end
 
     def cargo_no_docente_params
-      params.require(:cargo_no_docente).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :turno, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id_id, :baja_lote_impresion_id, :empresa_id, :lugar_pago_id, :con_movilidad, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja)
+      params.require(:cargo_no_docente).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :turno, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id_id, :baja_lote_impresion_id, :empresa_id, :lugar_pago_id, :con_movilidad, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :resolucion, :decreto)
     end
 end
 
