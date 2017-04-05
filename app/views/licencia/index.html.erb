@@ -54,10 +54,9 @@
       <table id="tabla-cargos-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= cargos_licencia_permitida_path(format: :json,dni: 0) %>" >
         <thead>
           <tr>
-            <th>Secuencia</th>
-            <th>CJ</th>
-            <th>Cue</th>
+            
             <th>Establecimiento</th>
+            <th>Cargo</th>
             <th>Turno</th>
             <th>Curso</th>
             <th>Div</th>
@@ -317,7 +316,7 @@
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 8 ],
+                "targets": [ 7 ],
                 "searchable": false,
                 "orderable": false
             }
