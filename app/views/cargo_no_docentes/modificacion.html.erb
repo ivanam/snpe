@@ -55,8 +55,8 @@
 
 
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
-
-  					   <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+               
+               		 <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/ BAJ",'LIC P/ BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
 
 
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>

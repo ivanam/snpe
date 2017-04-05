@@ -2,11 +2,11 @@ class CargoNoDocente2Datatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-     @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','CargoNoDocente.situacion_revista','CargoNoDocente.division', 'CargoNoDocente.turno']
+     @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom', 'CargoNoDocente.situacion_revista', 'CargoNoDocente.turno','CargoNoDocente.fecha_alta', 'Persona.cuil', 'CargoNoDocente.estado']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom', 'CargoNoDocente.situacion_revista','CargoNoDocente.division', 'CargoNoDocente.turno']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom', 'CargoNoDocente.situacion_revista', 'CargoNoDocente.turno','CargoNoDocente.fecha_alta', 'Persona.cuil', 'CargoNoDocente.estado']
   end
 
   private
