@@ -40,8 +40,8 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-    client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
-      @res= client.query("select * from snpe.licenciasV", :cast_booleans => true)
+     client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "root", :database => "snpe")
+     @res= client.query("select * from snpe.licencia", :cast_booleans => true)
     respond_to do |format|
       format.xls 
       format.html 
@@ -49,10 +49,7 @@ class LicenciaController < ApplicationController
     end
   end
 
-
-
-
-
+  
   def cargos_licencia_permitida
     @dni=params[:dni]
     respond_to do |format|
@@ -84,25 +81,17 @@ class LicenciaController < ApplicationController
 
   def guardar_licencia_horas
     @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    @licencia.save
-    @altas_bajas_hora = AltasBajasHora.where(id: params[:id_horas]).first
-    @altas_bajas_hora.update(:estado => 'LIC')
     render json: 0
   end 
 
   def guardar_licencia_cargos
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    @cargo = Cargo.where(id: params[:id_cargos]).first
-    @cargo.update(:estado => 'LIC')
-    @licencia.save
+    debugger
     render json: 0
   end
    
    def guardar_licencia_cargos_no_docentes
     @licencia = Licencium.create(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    @cargo_no_doc = CargoNoDocente.where(id: params[:id_cargos_no_docentes]).first
-    @cargo_no_doc.update(:estado => 'LIC')
-    @licencia.save
     render json: 0
   end
   def guardar_licencia_final
@@ -113,7 +102,7 @@ class LicenciaController < ApplicationController
 
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first
-    @licencia.update(:vigente => "Cancelada")
+    @licencia.update!(:vigente => "Cancelada")
     render json: 0
   end
 

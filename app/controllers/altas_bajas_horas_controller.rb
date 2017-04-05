@@ -209,7 +209,7 @@ class AltasBajasHorasController < ApplicationController
       else
           @caso = 7 #3- no tiene licencia el suplente
       end
-    elsif params[:altas_bajas_hora][:situacion_revista] == "2-3" then #Se quiere crear suplente de larga duracion
+    elsif params[:altas_bajas_hora][:situacion_revista] == "2-3" || params[:altas_bajas_hora][:situacion_revista] == "2-4" then #Se quiere crear suplente de larga duracion o corta duracion
       suplente_de = con_licencia_suplente(@altas_escuela)
       if  suplente_de != [] then
           @caso = 8 #4- tiene licencia para suplente 
@@ -649,9 +649,11 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def dar_baja
+    #Estado, necesario para Minsiterio de economia
+    @altas_bajas_hora.estado = "BAJ"
     if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
-      AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
+      AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
       respond_to do |format|
         format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
         format.json { render json: {status: 'ok'}}
@@ -666,6 +668,8 @@ class AltasBajasHorasController < ApplicationController
 
   def cancelar_baja
     if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
+      #Estado, necesario para Minsiterio de economia
+      @altas_bajas_hora.estado = "ALT"
       if @altas_bajas_hora.update(:fecha_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)

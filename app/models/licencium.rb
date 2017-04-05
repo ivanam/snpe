@@ -4,6 +4,8 @@ class Licencium < ActiveRecord::Base
   belongs_to :articulo
   has_many :licenciasV
 
+  before_create :actualizar_estado
+  before_update :cancelar_licencia
  
  def ash_id
  
@@ -13,5 +15,38 @@ class Licencium < ActiveRecord::Base
  
  	return self.cargo_id
  end
-  
+
+ private
+
+	 def actualizar_estado
+	 	if self.articulo.con_goce
+	 		estado = 'ART' #Cuando la licencia no debe ser informada a Economía
+	 	else 
+			estado = 'LIC' 		
+	 	end
+	 	if self.altas_bajas_hora_id != nil
+	 		AltasBajasHora.find(self.altas_bajas_hora_id).update!(estado: estado)
+	 	elsif self.cargo_id != nil
+	 		Cargo.find(self.cargo_id).update!(estado: estado)
+	 	elsif self.cargo_no_docente_id != nil
+<<<<<<< HEAD
+	 		CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
+=======
+	 		CargoNoDocente.find(self.cargo_id).update!(estado: estado)
+>>>>>>> fe0d9d781cd0dbd0f925aa5398bf6caf9e724957
+	 	end
+	 end  
+
+	 def cancelar_licencia
+	 	if self.vigente == "Cancelada"
+	 		if self.altas_bajas_hora_id != nil
+	 			AltasBajasHora.find(self.altas_bajas_hora_id).update(estado: 'ALT')
+	 		elsif self.cargo_id != nil
+	 			Cargo.find(self.cargo_id).update!(estado: 'ALT')
+	 		elsif self.cargo_no_docente_id != nil
+
+	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
+	 		end
+		end
+	 end 
 end

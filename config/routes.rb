@@ -352,11 +352,10 @@ ProyectoBase::Application.routes.draw do
     
     #----------------Reportes--------------------------------------------------------
    
-    # get "reportes/index"
+    get "reportes/index"
 
-    # get "reportes/licencias_diario", as: :reportes_licencias_diario
+    get "reportes/licencias_diario", as: :reportes_licencias_diario
 
-    #-------------------------------------------------------------------------------
 
     #----------------------------------------------------------------------------------------------------------------------------------  
     # Migraciones

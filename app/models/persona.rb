@@ -16,5 +16,14 @@ class Persona < ActiveRecord::Base
   	"#{ self.apeynom } "
   end
 
+  def cargos_d_activos
+  end
+
+  def cargos_nd_activos
+  end
+
+  def horas_activas
+  end
+
 end
 

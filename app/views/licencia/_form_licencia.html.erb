@@ -24,15 +24,14 @@
     <div class="form-snpe" >
       <div class="row">
         <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
-        <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni2", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+        <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control", :id => "input_dni2", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+        <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
       </div>
       <div class="row">
-        <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>          
-        <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27-31923381-5", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"13", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>
-        <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombre/s"} %>
-        <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s"} %>
-       
-        <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
+        <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %>          
+        <%= label_tag 'cuil', "", {:id => "input_cuil"} %>
+        <%= label_tag 'nombres', "", {:id => "input_nombres", :placeholder => "Nombre/s"} %>
+        <%= label_tag 'apellidos', "", {:id => "input_apellidos", :placeholder => "Apellido/s"} %>
       </div>
     </div>
   </fieldset>
@@ -81,20 +80,20 @@
           type: 'POST',
         })
         .done(function(data) {
-          if (data != null) {
-            $("#input_nombres").val(data.nombres);
-            $("#input_apellidos").val(data.apellidos);
-            $("#input_cuil").val(data.cuil);
-            $("#datepicker3").val(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+          if (data != null) {            
+            $("#input_nombres").text(data.nombres);
+            $("#input_apellidos").text(data.apellidos);
+            $("#input_cuil").text(data.cuil);
             $("#select_tipo_documento").val(data.tipo_documento_id);
+            $("#datepicker3").text(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
           }
           else{
             //alert("La persona no existe. Por favor cargue sus datos");
-            $("#input_nombres").val("");
-            $("#input_apellidos").val("");
-            $("#input_cuil").val("");
-            $("#datepicker3").val("");
-            $("#select_tipo_documento").val(1);
+            $("#input_nombres").text("");
+            $("#input_apellidos").text("");
+            $("#input_cuil").text("");
+            $("#datepicker3").text("");
+            $("#select_tipo_documento").text(1);
           }
         })
     });

@@ -12,10 +12,12 @@ class Ability
         can :cargos_bajas_efectivas, [Cargo]
         can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
         can :modificacion, [Cargo]
+        can :modificacion, [AltasBajasHora]
       end
       if user.role? :personal
         can :cargos_bajas_efectivas, [Cargo]
         can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
+        can :modificacion, [AltasBajasHora]
       end
       user.roles.each do |ro|
         can do |action, subject_class, subject|

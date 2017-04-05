@@ -1,37 +1,3 @@
-<!--
-<% if (current_user.role? :escuela ) %>
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">
-        Personal Activo
-      </h3>
-    </div>
-    <div class="panel-body">
-    <div class="table-responsive">
-      <table id="tabla-personal-activo" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_bajas_path(format: :json) %>" >
-        <thead>
-          <tr>
-            <th>DNI</th>
-            <th>CUIL</th>
-            <th>Apellido y nombre</th>
-            <th>Secuencia</th>
-            <th>CJ</th>
-            <th>Cue</th>
-            <th>Establecimiento</th>
-            <th>Curso</th>
-            <th>Div</th>
-            <th>Fecha Alta</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    </div>
-  </div>
-  <hr/>
-<% end %> -->
 
 <% @licencia = Licencium.new %>
 <%= render 'form_licencia', licencia: @licencia %>
@@ -60,11 +26,13 @@
             <th>CJ</th>
             <th>Cue</th>
             <th>Establecimiento</th>
-            <th>Curso</th>
+            <th>Ciclo</th>
+            <th>Año</th>
             <th>Div</th>
-            <th>Observaciones</th>
+            <th>Turno</th>
+            <th>Materia</th>
             <th>Fecha Alta</th>
-            <th>Acciones</th>
+            <th class="text-center col-md-1">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -86,15 +54,15 @@
       <table id="tabla-cargos-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= cargos_licencia_permitida_path(format: :json,dni: 0) %>" >
         <thead>
           <tr>
-            <th>Secuencia</th>
-            <th>CJ</th>
-            <th>Cue</th>
+            
             <th>Establecimiento</th>
+            <th>Cargo</th>
+            <th>Turno</th>
             <th>Curso</th>
             <th>Div</th>
             <th>Observaciones</th>
             <th>Fecha Alta</th>
-            <th>Acciones</th>
+            <th class="text-center col-md-1">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -123,7 +91,7 @@
             <th>Establecimiento</th>
             <th>Observaciones</th>
             <th>Fecha Alta</th>
-            <th>Acciones</th>
+            <th class="text-center col-md-1">Acciones</th>
            </tr>
           </thead>
           <tbody>
@@ -147,11 +115,11 @@
           <thead>
             <tr>
               <th>Tipo</th>
-              <th>Descripcion</th>
-              <th>Fecha Desde</th>
-              <th>Fecha Hasta</th>
-              <th>Articulo</th>
-              <th>Estado</th>
+              <th>Descripción</th>
+              <th style="width: 100px;">Fecha Desde</th>
+              <th style="width: 100px;">Fecha Hasta</th>
+              <th>Artículo</th>
+              <th class="text-center col-md-1">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -178,7 +146,7 @@
         <%= text_field_tag 'input_fecha_fin', Date.today %>
         <hr/>
         <div class="row">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.all, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
         </div>
         <hr/>
         
@@ -328,11 +296,10 @@
     serverSide : true,
     ajax : $('#tabla-horas-licencia').data('source'),
     pagingType: "simple",
-    paginate: false,
-    filter: false,
+    retrieve: true,
     columnDefs: [
             {
-                "targets": [ 8 ],
+                "targets": [ 10 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -346,11 +313,10 @@
     serverSide : true,
     ajax : $('#tabla-cargos-licencia').data('source'),
     pagingType: "simple",
-    paginate: false,
-    filter: false,
+    retrieve: true,
     columnDefs: [
             {
-                "targets": [ 8 ],
+                "targets": [ 7 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -364,8 +330,7 @@
     serverSide : true,
     ajax : $('#tabla-cargos-no-docentes-licencia').data('source'),
     pagingType: "simple",
-    paginate: false,
-    filter: false,
+    retrieve: true,
     columnDefs: [
             {
                 "targets": [ 6 ],
@@ -422,7 +387,6 @@
 
     var dni
     $('#btn_buscar_persona').on('click', function () {
-      
       dni = parseInt($("#input_dni2").val(),10);
         
       $("#div_horas").show();
@@ -483,7 +447,7 @@
       type: 'GET',
       })
         .done(function(data) {
-        $("#alerta-dias").html("Le quedan "+data+" dias de licencias en este Articulo");
+        $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
       }) 
   });
@@ -525,7 +489,7 @@
         type: 'GET',
       })
         .done(function(data) {
-          $("#alerta-dias-cargo").html("Le quedan "+data+" dias de licencias en este Articulo");
+          $("#alerta-dias-cargo").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo").show();
         }) 
   });
@@ -567,7 +531,7 @@
         type: 'GET',
       })
         .done(function(data) {
-          $("#alerta-dias-cargo-no-docentes").html("Le quedan "+data+" dias de licencias en este Articulo");
+          $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes").show();
         }) 
   });

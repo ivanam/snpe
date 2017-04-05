@@ -1,0 +1,47 @@
+<hr id="div_hr_licencias"/>
+  <div id="div_licencias" class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Licencias
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="table-responsive">
+        <table id="tabla-licencium" class="table table-striped table-bordered table-hover" data-source = "<%= licencia_path(format: :json) %>" >
+          <thead>
+            <tr>
+              <th>Tipo</th>
+              <th>Descripción</th>
+              <th style="width: 100px;">Fecha Desde</th>
+              <th style="width: 100px;">Fecha Hasta</th>
+              <th>Artículo</th>
+              <th class="text-center col-md-1">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  <hr/>
+</div>
+
+<script>
+	var tabla_licencia = $('#tabla-licencium').dataTable({
+	    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+	    "scrollX": true,
+	    processing : true,
+	    serverSide : true,
+	    ajax : $('#tabla-licencium').data('source'),
+	    pagingType: "simple",
+	    retrieve: true,
+      columnDefs: [
+            {
+                "targets": [ 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+	  });
+</script>

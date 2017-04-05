@@ -93,6 +93,7 @@ class CargosController < ApplicationController
     @cargo.turno = params[:cargo][:turno]
     @cargo.con_movilidad = params[:cargo][:con_movilidad]
     @cargo.persona_id = @persona.id
+    @cargo.estado = "ALT"
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
 
