@@ -43,11 +43,11 @@ module LicenciaHelper
      	return Licencium.where(:id => @licencia_horas)
 	end
 
-	def listado_de_licencias		
+	def listado_de_licencias(mindate, maxdate)		
 		if current_user.role? :personal or current_user.role? :sadmin then			
-			return Licencium.select('establecimientos.*, personas.*, licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id')
+			return Licencium.select('establecimientos.*, personas.*, licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate)
 		else
-			return Licencium.select('establecimientos.*, personas.*, licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]})
+			return Licencium.select('establecimientos.*, personas.*, licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]})
 		end
 	end
 	def listado_de_licencias_cargo		
