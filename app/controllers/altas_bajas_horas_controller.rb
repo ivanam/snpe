@@ -176,7 +176,8 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Ingresado").first
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
-    @altas_bajas_hora.disposicion_resolucion = params[:altas_bajas_hora][:disposicion_resolucion]
+    @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
+    @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
 
     #Estado, necesario para Minsiterio de economia
     @altas_bajas_hora.estado = "ALT"
@@ -390,7 +391,8 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.codificacion = @materia.codigo
     @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
     @altas_bajas_hora.grupo_id = params[:altas_bajas_hora][:grupo_id]
-    @altas_bajas_hora.disposicion_resolucion = params[:altas_bajas_hora][:disposicion_resolucion]
+    @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
+    @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
@@ -818,7 +820,7 @@ end
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :disposicion_resolucion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
     end
 
 
