@@ -414,6 +414,8 @@ class CargoNoDocentesController < InheritedResources::Base
     @cargos.observaciones = params[:observaciones]
     #@cargos.cargo = params[:cargo]
     @cargos.estado= params[:estado]
+    @cargos.resolucion = params[:resolucion]
+    @cargos.decreto = params[:decreto]
 
 
    respond_to do |format|

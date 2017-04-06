@@ -1,49 +1,30 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "licencia.js" %>
-<%= form_for(@licencia, :html => { :class => "form-horizontal" }) do |f| %>
+
 <style type="text/css">
 .form-group{
   margin-left: 0px;
   margin-right: 0px;
 }
 </style>
-  <% if @licencia.errors.any? %>
-    <div class="alert alert-danger alert-dismissable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
-
-      <ul>
-      <% @licencia.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
   
-  <fieldset>
-    <div class="form-snpe" >
-      <div class="row">
-        <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta"} %>
-        <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control", :id => "input_dni2", :placeholder =>"N° Documento", :maxlength=>"8"} %>
-        <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
-      </div>
-      <div class="row">
-        <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %>          
-        <%= label_tag 'cuil', "", {:id => "input_cuil"} %>
-        <%= label_tag 'nombres', "", {:id => "input_nombres", :placeholder => "Nombre/s"} %>
-        <%= label_tag 'apellidos', "", {:id => "input_apellidos", :placeholder => "Apellido/s"} %>
+<fieldset>
+  <div class="form-snpe" >
+    <div class="row">
+      <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
+      <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control", :id => "input_dni2", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+      <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
+    </div>
+    <div class="row">
+      <div id="datos_persona" class="well" style="display: none;">
+        <%= label_tag 'cuil', "", {:id => "label_cuil"} %><br/>
+        <%= label_tag 'apellidos', "", {:id => "label_apellidos", :placeholder => "Apellido/s"} %><br/>
+        <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %><br/>
+        <%= label_tag 'nombres', "", {:id => "label_nombres", :placeholder => "Nombre/s"} %>
       </div>
     </div>
-  </fieldset>
-
-
-
-          
-
-
-
-<% end %>
-
+  </div>
+</fieldset>
 
         
 <% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3'] %>
@@ -72,33 +53,34 @@
 <% end %>
 
  <script type="text/javascript">
-  $("#input_dni2").keyup(function(){
+  $("#input_dni2").keyup(function(e){
+       if(e.which == 13){//Enter key pressed
+        $('#btn_buscar_persona').click();//Trigger search button click event
+       }
        var dni = parseInt($("#input_dni2").val(),10);
-       $("#datos_persona").show();
-        $.ajax({
-          url: '/soft/snpe/util/buscar_persona/'+dni,
-          type: 'POST',
-        })
-        .done(function(data) {
-          if (data != null) {            
-            $("#input_nombres").text(data.nombres);
-            $("#input_apellidos").text(data.apellidos);
-            $("#input_cuil").text(data.cuil);
-            $("#select_tipo_documento").val(data.tipo_documento_id);
-            $("#datepicker3").text(data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
-          }
-          else{
-            //alert("La persona no existe. Por favor cargue sus datos");
-            $("#input_nombres").text("");
-            $("#input_apellidos").text("");
-            $("#input_cuil").text("");
-            $("#datepicker3").text("");
-            $("#select_tipo_documento").text(1);
-          }
-        })
-    });
-
-  
-
-  
+       if (!Number.isNaN(dni)) //Verifico que se haya ingresaod un dni 
+       { 
+          $.ajax({
+            url: '/soft/snpe/util/buscar_persona/'+dni,
+            type: 'POST',
+          })
+          .done(function(data) {            
+            if (data != null) { 
+              $("#datos_persona").show();           
+              $("#label_nombres").text(data.nombres);
+              $("#label_apellidos").text('Apellido y nombre: '+data.apellidos);
+              $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
+              $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+            }
+            else{
+              //alert("La persona no existe. Por favor cargue sus datos");
+              $("#datos_persona").hide();           
+              $("#label_nombres").text("");
+              $("#label_apellidos").text("");
+              $("#label_cuil").text("");
+              $("#datepicker3").text("");
+            }
+          })
+        }
+    });  
 </script>
