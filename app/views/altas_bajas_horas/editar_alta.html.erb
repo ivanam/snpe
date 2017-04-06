@@ -74,7 +74,10 @@
           
           <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
 
-          <%= f.text_field :oblig, :placeholder => "oblig",:id=>"oblig", :class => "form-alta form-control"%>
+          <%= f.text_field :resolucion, :placeholder => "Resolución", :class => "form-alta text-field form-control", :id => "input_resolucion" %>
+
+          <%= f.text_field :decreto, :placeholder => "Decreto", :class => "form-alta text-field form-control", :id => "input_decreto" %>
+
           <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-edit" %>
           
           </div>

@@ -56,7 +56,14 @@
 
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
 
-  					   <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+               
+               		 <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/ BAJ",'LIC P/ BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+
+
+  					  <%= text_field_tag 'resolucion', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Resolucion", :id => "resolucion", :placeholder => "Resolucion",:class=>"form-control form-alta form-select" }%>
+
+
+  					  <%= text_field_tag 'decreto', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Decreto", :id => "decreto", :placeholder => "Decreto",:class=>"form-control form-alta form-select"}%>
 
 
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
@@ -91,6 +98,8 @@
 								<th>Sit. Rev</th> 
 								<th>Turno</th>             
 								<th>Estado</th>
+								<th>Resolucion</th>
+								<th>Decreto</th>
 								<th>Fecha Alta</th>
 								<th>Ver</th>
 								<th>Editar</th>
@@ -130,6 +139,8 @@
                 	$("#sit-revista").val(data.situacion_revista);
                 	$("#observaciones-edit").val(data.observaciones);
                 	$("#estado").val(data.estado);
+                	$("#resolucion").val(data.resolucion);
+                	$("#decreto").val(data.decreto);
 
             	}
 
@@ -149,6 +160,7 @@
                 	$("#input_dni").val(data.nro_documento);
                 	$("#datepicker3").val(data.fecha_nacimiento);
                 	$("#select_sexo").val(data.sexo_id);
+
                 	if (data.cuil != null) {
                 		$("#cuil").val(data.cuil);
                 	}else{
@@ -216,6 +228,8 @@ $(document).ready(function($) {
         $('.codificacion').editable();
         $('.oblig').editable();
         $('.ciclo_carrera').editable();
+         $('.resolucion').editable();
+        $('.decreto').editable();
       },
 	})
 	.on('draw.dt', function () {

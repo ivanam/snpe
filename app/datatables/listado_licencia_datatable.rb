@@ -15,7 +15,7 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.altas_bajas_hora.establecimiento.to_s,
-        record.altas_bajas_hora.persona.nro_documento.to_s+" / "+record.altas_bajas_hora.persona.cuil,
+        record.altas_bajas_hora.persona.nro_documento.to_s+" / "+record.altas_bajas_hora.persona.cuil.to_s,
         record.altas_bajas_hora.persona.to_s,
         if record.altas_bajas_hora_id != nil  
           "Horas"
@@ -26,13 +26,14 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
         end,
 
         if record.altas_bajas_hora_id != nil  
-          #AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.cant_horas
-          record.altas_bajas_hora_id
+          "Cantidad de horas: #{AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.cant_horas}"
+          #record.altas_bajas_hora_id
         elsif record.cargo_id != nil
-            record.cargo_id
+            Funcion.find(Cargo.find(record.cargo_id).cargo.to_i).to_s
         else
-            record.cargo_no_docente_id
+            Cargosnd.find(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).to_s
         end,
+
 
         record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
         Util.fecha_a_es(record.fecha_desde),
@@ -44,7 +45,7 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
               <span class=aria-hidden="true" >Vigente</span>
             </a>'  
         else
-          record.vigente 
+          '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
         end,
       ]
     end

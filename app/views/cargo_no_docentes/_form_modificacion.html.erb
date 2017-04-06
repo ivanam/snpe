@@ -52,6 +52,10 @@
         <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.to_s_codigo]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
        
         <%= f.collection_select(:turno, @turno, :id, :descripcion, {:prompt => "Seleccionar turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno T/M", :class=>"form-control form-alta form-select")%>
+        
+        <%= f.text_field :resolucion, :id => "resolucion", :placeholder => "resolución", :class => "form-alta text-field form-control"%>
+
+        <%= f.text_field :decreto, :id => "decreto", :placeholder => "decreto", :class => "form-alta text-field form-control"%>
 
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-cargos" %>  
         <%= button_to "Guardar", {:controller => "cargo_no_docentes", :action => "create"}, :class=>"btn btn-primary", :id=>"btn-guardar" %>

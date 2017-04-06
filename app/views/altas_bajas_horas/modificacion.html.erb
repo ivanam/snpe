@@ -57,12 +57,12 @@
 
   					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true}%>
 
-          			  <%= text_field_tag 'horas', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :required => true}%>
+          			  <%= text_field_tag 'horas', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :readonly => :true}%>
        
           			  <% if @materias_permitidas == nil then
-          			  	@materias =[]
+          			  	@materias =Materium.all
           			  else
-          			  	@metrias = @materias_permitidas.all
+          			  	@materias = @materias_permitidas.all
 
           			  	end%>
           			  <%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", :required => true}%>  
@@ -72,7 +72,7 @@
 
 			          <%= text_field_tag 'oblig', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Oblig.", :id=>"oblig", :class => "form-alta form-control", :placeholder => "Oblig."}%>
 
-                <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["BAJ",'BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+                <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/ BAJ",'LIC P/ BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
 
 
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>

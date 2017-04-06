@@ -2,14 +2,6 @@
 <% @licencia = Licencium.new %>
 <%= render 'form_licencia', licencia: @licencia %>
 
-  <div align="right">
-  <%= link_to listado_licencias_path(format: :xls), :target => "_blank", :class => 'btn btn-success' do %>
-      <span class="glyphicon glyphicon-plus"></span>
-      Descargar licencias vigentes
-  <% end %>
-  </div>
-
-
 <hr id="div_hr_horas"/>
 <div id="div_horas" class="panel panel-info">
     <div class="panel-heading">

@@ -1,7 +1,25 @@
+
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "daterangepicker"%>
+<%= stylesheet_link_tag "daterangepicker-bs3" %>
+
+<div align="right">
+  <%= link_to listado_licencias_path(format: :xls), :target => "_blank", :class => 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      Descargar licencias vigentes
+  <% end %>
+</div>
+
+<br/>
+
+<div class="">
+    <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
+</div>
+
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">
-      Licencias realizadas
+      Licencias realizadas en Horas Catedra
     </h3>
   </div>
   <div class="panel-body">
@@ -28,20 +46,48 @@
 </div>
 
 <script>
-	var tabla_licencia = $('#tabla-licencia').dataTable({
-	    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-	    "scrollX": true,
-	    processing : true,
-	    serverSide : true,
-	    ajax : $('#tabla-licencia').data('source'),
-	    pagingType: "simple",
-	    retrieve: true,
-      columnDefs: [
-            {
-                "targets": [ 8 ],
-                "searchable": false,
-                "orderable": false
-            }
-        ]
-	  });
+  $(document).ready(function($) {
+    //Define el idioma de combodate
+    moment.locale('es');
+  	var tabla_licencia = $('#tabla-licencia').dataTable({
+  	    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+  	    "scrollX": true,
+  	    processing : true,
+  	    serverSide : true,
+  	    ajax : $('#tabla-licencia').data('source'),
+  	    pagingType: "simple",
+  	    retrieve: true,
+        columnDefs: [
+              {
+                  "targets": [ 8 ],
+                  "searchable": false,
+                  "orderable": false
+              }
+          ]
+  	  });
+
+    var date = new Date();
+    $('#daterange').daterangepicker({
+      format: 'DD/MM/YYYY',
+      startDate: new Date(date.getFullYear(), date.getMonth(), 1),
+      endDate: Date.today,
+      minDate: '01/01/2000',
+      maxDate: '31/12/2030',
+      locale: {
+        applyLabel: 'Ir',
+        cancelLabel: 'Cancelar',
+        fromLabel: 'Desde',
+        toLabel: 'Hasta',
+        firstDay: 1
+      }
+    });
+
+    // Evento del daterangepicker para filtrar por rangos
+    $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+      // Cambia la url agregando el campo rango como atributo
+      tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias.json?rango='+$('#daterange').val());
+      // Recarga por ajax la tabla
+      tabla_licencia.api().ajax.reload();
+    });
+  });
 </script>
