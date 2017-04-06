@@ -41,7 +41,6 @@ class AltasBajasHorasController < ApplicationController
     @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
     if @lote != nil then
       if  @lote.fecha_impresion == nil
-        #debugger
         #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
         @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
       end
@@ -413,7 +412,6 @@ class AltasBajasHorasController < ApplicationController
         @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)
         format.html { render action: 'editar_alta' }
         #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-        #debugger
         format.json { render json: @persona.errors, status: :unprocessable_entity }
       end
     end
@@ -461,7 +459,6 @@ class AltasBajasHorasController < ApplicationController
           @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
           format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
           format.json { render json: @persona.errors, status: :unprocessable_entity }
         end
     end    
