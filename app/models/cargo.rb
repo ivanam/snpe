@@ -16,6 +16,8 @@ class Cargo < ActiveRecord::Base
   validate :sit_revista
   validate :cargo_jerarquico
 
+  before_update :dar_baja
+
   #-----------------------------------------------------------------------------------------------------------
 
 
@@ -54,12 +56,6 @@ class Cargo < ActiveRecord::Base
         end
       end
     else
-      # self.cargo_jerarquico #Agrega un error cuando la persona ya posee otro cargo que sea jerarquico en la institutacion
-      # cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: cargo, estado: "ALT")
-      # if cargos != []
-      #   #self.sit_revista
-      #   errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
-      # end
 
     end
   end
@@ -84,19 +80,17 @@ class Cargo < ActiveRecord::Base
         if  cargo_actuales.where(estado: "ALT") != []
         # Existen cargos
           errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.where(estado: "ALT").first.persona.to_s + " debe realizar la baja del cargo anterior")
-          # if self.situacion_revista == "1-1"
-          #   errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.first.persona.to_s + " debe realizar la baja del cargo anterior")
-          # else self.situacion_revista == "1-2"
-          #   errors.add(:persona, "ya se encuentra ocupado el cargo, genere la baja del cargo anterior")
-          #end
         elsif cargo_actuales.where(estado: "LIC") != []
           if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
             errors.add(:base, "No se puede dar de alta el cargo, ya se ocupado por " + cargo_actuales.where(estado: "LIC").first.persona.to_s + "que se encuentra de licencia")
+          elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
-        else
-        # No existen cargos
-          if (self.situacion_revista == "1-3") || (self.situacion_revista == "2-1") || (self.situacion_revista == "2-2") || (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-5")
-            errors.add(:base, "No posee titular o interino para reemplazar o suplir")
+        elsif cargo_actuales.where(cargo: "ART") # se el cargo esta licenciado con goce, solamente puede ponerse suplente
+          if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+          elsif (self.situacion_revista == "1-3")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
         end
       else
@@ -108,6 +102,18 @@ class Cargo < ActiveRecord::Base
 
   def incompatibilidad
     print "cargar algo"
+  end
+
+
+  def dar_baja
+    if self.fecha_baja != ""
+      if self.estado == "LIC" || self.estado == "ART"
+        errors.add(:base, self.persona.to_s + "debe terminar la licencia antes de generar la baja")
+        return false
+      end
+      self.estado = "BAJ"
+    end
+    return true
   end
   #-----------------------------------------------------------------------------------------------------------
   

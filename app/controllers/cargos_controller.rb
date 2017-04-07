@@ -491,7 +491,6 @@ end
 
           format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
           format.json { render json: @persona.errors, status: :unprocessable_entity }
         end
     end    

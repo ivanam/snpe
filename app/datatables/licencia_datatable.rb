@@ -26,7 +26,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
           "Cantidad de horas: #{AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.cant_horas}"
           #record.altas_bajas_hora_id
         elsif record.cargo_id != nil
-            Funcion.find(Cargo.find(record.cargo_id).cargo.to_i).to_s
+            Funcion.where(categoria: Cargo.find(record.cargo_id).cargo.to_i).first.to_s
         else
             Cargosnd.where(CargoNoDocente.find(record.cargo_no_docente_id).cargo).to_s
         end,
