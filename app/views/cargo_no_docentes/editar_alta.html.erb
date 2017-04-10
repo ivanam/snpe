@@ -48,10 +48,10 @@
           <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
           <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
           
-          <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.to_s_codigo]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
-        
-        
 
+          <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.id]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
+        
+        
           <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
 
           <%= f.text_field :resolucion, :id => "resolucion", :placeholder => "resolución", :class => "form-alta text-field form-control"%>

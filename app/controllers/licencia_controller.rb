@@ -43,11 +43,13 @@ class LicenciaController < ApplicationController
   def listado_licencias
      @mindate, @maxdate = Util.max_min_periodo(params["rango"])
      client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "chacho77", :database => "snpe")
-     @res= client.query("select * from snpe.licencia", :cast_booleans => true)
+     #@res= client.query("select * from snpe.licencia", :cast_booleans => true)
+     @res = listado_de_licencias(@mindate, @maxdate)
+     debugger
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: listado_de_licencias(@mindate, @maxdate)}) }
+      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res}) }
     end
   end
 

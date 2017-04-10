@@ -56,14 +56,17 @@
   	    serverSide : true,
   	    ajax : $('#tabla-licencia').data('source'),
   	    pagingType: "simple",
-  	    retrieve: true,
+  	    retrieve: true,        
         columnDefs: [
               {
                   "targets": [ 8 ],
                   "searchable": false,
                   "orderable": false
               }
-          ]
+          ],
+        buttons: [
+            'excel'
+        ]
   	  });
 
     var date = new Date();
