@@ -64,11 +64,10 @@ class CargosController < ApplicationController
   end
 
   def create
-    @tipo_documento = params["tipo_documento"]
+    tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
-    @nombres = params["nombres"]
-    @apellidos = params["apellidos"]
+    apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(nro_documento: @dni).first
@@ -76,14 +75,13 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, sexo_id: @sexo, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos,  :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: tipo_documento, sexo_id: @sexo, nro_documento: @dni, apeynom: @apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
-      @persona.tipo_documento_id = @tipo_documento
+      @persona.tipo_documento_id = tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
-      @persona.apellidos = @apellidos
-      @persona.apeynom = "#{@apellidos} #{@nombres}"
+      @persona.apeynom = apeynom
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -96,9 +94,6 @@ class CargosController < ApplicationController
     @cargo.estado = "ALT"
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
-
-    #Estado, necesario para Minsiterio de economia
-    #@cargo.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      

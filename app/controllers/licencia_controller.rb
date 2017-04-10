@@ -4,6 +4,7 @@ class LicenciaController < ApplicationController
   respond_to :html
 
   def index
+
     respond_to do |format|
       format.html
       format.json { render json: LicenciaDatatable.new(view_context, { query: Licencium.all }) }
@@ -104,8 +105,14 @@ class LicenciaController < ApplicationController
 
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first
-    @licencia.update!(:vigente => "Cancelada")
-    render json: 0
+    if !@licencia.update(:vigente => "Cancelada")
+      msg = @licencia.errors.full_messages.first
+      msg = "No se puede cancelar la licencia. Posee suplente"
+    else
+      msg = ''
+    end
+
+    render json: msg.to_json
   end
 
   def buscar_articulo_dias_hora

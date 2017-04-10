@@ -15,7 +15,7 @@ class CargosLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.establecimiento.codigo_jurisdiccional.to_s + ' ' +  record.establecimiento.nombre,
-        Funcion.where(categoria: record.cargo).first.to_s,
+        record.situacion_revista.to_s + " / " + Funcion.where(categoria: record.cargo).first.to_s,
         record.turno.to_s,
         record.anio,
         record.division,
