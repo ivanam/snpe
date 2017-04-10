@@ -40,11 +40,11 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+     @rango = params["rango"]
+     @mindate, @maxdate = Util.max_min_periodo(@rango)
      client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "chacho77", :database => "snpe")
      #@res= client.query("select * from snpe.licencia", :cast_booleans => true)
      @res = listado_de_licencias(@mindate, @maxdate)
-     debugger
     respond_to do |format|
       format.xls 
       format.html 

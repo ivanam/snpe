@@ -38,6 +38,7 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :apellidos, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
   before_save :actualizar_materia
+  before_update :dar_baja
 
   #-------------------------------------
 
@@ -118,6 +119,18 @@ class AltasBajasHora < ActiveRecord::Base
   def cant_horas
     return self.horas
     
+  end
+
+
+  def dar_baja
+    if self.fecha_baja != ""
+      if self.estado == "LIC" || self.estado == "ART"
+        errors.add(:base, self.persona.to_s + "debe terminar la licencia antes de generar la baja")
+        return false
+      end
+      self.estado = "BAJ"
+    end
+    return true
   end
 
   #Revisar!!!

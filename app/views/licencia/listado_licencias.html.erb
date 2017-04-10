@@ -4,7 +4,7 @@
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
 <div align="right">
-  <%= link_to listado_licencias_path(format: :xls), :target => "_blank", :class => 'btn btn-success' do %>
+  <%= link_to listado_licencias_path(format: :xls, rango: @rango), :target => "_blank", :class => 'btn btn-success' do %>
       <span class="glyphicon glyphicon-plus"></span>
       Descargar licencias vigentes
   <% end %>
@@ -63,10 +63,7 @@
                   "searchable": false,
                   "orderable": false
               }
-          ],
-        buttons: [
-            'excel'
-        ]
+          ]
   	  });
 
     var date = new Date();

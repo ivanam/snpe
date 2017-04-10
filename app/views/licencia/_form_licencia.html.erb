@@ -20,7 +20,6 @@
         <%= label_tag 'cuil', "", {:id => "label_cuil"} %><br/>
         <%= label_tag 'apellidos', "", {:id => "label_apellidos", :placeholder => "Apellido/s"} %><br/>
         <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %><br/>
-        <%= label_tag 'nombres', "", {:id => "label_nombres", :placeholder => "Nombre/s"} %>
       </div>
     </div>
   </div>
@@ -68,7 +67,7 @@
             if (data != null) { 
               $("#datos_persona").show();           
               $("#label_nombres").text(data.nombres);
-              $("#label_apellidos").text('Apellido y nombre: '+data.apellidos);
+              $("#label_apellidos").text('Apellido y nombre: '+data.apeynom);
               $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
               $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
             }
