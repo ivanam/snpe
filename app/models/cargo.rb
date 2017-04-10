@@ -37,17 +37,17 @@ class Cargo < ActiveRecord::Base
   def cargo_ocupado_primaria(establecimiento_id, cargo)
     if Funcion.cargos_jerarquicos.include? self.cargo
       #Controla cuando en caso de alta de un cargo jerarquico
-      cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where("cargo != 'BAJ'").where.not(id: self.id) #miro los cargos de la misma categoria
+      cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id) #miro los cargos de la misma categoria
       if cargos != []
-        if cargos.where(cargo: "ALT") != [] # si esta activo no se puede, cargo se encuentra ocupado
+        if cargos.where(estado: "ALT") != [] # si esta activo no se puede, cargo se encuentra ocupado
           errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
-        elsif cargos.where(cargo: "ART") # se el cargo esta licenciado con goce, solamente puede ponerse suplente
+        elsif cargos.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
           if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
           elsif (self.situacion_revista == "1-3")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
-        elsif cargos.where(cargo: "LIC") # se el cargo esta licenciado sin goce, solamente puede ponerse suplente
+        elsif cargos.where(estado: "LIC") != [] # se el cargo esta licenciado sin goce, solamente puede ponerse suplente
           if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
           elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
@@ -55,14 +55,13 @@ class Cargo < ActiveRecord::Base
           end
         end
       end
-    else
-
     end
   end
 
   #------------------------------------------------------------------------------------------------------------
   def cargo_jerarquico
     #Revisa si existe la persona en el establecimiento con un cargo jerarquico asignado
+    #Cargo.find(self.cargo_id).update!(estado: estado)
     if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id, estado: "ALT").where.not(id: self.id) != []
       errors.add(:persona, "no puede tomar el cargo porque posee un cargo jerarquico")
     end
@@ -86,9 +85,9 @@ class Cargo < ActiveRecord::Base
           elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
-        elsif cargo_actuales.where(cargo: "ART") # se el cargo esta licenciado con goce, solamente puede ponerse suplente
+        elsif cargo_actuales.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
           if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
-            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargo_actuales.first.persona.to_s)
           elsif (self.situacion_revista == "1-3")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
@@ -106,7 +105,7 @@ class Cargo < ActiveRecord::Base
 
 
   def dar_baja
-    if self.fecha_baja != ""
+    if self.fecha_baja != "" && self.fecha_baja != nil
       if self.estado == "LIC" || self.estado == "ART"
         errors.add(:base, self.persona.to_s + "debe terminar la licencia antes de generar la baja")
         return false

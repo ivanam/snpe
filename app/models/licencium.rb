@@ -11,6 +11,7 @@ class Licencium < ActiveRecord::Base
  
  	return self.altas_bajas_hora_id
  end
+
  def c_id
  
  	return self.cargo_id
@@ -36,12 +37,23 @@ class Licencium < ActiveRecord::Base
 	 def cancelar_licencia
 	 	if self.vigente == "Cancelada"
 	 		if self.altas_bajas_hora_id != nil
+
 	 			AltasBajasHora.find(self.altas_bajas_hora_id).update(estado: 'ALT')
+
 	 		elsif self.cargo_id != nil
-	 			Cargo.find(self.cargo_id).update!(estado: 'ALT')
+	 			cargo = Cargo.find(self.cargo_id)
+	 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, curso: cargo.curso, division: cargo.division, establecimiento_id: cargo.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
+	 			if suplentes_activos == []
+	 				cargo.update!(estado: 'ALT')
+	 			else
+	 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
+	 				return false
+	 			end
+
 	 		elsif self.cargo_no_docente_id != nil
 
 	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
+
 	 		end
 		end
 	 end 
