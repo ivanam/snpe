@@ -357,7 +357,6 @@ class CargosController < ApplicationController
   end
 
   def cola_impresion
-    debugger
     @lote = LoteImpresion.all.where(tipo_id: 2).last
     @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona)
      if @lote != nil then
