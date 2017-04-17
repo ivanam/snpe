@@ -272,9 +272,9 @@ class CargosController < ApplicationController
             @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
           end
           if @cargo.estado_actual == "Chequeado"
-            @cargo.update(alta_lote_impresion_id: @lote_impresion.id)
+            @cargo.update!(alta_lote_impresion_id: @lote_impresion.id)
           elsif @cargo.estado_actual == "Chequeado_Baja"
-            @cargo.update(baja_lote_impresion_id: @lote_impresion.id)
+            @cargo.update!(baja_lote_impresion_id: @lote_impresion.id)
           end
           CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
           format.html { redirect_to cargos_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
@@ -357,6 +357,7 @@ class CargosController < ApplicationController
   end
 
   def cola_impresion
+    debugger
     @lote = LoteImpresion.all.where(tipo_id: 2).last
     @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona)
      if @lote != nil then
