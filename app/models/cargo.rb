@@ -28,9 +28,38 @@ class Cargo < ActiveRecord::Base
     elsif self.establecimiento.nivel_id.to_i == 2 # Primaria
       cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
     elsif self.establecimiento.nivel_id.to_i == 3 # Secundaria
-      print "lala"
+      cargo_ocupado_secundaria(self.establecimiento_id, self.cargo)
     else
       errors.add(:establecimiento, "no tiene nivel asignado")
+    end
+  end
+
+  def cargo_ocupado_secundaria(establecimiento_id, cargo)
+    if Funcion.cargos_jerarquicos.include? cargo
+      #Controla cuando en caso de alta de un cargo jerarquico
+      if Funcion::DIRECTOR_CATEGORIAS.include? cargo
+        cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id) #miro los cargos de la misma categoria
+      else
+        cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo), turno: self.turno).where.not(estado: 'BAJ').where.not(id: self.id) #miro los cargos de la misma categoria y turno
+      end
+      
+      if cargos != []
+        if cargos.where(estado: "ALT") != [] # si esta activo no se puede, cargo se encuentra ocupado
+          errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+        elsif cargos.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
+          if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+          elsif (self.situacion_revista == "1-3")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+          end
+        elsif cargos.where(estado: "LIC") != [] # se el cargo esta licenciado sin goce, solamente puede ponerse suplente
+          if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+          elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+          end
+        end
+      end
     end
   end
 
@@ -57,6 +86,7 @@ class Cargo < ActiveRecord::Base
       end
     end
   end
+
 
   #------------------------------------------------------------------------------------------------------------
   def cargo_jerarquico
