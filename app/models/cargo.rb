@@ -105,7 +105,7 @@ class Cargo < ActiveRecord::Base
     if self.estado == "ALT"
       if !(Funcion.cargos_jerarquicos.include? self.cargo)
         # Cargos jerarquicos
-        cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso)
+        cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso).where.not(id: self.id)
         if  cargo_actuales.where(estado: "ALT") != []
         # Existen cargos
           errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.where(estado: "ALT").first.persona.to_s + " debe realizar la baja del cargo anterior")
