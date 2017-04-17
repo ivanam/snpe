@@ -2,11 +2,13 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns    
-    @sortable_columns ||= ['establecimientos.codigo_jurisdiccional', 'personas.nro_documento','personas.apeynom','licencia.altas_bajas_hora_id','licencia.altas_bajas_hora_id','licencia.fecha_desde','licencia.fecha_hasta','licencia.articulo_id']
+    #@sortable_columns ||= ['establecimientos.codigo_jurisdiccional', 'personas.nro_documento','personas.apeynom','licencia.altas_bajas_hora_id','licencia.altas_bajas_hora_id','licencia.fecha_desde','licencia.fecha_hasta','licencia.articulo_id']
+    @sortable_columns ||= ['Licencium.altas_bajas_hora_id', 'Licencium.altas_bajas_hora_id', 'Licencium.fecha_desde', 'Licencium.fecha_hasta', 'Licencium.articulo_id']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['establecimientos.codigo_jurisdiccional','personas.nro_documento','personas.apeynom','licencia.altas_bajas_hora_id','licencia.altas_bajas_hora_id','licencia.fecha_desde','licencia.fecha_hasta','licencia.articulo_id']
+    #@searchable_columns ||= ['establecimientos.codigo_jurisdiccional','personas.nro_documento','personas.apeynom','licencia.altas_bajas_hora_id','licencia.altas_bajas_hora_id','licencia.fecha_desde','licencia.fecha_hasta','licencia.articulo_id']
+    @searchable_columns ||= ['Licencium.altas_bajas_hora_id', 'Licencium.altas_bajas_hora_id', 'Licencium.fecha_desde', 'Licencium.fecha_hasta','Licencium.articulo_id']
   end
 
   private
@@ -14,9 +16,6 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.altas_bajas_hora.establecimiento.to_s,
-        record.altas_bajas_hora.persona.nro_documento.to_s+" / "+record.altas_bajas_hora.persona.cuil.to_s,
-        record.altas_bajas_hora.persona.to_s,
         if record.altas_bajas_hora_id != nil  
           "Horas"
         elsif record.cargo_id != nil
@@ -33,8 +32,6 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
         else
             Cargosnd.find(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).to_s
         end,
-
-
         record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
         Util.fecha_a_es(record.fecha_desde),
         Util.fecha_a_es(record.fecha_hasta),

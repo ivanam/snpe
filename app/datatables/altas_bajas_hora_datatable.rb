@@ -2,13 +2,13 @@ class AltasBajasHoraDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
-    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
+    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja','AltasBajasHora.situacion_revista','Establecimiento.localidad_id','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
+    'AltasBajasHora.division', 'AltasBajasHora.turno','AltasBajasHora.codificacion', ]
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
-    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja','AltasBajasHora.situacion_revista','Establecimiento.localidad_id','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
+    'AltasBajasHora.division', 'AltasBajasHora.turno','AltasBajasHora.codificacion', ]
   end
 
   private
