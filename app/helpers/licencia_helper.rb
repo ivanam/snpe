@@ -46,13 +46,11 @@ module LicenciaHelper
 
 	def listado_de_licencias(mindate, maxdate)		
 		if current_user.role? :personal or current_user.role? :sadmin then			
-			@licencia_cargo=Licencium.where(:cargo_id => Cargo.joins(:persona)).map(&:id)
-			@licencia_cargos_no_docentes=Licencium.where(:cargo_no_docente_id => CargoNoDocente.joins(:persona)).map(&:id)
-    		@licencia_horas=Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona)).map(&:id)
+			@licencias = Licencium.joins(:articulo)
 		else			
-			@licencia_cargo=Licencium.where(:cargo_id => Cargo.joins(:persona).where(:establecimiento_id => session[:establecimiento])).map(&:id)
-    		@licencia_cargos_no_docentes=Licencium.where(:cargo_no_docente_id => CargoNoDocente.joins(:persona).where(:establecimiento_id => session[:establecimiento])).map(&:id)
-    		@licencia_horas=Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona).where(:establecimiento_id => session[:establecimiento])).map(&:id)
+			@licencia_cargo=Licencium.joins(:cargo).where(cargos: {:establecimiento_id => session[:establecimiento]}).map(&:id)
+    		@licencia_cargos_no_docentes=Licencium.joins(:cargo_no_docente).where(cargo_no_docentes: {:establecimiento_id => session[:establecimiento]}).map(&:id)
+    		@licencia_horas=Licencium.joins(:altas_bajas_hora).where(altas_bajas_horas: {:establecimiento_id => session[:establecimiento]}).map(&:id)
 
 			@licencia_cargo.each do |l|
 				@licencia_horas.push(l)
@@ -60,8 +58,11 @@ module LicenciaHelper
 			@licencia_cargos_no_docentes.each do |l|
 				@licencia_horas.push(l)
 			end
+
+            @licencias = Licencium.joins(:articulo).where(:id => @licencia_horas).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate)
 		end	
-		return Licencium.where(:id => @licencia_horas).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate)
+
+		return @licencias
 	end
 	def listado_de_licencias_cargo(mindate, maxdate)
 		return Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate).where('fecha_hasta >= ?', maxdate).where(cargos: {establecimiento_id: session[:establecimiento]})

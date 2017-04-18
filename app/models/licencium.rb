@@ -1,6 +1,7 @@
 class Licencium < ActiveRecord::Base
   belongs_to :altas_bajas_hora
-  belongs_to :altas_bajas_cargo
+  belongs_to :cargo
+  belongs_to :cargo_no_docente
   belongs_to :articulo
   has_many :licenciasV
 
