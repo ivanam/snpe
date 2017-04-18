@@ -222,6 +222,8 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def dar_baja
     @cargo_no_docente = CargoNoDocente.find(params[:id])
+    #Estado, necesario para Minsiterio de economia
+    @cargo_no_docente.estado = "BAJ"
     if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
       CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
@@ -433,7 +435,6 @@ class CargoNoDocentesController < InheritedResources::Base
 
           format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
           format.json { render json: @persona.errors, status: :unprocessable_entity }
         end
     end    

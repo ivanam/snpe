@@ -4,6 +4,7 @@ class LicenciaController < ApplicationController
   respond_to :html
 
   def index
+
     respond_to do |format|
       format.html
       format.json { render json: LicenciaDatatable.new(view_context, { query: Licencium.all }) }
@@ -40,12 +41,15 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-     client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "root", :database => "snpe")
-     @res= client.query("select * from snpe.licencia", :cast_booleans => true)
+     @rango = params["rango"]
+     @mindate, @maxdate = Util.max_min_periodo(@rango)
+     client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "chacho77", :database => "snpe")
+     #@res= client.query("select * from snpe.licencia", :cast_booleans => true)
+     @res = listado_de_licencias(@mindate, @maxdate)
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: listado_de_licencias}) }
+      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res}) }
     end
   end
 
@@ -86,7 +90,6 @@ class LicenciaController < ApplicationController
 
   def guardar_licencia_cargos
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    debugger
     render json: 0
   end
    
@@ -102,8 +105,14 @@ class LicenciaController < ApplicationController
 
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first
-    @licencia.update!(:vigente => "Cancelada")
-    render json: 0
+    if !@licencia.update(:vigente => "Cancelada")
+      msg = @licencia.errors.full_messages.first
+      msg = "No se puede cancelar la licencia. Posee suplente"
+    else
+      msg = ''
+    end
+
+    render json: msg.to_json
   end
 
   def buscar_articulo_dias_hora

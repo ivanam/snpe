@@ -63,6 +63,11 @@
 
         <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
 
+
+        <%= f.text_field :disposicion, :placeholder => "Disposición", :style => "width: 25%;"%>
+
+        <%= f.text_field :resolucion, :placeholder => "Resolución", :style => "width: 25%;"%>
+
         <%= f.text_area :observaciones, :class => "form-control", :placeholder => "Observaciones",:id=>"observaciones-cargos" %>  
         </div>
         <div class="row">        

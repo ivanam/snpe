@@ -64,11 +64,10 @@ class CargosController < ApplicationController
   end
 
   def create
-    @tipo_documento = params["tipo_documento"]
+    tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
-    @nombres = params["nombres"]
-    @apellidos = params["apellidos"]
+    apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(nro_documento: @dni).first
@@ -76,14 +75,13 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, sexo_id: @sexo, nro_documento: @dni, nombres: @nombres, apellidos: @apellidos,  :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: tipo_documento, sexo_id: @sexo, nro_documento: @dni, apeynom: @apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
-      @persona.tipo_documento_id = @tipo_documento
+      @persona.tipo_documento_id = tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
       @persona.nombres = @nombres
-      @persona.apellidos = @apellidos
-      @persona.apeynom = "#{@apellidos} #{@nombres}"
+      @persona.apeynom = apeynom
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -96,9 +94,6 @@ class CargosController < ApplicationController
     @cargo.estado = "ALT"
     @cargo.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
-
-    #Estado, necesario para Minsiterio de economia
-    #@cargo.estado = "ALT"
 
     respond_to do |format|
       if @persona.save then      
@@ -277,9 +272,9 @@ class CargosController < ApplicationController
             @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
           end
           if @cargo.estado_actual == "Chequeado"
-            @cargo.update(alta_lote_impresion_id: @lote_impresion.id)
+            @cargo.update!(alta_lote_impresion_id: @lote_impresion.id)
           elsif @cargo.estado_actual == "Chequeado_Baja"
-            @cargo.update(baja_lote_impresion_id: @lote_impresion.id)
+            @cargo.update!(baja_lote_impresion_id: @lote_impresion.id)
           end
           CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
           format.html { redirect_to cargos_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
@@ -491,7 +486,6 @@ end
 
           format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
           format.json { render json: @persona.errors, status: :unprocessable_entity }
         end
     end    
@@ -509,7 +503,7 @@ end
     end
 
     def cargo_params
-      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja)
+      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion)
     end
 end
 

@@ -1,6 +1,5 @@
+<%= render 'form_licencia' %>
 
-<% @licencia = Licencium.new %>
-<%= render 'form_licencia', licencia: @licencia %>
 
 <hr id="div_hr_horas"/>
 <div id="div_horas" class="panel panel-info">
@@ -48,7 +47,7 @@
           <tr>
             
             <th>Establecimiento</th>
-            <th>Cargo</th>
+            <th>Sit Rev / Cargo</th>
             <th>Turno</th>
             <th>Curso</th>
             <th>Div</th>
@@ -575,6 +574,10 @@
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
+      if (data != "") {
+        alert(data) ; 
+      };
+      
     })
   });
 

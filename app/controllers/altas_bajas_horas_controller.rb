@@ -41,7 +41,6 @@ class AltasBajasHorasController < ApplicationController
     @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
     if @lote != nil then
       if  @lote.fecha_impresion == nil
-        #debugger
         #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
         @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
       end
@@ -176,7 +175,8 @@ class AltasBajasHorasController < ApplicationController
     @estado = Estado.where(:descripcion => "Ingresado").first
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
-    @altas_bajas_hora.disposicion_resolucion = params[:altas_bajas_hora][:disposicion_resolucion]
+    @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
+    @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
 
     #Estado, necesario para Minsiterio de economia
     @altas_bajas_hora.estado = "ALT"
@@ -390,7 +390,8 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.codificacion = @materia.codigo
     @altas_bajas_hora.lugar_pago_id = params[:altas_bajas_hora][:lugar_pago_id]
     @altas_bajas_hora.grupo_id = params[:altas_bajas_hora][:grupo_id]
-    @altas_bajas_hora.disposicion_resolucion = params[:altas_bajas_hora][:disposicion_resolucion]
+    @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
+    @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
     @altas_bajas_hora.oblig = params[:altas_bajas_hora][:oblig]
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
 
@@ -417,7 +418,6 @@ class AltasBajasHorasController < ApplicationController
         @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id, @altas_bajas_hora.anio)
         format.html { render action: 'editar_alta' }
         #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-        #debugger
         format.json { render json: @persona.errors, status: :unprocessable_entity }
       end
     end
@@ -465,7 +465,6 @@ class AltasBajasHorasController < ApplicationController
           @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
           format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          #debugger
           format.json { render json: @persona.errors, status: :unprocessable_entity }
         end
     end    
@@ -818,7 +817,7 @@ end
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :disposicion_resolucion, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
     end
 
 
