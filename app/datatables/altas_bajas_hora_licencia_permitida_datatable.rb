@@ -2,11 +2,11 @@ class AltasBajasHoraLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['AltasBajasHora.secuencia', 'Establecimiento.codigo_jurisdiccional', 'Establecimiento.cue','Establecimiento.nombre', 'AltasBajasHora.ciclo_carrera', 'AltasBajasHora.anio', 'AltasBajasHora.division', 'AltasBajasHora.turno', 'Materium.codigo', 'AltasBajasHora.fecha_alta']
+    @sortable_columns ||= ['AltasBajasHora.secuencia', 'Establecimiento.codigo_jurisdiccional', 'Establecimiento.nombre', 'AltasBajasHora.ciclo_carrera', 'AltasBajasHora.anio', 'AltasBajasHora.division', 'AltasBajasHora.turno', 'Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['AltasBajasHora.secuencia', 'Establecimiento.codigo_jurisdiccional', 'Establecimiento.cue','Establecimiento.nombre', 'AltasBajasHora.ciclo_carrera', 'AltasBajasHora.anio', 'AltasBajasHora.division', 'AltasBajasHora.turno', 'Materium.codigo', 'AltasBajasHora.fecha_alta']
+    @searchable_columns ||= ['AltasBajasHora.secuencia', 'Establecimiento.codigo_jurisdiccional', 'Establecimiento.nombre', 'AltasBajasHora.ciclo_carrera', 'AltasBajasHora.anio', 'AltasBajasHora.division', 'AltasBajasHora.turno', 'Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   private
@@ -16,7 +16,6 @@ class AltasBajasHoraLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
       [
         record.secuencia,
         record.establecimiento.codigo_jurisdiccional,
-        record.establecimiento.cue,
         record.establecimiento.nombre,        
         record.ciclo_carrera,        
         record.anio,
