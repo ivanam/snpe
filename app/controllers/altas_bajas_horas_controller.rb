@@ -141,13 +141,12 @@ class AltasBajasHorasController < ApplicationController
   def edit
   end
 
-  def create 
+  def create
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
-    @nombres = params["nombres"]
-    @apellidos = params["apellidos"]
+    @apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(:nro_documento => @dni).first
@@ -155,14 +154,12 @@ class AltasBajasHorasController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :sexo_id => @sexo, :nro_documento => @dni, :nombres => @nombres, :apellidos => @apellidos, :apeynom => "#{@apellidos} #{@nombres}", :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
+      @persona = Persona.create(:tipo_documento_id => @tipo_documento, :sexo_id => @sexo, :nro_documento => @dni, :apeynom => @apeynom, :cuil => @cuil, :fecha_nacimiento => @fecha_nacimiento )
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
-      @persona.nombres = @nombres
-      @persona.apellidos = @apellidos
-      @persona.apeynom = "#{@apellidos} #{@nombres}"
+      @persona.apeynom = @apeynom
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
@@ -353,8 +350,7 @@ class AltasBajasHorasController < ApplicationController
  def guardar_edicion    
     @tipo_documento = params["tipo_documento"]
     @dni = params["dni"]
-    @nombres = params["nombres"]
-    @apellidos = params["apellidos"]
+    @apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @sexo = params["sexo"]
@@ -367,9 +363,7 @@ class AltasBajasHorasController < ApplicationController
       @persona.tipo_documento_id = @tipo_documento
       @persona.sexo_id = @sexo
       @persona.nro_documento = @dni
-      @persona.nombres = @nombres
-      @persona.apellidos = @apellidos
-      @persona.apeynom = "#{@apellidos} #{@nombres}"
+      @persona.apeynom = @apeynom
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento    
     end

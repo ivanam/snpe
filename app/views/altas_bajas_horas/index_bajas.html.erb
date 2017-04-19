@@ -21,7 +21,7 @@
             <tr>
               <th>DNI</th>
               <th>CUIL</th>
-              <th>Nombre</th>
+              <th>Apellido y nombre</th>
               <th>Secuencia</th>
               <th>CJ</th>
               <th>Cue</th>
@@ -58,7 +58,7 @@
               <th>CJ</th>
               <th>Cue</th>
               <th>DNI</th>
-              <th>Nombre</th>
+              <th>Apellido y nombre</th>
               <th>CUIL</th>
               <th>Fecha Alta</th>
               <th>Fecha Baja</th>
@@ -136,7 +136,7 @@ $(document).ready(function($) {
       serverSide : true,
       ajax : $('#tabla-bajas_efectivas').data('source'),
       pagingType: "simple",
-      "pageLength": 5,
+      "pageLength": 10,
       columnDefs: [
             {
                 "targets": [ 7 ],
@@ -167,7 +167,7 @@ $(document).ready(function($) {
       serverSide: true,
       ajax : $('#tabla-bajas').data('source'),
       pagingType: "simple",
-      "pageLength": 5,
+      "pageLength": 10,
       columnDefs: [
             {
                 "targets": [ 10 ],

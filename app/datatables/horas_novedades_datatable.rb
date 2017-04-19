@@ -3,12 +3,12 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
-    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.oblig', 'AltasBajasHora.fecha_alta']
+    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   def searchable_columns
     @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom','AltasBajasHora.situacion_revista','AltasBajasHora.horas','AltasBajasHora.ciclo_carrera','AltasBajasHora.anio',
-    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.oblig', 'AltasBajasHora.fecha_alta']
+    'AltasBajasHora.division', 'AltasBajasHora.turno','Materium.codigo', 'AltasBajasHora.fecha_alta']
   end
 
   private
@@ -25,7 +25,6 @@ class HorasNovedadesDatatable < AjaxDatatablesRails::Base
         record.division,
         record.turno,
         record.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
-        record.oblig,
         Util.fecha_a_es(record.fecha_alta),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if options[:tipo_tabla] == "novedades" then
