@@ -16,7 +16,6 @@ class CargoNoDocentesLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
       [
         record.secuencia,
         record.establecimiento.codigo_jurisdiccional,
-        record.establecimiento.cue,
         record.establecimiento.nombre,
         record.observaciones,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',

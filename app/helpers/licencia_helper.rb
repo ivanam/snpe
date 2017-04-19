@@ -1,27 +1,27 @@
 module LicenciaHelper
 
 	def cargos_persona_permitida(dni) #funcion de busqueda para licencias
-		@cargos_persona = Cargo.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento])
 		if current_user.role? :escuela then
-			@cargos_persona_fecha = @cargos_persona.where(:establecimiento_id => session[:establecimiento])
-	    end 	
-	    return @cargos_persona
+			return Cargo.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento])
+	    else 
+			return Cargo.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT')	    	
+	    end
 	end
   
 	def cargos_no_docente_persona_permitida(dni)
-		@cargos_persona_aux = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento])
 		if current_user.role? :escuela then
-			@cargos_persona_aux_fecha = @cargos_persona_aux.where(:establecimiento_id => session[:establecimiento]) 
-	    end 	
-	    return @cargos_persona_aux
+			return CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento]).includes(:establecimiento)
+	    else
+			return CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT').includes(:establecimiento)
+	    end	
 	end
 
 	def horas_persona_permitida(dni)
-		@horas_persona = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento]).includes(:establecimiento, :materium)  
 		if current_user.role? :escuela then
-			@horas_persona_fecha = @horas_persona.where(:establecimiento_id => session[:establecimiento])
+			return AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento]).includes(:establecimiento, :materium)  
+		else
+			return AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT').includes(:establecimiento, :materium)  
     	end
-    	return @horas_persona
 	end
 
 	def licencias(dni)

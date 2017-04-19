@@ -15,7 +15,6 @@
           <tr>
             <th>Secuencia</th>
             <th>CJ</th>
-            <th>Cue</th>
             <th>Establecimiento</th>
             <th>Ciclo</th>
             <th>Año</th>
@@ -45,7 +44,8 @@
       <table id="tabla-cargos-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= cargos_licencia_permitida_path(format: :json,dni: 0) %>" >
         <thead>
           <tr>
-            
+            <th>Secuencia</th>
+            <th>CJ</th>
             <th>Establecimiento</th>
             <th>Sit Rev / Cargo</th>
             <th>Turno</th>
@@ -78,7 +78,6 @@
            <tr>
             <th>Secuencia</th>
             <th>CJ</th>
-            <th>Cue</th>
             <th>Establecimiento</th>
             <th>Observaciones</th>
             <th>Fecha Alta</th>
@@ -107,8 +106,8 @@
             <tr>
               <th>Tipo</th>
               <th>Descripción</th>
-              <th style="width: 100px;">Fecha Desde</th>
-              <th style="width: 100px;">Fecha Hasta</th>
+              <th style="width: 50px;">Fecha Desde</th>
+              <th style="width: 50px;">Fecha Hasta</th>
               <th>Artículo</th>
               <th class="text-center col-md-1">Estado</th>
             </tr>
@@ -290,7 +289,7 @@
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 10 ],
+                "targets": [ 9 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -307,7 +306,7 @@
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 7 ],
+                "targets": [ 9 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -324,7 +323,7 @@
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 6 ],
+                "targets": [ 5 ],
                 "searchable": false,
                 "orderable": false
             }
