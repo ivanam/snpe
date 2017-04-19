@@ -43,7 +43,7 @@ class LicenciaController < ApplicationController
   def listado_licencias
      @rango = params["rango"]
      @mindate, @maxdate = Util.max_min_periodo(@rango)
-     client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "chacho77", :database => "snpe")
+     client = Mysql2::Client.new(:host => "127.0.0.1", :username => "root", :password => "root", :database => "snpe")
      #@res= client.query("select * from snpe.licencia", :cast_booleans => true)
      @res = listado_de_licencias(@mindate, @maxdate)
     respond_to do |format|
