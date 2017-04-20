@@ -13,7 +13,7 @@
       <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
 
       <ul>
-      <% @cargo.errors.full_messages.each do |msg| %>
+      <% @cargo_no_docente.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -40,18 +40,11 @@
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
         <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>          
         <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>
-        <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido", :value => @persona.apellidos } %>
-
-        <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombres", :value => @persona.nombres } %>
-
+        <%= text_field_tag 'apeynom', "", {:class => "form-alta text-field form-control", :style => "width: 250px;", :id => "input_apeynom", :placeholder => "Apellido y nombre", :value => @persona.apeynom } %> 
         <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta" } %>
-
         <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
         <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
-        
-        
-       <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.id]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
-        
+        <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.id]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
         <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
 
         <%= f.text_field :resolucion, :id => "resolucion", :placeholder => "resolución", :class => "form-alta text-field form-control"%>
