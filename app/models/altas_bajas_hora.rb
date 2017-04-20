@@ -52,7 +52,6 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def validar_situacion_revista
-    debugger
     if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
       titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where(situacion_revista:'1-1')
       interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where(situacion_revista: '1-2')
