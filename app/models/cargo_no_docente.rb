@@ -9,7 +9,6 @@ class CargoNoDocente < ActiveRecord::Base
   validate :cargo_existente
   
   def cargo_existente
-     debugger
      #Revisa si existe una persona en el cargo
     cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).first
     if cargo_existe != nil
