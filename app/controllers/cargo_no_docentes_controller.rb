@@ -56,8 +56,7 @@ class CargoNoDocentesController < InheritedResources::Base
     @tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
-    @nombres = params["nombres"]
-    @apellidos = params["apellidos"]
+    @apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(nro_documento: @dni).first
@@ -65,14 +64,12 @@ class CargoNoDocentesController < InheritedResources::Base
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, nombres: @nombres, apellidos: @apellidos, :apeynom => "#{@apellidos} #{@nombres}", cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: @tipo_documento, nro_documento: @dni, sexo_id: @sexo, :apeynom => @apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = @tipo_documento
       @persona.nro_documento = @dni
       @persona.sexo_id = @sexo
-      @persona.nombres = @nombres
-      @persona.apellidos = @apellidos
-      @persona.apeynom = "#{@apellidos} #{@nombres}"
+      @persona.apeynom = @apeynom
       @persona.cuil = @cuil
       @persona.fecha_nacimiento = @fecha_nacimiento      
     end
