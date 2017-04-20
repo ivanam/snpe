@@ -101,7 +101,7 @@ module AltasBajasHorasHelper
     if altasbajashoras.where(situacion_revista: "1-1").first then #Titular
       @primer = altasbajashoras.where(situacion_revista: "1-1").first #Titular
     else 
-      @primer = altasbajashoras.where(situacion_revista: "1-2").first #Suplente
+      @primer = altasbajashoras.where(situacion_revista: "1-2").first #Interino
     end
      if @primer.suplente_id != nil then
       @suplente = altasbajashoras.where(id: Suplente.where(id: @primer.suplente_id).first.altas_bajas_hora_id)  
@@ -121,6 +121,7 @@ module AltasBajasHorasHelper
 
  #Articulo con goce de haberes
   def con_licencia_suplente (altasbajashoras)
+    debugger
     if altasbajashoras.where(situacion_revista: "1-1").first then
       @primer = altasbajashoras.where(situacion_revista: "1-1").first
     else 

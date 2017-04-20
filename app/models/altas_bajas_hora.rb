@@ -24,7 +24,7 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :turno, :presence => true
 
   #Validación de alta
-  #validate :validar_alta
+  validate :validar_alta
 
 
   #Validates de persona en AltasBajas
@@ -48,13 +48,28 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Método que valida el alta de un paquete de horas
   def validar_alta 
+    validar_situacion_revista
+  end
+
+  def validar_situacion_revista
+    debugger
+    if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
+      titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where(situacion_revista:'1-1')
+      interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where(situacion_revista: '1-2')
+      if (titular != nil) or (interino != nil)      
+        errors.add(:base,"No puede darse de alta un suplente ni reemplazante, si no existe titular o interino en el cargo")        
+      end
+    end
+  end
+
+  def validar_nivel_superior    
     establecimiento = Establecimiento.find(id: self.establecimiento_id)
     nivel = establecimiento.nivel
     if nivel.descripcion = "Superior"
       #Obtengo el despliegue correspondiente a la materia y el plan
       despliegue = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id).first            
       #Cantidad de registros
-      @cantidad_registros = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).count
+      cantidad_registros = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).count
       if !(despliegue.cantidad_docentes < cantidad_registros)
         errors.add(:base,"Ya se cumplio el limite de cantidad de docentes en esa Materia")
       end
