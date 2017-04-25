@@ -111,6 +111,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def destroy
     @cargo_no_docente = CargoNoDocente.find(params[:id])
+    @cargo_no_docente.estados.destroy_all
     @cargo_no_docente.destroy
     respond_to do |format|
       format.html { redirect_to cargo_no_docentes_url, notice: 'Se ha eliminado la carga' }
