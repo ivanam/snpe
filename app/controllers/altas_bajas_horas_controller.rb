@@ -473,8 +473,7 @@ class AltasBajasHorasController < ApplicationController
 
   def destroy
     @altas_bajas_hora = AltasBajasHora.find(params[:id])    
-    alta_baja_hora_estado = AltasBajasHoraEstado.find_by(alta_baja_hora_id: params[:id])
-    alta_baja_hora_estado.destroy
+    @altas_bajas_hora.estados.destroy_all
     @altas_bajas_hora.destroy
 
     respond_to do |format|
