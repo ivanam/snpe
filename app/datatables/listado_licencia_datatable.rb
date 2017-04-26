@@ -23,7 +23,7 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
         else
           "Cargo no docente"
         end,
-
+       
         if record.altas_bajas_hora_id != nil  
           "Cantidad de horas: #{AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.cant_horas}"
           #record.altas_bajas_hora_id
@@ -31,6 +31,14 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
             Funcion.find(Cargo.find(record.cargo_id).cargo.to_i).to_s
         else
             Cargosnd.find(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).to_s
+        end,
+
+        if record.altas_bajas_hora_id != nil  
+          AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.to_s
+        elsif record.cargo_id != nil
+          Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s
+        else
+          CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.to_s
         end,
         record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
         Util.fecha_a_es(record.fecha_desde),
