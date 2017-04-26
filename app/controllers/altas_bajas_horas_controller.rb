@@ -438,7 +438,34 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.oblig = params[:oblig]
     @altas_bajas_horas.observaciones = params[:observaciones]
-    @altas_bajas_horas.estado = params[:estado]
+    if @altas_bajas_horas.estado == "LIC" then
+        if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+          @altas_bajas_horas.estado = params[:estado]
+        end
+        if params[:estado] == "ALT" then
+            flash[:error] = 'No debe pasar del estado LIC a ALT'
+            @altas_bajas_horas.estado = "LIC"
+        end
+    end 
+
+    if @altas_bajas_horas.estado == "ALT" then
+        if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+            flash[:error] = 'No debe pasar del estado ALT a LIC'
+            @altas_bajas_horas.estado = "ALT"
+        end
+    end
+    
+    if @altas_bajas_horas.estado == "LIC P/BAJ" then
+      if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+         
+          @altas_bajas_horas.estado = params[:estado]
+        end
+      if params[:estado] == "ALT" then
+            flash[:error] = 'No debe pasar del estado LIC a ALT'
+            @altas_bajas_horas.estado = "LIC P/BAJ"
+      end
+    end
+
 
 
    respond_to do |format|

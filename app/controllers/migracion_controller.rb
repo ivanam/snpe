@@ -1,5 +1,9 @@
 class MigracionController < ApplicationController
 
+
+
+
+
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 	      res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate union
@@ -10,6 +14,7 @@ select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc
 	     for r in res
 
 			materia_id = Materium.where(codigo: r['materia']).first.id
+
 
 			if Persona.where(:nro_documento => r['nume_docu']).first == nil then
 
@@ -28,6 +33,18 @@ select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc
 
 			else
 				persona_id = Persona.where(:nro_documento => r['nume_docu']).first.id
+
+				#buscamos el cuil en el MEC y se lo seteamos
+				if Persona.where(:nro_documento => r['nume_docu']).first.cuil == nil then
+					@cuil = client.query("SELECT cuit FROM agentes_dni_cuit a where nume_docu= "+ r['nume_docu'].to_s ).first
+				    @personac = Persona.where(:nro_documento => r['nume_docu']).first
+				    if  @cuil != nil then
+					    @personac.cuil = @cuil["cuit"]
+					    @personac.save
+					end
+
+				end
+
 			end
 
 
@@ -95,6 +112,17 @@ select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:es
 
 			else
 				persona_id = Persona.where(:nro_documento => r['nume_docu']).first.id
+
+				#buscamos el cuil en el MEC y se lo seteamos
+				if Persona.where(:nro_documento => r['nume_docu']).first.cuil == nil then
+					@cuil = client.query("SELECT cuit FROM agentes_dni_cuit a where nume_docu= "+ r['nume_docu'].to_s ).first
+				    @personac = Persona.where(:nro_documento => r['nume_docu']).first
+				    if  @cuil != nil then
+					    @personac.cuil = @cuil["cuit"]
+					    @personac.save
+					end
+
+				end
 			end
 
 
@@ -150,6 +178,17 @@ select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:es
 
 			else
 				persona_id = Persona.where(:nro_documento => r['nume_docu']).first.id
+				
+				#buscamos el cuil en el MEC y se lo seteamos
+				if Persona.where(:nro_documento => r['nume_docu']).first.cuil == nil then
+					@cuil = client.query("SELECT cuit FROM agentes_dni_cuit a where nume_docu= "+ r['nume_docu'].to_s ).first
+				    @personac = Persona.where(:nro_documento => r['nume_docu']).first
+				    if  @cuil != nil then
+					    @personac.cuil = @cuil["cuit"]
+					    @personac.save
+					end
+
+				end
 			end
 
 
