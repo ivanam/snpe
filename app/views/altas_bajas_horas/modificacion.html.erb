@@ -49,7 +49,7 @@
 
   					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
 
-  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan", :required => true }%>  
+  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%>  
 
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
 
