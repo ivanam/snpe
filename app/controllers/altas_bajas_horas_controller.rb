@@ -438,6 +438,9 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.oblig = params[:oblig]
     @altas_bajas_horas.observaciones = params[:observaciones]
+
+    @altas_bajas_horas.resolucion = params[:resolucion]
+    @altas_bajas_horas.decreto = params[:decreto]
     if @altas_bajas_horas.estado == "LIC" then
         if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
           @altas_bajas_horas.estado = params[:estado]
