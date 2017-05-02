@@ -4,7 +4,7 @@
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
 <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
-  <legend class="legend-small">Carga de un Alta</legend>  
+  <legend class="legend-small">Carga de un Alta de Horas</legend>  
   <div align="right">
     <%= link_to "http://www.chubut.edu.ar/agentes", :target => "_blank", :class => 'btn btn-success' do %>
         <span class="glyphicon glyphicon-info-sign"></span>
