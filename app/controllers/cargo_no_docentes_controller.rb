@@ -417,10 +417,36 @@ class CargoNoDocentesController < InheritedResources::Base
     @cargos.turno = params[:turno]
     @cargos.observaciones = params[:observaciones]
     #@cargos.cargo = params[:cargo]
-    @cargos.estado= params[:estado]
+
     @cargos.resolucion = params[:resolucion]
     @cargos.decreto = params[:decreto]
+    if @cargos.estado == "LIC" then
+          if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+            @cargos.estado = params[:estado]
+          end
+          if params[:estado] == "ALT" then
+              flash[:error] = 'No debe pasar del estado LIC a ALT'
+              @cargos.estado = "LIC"
+          end
+    end 
 
+        if @cargos.estado == "ALT" then
+            if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+                flash[:error] = 'No debe pasar del estado ALT a LIC'
+                @cargos.estado = "ALT"
+            end
+    end
+        
+        if @cargos.estado == "LIC P/BAJ" then
+          if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+             
+              @cargos.estado = params[:estado]
+            end
+          if params[:estado] == "ALT" then
+                flash[:error] = 'No debe pasar del estado LIC a ALT'
+                @cargos.estado = "LIC P/BAJ"
+          end
+    end
 
    respond_to do |format|
         if @persona.save then       

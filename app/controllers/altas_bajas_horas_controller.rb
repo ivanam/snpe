@@ -429,8 +429,7 @@ class AltasBajasHorasController < ApplicationController
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
     @altas_bajas_horas.turno = params[:turno]
    #@altas_bajas_horas.horas = params[:horas]
-    @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
-    @altas_bajas_horas.plan_id = params[:plan_id]
+    
     @altas_bajas_horas.anio = params[:anio]
     @altas_bajas_horas.division = params[:division]
     @altas_bajas_horas.materium_id = params[:materium_id]
@@ -438,30 +437,94 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.oblig = params[:oblig]
     @altas_bajas_horas.observaciones = params[:observaciones]
-    @altas_bajas_horas.estado = params[:estado]
 
-
-   respond_to do |format|
-        if @persona.save then       
-          if @altas_bajas_horas.save then
-            format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
-            format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
-          else
-            @planes_permitidos = select_planes_permitidos
-            @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
-            format.html { render action: 'modificacion' }
-            #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
-            #respond_with(@altas_bajas_hora, :location => altas_bajas_horas_path)  
-          end        
-        else
-          @planes_permitidos = select_planes_permitidos
-          @materias_permitidas = select_materias_permitidas(@altas_bajas_horas.plan_id, @altas_bajas_horas.anio)
-          format.html { render action: 'modificacion' }
-          #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          format.json { render json: @persona.errors, status: :unprocessable_entity }
+    @altas_bajas_horas.resolucion = params[:resolucion]
+    @altas_bajas_horas.decreto = params[:decreto]
+    if @altas_bajas_horas.estado == "LIC" then
+        if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+          @altas_bajas_horas.estado = params[:estado]
         end
-    end    
+        if params[:estado] == "ALT" then
+            flash[:error] = 'No debe pasar del estado LIC a ALT'
+            @altas_bajas_horas.estado = "LIC"
+        end
+    end 
+
+    if @altas_bajas_horas.estado == "ALT" then
+        if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+            flash[:error] = 'No debe pasar del estado ALT a LIC'
+            @altas_bajas_horas.estado = "ALT"
+        end
+    end
+    
+    if @altas_bajas_horas.estado == "LIC P/BAJ" then
+      if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+         
+          @altas_bajas_horas.estado = params[:estado]
+        end
+      if params[:estado] == "ALT" then
+            flash[:error] = 'No debe pasar del estado LIC a ALT'
+            @altas_bajas_horas.estado = "LIC P/BAJ"
+      end
+    end
+
+    if @altas_bajas_horas.estado != "LIC P/BAJ" then
+
+        if  params[:plan_id] != nil and params[:plan_id] != "" then
+
+          @altas_bajas_horas.plan_id = params[:plan_id]
+          @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
+            respond_to do |format|
+              if @persona.save then       
+                if @altas_bajas_horas.save then
+                  format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
+                  format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
+                else
+                  @planes_permitidos = select_planes_permitidos
+                  format.html { render action: 'modificacion' }
+                  format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+                end        
+              else
+                @planes_permitidos = select_planes_permitidos
+                format.html { render action: 'modificacion' }
+                #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+                format.json { render json: @persona.errors, status: :unprocessable_entity }
+              end
+          end    
+        else
+
+          flash[:error]= "Debe completar el plan"
+          respond_to do |format|
+            @planes_permitidos = select_planes_permitidos
+            format.html { render action: 'modificacion' }
+            format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+          end
+        end
+
+    else 
+       respond_to do |format|
+              if @persona.save then       
+                if @altas_bajas_horas.save then
+                  format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
+                  format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
+                else
+                  @planes_permitidos = select_planes_permitidos
+                  format.html { render action: 'modificacion' }
+                  format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+                end        
+              else
+                @planes_permitidos = select_planes_permitidos
+                format.html { render action: 'modificacion' }
+                #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+                format.json { render json: @persona.errors, status: :unprocessable_entity }
+              end
+          end    
+
+      
+    end
+
+
+   
     
   
   end

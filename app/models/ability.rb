@@ -13,6 +13,20 @@ class Ability
         can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
         can :modificacion, [Cargo]
         can :modificacion, [AltasBajasHora]
+        can :modificacion, [CargoNoDocente]
+        can :mostrar_edicion, [AltasBajasHora]
+        can :mostrar_edicion2, [AltasBajasHora]
+        can :buscar_cuil, [AltasBajasHora]
+        can :guardar_edicion, [AltasBajasHora]
+        can :mostrar_edicion, [Cargo]
+        can :mostrar_edicion2, [Cargo]
+        can :buscar_cuil, [Cargo]
+        can :guardar_edicion, [Cargo]
+        can :mostrar_edicion, [CargoNoDocente]
+        can :mostrar_edicion2, [CargoNoDocente]
+        can :buscar_cuil, [CargoNoDocente]
+        can :guardar_edicion, [CargoNoDocente]
+
       end
       if user.role? :personal
         can :cargos_bajas_efectivas, [Cargo]
