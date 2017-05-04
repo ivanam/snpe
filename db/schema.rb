@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417123838) do
+ActiveRecord::Schema.define(version: 20170428142041) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -134,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170417123838) do
     t.datetime "updated_at"
     t.integer  "anio_periodo"
     t.integer  "mes_periodo"
+    t.integer  "altas_bajas_cargo_no_docente_id"
   end
 
   add_index "asistencia", ["altas_bajas_cargo_id"], name: "index_asistencia_on_altas_bajas_cargo_id", using: :btree
