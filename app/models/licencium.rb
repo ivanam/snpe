@@ -36,30 +36,38 @@ class Licencium < ActiveRecord::Base
 	 end  
 
 	 def cancelar_licencia
-	 	if self.vigente == "Cancelada"
+	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
+
 	 		if self.altas_bajas_hora_id != nil
-	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
-	 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  alta_horas.id.to_s )
-				if suplentes_activos == []
+	 			if self.por_baja
 	 				alta_horas.update!(estado: 'ALT')
 	 			else
-	 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
-	 				return false
-	 			end
+		 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
+		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  alta_horas.id.to_s )
+					if suplentes_activos == []
+		 				alta_horas.update!(estado: 'ALT')
+		 			else
+		 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
+		 				return false
+		 			end
+		 		end
 
 	 		elsif self.cargo_id != nil
-	 			cargo = Cargo.find(self.cargo_id)
-	 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, curso: cargo.curso, division: cargo.division, establecimiento_id: cargo.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
-	 			if suplentes_activos == []
+	 			if self.por_baja
 	 				cargo.update!(estado: 'ALT')
 	 			else
-	 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
-	 				return false
-	 			end
+		 			cargo = Cargo.find(self.cargo_id)
+		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, curso: cargo.curso, division: cargo.division, establecimiento_id: cargo.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
+		 			if suplentes_activos == []
+		 				cargo.update!(estado: 'ALT')
+		 			else
+		 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
+		 				return false
+		 			end
+		 		end
 
 	 		elsif self.cargo_no_docente_id != nil
 	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
-
 	 		end
 		end
 	 end 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417123838) do
+ActiveRecord::Schema.define(version: 20170502120610) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -256,8 +256,8 @@ ActiveRecord::Schema.define(version: 20170417123838) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
   end
@@ -295,6 +295,39 @@ ActiveRecord::Schema.define(version: 20170417123838) do
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "escuela4", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "ley_r",                    default: 0,  null: false
+    t.integer "agrup_r",                  default: 0,  null: false
+    t.integer "cargo_r",                  default: 0,  null: false
+    t.integer "categ_r",                  default: 0,  null: false
+    t.integer "ley_s",                    default: 0,  null: false
+    t.integer "agrup_s",                  default: 0,  null: false
+    t.integer "cargo_s",                  default: 0,  null: false
+    t.integer "categ_s",                  default: 0,  null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
   end
 
   create_table "establecimiento_plans", force: true do |t|
@@ -407,6 +440,7 @@ ActiveRecord::Schema.define(version: 20170417123838) do
     t.integer  "cargo_no_docente_id"
     t.text     "observaciones"
     t.string   "vigente"
+    t.boolean  "por_baja"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
@@ -440,13 +474,6 @@ ActiveRecord::Schema.define(version: 20170417123838) do
   create_table "materia", force: true do |t|
     t.integer  "codigo"
     t.string   "descripcion"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "motivo_bajas", force: true do |t|
-    t.string   "nombre"
-    t.string   "string"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
