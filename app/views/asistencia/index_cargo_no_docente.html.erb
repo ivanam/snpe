@@ -1,0 +1,95 @@
+<div class="page-header">
+  <h1>Listado de asistencia</h1>
+</div>
+
+<div>
+  <select name="mes" id="select_mes" value="<%= @mes %>">
+    <option value="1">Enero </option>
+    <option value="2">Febrero </option>
+    <option value="3">Marzo </option>
+    <option value="4">Abril </option>
+    <option value="5">Mayo </option>
+    <option value="6">Junio </option>
+    <option value="7">Julio </option>
+    <option value="8">Agosto </option>
+    <option value="9">Septiembre </option>
+    <option value="10">Octubre </option>
+    <option value="11">Noviembre </option>
+    <option value="12">Diciembre </option>
+  </select>
+  <select name="anio" id="anio" value=" <%= @anio %>">
+    <script language="javascript" type="text/javascript">
+      var k;
+      var d = new Date();
+      var n = d.getFullYear(); 
+      for(k=n;k>=1970;k--){ 
+        document.write("<option value="+k+">"+k+"</option>");
+      }
+    </script>
+  </select>
+
+  <input id="btn-ir" class="btn btn-primary" type="submit" value="Ir">
+
+</div>
+
+</br>
+
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+      Personal activo
+    </h3>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table id="tabla-personal" class="table table-striped table-bordered table-hover" data-source = "<%= asistencia_personal_cargo_no_docente_path(format: :json, anio: @anio, mes: @mes) %>" >
+        <thead>
+          <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+<!--             <th>Injustificadas</th> -->
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%= @puede_informar %>
+<% if @puede_informar then%>
+  <%= link_to cargos_informar_asistencia_path, :class => 'btn btn-success' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Informar
+  <% end %>
+<% end %>
+
+<script type="text/javascript">
+  $(document).ready(function($) {
+    $.fn.editable.defaults.mode = 'inline';
+    $('#tabla-personal')
+    .dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      ajax : $('#tabla-personal').data('source'),
+      pagingType: "simple",
+     // "initComplete": function(settings, json) {
+     //    // $('.ina_justificada').editable();
+     //    $('.ina_injustificadas').editable();
+     //    // $('.lleg_tarde_justificada').editable();
+     //    // $('.lleg_tarde_injustificada').editable();
+     //  },
+    });
+    
+  });
+
+  $('#btn-ir').click(function(){
+    window.open("<%= asistencia_index_cargo_no_docente_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
+  });
+ 
+  var mes = $("#select_mes").attr('value')
+  $('#select_mes option[value='+mes+']').prop('selected', true);
+
+</script>
