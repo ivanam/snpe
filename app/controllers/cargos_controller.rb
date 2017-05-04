@@ -462,13 +462,43 @@ end
     @cargos.turno = params[:turno]
     @cargos.anio = params[:anio]
     @cargos.division = params[:division]
-    @cargos.estado = params[:estado]
+    @cargos.resolucion = params[:resolucion]
+    @cargos.disposicion = params[:disposicion]
+
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
     if params[:materium_id] != "" then 
       @cargos.materium_id = params[:materium_id]
     end
     @cargos.grupo_id = params[:grupo_id]
     @cargos.observaciones = params[:observaciones]
+
+    if @cargos.estado == "LIC" then
+        if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+          @cargos.estado = params[:estado]
+        end
+        if params[:estado] == "ALT" then
+            flash[:error] = 'No debe pasar del estado LIC a ALT'
+            @cargos.estado = "LIC"
+        end
+    end 
+
+    if @cargos.estado == "ALT" then
+        if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+            flash[:error] = 'No debe pasar del estado ALT a LIC'
+            @cargos.estado = "ALT"
+        end
+    end
+    
+    if @cargos.estado == "LIC P/BAJ" then
+      if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
+         
+          @cargos.estado = params[:estado]
+        end
+      if params[:estado] == "ALT" then
+            flash[:error] = 'No debe pasar del estado LIC a ALT'
+            @cargos.estado = "LIC P/BAJ"
+      end
+    end
 
 
    respond_to do |format|
