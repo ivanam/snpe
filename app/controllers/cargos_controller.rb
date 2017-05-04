@@ -462,6 +462,8 @@ end
     @cargos.turno = params[:turno]
     @cargos.anio = params[:anio]
     @cargos.division = params[:division]
+    @cargos.resolucion = params[:resolucion]
+    @cargos.disposicion = params[:disposicion]
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
     if params[:materium_id] != "" then 

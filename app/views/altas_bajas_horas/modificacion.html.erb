@@ -49,7 +49,7 @@
 
   					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
 
-  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan", :required => true }%>  
+  					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%>  
 
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
 
@@ -65,14 +65,19 @@
           			  	@materias = @materias_permitidas.all
 
           			  	end%>
-          			  <%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", :required => true}%>  
+          		<%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", :required => true}%>  
 
 
-          			  <%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+          		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
 
-			          <%= text_field_tag 'oblig', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Oblig.", :id=>"oblig", :class => "form-alta form-control", :placeholder => "Oblig."}%>
+			         <%= text_field_tag 'oblig', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Oblig.", :id=>"oblig", :class => "form-alta form-control", :placeholder => "Oblig."}%>
 
-                <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/BAJ",'LIC P/BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+              <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/BAJ",'LIC P/BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
+
+              <%= text_field_tag 'resolucion', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Resolucion", :id => "resolucion", :placeholder => "Resolucion",:class=>"form-control form-alta form-select" }%>
+
+
+              <%= text_field_tag 'decreto', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Decreto", :id => "decreto", :placeholder => "Decreto",:class=>"form-control form-alta form-select"}%>
 
 
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
@@ -254,6 +259,8 @@
                 	$("#grupo").val(data.grupo_id);
                 	$("#oblig").val(data.oblig);
                 	$("#observaciones-edit").val(data.observaciones);
+                  $("#resolucion").val(data.resolucion);
+                  $("#decreto").val(data.decreto);
             	}
 
                 });

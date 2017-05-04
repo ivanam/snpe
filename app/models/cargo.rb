@@ -59,6 +59,10 @@ class Cargo < ActiveRecord::Base
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
         end
+      else
+        if self.estado == "ALT" && ( self.situacion_revista != "1-1" && self.situacion_revista != "1-2")
+          errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+        end
       end
     end
   end
@@ -83,6 +87,10 @@ class Cargo < ActiveRecord::Base
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
         end
+      else
+        if self.estado == "ALT" && ( self.situacion_revista != "1-1" && self.situacion_revista != "1-2")
+          errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+        end
       end
     end
   end
@@ -103,22 +111,29 @@ class Cargo < ActiveRecord::Base
   def sit_revista
     # Revisa si corresponde la sitacion revista
     if self.estado == "ALT"
+
       if !(Funcion.cargos_jerarquicos.include? self.cargo)
         # Cargos jerarquicos
         cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso).where.not(id: self.id)
-        if  cargo_actuales.where(estado: "ALT") != []
-        # Existen cargos
-          errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.where(estado: "ALT").first.persona.to_s + " debe realizar la baja del cargo anterior")
-        elsif cargo_actuales.where(estado: "LIC") != []
-          if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
-            errors.add(:base, "No se puede dar de alta el cargo, ya se ocupado por " + cargo_actuales.where(estado: "LIC").first.persona.to_s + "que se encuentra de licencia")
-          elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
-            errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+        if cargo_actuales != []
+          if  cargo_actuales.where(estado: "ALT") != []
+          # Existen cargos
+            errors.add(:base, self.persona.to_s + ": el cargo ya se encuentra ocupado el cargo por " + cargo_actuales.where(estado: "ALT").first.persona.to_s + " debe realizar la baja del cargo anterior")
+          elsif cargo_actuales.where(estado: "LIC") != []
+            if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
+              errors.add(:base, "No se puede dar de alta el cargo, ya se ocupado por " + cargo_actuales.where(estado: "LIC").first.persona.to_s + "que se encuentra de licencia")
+            elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
+              errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+            end
+          elsif cargo_actuales.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
+            if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
+              errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargo_actuales.first.persona.to_s)
+            elsif (self.situacion_revista == "1-3")
+              errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
+            end
           end
-        elsif cargo_actuales.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
-          if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
-            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargo_actuales.first.persona.to_s)
-          elsif (self.situacion_revista == "1-3")
+        else
+          if self.estado == "ALT" && ( self.situacion_revista != "1-1" || self.situacion_revista != "1-2")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
         end

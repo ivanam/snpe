@@ -69,6 +69,11 @@
               <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/BAJ",'LIC P/BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
 
 
+              <%= text_field_tag 'resolucion', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Resolucion", :id => "resolucion", :placeholder => "Resolucion",:class=>"form-control form-alta form-select" }%>
+
+
+              <%= text_field_tag 'disposicion', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Disposición", :id => "disposicion", :placeholder => "Disposición",:class=>"form-control form-alta form-select"}%>
+
          			 <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
 
 
@@ -149,6 +154,8 @@
                   $("#estado").val(data.estado);
                 	$("#oblig").val(data.oblig);
                 	$("#observaciones-edit").val(data.observaciones);
+                  $("#resolucion").val(data.resolucion);
+                  $("#disposicion").val(data.disposicion);
             	}
 
                 });
