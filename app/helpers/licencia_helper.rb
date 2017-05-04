@@ -46,7 +46,7 @@ module LicenciaHelper
 
 	def listado_de_licencias(mindate, maxdate)		
 		if current_user.role? :personal or current_user.role? :sadmin then			
-			@licencias = Licencium.joins(:articulo).where(:id => @licencia_horas)
+			@licencias = Licencium.joins(:articulo).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate)
 		else			
 			@licencia_cargo=Licencium.joins(:cargo).where(cargos: {:establecimiento_id => session[:establecimiento]}).map(&:id)
     		@licencia_cargos_no_docentes=Licencium.joins(:cargo_no_docente).where(cargo_no_docentes: {:establecimiento_id => session[:establecimiento]}).map(&:id)
