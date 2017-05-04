@@ -97,12 +97,15 @@ ProyectoBase::Application.routes.draw do
     resources :asistencia
 
     #Páginas de asistencia
+    get "asistencias/index/", to: "asistencia#index", as: :asistencia_index
 
     get "asistencias/index_cargo/", to: "asistencia#index_cargo", as: :asistencia_index_cargo
 
-    get "asistencias/index_novedades_cargo/", to: "asistencia#index_novedades_cargo", as: :asistencia_index_novedades_cargo
-
     get "asistencias/index_cargo_no_docente/", to: "asistencia#index_cargo_no_docente", as: :asistencia_index_cargo_no_docente
+
+    get "asistencias/index_novedades_alta_baja_hora/", to: "asistencia#index_novedades_alta_baja_hora", as: :asistencia_index_novedades_alta_baja_hora
+    
+    get "asistencias/index_novedades_cargo/", to: "asistencia#index_novedades_cargo", as: :asistencia_index_novedades_cargo
 
     get "asistencias/index_novedades_cargo_no_docente/", to: "asistencia#index_novedades_cargo_no_docente", as: :asistencia_index_novedades_cargo_no_docente
 
@@ -114,11 +117,21 @@ ProyectoBase::Application.routes.draw do
 
     get "asistencias/personal_cargo_no_docente/", to: "asistencia#personal_cargo_no_docente", as: :asistencia_personal_cargo_no_docente
 
+
+    get "asistencias/novedades_hora/", to: "asistencia#novedades_hora", as: :asistencia_novedades_hora
+
     get "asistencias/novedades_cargo/", to: "asistencia#novedades_cargo", as: :asistencia_novedades_cargo
+
+    get "asistencias/novedades_cargo_no_docente/", to: "asistencia#novedades_cargo_no_docente", as: :asistencia_novedades_cargo_no_docente
+
 
     #Otras funciones
 
+    get "asistencias/altas_bajas_horas_informar", to: "asistencia#altas_bajas_horas_informar", as: :altas_bajas_horas_informar_asistencia
+
     get "asistencias/cargos_informar", to: "asistencia#cargos_informar", as: :cargos_informar_asistencia
+
+    get "asistencias/cargo_no_docentes_informar", to: "asistencia#cargo_no_docentes_informar", as: :cargo_no_docentes_informar_asistencia
 
     get "asistencias/cargos_imprimir", to: "asistencias#cargos_imprimir", as: :cargos_imprimir_asistencia
 

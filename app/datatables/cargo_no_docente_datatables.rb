@@ -17,9 +17,15 @@ class CargoNoDocenteDatatable < AjaxDatatablesRails::Base
 
         record.persona.nro_documento,
         record.persona.to_s,
+<<<<<<< HEAD
         record.situacion_revista,
 
      ]
+=======
+        record.situacion_revista,     
+        Util.fecha_a_es(record.fecha_alta)
+      ]
+>>>>>>> e99fc81acb22b6d20a4c488f4484a07a918412fd
     end
   end
 

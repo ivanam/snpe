@@ -1,6 +1,7 @@
 class Asistencium < ActiveRecord::Base
   belongs_to :altas_bajas_hora
-  belongs_to :altas_bajas_cargo
+  belongs_to :cargo
+  belongs_to :cargo_no_docente
   
   #Creo que la asistencia debe tener su propio campo en sí mismo, ya que el registro de asistencias es mensual. Por lo cual esto no iria.
   has_many :periodos, :class_name => 'PeriodoAsistencia', :foreign_key => 'asistencia_id', dependent: :destroy

@@ -1,6 +1,4 @@
-<div class="page-header">
-  <h1>Listado de asistencia</h1>
-</div>
+<legend class="legend-small">Listado de asistencia - Cargos Docentes</legend>
 
 <div>
   <select name="mes" id="select_mes" value="<%= @mes %>">
@@ -46,12 +44,12 @@
         <thead>
           <tr>
             <th>DNI</th>
-            <th>Nombre</th>
+            <th>Apellido y nombre</th>
             <th>Curso</th>
             <th>Justificada</th>
             <th>Injustificada</th>
-            <th>Justificada</th>
-            <th>Injustificada</th>
+            <th>Llegadas tarde justificada</th>
+            <th>Llegadas tarde injustificada</th>
           </tr>
         </thead>
         <tbody>
@@ -61,7 +59,6 @@
   </div>
 </div>
 
-<%= @puede_informar %>
 <% if @puede_informar then%>
   <%= link_to cargos_informar_asistencia_path, :class => 'btn btn-success' do %>
     <span class="glyphicon glyphicon-plus"></span>
@@ -85,6 +82,27 @@
         $('.lleg_tarde_justificada').editable();
         $('.lleg_tarde_injustificada').editable();
       },
+      columnDefs: [
+            {
+                "targets": [ 3, 4, 5, 6 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+    });
+
+    /*$('#tabla-personal').on( 'order.dt', function() {      
+      $('.ina_justificada').editable();
+      $('.ina_injustificada').editable();
+      $('.lleg_tarde_justificada').editable();
+      $('.lleg_tarde_injustificada').editable();
+    });*/
+
+    $('#tabla-personal').on( 'draw.dt', function() {      
+      $('.ina_justificada').editable();
+      $('.ina_injustificada').editable();
+      $('.lleg_tarde_justificada').editable();
+      $('.lleg_tarde_injustificada').editable();
     });
     
   });

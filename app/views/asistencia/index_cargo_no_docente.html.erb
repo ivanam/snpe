@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 <div class="page-header">
   <h1>Listado de asistencia</h1>
 </div>
+=======
+<legend class="legend-small">Listado de asistencia - Cargos Auxiliares</legend>
+>>>>>>> e99fc81acb22b6d20a4c488f4484a07a918412fd
 
 <div>
   <select name="mes" id="select_mes" value="<%= @mes %>">
@@ -46,8 +50,16 @@
         <thead>
           <tr>
             <th>DNI</th>
+<<<<<<< HEAD
             <th>Nombre</th>
 <!--             <th>Injustificadas</th> -->
+=======
+            <th>Apellido y nombre</th>
+            <th>Justificada</th>
+            <th>Injustificada</th>
+            <th>Llegadas tarde justificada</th>
+            <th>Llegadas tarde injustificada</th>
+>>>>>>> e99fc81acb22b6d20a4c488f4484a07a918412fd
           </tr>
         </thead>
         <tbody>
@@ -57,7 +69,10 @@
   </div>
 </div>
 
+<<<<<<< HEAD
 <%= @puede_informar %>
+=======
+>>>>>>> e99fc81acb22b6d20a4c488f4484a07a918412fd
 <% if @puede_informar then%>
   <%= link_to cargos_informar_asistencia_path, :class => 'btn btn-success' do %>
     <span class="glyphicon glyphicon-plus"></span>
@@ -75,12 +90,42 @@
       serverSide : true,
       ajax : $('#tabla-personal').data('source'),
       pagingType: "simple",
+<<<<<<< HEAD
      // "initComplete": function(settings, json) {
      //    // $('.ina_justificada').editable();
      //    $('.ina_injustificadas').editable();
      //    // $('.lleg_tarde_justificada').editable();
      //    // $('.lleg_tarde_injustificada').editable();
      //  },
+=======
+     "initComplete": function(settings, json) {
+        $('.ina_justificada').editable();
+        $('.ina_injustificada').editable();
+        $('.lleg_tarde_justificada').editable();
+        $('.lleg_tarde_injustificada').editable();
+      },
+      columnDefs: [
+            {
+                "targets": [ 2, 3, 4, 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+    });
+
+    /*$('#tabla-personal').on( 'order.dt', function() {      
+      $('.ina_justificada').editable();
+      $('.ina_injustificada').editable();
+      $('.lleg_tarde_justificada').editable();
+      $('.lleg_tarde_injustificada').editable();
+    });*/
+
+    $('#tabla-personal').on( 'draw.dt', function() {      
+      $('.ina_justificada').editable();
+      $('.ina_injustificada').editable();
+      $('.lleg_tarde_justificada').editable();
+      $('.lleg_tarde_injustificada').editable();
+>>>>>>> e99fc81acb22b6d20a4c488f4484a07a918412fd
     });
     
   });
