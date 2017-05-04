@@ -3,6 +3,8 @@ class AsistenciaController < ApplicationController
 
   respond_to :html
 
+  include ::CargoNoDocentesHelper
+
   #---------------------------------------------- Páginas de inicio de asistencia ---------------------------------------------------------------------------
 
   def index
@@ -13,7 +15,18 @@ class AsistenciaController < ApplicationController
   end
 
   def index_cargo
-    
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    asistencia = Asistencium.where(anio_periodo: @anio, mes_periodo: @mes).where.not(altas_bajas_cargo_id: nil).first
+    @puede_informar = true
+    if asistencia != nil
+      @puede_informar = not(asistencia.estado_actual == "Notificado")
+    end
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def index_cargo_no_docente
     @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     asistencia = Asistencium.where(anio_periodo: @anio, mes_periodo: @mes).where.not(altas_bajas_cargo_id: nil).first
     @puede_informar = true
@@ -48,6 +61,13 @@ class AsistenciaController < ApplicationController
     @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     respond_to do |format|
       format.json { render json: CargoAsistenciaDatatable.new(view_context, { query: cargos_bajas_permitidas, anio: @anio, mes:@mes }) }
+    end
+  end
+
+   def personal_cargo_no_docente
+    # @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    respond_to do |format|
+      format.json { render json: CargoNoDocenteAsistenciaDatatable.new(view_context, {query: cargo_no_docentes_bajas_permitidas}) }
     end
   end
 
@@ -159,6 +179,45 @@ class AsistenciaController < ApplicationController
       format.json { render json: CargoAsistenciaDatatable.new(view_context, { query: cargos_bajas_permitidas }) }
     end
   end
+
+   def editar_asistencia_cargo_no_docente
+    anio = params["anio"]
+    mes = params["mes"]
+    debugger
+    @asistencia = Asistencium.where(altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+    if @asistencia.count > 0
+      if params["post"]["ina_justificada"] != nil
+        @asistencia.first.update(ina_justificada: params["post"]["ina_justificada"])
+      end 
+      if params["post"]["ina_injustificada"] != nil
+        @asistencia.first.update(ina_injustificada: params["post"]["ina_injustificada"])
+      end
+      if params["post"]["lleg_tarde_justificada"] != nil
+        @asistencia.first.update(lleg_tarde_justificada: params["post"]["lleg_tarde_justificada"])
+      end
+      if params["post"]["lleg_tarde_injustificada"] != nil
+        @asistencia.first.update(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"])
+      end
+    else
+      if params["post"]["ina_justificada"] != nil
+        Asistencium.create(ina_justificada: params["post"]["ina_justificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end 
+      if params["post"]["ina_injustificada"] != nil
+        Asistencium.create(ina_injustificada: params["post"]["ina_injustificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["lleg_tarde_justificada"] != nil
+        Asistencium.create(lleg_tarde_justificada: params["post"]["lleg_tarde_justificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["lleg_tarde_injustificada"] != nil
+        Asistencium.create(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+    end
+
+    respond_to do |format|
+      format.json { render json: CargoNoDocenteAsistenciaDatatable.new(view_context, { query: cargo_no_docentes_bajas_permitidas }) }
+    end
+  end
+
 
   def create
     @asistencium = Asistencium.new(asistencium_params)

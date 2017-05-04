@@ -51,8 +51,9 @@ module CargoNoDocentesHelper
   	end
 
    	def cargo_no_docentes_bajas_permitidas
-    	return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).where.not(:secuencia => nil).where(:fecha_baja => nil).includes(:establecimiento, :persona)
-  	end
+      return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).where("fecha_baja = '0000-00-00' or fecha_baja is null").includes(:establecimiento, :persona)
+    end
+
 
   	 def cargo_no_docentes_modificacion
        return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).includes(:establecimiento, :persona)

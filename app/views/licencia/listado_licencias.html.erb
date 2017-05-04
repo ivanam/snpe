@@ -87,5 +87,17 @@
       // Recarga por ajax la tabla
       tabla_licencia.api().ajax.reload();
     });
+      $('#btn_buscar').on('click', function() {
+      // Cambia la url agregando el campo rango como atributo
+      tabla_alumno.api().ajax.url('<%= reporte_buscar_alumno_path(format: :json) %>'+ obtenerParams());
+      // Recarga por ajax la tabla
+      tabla_alumno.api().ajax.reload();
+    });
+  });
+
+  function obtenerParams(){
+    return '?tipo_dni=' + $('#select_tipo_dni').val()+'&nombre=' + $('#text_nombre').val()+'&apellido=' + $('#text_apellido').val()
+  }
+</script>
   });
 </script>

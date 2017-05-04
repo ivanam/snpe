@@ -112,6 +112,8 @@ ProyectoBase::Application.routes.draw do
 
     get "asistencias/personal_cargo/", to: "asistencia#personal_cargo", as: :asistencia_personal_cargo
 
+    get "asistencias/personal_cargo_no_docente/", to: "asistencia#personal_cargo_no_docente", as: :asistencia_personal_cargo_no_docente
+
     get "asistencias/novedades_cargo/", to: "asistencia#novedades_cargo", as: :asistencia_novedades_cargo
 
     #Otras funciones
@@ -123,6 +125,8 @@ ProyectoBase::Application.routes.draw do
     put "asistencias/editar_asistencia/:id", to: "asistencia#editar_asistencia", as: :asistencia_editar_asistencia
 
     put "asistencias/editar_asistencia_cargo/:id", to: "asistencia#editar_asistencia_cargo", as: :asistencia_editar_asistencia_cargo
+
+    put "asistencias/editar_asistencia_cargo_no_docente/:id", to: "asistencia#editar_asistencia_cargo_no_docente", as: :asistencia_editar_asistencia_cargo_no_docente
 
     #---------------------------------------------------------------------------------------------------------------------------------------
 
