@@ -257,8 +257,8 @@ ActiveRecord::Schema.define(version: 20170502120610) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
   end
@@ -298,7 +298,6 @@ ActiveRecord::Schema.define(version: 20170502120610) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
   create_table "esc702HS", id: false, force: true do |t|
     t.integer "escuela",                  default: 0,  null: false
     t.integer "tipo_docu",                default: 0,  null: false
@@ -365,8 +364,6 @@ ActiveRecord::Schema.define(version: 20170502120610) do
     t.string  "observaciones", limit: 50, default: "", null: false
   end
 
-=======
->>>>>>> b7869bc2798bc7e208669a3e655370a6b66a20e5
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
