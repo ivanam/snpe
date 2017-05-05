@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   include ::AltasBajasHorasHelper
   include ::LoteImpresionsHelper
   include ::CargosHelper
+  include ::CargoNoDocentesHelper
   include ::AsistenciaHelper
   include ::LicenciaHelper
   
