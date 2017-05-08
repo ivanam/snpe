@@ -2,11 +2,11 @@ class CargoAsistenciaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['cargos.id']
+    @sortable_columns ||= ['Persona.nro_documento', 'Persona.apeynom', 'Cargo.anio', 'Cargo.division']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['cargos.id']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.apeynom', 'Cargo.anio', 'Cargo.division']
   end
 
   private
@@ -15,7 +15,7 @@ class CargoAsistenciaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.nombres.to_s + " " + record.persona.apellidos.to_s,
+        record.persona.apeynom,
         record.anio.to_s + '/' + record.division.to_s,
         '<span class="ina_justificada" data-type="text" data-resource="post" data-name="ina_justificada" data-url="'+Rails.application.routes.url_helpers.asistencia_editar_asistencia_cargo_path(record.id.to_s, anio: options[:anio], mes: options[:mes])+'">'+record.ina_justificada(options[:anio], options[:mes])+'</span>',
         '<span class="ina_injustificada" data-type="text" data-resource="post" data-name="ina_injustificada" data-url="'+Rails.application.routes.url_helpers.asistencia_editar_asistencia_cargo_path(record.id.to_s, anio: options[:anio], mes: options[:mes])+'">'+record.ina_injustificada(options[:anio], options[:mes])+'</span>',

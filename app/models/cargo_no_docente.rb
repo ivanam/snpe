@@ -17,6 +17,44 @@ class CargoNoDocente < ActiveRecord::Base
    
   end
 
+   #-----------------------------------------------------------------------------------------------------------
+  
+  def ina_justificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_no_docente_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.ina_justificada.to_s
+    end
+  end
+
+  def ina_injustificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_no_docente_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.ina_injustificada.to_s
+    end
+  end
+
+  def lleg_tarde_justificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_no_docente_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.lleg_tarde_justificada.to_s
+    end
+  end
+
+  def lleg_tarde_injustificada(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_no_docente_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.lleg_tarde_injustificada.to_s
+    end
+  end
+
 
   def estado_actual
     @relation = CargoNoDocenteEstado.where(:cargo_no_docente_id => self.id).last

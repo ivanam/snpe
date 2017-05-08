@@ -2,7 +2,7 @@
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 <%= javascript_include_tag "util.js" %>
 
-<legend class="legend-small">Asistencia - Cargos Docentes</legend>
+<legend class="legend-small">Asistencia - Cargos Auxiliares</legend>
 
 <div>
   <select name="mes" id="select_mes" value="<%= @mes %>">
@@ -46,12 +46,11 @@
     </div>
     <div class="panel-body">
       <div class="table-responsive">
-        <table id="tabla-asistencias" class="table table-striped table-bordered table-hover" data-source = "<%= asistencia_novedades_cargo_path(format: :json, anio: @anio, mes: @mes) %>" >
+        <table id="tabla-asistencias" class="table table-striped table-bordered table-hover" data-source = "<%= asistencia_novedades_cargo_no_docente_path(format: :json, anio: @anio, mes: @mes) %>" >
           <thead>
             <tr>
               <th>DNI</th>
               <th>Apellido y nombre</th>
-              <th>Curso</th>
               <th>Justificada</th>
               <th>Injustificada</th>
               <th>Llegadas tarde justificada</th>
@@ -87,7 +86,7 @@
       pagingType: "simple",
       columnDefs: [
             {
-                "targets": [ 3, 4, 5, 6 ],
+                "targets": [ 2, 3, 4, 5 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -110,7 +109,7 @@
     $('#select_mes option[value='+mes+']').prop('selected', true);
 
     $('#btn-ir').click(function(){
-      window.open("<%= asistencia_index_novedades_cargo_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
+      window.open("<%= asistencia_index_novedades_cargo_no_docente_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
     });
 
   });

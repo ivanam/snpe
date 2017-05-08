@@ -19,7 +19,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
   validates :persona_id, :presence => true
-  #validates :plan_id, :presence => true
+  validates :plan_id, :presence => true
   validates :materium_id, :presence => true
   #validates :turno, :presence => true
 

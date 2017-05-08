@@ -1,6 +1,4 @@
-<div class="page-header">
-  <h1>Listado de asistencia</h1>
-</div>
+<legend class="legend-small">Listado de asistencia - Horas Cátedra</legend>
 
 <div>
   <select name="mes" id="select_mes" value="<%= @mes %>">
@@ -59,6 +57,13 @@
   </div>
 </div>
 
+<% if @puede_informar then%>
+  <%= link_to altas_bajas_horas_informar_asistencia_path, :class => 'btn btn-success' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Informar
+  <% end %>
+<% end %>
+
 <script type="text/javascript">
   $(document).ready(function($) {
     $.fn.editable.defaults.mode = 'inline';
@@ -70,14 +75,26 @@
       ajax : $('#tabla-personal').data('source'),
       pagingType: "simple",
      "initComplete": function(settings, json) {
-        $('.ina_justificada').editable();
-        $('.ina_injustificada').editable();
-        $('.lleg_tarde_justificada').editable();
-        $('.lleg_tarde_injustificada').editable();
+        $('.oblig').editable();
       },
+      columnDefs: [
+            {
+                "targets": [ 4 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
     });
     
-  });
+    /*$('#tabla-personal').on( 'order.dt', function() {      
+      $('.oblig').editable();
+    });*/
+
+    $('#tabla-personal').on( 'draw.dt', function() {      
+      $('.oblig').editable();
+    });
+
+  });  
 
   $('#btn-ir').click(function(){
     window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
