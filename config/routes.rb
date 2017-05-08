@@ -133,7 +133,11 @@ ProyectoBase::Application.routes.draw do
 
     get "asistencias/cargo_no_docentes_informar", to: "asistencia#cargo_no_docentes_informar", as: :cargo_no_docentes_informar_asistencia
 
-    get "asistencias/cargos_imprimir", to: "asistencias#cargos_imprimir", as: :cargos_imprimir_asistencia
+    get "asistencias/horas_imprimir", to: "asistencia#horas_imprimir", as: :horas_imprimir_asistencia
+
+    get "asistencias/cargos_imprimir", to: "asistencia#cargos_imprimir", as: :cargos_imprimir_asistencia
+
+    get "asistencias/cargo_no_docentes_imprimir", to: "asistencia#cargo_no_docentes_imprimir", as: :cargo_no_docentes_imprimir_asistencia
 
     put "asistencias/editar_asistencia/:id", to: "asistencia#editar_asistencia", as: :asistencia_editar_asistencia
 

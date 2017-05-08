@@ -163,6 +163,31 @@ class AsistenciaController < ApplicationController
   end
 
   #----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  def horas_imprimir    
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    @asistencias = asistencia_horas_notificados(@anio,@mes)
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def cargos_imprimir
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    @asistencias = asistencia_cargos_notificados(@anio,@mes)
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def cargo_no_docentes_imprimir
+    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
+    @asistencias = asistencia_cargo_no_docentes_notificados(@anio,@mes)
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def show
     respond_with(@asistencium)
   end

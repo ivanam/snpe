@@ -1,0 +1,41 @@
+<dl class="dl-horizontal">
+
+<legend><h5>Novedades de Horas</h5></legend>
+
+<legend><h5>Altas</h5></legend>
+<table class="table table-bordered table-striped table-compact">
+  <thead>
+    <tr>
+      <th>DNI</th>
+      <th>Apellido y nombre</th>
+      <th>Curso</th>
+      <th>Materia</th>
+      <th>Oblig</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @asistencia.altas_bajas_horas.each do |h| %>
+      <tr>
+        <td><%= h.persona.tipo_documento.codigo %></td>
+        <td><%= h.persona.nro_documento %></td>
+        <td><%= h.secuencia %></td>
+        <td><%= h.persona.to_s %></td>
+        <td><%= h.plan.codigo %></td>
+        <td><%= h.ciclo_carrera %></td>
+        <td><%= h.anio.to_s %></td>
+        <td><%= h.division.to_s %></td>
+        <td><%= h.turno.to_s %></td>
+        <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+        <td><%= h.horas %></td>
+        <td><%= h.situacion_revista %></td>
+        <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+        <% if !h.lugar_pago.nil? %>
+          <td><%= h.lugar_pago.codigo %></td>
+        <% else %>
+          <td>&nbsp;</td>
+        <% end %> 
+        <td><%= h.observaciones %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,35 @@
+<div class="page-header">
+  <h1>Listado de asistencias</h1>
+</div>
+
+<% @e = Establecimiento.find(session[:establecimiento])%>            
+<div class="page-header">
+  <h3>Escuela N° <%= @e.to_s %></h3>
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>TD</th>
+      <th>N° doc.</th>
+      <th>Sec.</th>
+      <th>Apellido y nombre</th>         
+      <th>Tu</th>
+      <th>Fecha alta</th>
+      <th>Observaciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @asistencias.each do |c| %>
+      <tr>
+        <td><%= c.persona.tipo_documento.codigo %></td>
+        <td><%= c.persona.nro_documento %></td>
+        <td><%= c.secuencia %></td>
+        <td><%= c.persona.to_s %></td>
+        <td><%= c.turno.to_s %></td>
+        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
+        <td><%= c.observaciones %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
