@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502120610) do
+ActiveRecord::Schema.define(version: 20170508125757) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -135,6 +135,9 @@ ActiveRecord::Schema.define(version: 20170502120610) do
     t.integer  "anio_periodo"
     t.integer  "mes_periodo"
     t.integer  "altas_bajas_cargo_no_docente_id"
+    t.integer  "paro"
+    t.integer  "licencia_d"
+    t.text     "observaciones"
   end
 
   add_index "asistencia", ["altas_bajas_cargo_id"], name: "index_asistencia_on_altas_bajas_cargo_id", using: :btree
@@ -298,39 +301,6 @@ ActiveRecord::Schema.define(version: 20170502120610) do
     t.datetime "updated_at"
   end
 
-  create_table "esc702HS", id: false, force: true do |t|
-    t.integer "escuela",                  default: 0,  null: false
-    t.integer "tipo_docu",                default: 0,  null: false
-    t.integer "nume_docu",                default: 0,  null: false
-    t.integer "secuencia",                default: 0,  null: false
-    t.string  "apeynom",       limit: 30, default: "", null: false
-    t.integer "prog",                     default: 0,  null: false
-    t.integer "carrera",                  default: 0,  null: false
-    t.integer "ciclo",                    default: 0,  null: false
-    t.integer "grupo",                    default: 0,  null: false
-    t.integer "curso",                    default: 0,  null: false
-    t.integer "division",                 default: 0,  null: false
-    t.string  "turno",         limit: 3,  default: "", null: false
-    t.integer "materia",                  default: 0,  null: false
-    t.string  "materia_desc",  limit: 30, default: "", null: false
-    t.string  "lic_art",       limit: 30, default: "", null: false
-    t.date    "alta_licencia",                         null: false
-    t.date    "fecha_ing",                             null: false
-    t.date    "fecha_alta",                            null: false
-    t.date    "fecha_baja",                            null: false
-    t.integer "planta_pre",               default: 0,  null: false
-    t.integer "tipo_emp",                 default: 0,  null: false
-    t.integer "horas_cate",               default: 0,  null: false
-    t.string  "estado",        limit: 3,  default: "", null: false
-    t.string  "empresa",       limit: 6,  default: "", null: false
-    t.integer "aa_antig",                 default: 0,  null: false
-    t.integer "mm_antig",                 default: 0,  null: false
-    t.integer "dd_antig",                 default: 0,  null: false
-    t.integer "categ",                    default: 1,  null: false
-    t.integer "secuencia_aux",            default: 0,  null: false
-    t.string  "observaciones", limit: 50, default: "", null: false
-  end
-
   create_table "escuela4", id: false, force: true do |t|
     t.integer "escuela",                  default: 0,  null: false
     t.integer "prog",                     default: 0,  null: false
@@ -463,52 +433,6 @@ ActiveRecord::Schema.define(version: 20170502120610) do
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
   add_index "inscripcions", ["rubro_id"], name: "index_inscripcions_on_rubro_id", using: :btree
 
-  create_table "inscriptos_2017", id: false, force: true do |t|
-    t.string   "nombre"
-    t.string   "apellidos"
-    t.string   "tipo documento"
-    t.string   "nro_documento"
-    t.datetime "updated_at",                           null: false
-    t.string   "rol"
-    t.string   "localidad"
-    t.string   "establecimiento"
-    t.integer  "cant_urbanos"
-    t.string   "empresa transporte urbano"
-    t.integer  "cant_urbanos2"
-    t.string   "empresa transporte urbano 2"
-    t.integer  "cant_interubanos"
-    t.string   "empresa transporte interurbano"
-    t.integer  "cant_interubanos2"
-    t.string   "empresa transporte interurbano 2"
-    t.integer  "cant_media_distancia"
-    t.string   "empresa transporte media distancia"
-    t.integer  "cant_media_distancia2"
-    t.string   "empresa transporte media distancia 2"
-  end
-
-  create_table "inscriptos_2017_marzo", id: false, force: true do |t|
-    t.string   "nombre"
-    t.string   "apellidos"
-    t.string   "tipo documento"
-    t.string   "nro_documento"
-    t.datetime "fecha reempadronamiento",              null: false
-    t.string   "rol"
-    t.string   "localidad"
-    t.string   "establecimiento"
-    t.integer  "cant_urbanos"
-    t.string   "empresa transporte urbano"
-    t.integer  "cant_urbanos2"
-    t.string   "empresa transporte urbano 2"
-    t.integer  "cant_interubanos"
-    t.string   "empresa transporte interurbano"
-    t.integer  "cant_interubanos2"
-    t.string   "empresa transporte interurbano 2"
-    t.integer  "cant_media_distancia"
-    t.string   "empresa transporte media distancia"
-    t.integer  "cant_media_distancia2"
-    t.string   "empresa transporte media distancia 2"
-  end
-
   create_table "licencia", force: true do |t|
     t.integer  "altas_bajas_hora_id"
     t.date     "fecha_desde"
@@ -527,19 +451,6 @@ ActiveRecord::Schema.define(version: 20170502120610) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
-
-  create_table "licenciasV", id: false, force: true do |t|
-    t.string "apeynom"
-    t.string "descripcion"
-    t.date   "fecha_desde"
-    t.date   "fecha_hasta"
-    t.string "vigente"
-    t.string "nombre_establecimi"
-    t.string "codigo"
-    t.string "cargos"
-    t.string "estados cargnodoc"
-    t.string "Estado AltBaHor"
-  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
