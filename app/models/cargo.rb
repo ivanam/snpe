@@ -197,6 +197,33 @@ class Cargo < ActiveRecord::Base
     end
   end
 
+  def paro(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.paro.to_s
+    end
+  end
+
+  def licencia_d(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "0"
+    else
+      return @asistencia.licencia_d.to_s
+    end
+  end
+
+  def observaciones(anio, mes)
+    @asistencia = Asistencium.where(altas_bajas_cargo_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
+    if @asistencia == nil
+      return "Vacio"
+    else
+      return @asistencia.observaciones.to_s
+    end
+  end
+
   def estado_actual
     @relation = CargoEstado.where(:cargo_id => self.id).last
     if @relation == nil

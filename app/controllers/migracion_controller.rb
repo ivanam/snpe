@@ -1,8 +1,6 @@
 class MigracionController < ApplicationController
-
-
-
-
+  before_filter :authenticate_user!
+  load_and_authorize_resource
 
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -13,7 +11,12 @@ select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc
 
 	     for r in res
 
-			materia_id = Materium.where(codigo: r['materia']).first.id
+
+			if Materium.where(codigo: r['materia']).first != nil then
+				materia_id = Materium.where(codigo: r['materia']).first.id
+			else 
+				materia_id= 0
+			end
 
 
 			if Persona.where(:nro_documento => r['nume_docu']).first == nil then
@@ -203,7 +206,8 @@ select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:es
 		 respond_to do |format|
     		format.js { render nothing: true }
     	end
-	end
+	
 
 
+end
 end
