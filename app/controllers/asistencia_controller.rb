@@ -217,6 +217,15 @@ class AsistenciaController < ApplicationController
       if params["post"]["lleg_tarde_injustificada"] != nil
         @asistencia.first.update(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"])
       end
+      if params["post"]["paro"] != nil
+        @asistencia.first.update(paro: params["post"]["paro"])
+      end
+      if params["post"]["licencia_d"] != nil
+        @asistencia.first.update(licencia_d: params["post"]["licencia_d"])
+      end
+      if params["post"]["observaciones"] != nil
+        @asistencia.first.update(observaciones: params["post"]["observaciones"])
+      end
     else
       if params["post"]["ina_justificada"] != nil
         Asistencium.create(ina_justificada: params["post"]["ina_justificada"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
@@ -230,6 +239,15 @@ class AsistenciaController < ApplicationController
       if params["post"]["lleg_tarde_injustificada"] != nil
         Asistencium.create(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end
+      if params["post"]["paro"] != nil
+        Asistencium.create(paro: params["post"]["paro"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["licencia_d"] != nil
+        Asistencium.create(licencia_d: params["post"]["licencia_d"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["observaciones"] != nil
+        Asistencium.create(observaciones: params["post"]["observaciones"], altas_bajas_hora_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
     end
 
     respond_to do |format|
@@ -241,6 +259,7 @@ class AsistenciaController < ApplicationController
   def editar_asistencia_cargo
     anio = params["anio"]
     mes = params["mes"]
+    debugger
     @asistencia = Asistencium.where(altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
     if @asistencia.count > 0
       if params["post"]["ina_justificada"] != nil
@@ -255,6 +274,15 @@ class AsistenciaController < ApplicationController
       if params["post"]["lleg_tarde_injustificada"] != nil
         @asistencia.first.update(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"])
       end
+      if params["post"]["paro"] != nil
+        @asistencia.first.update(paro: params["post"]["paro"])
+      end
+      if params["post"]["licencia_d"] != nil
+        @asistencia.first.update(licencia_d: params["post"]["licencia_d"])
+      end
+      if params["post"]["observaciones"] != nil
+        @asistencia.first.update(observaciones: params["post"]["observaciones"])
+      end
     else
       if params["post"]["ina_justificada"] != nil
         Asistencium.create(ina_justificada: params["post"]["ina_justificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
@@ -267,6 +295,15 @@ class AsistenciaController < ApplicationController
       end
       if params["post"]["lleg_tarde_injustificada"] != nil
         Asistencium.create(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["paro"] != nil
+        Asistencium.create(paro: params["post"]["paro"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["licencia_d"] != nil
+        Asistencium.create(licencia_d: params["post"]["licencia_d"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["observaciones"] != nil
+        Asistencium.create(observaciones: params["post"]["observaciones"], altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end
     end
 
@@ -293,6 +330,15 @@ class AsistenciaController < ApplicationController
       if params["post"]["lleg_tarde_injustificada"] != nil
         @asistencia.first.update(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"])
       end
+      if params["post"]["paro"] != nil
+        @asistencia.first.update(paro: params["post"]["paro"])
+      end
+      if params["post"]["licencia_d"] != nil
+        @asistencia.first.update(licencia_d: params["post"]["licencia_d"])
+      end
+      if params["post"]["observaciones"] != nil
+        @asistencia.first.update(observaciones: params["post"]["observaciones"])
+      end
     else
       if params["post"]["ina_justificada"] != nil
         Asistencium.create(ina_justificada: params["post"]["ina_justificada"], altas_bajas_cargo_no_docente_id: params["id"], anio_periodo: anio, mes_periodo: mes)
@@ -305,6 +351,15 @@ class AsistenciaController < ApplicationController
       end
       if params["post"]["lleg_tarde_injustificada"] != nil
         Asistencium.create(lleg_tarde_injustificada: params["post"]["lleg_tarde_injustificada"], altas_bajas_cargo_no_docente_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["paro"] != nil
+        Asistencium.create(paro: params["post"]["paro"], altas_bajas_cargo_no_docente_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["licencia_d"] != nil
+        Asistencium.create(licencia_d: params["post"]["licencia_d"], altas_bajas_cargo_no_docente_id: params["id"], anio_periodo: anio, mes_periodo: mes)
+      end
+      if params["post"]["observaciones"] != nil
+        Asistencium.create(observaciones: params["post"]["observaciones"], altas_bajas_cargo_no_docente_id: params["id"], anio_periodo: anio, mes_periodo: mes)
       end
     end
 
@@ -335,6 +390,6 @@ class AsistenciaController < ApplicationController
     end
 
     def asistencium_params
-      params.require(:asistencium).permit(:ina_justificada, :ina_injustificada, :ina_total, :lleg_tarde_justificada, :lleg_tarde_injustificada, :lleg_tarde_total, :altas_bajas_hora_id, :altas_bajas_cargo_id)
+      params.require(:asistencium).permit(:ina_justificada, :ina_injustificada, :ina_total, :lleg_tarde_justificada, :lleg_tarde_injustificada, :lleg_tarde_total, :altas_bajas_hora_id, :altas_bajas_cargo_id, :paro, :licencia_d, :observaciones)
     end
 end
