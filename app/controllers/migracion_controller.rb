@@ -1,8 +1,6 @@
 class MigracionController < ApplicationController
-
-
-
-
+  before_filter :authenticate_user!
+  load_and_authorize_resource
 
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -208,7 +206,8 @@ select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:es
 		 respond_to do |format|
     		format.js { render nothing: true }
     	end
-	end
+	
 
 
+end
 end
