@@ -7,14 +7,17 @@ class CargoNoDocente < ActiveRecord::Base
   has_many :estados, :class_name => 'CargoNoDocenteEstado', :foreign_key => 'cargo_no_docente_id', dependent: :destroy
 
   validate :cargo_existente
+
+  before_update :dar_baja
   
   def cargo_existente
      #Revisa si existe una persona en el cargo
-    cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).first
-    if cargo_existe != nil
+   if self.estado == 'ALT'
+     cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).where.not(estado: 'BAJ').first
+     if cargo_existe != nil
        errors.add(:base, "Esta persona ya posee un cargo auxiliar")
-    end 
-   
+     end
+   end  
   end
 
    #-----------------------------------------------------------------------------------------------------------
@@ -101,4 +104,17 @@ class CargoNoDocente < ActiveRecord::Base
       return @relation.estado.descripcion
     end
   end 
+
+
+  def dar_baja
+    if self.fecha_baja != "" && self.fecha_baja != nil  
+      if self.estado == "LIC" || self.estado == "ART"
+        errors.add(:base, self.persona.to_s + "debe terminar la licencia antes de generar la baja")
+        return false
+      end
+      self.estado = "BAJ"
+    end
+    return true
+  end
+
 end
