@@ -131,7 +131,7 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
-  def observaciones(anio, mes)
+  def observaciones_por_periodo(anio, mes)
     @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "Vacio"
