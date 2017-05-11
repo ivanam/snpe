@@ -33,18 +33,6 @@ class AsistenciaController < ApplicationController
   end
 
   def index_cargo_no_docente
-    @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
-    asistencia = Asistencium.where(anio_periodo: @anio, mes_periodo: @mes).where.not(altas_bajas_cargo_id: nil).first
-    @puede_informar = true
-    if asistencia != nil
-      @puede_informar = not(asistencia.estado_actual == "Notificado")
-    end
-    respond_to do |format|
-      format.html
-    end
-  end
-
-  def index_cargo_no_docente
     
     @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     asistencia = Asistencium.where(anio_periodo: @anio, mes_periodo: @mes).where.not(altas_bajas_cargo_no_docente_id: nil).first
@@ -169,6 +157,14 @@ class AsistenciaController < ApplicationController
     @asistencias = asistencia_horas_notificados(@anio,@mes)
     respond_to do |format|
       format.html
+      format.pdf do
+        render :pdf => 'horas_imprimir',
+        :template => 'asistencia/horas_imprimir.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
 
@@ -177,6 +173,14 @@ class AsistenciaController < ApplicationController
     @asistencias = asistencia_cargos_notificados(@anio,@mes)
     respond_to do |format|
       format.html
+      format.pdf do
+        render :pdf => 'cargos_imprimir',
+        :template => 'asistencia/cargos_imprimir.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
 
@@ -185,6 +189,14 @@ class AsistenciaController < ApplicationController
     @asistencias = asistencia_cargo_no_docentes_notificados(@anio,@mes)
     respond_to do |format|
       format.html
+      format.pdf do
+        render :pdf => 'cargo_no_docentes_imprimir',
+        :template => 'asistencia/cargo_no_docentes_imprimir.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
 
@@ -259,7 +271,6 @@ class AsistenciaController < ApplicationController
   def editar_asistencia_cargo
     anio = params["anio"]
     mes = params["mes"]
-    debugger
     @asistencia = Asistencium.where(altas_bajas_cargo_id: params["id"], anio_periodo: anio, mes_periodo: mes)
     if @asistencia.count > 0
       if params["post"]["ina_justificada"] != nil
