@@ -41,10 +41,10 @@ class Licencium < ActiveRecord::Base
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 
 	 		if self.altas_bajas_hora_id != nil
+	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 			if self.por_baja
-	 				alta_horas.update!(estado: 'ALT')
+	 				alta_horas.update!(fecha_baja: self.fecha_hasta)
 	 			else
-		 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  alta_horas.id.to_s )
 					if suplentes_activos == []
 		 				alta_horas.update!(estado: 'ALT')
@@ -55,10 +55,10 @@ class Licencium < ActiveRecord::Base
 		 		end
 
 	 		elsif self.cargo_id != nil
+	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
-	 				cargo.update!(estado: 'ALT')
+	 				cargo.update!(estado: "BLI")
 	 			else
-		 			cargo = Cargo.find(self.cargo_id)
 		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, curso: cargo.curso, division: cargo.division, establecimiento_id: cargo.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
 		 			if suplentes_activos == []
 		 				cargo.update!(estado: 'ALT')
