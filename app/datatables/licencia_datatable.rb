@@ -2,11 +2,11 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Licencium.altas_bajas_hora_id', 'Licencium.altas_bajas_hora_id', 'Licencium.fecha_desde', 'Licencium.fecha_hasta', 'Licencium.articulo_id']
+    @sortable_columns ||= ['Licencium.fecha_desde', 'Licencium.fecha_hasta', 'Licencium.articulo_id']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Licencium.altas_bajas_hora_id', 'Licencium.altas_bajas_hora_id', 'Licencium.fecha_desde', 'Licencium.fecha_hasta','Licencium.articulo_id']
+    @searchable_columns ||= ['Licencium.fecha_desde', 'Licencium.fecha_hasta','Licencium.articulo_id']
   end
 
   private

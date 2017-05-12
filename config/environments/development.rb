@@ -29,7 +29,7 @@ ProyectoBase::Application.configure do
   config.assets.debug = true
 
   # Algo de rails4
-  config.eager_load = false
+  config.eager_load = true
 
   #SMTP
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }  
