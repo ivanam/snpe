@@ -10,23 +10,23 @@
           <Cell><Data ss:Type="String">Fecha Desde</Data></Cell>
           <Cell><Data ss:Type="String">Fecha Hasta</Data></Cell>
           <Cell><Data ss:Type="String">Cargo</Data></Cell>
-          <Cell><Data ss:Type="String">Nombre y Apellido</Data></Cell>
+          <Cell><Data ss:Type="String">Apellido y nombres</Data></Cell>
           <Cell><Data ss:Type="String">Tipo de cargo</Data></Cell>
           <Cell><Data ss:Type="String">Articulo y descripción</Data></Cell>
           <Cell><Data ss:Type="String">Estado de la licencia</Data></Cell>
           <Cell><Data ss:Type="String">Establecimiento</Data></Cell>
         </Row>
-        <% @licenciasCnds.each do |s| %>
+        <% @licenciasCarg.each do |s| %>
         <Row>
-              <Cell><Data ss:Type="String"><%= s["fecha_desde"].to_s %></Data></Cell>
-              <Cell><Data ss:Type="String"><%= s["fecha_hasta"].to_s %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_desde"]) %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_hasta"]) %></Data></Cell>
               <% if s.altas_bajas_hora_id != nil %>
                  <% @perHoras = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.cant_horas %>
                  <% @cantPerHoras =  "Cantidad de Horas asignadas: "  + @perHoras.to_s %>
                  <Cell><Data ss:Type="String"><%= @cantPerHoras %></Data></Cell>
                  <% elsif s.cargo_id != nil%>
                  <% @PerCargo = Funcion.where(Cargo.find(s.cargo_id).cargo.to_i).first.to_s %>
-                 <Cell><Data ss:Type="String"><%= @perHoras.to_s %></Data></Cell>
+                 <Cell><Data ss:Type="String"><%= @PerCargo.to_s %></Data></Cell>
                  <%else%>
                  <% @persCnds = Cargosnd.where(CargoNoDocente.find(s.cargo_no_docente_id).cargo.to_i).first.to_s %>
                  <Cell><Data ss:Type="String"><%= @persCnds.to_s %></Data></Cell>
@@ -54,7 +54,7 @@
               <Cell><Data ss:Type="String"><%= @artdesc.to_s %></Data></Cell>
          <Cell><Data ss:Type="String"><%= s["vigente"].to_s %></Data></Cell>
          <% @estab = session[:establecimiento] %>    
-         <Cell><Data ss:Type="String"><%= @estab.to_s %></Data></Cell>
+         <Cell><Data ss:Type="String"><%= Establecimiento.find(@estab.to_i).to_s %></Data></Cell>
         </Row>
         <% end %>
       </Table>

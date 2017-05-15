@@ -19,7 +19,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">
-      Licencias realizadas
+      Licencias realizadas - Horas Cátedra
     </h3>
   </div>
   <div class="panel-body">
@@ -58,7 +58,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">
-      Licencias realizadas
+      Licencias realizadas - Cargos Auxiliares
     </h3>
   </div>
   <div class="panel-body">
@@ -83,7 +83,7 @@
 </div>
 
 <div align="right">
-  <%= link_to listado_licencias_cnds_path(format: :xls, rango: @rango2), :target => "_blank", :class => 'btn btn-success' do %>
+  <%= link_to listado_licencias_carg_path(format: :xls, rango: @rango2), :target => "_blank", :class => 'btn btn-success' do %>
       <span class="glyphicon glyphicon-download-alt"></span>
       Descargar Licencias de Cargos
   <% end %>
@@ -96,7 +96,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">
-      Licencias realizadas
+      Licencias realizadas - Cargos Docentes
     </h3>
   </div>
   <div class="panel-body">
@@ -135,7 +135,7 @@
   	    retrieve: true,        
         columnDefs: [
               {
-                  "targets": [ 5 ],
+                  "targets": [ 6 ],
                   "searchable": false,
                   "orderable": false
               }
@@ -179,7 +179,7 @@
         retrieve: true,        
         columnDefs: [
               {
-                  "targets": [ 5 ],
+                  "targets": [ 6 ],
                   "searchable": false,
                   "orderable": false
               }
@@ -221,7 +221,7 @@
         retrieve: true,        
         columnDefs: [
               {
-                  "targets": [ 5 ],
+                  "targets": [ 6 ],
                   "searchable": false,
                   "orderable": false
               }
