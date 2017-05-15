@@ -61,6 +61,18 @@ class LicenciaController < ApplicationController
       format.json { render json: ListadosLicenciaCargosndsDatatable.new(view_context, { query: @res2}) }
     end
   end
+
+  def listado_licencias_carg
+     @rango3 = params["rango3"]
+     @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
+     @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res3}) }
+    end
+  end
+  
   
   def cargos_licencia_permitida
     @dni=params[:dni]

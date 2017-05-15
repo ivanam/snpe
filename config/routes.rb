@@ -362,6 +362,7 @@ ProyectoBase::Application.routes.draw do
     get 'licencia/buscar_articulo_dias_cargo_no_docente/:id_articulo/:id_cargos_no_docentes', to: 'licencia#buscar_articulo_dias_cargo_no_docente', as: :buscar_articulo_dias_cargo_no_docente
     get 'licencias/listado_licencias', to: 'licencia#listado_licencias', as: :listado_licencias
     get 'licencias/listado_licencias_cnds', to: 'licencia#listado_licencias_cnds', as: :listado_licencias_cnds
+    get 'licencias/listado_licencias_carg', to: 'licencia#listado_licencias_carg', as: :listado_licencias_carg
     get 'licencias/cargos_no_docentes_licencia_permitida', to: 'licencia#cargos_no_docentes_licencia_permitida', as: :cargos_no_docentes_licencia_permitida
 
     
