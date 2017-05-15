@@ -1,0 +1,48 @@
+<legend class="legend-small">Bajas - Cargo</legend>
+
+<% @e = Establecimiento.find(session[:establecimiento])%>            
+<div class="page-header">
+  <h3>Escuela N° <%= @e.to_s %></h3>
+</div>
+
+<table id="horas-bajas-efectivas" class="table table-striped table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>Agente</th>  
+      <th>Sit. Rev</th>
+      <th>Cargo</th>              
+      <th>Curso</th>
+      <th>Div</th>
+      <th>Turno</th>
+      <th>Fecha Alta</th>
+      <th>Fecha Baja</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @bajas.each do |baja| %>
+      <tr>
+        <td><%= baja.persona.cuil %> --- <%= baja.persona.to_s %></td>
+        <td><%= baja.situacion_revista %></td>
+        <td><%= Funcion.where(categoria: baja.cargo).first.to_s %></td>
+        <td><%= baja.anio %></td>
+        <td><%= baja.division %></td>
+        <td><%= baja.turno %></td>
+        <td><%= Util.fecha_a_es(baja.fecha_alta) %></td>
+        <td><%= Util.fecha_a_es(baja.fecha_baja) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div align="center">
+  <br/>   
+  <br/>   
+  <br/>   
+  <br/>   
+  <br/>   
+  <br/>   
+  <br/>     
+  .............................
+  <br/>
+  <b>Firma del Director</b>
+</div>

@@ -117,9 +117,18 @@ class AltasBajasHorasController < ApplicationController
   def index_bajas_efectivas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    @bajas = altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date)
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date), rol: @rol }) }
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: @bajas , rol: @rol }) }
+      format.pdf do
+        render :pdf => 'bajas_notificadas',
+        :template => 'altas_bajas_horas/reporte_horas_baja.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
 
