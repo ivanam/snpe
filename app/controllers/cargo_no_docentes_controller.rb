@@ -319,8 +319,17 @@ class CargoNoDocentesController < InheritedResources::Base
   def cargo_no_docentes_bajas_efectivas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    @bajas = cargo_no_docentes_bajas_efectivas_permitidas(@mindate, @maxdate)
     respond_to do |format|
-      format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: cargo_no_docentes_bajas_efectivas_permitidas(@mindate, @maxdate), rol: @rol }) }
+      format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: @bajas, rol: @rol }) }
+      format.pdf do
+        render :pdf => 'bajas_notificadas',
+        :template => 'cargo_no_docentes/reporte_cargos_baja.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
   def cargo_no_docentes_nuevos
