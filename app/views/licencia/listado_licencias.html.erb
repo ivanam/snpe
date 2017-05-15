@@ -6,7 +6,7 @@
 <div align="right">
   <%= link_to listado_licencias_path(format: :xls, rango: @rango), :target => "_blank", :class => 'btn btn-success' do %>
       <span class="glyphicon glyphicon-download-alt"></span>
-      Descargar licencias vigentes
+      Descargar Licencias de Horas
   <% end %>
 </div>
 
@@ -46,7 +46,7 @@
 <div align="right">
   <%= link_to listado_licencias_cnds_path(format: :xls, rango: @rango2), :target => "_blank", :class => 'btn btn-success' do %>
       <span class="glyphicon glyphicon-download-alt"></span>
-      Descargar licencias vigentes
+      Descargar Licencias de Cargos Auxiliares
   <% end %>
 </div>
 
@@ -80,6 +80,13 @@
       </table>
     </div>
   </div>
+</div>
+
+<div align="right">
+  <%= link_to listado_licencias_cnds_path(format: :xls, rango: @rango2), :target => "_blank", :class => 'btn btn-success' do %>
+      <span class="glyphicon glyphicon-download-alt"></span>
+      Descargar Licencias de Cargos
+  <% end %>
 </div>
 
 <div class="">
