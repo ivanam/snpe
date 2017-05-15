@@ -1,6 +1,4 @@
-<div class="page-header">
-  <h1>Listado de asistencias</h1>
-</div>
+<legend class="legend-small">Asistencia - Horas Cátedra</legend>
 
 <% @e = Establecimiento.find(session[:establecimiento])%>            
 <div class="page-header">
@@ -10,50 +8,28 @@
 <table class="table table-bordered table-striped table-compact">
   <thead>
     <tr>
-      <th>TD</th>
-      <th>N° doc.</th>
-      <th>Sec.</th>
-      <th>Apellido y nombre</th>         
-      <th>Ca</th>
-      <th>Ci</th>
-      <th>Cu</th>
-      <th>Di</th>
-      <th>Tu</th>
-      <th>Ma</th>
-      <th>Horas</th>
-      <th>Sit. Rev</th>
-      <th>Fecha alta</th>
-      <th>LP</th>
+      <th>Agente</th>
+      <th>Año/División</th>
+      <th>Materia</th>
+      <th>Oblig</th>
+      <th>Licencia dene</th>
+      <th>Paro</th>
       <th>Observaciones</th>
     </tr>
   </thead>
   <tbody>
     <% @asistencias.each do |asistencia| %>
       <tr>
-        <td><%= asistencia.persona.tipo_documento.codigo %></td>
-        <td><%= asistencia.persona.nro_documento %></td>
-        <td><%= asistencia.secuencia %></td>
-        <td><%= asistencia.persona.to_s %></td>
-        <td><%= asistencia.plan.codigo %></td>
-        <td><%= asistencia.ciclo_carrera %></td>
-        <td><%= asistencia.anio.to_s %></td>
-        <td><%= asistencia.division.to_s %></td>
-        <td><%= asistencia.turno.to_s %></td>
-        <td><%= asistencia.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
-        <td><%= asistencia.horas %></td>
-        <td><%= asistencia.situacion_revista %></td>
-        <td><%= Util.fecha_a_es(asistencia.fecha_alta) %></td>
-        <% if !asistencia.lugar_pago.nil? %>
-          <td><%= asistencia.lugar_pago.codigo %></td>
-        <% else %>
-          <td>&nbsp;</td>
-        <% end %> 
-        <td><%= asistencia.observaciones %></td>
+        <td><%= asistencia.persona.nro_documento.to_s + " -- " + asistencia.persona.apeynom %></td>
+        <td><%= asistencia.anio.to_s + '/' + asistencia.division.to_s %></td>
+        <td><%= asistencia.codificacion.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>       
+        <td><%= asistencia.ina_injustificada(@anio, @mes) %></td>
+        <td><%= asistencia.licencia_d(@anio, @mes) %></td>
+        <td><%= asistencia.paro(@anio, @mes)%></td>
+        <td><%= asistencia.observaciones_por_periodo(@anio, @mes) %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-  <br/><br/>
-
-</dl>
+<br/><br/>
