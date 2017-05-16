@@ -17,7 +17,7 @@ class CargoNoDocentesBajasEfectivasDatatable < AjaxDatatablesRails::Base
         record.establecimiento.codigo_jurisdiccional,
         record.establecimiento.cue,
         record.persona.nro_documento,
-        record.persona.apellidos,
+        record.persona.to_s,
         record.persona.cuil,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
