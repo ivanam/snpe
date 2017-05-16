@@ -4,7 +4,7 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
-	      res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate union
+	      res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate, secuencia union
 select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 	      esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
