@@ -68,7 +68,11 @@
   </div>
 </div>
 
+<% if (current_user.role? :escuela) then %>
+
 <a class="btn btn-info" href="javascript:abrir_reporte('<%=altas_bajas_horas_index_bajas_efectivas_path()%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
+
+<% end %>
 
 <!-- Modal -->
 <div class="modal fade" id="modal_bajas_efectivas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
