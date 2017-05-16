@@ -16,7 +16,7 @@ class CargoNoDocentesBajasDatatable < AjaxDatatablesRails::Base
       [
         record.persona.nro_documento,
         record.persona.cuil,
-        record.persona.apellidos,
+        record.persona.to_s,
         record.secuencia,
         record.establecimiento.codigo_jurisdiccional,
         record.establecimiento.cue,
