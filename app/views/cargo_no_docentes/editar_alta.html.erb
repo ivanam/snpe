@@ -46,6 +46,7 @@
           <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control"%>
           <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
           
+          <%= f.select(:situacion_revista, SituacionRevistum.where(codigo: ["1-1","1-2","3-5"]).collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
 
           <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.id]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
         
