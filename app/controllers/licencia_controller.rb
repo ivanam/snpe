@@ -43,8 +43,6 @@ class LicenciaController < ApplicationController
   def listado_licencias
      @rango = params["rango"]
      @mindate, @maxdate = Util.max_min_periodo(@rango)
-     client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
-     #@res= client.query("select * from snpe.licencia", :cast_booleans => true)
      @res = listado_de_licencias(@mindate, @maxdate)
     respond_to do |format|
       format.xls 
@@ -53,6 +51,28 @@ class LicenciaController < ApplicationController
     end
   end
 
+   def listado_licencias_cnds
+     @rango2 = params["rango2"]
+     @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
+     @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadosLicenciaCargosndsDatatable.new(view_context, { query: @res2}) }
+    end
+  end
+
+  def listado_licencias_carg
+     @rango3 = params["rango3"]
+     @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
+     @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res3}) }
+    end
+  end
+  
   
   def cargos_licencia_permitida
     @dni=params[:dni]

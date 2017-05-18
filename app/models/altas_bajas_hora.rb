@@ -48,7 +48,9 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Método que valida el alta de un paquete de horas
   def validar_alta 
-    validar_situacion_revista
+    if self.estado == 'ALT'
+      validar_situacion_revista
+    end
   end
 
   def validar_situacion_revista
@@ -129,7 +131,7 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end
 
-  def observaciones(anio, mes)
+  def observaciones_por_periodo(anio, mes)
     @asistencia = Asistencium.where(altas_bajas_hora_id: self.id, anio_periodo: anio, mes_periodo: mes ).first
     if @asistencia == nil
       return "Vacio"

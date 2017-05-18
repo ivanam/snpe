@@ -43,7 +43,7 @@
 
 				      <%= text_field_tag 'fecha_alta', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Fecha de Alta", :id => "fecha_alta", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control" ,  :readonly => :true}%>
 
-    			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :maxlength => "11" , :placeholder => "Cuil",:pattern=>"[0-9]{10,11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>  
+    			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :placeholder => "Cuil"} %>  
         
 			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Género", :id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :prompt =>"Género", :required => true} %>
 

@@ -16,7 +16,7 @@
           <Cell><Data ss:Type="String">Estado de la licencia</Data></Cell>
           <Cell><Data ss:Type="String">Establecimiento</Data></Cell>
         </Row>
-        <% @licencias.each do |s| %>
+        <% @licenciasCarg.each do |s| %>
         <Row>
               <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_desde"]) %></Data></Cell>
               <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_hasta"]) %></Data></Cell>
@@ -35,7 +35,7 @@
                  <% @personaHoras = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.persona.to_s%>
                  <Cell><Data ss:Type="String"><%= @personaHoras.to_s %></Data></Cell>
                  <% elsif s.cargo_id != nil%>
-                 <% @personaCargo = Funcion.where(Cargo.find(record.cargo_id).cargo.to_i).first.to_s%>                 
+                 <% @personaCargo = Cargo.where(:id => s.cargo_id.to_i).first.persona.to_s%>
                  <Cell><Data ss:Type="String"><%= @personaCargo.to_s %></Data></Cell>
                  <%else%>
                  <% @personaCnds = CargoNoDocente.where(:id => s.cargo_no_docente_id.to_i).first.persona.to_s%>

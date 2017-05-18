@@ -329,8 +329,17 @@ class CargosController < ApplicationController
   def cargos_bajas_efectivas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    @bajas = cargo_bajas_efectivas(@mindate, @maxdate)
     respond_to do |format|
-      format.json { render json: CargosBajasEfectivasDatatable.new(view_context, { query: cargo_bajas_efectivas(@mindate, @maxdate), rol: @rol }) }
+      format.json { render json: CargosBajasEfectivasDatatable.new(view_context, { query: @bajas, rol: @rol }) }
+      format.pdf do
+        render :pdf => 'bajas_notificadas',
+        :template => 'cargos/reporte_cargos_baja.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
 
@@ -344,8 +353,17 @@ class CargosController < ApplicationController
   def cargos_notificados
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    @cargos_notificados = cargos_notificados_permitidos(@mindate, @maxdate)
     respond_to do |format|
-      format.json { render json: CargosNotificadosDatatable.new(view_context, { query: cargos_notificados_permitidos(@mindate, @maxdate), rol: @rol }) }
+      format.json { render json: CargosNotificadosDatatable.new(view_context, { query: @cargos_notificados, rol: @rol }) }
+      format.pdf do
+        render :pdf => 'cargos_notificados',
+        :template => 'cargos/reporte_cargos_notificados.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
     end
   end
 
