@@ -76,6 +76,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
     @cargo_no_docente = CargoNoDocente.new(cargo_no_docente_params)
     @cargo_no_docente.turno = params[:cargo_no_docente][:turno]
+    @cargo_no_docente.situacion_revista = params[:cargo_no_docente][:situacion_revista]
     @cargo_no_docente.persona_id = @persona.id
     @cargo_no_docente.establecimiento_id = @establecimiento.id
     @estado = Estado.where(:descripcion => "Ingresado").first
@@ -145,7 +146,7 @@ class CargoNoDocentesController < InheritedResources::Base
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo_no_docente = CargoNoDocente.find(params[:id])
-    @cargo_no_docente.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo_no_docente][:cargo], secuencia: params[:cargo_no_docente][:secuencia], fecha_alta: params[:cargo_no_docente][:fecha_alta], turno: params[:cargo_no_docente][:turno], observaciones: params[:cargo_no_docente][:observaciones], resolucion: params[:cargo_no_docente][:resolucion], decreto: params[:cargo_no_docente][:decreto]})    
+    @cargo_no_docente.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo_no_docente][:cargo], secuencia: params[:cargo_no_docente][:secuencia], fecha_alta: params[:cargo_no_docente][:fecha_alta], situacion_revista: params[:cargo_no_docente][:situacion_revista], turno: params[:cargo_no_docente][:turno], observaciones: params[:cargo_no_docente][:observaciones], resolucion: params[:cargo_no_docente][:resolucion], decreto: params[:cargo_no_docente][:decreto]})    
     respond_to do |format|
       if @persona.save then       
         if @cargo_no_docente.save then

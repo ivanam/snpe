@@ -43,6 +43,9 @@
         <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta" } %>
         <%= f.text_field :fecha_alta, :id => "datepicker", :placeholder => "F. Alta", :class => "form-fecha form-alta form-control"%>
         <%= f.text_field :fecha_baja, :id => "datepicker4", :placeholder => "F. Baja", :class => "form-fecha form-alta form-control"%>
+
+        <%= f.select(:situacion_revista, SituacionRevistum.where(codigo: ["1-1","1-2","3-5"]).collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
+
         <%= f.select(:cargo, Cargosnd.all.collect{|f| [f.to_s, f.id]}, {:prompt => "Cargos"}, :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select")%>
         <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
 

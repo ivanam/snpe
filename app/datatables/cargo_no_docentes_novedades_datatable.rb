@@ -15,7 +15,7 @@ class CargoNoDocentesNovedadesDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento,
-        record.persona.apellidos + " " + record.persona.nombres.to_s,
+        record.persona.to_s,
         record.turno,
         Util.fecha_a_es(record.fecha_alta),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_cargos_no_docentes" cargo-no-docente-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',

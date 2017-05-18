@@ -2,11 +2,11 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Establecimiento.codigo_jurisdiccional','Establecimiento.cue','Persona.nro_documento','Persona.apeynom', 'Persona.cuil','AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
+    @sortable_columns ||= ['Persona.nro_documento','Persona.apeynom', 'AltasBajasHora.secuencia','AltasBajasHora.anio','AltasBajasHora.division', 'AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Establecimiento.codigo_jurisdiccional','Establecimiento.cue', 'Persona.nro_documento', 'Persona.apeynom', 'Persona.cuil','AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
+    @searchable_columns ||= ['Persona.nro_documento','Persona.apeynom', 'AltasBajasHora.secuencia','AltasBajasHora.anio','AltasBajasHora.division', 'AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
   end
 
   private
@@ -14,11 +14,10 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.establecimiento.codigo_jurisdiccional,
-        record.establecimiento.cue,
-        record.persona.nro_documento,
-        record.persona.to_s,
-        record.persona.cuil,
+        record.persona.to_s + ' -- ' + record.persona.cuil.to_s,
+        record.secuencia,
+        record.anio,
+        record.division,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
         if record.estado_actual == "Notificado_Baja" then

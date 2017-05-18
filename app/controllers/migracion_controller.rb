@@ -1,17 +1,11 @@
 class MigracionController < ApplicationController
   before_filter :authenticate_user!
-<<<<<<< HEAD
-  authorize_resource :class => false
 
-
-
-=======
   load_and_authorize_resource :class => false
->>>>>>> 6a5c6a7a7241918e4a8ef69af24952b03390e98f
 
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
-	      res= client.query("select secuencia, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate union
+	      res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate, secuencia union
 select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 	      esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id

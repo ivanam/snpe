@@ -50,14 +50,13 @@
         <table id="tabla-bajas_efectivas" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_bajas_efectivas_path(format: :json) %>" >
           <thead>
             <tr>
-              <th>CJ</th>
-              <th>Cue</th>
-              <th>DNI</th>
-              <th>Apellido y nombre</th>
-              <th>CUIL</th>
-              <th>Fecha Alta</th>
-              <th>Fecha Baja</th>
-              <th>Acciones</th>
+              <th style="width: 250px;">Agente</th>
+              <th style="width: 100px;">Secuencia</th>
+              <th style="width: 100px;">Curso</th>
+              <th style="width: 100px;">Div</th>
+              <th style="width: 100px;">Fecha Alta</th>
+              <th style="width: 100px;">Fecha Baja</th>
+              <th style="width: 100px;">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -68,7 +67,11 @@
   </div>
 </div>
 
+<% if (current_user.role? :escuela) then %>
+
 <a class="btn btn-info" href="javascript:abrir_reporte('<%=altas_bajas_horas_index_bajas_efectivas_path()%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
+
+<% end %>
 
 <!-- Modal -->
 <div class="modal fade" id="modal_bajas_efectivas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -136,7 +139,7 @@ $(document).ready(function($) {
       "pageLength": 10,
       columnDefs: [
             {
-                "targets": [ 7 ],
+                "targets": [ 6 ],
                 "searchable": false,
                 "orderable": false
             }

@@ -41,9 +41,16 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-     @rango = params["rango"]
-     @mindate, @maxdate = Util.max_min_periodo(@rango)
-     @res = listado_de_licencias(@mindate, @maxdate)
+    if params["rango"] == nil
+      @mindate_year = Date.today.year
+      @mindate = Date.today.to_s
+      @maxdate = Date.today.to_s
+      @res = listado_de_licencias(@mindate, @maxdate)
+    else 
+      @rango = params["rango"]
+      @mindate, @maxdate = Util.max_min_periodo(@rango)
+      @res = listado_de_licencias(@mindate, @maxdate)
+    end  
     respond_to do |format|
       format.xls 
       format.html 
@@ -52,9 +59,16 @@ class LicenciaController < ApplicationController
   end
 
    def listado_licencias_cnds
-     @rango2 = params["rango2"]
-     @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
-     @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
+     if params["rango2"] == nil
+       @mindate_year2 = Date.today.year
+       @mindate2 = Date.today.to_s
+       @maxdate2 = Date.today.to_s
+       @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
+     else 
+       @rango2 = params["rango2"]
+       @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
+       @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
+     end
     respond_to do |format|
       format.xls 
       format.html 
@@ -63,9 +77,16 @@ class LicenciaController < ApplicationController
   end
 
   def listado_licencias_carg
-     @rango3 = params["rango3"]
-     @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
-     @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
+     if params["rango3"] == nil
+       @mindate_year3 = Date.today.year
+       @mindate3 = Date.today.to_s
+       @maxdate3 = Date.today.to_s
+       @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
+     else 
+       @rango3 = params["rango2"]
+       @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
+       @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
+     end
     respond_to do |format|
       format.xls 
       format.html 
