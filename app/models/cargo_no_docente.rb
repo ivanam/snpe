@@ -9,6 +9,7 @@ class CargoNoDocente < ActiveRecord::Base
   validates :turno, presence: true
   validates :fecha_alta, presence: true
   validates :cargo, presence: true
+  validates :situacion_revista, :presence => true
   
   validate :cargo_existente
 

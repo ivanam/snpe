@@ -38,6 +38,7 @@
       <th>Apellido y nombre</th>         
       <th>Tu</th>
       <th>Fecha alta</th>
+      <th>Fecha baja</th>
       <th>Observaciones</th>
     </tr>
   </thead>
@@ -48,8 +49,9 @@
         <td><%= c.persona.nro_documento %></td>
         <td><%= c.secuencia %></td>
         <td><%= c.persona.to_s %></td>
-        <td><%= c.turno.to_s %></td>
+        <td><%= c.turno.to_s %></td>        
         <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
+        <td><%= Util.fecha_a_es(c.fecha_baja) %></td>
         <td><%= c.observaciones %></td>
       </tr>
     <% end %>
