@@ -442,13 +442,11 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas = AltasBajasHora.where(:id => params[:edi]).first
     @altas_bajas_horas.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
     #@persona.tipo_documento_id = TipoDocumento.where(:id => params[:tipo_documento]).first.id
-    
     @persona.fecha_nacimiento = params[:fecha_nacimiento]
     @persona.cuil = params[:cuil] 
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
     @altas_bajas_horas.turno = params[:turno]
    #@altas_bajas_horas.horas = params[:horas]
-    
     @altas_bajas_horas.anio = params[:anio]
     @altas_bajas_horas.division = params[:division]
     @altas_bajas_horas.materium_id = params[:materium_id]

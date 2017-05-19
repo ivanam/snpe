@@ -39,23 +39,23 @@
 
 				      <%= text_field_tag 'apeynom', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Apellido y Nombre", :class => "form-apeynom text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
 
-				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :required => true} %>
+				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>
 
 				      <%= text_field_tag 'fecha_alta', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Fecha de Alta", :id => "fecha_alta", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control" ,  :readonly => :true}%>
 
     			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :placeholder => "Cuil"} %>  
         
-			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Género", :id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :prompt =>"Género", :required => true} %>
+			         <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Género", :id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :prompt =>"Género", :required => true} %>
 
   					  <%= text_field_tag 'situacion_revista', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit. Rev.", :id => "sit-revista", :placeholder => "Sit. Rev.",:class=>"form-control form-alta form-select", :readonly => :true}%>
 
   					  <%= select_tag 'plan_id',  options_from_collection_for_select(@planes_permitidos.all , "id", "to_s"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%>  
 
-  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
+  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" } %>
 
-          			  <%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso", :required => true }%>
+          			  <%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso" }%>
 
-  					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true}%>
+  					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
 
           			  <%= text_field_tag 'horas', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :readonly => :true}%>
        
@@ -65,7 +65,7 @@
           			  	@materias = @materias_permitidas.all
 
           			  	end%>
-          		<%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "to_s"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", :required => true}%>  
+          		<%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "to_s"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select"}%>  
 
 
           		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>

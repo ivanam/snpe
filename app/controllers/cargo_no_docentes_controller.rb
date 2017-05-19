@@ -423,7 +423,7 @@ class CargoNoDocentesController < InheritedResources::Base
     @persona.cuil = params[:cuil] 
     @cargo_id = params[:cargo]
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
-    @cargos.turno = Turno.where(:id=>params[:turno]).first.id
+    @cargos.turno = params[:turno]
     @cargos.observaciones = params[:observaciones]
     #@cargos.cargo = params[:cargo]
 
