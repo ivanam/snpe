@@ -133,7 +133,7 @@ class Cargo < ActiveRecord::Base
             end
           end
         else
-          if self.estado == "ALT" && ( self.situacion_revista != "1-1" || self.situacion_revista != "1-2")
+          if self.estado == "ALT" && ( self.situacion_revista != "1-1" && self.situacion_revista != "1-2")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
         end
