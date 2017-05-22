@@ -481,6 +481,8 @@ end
     @cargos.division = params[:division]
     @cargos.resolucion = params[:resolucion]
     @cargos.disposicion = params[:disposicion]
+    @cargos.turno = params[:turno]
+
 
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
@@ -521,8 +523,8 @@ end
 
 
    respond_to do |format|
-        if @persona.save then       
-          if @cargos.save then
+        if @persona.save! then       
+          if @cargos.save! then
             format.html { redirect_to cargos_modificacion_path, notice: 'Registro actualizado correctamente' }
             format.json { render action: 'modificacion', status: :created, location: @cargos }
           else
