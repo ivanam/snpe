@@ -477,11 +477,11 @@ end
     @persona.fecha_nacimiento = params[:fecha_nacimiento]
     @persona.cuil = params[:cuil] 
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
-    @cargos.turno = params[:turno]
     @cargos.anio = params[:anio]
     @cargos.division = params[:division]
     @cargos.resolucion = params[:resolucion]
     @cargos.disposicion = params[:disposicion]
+
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
     if params[:materium_id] != "" then 
@@ -517,6 +517,7 @@ end
             @cargos.estado = "LIC P/BAJ"
       end
     end
+
 
 
    respond_to do |format|
