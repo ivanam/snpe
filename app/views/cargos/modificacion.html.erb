@@ -59,9 +59,6 @@
 
   					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
 
-       
-          		<%= select_tag 'materium_id',  options_from_collection_for_select( Materium.all , "id", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select", }%>  
-
 
           		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
 
