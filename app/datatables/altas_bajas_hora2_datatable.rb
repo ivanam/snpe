@@ -22,13 +22,18 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
         record.persona.to_s,
         record.secuencia,
         record.situacion_revista,
-        record.horas,    
-        record.ciclo_carrera,     
-        record.anio,
-        record.division,
-        record.turno,
-        record.codificacion,   
-        record.estado,
+        record.horas,   
+        if  record.ciclo_carrera.to_s == "60" then
+         '<a style="color:red">''</a>'
+        else
+        '<a style="color:red">'+record.ciclo_carrera.to_s+'</a>'
+        end,
+
+        '<a style="color:red">'+record.anio.to_s+'</a>',
+        '<a style="color:red">'+record.division.to_s+'</a>',
+        '<a style="color:red">'+record.turno.to_s+'</a>',
+        '<a style="color:red">'+record.codificacion.to_s+'</a>',   
+        '<a style="color:red">'+record.estado+'</a>',
         Util.fecha_a_es(record.fecha_alta),
         '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'"><strong>Ver</strong></a>',
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',

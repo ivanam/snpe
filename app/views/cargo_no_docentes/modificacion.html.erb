@@ -40,11 +40,11 @@
 
 				      <%= text_field_tag 'apeynom', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Apellido y Nombre", :class => "form-apeynom text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
 
-				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :required => true} %>
+				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>
 
 				      <%= text_field_tag 'fecha_alta', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Fecha de Alta", :id => "fecha_alta", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control" ,  :readonly => :true}%>
 
-    			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{10,11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')"} %>  
+    			     <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "cuil", :placeholder => "Cuil"} %>  
         
 			          <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Género", :id => "select_sexo", :class=>"form-control form-select form-doc form-alta", :prompt => "Género" , :prompt =>"Género", :required => true} %>
 
@@ -54,7 +54,7 @@
   					  <%= select_tag 'cargo', options_from_collection_for_select(Cargosnd.all, "id", "to_s"), {:prompt => "Cargos", :id => "cargo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos", :class=>"form-control form-alta form-select", :readonly => :true, :disabled => "disabled"}%>
 
 
-  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" , :required => true} %>
+  					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" } %>
 
                
                		 <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/BAJ",'LIC P/BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
@@ -174,7 +174,7 @@
 			              		console.log(data[0].cuit);
 			                	$("#cuil").val(data[0].cuit);
 			            	}else{
-			            		$("#cuil").val("Ingrese Cuil");
+			            		$("#cuil").val("");
 			            	}
 
 			                });

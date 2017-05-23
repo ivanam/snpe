@@ -6,7 +6,7 @@ class CargosBajasDatatable < AjaxDatatablesRails::Base
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento', 'Persona.cuil', 'Persona.apeynom','Cargo.secuencia', 'Cargo.nombre','Cargo.anio','Cargo.division']
+    @searchable_columns ||= ['Persona.nro_documento', 'Persona.cuil', 'Persona.apeynom','Cargo.secuencia', 'Establecimiento.nombre', 'Cargo.anio','Cargo.division']
   end
 
   private
