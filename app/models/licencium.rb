@@ -32,7 +32,7 @@ class Licencium < ActiveRecord::Base
 	 		Cargo.find(self.cargo_id).update!(estado: estado)
 	 	elsif self.cargo_no_docente_id != nil
 	 		CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
-	 		# CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]
+	 	    # CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]
 	 		# CargoNoDocente.find(self.cargo_no_docente_id).save(:validate => false)
 	 	end
 	 end  
