@@ -31,6 +31,37 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             else
               '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
             end,
+              if record.altas_bajas_hora_id != nil  
+              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.calle
+            elsif record.cargo_id != nil
+              Cargo.where(:id => record.cargo_id.to_i).first.persona.calle
+            else
+              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.calle
+            end,
+
+            if record.altas_bajas_hora_id != nil  
+              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.nro_calle
+            elsif record.cargo_id != nil
+              Cargo.where(:id => record.cargo_id.to_i).first.persona.nro_calle
+            else
+              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.nro_calle
+            end,
+
+            if record.altas_bajas_hora_id != nil  
+              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.piso
+            elsif record.cargo_id != nil
+              Cargo.where(:id => record.cargo_id.to_i).first.persona.piso
+            else
+              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.piso
+            end,
+
+            if record.altas_bajas_hora_id != nil  
+              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.depto
+            elsif record.cargo_id != nil
+              Cargo.where(:id => record.cargo_id.to_i).first.persona.depto
+            else
+              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.depto
+            end,
      ]
     end
   end
