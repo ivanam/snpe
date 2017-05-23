@@ -387,7 +387,7 @@ ProyectoBase::Application.routes.draw do
 
     get "migrar/", to: 'migracion#migrar'
 
-    post "/migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
+    post "migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
 
     post "/migracion/migrar_auxiliares/:esc", to: 'migracion#migrar_auxiliares'
 
