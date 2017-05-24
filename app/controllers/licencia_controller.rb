@@ -99,12 +99,12 @@ class LicenciaController < ApplicationController
       @mindate_year = Date.today.year
       @mindate4 = Date.today.to_s
       @maxdate4 = Date.today.to_s
-      client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
+      client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
       @res = client.query("select * from licenciasvs where fecha_desde >= " + @mindate4.to_s + " and fecha_hasta <= " + @maxdate4.to_s + " ")
     else
       @rango4 = params["rango4"]
       @mindate4, @maxdate4 = Util.max_min_periodo(@rango4)
-      client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
+      client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
       debugger
       @res = client.query("select * from licenciasvs where fecha_desde >= " + @mindate4.to_s + " and fecha_hasta <= " + @maxdate4.to_s + " ")
    end
