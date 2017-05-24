@@ -7,7 +7,11 @@ class Cargo < ActiveRecord::Base
   has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
+<<<<<<< HEAD
   
+=======
+  validates :turno, presence: true
+>>>>>>> 98b4b24d86e596a6bacc262aed496785348b6b7f
   validates :fecha_alta, presence: true
   validates :cargo, presence: true
   validates :situacion_revista, presence: true

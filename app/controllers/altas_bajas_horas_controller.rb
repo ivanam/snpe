@@ -414,7 +414,7 @@ class AltasBajasHorasController < ApplicationController
    
     respond_to do |format|
       if @persona.save then       
-        if @altas_bajas_hora.save then
+        if @altas_bajas_hora.save! then
           format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
           format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
         else
