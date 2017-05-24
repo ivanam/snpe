@@ -68,7 +68,6 @@ class LicenciaController < ApplicationController
        @rango2 = params["rango2"]
        @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
        @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
-       debugger
      end
     respond_to do |format|
       format.xls 
