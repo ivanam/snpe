@@ -481,6 +481,7 @@ end
     @cargos.division = params[:division]
     @cargos.resolucion = params[:resolucion]
     @cargos.disposicion = params[:disposicion]
+    @cargos.turno = params[:turno]
 
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
@@ -528,8 +529,12 @@ end
           else
             format.html { render action: 'modificacion' }
             #format.html { redirect_to cargos_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            format.json { render json: @cargos.errors, status: :unprocessable_entity }
-            #respond_with(@altas_bajas_hora, :location => cargos_path)  
+            @cargos.errors.full_messages.each do |msg|
+              flash[:error] = msg
+            end
+            format.json do
+              render json: flash
+            end
           end        
         else
 
