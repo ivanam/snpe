@@ -55,6 +55,17 @@ module LicenciaHelper
 		return @licencias
 	end
 
+    def listado_de_licencias_todas(mindate4, maxdate4)		
+		if current_user.role? :personal or current_user.role? :sadmin then
+			@licenciasT = Licenciasv.select('*').from('licenciasvs').where('fecha_desde >= ?', mindate4).where('fecha_hasta <= ?', maxdate4)
+			
+		else			
+			@licenciasT = Licenciasv.select('*').from('licenciasvs').where('fecha_desde >= ?', mindate4).where('fecha_hasta <= ?', maxdate4).where(:id => session[:establecimiento])
+		end	
+
+		return @licenciasT
+	end
+
 	def listado_de_licencias_cargo(mindate3, maxdate3)
 		if current_user.role? :personal or current_user.role? :sadmin then			
         	@licenciasCarg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (2,3,4,5)')

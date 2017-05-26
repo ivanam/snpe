@@ -94,25 +94,21 @@ class LicenciaController < ApplicationController
     end
   end
 
-   def listado_licencias_todas
+  def listado_licencias_todas
     if params["rango4"] == nil
       @mindate_year = Date.today.year
       @mindate4 = Date.today.to_s
       @maxdate4 = Date.today.to_s
-      client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
-      @res = client.query("select * from licenciasvs where fecha_desde >= " + @mindate4.to_s + " and fecha_hasta <= " + @maxdate4.to_s + " ")
+      @res4 = listado_de_licencias_todas(@mindate4, @maxdate4)    
     else
       @rango4 = params["rango4"]
       @mindate4, @maxdate4 = Util.max_min_periodo(@rango4)
-      client = Mysql2::Client.new(:host => "172.16.0.15", :username => "root", :password => "root", :database => "snpe")
-      debugger
-      @res = client.query("select * from licenciasvs where fecha_desde >= " + @mindate4.to_s + " and fecha_hasta <= " + @maxdate4.to_s + " ")
+      @res4 = listado_de_licencias_todas(@mindate4, @maxdate4) 
    end
-  
       respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaTodasDatatable.new(view_context, { query: Licenciasv.all}) }
+      format.json { render json: ListadoLicenciaTodasDatatable.new(view_context, { query: @res4}) }
     end
   end
   
@@ -157,7 +153,6 @@ class LicenciaController < ApplicationController
   end
    
    def guardar_licencia_cargos_no_docentes
-    debugger
     @licencia = Licencium.create!(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     if @licencia.save then
       render json: 0
