@@ -484,7 +484,6 @@ end
     @cargos.turno = params[:turno]
 
 
-
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
     if params[:materium_id] != "" then 
       @cargos.materium_id = params[:materium_id]
@@ -523,21 +522,30 @@ end
 
 
    respond_to do |format|
-        if @persona.save! then       
-          if @cargos.save! then
+        if @persona.save then       
+          if @cargos.save then
             format.html { redirect_to cargos_modificacion_path, notice: 'Registro actualizado correctamente' }
             format.json { render action: 'modificacion', status: :created, location: @cargos }
           else
             format.html { render action: 'modificacion' }
             #format.html { redirect_to cargos_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-            format.json { render json: @cargos.errors, status: :unprocessable_entity }
-            #respond_with(@altas_bajas_hora, :location => cargos_path)  
+            @cargos.errors.full_messages.each do |msg|
+              flash[:error] = msg
+            end
+            format.json do
+              render json: flash
+            end
           end        
         else
 
           format.html { render action: 'modificacion' }
           #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-          format.json { render json: @persona.errors, status: :unprocessable_entity }
+          @persona.errors.full_messages.each do |msg|
+            flash[:error] = msg
+          end
+          format.json do
+            render json: flash
+          end
         end
     end    
     

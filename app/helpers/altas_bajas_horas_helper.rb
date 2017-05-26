@@ -121,7 +121,7 @@ module AltasBajasHorasHelper
 
  #Articulo con goce de haberes
   def con_licencia_suplente (altasbajashoras)
-    debugger
+
     if altasbajashoras.where(situacion_revista: "1-1").first then
       @primer = altasbajashoras.where(situacion_revista: "1-1").first
     else 

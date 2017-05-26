@@ -518,24 +518,28 @@ class AltasBajasHorasController < ApplicationController
           end
         end
 
-    else 
-       respond_to do |format|
-              if @persona.save then       
-                if @altas_bajas_horas.save then
-                  format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
-                  format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
-                else
-                  @planes_permitidos = select_planes_permitidos
-                  format.html { render action: 'modificacion' }
-                  format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
-                end        
-              else
-                @planes_permitidos = select_planes_permitidos
-                format.html { render action: 'modificacion' }
-                #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
-                format.json { render json: @persona.errors, status: :unprocessable_entity }
-              end
-          end    
+    else
+      respond_to do |format|
+      if @persona.save then       
+        if @altas_bajas_horas.save then
+          format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
+          format.json { render action: 'modificacion', status: :created, location: @altas_bajas_horas }
+        else
+          @planes_permitidos = select_planes_permitidos
+          format.html { render action: 'modificacion' }
+          @altas_bajas_horas.errors.full_messages.each do |msg|
+            flash[:error] = msg
+          end
+          format.json do
+            render json: flash
+          end
+        end        
+      else
+        @planes_permitidos = select_planes_permitidos
+        format.html { render action: 'modificacion' }
+        #format.html { redirect_to altas_bajas_horas_path, alert: 'El Alta no pudo concretarse por el siguiente error: ' + @altas_bajas_hora.errors.full_messages.to_s.tr('[]""','')}
+      end
+    end    
 
       
     end
