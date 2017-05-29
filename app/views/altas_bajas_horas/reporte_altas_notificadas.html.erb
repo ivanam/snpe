@@ -1,4 +1,9 @@
-<br/>
+<legend class="legend-small">Altas - Horas Cátedra</legend>
+
+<% @e = Establecimiento.find(session[:establecimiento])%>            
+<div class="page-header">
+  <h3>Escuela N° <%= @e.to_s %></h3>
+</div>
 
 <table id="tabla-altas_bajas_hora_notificadas" class="table table-striped table-bordered table-hover">
 	<thead>
@@ -29,11 +34,7 @@
         		<td><%= alta.turno %></td>
         		<td><%= alta.codificacion.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
         		<td><%= Util.fecha_a_es(alta.fecha_alta) %></td>
-        		<% if (alta.estado_actual == "Notificado") then %>
-        			<td><span class="label label-success"><%= alta.estado_actual %></td>
-        		<% else %>
-					<td><span class="label label-danger"><%= alta.estado_actual %></td>
-        		<% end %>
+        		<td><span class="label label-<%=alta.estados.last.color_estado%>"><%= alta.estado_actual %></td>
       		</tr>
     	<% end %>
 	</tbody>
