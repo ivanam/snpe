@@ -40,9 +40,8 @@
           
           <%= text_field_tag 'fecha_nacimiento',"",{:class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento", :value => @persona.fecha_nacimiento} %>          
           <%= text_field_tag 'cuil', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cuil - ej: 27319233815", :class => "form-alta text-field form-control solo_numerico", :id => "input_cuil", :placeholder => "Cuil", :maxlength=>"11", :pattern=>"[0-9]{11}", :oninvalid=>"setCustomValidity('Por favor respete el formato')", :value => @persona.cuil} %>
-          <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apellidos", :placeholder => "Apellido/s", :value => @persona.apellidos} %>
+          <%= text_field_tag 'apellidos', "", {:class => "form-alta text-field form-control", :id => "input_apeynom", :placeholder => "Apellido/s", :value => @persona.apeynom} %>
 
-          <%= text_field_tag 'nombres', "", {:class => "form-alta text-field form-control", :id => "input_nombres", :placeholder => "Nombres", :value => @persona.nombres } %>
 
           <%= select_tag 'sexo', options_from_collection_for_select(Sexo.all, "id", "nombre", @persona.sexo_id), {:id => "select_sexo", :class=>"form-control form-select form-doc form-alta" } %>
 

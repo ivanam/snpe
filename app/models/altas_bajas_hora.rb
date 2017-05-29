@@ -36,6 +36,7 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :nombres, presence: true
   #validates :apellidos, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+  validate :controlar_turno
   before_save :actualizar_materia
   before_update :dar_baja
 
@@ -58,6 +59,12 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   #No permite que se de un alta un suplente o reemplazante sin que exista un titular o interino
+  def controlar_turno
+    if (self.estado != "LIC" && self.estado != "LIC P/BAJ") && (self.turno == nil || self.turno == "" )
+      errors.add(:turno, "no puede estar vacio")
+    end
+  end
+
   def validar_situacion_revista
     if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
       titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').first

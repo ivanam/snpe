@@ -93,6 +93,24 @@ class LicenciaController < ApplicationController
       format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res3}) }
     end
   end
+
+  def listado_licencias_todas
+    if params["rango4"] == nil
+      @mindate_year = Date.today.year
+      @mindate4 = Date.today.to_s
+      @maxdate4 = Date.today.to_s
+      @res4 = listado_de_licencias_todas(@mindate4, @maxdate4)    
+    else
+      @rango4 = params["rango4"]
+      @mindate4, @maxdate4 = Util.max_min_periodo(@rango4)
+      @res4 = listado_de_licencias_todas(@mindate4, @maxdate4) 
+   end
+      respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadoLicenciaTodasDatatable.new(view_context, { query: @res4}) }
+    end
+  end
   
   
   def cargos_licencia_permitida
@@ -135,9 +153,14 @@ class LicenciaController < ApplicationController
   end
    
    def guardar_licencia_cargos_no_docentes
-    @licencia = Licencium.create(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
-    render json: 0
+    @licencia = Licencium.create!(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
+    if @licencia.save then
+      render json: 0
+      else
+      format.json { render json: @licencia, turno: :unprocessable_entity }
+      end      
   end
+
   def guardar_licencia_final
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
