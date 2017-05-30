@@ -14,14 +14,14 @@ class AltasBajasHora < ActiveRecord::Base
   #Validates from Silvio Andres "CHEQUEAR"
   validates :fecha_alta, :presence => true
   validates :situacion_revista, :presence => true
-  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
   #validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
-  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }
-  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }#, allow_blank: true
+  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
+  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
   validates :persona_id, :presence => true
-  validates :plan_id, :presence => true
-  validates :materium_id, :presence => true
-  validates :turno, :presence => true
+  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :turno, :presence => true, if: :no_es_licencia_para_baja
 
   #Validación de alta
   validate :validar_alta  
@@ -46,6 +46,10 @@ class AltasBajasHora < ActiveRecord::Base
   ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
 
+  def no_es_licencia_para_baja
+    self.estado != "LIC P/BAJ"
+  end
+
   #Método que valida el alta de un paquete de horas
   def validar_alta 
     if self.estado == 'ALT'
@@ -55,13 +59,6 @@ class AltasBajasHora < ActiveRecord::Base
         validar_reemplazante
         validar_suplente
       end
-    end
-  end
-
-  #No permite que se de un alta un suplente o reemplazante sin que exista un titular o interino
-  def controlar_turno
-    if (self.estado != "LIC" && self.estado != "LIC P/BAJ") && (self.turno == nil || self.turno == "" )
-      errors.add(:turno, "no puede estar vacio")
     end
   end
 
