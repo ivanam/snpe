@@ -215,6 +215,7 @@ class AltasBajasHorasController < ApplicationController
             format.html { render action: 'index' }
           end        
       else
+          @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
           format.json { render json: @persona.errors, status: :unprocessable_entity }
           format.html { render action: 'index' }
       end
