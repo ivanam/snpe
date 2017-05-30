@@ -36,7 +36,6 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :nombres, presence: true
   #validates :apellidos, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-  validate :controlar_turno
   before_save :actualizar_materia
   before_update :dar_baja
 
