@@ -33,16 +33,16 @@ class CargoEstado < ActiveRecord::Base
   def mensaje_estado
      @estado = Estado.where(:id => self.estado_id).first.descripcion.to_s
      if @estado == "Cancelado" then
-       @resultado = "Cancelado por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Cancelado por " + User.find(self.user_id).email
      
      elsif @estado == "Chequeado" then
-       @resultado = "Chequeado por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Chequeado por " + User.find(self.user_id).email
      
      elsif @estado == "Ingresado" then
-       @resultado = "Ingresado por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Ingresado por " + User.find(self.user_id).email
     
      elsif @estado == "Notificado" then
-       @resultado = "Notificado por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Notificado por " + User.find(self.user_id).email
     
      elsif @estado == "Impreso" then
         @resultado = "Impreso"
@@ -59,16 +59,16 @@ class CargoEstado < ActiveRecord::Base
         end     
 
      elsif @estado == "Notificado_Baja" then
-       @resultado = "Baja notificada por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Baja notificada por " + User.find(self.user_id).email
      
      elsif @estado == "Cancelado_Baja" then
-       @resultado = "Baja cancelada por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Baja cancelada por " + User.find(self.user_id).email
      
      elsif @estado == "Ingresado_Baja" then
-       @resultado = "Baja ingresada por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Baja ingresada por " + User.find(self.user_id).email
      
      elsif @estado == "Chequeado_Baja" then
-       @resultado = "Baja chequeada por " + Role.where(:id => (UserRole.where(:user_id => self.user_id).first.role_id)).first.description.to_s
+       @resultado = "Baja chequeada por " + User.find(self.user_id).email
      end
      return @resultado   
    end
