@@ -281,7 +281,7 @@ class AltasBajasHora < ActiveRecord::Base
   def dar_baja
     if self.fecha_baja != "" && self.fecha_baja != nil
       if self.estado == "LIC" || self.estado == "ART"
-        errors.add(:base, self.persona.to_s + "debe terminar la licencia antes de generar la baja")
+        errors.add(:base, self.persona.to_s + " debe terminar la licencia antes de generar la baja")
         return false
       end
       self.estado = "BAJ"

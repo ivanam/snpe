@@ -679,8 +679,6 @@ class AltasBajasHorasController < ApplicationController
 
   def cancelar_baja
     if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
-      #Estado, necesario para Minsiterio de economia
-      @altas_bajas_hora.estado = "ALT"
       if @altas_bajas_hora.update(:fecha_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
