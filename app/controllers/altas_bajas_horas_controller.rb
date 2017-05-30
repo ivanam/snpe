@@ -378,8 +378,8 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.materium_id = params[:materium_id]
     @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
     @altas_bajas_horas.grupo_id = params[:grupo_id]
-    @altas_bajas_horas.oblig = params[:oblig]
     @altas_bajas_horas.observaciones = params[:observaciones]
+    @altas_bajas_horas.plan_id = params[:plan_id]
 
     @altas_bajas_horas.resolucion = params[:resolucion]
     @altas_bajas_horas.decreto = params[:decreto]
