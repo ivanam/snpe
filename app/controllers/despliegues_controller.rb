@@ -45,6 +45,6 @@ class DesplieguesController < InheritedResources::Base
     end
 
     def despliegue_params
-      params.require(:despliegue).permit(:anio, :plan_id, :materium_id, :carga_horaria)
+      params.require(:despliegue).permit(:anio, :plan_id, :materium_id, :carga_horaria, :cant_docentes)
     end
 end

@@ -203,96 +203,22 @@ class AltasBajasHorasController < ApplicationController
     @materia = Materium.find(params[:altas_bajas_hora][:materium_id])    
     @altas_bajas_hora.codificacion = @materia.codigo
 
-
-    @altas_escuela = AltasBajasHora.where(:establecimiento_id => session[:establecimiento], division: params[:altas_bajas_hora][:division], turno: params[:altas_bajas_hora][:turno], anio: params[:altas_bajas_hora][:anio], plan_id: params[:altas_bajas_hora][:plan_id], materium_id: params[:altas_bajas_hora][:materium_id])
- 
-    if @altas_escuela == [] then
-      @caso = 1 #Caso ok 
-    elsif params[:altas_bajas_hora][:situacion_revista] == "1-1" then #Se quiere crear un titular
-      if @altas_escuela.where(situacion_revista: "1-1").first then 
-        @caso = 2 #1- hay un titular y se quiere dar de alta un titular
-      else
-        @caso = 3 #2- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere de alta un titular
-      end
-    elsif params[:altas_bajas_hora][:situacion_revista] =="1-2" then #Se quiere crear un interino
-      if @altas_escuela.where(situacion_revista: "1-2").first then
-        @caso = 4 #3- hay un interino y se quiere dar de alta un interino
-      else
-        @caso = 5 #4- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere dar de alta interino
-      end
-    elsif params[:altas_bajas_hora][:situacion_revista] == "1-3" then #Se quiere crear un reemplazante
-      reemplazante_de = con_licencia_reemplazante(@altas_escuela) 
-      if  reemplazante_de != [] then  
-          @caso = 6 #2- tiene licencia para reemplazar
-      else
-          @caso = 7 #3- no tiene licencia el suplente
-      end
-    elsif params[:altas_bajas_hora][:situacion_revista] == "2-3" || params[:altas_bajas_hora][:situacion_revista] == "2-4" then #Se quiere crear suplente de larga duracion o corta duracion
-      suplente_de = con_licencia_suplente(@altas_escuela)
-      if  suplente_de != [] then
-          @caso = 8 #4- tiene licencia para suplente 
-      else
-          @caso = 9 #5- no tiene licencia el suplente
-      end
-    else
-      @caso=0
-    end
-
     respond_to do |format|
-
-      #|| (params[:altas_bajas_hora][:situacion_revista] == "1-003" && @altas_escuela != [] && con_licencia(@altas_escuela))  then
-
-      if [1,6,8].include? @caso then
-        if @persona.save then           
-            if @altas_bajas_hora.save then            
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
-              if @caso != 1 then
-                if @caso == 6 then
-                  @suplente=Suplente.create(tipo_suplente: "Reemplazante",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-                elsif @caso == 8 then
-                  @suplente =Suplente.create(tipo_suplente: "Suplente",altas_bajas_hora_id: @altas_bajas_hora.id, estado: "Activo")
-                end                
-                @altas_escuela.first.suplente_id = @suplente.id #ver q cada metodo devuelva si tiene licencia y el ultimo alta para poner este valor y enlazar
-                @altas_escuela.first.save
-              end  
-              format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
-              format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
-            else                        
-              @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
-              format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
-              format.html { render action: 'index' }
-            end        
-        else
+      if @persona.save then      
+          if @altas_bajas_hora.save then
+            AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)
+            format.html { redirect_to altas_bajas_horas_path, notice: 'Alta realizada correctamente' }
+            format.json { render action: 'show', status: :created, location: @cargo }
+          else
             @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
-            format.json { render json: @persona.errors, status: :unprocessable_entity }
+            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
             format.html { render action: 'index' }
-        end
+          end        
       else
-        if @altas_bajas_hora.valid?
-          if @caso == 2 then
-            flash[:error] = "Se quiere dar de alta un titular y ya existe"          
-          elsif @caso == 3 then
-            flash[:error] = "Se quiere dar de alta un titular y ya existe un interino"          
-          elsif @caso == 4 then
-            flash[:error] = "Se quiere dar de alta un interino y ya existe"          
-          elsif @caso == 5 then 
-            flash[:error] = "Se quiere dar de alta un interino y ya existe un titular"          
-          elsif @caso == 7 then 
-            flash[:error] = "El cargo que se quiere reemplazar no se encuentra con licencia sin goce de haberes"          
-          elsif @caso == 9 then
-            flash[:error] = "El cargo que se quiere suplantar no se encuentra con licencia con goce de haberes"          
-          end
           @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
-        else
-          if !@altas_bajas_hora.valid?
-            @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)      
-            format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }           
-            format.html { render action: 'index' }
-          end
-        end        
+          format.json { render json: @persona.errors, status: :unprocessable_entity }
+          format.html { render action: 'index' }
       end
-      format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }           
-      format.html { render action: 'index' } 
     end
   end
 

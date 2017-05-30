@@ -153,6 +153,9 @@
               }
           ]
   	  });
+    $('#tabla-licencia').on( 'draw.dt', function() {      
+      $('.calle').editable();
+    });
 
 
     var date = new Date();
@@ -191,7 +194,7 @@
         retrieve: true,        
         columnDefs: [
               {
-                  "targets": [ 10 ],
+                  "targets": [ 6 ],
                   "searchable": false,
                   "orderable": false
               }
