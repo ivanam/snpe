@@ -32,7 +32,7 @@
         <td><%= alta.codificacion.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
         <td><%= Util.fecha_a_es(alta.fecha_alta) %></td>
         <td><%= Util.fecha_a_es(alta.fecha_baja) %></td>
-        <td><%= alta.estado_actual %></td>
+        <td><span class="label label-<%=alta.estados.last.color_estado%>"><%= alta.estado_actual %></td>
       </tr>
     <% end %>
   </tbody>
