@@ -118,9 +118,16 @@ class CargosController < ApplicationController
   end
 
   def destroy
+    @cargo = Cargo.find(params[:id])    
+    @cargo.estados.destroy_all
     @cargo.destroy
-    respond_with(@cargo)
+
+    respond_to do |format|
+      format.html { redirect_to cargos_url, notice: 'Se ha eliminado la carga' }
+      format.json { head :no_content }
+    end
   end
+
 
   def persona_por_cargo
     @altas_escuela = Cargo.where(:establecimiento_id => session[:establecimiento], cargo_id: params[:cargo_id])
