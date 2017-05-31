@@ -33,6 +33,7 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             end,
               if record.altas_bajas_hora_id != nil  
               AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.calle
+              
             elsif record.cargo_id != nil
               Cargo.where(:id => record.cargo_id.to_i).first.persona.calle
             else

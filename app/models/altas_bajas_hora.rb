@@ -11,6 +11,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   validates_presence_of :persona
 
+<<<<<<< HEAD
   # #Validates from Silvio Andres "CHEQUEAR"
   # validates :fecha_alta, :presence => true
   # validates :situacion_revista, :presence => true
@@ -26,6 +27,22 @@ class AltasBajasHora < ActiveRecord::Base
   # #Validación de alta
   # validate :validar_alta
 
+=======
+  #Validates from Silvio Andres "CHEQUEAR"
+  validates :fecha_alta, :presence => true
+  validates :situacion_revista, :presence => true
+  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
+  #validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
+  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
+  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
+  validates :persona_id, :presence => true
+  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :turno, :presence => true, if: :no_es_licencia_para_baja
+
+  #Validación de alta
+  validate :validar_alta  
+>>>>>>> 4bdd62fc9569d6a210e246195f78b5830faef221
 
   #Validates de persona en AltasBajas
   #validates :persona_id,:nro_documento, presence: true
@@ -46,23 +63,133 @@ class AltasBajasHora < ActiveRecord::Base
   ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
 
+  def no_es_licencia_para_baja
+    self.estado != "LIC P/BAJ"
+  end
+
   #Método que valida el alta de un paquete de horas
   def validar_alta 
     if self.estado == 'ALT'
-      validar_situacion_revista
+      if validar_situacion_revista
+        validar_titular
+        validar_interino
+        validar_reemplazante
+        validar_suplente
+      end
     end
   end
 
   def validar_situacion_revista
     if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
-      titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where(situacion_revista:'1-1')
-      interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where(situacion_revista: '1-2')
-      if (titular != nil) or (interino != nil)      
-        errors.add(:base,"No puede darse de alta un suplente ni reemplazante, si no existe titular o interino en el cargo")        
+      titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').where.not(id: self.id).first
+      interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-2').where.not(id: self.id).first
+      if (titular == nil) && (interino == nil)      
+        errors.add(:base,"No puede darse de alta un suplente ni reemplazante si no existe titular o interino en el cargo")        
+        return false
+      end
+    end
+    return true
+  end
+
+  #2- hay un titular y se quiere dar de alta un titular
+  #3- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere de alta un titular
+  def validar_titular 
+    if self.situacion_revista == '1-1'
+      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)
+      if (alta_horas != nil)
+        if alta_horas.where(situacion_revista: "1-1").first
+          errors.add(:base,"Se quiere dar de alta un titular y ya existe uno.")                
+        elsif alta_horas.where(situacion_revista: "1-2").first == '1-2'
+          errors.add(:base,"Se quiere dar de alta un titular y ya existe interino.")                
+        end
+      end      
+    end
+  end
+
+  #4- hay un interino y se quiere dar de alta un interino
+  #5- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere dar de alta interino
+  def validar_interino
+    if self.situacion_revista == '1-2'
+      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)      
+      if (alta_horas != nil)
+        if alta_horas.where(situacion_revista: "1-2").first
+          errors.add(:base,"Se quiere dar de alta un interino y ya existe uno.")                
+        elsif alta_horas.where(situacion_revista: "1-1").first
+          errors.add(:base,"Se quiere dar de alta un interino y ya existe un titular.")                
+        end
+      end  
+    end
+  end
+
+  #Se quiere crear un reemplazante
+  def validar_reemplazante
+    if self.situacion_revista == '1-3' 
+      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)
+      reemplazante_de = con_licencia_reemplazante(alta_horas) 
+      if (reemplazante_de == [])
+        errors.add(:base,"El cargo a reemplazar no se encuentra con licencia sin goce de haberes.")                
       end
     end
   end
 
+  #Se quiere crear suplente de larga duracion o corta duracion
+  def validar_suplente
+    if self.situacion_revista == '2-3' || self.situacion_revista == '2-4' 
+      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)
+      suplente_de = con_licencia_suplente(alta_horas) 
+      if (suplente_de == [])
+        errors.add(:base,"El cargo a suplantar no se encuentra con licencia con goce de haberes.")                
+      end
+    end
+  end
+
+  #Articulo sin goce de haberes
+  def con_licencia_reemplazante(altasbajashoras)
+    if altasbajashoras.where(situacion_revista: "1-1").first #Titular
+      primer = altasbajashoras.where(situacion_revista: "1-1").first #Titular
+    else 
+      primer = altasbajashoras.where(situacion_revista: "1-2").first #Interino
+    end
+     if primer.suplente_id != nil
+      suplente = altasbajashoras.where(id: Suplente.where(id: primer.suplente_id).first.altas_bajas_hora_id)  
+      while suplente.first.suplente_id != nil do
+        suplente = altasbajashoras.where(id: Suplente.where(id: suplente.suplente_id).first.altas_bajas_hora_id)
+      end
+      ver_licencia = suplente
+    else
+      ver_licencia = primer
+    end
+    if Licencium.joins(:articulo).where(altas_bajas_hora_id: ver_licencia, vigente: "Vigente", articulos: {con_goce: false}).first
+      return ver_licencia #Hay licencias para esas horas
+    else
+      return [] #No hay licencias para esas horas
+    end
+  end 
+
+  #Articulo con goce de haberes
+  def con_licencia_suplente(altasbajashoras)
+    if altasbajashoras.where(situacion_revista: "1-1").first
+      primer = altasbajashoras.where(situacion_revista: "1-1").first
+    else 
+      primer = altasbajashoras.where(situacion_revista: "1-2").first
+    end
+    if primer.suplente_id != nil
+      suplente = altasbajashoras.where(id: Suplente.where(id: primer.suplente_id).first.altas_bajas_hora_id)  
+      while suplente.first.suplente_id != nil do
+        suplente = altasbajashoras.where(id: Suplente.where(id: suplente.suplente_id).first.altas_bajas_hora_id)
+      end
+      ver_licencia = suplente
+    else
+      ver_licencia = primer
+    end    
+    if Licencium.joins(:articulo).where(altas_bajas_hora_id: ver_licencia, vigente: "Vigente", articulos: {con_goce: true}).first
+      return ver_licencia #Hay licencias para esas horas
+    else
+      return [] #No hay licencias para esas horas
+    end
+  end
+
+  #Valido que la cantidad de docentes inscriptos en una materia no supere el maximo permitido por el despliegue (plan)
   def validar_nivel_superior    
     establecimiento = Establecimiento.find(id: self.establecimiento_id)
     nivel = establecimiento.nivel
@@ -168,7 +295,7 @@ class AltasBajasHora < ActiveRecord::Base
   def dar_baja
     if self.fecha_baja != "" && self.fecha_baja != nil
       if self.estado == "LIC" || self.estado == "ART"
-        errors.add(:base, self.persona.to_s + "debe terminar la licencia antes de generar la baja")
+        errors.add(:base, self.persona.to_s + " debe terminar la licencia antes de generar la baja")
         return false
       end
       self.estado = "BAJ"

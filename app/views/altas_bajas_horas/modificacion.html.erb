@@ -39,6 +39,8 @@
 
 				      <%= text_field_tag 'apeynom', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Apellido y Nombre", :class => "form-apeynom text-field form-control", :id => "input_apellidos", :placeholder => "Apellido y Nombre", :readonly => :true} %>
 
+              <%= text_field_tag 'secuencia', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Secuencia", :id => "secuencia", :placeholder => "Secuencia",:class=>"form-control form-alta", :readonly => :true}%>
+
 				      <%= text_field_tag 'fecha_nacimiento',"",{:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"F. Nacimiento", :class => "form-fecha form-alta text-field form-control", :id => "datepicker3", :placeholder => "F. Nacimiento"} %>
 
 				      <%= text_field_tag 'fecha_alta', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Fecha de Alta", :id => "fecha_alta", :placeholder => "Fecha de Alta", :class => "form-fecha form-alta form-control" ,  :readonly => :true}%>
@@ -246,6 +248,7 @@
               	if (data != null){
               		console.log(data);
                 	$("#editar").show();	
+                  $("#secuencia").val(data.secuencia);
                 	$("#turno").val(data.turno);
                 	$("#fecha_alta").val(data.fecha_alta);
                 	$("#ciclo-carrera").val(data.ciclo_carrera);
