@@ -17,6 +17,7 @@ class Cargo < ActiveRecord::Base
   validate :cargo_jerarquico
   validate :controlar_turno
 
+
   before_update :dar_baja
 
   #-----------------------------------------------------------------------------------------------------------
