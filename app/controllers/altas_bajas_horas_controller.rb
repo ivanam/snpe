@@ -376,7 +376,9 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.anio = params[:anio]
     @altas_bajas_horas.division = params[:division]
     @altas_bajas_horas.materium_id = params[:materium_id]
-    @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
+    if Materium.where(:id => params[:materium_id]).first != nil
+      @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
+    end
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.observaciones = params[:observaciones]
     @altas_bajas_horas.plan_id = params[:plan_id]
@@ -425,7 +427,12 @@ class AltasBajasHorasController < ApplicationController
                 else
                   @planes_permitidos = select_planes_permitidos
                   format.html { render action: 'modificacion' }
-                  format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+                  @altas_bajas_horas.errors.full_messages.each do |msg|
+                    flash[:error] = msg
+                  end
+                  format.json do
+                    render json: flash
+                  end
                 end        
               else
                 @planes_permitidos = select_planes_permitidos
@@ -435,7 +442,6 @@ class AltasBajasHorasController < ApplicationController
               end
           end    
         else
-
           flash[:error]= "Debe completar el plan"
           respond_to do |format|
             @planes_permitidos = select_planes_permitidos
@@ -679,8 +685,6 @@ class AltasBajasHorasController < ApplicationController
 
   def cancelar_baja
     if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
-      #Estado, necesario para Minsiterio de economia
-      @altas_bajas_hora.estado = "ALT"
       if @altas_bajas_hora.update(:fecha_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
