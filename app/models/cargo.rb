@@ -4,7 +4,7 @@ class Cargo < ActiveRecord::Base
   belongs_to :persona_reemplazada
   belongs_to :funcion
 
-  has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'cargo_id', dependent: :destroy
+ 
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
 
