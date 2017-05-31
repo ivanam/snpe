@@ -484,7 +484,7 @@ end
     @persona.fecha_nacimiento = params[:fecha_nacimiento]
     @persona.cuil = params[:cuil] 
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
-    @cargos.anio = params[:anio]
+    @cargos.anio = params[:curso]
     @cargos.division = params[:division]
     @cargos.resolucion = params[:resolucion]
     @cargos.disposicion = params[:disposicion]

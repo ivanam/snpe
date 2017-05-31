@@ -55,7 +55,7 @@
 
   					  <%= select_tag 'turno', options_from_collection_for_select( Turno.all, "descripcion", "descripcion"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :id => "turno",:class=>"form-control form-alta form-select" , :prompt => "Turno" } %>
 
-          		<%= select_tag 'anio', options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso", }%>
+              <%= text_field_tag 'curso', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso",  :class => "form-alta form-control", :id => "curso", :maxlength=>"2", :placeholder => "Curso"}%>
 
   					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
 
