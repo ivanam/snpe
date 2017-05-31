@@ -11,6 +11,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   validates_presence_of :persona
 
+
   #Validates from Silvio Andres "CHEQUEAR"
   validates :fecha_alta, :presence => true
   validates :situacion_revista, :presence => true
@@ -26,6 +27,7 @@ class AltasBajasHora < ActiveRecord::Base
   #Validación de alta
   validate :validar_alta  
 
+
   #Validates de persona en AltasBajas
   #validates :persona_id,:nro_documento, presence: true
   #validates :persona_id,:nombres, :presence => true
@@ -36,8 +38,8 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :nombres, presence: true
   #validates :apellidos, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-  before_save :actualizar_materia
-  before_update :dar_baja
+   before_save :actualizar_materia
+   before_update :dar_baja
 
   #-------------------------------------
 
