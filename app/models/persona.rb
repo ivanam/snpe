@@ -9,7 +9,7 @@ class Persona < ActiveRecord::Base
   has_many :altas_bajas_hora , inverse_of: :persona
   has_many :titulos , inverse_of: :persona
   validates :nro_documento, presence: true
-  validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+  #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
   has_many :user
 
   def to_s
