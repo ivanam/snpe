@@ -123,3 +123,10 @@
   </script>
 
 <% end %>
+
+<script type="text/javascript">
+
+  $('#datepicker').change(function(){
+    $('#datepicker4').datepicker('option','minDate',$('#datepicker').val());
+  });
+</script>

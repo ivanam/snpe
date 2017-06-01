@@ -171,7 +171,7 @@ $(document).ready(function($) {
       "pageLength": 5,
       columnDefs: [
             {
-                "targets": [ 8 ],
+                "targets": [ 9 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -198,7 +198,7 @@ $(document).ready(function($) {
   // Evento del daterangepicker para filtrar por rangos
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     // Cambia la url agregando el campo rango como atributo
-    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/cargos/bajas_efectivas.json?rango='+$('#daterange').val());
+    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/cargo/cargos_bajas_efectivas.json?rango='+$('#daterange').val());
     // Recarga por ajax la tabla
     tabla_bajas_efectivas.api().ajax.reload();
     
