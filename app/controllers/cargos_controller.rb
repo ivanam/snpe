@@ -31,7 +31,10 @@ class CargosController < ApplicationController
 
   def index_novedades
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-    respond_with(@cargo)
+    respond_to do |format|
+      format.html
+      format.json { render json: CargosNovedadesDatatable.new(view_context, { query: cargos_novedades_permitidas(@mindate, @maxdate), :tipo_tabla => "novedades" }) }
+    end
   end
 
   # ------------------------------------------------------------------------------------------------------------------------------------------------
