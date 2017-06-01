@@ -70,7 +70,7 @@
           		<%= select_tag 'materium_id',  options_from_collection_for_select( @materias , "id", "to_s"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select"}%>  
 
 
-          		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+               <%= text_field_tag 'grupo_id', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo",  :class => "form-alta form-control", :id => "grupo", :maxlength=>"2", :placeholder => "Grupo"}%>
 
 			         <%= text_field_tag 'oblig', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Oblig.", :id=>"oblig", :class => "form-alta form-control", :placeholder => "Oblig."}%>
 
