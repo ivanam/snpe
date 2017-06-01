@@ -40,7 +40,7 @@ module CargosHelper
   end
 
   def cargos_modificacion
-       return Cargo.where(:establecimiento_id => session[:establecimiento]).includes(:establecimiento, :persona)
+       return Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ").includes(:establecimiento, :persona)
   end
 
 
@@ -57,7 +57,7 @@ module CargosHelper
   end
 
    def cargos_bajas_permitidas
-    return Cargo.where(:establecimiento_id => session[:establecimiento]).where("fecha_baja is null or fecha_baja = '0000-00-00'").includes(:establecimiento, :persona)
+    return Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ").where("fecha_baja is null or fecha_baja = '0000-00-00'").includes(:establecimiento, :persona)
   end
 
 end

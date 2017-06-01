@@ -3,14 +3,11 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   respond_to :html
-  # GET /users
-  # GET /users.json
-  def index
-    @users = User.all
 
+  def index
     respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @users }
+      format.html
+      format.json { render json: UsersDatatable.new(view_context, { query: User.all }) }
     end
   end
 
