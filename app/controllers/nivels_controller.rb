@@ -1,8 +1,9 @@
 class NivelsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
-  # GET /nivels
-  # GET /nivels.json
+
+  respond_to :html
+
   def index
     @nivels = Nivel.all
 
@@ -39,36 +40,15 @@ class NivelsController < ApplicationController
     @nivel = Nivel.find(params[:id])
   end
 
-  # POST /nivels
-  # POST /nivels.json
   def create
-    @nivel = Nivel.new(params[:nivel])
-
-    respond_to do |format|
-      if @nivel.save
-        format.html { redirect_to @nivel, notice: 'Nivel was successfully created.' }
-        format.json { render json: @nivel, status: :created, location: @nivel }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @nivel.errors, status: :unprocessable_entity }
-      end
-    end
+    @nivel = Nivel.new(nivel_params)
+    @nivel.save
+    respond_with(@nivel)
   end
 
-  # PUT /nivels/1
-  # PUT /nivels/1.json
   def update
-    @nivel = Nivel.find(params[:id])
-
-    respond_to do |format|
-      if @nivel.update_attributes(params[:nivel])
-        format.html { redirect_to @nivel, notice: 'Nivel was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @nivel.errors, status: :unprocessable_entity }
-      end
-    end
+    @nivel.update(nivel_params)
+    respond_with(@nivel)
   end
 
   # DELETE /nivels/1
@@ -82,4 +62,14 @@ class NivelsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+    def set_nivel
+      @nivel = Nivel.find(params[:id])
+    end
+
+    def nivel_params
+      params.require(:nivel).permit(:nombre)
+  end
+
 end
