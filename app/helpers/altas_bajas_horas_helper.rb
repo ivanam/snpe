@@ -12,12 +12,12 @@ module AltasBajasHorasHelper
   end
 
   def altas_bajas_horas_permitidas_bajas
-    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("fecha_baja = '0000-00-00' or fecha_baja is null").includes(:establecimiento, :persona)
+    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ").where("fecha_baja = '0000-00-00' or fecha_baja is null").includes(:establecimiento, :persona)
   end
 
   def altas_bajas_horas_modificacion
-    
-    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).includes(:establecimiento, :persona)
+ 
+    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ").includes(:establecimiento, :persona)
   end
 
   def select_planes_permitidos 
