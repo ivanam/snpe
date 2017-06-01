@@ -5,6 +5,12 @@ class Funcion < ActiveRecord::Base
 
   VICEDIRECTOR_CATEGORIAS = [ '104', '108', '208', '308', '508', '608', '708', '808',  '916', '917', '918', '951']
 
+  PEP_CATEGORIAS = [ '963', '964', '965']
+
+  PRECEPTOR_CATEGORIAS = [ '944']
+
+  MOT_CATEGORIAS = [ '313']
+
   def to_s
   	"#{ self.categoria }  -  #{self.descripcion}"
   end

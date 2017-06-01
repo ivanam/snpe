@@ -22,7 +22,10 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def index_novedades
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-    respond_with(@cargo_no_docente)
+    respond_to do |format|
+      format.html
+      format.json { render json: CargoNoDocentesNovedadesDatatable.new(view_context, { query: cargo_no_docentes_novedades_permitidas(@mindate, @maxdate), :tipo_tabla => "novedades" }) }
+    end
   end
 
   def show
