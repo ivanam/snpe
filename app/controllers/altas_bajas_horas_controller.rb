@@ -193,7 +193,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
     @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
 
-    #Estado, necesario para Minsiterio de economia
+    #Estado, necesario para Ministerio de economia
     @altas_bajas_hora.estado = "ALT"
 
     @empresa = Empresa.where(:nombre => "HS").first
