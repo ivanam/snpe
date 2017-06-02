@@ -1,0 +1,89 @@
+<h1> Cargos</h1>
+
+
+
+<h3> Directores </h1>
+
+<div>
+  <table class="table table-striped table-bordered table-hover" >
+    <thead>
+      <th>Agente</th>
+      <th>Cargo</th>
+      <th>Turno</th>
+      <th>Sit. Revista</th>
+      <th>Estado</th>
+      <th>Fecha de alta</th>
+    </thead>
+    <tbody>
+      <% establecimiento_actual.cargos_director.each do |d| %>
+        <tr>
+          <td><%= d.persona.to_s %></td>
+          <td><%= d.cargo %></td>
+          <td><%= d.turno %></td>
+          <td><%= d.situacion_revista %></td>
+          <td><%= d.estado %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+        </tr>
+      <% end %>  
+    </tbody>
+    
+  </table>
+</div>
+
+
+
+<h3> Vicedirectores </h1>
+
+<div>
+  <table class="table table-striped table-bordered table-hover" >
+    <thead>
+      <th>Agente</th>
+      <th>Cargo</th>
+      <th>Turno</th>
+      <th>Sit. Revista</th>
+      <th>Estado</th>
+      <th>Fecha de alta</th>
+    </thead>
+    <tbody>
+      <% establecimiento_actual.cargos_vicedirector.each do |d| %>
+        <tr>
+          <td><%= d.persona.to_s %></td>
+          <td><%= d.cargo %></td>
+          <td><%= d.turno %></td>
+          <td><%= d.situacion_revista %></td>
+          <td><%= d.estado %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+        </tr>
+      <% end %>  
+    </tbody>
+    
+  </table>
+</div>
+
+<h1> Cargos Auxiliares</h1>
+
+<div>
+  <table class="table table-striped table-bordered table-hover" >
+    <thead>
+      <th>Agente</th>
+      <th>Cargo</th>
+      <th>Turno</th>
+      <th>Sit. Revista</th>
+      <th>Estado</th>
+      <th>Fecha de alta</th>
+    </thead>
+    <tbody>
+      <% establecimiento_actual.cargos_auxiliares.each do |d| %>
+        <tr>
+          <td><%= d.persona.to_s %></td>
+          <td><%= Cargosnd.find(d.cargo) %></td>
+          <td><%= d.turno %></td>
+          <td><%= d.situacion_revista %></td>
+          <td><%= d.estado %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+        </tr>
+      <% end %>  
+    </tbody>
+    
+  </table>
+</div>
