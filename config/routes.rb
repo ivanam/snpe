@@ -338,6 +338,8 @@ ProyectoBase::Application.routes.draw do
 
     get "establecimientos_de_usuario", to: "establecimientos#establecimientos_de_usuario", as: :establecimientos_de_usuario
 
+    get "establecimiento/pof", to: "establecimientos#pof", as: :establecimientos_pof
+
     get "establecimiento/seleccionar/:id", to: "establecimientos#seleccionar", as: :establecimiento_seleccionar
 
     resources :estados
