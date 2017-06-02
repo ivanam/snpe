@@ -20,6 +20,7 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
         record.division,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
+        record.horas,
         if record.estado_actual == "Notificado_Baja" then
           if options[:rol] == "escuela" then
           '<center><div class="btn-acciones">'+
