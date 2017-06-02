@@ -19,6 +19,7 @@ class ArticuloDatatable < AjaxDatatablesRails::Base
         record.codigo,
         record.descripcion,
         record.cantidad_maxima_dias,
+        (record.con_goce)? 'SI' :'NO',
         record.tipo_articulo.descripcion,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

@@ -44,6 +44,6 @@ class ArticulosController < ApplicationController
     end
 
     def articulo_params
-      params.require(:articulo).permit(:codigo, :descripcion, :cantidad_maxima_dias)
+      params.require(:articulo).permit(:codigo, :descripcion, :cantidad_maxima_dias, :tipo_articulo_id, :con_goce)
     end
 end
