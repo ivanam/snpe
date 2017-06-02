@@ -27,6 +27,7 @@ class CargosDatatable < AjaxDatatablesRails::Base
         '<a style="color:red">'+record.turno.to_s+'</a>', 
         '<a style="color:red">'+record.estado+'</a>',
         Util.fecha_a_es(record.fecha_alta),
+        Util.fecha_a_es(record.fecha_baja),
         '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/cargos/'+record.id.to_s+'"><strong>Ver</strong></a>',
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
 
