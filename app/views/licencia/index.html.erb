@@ -228,7 +228,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Guardar licencia</button>
+        <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Finalizar licencia</button>
         <button type="button" id="btn_cancelar" class="btn btn-default" data-dismiss="modal">Cancelar licencia</button>
       
       </div>
@@ -256,13 +256,15 @@
         showAnim: "explode"
           });
 
-
-
   </script>
 
 <% end %>
 
 <script type="text/javascript">
+
+  $('#input_fecha_inicio3').change(function(){
+    $('#input_fecha_fin3').datepicker('option','minDate',$('#input_fecha_inicio3').val());
+    });
  
   var tabla_licencia = $('#tabla-licencium').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -416,6 +418,10 @@
       fecha_inicio = $("#input_fecha_inicio").val();
       fecha_fin = $("#input_fecha_fin").val();
       articulo = $("#select_articulo_horas").val();
+
+       if (fecha_fin == null){
+       alert("Para finalizar la licencia la fecha de fin no puede estar vacia " + fecha_fin);
+       }  
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_horas/'+id_horas+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -459,6 +465,10 @@
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
       articulo = $("#select_articulo_cargos").val();
+      debugger
+       if (fecha_fin == null){
+       alert("Para finalizar la licencia la fecha de fin no puede estar vacia " + fecha_fin);
+       }  
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -540,11 +550,14 @@
   });
 
   $('#btn_licencia_final').on('click', function () {
+    if ($("#input_fecha_fin3").val() == ""){
+      alert("Para finalizar la licencia la fecha de FIN no puede estar vacia ");
+      return;
+    }
     fecha_inicio = $("#input_fecha_inicio3").val();
     fecha_fin = $("#input_fecha_fin3").val();
     por_baja = $("#por_baja:checked").val();
    
-      
     $.ajax({
       url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja,
       type: 'POST',
