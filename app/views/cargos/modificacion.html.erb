@@ -60,7 +60,7 @@
   					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
 
 
-          		<%= select_tag 'grupo_id', options_from_collection_for_select(Grupo.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :id => "grupo", :class=>"form-control form-alta form-select" , :prompt =>"Grupo"}%>
+          		<%= text_field_tag 'grupo_id', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo",  :class => "form-alta form-control", :id => "grupo", :maxlength=>"2", :placeholder => "Grupo"}%>
 
 
               <%= select_tag 'estado',  options_for_select([["ALT",'ALT'],["LIC P/BAJ",'LIC P/BAJ'], ["LIC",'LIC']]), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Estado", :id => "estado",:class=>"form-control form-alta form-select" , :prompt => "Estado" , :required => true} %>
@@ -106,6 +106,7 @@
 								<th>Turno</th>
 								<th>Estado</th>
 								<th>Fecha Alta</th>
+                <th>Fecha Baja</th>
 								<th>Ver</th>
 								<th>Editar</th>
 

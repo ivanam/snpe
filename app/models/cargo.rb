@@ -8,15 +8,14 @@ class Cargo < ActiveRecord::Base
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
 
-  validates :fecha_alta, presence: true
-  validates :cargo, presence: true
-  validates :situacion_revista, presence: true
+   validates :fecha_alta, presence: true
+   validates :cargo, presence: true
+   validates :situacion_revista, presence: true
 
 
-  validate :sit_revista
-  validate :cargo_jerarquico
-  validate :controlar_turno
-
+   validate :sit_revista
+   validate :cargo_jerarquico
+   validate :controlar_turno
 
   before_update :dar_baja
 
@@ -123,7 +122,7 @@ class Cargo < ActiveRecord::Base
 
         if !(Funcion.cargos_jerarquicos.include? self.cargo)
           # Cargos jerarquicos
-          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso).where.not(id: self.id)
+          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso, grupo_id: self.grupo_id).where.not(id: self.id)
           if cargo_actuales != []
             if  cargo_actuales.where(estado: "ALT") != []
             # Existen cargos

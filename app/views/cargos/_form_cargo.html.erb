@@ -59,9 +59,9 @@
         <%= f.text_field :anio, :placeholder => "Cur",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso - ej: 4", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
         <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
 
-        <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>
+        <%= f.select(:turno, Turno.all.collect{|t| [t.to_s]}, {:prompt => "Turno"}, :id => "turno",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Turno", :class=>"form-control form-alta form-select")%>          
 
-        <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
+        <%= f.text_field :grupo_id, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo",  :class => "form-alta form-control", :id => "grupo", :maxlength=>"2", :placeholder => "Grupo"}%>
 
 
         <%= f.text_field :disposicion, :placeholder => "Disposición", :style => "width: 25%;"%>
@@ -123,3 +123,10 @@
   </script>
 
 <% end %>
+
+<script type="text/javascript">
+
+  $('#datepicker').change(function(){
+    $('#datepicker4').datepicker('option','minDate',$('#datepicker').val());
+  });
+</script>

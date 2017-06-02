@@ -197,7 +197,7 @@ $(document).ready(function($) {
   // Evento del daterangepicker para filtrar por rangos
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     // Cambia la url agregando el campo rango como atributo
-    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/cargo_no_docentes/bajas_efectivas.json?rango='+$('#daterange').val());
+    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/cargo_no_docente/cargo_no_docentes_bajas_efectivas.json?rango='+$('#daterange').val());
     // Recarga por ajax la tabla
     tabla_bajas_efectivas.api().ajax.reload();
     

@@ -193,12 +193,16 @@
           }
         });
 
-        //Evento del apply
+        
+
+        // Evento del daterangepicker para filtrar por rangos
         $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-          //do something, like clearing an input
-          //alert("Periodo seleccionado: "+$('#daterange').datepicker( "option", "maxDate" ));
-          //open('<%= altas_bajas_horas_path %>');
-          window.open ('<%= horas_index_novedades_path %>'+'?rango='+$('#daterange').val(),'_self',false)
+          // Cambia la url agregando el campo rango como atributo
+          tabla_horas_novedades.api().ajax.url('/soft/snpe/altas_bajas_horas/novedades.json?rango='+$('#daterange').val());
+          tabla_cola_impresion.api().ajax.url('/soft/snpe/altas_bajas_horas/cola-impresion.json?rango='+$('#daterange').val());
+          // Recarga por ajax la tabla
+          tabla_horas_novedades.api().ajax.reload();
+          tabla_cola_impresion.api().ajax.reload();
         });
 
     });

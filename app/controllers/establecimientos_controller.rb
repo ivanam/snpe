@@ -56,6 +56,10 @@ class EstablecimientosController < ApplicationController
     end
   end
 
+  def pof
+    return true
+  end
+
 
   private
     def set_establecimiento
