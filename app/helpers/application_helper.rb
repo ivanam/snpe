@@ -8,4 +8,8 @@ module ApplicationHelper
     logger.error(controller_name + '.' + action_name + ":  " + message)
   end
 
+  def establecimiento_actual
+    return Establecimiento.find(session[:establecimiento])
+  end
+
 end
