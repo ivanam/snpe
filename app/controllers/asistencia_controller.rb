@@ -8,7 +8,6 @@ class AsistenciaController < ApplicationController
   #---------------------------------------------- Páginas de inicio de asistencia ---------------------------------------------------------------------------
 
   def index
-    
     @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     asistencia = Asistencium.where(anio_periodo: @anio, mes_periodo: @mes).where.not(altas_bajas_hora_id: nil).first
     @puede_informar = true

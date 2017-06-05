@@ -31,6 +31,12 @@
     </div>
   </div>
   <div class="form-group">
+    <%= f.label :con_goce, class: "col-sm-2 control-label" %>
+    <div class="col-sm-2">
+      <%= f.check_box :con_goce, { class: 'form-control' }, "true", "false" %>      
+    </div>
+  </div>
+  <div class="form-group">
     <%= f.label :tipo_articulo_id, "Tipo de Artículo", class: "col-sm-2 control-label" %>
     <div class="col-sm-5">
       <%= f.collection_select :tipo_articulo_id, TipoArticulo.all, :id, :to_s, {prompt: false}, {:class => "form-control"} %>
