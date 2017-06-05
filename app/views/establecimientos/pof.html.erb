@@ -18,7 +18,7 @@
       <% establecimiento_actual.cargos_director.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
-          <td><%= d.cargo %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
@@ -48,7 +48,7 @@
       <% establecimiento_actual.cargos_vicedirector.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
-          <td><%= d.cargo %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
@@ -76,7 +76,7 @@
       <% establecimiento_actual.cargos_secretario.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
-          <td><%= d.cargo %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
@@ -104,7 +104,7 @@
       <% establecimiento_actual.cargos_bibliotecario.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
-          <td><%= d.cargo %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
@@ -133,7 +133,7 @@
       <% establecimiento_actual.cargos_activos.order(:turno, :curso, :division).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
-          <td><%= d.cargo %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.curso_division %></td>
           <td><%= d.situacion_revista %></td>
