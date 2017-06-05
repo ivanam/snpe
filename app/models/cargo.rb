@@ -257,7 +257,7 @@ class Cargo < ActiveRecord::Base
   end
 
   def curso_division
-    return self.curso.to_s + "/" + self.division.to_s
+    return self.anio.to_s + "/" + self.division.to_s
   end
 
 end
