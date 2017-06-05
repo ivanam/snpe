@@ -2,7 +2,7 @@ class EstablecimientosController < ApplicationController
   before_action :set_establecimiento, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
   
-  skip_authorize_resource :only => [:establecimientos_de_usuario, :seleccionar]
+  skip_authorize_resource :only => [:establecimientos_de_usuario, :seleccionar, :pof]
   
   respond_to :html
 
