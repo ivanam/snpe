@@ -122,7 +122,7 @@ class Cargo < ActiveRecord::Base
 
         if !(Funcion.cargos_jerarquicos.include? self.cargo)
           # Cargos jerarquicos
-          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso, grupo_id: self.grupo_id).where.not(id: self.id)
+          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, anio: self.anio, grupo_id: self.grupo_id).where.not(id: self.id)
           if cargo_actuales != []
             if  cargo_actuales.where(estado: "ALT") != []
             # Existen cargos
