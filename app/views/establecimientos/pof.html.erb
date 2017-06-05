@@ -162,7 +162,7 @@
       <th>Fecha de alta</th>
     </thead>
     <tbody>
-      <% establecimiento_actual.horas_activas.order(:plan_id, :turno, :anio, :division, :materium_id).each do |h| %>
+      <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id).each do |h| %>
         <tr>
           <td><%= h.persona.to_s %></td>
           <td><%= h.plan_materia %></td>
