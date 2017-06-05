@@ -279,6 +279,10 @@ class AltasBajasHora < ActiveRecord::Base
     return self.plan.to_s + "/" + self.materium.to_s
   end
 
+  def curso_division
+    return self.anio.to_s + "/" + self.division.to_s
+  end
+
 
   def dar_baja
     if self.fecha_baja != "" && self.fecha_baja != nil

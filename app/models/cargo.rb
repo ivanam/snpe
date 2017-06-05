@@ -256,7 +256,8 @@ class Cargo < ActiveRecord::Base
     return Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_equivalentes(self.cargo))  
   end
 
- 
-  
+  def curso_division
+    return self.curso.to_s + "/" + self.division.to_s
+  end
 
 end
