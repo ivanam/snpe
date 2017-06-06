@@ -7,7 +7,7 @@ def migrar_hs
 # 	    res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate, secuencia union
 # select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
-	    res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-29' or p.fecha_baja> '2017-03-29' ) and p.escuela= '"+params[:esc]+"' ")
+	    res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-01-01' or p.fecha_baja> '2017-01-01' ) and p.escuela= '"+params[:esc]+"' ")
 
 	    esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
 
@@ -88,6 +88,9 @@ def migrar_hs
 	    		hora.estado =  r['estado']
 	    	elsif hora.fecha_baja != r['fecha_baja']
 	    		hora.fecha_baja = r['fecha_baja']
+	    		hora.estado = 'BAJ'
+	    	elsif hora.fecha_baja != nil
+	    		hora.estado = 'BAJ'
 	    	end
 		
 			hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
@@ -110,7 +113,7 @@ def migrar_cargos
 # 	res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
 # select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 
-res= client.query("SELECT secuencia as secMax, p.*  FROM paddoc p where (p.fecha_alta > '2017-03-29' or p.fecha_baja> '2017-03-29' ) and p.escuela='"+params[:esc]+"'")
+res= client.query("SELECT secuencia as secMax, p.*  FROM paddoc p where (p.fecha_alta > '2017-01-01' or p.fecha_baja> '2017-01-01' ) and p.escuela='"+params[:esc]+"'")
 
 	esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
 
@@ -170,6 +173,9 @@ res= client.query("SELECT secuencia as secMax, p.*  FROM paddoc p where (p.fecha
 	    		cargo.estado =  r['estado']
 	    	elsif cargo.fecha_baja != r['fecha_baja']
 	    		cargo.fecha_baja = r['fecha_baja']
+	    		cargo.estado = 'BAJ'
+	    	elsif cargo.fecha_baja != nil
+	    		cargo.estado = 'BAJ'
 	    	end
 		
 		
@@ -191,7 +197,7 @@ def migrar_auxiliares
 # 	      res= client.query("select secuencia, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
 # select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 
- 		res= client.query("SELECT  secuencia as secMax, p.*  FROM padaux p where (p.fecha_alta > '2017-03-29' or p.fecha_baja> '2017-03-29' ) and p.escuela='"+params[:esc]+"' ")
+ 		res= client.query("SELECT  secuencia as secMax, p.*  FROM padaux p where (p.fecha_alta > '2017-01-01' or p.fecha_baja> '2017-01-01' ) and p.escuela='"+params[:esc]+"' ")
 
 	esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
 
@@ -246,6 +252,9 @@ def migrar_auxiliares
 	    		cargond.estado =  r['estado']
 	    	elsif cargond.fecha_baja != r['fecha_baja']
 	    		cargond.fecha_baja = r['fecha_baja']
+	    		cargond.estado = 'BAJ'
+	    	elsif cargond.fecha_baja != nil
+	    		cargond.estado = 'BAJ'
 	    	end
 		
 			cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
