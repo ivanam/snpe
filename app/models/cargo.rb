@@ -117,7 +117,7 @@ class Cargo < ActiveRecord::Base
 
   def sit_revista
     # Revisa si corresponde la sitacion revista
-    if self.estado != "LIC P/BAJ" 
+    if self.estado != "LIC P/BAJ" && self.estado != "LIC"
       if self.estado == "ALT"
 
         if !(Funcion.cargos_jerarquicos.include? self.cargo)
