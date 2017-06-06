@@ -44,9 +44,9 @@ class Cargo < ActiveRecord::Base
     if Funcion.cargos_jerarquicos.include? cargo
       #Controla cuando en caso de alta de un cargo jerarquico
       if Funcion::DIRECTOR_CATEGORIAS.include? cargo
-        cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :asc).limit(1) #miro los cargos de la misma categoria
+        cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :desc).limit(1) #miro los cargos de la misma categoria
       else
-        cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo), turno: self.turno).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :asc).limit(1) #miro los cargos de la misma categoria y turno
+        cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo), turno: self.turno).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :desc).limit(1) #miro los cargos de la misma categoria y turno
       end
       
       if cargos != []
@@ -76,7 +76,7 @@ class Cargo < ActiveRecord::Base
   def cargo_ocupado_primaria(establecimiento_id, cargo)
     if Funcion.cargos_jerarquicos.include? self.cargo
       #Controla cuando en caso de alta de un cargo jerarquico
-      cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :asc).limit(1) #miro los cargos de la misma categoria
+      cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :desc).limit(1) #miro los cargos de la misma categoria
       if cargos != []
         if cargos.where(estado: "ALT") != [] # si esta activo no se puede, cargo se encuentra ocupado
           errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
@@ -106,10 +106,10 @@ class Cargo < ActiveRecord::Base
     #Revisa si existe la persona en el establecimiento con un cargo jerarquico asignado
     #Cargo.find(self.cargo_id).update!(estado: estado)
     if self.estado != "LIC P/BAJ" && self.estado != "LIC"
-      if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id, estado: "ALT").where.not(id: self.id).order(fecha_alta: :asc).limit(1) != []
+      if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id, estado: "ALT").where.not(id: self.id).order(fecha_alta: :desc).limit(1) != []
         errors.add(:persona, "no puede tomar el cargo porque posee un cargo jerarquico")
       end
-      if (Funcion.cargos_jerarquicos.include? self.cargo) && (Cargo.where(establecimiento_id: self.establecimiento_id, persona_id: self.persona_id, estado: "ALT").where.not(id: self.id).order(fecha_alta: :asc).limit(1) != [])
+      if (Funcion.cargos_jerarquicos.include? self.cargo) && (Cargo.where(establecimiento_id: self.establecimiento_id, persona_id: self.persona_id, estado: "ALT").where.not(id: self.id).order(fecha_alta: :desc).limit(1) != [])
         errors.add(:persona, "ya posee otro cargo en la escuela")
       end
     end
@@ -122,7 +122,8 @@ class Cargo < ActiveRecord::Base
 
         if !(Funcion.cargos_jerarquicos.include? self.cargo)
           # Cargos jerarquicos
-          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, division: self.division, grupo_id: self.grupo_id).where.not(id: self.id).order(fecha_alta: :asc).limit(1)
+          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, division: self.division, grupo_id: self.grupo_id).where.not(id: self.id).order(fecha_alta: :desc).limit(1)
+          debugger
           if cargo_actuales != []
             if  cargo_actuales.where(estado: "ALT") != []
             # Existen cargos
@@ -131,6 +132,7 @@ class Cargo < ActiveRecord::Base
               if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
                 errors.add(:base, "No se puede dar de alta el cargo, ya se ocupado por " + cargo_actuales.where(estado: "LIC").first.persona.to_s + "que se encuentra de licencia")
               elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
+                debugger
                 errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
               end
             elsif cargo_actuales.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
