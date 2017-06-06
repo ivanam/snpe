@@ -117,12 +117,12 @@ class Cargo < ActiveRecord::Base
 
   def sit_revista
     # Revisa si corresponde la sitacion revista
-    if self.estado != "LIC P/BAJ" 
+    if self.estado != "LIC P/BAJ" && self.estado != "LIC"
       if self.estado == "ALT"
 
         if !(Funcion.cargos_jerarquicos.include? self.cargo)
           # Cargos jerarquicos
-          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, curso: self.curso, grupo_id: self.grupo_id).where.not(id: self.id)
+          cargo_actuales = Cargo.where(establecimiento_id: self.establecimiento_id, cargo: self.cargo, turno: self.turno, anio: self.anio, division: self.division, grupo_id: self.grupo_id).where.not(id: self.id)
           if cargo_actuales != []
             if  cargo_actuales.where(estado: "ALT") != []
             # Existen cargos
