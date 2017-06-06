@@ -11,9 +11,13 @@ class CargoNoDocente < ActiveRecord::Base
   validates :cargo, presence: true
   validates :situacion_revista, :presence => true
   
-  validate :cargo_existente
+  validate :cargo_existente, if: :no_es_licencia_para_baja
 
   before_update :dar_baja
+
+  def no_es_licencia_para_baja
+    self.estado != "LIC P/BAJ"
+  end
   
   def cargo_existente
      #Revisa si existe una persona en el cargo
