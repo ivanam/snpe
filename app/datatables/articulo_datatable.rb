@@ -3,12 +3,12 @@ class ArticuloDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['Articulo.codigo', 'Articulo.descripcion','Articulo.cantidad_maxima_dias','TipoArticulo.descripcion']
+    @sortable_columns ||= ['Articulo.codigo', 'Articulo.descripcion','Articulo.cantidad_maxima_dias','Articulo.con_goce', 'TipoArticulo.descripcion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['Articulo.codigo', 'Articulo.descripcion','Articulo.cantidad_maxima_dias','TipoArticulo.descripcion']
+    @searchable_columns ||= ['Articulo.codigo', 'Articulo.descripcion','Articulo.cantidad_maxima_dias','Articulo.con_goce', 'TipoArticulo.descripcion']
   end
 
   private
@@ -19,6 +19,7 @@ class ArticuloDatatable < AjaxDatatablesRails::Base
         record.codigo,
         record.descripcion,
         record.cantidad_maxima_dias,
+        (record.con_goce)? 'SI' : 'NO',
         record.tipo_articulo.descripcion,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

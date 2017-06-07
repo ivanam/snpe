@@ -12,6 +12,9 @@
   <dt>Cantidad máxima dias:</dt>
   <dd><%= @articulo.cantidad_maxima_dias %></dd>
 
+  <dt>Con goce:</dt>
+  <dd><%= (@articulo.con_goce)? 'SI' : 'NO'  %></dd>
+
   <dt>Tipo de artículo:</dt>
   <dd><%= @articulo.tipo_articulo.to_s %></dd>
 

@@ -11,6 +11,10 @@ class Funcion < ActiveRecord::Base
 
   MOT_CATEGORIAS = [ '313']
 
+  SECRETARIO_CATEGORIAS = [ '930', '116', '928', '929', '930', '952', '953']
+
+  BIBLIOTECARIO_CATEGORIAS = [ '113', '943', '954']
+
   def to_s
   	"#{ self.categoria }  -  #{self.descripcion}"
   end
@@ -36,6 +40,32 @@ class Funcion < ActiveRecord::Base
       jerarquicos << c
     end
     return jerarquicos
+  end
+
+  def self.cargos_especiales
+    especiales = []
+    DIRECTOR_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    VICEDIRECTOR_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    PEP_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    PRECEPTOR_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    MOT_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    SECRETARIO_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    BIBLIOTECARIO_CATEGORIAS.each do |c|
+      especiales << c
+    end
+    return especiales
   end
 
 

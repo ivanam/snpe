@@ -66,7 +66,24 @@ class Establecimiento < ActiveRecord::Base
     return Cargo.where(establecimiento_id: self.id, cargo: Funcion::VICEDIRECTOR_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
   end
 
+  def cargos_secretario
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::SECRETARIO_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
+  def cargos_bibliotecario
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::BIBLIOTECARIO_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
   def cargos_auxiliares
     return CargoNoDocente.where(establecimiento_id: self.id, estado: ['ALT', 'LIC', 'ART'] )
   end
+
+  def horas_activas
+    return AltasBajasHora.where(establecimiento_id: self.id, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
+  def cargos_activos
+    return Cargo.where(establecimiento_id: self.id, estado: ['ALT', 'LIC', 'ART'] ).where.not(cargo: Funcion.cargos_especiales)
+  end
+
 end

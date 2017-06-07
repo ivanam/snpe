@@ -69,7 +69,7 @@
 <script type="text/javascript">
   $(document).ready(function($) {
     $.fn.editable.defaults.mode = 'inline';
-    $('#tabla-personal')
+    tabla_asistencias = $('#tabla-personal')
     .dataTable({
       language : {"sUrl": "<%= asset_path('language.es.json') %>",},
       processing : true,
@@ -99,7 +99,10 @@
   });  
 
   $('#btn-ir').click(function(){
-    window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
+    //window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
+    tabla_asistencias.api().ajax.url('/soft/snpe/asistencias/personal_activo.json?anio='+$('#anio').val()+"&mes="+$('#select_mes').val());
+    // Recarga por ajax la tabla
+    tabla_asistencias.api().ajax.reload();
   });
  
   var mes = $("#select_mes").attr('value')

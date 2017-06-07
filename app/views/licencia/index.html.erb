@@ -136,7 +136,7 @@
         <%= text_field_tag 'input_fecha_fin', Date.today %>
         <hr/>
         <div class="row">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
         </div>
         <hr/>
         
@@ -167,7 +167,7 @@
         <%= text_field_tag 'input_fecha_fin2' , Date.today%>
         <hr/>
         <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
       </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>
@@ -196,7 +196,7 @@
         <%= text_field_tag 'input_fecha_fin4' , Date.today%>
         <hr/>
         <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos_no_docente" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos_no_docente" %>
         </div>
         <hr/>
         <div id="alerta-dias-cargo-no-docentes" class="alert alert-info"></div>
@@ -261,10 +261,21 @@
 <% end %>
 
 <script type="text/javascript">
+  $('#input_fecha_inicio').change(function(){
+    $('#input_fecha_fin').datepicker('option','minDate',$('#input_fecha_inicio').val());
+  });
+
+  $('#input_fecha_inicio2').change(function(){
+    $('#input_fecha_fin2').datepicker('option','minDate',$('#input_fecha_inicio2').val());
+  });
 
   $('#input_fecha_inicio3').change(function(){
     $('#input_fecha_fin3').datepicker('option','minDate',$('#input_fecha_inicio3').val());
-    });
+  });
+
+  $('#input_fecha_inicio4').change(function(){
+    $('#input_fecha_fin4').datepicker('option','minDate',$('#input_fecha_inicio4').val());
+  });
  
   var tabla_licencia = $('#tabla-licencium').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -419,9 +430,14 @@
       fecha_fin = $("#input_fecha_fin").val();
       articulo = $("#select_articulo_horas").val();
 
-       if (fecha_fin == null){
-       alert("Para finalizar la licencia la fecha de fin no puede estar vacia " + fecha_fin);
-       }  
+      if (fecha_inicio == ""){
+        alert("Debe seleccionar una fecha de inicio");
+        return; 
+      }  
+      if (articulo == ""){
+        alert("Debe seleccionar un Artículo");
+        return; 
+      }   
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_horas/'+id_horas+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -465,10 +481,14 @@
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
       articulo = $("#select_articulo_cargos").val();
-      debugger
-       if (fecha_fin == null){
-       alert("Para finalizar la licencia la fecha de fin no puede estar vacia " + fecha_fin);
-       }  
+      if (fecha_inicio == ""){
+        alert("Debe seleccionar una fecha de inicio");
+        return; 
+      }  
+      if (articulo == ""){
+        alert("Debe seleccionar un Artículo");
+        return; 
+      }   
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -511,6 +531,14 @@
       fecha_inicio = $("#input_fecha_inicio4").val();
       fecha_fin = $("#input_fecha_fin4").val();
       articulo = $("#select_articulo_cargos_no_docente").val();
+      if (fecha_inicio == ""){
+        alert("Debe seleccionar una fecha de inicio");
+        return; 
+      } 
+      if (articulo == ""){
+        alert("Debe seleccionar un Artículo");
+        return; 
+      }   
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/'+id_cargos_no_docentes+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
