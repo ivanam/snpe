@@ -8,6 +8,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Grupo</th>
@@ -19,6 +20,7 @@
       <% establecimiento_actual.cargos_director.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.grupo_id %></td>
@@ -40,6 +42,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Grupo</th>
@@ -51,6 +54,7 @@
       <% establecimiento_actual.cargos_vicedirector.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.grupo_id %></td>
@@ -70,6 +74,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Grupo</th>
@@ -81,6 +86,7 @@
       <% establecimiento_actual.cargos_secretario.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.grupo_id %></td>
@@ -100,6 +106,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Grupo</th>
@@ -111,6 +118,7 @@
       <% establecimiento_actual.cargos_bibliotecario.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.grupo_id %></td>
@@ -130,6 +138,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Curso/División</t>
@@ -142,6 +151,7 @@
       <% establecimiento_actual.cargos_activos.order(:turno, :curso, :division).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.curso_division %></td>
@@ -163,6 +173,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Plan/Materia</th>
       <th>Turno</th>
       <th>Curso/División</th>
@@ -176,6 +187,7 @@
       <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id).each do |h| %>
         <tr>
           <td><%= h.persona.to_s %></td>
+          <td><%= h.secuencia %></td>
           <td><%= h.plan_materia %></td>
           <td><%= h.turno %></td>
           <td><%= h.curso_division %></td>
@@ -199,6 +211,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Sit. Revista</th>
@@ -209,6 +222,7 @@
       <% establecimiento_actual.cargos_auxiliares.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td><%= d.secuencia %></td>
           <td><%= Cargosnd.find(d.cargo) %></td>
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
