@@ -60,6 +60,11 @@ class EstablecimientosController < ApplicationController
     return true
   end
 
+  def pof_excel
+    respond_to do |format|
+      format.xls
+    end
+  end
 
   private
     def set_establecimiento
