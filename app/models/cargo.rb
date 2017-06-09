@@ -31,7 +31,7 @@ class Cargo < ActiveRecord::Base
     #Revisa si existe una persona en el cargo
     if self.establecimiento.nivel_id.to_i == 1 # Inicial
       cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
-    elsif self.establecimiento.nivel_id.to_i == 2 && self.establecimiento.nivel_id.to_i == 7 && self.establecimiento.nivel_id.to_i == 8  # Primaria, Especial y hospitalaria
+    elsif self.establecimiento.nivel_id.to_i == 2 || self.establecimiento.nivel_id.to_i == 7 || self.establecimiento.nivel_id.to_i == 8  # Primaria, Especial y hospitalaria
       cargo_ocupado_primaria(self.establecimiento_id, self.cargo)
     elsif self.establecimiento.nivel_id.to_i == 3 # Secundaria
       cargo_ocupado_secundaria(self.establecimiento_id, self.cargo)
