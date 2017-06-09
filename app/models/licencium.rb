@@ -59,7 +59,7 @@ class Licencium < ActiveRecord::Base
 	 			if self.por_baja
 	 				cargo.update!(estado: "BLI")
 	 			else
-		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, curso: cargo.curso, division: cargo.division, establecimiento_id: cargo.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
+		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
 		 			if suplentes_activos == []
 		 				cargo.update!(estado: 'ALT')
 		 			else
