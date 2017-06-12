@@ -43,7 +43,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   #-------------------------------------
 
-  ANIO = ["0","1","2","3","4","5","6"]
+  ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
 
