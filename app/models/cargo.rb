@@ -76,19 +76,19 @@ class Cargo < ActiveRecord::Base
   def cargo_ocupado_primaria(establecimiento_id, cargo)
     if Funcion.cargos_jerarquicos.include? self.cargo
       #Controla cuando en caso de alta de un cargo jerarquico
-      cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :desc).limit(1) #miro los cargos de la misma categoria
-      if cargos != []
-        if cargos.where(estado: "ALT") != [] # si esta activo no se puede, cargo se encuentra ocupado
-          errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
-        elsif cargos.where(estado: "ART") != [] # se el cargo esta licenciado con goce, solamente puede ponerse suplente
+      cargos = Cargo.where(establecimiento_id: establecimiento_id, cargo: Funcion.cargos_equivalentes(cargo)).where.not(estado: 'BAJ').where.not(id: self.id).order(fecha_alta: :desc).take #miro los cargos de la misma categoria
+      if cargos != nil
+        if cargos.estado == "ALT" # si esta activo no se puede, cargo se encuentra ocupado
+          errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.persona.to_s)
+        elsif cargos.estado == "ART" # se el cargo esta licenciado con goce, solamente puede ponerse suplente
           if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
-            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.persona.to_s)
           elsif (self.situacion_revista == "1-3")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end
-        elsif cargos.where(estado: "LIC") != [] # se el cargo esta licenciado sin goce, solamente puede ponerse suplente
+        elsif cargos.estado == "LIC" # se el cargo esta licenciado sin goce, solamente puede ponerse suplente
           if (self.situacion_revista == "1-1") || (self.situacion_revista == "1-2")
-            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.first.persona.to_s)
+            errors.add(:base, self.persona.to_s + "no puede tomar el cargo ya se encuentra ocupado por" + cargos.persona.to_s)
           elsif (self.situacion_revista == "2-3") || (self.situacion_revista == "2-4") || (self.situacion_revista == "2-4")
             errors.add(:base, self.persona.to_s + "no puede tomar el cargo la situación de revista no corresponde")
           end

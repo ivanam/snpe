@@ -20,16 +20,20 @@ class Licencium < ActiveRecord::Base
 
  private
 
-	 def actualizar_estado
+	 def actualizar_estado(current_user)
 	 	if self.articulo.con_goce
 	 		estado = 'ART' #Cuando la licencia no debe ser informada a Economía
 	 	else 
 			estado = 'LIC' 		
 	 	end
 	 	if self.altas_bajas_hora_id != nil
-	 		AltasBajasHora.find(self.altas_bajas_hora_id).update(estado: estado)
+	 		AltasBajasHora.find(self.altas_bajas_hora_id).update!(estado: estado)
 	 	elsif self.cargo_id != nil
 	 		Cargo.find(self.cargo_id).update!(estado: estado)
+	 		# if estado == 'LIC'
+	 		# 	situacion_cargo = Estado.where(descripcion: "Modificado").first.id
+	 		# 	CargoEstado.create( cargo_id: self.id, estado_id: situacion_cargo, user_id: current_user.id)
+	 		# end
 	 	elsif self.cargo_no_docente_id != nil
 	 		CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
 	 	    # CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]

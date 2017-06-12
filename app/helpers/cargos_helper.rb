@@ -1,6 +1,6 @@
 module CargosHelper
   def cargos_nuevos_permitidos(mindate, maxdate)
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @cargos_ids = []
     @cargos.each do |c|
       if c.estado_actual == "Ingresado" || c.estado_actual == "Cancelado"
@@ -12,7 +12,7 @@ module CargosHelper
   end
 
   def cargos_notificados_permitidos(mindate, maxdate)
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @cargos_ids = []
     @cargos.each do |c|
       if c.estado_actual == "Notificado" || c.estado_actual == "Chequeado" || c.estado_actual == "Impreso"
