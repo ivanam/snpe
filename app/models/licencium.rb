@@ -20,7 +20,7 @@ class Licencium < ActiveRecord::Base
 
  private
 
-	 def actualizar_estado(current_user)
+	 def actualizar_estado
 	 	if self.articulo.con_goce
 	 		estado = 'ART' #Cuando la licencia no debe ser informada a Economía
 	 	else 
