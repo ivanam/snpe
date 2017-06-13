@@ -13,6 +13,7 @@
           <Cell><Data ss:Type="String">Grupo</Data></Cell>
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.cargos_director.each do |d| %>
@@ -22,6 +23,8 @@
             <Cell><Data ss:Type="String"><%= d.turno %></Data></Cell>
             <Cell><Data ss:Type="String"><%= d.grupo_id %></Data></Cell>
             <Cell><Data ss:Type="String"><%= d.estado %></Data></Cell>
+            <% licencia = Licencium.where(cargo_id: d.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(d.fecha_alta) %></Data></Cell>
         </Row>
         <% end %>
@@ -37,6 +40,7 @@
           <Cell><Data ss:Type="String">Grupo</Data></Cell>
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.cargos_vicedirector.each do |v| %>
@@ -48,6 +52,8 @@
             <Cell><Data ss:Type="String"><%= v.grupo_id %></Data></Cell>
             <Cell><Data ss:Type="String"><%= v.situacion_revista %></Data></Cell>
             <Cell><Data ss:Type="String"><%= v.estado %></Data></Cell>
+            <% licencia = Licencium.where(cargo_id: v.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(v.fecha_alta) %></Data></Cell>
         </Row>
         <% end %>
@@ -63,6 +69,7 @@
           <Cell><Data ss:Type="String">Grupo</Data></Cell>
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.cargos_secretario.each do |s| %>
@@ -74,6 +81,8 @@
             <Cell><Data ss:Type="String"><%= s.grupo_id %></Data></Cell>
             <Cell><Data ss:Type="String"><%= s.situacion_revista %></Data></Cell>
             <Cell><Data ss:Type="String"><%= s.estado %></Data></Cell>
+            <% licencia = Licencium.where(cargo_id: s.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s.fecha_alta) %></Data></Cell>
         </Row>
         <% end %>
@@ -89,6 +98,7 @@
           <Cell><Data ss:Type="String">Grupo</Data></Cell>
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.cargos_bibliotecario.each do |b| %>
@@ -100,6 +110,8 @@
             <Cell><Data ss:Type="String"><%= b.grupo_id %></Data></Cell>
             <Cell><Data ss:Type="String"><%= b.situacion_revista %></Data></Cell>
             <Cell><Data ss:Type="String"><%= b.estado %></Data></Cell>
+            <% licencia = Licencium.where(cargo_id: b.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(b.fecha_alta) %></Data></Cell>
         </Row>
         <% end %>
@@ -116,6 +128,7 @@
           <Cell><Data ss:Type="String">Grupo</Data></Cell>
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.cargos_activos.order(:turno, :curso, :division).each do |cd| %>
@@ -128,6 +141,8 @@
             <Cell><Data ss:Type="String"><%= cd.grupo_id %></Data></Cell>
             <Cell><Data ss:Type="String"><%= cd.situacion_revista %></Data></Cell>
             <Cell><Data ss:Type="String"><%= cd.estado %></Data></Cell>
+            <% licencia = Licencium.where(cargo_id: cd.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(cd.fecha_alta) %></Data></Cell>
         </Row>
         <% end %>
@@ -145,6 +160,7 @@
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Horas</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id).each do |h| %>
@@ -158,6 +174,8 @@
             <Cell><Data ss:Type="String"><%= h.situacion_revista %></Data></Cell>
             <Cell><Data ss:Type="String"><%= h.horas %></Data></Cell>
             <Cell><Data ss:Type="String"><%= h.estado %></Data></Cell>
+            <% licencia = Licencium.where(altas_bajas_hora_id: h.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(h.fecha_alta) %></Data></Cell>
         </Row>        
         <% end %>
@@ -172,6 +190,7 @@
           <Cell><Data ss:Type="String">Turno</Data></Cell>
           <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
           <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
           <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
         </Row>
         <% establecimiento_actual.cargos_auxiliares.each do |ca| %>
@@ -182,6 +201,8 @@
             <Cell><Data ss:Type="String"><%= ca.turno %></Data></Cell>
             <Cell><Data ss:Type="String"><%= ca.situacion_revista %></Data></Cell>
             <Cell><Data ss:Type="String"><%= ca.estado %></Data></Cell>
+            <% licencia = Licencium.where(cargo_no_docente_id: ca.id).last %>
+            <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
             <Cell><Data ss:Type="String"><%= Util.fecha_a_es(ca.fecha_alta) %></Data></Cell>
         </Row>
         <% end %>    

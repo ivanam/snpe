@@ -1,7 +1,5 @@
 <h1> Cargos</h1>
 
-
-
 <h3> Directores </h1>
 
 <div align="right">
@@ -22,7 +20,8 @@
       <th>Grupo</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_director.each do |d| %>
@@ -34,7 +33,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>
@@ -56,7 +57,8 @@
       <th>Grupo</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_vicedirector.each do |d| %>
@@ -68,7 +70,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>
@@ -88,7 +92,8 @@
       <th>Grupo</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_secretario.each do |d| %>
@@ -100,7 +105,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>
@@ -120,7 +127,8 @@
       <th>Grupo</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_bibliotecario.each do |d| %>
@@ -132,7 +140,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>
@@ -153,7 +163,8 @@
       <th>Grupo</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_activos.order(:turno, :curso, :division, :grupo_id, :fecha_alta).each do |d| %>
@@ -166,7 +177,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>
@@ -189,7 +202,8 @@
       <th>Sit. Revista</th>
       <th>Horas</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id).each do |h| %>
@@ -203,7 +217,9 @@
           <td><%= h.situacion_revista %></td>
           <td><%= h.horas%></td>
           <td><%= h.estado %></td>
-          <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+          <% licencia = Licencium.where(altas_bajas_hora_id: h.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(h.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>
@@ -224,7 +240,8 @@
       <th>Turno</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
-      <th>Fecha de alta</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_auxiliares.each do |d| %>
@@ -235,7 +252,9 @@
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <% licencia = Licencium.where(cargo_no_docente_id: d.id).last %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
         </tr>
       <% end %>  
     </tbody>

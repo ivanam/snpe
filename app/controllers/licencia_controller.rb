@@ -152,7 +152,7 @@ class LicenciaController < ApplicationController
     render json: 0
   end
    
-   def guardar_licencia_cargos_no_docentes
+  def guardar_licencia_cargos_no_docentes
     @licencia = Licencium.create!(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     if @licencia.save then
       render json: 0
