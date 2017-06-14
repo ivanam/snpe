@@ -2,6 +2,10 @@ ProyectoBase::Application.routes.draw do
   
   
 
+  resources :especialidads
+
+  resources :prestadors
+
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)

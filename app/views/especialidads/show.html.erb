@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h1>especialidad</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nombre:</dt>
+  <dd><%= @especialidad.nombre %></dd>
+
+  <br/><br/>
+  <%= link_to especialidads_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_especialidad_path(@especialidad), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to especialidad_path(@especialidad), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
