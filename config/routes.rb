@@ -46,6 +46,10 @@ ProyectoBase::Application.routes.draw do
 
     get "/titulo_personas/index", to: 'titulo_personas#index'   
 
+    resources :especialidads
+
+    resources :prestadors
+
     resources :articulos
 
     resources :funcions

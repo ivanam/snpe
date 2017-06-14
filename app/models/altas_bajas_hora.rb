@@ -16,7 +16,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :fecha_alta, :presence => true
   validates :situacion_revista, :presence => true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
-  #validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
+  validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
   validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
   validates :persona_id, :presence => true
@@ -29,15 +29,15 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   #Validates de persona en AltasBajas
-  #validates :persona_id,:nro_documento, presence: true
-  #validates :persona_id,:nombres, :presence => true
-  #validates :person_id,:apellidos, presence: true
-  #validates :person_id,:cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+  validates :persona_id,:nro_documento, presence: true
+  validates :persona_id,:nombres, :presence => true
+  validates :person_id,:apellidos, presence: true
+  validates :person_id,:cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
 
-  #validates :nro_documento, presence: true
-  #validates :nombres, presence: true
-  #validates :apellidos, presence: true
-  #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+  validates :nro_documento, presence: true
+  validates :nombres, presence: true
+  validates :apellidos, presence: true
+  validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
    before_save :actualizar_materia
    before_update :dar_baja
 
