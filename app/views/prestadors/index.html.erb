@@ -1,0 +1,36 @@
+<div class="page-header">
+  <%= link_to new_prestador_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Prestador
+  <% end %>
+  <h1>Listado de prestadors</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-prestador" class="table table-striped table-bordered table-hover" data-source = "<#= prestadors_path(format: :json) #>" >
+    <thead>
+      <tr>
+            <th>Nombre</th>
+            <th>Matricula</th>
+            <th>Especialidad</th>
+            <th>Especialidad</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-prestador').dataTable({
+        language : {"sUrl": "<#= asset_path('language.es.json') #>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-prestador').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

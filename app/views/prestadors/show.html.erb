@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>prestador</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nombre:</dt>
+  <dd><%= @prestador.nombre %></dd>
+
+  <dt>Matricula:</dt>
+  <dd><%= @prestador.matricula %></dd>
+
+  <dt>Especialidad:</dt>
+  <dd><%= @prestador.especialidad_id %></dd>
+
+  <dt>Especialidad:</dt>
+  <dd><%= @prestador.especialidad %></dd>
+
+  <br/><br/>
+  <%= link_to prestadors_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_prestador_path(@prestador), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to prestador_path(@prestador), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
