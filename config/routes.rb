@@ -344,6 +344,8 @@ ProyectoBase::Application.routes.draw do
 
     get "establecimiento/pof", to: "establecimientos#pof", as: :establecimiento_pof
 
+    get "establecimiento/pof_excel", to: "establecimientos#pof_excel", as: :establecimiento_pof_excel
+
     get "establecimiento/seleccionar/:id", to: "establecimientos#seleccionar", as: :establecimiento_seleccionar
 
     resources :estados

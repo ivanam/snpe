@@ -86,7 +86,6 @@ class LicenciaController < ApplicationController
        @rango3 = params["rango3"]
        @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
        @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
-       debugger
      end
     respond_to do |format|
       format.xls 
@@ -153,7 +152,7 @@ class LicenciaController < ApplicationController
     render json: 0
   end
    
-   def guardar_licencia_cargos_no_docentes
+  def guardar_licencia_cargos_no_docentes
     @licencia = Licencium.create!(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     if @licencia.save then
       render json: 0

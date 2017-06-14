@@ -27,9 +27,13 @@ class Licencium < ActiveRecord::Base
 			estado = 'LIC' 		
 	 	end
 	 	if self.altas_bajas_hora_id != nil
-	 		AltasBajasHora.find(self.altas_bajas_hora_id).update(estado: estado)
+	 		AltasBajasHora.find(self.altas_bajas_hora_id).update!(estado: estado)
 	 	elsif self.cargo_id != nil
 	 		Cargo.find(self.cargo_id).update!(estado: estado)
+	 		# if estado == 'LIC'
+	 		# 	situacion_cargo = Estado.where(descripcion: "Modificado").first.id
+	 		# 	CargoEstado.create( cargo_id: self.id, estado_id: situacion_cargo, user_id: current_user.id)
+	 		# end
 	 	elsif self.cargo_no_docente_id != nil
 	 		CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
 	 	    # CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]
@@ -59,7 +63,7 @@ class Licencium < ActiveRecord::Base
 	 			if self.por_baja
 	 				cargo.update!(estado: "BLI")
 	 			else
-		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, curso: cargo.curso, division: cargo.division, establecimiento_id: cargo.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  cargo.id.to_s )
+		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
 		 			if suplentes_activos == []
 		 				cargo.update!(estado: 'ALT')
 		 			else

@@ -13,7 +13,7 @@ class Persona < ActiveRecord::Base
   has_many :user
 
   def to_s
-  	"#{ self.apeynom } "
+  	"#{ self.apeynom } - #{self.nro_documento} "
   end
 
   def cargos_d_activos

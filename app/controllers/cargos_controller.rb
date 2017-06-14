@@ -216,6 +216,9 @@ class CargosController < ApplicationController
     elsif @cargo.estado_anterior == "Chequeado"
       @estado = Estado.where(descripcion: "Chequeado").first
       @cargo.update(alta_lote_impresion_id: nil)
+    elsif @cargo.estado_anterior == "Chequeado_Modificacion"
+      @estado = Estado.where(descripcion: "Chequeado_Modificacion").first
+      @cargo.update(alta_lote_impresion_id: nil)
     end
     CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
@@ -323,6 +326,21 @@ class CargosController < ApplicationController
         end
       else
         format.json { render json: {status: 'error', msj: "No se pudo chequear la baja"} }
+      end
+    end
+  end
+
+  def chequear_modificacion
+    respond_to do |format|
+      if Cargo.find(params["id"]).estado_actual == "Notificado_Modificacion"
+        @estado = Estado.where(descripcion: "Chequeado_Modificacion").first
+        if CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
+          format.json { render json: {status: 'ok', msj: "Modificación chequeada correctamente"} }
+        else
+          format.json { render json: {status: 'error', msj: "No se pudo chequear la modificación"} }
+        end
+      else
+        format.json { render json: {status: 'error', msj: "No se pudo chequear la modificación"} }
       end
     end
   end
