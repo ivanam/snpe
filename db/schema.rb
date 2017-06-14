@@ -260,8 +260,8 @@ ActiveRecord::Schema.define(version: 20170608150103) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
   end
@@ -425,6 +425,31 @@ ActiveRecord::Schema.define(version: 20170608150103) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string "apeynom"
+    t.string "descripcion"
+    t.date   "fecha_desde"
+    t.date   "fecha_hasta"
+    t.string "vigente"
+    t.string "nombre_establecimi"
+    t.string "codigo"
+    t.string "cargos"
+    t.string "estados cargnodoc"
+    t.string "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.string  "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
