@@ -2,10 +2,6 @@ ProyectoBase::Application.routes.draw do
   
   
 
-  resources :especialidads
-
-  resources :prestadors
-
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -49,6 +45,10 @@ ProyectoBase::Application.routes.draw do
     get "titulos/new", to: "titulos#new", as: :new_titulos 
 
     get "/titulo_personas/index", to: 'titulo_personas#index'   
+
+    resources :especialidads
+
+    resources :prestadors
 
     resources :articulos
 
