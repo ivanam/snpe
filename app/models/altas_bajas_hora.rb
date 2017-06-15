@@ -28,7 +28,7 @@ class AltasBajasHora < ActiveRecord::Base
   validate :validar_alta  
 
 
-  Validates de persona en AltasBajas
+  #Validates de persona en AltasBajas
   validates :persona_id,:nro_documento, presence: true
   validates :persona_id,:nombres, :presence => true
   validates :person_id,:apellidos, presence: true
