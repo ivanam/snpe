@@ -1,10 +1,7 @@
 ProyectoBase::Application.routes.draw do
   
   
-<<<<<<< HEAD
-=======
 
->>>>>>> 2f0d28b93f8bd1ae1c775dde65e3c0e7462f2370
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
