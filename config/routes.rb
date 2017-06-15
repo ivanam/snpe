@@ -379,8 +379,14 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_horas/:id_horas/:fecha_inicio(/:fecha_fin)/:articulo", to: "licencia#guardar_licencia_horas", as: :guardar_licencia_horas
     post "licencia/guardar_licencia_cargos/:id_cargos/:fecha_inicio(/:fecha_fin)/:articulo", to: "licencia#guardar_licencia_cargos", as: :guardar_licencia_cargos
     post "licencia/guardar_licencia_cargos_no_docentes/:id_cargos_no_docentes/:fecha_inicio(/:fecha_fin)/:articulo", to: "licencia#guardar_licencia_cargos_no_docentes", as: :guardar_licencia_cargos_no_docentes
-    post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin/:por_baja", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
+    post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)/:prestador", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
+
+    #----------------Prestadores y Especialidades----------------------
+
+        resources :especialidads
+
+    resources :prestadors
     
     #----------------Reportes--------------------------------------------------------
    
