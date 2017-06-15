@@ -161,10 +161,11 @@ class LicenciaController < ApplicationController
       end      
   end
 
-  def guardar_licencia_final
+  def guardar_licencia_final  
+    debugger  
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
-    if !@licencia.update(vigente: "Finalizada", por_baja: baja)
+    if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: params[:prestador])
       msg = @licencia.errors.full_messages.first
       msg = "No se puede cancelar la licencia. Posee suplente"
     else
@@ -227,6 +228,6 @@ class LicenciaController < ApplicationController
     end
 
     def licencium_params
-      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :observaciones)
+      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :prestador_id, :observaciones)
     end
 end
