@@ -432,6 +432,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
     @cargos.resolucion = params[:resolucion]
     @cargos.decreto = params[:decreto]
+    @cargos.situacion_revista = params[:cargo_no_docente][:situacion_revista]
     if @cargos.estado == "LIC" then
           if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
             @cargos.estado = params[:estado]

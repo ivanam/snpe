@@ -513,6 +513,7 @@ end
 
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
+    @cargos.situacion_revista = params[:cargo][:situacion_revista]
     if params[:materium_id] != "" then 
       @cargos.materium_id = params[:materium_id]
     end
