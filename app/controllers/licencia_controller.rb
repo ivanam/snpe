@@ -161,12 +161,11 @@ class LicenciaController < ApplicationController
       end      
   end
 
-  def guardar_licencia_final
+  def guardar_licencia_final  
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
-    debugger
-    if !@licencia.update(vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
+    if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede cancelar la licencia. Posee suplente"
     else
