@@ -227,7 +227,7 @@
         <%= check_box_tag 'por_baja' %>
         <br>
         <%= label_tag "Prestador que certifica la licencia: ", nil,  :class => "control-label" %>
-        <%= select_tag 'prestador', options_from_collection_for_select(Prestador.all, "id", "nombre"),:prompt => "Seleccionar Prestador",:class => "control-label"%>
+        <%= select_tag "prestador", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador"%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -264,6 +264,11 @@
 <% end %>
 
 <script type="text/javascript">
+
+  $(document).ready(function() {
+  $('select#prestador').select2();
+   });
+  
   $('#input_fecha_inicio').change(function(){
     $('#input_fecha_fin').datepicker('option','minDate',$('#input_fecha_inicio').val());
   });
