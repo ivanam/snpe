@@ -184,13 +184,13 @@
       tabla_licencia.api().ajax.reload();
     });
 
-       function getParams() {
+       function getParams1() {
         var params = '?rango=' + $('#daterange').val();
         return  params
        }
       
       $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias.xls' + getParams();
+       window.location.href = '/soft/snpe/licencias/listado_licencias.xls' + getParams1();
       })
 
 
@@ -241,13 +241,13 @@
       tabla_licencia_cargnds.api().ajax.reload();
       });
       
-      function getParams() {
+      function getParams2() {
         var params = '?rango2=' + $('#daterange2').val();
         return  params
       }
       
       $('#btn-filtrar2').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds.xls' + getParams();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds.xls' + getParams2();
       });
 
     moment.locale('es');
@@ -292,13 +292,13 @@
       tabla_licencia_crg.api().ajax.reload();
     });
    
-      function getParams() {
+      function getParams3() {
         var params = '?rango3=' + $('#daterange3').val();
         return  params
       }
       
       $('#btn-filtrar3').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_carg.xls' + getParams();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_carg.xls' + getParams3();
       })
 
   });
