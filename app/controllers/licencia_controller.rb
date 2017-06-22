@@ -46,7 +46,7 @@ class LicenciaController < ApplicationController
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
       @res = listado_de_licencias(@mindate, @maxdate)
-    else 
+    else
       @rango = params["rango"]
       @mindate, @maxdate = Util.max_min_periodo(@rango)
       @res = listado_de_licencias(@mindate, @maxdate)
