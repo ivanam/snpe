@@ -196,7 +196,7 @@
         <%= text_field_tag 'input_fecha_fin4' , Date.today%>
         <hr/>
         <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos_no_docente" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos_no_docente" %>
         </div>
         <hr/>
         <div id="alerta-dias-cargo-no-docentes" class="alert alert-info"></div>
@@ -268,7 +268,11 @@
   $(document).ready(function() {
   $('select#prestador').select2();
    });
-  
+
+  $(document).ready(function() {
+  $('select#select_articulo_cargos_no_docente').select2();
+   });
+
   $('#input_fecha_inicio').change(function(){
     $('#input_fecha_fin').datepicker('option','minDate',$('#input_fecha_inicio').val());
   });
