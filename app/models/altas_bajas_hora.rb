@@ -17,12 +17,12 @@ class AltasBajasHora < ActiveRecord::Base
   validates :situacion_revista, :presence => true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
   #validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
-  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
-  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
+  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja && :plan_con_validacion
+  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja && :plan_con_validacion
   validates :persona_id, :presence => true
-  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
-  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
-  validates :turno, :presence => true, if: :no_es_licencia_para_baja
+  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
+  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
+  validates :turno, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
 
   #Validación de alta
   validate :validar_alta  
@@ -38,17 +38,22 @@ class AltasBajasHora < ActiveRecord::Base
   #validates :nombres, presence: true
   #validates :apellidos, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-   before_save :actualizar_materia
-   before_update :dar_baja
+  before_save :actualizar_materia
+  before_update :dar_baja
 
   #-------------------------------------
 
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
-  ESTADOS = ["ALT","BAJ","LIC"]  
+  PLANES_SIN_VALIDACION = [122] #Listado de planes que no requieren validacion
+  #ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
 
   def no_es_licencia_para_baja
     self.estado != "LIC P/BAJ"
+  end
+
+  def plan_con_validacion
+    !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
   end
 
   #Método que valida el alta de un paquete de horas
@@ -57,9 +62,11 @@ class AltasBajasHora < ActiveRecord::Base
       if validar_situacion_revista
         validar_titular
         validar_interino
-        validar_reemplazante
-        validar_suplente
-      end
+        if plan_con_validacion
+          validar_reemplazante
+          validar_suplente
+        end
+      end      
     end
   end
 
