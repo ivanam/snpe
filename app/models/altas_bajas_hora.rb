@@ -60,9 +60,9 @@ class AltasBajasHora < ActiveRecord::Base
   def validar_alta 
     if self.estado == 'ALT'
       if validar_situacion_revista
-        validar_titular
-        validar_interino
         if plan_con_validacion
+          validar_titular
+          validar_interino
           validar_reemplazante
           validar_suplente
         end
