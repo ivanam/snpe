@@ -184,8 +184,7 @@
 
 
 function validateForm(){
-
-   if ($("#materium").val()==""){
+   if ($("#materium").val()=="" || $("#materium").val() == null){
     alert("No hay materia seleccionada.");
     return false;
    }
