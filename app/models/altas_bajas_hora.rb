@@ -16,7 +16,7 @@ class AltasBajasHora < ActiveRecord::Base
   validates :situacion_revista, :presence => true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
 
-  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número mayor o igual a 0" }, if: :no_es_licencia_para_baja
+  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número mayor o igual a 0" }, if: :no_es_licencia_para_baja && :plan_con_validacion
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja && :plan_con_validacion
   validates :persona_id, :presence => true
   validates :plan_id, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
