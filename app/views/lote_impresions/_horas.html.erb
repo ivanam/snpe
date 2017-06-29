@@ -6,6 +6,7 @@
 <table class="table table-bordered table-striped table-compact">
   <thead>
     <tr>
+      <th>Establecimiento</th>
       <th>TD</th>
       <th>N° doc.</th>
       <th>Sec.</th>
@@ -26,6 +27,7 @@
   <tbody>
     <% @lote_impresion.altas_bajas_horas.each do |h| %>
       <tr>
+        <td><%= c.establecimiento.to_s %></td>
         <td><%= h.persona.tipo_documento.codigo %></td>
         <td><%= h.persona.nro_documento %></td>
         <td><%= h.secuencia %></td>

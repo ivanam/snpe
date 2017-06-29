@@ -4,6 +4,7 @@
 <table class="table table-bordered table-striped">
   <thead>
     <tr>
+      <th>Establecimiento</th>
       <th>TD</th>
       <th>N° doc.</th>
       <th>Sec.</th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @lote_impresion.alta_cargo_no_docentes.each do |c| %>
       <tr>
+        <td><%= c.establecimiento.to_s %></td>
         <td><%= c.persona.tipo_documento.codigo %></td>
         <td><%= c.persona.nro_documento %></td>
         <td><%= c.secuencia %></td>
