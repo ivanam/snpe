@@ -88,10 +88,14 @@ class AltasBajasHora < ActiveRecord::Base
     if self.situacion_revista == '1-1'
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)
       if (alta_horas != nil)
-        if alta_horas.where(situacion_revista: "1-1").first
-          errors.add(:base,"Se quiere dar de alta un titular y ya existe uno.")                
-        elsif alta_horas.where(situacion_revista: "1-2").first == '1-2'
-          errors.add(:base,"Se quiere dar de alta un titular y ya existe interino.")                
+        titular = alta_horas.where(situacion_revista: "1-1").first
+        if titular
+          errors.add(:base,"Se quiere dar de alta un titular y ya existe uno. El titular en ese espacio curricular es #{titular.persona.to_s}")                
+        else
+          interino = alta_horas.where(situacion_revista: "1-2").first
+          if interino
+            errors.add(:base,"Se quiere dar de alta un titular y ya existe interino. El interino en ese espacio curricular es #{interino.persona.to_s}")                
+          end
         end
       end      
     end
@@ -103,10 +107,14 @@ class AltasBajasHora < ActiveRecord::Base
     if self.situacion_revista == '1-2'
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)      
       if (alta_horas != nil)
-        if alta_horas.where(situacion_revista: "1-2").first
-          errors.add(:base,"Se quiere dar de alta un interino y ya existe uno.")                
-        elsif alta_horas.where(situacion_revista: "1-1").first
-          errors.add(:base,"Se quiere dar de alta un interino y ya existe un titular.")                
+        interino = alta_horas.where(situacion_revista: "1-2").first
+        if interino
+          errors.add(:base,"Se quiere dar de alta un interino y ya existe uno. El interino en ese espacio curricular es #{interino.persona.to_s}")                
+        else
+          titular = alta_horas.where(situacion_revista: "1-1").first
+          if titular
+            errors.add(:base,"Se quiere dar de alta un interino y ya existe un titular. El titular en ese espacio curricular es #{titular.persona.to_s}")                
+          end
         end
       end  
     end
