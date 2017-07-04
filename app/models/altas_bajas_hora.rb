@@ -45,7 +45,6 @@ class AltasBajasHora < ActiveRecord::Base
 
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122] #Listado de planes que no requieren validacion
-  #ESTADOS = ["ALT","BAJ","LIC"]  
   LONGITUD_CODIGO = 4
 
   def no_es_licencia_para_baja
@@ -53,7 +52,11 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def plan_con_validacion
-    !PLANES_SIN_VALIDACION.include?(Plan.where(self.plan_id).first.codigo)
+    if self.plan_id != nil
+      return !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
+    else 
+      return true
+    end
   end
 
   #Método que valida el alta de un paquete de horas
