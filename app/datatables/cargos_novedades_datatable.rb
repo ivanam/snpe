@@ -14,6 +14,7 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
+        record.establecimiento.to_s,
         record.persona.nro_documento,
         record.persona.to_s,
         record.situacion_revista,
