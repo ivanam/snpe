@@ -19,8 +19,8 @@ class AltasBajasHora < ActiveRecord::Base
   validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número mayor o igual a 0" }, if: :no_es_licencia_para_baja && :plan_con_validacion
   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja && :plan_con_validacion
   validates :persona_id, :presence => true
-  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
-  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
+  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
   validates :turno, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
 
   #Validación de alta
@@ -53,7 +53,7 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def plan_con_validacion
-    !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
+    !PLANES_SIN_VALIDACION.include?(Plan.where(self.plan_id).first.codigo)
   end
 
   #Método que valida el alta de un paquete de horas
