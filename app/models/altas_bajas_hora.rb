@@ -55,7 +55,7 @@ class AltasBajasHora < ActiveRecord::Base
     if self.plan_id != nil
       return !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
     else 
-      return true
+      return true #Si aun no se ingreso plan, se requerien todas las validaciones
     end
   end
 
