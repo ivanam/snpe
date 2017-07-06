@@ -1,71 +1,86 @@
 <legend>Novedades de Cargos</legend>
 
-<legend>Altas</legend>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>TD</th>
-      <th>N° doc.</th>
-      <th>Sec.</th>
-      <th>Apellido y nombre</th>         
-      <th>Cu</th>
-      <th>Di</th>
-      <th>Tu</th>
-      <th>Sit. Rev</th>
-      <th>Fecha alta</th>
-      <th>Observaciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @lote_impresion.alta_cargos.each do |c| %>
-      <tr>
-        <td><%= c.persona.tipo_documento.codigo %></td>
-        <td><%= c.persona.nro_documento %></td>
-        <td><%= c.secuencia %></td>
-        <td><%= c.persona.to_s %></td>
-        <td><%= c.curso.to_s %></td>
-        <td><%= c.division.to_s %></td>
-        <td><%= c.turno.to_s %></td>
-        <td><%= c.situacion_revista %></td>
-        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
-        <td><%= c.observaciones %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<% establecimiento_ids = @lote_impresion.alta_cargos.map(&:establecimiento_id) %>
+<% @lote_impresion.baja_cargos.map(&:establecimiento_id).each do |id| %>
+  <% establecimiento_ids << id %>
+<% end %>
 
-<legend>Bajas</legend>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>TD</th>
-      <th>N° doc.</th>
-      <th>Sec.</th>
-      <th>Apellido y nombre</th>         
-      <th>Cu</th>
-      <th>Di</th>
-      <th>Tu</th>
-      <th>Sit. Rev</th>
-      <th>Fecha alta</th>
-      <td>Fecha baja</td>
-      <th>Observaciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @lote_impresion.baja_cargos.each do |c| %>
+<% Establecimiento.where(id: establecimiento_ids).each do |e| %>
+
+  <div class="page-header">
+    <h3>Escuela N° <%= e.to_s %></h3>
+  </div>
+
+  <legend>Altas</legend>
+  <table class="table table-bordered table-striped">
+    <thead>
       <tr>
-        <td><%= c.persona.tipo_documento.codigo %></td>
-        <td><%= c.persona.nro_documento %></td>
-        <td><%= c.secuencia %></td>
-        <td><%= c.persona.to_s %></td>
-        <td><%= c.curso.to_s %></td>
-        <td><%= c.division.to_s %></td>
-        <td><%= c.turno.to_s %></td>
-        <td><%= c.situacion_revista %></td>
-        <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
-        <td><%= Util.fecha_a_es(c.fecha_baja) %></td>
-        <td><%= c.observaciones %></td>
+        <th>TD</th>
+        <th>N° doc.</th>
+        <th>Sec.</th>
+        <th>Apellido y nombre</th>         
+        <th>Cu</th>
+        <th>Di</th>
+        <th>Tu</th>
+        <th>Sit. Rev</th>
+        <th>Fecha alta</th>
+        <th>Fecha baja</th>
+        <th>Observaciones</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @lote_impresion.alta_cargos.where(establecimiento_id: e.id).each do |c| %>   
+          <tr>
+            <td><%= c.persona.tipo_documento.codigo %></td>
+            <td><%= c.persona.nro_documento %></td>
+            <td><%= c.secuencia %></td>
+            <td><%= c.persona.to_s %></td>
+            <td><%= c.curso.to_s %></td>
+            <td><%= c.division.to_s %></td>
+            <td><%= c.turno.to_s %></td>
+            <td><%= c.situacion_revista %></td>
+            <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
+            <td><%= Util.fecha_a_es(c.fecha_baja) %></td>        
+            <td><%= c.observaciones %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <legend>Bajas</legend>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>TD</th>
+        <th>N° doc.</th>
+        <th>Sec.</th>
+        <th>Apellido y nombre</th>         
+        <th>Cu</th>
+        <th>Di</th>
+        <th>Tu</th>
+        <th>Sit. Rev</th>
+        <th>Fecha alta</th>
+        <th>Fecha baja</th>
+        <th>Observaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lote_impresion.baja_cargos.where(establecimiento_id: e.id).each do |c| %>   
+        <tr>
+          <td><%= c.persona.tipo_documento.codigo %></td>
+          <td><%= c.persona.nro_documento %></td>
+          <td><%= c.secuencia %></td>
+          <td><%= c.persona.to_s %></td>
+          <td><%= c.curso.to_s %></td>
+          <td><%= c.division.to_s %></td>
+          <td><%= c.turno.to_s %></td>
+          <td><%= c.situacion_revista %></td>
+          <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
+          <td><%= Util.fecha_a_es(c.fecha_baja) %></td>
+          <td><%= c.observaciones %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<% end %>

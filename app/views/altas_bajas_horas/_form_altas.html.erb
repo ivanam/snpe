@@ -148,44 +148,49 @@
 
   $("#plan").change(function(){
        var plan_id = parseInt($("#plan").val(),10);
-       var anio = parseInt($("#curso").val(),10);
-        $.ajax({
-          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
-          type: 'GET',
-        })
-        .done(function(data) {
-          $("#materium").empty();
-          if (data != null) {
-            $("#materium").append('<option value="">Materia</option>');
-            for (var i = 0; i < data.length; i++) {
-              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
-            };            
-          }
-        })
+       if ($("#curso").val() != "" )
+       {
+          var anio = parseInt($("#curso").val(),10);
+          $.ajax({
+            url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+            type: 'GET',
+          })
+          .done(function(data) {
+            $("#materium").empty();
+            if (data != null) {
+              $("#materium").append('<option value="">Materia</option>');
+              for (var i = 0; i < data.length; i++) {
+                $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+              };            
+            }
+          })
+        }
     });
 
   $("#curso").change(function(){
-       var plan_id = parseInt($("#plan").val(),10);
-       var anio = parseInt($("#curso").val(),10);
-        $.ajax({
-          url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
-          type: 'GET',
-        })
-        .done(function(data) {
-          $("#materium").empty();
-          if (data != null) {
-            $("#materium").append('<option value="">Materia</option>');
-            for (var i = 0; i < data.length; i++) {
-              $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
-            };            
-          }
-        })
+       var plan_id = parseInt($("#plan").val(),10);       
+       if ($("#curso").val() != "" )
+       {
+          var anio = parseInt($("#curso").val(),10);
+          $.ajax({
+            url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
+            type: 'GET',
+          })
+          .done(function(data) {
+            $("#materium").empty();
+            if (data != null) {
+              $("#materium").append('<option value="">Materia</option>');
+              for (var i = 0; i < data.length; i++) {
+                $("#materium").append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+              };            
+            }
+          })
+        }
     });
 
 
 function validateForm(){
-
-   if ($("#materium").val()==""){
+   if ($("#materium").val()=="" || $("#materium").val() == null){
     alert("No hay materia seleccionada.");
     return false;
    }

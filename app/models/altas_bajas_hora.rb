@@ -11,8 +11,8 @@ class AltasBajasHora < ActiveRecord::Base
 
   # validates_presence_of :persona
 
-
   #Validates from Silvio Andres "CHEQUEAR"
+<<<<<<< HEAD
    validates :fecha_alta, :presence => true
    validates :situacion_revista, :presence => true
    validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
@@ -23,43 +23,66 @@ class AltasBajasHora < ActiveRecord::Base
    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
    validates :turno, :presence => true, if: :no_es_licencia_para_baja
+=======
+  validates :fecha_alta, :presence => true
+  validates :situacion_revista, :presence => true
+  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
+
+  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número mayor o igual a 0" }, if: :no_es_licencia_para_baja && :plan_con_validacion
+  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja && :plan_con_validacion
+  validates :persona_id, :presence => true
+  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
+  validates :turno, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
+>>>>>>> 090fd57100dd7f6c488b153b0ee303a737f92199
 
   #Validación de alta
    validate :validar_alta  
 
+  before_save :actualizar_materia
+  before_update :dar_baja
 
+  #Validaciones Comentadas 28/06/2017
   #Validates de persona en AltasBajas
   #validates :persona_id,:nro_documento, presence: true
   #validates :persona_id,:nombres, :presence => true
   #validates :person_id,:apellidos, presence: true
   #validates :person_id,:cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-
   #validates :nro_documento, presence: true
   #validates :nombres, presence: true
   #validates :apellidos, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-   before_save :actualizar_materia
-   before_update :dar_baja
+  #validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true  
 
   #-------------------------------------
 
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
-  ESTADOS = ["ALT","BAJ","LIC"]  
+  PLANES_SIN_VALIDACION = [122] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
 
   def no_es_licencia_para_baja
     self.estado != "LIC P/BAJ"
   end
 
+  def plan_con_validacion
+    if self.plan_id != nil
+      return !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
+    else 
+      return true #Si aun no se ingreso plan, se requerien todas las validaciones
+    end
+  end
+
   #Método que valida el alta de un paquete de horas
   def validar_alta 
     if self.estado == 'ALT'
       if validar_situacion_revista
-        validar_titular
-        validar_interino
-        validar_reemplazante
-        validar_suplente
-      end
+        if plan_con_validacion
+          validar_titular
+          validar_interino
+          validar_reemplazante
+          validar_suplente
+        end
+      end      
     end
   end
 
@@ -81,10 +104,14 @@ class AltasBajasHora < ActiveRecord::Base
     if self.situacion_revista == '1-1'
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)
       if (alta_horas != nil)
-        if alta_horas.where(situacion_revista: "1-1").first
-          errors.add(:base,"Se quiere dar de alta un titular y ya existe uno.")                
-        elsif alta_horas.where(situacion_revista: "1-2").first == '1-2'
-          errors.add(:base,"Se quiere dar de alta un titular y ya existe interino.")                
+        titular = alta_horas.where(situacion_revista: "1-1").first
+        if titular
+          errors.add(:base,"Se quiere dar de alta un titular y ya existe uno. El titular en ese espacio curricular es #{titular.persona.to_s}")                
+        else
+          interino = alta_horas.where(situacion_revista: "1-2").first
+          if interino
+            errors.add(:base,"Se quiere dar de alta un titular y ya existe interino. El interino en ese espacio curricular es #{interino.persona.to_s}")                
+          end
         end
       end      
     end
@@ -96,10 +123,14 @@ class AltasBajasHora < ActiveRecord::Base
     if self.situacion_revista == '1-2'
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id)      
       if (alta_horas != nil)
-        if alta_horas.where(situacion_revista: "1-2").first
-          errors.add(:base,"Se quiere dar de alta un interino y ya existe uno.")                
-        elsif alta_horas.where(situacion_revista: "1-1").first
-          errors.add(:base,"Se quiere dar de alta un interino y ya existe un titular.")                
+        interino = alta_horas.where(situacion_revista: "1-2").first
+        if interino
+          errors.add(:base,"Se quiere dar de alta un interino y ya existe uno. El interino en ese espacio curricular es #{interino.persona.to_s}")                
+        else
+          titular = alta_horas.where(situacion_revista: "1-1").first
+          if titular
+            errors.add(:base,"Se quiere dar de alta un interino y ya existe un titular. El titular en ese espacio curricular es #{titular.persona.to_s}")                
+          end
         end
       end  
     end

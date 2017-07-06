@@ -167,10 +167,11 @@
 <script type="text/javascript">
 
 
-
   $("#plan").change(function(){
-       var plan_id = parseInt($("#plan").val(),10);
-       var anio = parseInt($("#curso").val(),10);
+      var plan_id = parseInt($("#plan").val(),10);
+      if ($("#curso").val() != "" )
+      {
+        var anio = parseInt($("#curso").val(),10);
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
           type: 'GET',
@@ -184,11 +185,14 @@
             };            
           }
         })
+      }
     });
 
   $("#curso").change(function(){
-       var plan_id = parseInt($("#plan").val(),10);
-       var anio = parseInt($("#curso").val(),10);
+      var plan_id = parseInt($("#plan").val(),10);
+      if ($("#curso").val() != "" )
+      {
+        var anio = parseInt($("#curso").val(),10);
         $.ajax({
           url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio,
           type: 'GET',
@@ -202,22 +206,25 @@
             };            
           }
         })
-    });
+      }
+  });
 
   $("#materium").change(function(){
     var materia_id = parseInt($("#materium").val(),10);
     var plan_id = parseInt($("#plan").val(),10);
-    var anio = parseInt($("#curso").val(),10);
-    $.ajax({
-          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
-          type: 'GET',
-        })
-        .done(function(data) {
-          if (data != null) {
-            $("#horas").val(data);
-          }
-        })
-
+    if ($("#curso").val() != "" )
+    {
+      var anio = parseInt($("#curso").val(),10);
+      $.ajax({
+        url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+        type: 'GET',
+      })
+      .done(function(data) {
+        if (data != null) {
+          $("#horas").val(data);
+        }
+      })
+    }
   });
 </script>
 

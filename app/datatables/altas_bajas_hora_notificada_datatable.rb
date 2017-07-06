@@ -16,7 +16,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.persona.nro_documento,
+        record.persona.nro_documento.to_s+' / '+record.persona.cuil.to_s,
         record.persona.to_s,
         record.situacion_revista,
         record.horas,        
@@ -26,6 +26,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.turno,
         record.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
         Util.fecha_a_es(record.fecha_alta),           
+        Util.fecha_a_es(record.fecha_baja),           
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_altas" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if (options[:rol] == "escuela") then
           if record.estado_actual == "Notificado" then
