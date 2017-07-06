@@ -27,7 +27,7 @@
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
   </div>
 
-  <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+  <% if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal) then %>
     <div class="panel panel-primary ">
       <div class="panel-heading">
         <h3 class="panel-title">

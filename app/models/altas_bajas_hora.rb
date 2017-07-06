@@ -9,9 +9,21 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :materium
   belongs_to :plan
 
-  validates_presence_of :persona
+  # validates_presence_of :persona
 
   #Validates from Silvio Andres "CHEQUEAR"
+<<<<<<< HEAD
+   validates :fecha_alta, :presence => true
+   validates :situacion_revista, :presence => true
+   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
+   validates :ciclo_carrera, length: { minimum: 1, maximum: 4}, numericality: { only_integer: true }#, allow_blank: true
+   validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
+   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
+   validates :persona_id, :presence => true
+   validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
+   validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
+   validates :turno, :presence => true, if: :no_es_licencia_para_baja
+=======
   validates :fecha_alta, :presence => true
   validates :situacion_revista, :presence => true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
@@ -22,9 +34,10 @@ class AltasBajasHora < ActiveRecord::Base
   validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
   validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
   validates :turno, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
+>>>>>>> 090fd57100dd7f6c488b153b0ee303a737f92199
 
   #Validación de alta
-  validate :validar_alta  
+   validate :validar_alta  
 
   before_save :actualizar_materia
   before_update :dar_baja
@@ -55,7 +68,7 @@ class AltasBajasHora < ActiveRecord::Base
     if self.plan_id != nil
       return !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
     else 
-      return true
+      return true #Si aun no se ingreso plan, se requerien todas las validaciones
     end
   end
 

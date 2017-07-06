@@ -404,10 +404,10 @@ class CargosController < ApplicationController
 
   def cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 2).last
-    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona)
+    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona, :establecimiento)
      if @lote != nil then
       if @lote.fecha_impresion == nil
-        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
+        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :establecimiento)
       end
     end
     respond_to do |format|

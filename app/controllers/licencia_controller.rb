@@ -222,6 +222,15 @@ class LicenciaController < ApplicationController
     render json:  @dias_disponibles
   end
 
+  def editar_licencias_cnds
+    @persona = CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona
+    if @persona.count > 0
+      if params["post"]["calle"] != nil
+        @persona.first.update(calle: params["post"]["calle"])
+      end
+    end  
+  end 
+
   private
     def set_licencium
       @licencium = Licencium.find(params[:id])
