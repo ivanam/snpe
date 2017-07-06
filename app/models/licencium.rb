@@ -53,7 +53,7 @@ class Licencium < ActiveRecord::Base
 		 				return false
 		 			end
 		 		end
-
+            
 	 		elsif self.cargo_id != nil
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja

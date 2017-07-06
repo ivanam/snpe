@@ -13,7 +13,7 @@
 	<legend class="legend-small">Modificacion de Horas</legend>  
 
 
-	<% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
+	<% if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal) then %>
 		<div class="panel panel-primary ">
 			<div class="panel-heading">
 				<h3 class="panel-title">
