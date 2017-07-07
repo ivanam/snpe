@@ -6,6 +6,11 @@
 <% end %>
 
 <% Establecimiento.where(id: establecimiento_ids).each do |e| %>
+  
+  <div class="page-header">
+    <h4><b>Impresión N° <%= @lote_impresion.id %></b></h4>
+    <h5>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h5>
+  </div>
 
   <div class="page-header">
     <h3>Escuela N° <%= e.to_s %></h3>
@@ -82,5 +87,10 @@
       <% end %>
     </tbody>
   </table>
+
+  <dt>Observaciones:</dt>
+  <dd><%= @lote_impresion.observaciones %></dd>
+
+  <div class="page-break"></div>
 
 <% end %>
