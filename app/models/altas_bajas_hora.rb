@@ -12,7 +12,6 @@ class AltasBajasHora < ActiveRecord::Base
   # validates_presence_of :persona
 
   #Validates from Silvio Andres "CHEQUEAR"
-<<<<<<< HEAD
    validates :fecha_alta, :presence => true
    validates :situacion_revista, :presence => true
    validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
@@ -23,18 +22,7 @@ class AltasBajasHora < ActiveRecord::Base
    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
    validates :turno, :presence => true, if: :no_es_licencia_para_baja
-=======
-  validates :fecha_alta, :presence => true
-  validates :situacion_revista, :presence => true
-  validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
 
-  validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número mayor o igual a 0" }, if: :no_es_licencia_para_baja && :plan_con_validacion
-  validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja && :plan_con_validacion
-  validates :persona_id, :presence => true
-  validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
-  validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
-  validates :turno, :presence => true, if: :no_es_licencia_para_baja && :plan_con_validacion
->>>>>>> 090fd57100dd7f6c488b153b0ee303a737f92199
 
   #Validación de alta
    validate :validar_alta  
