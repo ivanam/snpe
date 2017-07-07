@@ -11,7 +11,6 @@ class AltasBajasHora < ActiveRecord::Base
 
   # validates_presence_of :persona
 
-
   validates :fecha_alta, :presence => true
   validates :situacion_revista, :presence => true
   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }

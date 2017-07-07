@@ -272,3 +272,4 @@ class MigracionController < ApplicationController
 	end
 
 end
+
