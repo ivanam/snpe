@@ -390,6 +390,8 @@ ProyectoBase::Application.routes.draw do
 
     get "migrar/", to: 'migracion#migrar'
 
+    get "migracion/listado_a_informar", to: 'migracion#listado_a_informar', as: :migracion_listado_a_informar
+
     post "migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
 
     post "/migracion/migrar_auxiliares/:esc", to: 'migracion#migrar_auxiliares'
