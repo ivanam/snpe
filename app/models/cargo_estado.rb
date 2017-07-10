@@ -56,7 +56,12 @@ class CargoEstado < ActiveRecord::Base
               @resultado = "En cola de impresión"
             end
           end
-        end     
+        end
+        if Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id != nil
+          @resultado = @resultado + " en codigo N° " + Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id.to_s
+        elsif Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id != nil
+          @resultado = @resultado + " en codigo N° " + Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id.to_s
+        end   
 
      elsif @estado == "Notificado_Baja" then
        @resultado = "Baja notificada por " + User.find(self.user_id).email
