@@ -21,13 +21,57 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         else
           "Cargo no docente"
         end,
+
+        if record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).secuencia.to_s
+         elsif record.cargo_id != nil
+           Cargo.find(record.cargo_id).secuencia.to_s
+         else
+           CargoNoDocente.find(record.cargo_no_docente_id).secuencia.to_s
+         end,
+
+         if record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).turno.to_s
+         elsif record.cargo_id != nil
+           Cargo.find(record.cargo_id).turno.to_s
+         else
+           CargoNoDocente.find(record.cargo_no_docente_id).turno.to_s
+         end,
+         
+         if record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).ciclo_carrera.to_s
+         end,
+         
+         if record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).anio.to_s
+          elsif record.cargo_id != nil
+           Cargo.find(record.cargo_id).anio.to_s
+         end,
+
+         if record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).division.to_s
+         elsif record.cargo_id != nil
+           Cargo.find(record.cargo_id).division.to_s
+         end,
+
+         if record.cargo_id != nil
+           Cargo.find(record.cargo_id).curso.to_s
+         end,
+
+         if record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).grupo_id.to_s
+         elsif record.cargo_id != nil
+           Cargo.find(record.cargo_id).grupo_id.to_s
+         end,
+
         if record.altas_bajas_hora_id != nil  
           "Cantidad de horas: #{AltasBajasHora.find(record.altas_bajas_hora_id).cant_horas}"
         elsif record.cargo_id != nil
           Funcion.where(categoria: Cargo.find(record.cargo_id).cargo).first.to_s
-        else
-          Cargosnd.find(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).to_s
+        else  
+          Cargosnd.where(id: CargoNoDocente.find(record.cargo_no_docente_id).cargo).first.cargo_desc.to_s
         end,
+
         Util.fecha_a_es(record.fecha_desde),
         Util.fecha_a_es(record.fecha_hasta),
         record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",

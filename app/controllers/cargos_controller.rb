@@ -216,6 +216,9 @@ class CargosController < ApplicationController
     elsif @cargo.estado_anterior == "Chequeado"
       @estado = Estado.where(descripcion: "Chequeado").first
       @cargo.update(alta_lote_impresion_id: nil)
+    elsif @cargo.estado_anterior == "Chequeado_Modificacion"
+      @estado = Estado.where(descripcion: "Chequeado_Modificacion").first
+      @cargo.update(alta_lote_impresion_id: nil)
     end
     CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
@@ -327,6 +330,21 @@ class CargosController < ApplicationController
     end
   end
 
+  def chequear_modificacion
+    respond_to do |format|
+      if Cargo.find(params["id"]).estado_actual == "Notificado_Modificacion"
+        @estado = Estado.where(descripcion: "Chequeado_Modificacion").first
+        if CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
+          format.json { render json: {status: 'ok', msj: "Modificación chequeada correctamente"} }
+        else
+          format.json { render json: {status: 'error', msj: "No se pudo chequear la modificación"} }
+        end
+      else
+        format.json { render json: {status: 'error', msj: "No se pudo chequear la modificación"} }
+      end
+    end
+  end
+
   #------------------------------------------- FUNCIONES PARA DATATABLES ----------------------------------------------------------------------------
 
   def cargos_bajas
@@ -386,10 +404,10 @@ class CargosController < ApplicationController
 
   def cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 2).last
-    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona)
+    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona, :establecimiento)
      if @lote != nil then
       if @lote.fecha_impresion == nil
-        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona)
+        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :establecimiento)
       end
     end
     respond_to do |format|
@@ -495,6 +513,7 @@ end
 
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria
+    @cargos.situacion_revista = params[:cargo][:situacion_revista]
     if params[:materium_id] != "" then 
       @cargos.materium_id = params[:materium_id]
     end

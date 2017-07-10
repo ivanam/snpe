@@ -105,6 +105,13 @@
           <thead>
             <tr>
               <th>Tipo</th>
+              <th>Secuencia</th>
+              <th>Turno</th>
+              <th>Ciclo</th>
+              <th>Año</th>
+              <th>División</th>
+              <th>Curso</th>
+              <th>Grupo</th>
               <th>Descripción</th>
               <th style="width: 50px;">Fecha Desde</th>
               <th style="width: 50px;">Fecha Hasta</th>
@@ -136,7 +143,7 @@
         <%= text_field_tag 'input_fecha_fin', Date.today %>
         <hr/>
         <div class="row">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
         </div>
         <hr/>
         
@@ -167,7 +174,7 @@
         <%= text_field_tag 'input_fecha_fin2' , Date.today%>
         <hr/>
         <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
       </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>
@@ -225,6 +232,9 @@
         <%= text_field_tag 'input_fecha_fin3' %>
         <%= label_tag "Cierre por baja", nil,  :class => "control-label" %>
         <%= check_box_tag 'por_baja' %>
+        <br>
+        <%= label_tag "Prestador que certifica la licencia: ", nil,  :class => "control-label" %>
+        <%= select_tag "prestador", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador"%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -262,9 +272,29 @@
 
 <script type="text/javascript">
 
+  $(document).ready(function() {
+  $('select#prestador').select2();
+   });
+
+  $(document).ready(function() {
+  $('select#select_articulo_cargos_no_docente').select2();
+   });
+
+  $('#input_fecha_inicio').change(function(){
+    $('#input_fecha_fin').datepicker('option','minDate',$('#input_fecha_inicio').val());
+  });
+
+  $('#input_fecha_inicio2').change(function(){
+    $('#input_fecha_fin2').datepicker('option','minDate',$('#input_fecha_inicio2').val());
+  });
+
   $('#input_fecha_inicio3').change(function(){
     $('#input_fecha_fin3').datepicker('option','minDate',$('#input_fecha_inicio3').val());
-    });
+  });
+
+  $('#input_fecha_inicio4').change(function(){
+    $('#input_fecha_fin4').datepicker('option','minDate',$('#input_fecha_inicio4').val());
+  });
  
   var tabla_licencia = $('#tabla-licencium').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -419,9 +449,15 @@
       fecha_fin = $("#input_fecha_fin").val();
       articulo = $("#select_articulo_horas").val();
 
-       if (fecha_fin == null){
-       alert("Para finalizar la licencia la fecha de fin no puede estar vacia " + fecha_fin);
-       }  
+
+      if (fecha_inicio == ""){
+        alert("Debe seleccionar una fecha de inicio");
+        return; 
+      }  
+      if (articulo == ""){
+        alert("Debe seleccionar un Artículo");
+        return; 
+      }   
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_horas/'+id_horas+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -465,10 +501,14 @@
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
       articulo = $("#select_articulo_cargos").val();
-      debugger
-       if (fecha_fin == null){
-       alert("Para finalizar la licencia la fecha de fin no puede estar vacia " + fecha_fin);
-       }  
+      if (fecha_inicio == ""){
+        alert("Debe seleccionar una fecha de inicio");
+        return; 
+      }  
+      if (articulo == ""){
+        alert("Debe seleccionar un Artículo");
+        return; 
+      }   
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -511,6 +551,14 @@
       fecha_inicio = $("#input_fecha_inicio4").val();
       fecha_fin = $("#input_fecha_fin4").val();
       articulo = $("#select_articulo_cargos_no_docente").val();
+      if (fecha_inicio == ""){
+        alert("Debe seleccionar una fecha de inicio");
+        return; 
+      } 
+      if (articulo == ""){
+        alert("Debe seleccionar un Artículo");
+        return; 
+      }   
         
       $.ajax({
           url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/'+id_cargos_no_docentes+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo,
@@ -543,6 +591,7 @@
       id_lic = $(event.relatedTarget).attr('id_lic');
       $('#input_fecha_inicio3').val($(event.relatedTarget).attr('fecha_desde'));
       $("#input_fecha_fin3").val($(event.relatedTarget).attr('fecha_hasta'));
+      $("#prestador").val($(event.relatedTarget).attr('prestador'));
   });
 
   $('#modal_licencia_cargos').on('hidden.bs.modal', function (e) {
@@ -557,9 +606,10 @@
     fecha_inicio = $("#input_fecha_inicio3").val();
     fecha_fin = $("#input_fecha_fin3").val();
     por_baja = $("#por_baja:checked").val();
+    prestador = $("#prestador").val();
    
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja,
+      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/'+prestador,
       type: 'POST',
       })
     .done(function(data) {

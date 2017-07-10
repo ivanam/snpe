@@ -13,6 +13,12 @@
       <ul class="nav navbar-nav">
         <% if user_signed_in? then %>
           <li class="dropdown">
+            <%= link_to "http://www.chubut.edu.ar/preguntas/Preguntas_frecuentes_mnp.pdf" do %>
+              <span class="glyphicon glyphicon-question-sign"></span>
+              Preguntas frecuentes
+            <% end %>
+          </li>
+          <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-home"></span><% Establecimiento.where(:id => session[:establecimiento]).first() %> <b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li><%= link_to "Establecimientos", establecimientos_de_usuario_path,  :tabindex => "-1" %></li>
@@ -73,7 +79,9 @@
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos auxiliares</a>
                   <ul class="dropdown-menu">
+                    <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
                     <li><%=link_to "Altas", cargo_no_docentes_path, :tabindex => "-1"%></li>
+                    <% end %>
                     <li><%=link_to "Modificacion", cargo_no_docentes_modificacion_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", cargo_no_docentes_index_bajas_path, :tabindex => "-1"%></li>
                     <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>

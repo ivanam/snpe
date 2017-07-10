@@ -4,10 +4,10 @@
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
 <div align="right">
-  <%= link_to listado_licencias_path(format: :xls, rango: @rango), :target => "_blank", :class => 'btn btn-success' do %>
-      <span class="glyphicon glyphicon-download-alt"></span>
-      Descargar Licencias de Horas
-  <% end %>
+ <button id="btn-filtrar1" class="btn btn-success">
+ <span class="glyphicon glyphicon-download-alt"></span>
+     Descargar Licencias de Horas
+  </button>
 </div>
 
 <br/>
@@ -48,12 +48,11 @@
 </div>
 
 <div align="right">
-  <%= link_to listado_licencias_cnds_path(format: :xls, rango: @rango2), :target => "_blank", :class => 'btn btn-success' do %>
-      <span class="glyphicon glyphicon-download-alt"></span>
-      Descargar Licencias de Cargos Auxiliares
-  <% end %>
+ <button id="btn-filtrar2" class="btn btn-success">
+ <span class="glyphicon glyphicon-download-alt"></span>
+     Descargar Licencias de Cargos Auxiliares
+  </button>
 </div>
-
 
 <div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange2" /> </br></br>
@@ -91,12 +90,11 @@
 </div>
 
 <div align="right">
-  <%= link_to listado_licencias_carg_path(format: :xls, rango: @rango2), :target => "_blank", :class => 'btn btn-success' do %>
-      <span class="glyphicon glyphicon-download-alt"></span>
+ <button id="btn-filtrar3" class="btn btn-success">
+ <span class="glyphicon glyphicon-download-alt"></span>
       Descargar Licencias de Cargos
-  <% end %>
+  </button>
 </div>
-
 <div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange3" /> </br></br>
 </div>
@@ -137,6 +135,7 @@
   $(document).ready(function($) {
     //Define el idioma de combodate
     moment.locale('es');
+    $.fn.editable.defaults.mode = 'inline';
   	var tabla_licencia = $('#tabla-licencia').dataTable({
   	    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
   	    "scrollX": true,
@@ -144,7 +143,10 @@
   	    serverSide : true,
   	    ajax : $('#tabla-licencia').data('source'),
   	    pagingType: "simple",
-  	    retrieve: true,        
+  	    retrieve: true,
+        "initComplete": function(settings, json) {
+        $('.calle').editable();
+      },        
         columnDefs: [
               {
                   "targets": [ 6 ],
@@ -182,6 +184,15 @@
       tabla_licencia.api().ajax.reload();
     });
 
+       function getParams1() {
+        var params = '?rango=' + $('#daterange').val();
+        return  params
+       }
+      
+      $('#btn-filtrar1').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/listado_licencias.xls' + getParams1();
+      })
+
 
     moment.locale('es');
     var tabla_licencia_cargnds = $('#tabla-licencia-cnds').dataTable({
@@ -191,7 +202,10 @@
         serverSide : true,
         ajax : $('#tabla-licencia-cnds').data('source'),
         pagingType: "simple",
-        retrieve: true,        
+        retrieve: true,
+        "initComplete": function(settings, json) {
+        $('.calle').editable();
+        },                
         columnDefs: [
               {
                   "targets": [ 6 ],
@@ -200,7 +214,9 @@
               }
           ]
       });
-
+    // $('#tabla-licencia-cnds').on( 'draw.dt', function() {      
+    //   $('.calle').editable();
+    // });
     var date2 = new Date();
     $('#daterange2').daterangepicker({
       format: 'DD/MM/YYYY',
@@ -223,7 +239,16 @@
       tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds.json?rango2='+$('#daterange2').val());
       // Recarga por ajax la tabla
       tabla_licencia_cargnds.api().ajax.reload();
-    });
+      });
+      
+      function getParams2() {
+        var params = '?rango2=' + $('#daterange2').val();
+        return  params
+      }
+      
+      $('#btn-filtrar2').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds.xls' + getParams2();
+      });
 
     moment.locale('es');
     var tabla_licencia_crg = $('#tabla-licencia-cargos').dataTable({
@@ -258,7 +283,7 @@
         firstDay: 1
       }
     });
-
+ 
     // Evento del daterangepicker para filtrar por rangos
     $('#daterange3').on('apply.daterangepicker', function(ev, picker) {
       // Cambia la url agregando el campo rango como atributo
@@ -266,5 +291,15 @@
       // Recarga por ajax la tabla
       tabla_licencia_crg.api().ajax.reload();
     });
+   
+      function getParams3() {
+        var params = '?rango3=' + $('#daterange3').val();
+        return  params
+      }
+      
+      $('#btn-filtrar3').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/listado_licencias_carg.xls' + getParams3();
+      })
+
   });
 </script>

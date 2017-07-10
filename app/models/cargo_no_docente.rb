@@ -6,20 +6,24 @@ class CargoNoDocente < ActiveRecord::Base
   belongs_to :baja_lote_impresion
   has_many :estados, :class_name => 'CargoNoDocenteEstado', :foreign_key => 'cargo_no_docente_id', dependent: :destroy
 
-  validates :turno, presence: true
-  validates :fecha_alta, presence: true
-  validates :cargo, presence: true
-  validates :situacion_revista, :presence => true
+  # validates :turno, presence: true
+  # validates :fecha_alta, presence: true
+  # validates :cargo, presence: true
+  # validates :situacion_revista, :presence => true
   
-  validate :cargo_existente
+  # validate :cargo_existente, if: :no_es_licencia_para_baja
 
-  before_update :dar_baja
+  # before_update :dar_baja
+
+  def no_es_licencia_para_baja
+    self.estado != "LIC P/BAJ"
+  end
   
   def cargo_existente
      #Revisa si existe una persona en el cargo
      
    if self.estado == 'ALT'
-     cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).where.not(estado: 'BAJ').where.not(id: self.id).first
+     cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).where.not(estado: 'BAJ').where.not(estado: 'LIC P/BAJ').where.not(id: self.id).first
      if cargo_existe != nil
        errors.add(:base, "Esta persona ya posee un cargo auxiliar")
      end

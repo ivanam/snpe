@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170508125757) do
+ActiveRecord::Schema.define(version: 20170608150103) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -301,6 +301,15 @@ ActiveRecord::Schema.define(version: 20170508125757) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+=======
+  create_table "especialidads", force: true do |t|
+    t.string   "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+>>>>>>> 62f3cb791568cbe1f8bc4d1145b2ba227c60b635
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
@@ -412,6 +421,7 @@ ActiveRecord::Schema.define(version: 20170508125757) do
     t.text     "observaciones"
     t.string   "vigente"
     t.boolean  "por_baja"
+    t.integer  "prestador_id"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
@@ -419,6 +429,34 @@ ActiveRecord::Schema.define(version: 20170508125757) do
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
 
+<<<<<<< HEAD
+=======
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string "apeynom"
+    t.string "descripcion"
+    t.date   "fecha_desde"
+    t.date   "fecha_hasta"
+    t.string "vigente"
+    t.string "nombre_establecimi"
+    t.string "codigo"
+    t.string "cargos"
+    t.string "estados cargnodoc"
+    t.string "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.string  "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
+
+>>>>>>> 62f3cb791568cbe1f8bc4d1145b2ba227c60b635
   create_table "localidads", force: true do |t|
     t.string   "nombre"
     t.integer  "region_id"
@@ -530,6 +568,16 @@ ActiveRecord::Schema.define(version: 20170508125757) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "prestadors", force: true do |t|
+    t.string   "nombre"
+    t.string   "matricula"
+    t.integer  "especialidad_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "prestadors", ["especialidad_id"], name: "index_prestadors_on_especialidad_id", using: :btree
 
   create_table "primaria_cargos", force: true do |t|
     t.string   "descripcion"

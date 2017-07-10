@@ -1,16 +1,6 @@
 
 <dl class="dl-horizontal">
 
-<div class="page-header">
-  <h4><b>Impresión N° <%= @lote_impresion.id %></b></h4>
-  <h5>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h5>
-</div>
-
-<% @e = Establecimiento.find(session[:establecimiento])%>            
-<div class="page-header">
-  <h3>Escuela N° <%= @e.to_s %></h3>
-</div>
-
   <% if @lote_impresion.tipo_id == 1 %>
     <%= render 'horas' %>
   <% else %>
@@ -20,9 +10,6 @@
       <%= render 'cargos_no_docentes' %>
     <% end %>
   <% end %>
-
-  <dt>Observaciones:</dt>
-  <dd><%= @lote_impresion.observaciones %></dd>
 
   <br/>
 </dl>

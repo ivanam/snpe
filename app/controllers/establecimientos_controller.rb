@@ -2,7 +2,7 @@ class EstablecimientosController < ApplicationController
   before_action :set_establecimiento, only: [:show, :edit, :update, :destroy]
   load_and_authorize_resource
   
-  skip_authorize_resource :only => [:establecimientos_de_usuario, :seleccionar]
+  skip_authorize_resource :only => [:establecimientos_de_usuario, :seleccionar, :pof, :pof_excel]
   
   respond_to :html
 
@@ -60,6 +60,11 @@ class EstablecimientosController < ApplicationController
     return true
   end
 
+  def pof_excel
+    respond_to do |format|
+      format.xls
+    end
+  end
 
   private
     def set_establecimiento

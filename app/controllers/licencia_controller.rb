@@ -46,7 +46,7 @@ class LicenciaController < ApplicationController
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
       @res = listado_de_licencias(@mindate, @maxdate)
-    else 
+    else
       @rango = params["rango"]
       @mindate, @maxdate = Util.max_min_periodo(@rango)
       @res = listado_de_licencias(@mindate, @maxdate)
@@ -64,7 +64,7 @@ class LicenciaController < ApplicationController
        @mindate2 = Date.today.to_s
        @maxdate2 = Date.today.to_s
        @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
-     else 
+     else
        @rango2 = params["rango2"]
        @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
        @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
@@ -86,7 +86,6 @@ class LicenciaController < ApplicationController
        @rango3 = params["rango3"]
        @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
        @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
-       debugger
      end
     respond_to do |format|
       format.xls 
@@ -153,7 +152,7 @@ class LicenciaController < ApplicationController
     render json: 0
   end
    
-   def guardar_licencia_cargos_no_docentes
+  def guardar_licencia_cargos_no_docentes
     @licencia = Licencium.create!(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente")
     if @licencia.save then
       render json: 0
@@ -162,10 +161,11 @@ class LicenciaController < ApplicationController
       end      
   end
 
-  def guardar_licencia_final
+  def guardar_licencia_final  
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
-    if !@licencia.update(vigente: "Finalizada", por_baja: baja)
+    prestador = params[:prestador]
+    if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede cancelar la licencia. Posee suplente"
     else
@@ -222,12 +222,21 @@ class LicenciaController < ApplicationController
     render json:  @dias_disponibles
   end
 
+  def editar_licencias_cnds
+    @persona = CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona
+    if @persona.count > 0
+      if params["post"]["calle"] != nil
+        @persona.first.update(calle: params["post"]["calle"])
+      end
+    end  
+  end 
+
   private
     def set_licencium
       @licencium = Licencium.find(params[:id])
     end
 
     def licencium_params
-      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :observaciones)
+      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :prestador_id, :observaciones)
     end
 end

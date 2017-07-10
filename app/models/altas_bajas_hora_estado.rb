@@ -29,7 +29,12 @@ class AltasBajasHoraEstado < ActiveRecord::Base
             end
           end
         end     
-
+        if AltasBajasHora.where(:id => self.alta_baja_hora_id).first.lote_impresion_id != nil
+          @resultado = @resultado + " en codigo N° " + AltasBajasHora.where(:id => self.alta_baja_hora_id).first.lote_impresion_id.to_s
+        elsif AltasBajasHora.where(:id => self.alta_baja_hora_id).first.baja_lote_impresion_id != nil
+          @resultado = @resultado + " en codigo N° " + AltasBajasHora.where(:id => self.alta_baja_hora_id).first.baja_lote_impresion_id.to_s
+        end
+          
      elsif @estado == "Notificado_Baja" then
        @resultado = "Baja notificada por " + User.find(self.user_id).email
      

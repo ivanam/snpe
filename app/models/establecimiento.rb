@@ -74,6 +74,18 @@ class Establecimiento < ActiveRecord::Base
     return Cargo.where(establecimiento_id: self.id, cargo: Funcion::BIBLIOTECARIO_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
   end
 
+  def cargos_mot
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::MOT_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
+  def cargos_preceptor
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::PRECEPTOR_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
+  def cargos_pep
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::PEP_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
   def cargos_auxiliares
     return CargoNoDocente.where(establecimiento_id: self.id, estado: ['ALT', 'LIC', 'ART'] )
   end

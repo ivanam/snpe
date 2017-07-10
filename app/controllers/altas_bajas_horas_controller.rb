@@ -340,7 +340,7 @@ class AltasBajasHorasController < ApplicationController
    
     respond_to do |format|
       if @persona.save then       
-        if @altas_bajas_hora.save! then
+        if @altas_bajas_hora.save then
           format.html { redirect_to altas_bajas_horas_path, notice: 'Alta actualizada correctamente' }
           format.json { render action: 'show', status: :created, location: @altas_bajas_hora }
         else
@@ -385,6 +385,7 @@ class AltasBajasHorasController < ApplicationController
 
     @altas_bajas_horas.resolucion = params[:resolucion]
     @altas_bajas_horas.decreto = params[:decreto]
+    @altas_bajas_horas.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
     if @altas_bajas_horas.estado == "LIC" then
         if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
           @altas_bajas_horas.estado = params[:estado]

@@ -34,7 +34,7 @@
         </h3>
       </div>
       <div class="panel-body">
-      <div class="table-responsive">
+        <div class="table-responsive">
           <table id="tabla-altas_bajas_hora" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_path(format: :json, rango: params['rango']) %>">
             <thead>
               <tr>
@@ -74,18 +74,19 @@
       <table id="tabla-altas_bajas_hora_notificadas" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_notificadas_path(format: :json, rango: params['rango']) %>" >
         <thead>
             <tr>
-              <th>DNI</th>
+              <th style="width: 200px;">DNI/CUIT</th>
               <th style="width: 250px;">Apellido y nombre</th>
-              <th>Sit. Rev</th>
-              <th>Horas</th>              
-              <th>Ciclo</th>
-              <th>Curso</th>
-              <th>Div</th>
-              <th>Turno</th>
-              <th>Codif.</th>
-              <th>Fecha Alta</th>
-              <th>Notificaciones</th>
-              <th>Acciones</th>
+              <th style="width: 70px;">Sit. Rev</th>
+              <th style="width: 20px;">Horas</th>            
+              <th style="width: 20px;">Ciclo</th>
+              <th style="width: 20px;">Curso</th>
+              <th style="width: 20px;">Div</th>
+              <th style="width: 20px;">Turno</th>
+              <th style="width: 50px;">Codif.</th>
+              <th style="width: 100px;">Fecha Alta</th>
+              <th style="width: 100px;">Fecha Baja</th>
+              <th style="width: 100px;">Notificaciones</th>
+              <th style="width: 180px;">Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -158,24 +159,25 @@ $(document).ready(function($) {
   $("#materium").change(function(){
     var materia_id = parseInt($("#materium").val(),10);
     var plan_id = parseInt($("#plan").val(),10);
-    var anio = parseInt($("#curso").val(),10);
-
     var division = parseInt($("#division").val(),10);
-    
-    $.ajax({
-          url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
-          type: 'GET',
-        })
-        .done(function(data) {
-          if (data != null) {
-            $("#horas").val(data);
-          }
-        })
-        tabla_materia.api().ajax.url('/soft/snpe/altas_bajas_horas/cargo_por_materia/'+materia_id+'/'+plan_id+'/'+anio+'/'+division);
-        tabla_materia.api().ajax.reload();
-        $("#div_cargo_materia").show();
-        $("#cargo_materia").show();
-    });
+    var anio = parseInt($("#curso").val(),10);
+    if ($("#curso").val() != "" )
+    {
+      $.ajax({
+        url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio,
+        type: 'GET',
+      })
+      .done(function(data) {
+        if (data != null) {
+          $("#horas").val(data);
+        }
+      })
+      tabla_materia.api().ajax.url('/soft/snpe/altas_bajas_horas/cargo_por_materia/'+materia_id+'/'+plan_id+'/'+anio+'/'+division);
+      tabla_materia.api().ajax.reload();
+      $("#div_cargo_materia").show();
+      $("#cargo_materia").show();
+    }
+  });
 
   var tabla_altas_bajas = $('#tabla-altas_bajas_hora').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
@@ -240,7 +242,7 @@ $(document).ready(function($) {
     pagingType: "simple",
     columnDefs: [
             {
-                "targets": [ 10, 11 ],
+                "targets": [ 11, 12 ],
                 "searchable": false,
                 "orderable": false
             }
