@@ -5,15 +5,14 @@ class MigracionController < ApplicationController
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
- 	    res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate, secuencia union
- select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
+ 	    #res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate, secuencia union
+ 		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 	    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
-	   # res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+params[:esc]+"' and mes = 6 and anio = 2017")
-
-
+	    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+params[:esc]+"' and mes = 6 and anio = 2017 and fecha_alta > '2017-03-01'")
 
 	    esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
+		@listaAux = []
 
 	    for r in res
 
@@ -75,57 +74,44 @@ class MigracionController < ApplicationController
 	 
 	      	situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
 
-	      	#hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first
-	      	# if r['nume_docu'] == 29908891
-	      	# 	debugger
-	      	# end	
-	      	#listaAux = []
-	      	#if hora == nil then
-	    #   		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'] ).first != nil
-					# horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'] ).first
-	    #   			debugger
-	    #   			listaAux << horaSinSec 
-	    #   			horaSinSec.update(secuencia: r['secMax'])
-	    #   		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] ).first != nil
-	    #   			horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'] ,  fecha_alta: r['fecha_alta']).first
-	    #   			debugger
-	    #   			listaAux << horaSinSec
-	    #   			horaSinSec.update(secuencia: r['secMax'])
+	      	hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first	
+	      	
+	      	if hora == nil then
+	      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
+					horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
+	      			@listaAux << horaSinSec
+	      			horaSinSec.assign_attributes(secuencia: r['secMax'])
+	      			horaSinSec.save!
+	    		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: nil).first != nil
+	      			horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'] ,  fecha_alta: r['fecha_alta'], secuencia: nil).first
+	      			@listaAux << horaSinSec
+	       			horaSinSec.assign_attributes(secuencia: r['secMax'])
+	       			horaSinSec.save!
 
-	    #   		else
+	      		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first != nil
 	      			AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
-	      		#end
-	      # 	else
+	      		end
+	       	else
 
-	      # 		if hora.estado != 'ART'
+	      		if hora.estado != 'ART'
 
-			    # 	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-			    # 		hora.estado =  r['estado']
-			    # 	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-			    # 		hora.estado =  r['estado']
-			    # 	elsif hora.fecha_baja != r['fecha_baja']
-			    # 		hora.fecha_baja = r['fecha_baja']
-			    # 		hora.estado = 'BAJ'
-			    # 	elsif hora.fecha_baja != nil
-			    # 		hora.estado = 'BAJ'
-			    # 	end
-			    # end
+			     	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+			    		hora.estado =  r['estado']
+			    	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+			    		hora.estado =  r['estado']
+			     	elsif hora.fecha_baja != r['fecha_baja']
+			     		hora.fecha_baja = r['fecha_baja']
+			    		hora.estado = 'BAJ'
+			     	elsif hora.fecha_baja != nil
+			     		hora.estado = 'BAJ'
+			     	end
+			    end
 			
 			
-				# hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-				# hora.save      	
-		   # end	
+				hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+				hora.save      	
+		    end	
 		end
-
-		# respond_to do |format|
-	 #      format.html { redirect_to migracion_listado_a_informar_path(listaAux) }
-	 #      format.json { head :no_content } # 204 No Content
-  #   	end
-
-		respond_to do |format|
-	    	format.js { render nothing: true }
-	    end
-
 
 	end
 
@@ -134,6 +120,8 @@ class MigracionController < ApplicationController
 
 
 	def migrar_cargos
+
+		@listacargoSinSec = []
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 	 	res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
 	 select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"' and secuencia<88  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
@@ -187,45 +175,44 @@ class MigracionController < ApplicationController
        		situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
        
       	
-       #cargo = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first
+       		cargo = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first
 
-	   # if cargo == nil then
 
-    #   		if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria ).first != nil
-				# cargoSinSec = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria).first
-    #   			cargoSinSec.update(secuencia: r['secMax'])
-    #   		else
-       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
-   #    		end
-   #    	else
-   #    		if hora.estado != 'ART'
-		 #    	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-		 #    		cargo.estado =  r['estado']
-		 #    	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-		 #    		cargo.estado =  r['estado']
-		 #    	elsif cargo.fecha_baja != r['fecha_baja']
-		 #    		cargo.fecha_baja = r['fecha_baja']
-		 #    		cargo.estado = 'BAJ'
-		 #    	elsif cargo.fecha_baja != nil
-		 #    		cargo.estado = 'BAJ'
-		 #    	end
-			# end
+	   		if cargo == nil then
+
+	      		if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria, secuencia: nil, fecha_alta: r['fecha_alta'] ).first != nil
+					cargoSinSec = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria, secuencia: nil, fecha_alta: r['fecha_alta']).first
+	       			@listacargoSinSec << cargoSinSec
+	      			cargoSinSec.assign_attributes(secuencia: r['secMax'])
+	      			cargoSinSec.save!
+	       		elsif 
+	       			Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first != nil
+	       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+	       		end
+       		else
+   		   		if cargo.estado != 'ART'
+			     	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+			     		cargo.estado =  r['estado']
+			     	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+			     		cargo.estado =  r['estado']
+			     	elsif cargo.fecha_baja != r['fecha_baja']
+			     		cargo.fecha_baja = r['fecha_baja']
+			     		cargo.estado = 'BAJ'
+			     	elsif cargo.fecha_baja != nil
+			     		cargo.estado = 'BAJ'
+			     	end
+			 	end
 		
-			# cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-			# cargo.save      	
-	  #   end	
+			 cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+			 cargo.save      	
+	 	   end	
 
-
-		end
-
-		respond_to do |format|
-			format.js { render nothing: true }
 		end
 	end
 
 
-
 	def migrar_auxiliares
+		@listacargoNSinSec = []
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
  	  res = client.query("select secuencia, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union 
  select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
@@ -275,41 +262,40 @@ class MigracionController < ApplicationController
 		  situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
 
 
-       # cargond = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first
+          cargond = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first
 
 
 
-      	# if cargond == nil then
-    #   		if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id ).first != nil
-				# cargoSinSec = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id).first
-    #   			cargoSinSec.update(secuencia: r['secMax'])
-    #   		else
-
-	    		CargoNoDocente.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'],   estado:r['estado'])
-   #    		end
-   #    	else
-   #    		if hora.estado != 'ART'
-		 #    	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-		 #    		cargond.estado =  r['estado']
-		 #    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-		 #    		cargond.estado =  r['estado']
-		 #    	elsif cargond.fecha_baja != r['fecha_baja']
-		 #    		cargond.fecha_baja = r['fecha_baja']
-		 #    		cargond.estado = 'BAJ'
-		 #    	elsif cargond.fecha_baja != nil
-		 #    		cargond.estado = 'BAJ'
-		 #    	end
-		 #    end
+      	  if cargond == nil then
+	      		if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id, secuencia: nil, fecha_alta: r['fecha_alta']).first != nil
+					cargoNSinSec = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id, secuencia: nil, fecha_alta: r['fecha_alta']).first
+	     			@listacargoNSinSec << cargoNSinSec
+	      			cargoNSinSec.assign_attributes(secuencia: r['secMax'])
+	      			cargoNSinSec.save!
+	       		elsif 
+	       			CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: cargo_id ).first != nil
+					CargoNoDocente.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+      	  
+				end
+      	  else
+	      		if cargond.estado != 'ART'
+			    	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+			    		cargond.estado =  r['estado']
+			    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+			    		cargond.estado =  r['estado']
+			    	elsif cargond.fecha_baja != r['fecha_baja']
+			    		cargond.fecha_baja = r['fecha_baja']
+			    		cargond.estado = 'BAJ'
+			    	elsif cargond.fecha_baja != nil
+			    		cargond.estado = 'BAJ'
+			    	end
+		    	end
 		
 		
-			# cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-			# cargond.save      	
-	  #   end	
+			    cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+				cargond.save      	
+	      end	
 
-	  	end
-
-		respond_to do |format|
-	    	format.js { render nothing: true }
 	  	end
 
 	end

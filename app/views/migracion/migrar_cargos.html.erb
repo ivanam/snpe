@@ -1,0 +1,51 @@
+
+  <div class="page-header">
+      <h1>Listado a informar</h1>
+    </div>
+
+  <div class="table-responsive">
+  <table id="tabla" class="table table-striped table-bordered table-hover" >
+    <thead>
+      <tr>
+
+            <th>Establecimiento</th>
+            <th>DNI</th>
+            <th>Nombre y Apellido</th>
+            <th>Secuencia</th>
+            <th>Sit. Revista</th>
+            <th>Cargo</th>
+            <th>Curso</th>
+            <th>Division</th>
+            <th>Turno</th>
+            <th>Fecha de Alta</th>
+            <th>Fecha de Baja</th>
+            <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+
+   <% @listacargoSinSec.each do |b| %>
+      <% persona = Persona.where(id: b.persona_id).first
+      establecimiento = Establecimiento.where(id: b.establecimiento_id).first
+      cargo = Funcion.where(categoria: b.cargo).first
+      
+    %>
+   <tr>
+        <td><%= establecimiento.codigo_jurisdiccional %></td>
+        <td><%= persona.nro_documento %></td>
+        <td><%= persona.apeynom %></td>
+        <td><%= b.secuencia %></td>
+        <td><%= b.situacion_revista%></td>
+        <td><%= cargo.descripcion%></td>
+        <td><%= b.anio%></td>
+        <td><%= b.division%></td>
+        <td><%= b.turno%></td>
+        <td><%= b.fecha_alta%></td>
+        <td><%= b.fecha_baja%></td>
+        <td><%= b.estado%></td>
+
+    </tr>
+
+
+
+   <%end%>

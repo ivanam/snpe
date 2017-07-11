@@ -35,12 +35,8 @@
   $( "#boton" ).click( function() {
 
   var esc = parseInt($( "#esc" ).val());
-
-
-    $.ajax({
-      url: '/soft/snpe/migracion/migrar_hs/'+esc,
-      type: 'POST',
-    })
+  
+  window.location = "/soft/snpe/migracion/migrar_hs/"+ esc;
 
 });
 
@@ -48,11 +44,7 @@
 
   var esc = parseInt($( "#esc3" ).val());
 
-
-    $.ajax({
-      url: '/soft/snpe/migracion/migrar_auxiliares/'+esc,
-      type: 'POST',
-    })
+  window.location = '/soft/snpe/migracion/migrar_auxiliares/'+esc;
 
 });
 
@@ -61,10 +53,7 @@
   var esc = parseInt($( "#esc2" ).val());
 
 
-    $.ajax({
-      url: '/soft/snpe/migracion/migrar_cargos/'+esc,
-      type: 'POST',
-    })
+   window.location = '/soft/snpe/migracion/migrar_cargos/'+esc;
 
 });
   });

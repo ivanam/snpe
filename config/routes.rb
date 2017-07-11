@@ -400,15 +400,15 @@ ProyectoBase::Application.routes.draw do
     #----------------------------------------------------------------------------------------------------------------------------------  
     # Migraciones
 
-    post "/migracion/migrar_hs/:esc", to: 'migracion#migrar_hs'
+    get "/migracion/migrar_hs/:esc", to: 'migracion#migrar_hs'
 
     get "migrar/", to: 'migracion#migrar'
 
-    get "migracion/listado_a_informar", to: 'migracion#listado_a_informar', as: :migracion_listado_a_informar
+    get "migracion/listado_a_informar/", to: 'migracion#listado_a_informar', as: :migracion_listado_a_informar
 
-    post "migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
+    get "migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
 
-    post "/migracion/migrar_auxiliares/:esc", to: 'migracion#migrar_auxiliares'
+    get "/migracion/migrar_auxiliares/:esc", to: 'migracion#migrar_auxiliares'
 
 
 
