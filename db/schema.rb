@@ -301,12 +301,15 @@ ActiveRecord::Schema.define(version: 20170608150103) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD
+=======
   create_table "especialidads", force: true do |t|
     t.string   "nombre"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+>>>>>>> 62f3cb791568cbe1f8bc4d1145b2ba227c60b635
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
@@ -426,6 +429,34 @@ ActiveRecord::Schema.define(version: 20170608150103) do
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
 
+<<<<<<< HEAD
+=======
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string "apeynom"
+    t.string "descripcion"
+    t.date   "fecha_desde"
+    t.date   "fecha_hasta"
+    t.string "vigente"
+    t.string "nombre_establecimi"
+    t.string "codigo"
+    t.string "cargos"
+    t.string "estados cargnodoc"
+    t.string "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.string  "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
+
+>>>>>>> 62f3cb791568cbe1f8bc4d1145b2ba227c60b635
   create_table "localidads", force: true do |t|
     t.string   "nombre"
     t.integer  "region_id"

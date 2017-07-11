@@ -16,6 +16,7 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
+        record.id,
         Util.fecha_a_es(record.fecha_impresion),
         if record.tipo_id == 1
           'Horas'

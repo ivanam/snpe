@@ -12,3 +12,9 @@
  *= require jquery-ui/cupertino
  *= require migracion.css
 */
+
+.page-break {
+  display: block;
+  clear: both;
+  page-break-after: always;
+}

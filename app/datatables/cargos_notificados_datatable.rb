@@ -21,6 +21,7 @@ class CargosNotificadosDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         Util.fecha_a_es(record.fecha_alta),           
+        Util.fecha_a_es(record.fecha_baja),           
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_cargos" cargo-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if (options[:rol] == "escuela") then
           if record.estado_actual == "Notificado" then

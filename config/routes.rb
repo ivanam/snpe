@@ -382,6 +382,8 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)/:prestador", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
 
+    put "licencias/editar_licencias_cnds/:id", to: "licencias#editar_licencias_cnds", as: :editar_licencias_cnds
+
     #----------------Prestadores y Especialidades----------------------
 
         resources :especialidads
@@ -401,6 +403,8 @@ ProyectoBase::Application.routes.draw do
     post "/migracion/migrar_hs/:esc", to: 'migracion#migrar_hs'
 
     get "migrar/", to: 'migracion#migrar'
+
+    get "migracion/listado_a_informar", to: 'migracion#listado_a_informar', as: :migracion_listado_a_informar
 
     post "migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
 

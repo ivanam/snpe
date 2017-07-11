@@ -58,7 +58,8 @@ class ListadosLicenciaCargosndsDatatable < AjaxDatatablesRails::Base
             elsif record.cargo_id != nil
               Cargo.where(:id => record.cargo_id.to_i).first.persona.calle
             else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.calle
+              '<span class="calle" data-type="text" data-resource="post" data-name="calle" data-url="'+Rails.application.routes.url_helpers.editar_licencias_cnds_path(record.id.to_s)+'">'+CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.calle.to_s+'</span>'
+              #CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.calle
             end,
 
             if record.altas_bajas_hora_id != nil  

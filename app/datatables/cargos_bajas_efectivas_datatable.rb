@@ -41,9 +41,7 @@ class CargosBajasEfectivasDatatable < AjaxDatatablesRails::Base
           '</div></center>'
           end
         else
-          '<center><div class="btn-acciones">'+
-            '<a class="btn btn-sm"><span class="label label-success">Chequeada</span></a>'+
-          '</div></center>'
+          '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>'
         end,
       ]
     end
