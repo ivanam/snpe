@@ -22,6 +22,7 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         Util.fecha_a_es(record.fecha_alta),
+        Util.fecha_a_es(record.fecha_baja),
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if options[:tipo_tabla] == "novedades" then
           if (record.estado_actual != "Impreso") then

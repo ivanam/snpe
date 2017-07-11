@@ -13,13 +13,17 @@ class Cargo < ActiveRecord::Base
     validates :situacion_revista, presence: true
 
 
-    validate :sit_revista
+    validate :sit_revista, if: :no_es_baja
     validate :cargo_jerarquico
     validate :controlar_turno
 
    before_update :dar_baja
 
   #-----------------------------------------------------------------------------------------------------------
+
+  def no_es_baja
+    !(self.fecha_baja != nil and self.fecha_baja != '0000-00-00')
+  end
 
   def controlar_turno
     if (self.estado != "LIC" && self.estado != "LIC P/BAJ") && (self.turno == nil || self.turno == "" )
