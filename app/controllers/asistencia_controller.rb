@@ -324,7 +324,7 @@ class AsistenciaController < ApplicationController
 
 
   def editar_asistencia_cargo_no_docente
-    debugger
+
     anio = params["anio"]
     mes = params["mes"]
     @asistencia = Asistencium.where(altas_bajas_cargo_no_docente_id: params["id"], anio_periodo: anio, mes_periodo: mes)
