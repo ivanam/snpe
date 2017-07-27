@@ -429,8 +429,6 @@ ActiveRecord::Schema.define(version: 20170608150103) do
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
 
-<<<<<<< HEAD
-=======
   create_table "licenciasV", id: false, force: true do |t|
     t.string "apeynom"
     t.string "descripcion"
@@ -456,7 +454,6 @@ ActiveRecord::Schema.define(version: 20170608150103) do
     t.string  "codigo"
   end
 
->>>>>>> 62f3cb791568cbe1f8bc4d1145b2ba227c60b635
   create_table "localidads", force: true do |t|
     t.string   "nombre"
     t.integer  "region_id"

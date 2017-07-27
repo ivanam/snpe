@@ -1,27 +1,34 @@
 module LicenciaHelper
 
 	def cargos_persona_permitida(dni) #funcion de busqueda para licencias
+
 		if current_user.role? :escuela then
-			return Cargo.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento])
-	    else 
-			return Cargo.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT')	    	
-	    end
+      cargo_ids = Cargo.joins(:persona).where(personas: {nro_documento: dni}, :establecimiento_id => session[:establecimiento]).where("(estado = 'ALT' or estado = 'LIC')").map(&:id)
+    else 
+			cargo_ids = Cargo.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC')").map(&:id)
+    end
+    cargo_lic = Licencium.where(cargo_id: cargo_ids, vigente: "Vigente").map(&:cargo_id)
+    return Cargo.where(id: cargo_ids).where.not(id: cargo_lic)
 	end
   
 	def cargos_no_docente_persona_permitida(dni)
 		if current_user.role? :escuela then
-			return CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento]).includes(:establecimiento)
-	    else
-			return CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT').includes(:establecimiento)
-	    end	
+			cargo_nd_ids = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, :establecimiento_id => session[:establecimiento]).where("(estado = 'ALT' or estado = 'LIC')")
+    else
+			cargo_nd_ids = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC')")
+    end
+    cargo_nd_lic = Licencium.where(cargo_no_docente_id: cargo_nd_ids, vigente: "Vigente").map(&:cargo_no_docente_id)
+    return CargoNoDocente.where(id: cargo_nd_ids).where.not(id: cargo_nd_lic).includes(:establecimiento)
 	end
 
 	def horas_persona_permitida(dni)
 		if current_user.role? :escuela then
-			return AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT', :establecimiento_id => session[:establecimiento]).includes(:establecimiento, :materium)  
+			hora_ids = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}, :establecimiento_id => session[:establecimiento]).where("(estado = 'ALT' or estado = 'LIC')").map(&:id) #.includes(:establecimiento, :materium)  
 		else
-			return AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}, estado: 'ALT').includes(:establecimiento, :materium)  
-    	end
+			hora_ids = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC')").map(&:id) #.includes(:establecimiento, :materium)  
+    end
+    hora_lic = Licencium.where(altas_bajas_hora_id: hora_ids, vigente: "Vigente").map(&:altas_bajas_hora_id)
+    return AltasBajasHora.where(id: hora_ids).where.not(id: hora_lic).includes(:establecimiento, :materium)
 	end
 
 	def licencias(dni)
