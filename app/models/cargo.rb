@@ -8,16 +8,16 @@ class Cargo < ActiveRecord::Base
   has_many :estados, :class_name => 'CargoEstado', :foreign_key => 'cargo_id', dependent: :destroy
 
 
-    validates :fecha_alta, presence: true
-    validates :cargo, presence: true
-    validates :situacion_revista, presence: true
+#    validates :fecha_alta, presence: true
+#    validates :cargo, presence: true
+#    validates :situacion_revista, presence: true
 
 
-    validate :sit_revista
-    validate :cargo_jerarquico
-    validate :controlar_turno
+#    validate :sit_revista
+#    validate :cargo_jerarquico
+#    validate :controlar_turno
 
-   before_update :dar_baja
+#   before_update :dar_baja
 
   #-----------------------------------------------------------------------------------------------------------
 
