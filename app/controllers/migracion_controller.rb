@@ -9,7 +9,7 @@ class MigracionController < ApplicationController
  		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 	    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
-	    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+params[:esc]+"' and mes = 6 and anio = 2017  and secuencia<88 and fecha_alta > '2017-03-01'")
+	    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+params[:esc]+"' and mes = 7 and anio = 2017  and secuencia<88 and estado = 'ALT'")
 
 	    esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
 		@listaAux = []
@@ -77,11 +77,11 @@ class MigracionController < ApplicationController
 	      	hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first	
 	      	if hora == nil then
 	      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
-					horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
+							horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
 	      			@listaAux << horaSinSec
 	      			horaSinSec.assign_attributes(secuencia: r['secMax'])
 	      			horaSinSec.save!
-	    		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: nil).first != nil
+	    			elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: nil).first != nil
 	      			horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'] ,  fecha_alta: r['fecha_alta'], secuencia: nil).first
 	      			@listaAux << horaSinSec
 	       			horaSinSec.assign_attributes(secuencia: r['secMax'])
