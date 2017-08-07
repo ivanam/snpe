@@ -98,7 +98,11 @@
           <td><%= h.persona.nro_documento %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
-          <td><%= h.plan.codigo %></td>
+          <% if h.plan != nil %>
+            <td><%= h.plan.codigo %></td>
+          <% else %>
+            <td> </td>
+          <% end %>
           <td><%= h.ciclo_carrera %></td>
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
