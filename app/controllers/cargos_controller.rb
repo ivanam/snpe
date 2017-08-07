@@ -116,6 +116,7 @@ class CargosController < ApplicationController
   end
 
   def update
+    debugger
     @cargo.update(cargo_params)
     respond_with(@cargo)
   end
@@ -146,6 +147,7 @@ class CargosController < ApplicationController
   end
 
   def guardar_edicion
+    debugger
     @tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
@@ -164,7 +166,7 @@ class CargosController < ApplicationController
                                   fecha_nacimiento: @fecha_nacimiento})
     end
     @cargo = Cargo.find(params[:id])
-    @cargo.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo][:cargo], secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta],
+    @cargo.assign_attributes({ persona_id: @persona.id, cargo: params[:cargo][:cargo], secuencia: params[:cargo][:secuencia], fecha_alta: params[:cargo][:fecha_alta], fecha_baja: params[:cargo][:fecha_baja],
                               situacion_revista: params[:cargo][:situacion_revista], anio: params[:cargo][:anio], division: params[:cargo][:division],
                               turno: params[:cargo][:turno], grupo_id: params[:cargo][:grupo_id], observaciones: params[:cargo][:observaciones]})
     respond_to do |format|
