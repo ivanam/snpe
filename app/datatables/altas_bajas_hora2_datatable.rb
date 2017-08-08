@@ -25,10 +25,15 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
         record.horas,   
         if  record.ciclo_carrera.to_s == "60" then
          '<a style="color:red">''</a>'
-        else
-        '<a style="color:red">'+record.ciclo_carrera.to_s+'</a>'
+        elsif record.ciclo_carrera.to_s == "" then
+          if record.plan_id.to_s == "" then
+          '<a style="color:red">''</a>'
+          elsif record.plan_id.to_s != "" then
+            '<a style="color:red">'+Plan.where(id: record.plan_id).first.codigo.to_s+'</a>'
+          end
+        elsif record.ciclo_carrera.to_s != "" then
+             '<a style="color:red">'+ record.ciclo_carrera.to_s+ '</a>'         
         end,
-
         '<a style="color:red">'+record.anio.to_s+'</a>',
         '<a style="color:red">'+record.division.to_s+'</a>',
         '<a style="color:red">'+record.turno.to_s+'</a>',
