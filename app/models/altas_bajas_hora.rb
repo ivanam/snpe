@@ -25,7 +25,7 @@ class AltasBajasHora < ActiveRecord::Base
    validates :turno, :presence => true, if: :no_es_licencia_para_baja
 
   # #Validación de alta
-   validate :validar_alta  
+   validate :validar_alta 
 
 
    #Validates de persona en AltasBajas
