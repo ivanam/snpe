@@ -10,6 +10,8 @@ class Cargo < ActiveRecord::Base
   validates :fecha_alta, presence: true
   validates :cargo, presence: true
   validates :situacion_revista, presence: true
+  validates :anio, presence: true
+  validates :division, presence: true
 
 
   validate :sit_revista
