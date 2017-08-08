@@ -272,7 +272,7 @@
       <th>Fecha de alta</th>      
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_activos.order(:turno, :curso, :division, :grupo_id, :fecha_alta).each do |d| %>
+      <% establecimiento_actual.cargos_activos.order(:turno, :anio, :division, :grupo_id, :fecha_alta).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td><%= d.secuencia %></td>
