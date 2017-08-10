@@ -40,6 +40,9 @@
         <th>LP</th>
         <th>Observaciones</th>
       </tr>
+      <tr>  
+        <th></th>
+      </tr>
     </thead>
     <tbody>
       <% @lote_impresion.altas_bajas_horas.where(establecimiento_id: e.id).each do |h| %>
@@ -63,6 +66,7 @@
           <% else %>
             <td>&nbsp;</td>
           <% end %> 
+
           <td><%= h.observaciones %></td>
         </tr>
       <% end %>
@@ -90,6 +94,9 @@
         <th>LP</th>
         <th>Observaciones</th>
       </tr>
+      <tr>  
+        <th></th>
+      </tr>
     </thead>
     <tbody>
       <% @lote_impresion.impresion_bajas.where(establecimiento_id: e.id).each do |h| %>
@@ -98,7 +105,11 @@
           <td><%= h.persona.nro_documento %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
-          <td><%= h.plan.codigo %></td>
+          <% if h.plan != nil %>
+            <td><%= h.plan.codigo %></td>
+          <% else %>
+            <td> </td>
+          <% end %>
           <td><%= h.ciclo_carrera %></td>
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
