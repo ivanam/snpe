@@ -32,6 +32,7 @@
   </div>
   </div>
 
+
   <hr id="div_hr_cargos"/>
   <div id="div_cargos" class="panel panel-info">
     <div class="panel-heading">
@@ -313,6 +314,23 @@
 
   });
 
+  var tabla_personas = $('#tabla-persona').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-persona').data('source'),
+    pagingType: "simple",
+    retrieve: true,
+    columnDefs: [
+            {
+                "targets": [ 7 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+
+  });
+
   var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,
@@ -378,6 +396,7 @@
   $("#alerta-dias").hide();
   $("#alerta-dias-cargo").hide();
 
+
   var tabla_personal_activo = $('#tabla-personal-activo')
     .on('draw.dt', function () {
       $('.popup-fecha')
@@ -420,16 +439,19 @@
       $("#div_cargos_no_docentes").show();
       $("#div_hr_licencias").show();
       $("#div_licencias").show();
+      $("#div_personas").show();
+      $("#div_hr_personas").show();
       
       tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
       tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
       tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni);
       tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
-      
+
       tabla_horas_licencia.api().ajax.reload();
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
+      tabla_personas.api().ajax.reload();
     });
 
 
@@ -626,6 +648,13 @@
       };
     })
   });
+   $('#tabla-persona').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-persona').data('source'),
+        pagingType: "simple",
+      });
 
   $('#btn_cancelar').on('click', function () {
     $.ajax({

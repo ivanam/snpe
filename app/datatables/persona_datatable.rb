@@ -14,9 +14,13 @@ class PersonaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.nombres,
-        record.apellidos,
+        record.apeynom,
         record.nro_documento,
+        record.cuil,
+        record.calle,
+        record.nro_calle,
+        record.piso,
+        record.depto,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones
