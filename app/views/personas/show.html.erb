@@ -3,11 +3,8 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt>Nombres:</dt>
-  <dd><%= @persona.nombres %></dd>
-
-  <dt>Apellidos:</dt>
-  <dd><%= @persona.apellidos %></dd>
+  <dt>Nombres y Apellidos:</dt>
+  <dd><%= @persona.apeynom %></dd>
 
   <dt>Tipo documento:</dt>
   <dd><%= @persona.tipo_documento %></dd>
@@ -47,19 +44,26 @@
 
   <dt>Email:</dt>
   <dd><%= @persona.email %></dd>
-  
-
   <br/><br/>
-  <%= link_to personas_path, :class => 'btn btn-default' do %>
+
+  <%= link_to establecimiento_pof_path, :class => 'btn btn-primary' do%>
+   <span class="glyphicon glyphicon-share-alt"></span>
+   volver a la POF
+   <% end %>  
+  
+  <% if (current_user.role? :sadmin) then %>
+    <br/><br/>
+    <%= link_to personas_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
-  <% end %>
-  <%= link_to edit_persona_path(@persona), :class => 'btn btn-primary' do %>
+    <% end %>
+    <%= link_to edit_persona_path(@persona), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-pencil"></span>
     Editar
-  <% end %>
-  <%= link_to persona_path(@persona), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <% end %>
+    <%= link_to persona_path(@persona), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
     <span class="glyphicon glyphicon-trash"></span>
     Eliminar
-  <% end %>
+    <% end %>
+  <% end %>   
 </dl>

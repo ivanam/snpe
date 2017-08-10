@@ -120,6 +120,7 @@ class LicenciaController < ApplicationController
     end
   end
 
+
   def cargos_no_docentes_licencia_permitida
     @dni=params[:dni]
     respond_to do |format|

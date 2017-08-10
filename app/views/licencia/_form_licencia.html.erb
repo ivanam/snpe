@@ -20,6 +20,8 @@
         <%= label_tag 'cuil', "", {:id => "label_cuil"} %><br/>
         <%= label_tag 'apellidos', "", {:id => "label_apellidos", :placeholder => "Apellido/s"} %><br/>
         <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %><br/>
+        <%= label_tag 'Datos_Domicilio', "",{:id => "Datos_Domicilio"} %><br/>
+        <%= label_tag 'calle', "", {:id => "label_calle"} %><br/>
       </div>
     </div>
   </div>
@@ -53,6 +55,7 @@
 
  <script type="text/javascript">
   $("#input_dni2").keyup(function(e){
+        
        if(e.which == 13){//Enter key pressed
         $('#btn_buscar_persona').click();//Trigger search button click event
        }
@@ -65,11 +68,15 @@
           })
           .done(function(data) {            
             if (data != null) { 
+                
               $("#datos_persona").show();           
               $("#label_nombres").text(data.nombres);
               $("#label_apellidos").text('Apellido y nombre: '+data.apeynom);
               $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
+              $("#label_calle").text('Calle: '+data.calle);
               $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+              $("#label_calle").text('Calle: '+data.calle);
+              $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
             }
             else{
               //alert("La persona no existe. Por favor cargue sus datos");
@@ -77,6 +84,8 @@
               $("#label_nombres").text("");
               $("#label_apellidos").text("");
               $("#label_cuil").text("");
+              $("#label_calle").text("");
+              $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
               $("#datepicker3").text("");
             }
           })
