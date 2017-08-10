@@ -32,6 +32,9 @@ class Ability
         can :guardar_edicion2, [CargoNoDocente]
         can :buscar_cuil, [CargoNoDocente]
         can :guardar_edicion, [CargoNoDocente]
+        can :read, [Persona]
+        can :edit, [Persona]
+        can :update, [Persona]
       end
 
       if user.role? :personal

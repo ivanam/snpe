@@ -14,6 +14,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -21,12 +22,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>      
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_director.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -35,7 +38,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>  
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>             
         </tr>
       <% end %>  
     </tbody>
@@ -51,6 +60,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -58,12 +68,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_vicedirector.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -72,7 +84,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>          
         </tr>
       <% end %>  
     </tbody>
@@ -86,6 +104,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -93,12 +112,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_secretario.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -107,7 +128,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>   
         </tr>
       <% end %>  
     </tbody>
@@ -121,6 +148,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -128,12 +156,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_bibliotecario.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -142,7 +172,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td> 
         </tr>
       <% end %>  
     </tbody>
@@ -156,6 +192,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -163,12 +200,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>        
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_preceptor.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -177,7 +216,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td> 
         </tr>
       <% end %>  
     </tbody>
@@ -191,6 +236,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -198,12 +244,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_mot.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -212,7 +260,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td> 
         </tr>
       <% end %>  
     </tbody>
@@ -226,6 +280,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -233,12 +288,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_pep.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -247,7 +304,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+           <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>
         </tr>
       <% end %>  
     </tbody>
@@ -261,6 +324,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
@@ -269,12 +333,14 @@
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_activos.order(:turno, :curso, :division, :grupo_id, :fecha_alta).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
@@ -284,7 +350,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>
         </tr>
       <% end %>  
     </tbody>
@@ -299,6 +371,7 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Plan/Materia</th>
       <th>Turno</th>
@@ -308,12 +381,14 @@
       <th>Horas</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>        
     </thead>
     <tbody>
       <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id).each do |h| %>
         <tr>
           <td><%= h.persona.to_s %></td>
+          <td style="display:none;" ><%= h.persona.id %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.plan_materia %></td>
           <td><%= h.turno %></td>
@@ -324,7 +399,13 @@
           <td><%= h.estado %></td>
           <% licencia = Licencium.where(altas_bajas_hora_id: h.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(h.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+h.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>
         </tr>
       <% end %>  
     </tbody>
@@ -340,18 +421,21 @@
   <table class="table table-striped table-bordered table-hover" >
     <thead>
       <th>Agente</th>
+      <th style="display:none;" >id persona</th>
       <th>Secuencia</th>
       <th>Cargo</th>
       <th>Turno</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
-      <th>Fecha de alta</th>      
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
     </thead>
     <tbody>
       <% establecimiento_actual.cargos_auxiliares.each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
           <td><%= d.secuencia %></td>
           <td><%= Cargosnd.find(d.cargo) %></td>
           <td><%= d.turno %></td>
@@ -359,7 +443,13 @@
           <td><%= d.estado %></td>
           <% licencia = Licencium.where(cargo_no_docente_id: d.id).last %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
-          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>          
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>
         </tr>
       <% end %>  
     </tbody>
