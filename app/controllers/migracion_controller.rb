@@ -186,8 +186,9 @@ class MigracionController < ApplicationController
 		  		cargo_concat=  r['agrup_r'].to_s+ r['cargo_r'].to_s
 		  	end
 
-
-       		categoria = Funcion.where(:categoria => cargo_concat).first.categoria
+		  	if Funcion.where(:categoria => cargo_concat).first != nil
+       		  categoria = Funcion.where(:categoria => cargo_concat).first.categoria
+       		end
        		situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
        
       	
