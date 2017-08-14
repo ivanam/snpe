@@ -272,8 +272,9 @@ class MigracionController < ApplicationController
 				end
 			end
 
-
+		  if Cargosnd.where(:cargo_agrup => r['agrup_r'], :cargo_cod => r['cargo_r'], :cargo_categ => r['categ_r']).first != nil
 		  cargo_id = Cargosnd.where(:cargo_agrup => r['agrup_r'], :cargo_cod => r['cargo_r'], :cargo_categ => r['categ_r']).first.id
+		end
 
 		      	
 		  situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
