@@ -91,5 +91,5 @@ module LicenciaHelper
 		end
 		return @licenciasCnds
         #Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta >= ?', maxdate2)
-	end  	
+	end	
 end

@@ -30,6 +30,9 @@ class PersonasController < ApplicationController
      respond_with(@persona)
   end
 
+  def editar_persona
+  end
+
   def update
     @persona.update(persona_params)
     respond_with(@persona)
