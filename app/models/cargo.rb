@@ -13,12 +13,12 @@ class Cargo < ActiveRecord::Base
   validates :anio, presence: true
   validates :division, presence: true
 
-
   validate :sit_revista
   validate :cargo_jerarquico
   validate :controlar_turno
 
   before_update :dar_baja
+
 
   #-----------------------------------------------------------------------------------------------------------
 

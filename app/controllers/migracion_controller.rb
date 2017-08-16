@@ -5,11 +5,27 @@ class MigracionController < ApplicationController
 	def migrar_hs
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
- 	    #res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, materia, horas_cate, secuencia union
- 		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
+ 	    res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' and secuencia<88 group by  nume_docu, materia, horas_cate, secuencia union
+ 		select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 	    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
-	    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+params[:esc]+"' and mes = 7 and anio = 2017  and secuencia<88 and estado = 'ALT'")
+	    #res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+params[:esc]+"' and mes = 7 and anio = 2017  and secuencia<88 and estado = 'ALT'")
+
+	    # res=client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and (secuencia=73 or secuencia= 74 or secuencia= 72 or secuencia= 75 or secuencia=76) union 
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=79 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=80 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21806498 and secuencia=15 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=1 union 
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and (secuencia=72 or secuencia=73 or secuencia=74) union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=29493795 and (secuencia=57 or secuencia = 58 )union 
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=2 union 
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and secuencia=76 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and secuencia=76 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=23923916 and secuencia=57 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=20858349 and secuencia=60 union 
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=20858349 and secuencia=61 union
+					# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=20858349 and secuencia=62")
+
 
 	    esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
 		@listaAux = []
@@ -76,6 +92,10 @@ class MigracionController < ApplicationController
 
 	      	hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first	
 	      	if hora == nil then
+
+	      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first != nil
+	       			debugger 
+	       		end
 	      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
 							horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
 	      			@listaAux << horaSinSec
@@ -87,29 +107,32 @@ class MigracionController < ApplicationController
 	       			horaSinSec.assign_attributes(secuencia: r['secMax'])
 	       			horaSinSec.save!
 
+
 	      		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first == nil
 	      			AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 	      		end
-	       	else
 
-	      		if hora.estado != 'ART'
+	      		##################COMENTAR PARA MIGRAR TODOOOOOO
+	   #     	else
 
-			     	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-			    		hora.estado =  r['estado']
-			    	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-			    		hora.estado =  r['estado']
-			     	elsif hora.fecha_baja != r['fecha_baja']
-			     		hora.fecha_baja = r['fecha_baja']
-			    		hora.estado = 'BAJ'
-			     	elsif hora.fecha_baja != nil
-			     		hora.estado = 'BAJ'
-			     	end
-			    end
+	   #    		if hora.estado != 'ART'
+
+			 #     	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+			 #    		hora.estado =  r['estado']
+			 #    	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+			 #    		hora.estado =  r['estado']
+			 #     	elsif hora.fecha_baja != r['fecha_baja']
+			 #     		hora.fecha_baja = r['fecha_baja']
+			 #    		hora.estado = 'BAJ'
+			 #     	elsif hora.fecha_baja != nil
+			 #     		hora.estado = 'BAJ'
+			 #     	end
+			 #    end
 			
 			
-				hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-				hora.save      	
-		    end	
+				# hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+				# hora.save      	
+		     end	
 		end
 
 	end
@@ -122,9 +145,9 @@ class MigracionController < ApplicationController
 
 		@listacargoSinSec = []
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
-	 	#res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
-	 #select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"' and secuencia<88  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
-	    res= client.query("SELECT secuencia as secMax, p.* FROM his_paddoc p where  p.escuela= '"+params[:esc]+"'and secuencia<88 and mes = 6 and anio = 2017 and fecha_alta > '2017-03-01'")
+	 	res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' and  secuencia<88 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
+	 select MAX(secuencia) as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"' and secuencia<88  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
+	    #res= client.query("SELECT secuencia as secMax, p.* FROM his_paddoc p where  p.escuela= '"+params[:esc]+"'and secuencia<88 and mes = 7 and anio = 2017")
 
 
 		esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
@@ -170,8 +193,9 @@ class MigracionController < ApplicationController
 		  		cargo_concat=  r['agrup_r'].to_s+ r['cargo_r'].to_s
 		  	end
 
-
-       		categoria = Funcion.where(:categoria => cargo_concat).first.categoria
+		  	if Funcion.where(:categoria => cargo_concat).first != nil
+       		  categoria = Funcion.where(:categoria => cargo_concat).first.categoria
+       		end
        		situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
        
       	
@@ -189,22 +213,27 @@ class MigracionController < ApplicationController
 	       			Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first == nil
 	       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
 	       		end
-       		else
-   		   		if cargo.estado != 'ART'
-			     	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-			     		cargo.estado =  r['estado']
-			     	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-			     		cargo.estado =  r['estado']
-			     	elsif cargo.fecha_baja != r['fecha_baja']
-			     		cargo.fecha_baja = r['fecha_baja']
-			     		cargo.estado = 'BAJ'
-			     	elsif cargo.fecha_baja != nil
-			     		cargo.estado = 'BAJ'
-			     	end
-			 	end
+
+
+
+
+	       		##################COMENTAR PARA MIGRAR TODOOOOOO
+    #    		else
+   	# 	   		if cargo.estado != 'ART'
+			 #     	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+			 #     		cargo.estado =  r['estado']
+			 #     	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+			 #     		cargo.estado =  r['estado']
+			 #     	elsif cargo.fecha_baja != r['fecha_baja']
+			 #     		cargo.fecha_baja = r['fecha_baja']
+			 #     		cargo.estado = 'BAJ'
+			 #     	elsif cargo.fecha_baja != nil
+			 #     		cargo.estado = 'BAJ'
+			 #     	end
+			 # 	end
 		
-			 cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-			 cargo.save      	
+			 # cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+			 # cargo.save      	
 	 	   end	
 
 		end
@@ -214,9 +243,9 @@ class MigracionController < ApplicationController
 	def migrar_auxiliares
 		@listacargoNSinSec = []
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
- 	  #res = client.query("select secuencia, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'ALT' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union 
- #select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
-		res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where  p.escuela= '"+params[:esc]+"'and secuencia<88 and mes = 6 and anio = 2017 and fecha_alta > '2017-03-01'")
+ 	  res = client.query("select secuencia, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'ALT' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union 
+ select MAX(secuencia) as secMax, p.* from padaux p where escuela = '"+params[:esc]+"'  and estado= 'LIC' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
+		#res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where  p.escuela= '"+params[:esc]+"'and secuencia<88 and mes = 7 and anio = 2017 ")
  	     #res= client.query("SELECT  secuencia as secMax, p.*  FROM padaux p where (p.fecha_alta > '2017-01-01' or p.fecha_baja> '2017-01-01' ) and p.escuela='"+params[:esc]+"' ")
 
 		esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
@@ -255,8 +284,9 @@ class MigracionController < ApplicationController
 				end
 			end
 
-
+		  if Cargosnd.where(:cargo_agrup => r['agrup_r'], :cargo_cod => r['cargo_r'], :cargo_categ => r['categ_r']).first != nil
 		  cargo_id = Cargosnd.where(:cargo_agrup => r['agrup_r'], :cargo_cod => r['cargo_r'], :cargo_categ => r['categ_r']).first.id
+		end
 
 		      	
 		  situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
@@ -277,23 +307,25 @@ class MigracionController < ApplicationController
 					CargoNoDocente.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
       	  
 				end
-      	  else
-	      		if cargond.estado != 'ART'
-			    	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-			    		cargond.estado =  r['estado']
-			    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-			    		cargond.estado =  r['estado']
-			    	elsif cargond.fecha_baja != r['fecha_baja']
-			    		cargond.fecha_baja = r['fecha_baja']
-			    		cargond.estado = 'BAJ'
-			    	elsif cargond.fecha_baja != nil
-			    		cargond.estado = 'BAJ'
-			    	end
-		    	end
+
+				##################COMENTAR PARA MIGRAR todooooo
+    #   	  else
+	   #    		if cargond.estado != 'ART'
+			 #    	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+			 #    		cargond.estado =  r['estado']
+			 #    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+			 #    		cargond.estado =  r['estado']
+			 #    	elsif cargond.fecha_baja != r['fecha_baja']
+			 #    		cargond.fecha_baja = r['fecha_baja']
+			 #    		cargond.estado = 'BAJ'
+			 #    	elsif cargond.fecha_baja != nil
+			 #    		cargond.estado = 'BAJ'
+			 #    	end
+		  #   	end
 		
 		
-			    cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-				cargond.save      	
+			 #    cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+				# cargond.save      	
 	      end	
 
 	  	end

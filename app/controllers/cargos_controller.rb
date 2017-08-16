@@ -116,7 +116,6 @@ class CargosController < ApplicationController
   end
 
   def update
-    debugger
     @cargo.update(cargo_params)
     respond_with(@cargo)
   end
@@ -147,7 +146,6 @@ class CargosController < ApplicationController
   end
 
   def guardar_edicion
-    debugger
     @tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
