@@ -64,10 +64,11 @@
 
         <%= f.select(:situacion_revista, SituacionRevistum.all.collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
 
-        <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
         <%= f.select(:plan_id, @planes_permitidos.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :class=>"form-control form-alta form-select")%>        
 
         <%= f.select(:anio, AltasBajasHora::ANIO, {:prompt => "Curso"}, :id => "curso",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class=>"form-control form-alta form-select")%>
+
+        <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
         
         <%= f.select(:materium_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]}: '', {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
 

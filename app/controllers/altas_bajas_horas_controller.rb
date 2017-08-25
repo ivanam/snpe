@@ -741,6 +741,7 @@ class AltasBajasHorasController < ApplicationController
   def chequear
     @estado = Estado.where(descripcion: "Chequeado").first
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    AltasBajasHora.find(params["id"]).update
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content

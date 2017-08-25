@@ -241,6 +241,7 @@ class CargosController < ApplicationController
   def chequear
     @estado = Estado.where(descripcion: "Chequeado").first
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    Cargo.find(params["id"]).update
     respond_to do |format|
       format.html { redirect_to cargos_path, notice: 'Alta chequeada' }
       format.json { head :no_content } # 204 No Content
