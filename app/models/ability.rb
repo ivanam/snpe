@@ -44,6 +44,18 @@ class Ability
         can :modificacion, [Cargo]
         can :modificacion, [CargoNoDocente]
       end
+
+      if user.role? :licencia
+        can :cargos_bajas_efectivas, [Cargo]
+        can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
+        can :modificacion, [AltasBajasHora]
+        can :modificacion, [Cargo]
+        can :modificacion, [CargoNoDocente]
+        can :read, [Persona]
+        can :edit, [Persona]
+        can :update, [Persona]
+      end
+      
       user.roles.each do |ro|
         can do |action, subject_class, subject|
           ro.permissions.find_all_by_action([aliases_for_action(action), :manage].flatten).any? do |permission|

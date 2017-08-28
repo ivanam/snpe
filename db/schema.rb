@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608150103) do
+ActiveRecord::Schema.define(version: 20170824155649) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -260,8 +260,8 @@ ActiveRecord::Schema.define(version: 20170608150103) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
   end
@@ -301,15 +301,12 @@ ActiveRecord::Schema.define(version: 20170608150103) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
-=======
   create_table "especialidads", force: true do |t|
     t.string   "nombre"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
->>>>>>> 62f3cb791568cbe1f8bc4d1145b2ba227c60b635
   create_table "establecimiento_plans", force: true do |t|
     t.integer  "establecimiento_id"
     t.integer  "plan_id"
@@ -422,12 +419,25 @@ ActiveRecord::Schema.define(version: 20170608150103) do
     t.string   "vigente"
     t.boolean  "por_baja"
     t.integer  "prestador_id"
+    t.integer  "anio_lic"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciaV2", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.string  "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
 
   create_table "licenciasV", id: false, force: true do |t|
     t.string "apeynom"
