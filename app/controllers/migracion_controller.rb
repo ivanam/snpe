@@ -136,7 +136,7 @@ class MigracionController < ApplicationController
 			
 				 # hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
 				 # hora.save      	
-		   #   end	
+		      end	
 		end
 
 	end
@@ -238,7 +238,7 @@ class MigracionController < ApplicationController
 		
 			  # cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
 			  # cargo.save      	
-	 	  #  end	
+	 	    end	
 
 		end
 	end
@@ -330,7 +330,7 @@ class MigracionController < ApplicationController
 		
 			 #     cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
 				# cargond.save      	
-	   #    end	
+	       end	
 
 	  	end
 
