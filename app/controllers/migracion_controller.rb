@@ -37,6 +37,7 @@ class MigracionController < ApplicationController
 	    for r in res
 
 			if Materium.where(codigo: r['materia']).first != nil then
+
 				materia_id = Materium.where(codigo: r['materia']).first.id
 			else 
 				materia_id= 0
@@ -97,9 +98,7 @@ class MigracionController < ApplicationController
 	      	hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first	
 	      	if hora == nil then
 
-	      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first != nil
-	       			debugger 
-	       		end
+
 	      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
 							horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
 	      			@listaAux << horaSinSec
