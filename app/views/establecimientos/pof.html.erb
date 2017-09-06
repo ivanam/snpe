@@ -36,10 +36,12 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
-          <% licencia = Licencium.where(cargo_id: d.id).last %>
-          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+           <% if (d.estado == "ART" || d.estado == "LIC") %>
+            <% licencia = Licencium.where(cargo_id: d.id).last %>
+            <% end %>
+            <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>  
-          <td>
+          <td>  
            <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
            <span class="glyphicon glyphicon-plus"></span>
            Editar Domicilio
@@ -82,7 +84,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
@@ -126,7 +130,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
@@ -170,7 +176,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
@@ -214,7 +222,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
@@ -258,7 +268,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %> 
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
@@ -302,7 +314,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
            <td>
@@ -348,7 +362,9 @@
           <td><%= d.grupo_id %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
@@ -397,7 +413,9 @@
           <td><%= h.situacion_revista %></td>
           <td><%= h.horas%></td>
           <td><%= h.estado %></td>
+          <% if (h.estado == "ART" || h.estado == "LIC") %>
           <% licencia = Licencium.where(altas_bajas_hora_id: h.id).last %>
+          <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
           <td>
@@ -441,7 +459,9 @@
           <td><%= d.turno %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
           <% licencia = Licencium.where(cargo_no_docente_id: d.id).last %>
+           <% end %>
           <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
           <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
           <td>
