@@ -74,7 +74,14 @@
 
 <% if (current_user.role? :escuela) then %>
 
-<a class="btn btn-info" href="javascript:abrir_reporte('<%=altas_bajas_horas_index_bajas_efectivas_path()%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
+<!-- <a class="btn btn-info" href="javascript:abrir_reporte('<%=altas_bajas_horas_index_bajas_efectivas_path()%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a> -->
+
+<div align="left">
+ <button id="btn-filtrar1" class="btn btn-info">
+ <span class="glyphicon glyphicon-print"></span>
+     Imprimir Bajas notificadas
+  </button>
+</div>
 
 <% end %>
 
@@ -150,7 +157,16 @@ $(document).ready(function($) {
             }
         ]
     });
-
+   
+   function getParams1() {
+        var params = '?rango=' + $('#daterange').val();
+        return  params
+       }
+      
+      $('#btn-filtrar1').on('click', function(){
+       window.location.href = '/soft/snpe/altas_bajas_horas/bajas_efectivas.pdf' + getParams1();
+      })
+      
   //Carga DT
   var tabla_bajas_permitidas = $('#tabla-bajas')
     .on('draw.dt', function () {
