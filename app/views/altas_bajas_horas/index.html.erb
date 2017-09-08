@@ -99,12 +99,7 @@
 
 <% if (current_user.role? :escuela) then %>
 
-<div align="left">
- <button id="btn-filtrar1" class="btn btn-info">
- <span class="glyphicon glyphicon-print"></span>
-     Imprimir Altas notificadas
-  </button>
-</div>
+  <a class="btn btn-info" href="javascript:abrir_reporte('<%=altas_bajas_horas_index_notificadas_path()%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
   
 <% end %>
 
@@ -160,15 +155,6 @@ $(document).ready(function($) {
     paginate: false,
     filter: false,
   });
-
-  function getParams1() {
-        var params = '?rango=' + $('#daterange').val();
-        return  params
-       }
-      
-      $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/altas_bajas_horas/notificadas.pdf' + getParams1();
-      })
 
   $("#materium").change(function(){
     var materia_id = parseInt($("#materium").val(),10);
