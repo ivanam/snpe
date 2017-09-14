@@ -32,7 +32,7 @@ module LicenciaHelper
 	end
 
 	def licencias(dni)
-		if current_user.role? :personal then
+		if current_user.role? :personal or current_user.role? :licencia then
 			@licencia_cargo=Licencium.where(:cargo_id => Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
 			@licencia_cargos_no_docentes=Licencium.where(:cargo_no_docente_id => CargoNoDocente.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
     		@licencia_horas=Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
@@ -51,8 +51,19 @@ module LicenciaHelper
      	return Licencium.where(:id => @licencia_horas)
 	end
 
+    def listado_de_licencias_todas(mindate4, maxdate4)		
+		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then
+			@licenciasT = Licenciasv.select('*').from('licenciasvs').where('fecha_desde >= ?', mindate4).where('fecha_hasta <= ?', maxdate4).where('codigo in ("25","29","45","31e","23","24","36","36","28","27e")')
+		else			
+			@licenciasT = Licenciasv.select('*').from('licenciasvs').where('fecha_desde >= ?', mindate4).where('fecha_hasta <= ?', maxdate4).where(:id => session[:establecimiento]).where('codigo in ("25","29","45","31e","23","24","36","36","28","27e")')
+		end	
+
+		return @licenciasT
+	end
+  
+
 	def listado_de_licencias(mindate, maxdate)		
-		if current_user.role? :personal or current_user.role? :sadmin then			
+		if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then			
 			@licencias = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (242,243,244,245,291,292,293,294,263,264,265,266,299,300,321,322,323,324,325)')
 			#Licencium.joins(:articulo).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (2,3,4,5)')
 		else			
@@ -62,19 +73,8 @@ module LicenciaHelper
 		return @licencias
 	end
 
-    def listado_de_licencias_todas(mindate4, maxdate4)		
-		if current_user.role? :personal or current_user.role? :sadmin then
-			@licenciasT = Licenciasv.select('*').from('licenciasvs').where('fecha_desde >= ?', mindate4).where('fecha_hasta <= ?', maxdate4)
-			
-		else			
-			@licenciasT = Licenciasv.select('*').from('licenciasvs').where('fecha_desde >= ?', mindate4).where('fecha_hasta <= ?', maxdate4).where(:id => session[:establecimiento])
-		end	
-
-		return @licenciasT
-	end
-
 	def listado_de_licencias_cargo(mindate3, maxdate3)
-		if current_user.role? :personal or current_user.role? :sadmin then			
+		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then			
         	@licenciasCarg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (242,243,244,245,291,292,293,294,263,264,265,266,299,300,321,322,323,324,325)')
         else
         	@licenciasCarg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where(cargos: {establecimiento_id: session[:establecimiento]}).where('articulo_id in (242,243,244,245,291,292,293,294,263,264,265,266,299,300,321,322,323,324,325)')
@@ -84,12 +84,42 @@ module LicenciaHelper
 	end 
 	
 	def listado_de_licencias_cargonds(mindate2, maxdate2)
-		if current_user.role? :personal or current_user.role? :sadmin then			
+		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then			
 			@licenciasCnds = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (242,243,244,245,291,292,293,294,263,264,265,266,299,300,321,322,323,324,325)')
 		else
 			@licenciasCnds = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where(cargo_no_docentes: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (242,243,244,245,291,292,293,294,263,264,265,266,299,300,321,322,323,324,325)')
 		end
 		return @licenciasCnds
         #Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta >= ?', maxdate2)
-	end	
+	end
+ #---------------------------------licencias sin goce ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	def listado_de_licencias_sg(mindate, maxdate)		
+		if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then			
+			@licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (267,279,287,342,343,347)')
+			#Licencium.joins(:articulo).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (2,3,4,5)')
+		else			
+			@licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (267,279,287,342,343,347)')
+		end	
+
+		return @licenciasSg
+	end
+
+	def listado_de_licencias_cargo_sg(mindate3, maxdate3)
+		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then			
+        	@licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)')
+        else
+        	@licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where(cargos: {establecimiento_id: session[:establecimiento]}).where('articulo_id in (267,279,287,342,343,347)')
+        end
+		return @licenciasCargSg
+	end 
+	
+	def listado_de_licencias_cargonds_sg(mindate2, maxdate2)
+		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then			
+			@licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)')
+		else
+			@licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where(cargo_no_docentes: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)')
+		end
+		return @licenciasCndsSg
+        #Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta >= ?', maxdate2)
+	end		
 end

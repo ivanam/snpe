@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+    <Worksheet ss:Name="licencias Todas">
+      <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Fecha desde</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha hasta</Data></Cell>
+          <Cell><Data ss:Type="String">Establecimiento</Data></Cell>
+          <Cell><Data ss:Type="String">DNI</Data></Cell>
+          <Cell><Data ss:Type="String">Apellido y nombres</Data></Cell>
+          <Cell><Data ss:Type="String">Articulo</Data></Cell>
+          <Cell><Data ss:Type="String">Descripcion</Data></Cell>
+          <Cell><Data ss:Type="String">Estado</Data></Cell>
+        </Row>
+        <% @licenciasT.each do |s| %>
+        <Row>
+              <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_desde"]) %></Data></Cell>
+              <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_hasta"]) %></Data></Cell>
+         <% @estab = session[:establecimiento] %>    
+          <Cell><Data ss:Type="String"><%= Establecimiento.find(@estab.to_i).to_s %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= s.nro_documento %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= s.apeynom %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= s.codigo %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= s.descripcion %></Data></Cell>
+          <Cell><Data ss:Type="String"><%= s.vigente %></Data></Cell>
+         </Row>
+        <% end %>
+      </Table>
+    </Worksheet>
+ </Workbook>
