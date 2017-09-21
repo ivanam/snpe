@@ -674,13 +674,16 @@
     fecha_inicio = $("#input_fecha_inicio3").val();
     fecha_fin = $("#input_fecha_fin3").val();
     por_baja = $("#por_baja:checked").val();
+    console.log(por_baja);
     prestador = $("#prestador").val();
+    console.log(prestador);
    
     $.ajax({
       url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/'+prestador,
       type: 'POST',
       })
     .done(function(data) {
+      console.log(data);
       tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
       tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
       tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni);
