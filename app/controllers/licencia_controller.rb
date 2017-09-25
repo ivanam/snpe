@@ -97,15 +97,23 @@ class LicenciaController < ApplicationController
 
 #----------------------------------------------licencias sin goce---------------------------------------------------------------
 def listado_licencias_todas_lic
+  @dni=params[:dni]
+  if @dni == '' or @dni == ""
+    @dni = nil
+  end  
+  @art=params[:select_articulo_horas]
+  if @art == '' or @art == ""
+     @art = nil
+  end
     if params["rango"] == nil
       @mindate_year = Date.today.year
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
-      @res = listado_de_licencias_sg(@mindate, @maxdate)
+      @res = listado_de_licencias_sg(@mindate, @maxdate, @dni, @art)
     else
       @rango = params["rango"]
       @mindate, @maxdate = Util.max_min_periodo(@rango)
-      @res = listado_de_licencias_sg(@mindate, @maxdate)
+      @res = listado_de_licencias_sg(@mindate, @maxdate, @dni, @art)
     end  
     respond_to do |format|
       format.xls 
@@ -152,13 +160,13 @@ def listado_licencias_todas_lic
 #-----------------------------------------------------------licencias sin goce -----------------------------------------
 
   def listado_licencias_todas
-    if params["rango4"] == nil
+    if params["rango"] == nil
       @mindate_year = Date.today.year
       @mindate4 = Date.today.to_s
       @maxdate4 = Date.today.to_s
       @res4 = listado_de_licencias_todas(@mindate4, @maxdate4)    
     else
-      @rango4 = params["rango4"]
+      @rango4 = params["rango"]
       @mindate4, @maxdate4 = Util.max_min_periodo(@rango4)
       @res4 = listado_de_licencias_todas(@mindate4, @maxdate4) 
    end
@@ -235,10 +243,9 @@ def listado_licencias_todas_lic
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
-
     if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
       msg = @licencia.errors.full_messages.first
-      msg = "No se puede cancelar la licencia. Posee suplente"
+      msg = "No se puede finalizar la licencia. Posee suplente"
     else
       if @licencia.altas_bajas_hora_id != nil 
         id_lic =@licencia.altas_bajas_hora_id
@@ -263,6 +270,7 @@ def listado_licencias_todas_lic
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
+    debugger
     if !@licencia.update(vigente: "Cancelada", por_baja: baja )
       msg = @licencia.errors.full_messages.first
       msg = "No se puede cancelar la licencia. Posee suplente"
