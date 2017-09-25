@@ -230,12 +230,25 @@ def listado_licencias_todas_lic
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
-    !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
-    if !@licencia.save
+    if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede finalizar la licencia. Posee suplente"
     else
-      msg = ''
+      if @licencia.altas_bajas_hora_id != nil 
+        id_lic =@licencia.altas_bajas_hora_id
+        alta_horas = AltasBajasHora.where(:id => id_lic).first
+        @estado = Estado.where(:descripcion => "Notificado_Baja").first
+        AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: alta_horas.id, user_id: current_user.id) 
+        msg = ''
+      elsif @licencia.cargo_id != nil
+        id_lic =@licencia.cargo_id
+        cargos = Cargo.where(:id => id_lic).first
+        @estado = Estado.where(:descripcion => "Notificado_Baja").first
+        CargoEstado.create(estado_id: @estado.id, cargo_id: cargos.id, user_id: current_user.id) 
+        msg = ''
+      end
+
+        
     end
 
     render json: msg.to_json
