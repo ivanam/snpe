@@ -19,7 +19,6 @@ class Licencium < ActiveRecord::Base
  end
 
  private
-
 	 def actualizar_estado
 	 	if self.articulo.con_goce
 	 		estado = 'ART' #Cuando la licencia no debe ser informada a Economía
@@ -36,10 +35,9 @@ class Licencium < ActiveRecord::Base
 	 		# CargoNoDocente.find(self.cargo_no_docente_id).save(:validate => false)
 	 	end
 	 end  
-
+     
 	 def cancelar_licencia
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
-
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 			if self.por_baja

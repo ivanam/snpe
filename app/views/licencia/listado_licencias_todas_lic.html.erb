@@ -13,6 +13,14 @@
 <br/>
 
 <div class="">
+    <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
+</div>
+
+<div class="">
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
+</div> </br></br>
+
+<div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
 </div>
 
@@ -47,12 +55,23 @@
   </div>
 </div>
 
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+
 <div align="right">
  <button id="btn-filtrar2" class="btn btn-success">
  <span class="glyphicon glyphicon-download-alt"></span>
      Descargar Licencias de Cargos Auxiliares
   </button>
 </div>
+
+<div class="">
+    <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
+</div>
+
+<div class="">
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos_no_docente" %>
+</div> </br></br>
+
 
 <div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange2" /> </br></br>
@@ -95,6 +114,15 @@
       Descargar Licencias de Cargos
   </button>
 </div>
+
+<div class="">
+    <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
+</div>
+
+<div class="">
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos" %>
+</div> </br></br>
+
 <div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange3" /> </br></br>
 </div>
@@ -178,19 +206,27 @@
 
     // Evento del daterangepicker para filtrar por rangos
     $('#daterange').on('apply.daterangepicker', function(ev, picker) {
+
+      
       // Cambia la url agregando el campo rango como atributo
-      tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic.json?rango='+$('#daterange').val());
+      tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic.json?rango='+$('#daterange').val()+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val());
       // Recarga por ajax la tabla
+   
+
       tabla_licencia.api().ajax.reload();
+      $("#select_articulo_horas" ).val("");
+      $("#dni" ).val("");  
     });
 
        function getParams1() {
         var params = '?rango=' + $('#daterange').val();
         return  params
        }
+       
+
       
       $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_todas_lic.xls' + getParams1();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_todas_lic.xls?rango='+$('#daterange').val()+"&dni="+$('#dni').val()+$('#select_articulo_horas').val();
       })
 
 
