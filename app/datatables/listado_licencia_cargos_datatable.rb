@@ -15,7 +15,17 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
 
   def data
     records.map do |record|
-      [
+       [
+            if record.altas_bajas_hora_id != nil  
+              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.establecimiento.codigo_jurisdiccional
+            elsif record.cargo_id != nil
+              Cargo.where(:id => record.cargo_id.to_i).first.establecimiento.codigo_jurisdiccional
+            else
+              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.establecimiento.codigo_jurisdiccional
+            end,
+
+            record.secuencia,
+      
             "Cargo",
             Funcion.where(Cargo.find(record.cargo_id).cargo.to_i).first.to_s,
             Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s,
