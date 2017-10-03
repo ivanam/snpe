@@ -270,7 +270,6 @@ def listado_licencias_todas_lic
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
-    debugger
     if !@licencia.update(vigente: "Cancelada", por_baja: baja )
       msg = @licencia.errors.full_messages.first
       msg = "No se puede cancelar la licencia. Posee suplente"
