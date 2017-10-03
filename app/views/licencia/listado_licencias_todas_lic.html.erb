@@ -3,14 +3,15 @@
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
+<br/>
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+
 <div align="right">
  <button id="btn-filtrar1" class="btn btn-success">
  <span class="glyphicon glyphicon-download-alt"></span>
      Descargar Licencias de Horas
   </button>
 </div>
-
-<br/>
 
 <div class="">
     <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
@@ -65,7 +66,7 @@
 </div>
 
 <div class="">
-    <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
+    <b>Ingrese nro de documento: </b> <input type="text" id="dni2" /> </br></br>
 </div>
 
 <div class="">
@@ -108,6 +109,8 @@
   </div>
 </div>
 
+<br/>
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
 <div align="right">
  <button id="btn-filtrar3" class="btn btn-success">
  <span class="glyphicon glyphicon-download-alt"></span>
@@ -115,8 +118,9 @@
   </button>
 </div>
 
+
 <div class="">
-    <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
+    <b>Ingrese nro de documento: </b> <input type="text" id="dni3" /> </br></br>
 </div>
 
 <div class="">
@@ -226,7 +230,7 @@
 
       
       $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_todas_lic.xls?rango='+$('#daterange').val()+"&dni="+$('#dni').val()+$('#select_articulo_horas').val();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_todas_lic.xls?rango='+$('#daterange').val()+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val();
       })
 
 
@@ -240,7 +244,6 @@
         pagingType: "simple",
         retrieve: true,
         "initComplete": function(settings, json) {
-        $('.calle').editable();
         },                
         columnDefs: [
               {
@@ -250,9 +253,6 @@
               }
           ]
       });
-    // $('#tabla-licencia-cnds').on( 'draw.dt', function() {      
-    //   $('.calle').editable();
-    // });
     var date2 = new Date();
     $('#daterange2').daterangepicker({
       format: 'DD/MM/YYYY',
@@ -272,7 +272,7 @@
     // Evento del daterangepicker para filtrar por rangos
     $('#daterange2').on('apply.daterangepicker', function(ev, picker) {
       // Cambia la url agregando el campo rango como atributo
-      tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg.json?rango2='+$('#daterange2').val());
+      tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg.json?rango2='+$('#daterange2').val()+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val());
       // Recarga por ajax la tabla
       tabla_licencia_cargnds.api().ajax.reload();
       });
@@ -283,7 +283,7 @@
       }
       
       $('#btn-filtrar2').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds_sg.xls' + getParams2();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds_sg.xls?rango2='+$('#daterange2').val()+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val();
       });
 
     moment.locale('es');
@@ -323,7 +323,7 @@
     // Evento del daterangepicker para filtrar por rangos
     $('#daterange3').on('apply.daterangepicker', function(ev, picker) {
       // Cambia la url agregando el campo rango como atributo
-      tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg.json?rango3='+$('#daterange3').val());
+      tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg.json?rango3='+$('#daterange3').val()+"&dni3="+$('#dni3').val()+"&select_articulo_cargos="+$('#select_articulo_cargos').val());
       // Recarga por ajax la tabla
       tabla_licencia_crg.api().ajax.reload();
     });
@@ -334,7 +334,7 @@
       }
       
       $('#btn-filtrar3').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_carg_sg.xls' + getParams3();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_carg_sg.xls?rango3='+$('#daterange3').val()+"&dni3="+$('#dni3').val()+"&select_articulo_cargos="+$('#select_articulo_cargos').val();
       })
 
   });

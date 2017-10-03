@@ -45,7 +45,7 @@ class AltasBajasHora < ActiveRecord::Base
   #-------------------------------------
 
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
-  PLANES_SIN_VALIDACION = [122] #Listado de planes que no requieren validacion
+  PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
 
   def no_es_licencia_para_baja

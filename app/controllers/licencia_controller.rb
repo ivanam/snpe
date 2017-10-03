@@ -122,16 +122,24 @@ def listado_licencias_todas_lic
     end
   end
 
-   def listado_licencias_cnds_sg
+  def listado_licencias_cnds_sg
+  @dni2=params[:dni2]
+  if @dni2 == '' or @dni2 == ""
+    @dni2 = nil
+  end  
+  @art2=params[:select_articulo_cargos_no_docente]
+  if @art2 == '' or @art2 == ""
+     @art2 = nil
+  end
      if params["rango2"] == nil
        @mindate_year2 = Date.today.year
        @mindate2 = Date.today.to_s
        @maxdate2 = Date.today.to_s
-       @res2 = listado_de_licencias_cargonds_sg(@mindate2, @maxdate2)
+       @res2 = listado_de_licencias_cargonds_sg(@mindate2, @maxdate2, @dni2, @art2)
      else
        @rango2 = params["rango2"]
        @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
-       @res2 = listado_de_licencias_cargonds_sg(@mindate2, @maxdate2)
+       @res2 = listado_de_licencias_cargonds_sg(@mindate2, @maxdate2, @dni2, @art2)
      end
     respond_to do |format|
       format.xls 
@@ -141,15 +149,23 @@ def listado_licencias_todas_lic
   end
 
   def listado_licencias_carg_sg
+  @dni3=params[:dni3]
+  if @dni3 == '' or @dni3 == ""
+    @dni3 = nil
+  end  
+  @art3=params[:select_articulo_cargos]
+  if @art3 == '' or @art3 == ""
+     @art3 = nil
+  end
      if params["rango3"] == nil
        @mindate_year3 = Date.today.year
        @mindate3 = Date.today.to_s
        @maxdate3 = Date.today.to_s
-       @res3 = listado_de_licencias_cargo_sg(@mindate3, @maxdate3)
+       @res3 = listado_de_licencias_cargo_sg(@mindate3, @maxdate3, @dni3, @art3)
      else 
        @rango3 = params["rango3"]
        @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
-       @res3 = listado_de_licencias_cargo_sg(@mindate3, @maxdate3)
+       @res3 = listado_de_licencias_cargo_sg(@mindate3, @maxdate3, @dni3, @art3)
      end
     respond_to do |format|
       format.xls 

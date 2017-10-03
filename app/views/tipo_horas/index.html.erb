@@ -1,0 +1,33 @@
+<div class="page-header">
+  <%= link_to new_tipo_hora_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Tipo hora
+  <% end %>
+  <h1>Listado de tipo_horas</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-tipo_hora" class="table table-striped table-bordered table-hover" data-source = "<%= tipo_horas_path(format: :json) %>" >
+    <thead>
+      <tr>
+            <th>Nombre</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-tipo_hora').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-tipo_hora').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

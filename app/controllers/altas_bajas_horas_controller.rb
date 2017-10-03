@@ -163,6 +163,7 @@ class AltasBajasHorasController < ApplicationController
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
+    @tipoHora = params["tipo_hora"]
     @dni = params["dni"]
     @apeynom = params["apeynom"]
     @cuil = params["cuil"]
@@ -192,6 +193,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
     @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
     @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
+    @altas_bajas_hora.tipo_hora = params[:altas_bajas_hora][:tipo_hora]
 
     #Estado, necesario para Ministerio de economia
     @altas_bajas_hora.estado = "ALT"
@@ -382,8 +384,10 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.observaciones = params[:observaciones]
     @altas_bajas_horas.plan_id = params[:plan_id]
-    if params[:plan_id] != nil then
-      @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
+    if params[:estado] != "LIC P/BAJ"
+      if params[:plan_id] != nil then
+        @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
+      end
     end
 
     @altas_bajas_horas.resolucion = params[:resolucion]
@@ -834,7 +838,7 @@ end
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :tipo_hora)
     end
 
 
