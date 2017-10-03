@@ -108,32 +108,82 @@ module LicenciaHelper
             @licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id = ?', art).where('nro_documento= ?', dni)
 		    end
 		else
-		    if params["dni"] == nil
-		    @licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (267,279,287,342,343,347)')
-		    else	 			
-			@licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (267,279,287,342,343,347)').where('nro_documento= ?', dni)
-		   end	
+			 if  dni == nil and  art == nil	
+			@licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (267,279,287,342,343,347)')
+			end
+			if dni != nil and  art == nil
+            @licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id in (267,279,287,342,343,347)').where('nro_documento= ?', dni)
+            end
+            if dni == nil and art != nil
+            @licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id = ?', art)
+		    end
+		    if  dni != nil and art != nil
+            @licenciasSg = Licencium.select('establecimientos.*, personas.*, licencia.*, altas_bajas_horas.*').from('licencia, altas_bajas_horas, establecimientos, personas').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('fecha_hasta <= ?', maxdate).where('articulo_id = ?', art).where('nro_documento= ?', dni)
+		    end
 	end
 
 		return @licenciasSg
 	end
 
-	def listado_de_licencias_cargo_sg(mindate3, maxdate3)
-		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then			
-        	@licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)')
-        else
-        	@licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where(cargos: {establecimiento_id: session[:establecimiento]}).where('articulo_id in (267,279,287,342,343,347)')
-        end
-		return @licenciasCargSg
-	end 
-	
-	def listado_de_licencias_cargonds_sg(mindate2, maxdate2)
-		if current_user.role? :personal or current_user.role? :sadmin or current_user.role? :licencia then			
-			@licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)')
+	def listado_de_licencias_cargo_sg(mindate3, maxdate3, dni3, art3)
+	if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then
+		    if  dni3 == nil and  art3 == nil	
+			@licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)')
+			end
+			if dni3 != nil and  art3 == nil
+            @licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)').where('nro_documento= ?', dni3)
+            end
+            if dni3 == nil and art3 != nil
+            @licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)').where('articulo_id = ?', art3)
+		    end
+		    if  dni3 != nil and art3 != nil
+            @licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)').where('articulo_id = ?', art3).where('nro_documento= ?', dni3)
+		    end
 		else
+			if  dni3 == nil and  art3 == nil	
+			@licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)')
+			end
+			if dni3 != nil and  art3 == nil
+            @licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)').where('nro_documento= ?', dni3)
+            end
+            if dni3 == nil and art3 != nil
+            @licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)').where('articulo_id = ?', art3)
+		    end
+		    if  dni3 != nil and art3 != nil
+            @licenciasCargSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargos.*').from('licencia, cargos, establecimientos, personas').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('fecha_hasta <= ?', maxdate3).where('articulo_id in (267,279,287,342,343,347)').where('articulo_id = ?', art3).where('nro_documento= ?', dni3)
+		    end
+	end
+		return @licenciasCargSg
+	end
+	
+	def listado_de_licencias_cargonds_sg(mindate2, maxdate2, dni2, art2)
+		if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then
+		    if  dni2 == nil and  art2 == nil	
+			@licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)')
+			end
+			if dni2 != nil and  art2 == nil
+            @licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)').where('nro_documento= ?', dni2)
+            end
+            if dni2 == nil and art2 != nil
+            @licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id = ?', art2)
+		    end
+		    if  dni2 != nil and art2 != nil
+            @licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id = ?', art2).where('nro_documento= ?', dni2)
+		    end
+		else
+			if  dni2 == nil and  art2 == nil	
 			@licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where(cargo_no_docentes: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)')
-		end
+			end
+			if dni2 != nil and  art2 == nil
+            @licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where(cargo_no_docentes: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id in (267,279,287,342,343,347)').where('nro_documento= ?', dni2)
+            end
+            if dni2 == nil and art2 != nil
+            @licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where(cargo_no_docentes: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id = ?', art2)
+		    end
+		    if  dni2 != nil and art2 != nil
+            @licenciasCndsSg = Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where(cargo_no_docentes: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate2).where('fecha_hasta <= ?', maxdate2).where('articulo_id = ?', art2).where('nro_documento= ?', dni2)
+		    end	
+	end
 		return @licenciasCndsSg
-        #Licencium.select('establecimientos.*, personas.*, licencia.*, cargo_no_docentes.*').from('licencia, cargo_no_docentes, establecimientos, personas').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id').where('fecha_desde >= ?', mindate2).where('fecha_hasta >= ?', maxdate2)
-	end		
+	end
 end

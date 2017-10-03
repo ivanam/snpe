@@ -67,8 +67,12 @@
           <%= f.select(:materium_id, !@materias_permitidas.nil? ? @materias_permitidas.all.collect{|m| [m.to_s, m.id]} : "", {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class=>"form-control form-alta form-select")%>        
 
           <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
+
+          <%= f.text_field :TipoHora, :placeholder => "Tipo Hora", :class => "form-alta form-control", :id => "TipoHora", :maxlength=>"15"%>
           
-          <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
+          <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%> 
+
+          <%= f.select(:grupo_id, TipoHora.all.collect{|h| [h.to_s, h.id]}, {:prompt => "Tipo horas"}, :id => "tipoHora",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Hora", :class=>"form-control form-alta form-select")%>                
 
           <%= f.text_field :resolucion, :placeholder => "Resolución", :class => "form-alta text-field form-control", :id => "input_resolucion" %>
 

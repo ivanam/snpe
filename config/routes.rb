@@ -2,6 +2,8 @@ ProyectoBase::Application.routes.draw do
   
   
 
+
+
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -73,8 +75,9 @@ ProyectoBase::Application.routes.draw do
     resources :plans
 
     resources :materia
-
-
+   
+    resources :tipo_horas
+    
     resources :lugar_pagos
 
     resources :formulario_inscrip_docente

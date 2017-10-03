@@ -11,10 +11,11 @@
           <Cell><Data ss:Type="String">Fecha Hasta</Data></Cell>
           <Cell><Data ss:Type="String">Horas</Data></Cell>
           <Cell><Data ss:Type="String">Apellido y nombres</Data></Cell>
+          <Cell><Data ss:Type="String">secuencia</Data></Cell>
+          <Cell><Data ss:Type="String">Establecimiento</Data></Cell>
           <Cell><Data ss:Type="String">Tipo de cargo</Data></Cell>
           <Cell><Data ss:Type="String">Articulo y descripción</Data></Cell>
           <Cell><Data ss:Type="String">Estado de la licencia</Data></Cell>
-          <Cell><Data ss:Type="String">Establecimiento</Data></Cell>
         </Row>
         <% @licenciasSg.each do |s| %>
         <Row>
@@ -32,14 +33,25 @@
                  <Cell><Data ss:Type="String"><%= @persCnds.to_s %></Data></Cell>
               <%end%>
               <% if s.altas_bajas_hora_id != nil %>
-                 <% @personaHoras = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.persona.to_s%>
+                <% @personaHoras = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.persona.to_s%>
                  <Cell><Data ss:Type="String"><%= @personaHoras.to_s %></Data></Cell>
+                 <% @secuencia = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.secuencia%>
+                 <Cell><Data ss:Type="String"><%= @secuencia %></Data></Cell>
+                 <% @est_id = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.establecimiento_id%>
+                 <% @est_cod = Establecimiento.where(:id => @est_id).first.codigo_jurisdiccional%>
+                 <Cell><Data ss:Type="String"><%= @est_cod.to_s %></Data></Cell>
                  <% elsif s.cargo_id != nil%>
-                 <% @personaCargo = Funcion.where(Cargo.find(record.cargo_id).cargo.to_i).first.to_s%>                 
+                 <% @personaCargo = Cargo.where(:id => s.cargo_id.to_i).first.persona.to_s%>
                  <Cell><Data ss:Type="String"><%= @personaCargo.to_s %></Data></Cell>
+                 <% @est_id = Cargo.where(:id => s.cargo_id.to_i).first.establecimiento_id%>
+                 <% @est_cod = Establecimiento.where(:id => @est_id).first.codigo_jurisdiccional%>
+                 <Cell><Data ss:Type="String"><%= @est_cod.to_s %></Data></Cell>
                  <%else%>
                  <% @personaCnds = CargoNoDocente.where(:id => s.cargo_no_docente_id.to_i).first.persona.to_s%>
                  <Cell><Data ss:Type="String"><%= @personaCnds.to_s %></Data></Cell>
+                 <% @est_id = CargoNoDocente.where(:id => s.cargo_id.to_i).first.establecimiento_id%>
+                 <% @est_cod = Establecimiento.where(:id => @est_id).first.codigo_jurisdiccional%>
+                 <Cell><Data ss:Type="String"><%= @est_cod.to_s %></Data></Cell>
               <%end%>
               <% if s.altas_bajas_hora_id != nil %>  
                  <Cell><Data ss:Type="String">Horas</Data></Cell>
@@ -53,8 +65,6 @@
               <% @artdesc = @arti + "-" + @desc %>
               <Cell><Data ss:Type="String"><%= @artdesc.to_s %></Data></Cell>
          <Cell><Data ss:Type="String"><%= s["vigente"].to_s %></Data></Cell>
-         <% @estab = session[:establecimiento] %>    
-         <Cell><Data ss:Type="String"><%= Establecimiento.find(@estab.to_i).to_s %></Data></Cell>
         </Row>
         <% end %>
       </Table>
