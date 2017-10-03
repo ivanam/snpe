@@ -24,6 +24,7 @@ class LicenciaController < ApplicationController
   end
 
   def create
+
     @licencium = Licencium.new(licencium_params)
     @licencium.save
     respond_with(@licencium)
@@ -224,13 +225,23 @@ def listado_licencias_todas_lic
   end 
 
   def guardar_licencia_horas
+
     @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
     render json: 0
   end 
 
   def guardar_licencia_cargos
+  secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
+  descripcion_articulo= Articulo.where(id: params['articulo']).first.descripcion
+  if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359" or params['articulo']=="360") and secuencia != 1000)
+    cargo=Cargo.where(id: params['id_cargos']).first
+    Cargo.create!(establecimiento_id: cargo.establecimiento_id, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: cargo.estado , observaciones:descripcion_articulo )
     @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
     render json: 0
+  else
+    @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+    render json: 0
+  end
   end
    
   def guardar_licencia_cargos_no_docentes
@@ -243,6 +254,8 @@ def listado_licencias_todas_lic
   end
 
   def guardar_licencia_final 
+
+
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
