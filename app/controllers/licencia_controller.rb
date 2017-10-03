@@ -153,7 +153,7 @@ def listado_licencias_todas_lic
   if @dni3 == '' or @dni3 == ""
     @dni3 = nil
   end  
-  @art3=params[:select_articulo_cargos_no_docente]
+  @art3=params[:select_articulo_cargos]
   if @art3 == '' or @art3 == ""
      @art3 = nil
   end
