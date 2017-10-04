@@ -384,10 +384,8 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.grupo_id = params[:grupo_id]
     @altas_bajas_horas.observaciones = params[:observaciones]
     @altas_bajas_horas.plan_id = params[:plan_id]
-    if params[:estado] != "LIC P/BAJ"
-      if params[:plan_id] != nil then
-        @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
-      end
+    if params[:plan_id] != nil and params[:plan_id] != ""
+      @altas_bajas_horas.ciclo_carrera = Plan.where(:id => params[:plan_id]).first.codigo
     end
 
     @altas_bajas_horas.resolucion = params[:resolucion]
