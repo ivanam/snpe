@@ -141,7 +141,7 @@
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio', Date.today %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin', Date.today %>
+        <%= text_field_tag 'input_fecha_fin'%>
         <hr/>
         <div class="row">
         <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
@@ -174,7 +174,7 @@
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio2', Date.today %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin2' , Date.today%>
+        <%= text_field_tag 'input_fecha_fin2'%>
         <hr/>
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
@@ -206,7 +206,7 @@
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio4', Date.today %>
         <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin4' , Date.today%>
+        <%= text_field_tag 'input_fecha_fin4'%>
         <hr/>
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos_no_docente" %>
