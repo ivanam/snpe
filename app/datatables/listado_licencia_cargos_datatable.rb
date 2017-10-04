@@ -27,7 +27,7 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             record.secuencia,
       
             "Cargo",
-            Funcion.where(Cargo.find(record.cargo_id).cargo.to_i).first.to_s,
+            Funcion.where(categoria: Cargo.where(id: record.cargo_id).first.cargo.to_i).first.to_s,
             Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s,
             record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
             Util.fecha_a_es(record.fecha_desde),
