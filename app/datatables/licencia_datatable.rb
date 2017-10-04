@@ -55,8 +55,12 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
          end,
 
          if record.cargo_id != nil
-           Cargo.find(record.cargo_id).curso.to_s
-         end,
+           Cargo.find(record.cargo_id).situacion_revista.to_s
+         elsif record.altas_bajas_hora_id != nil
+           AltasBajasHora.find(record.altas_bajas_hora_id).situacion_revista.to_s
+         elsif record.cargo_no_docente_id != nil
+           CargoNoDocente.find(record.cargo_no_docente_id).situacion_revista.to_s
+        end,
 
          if record.altas_bajas_hora_id != nil
            AltasBajasHora.find(record.altas_bajas_hora_id).grupo_id.to_s
