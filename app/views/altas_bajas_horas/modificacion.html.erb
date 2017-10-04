@@ -60,6 +60,8 @@
   					  <%= text_field_tag 'division', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División",  :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
 
           			  <%= text_field_tag 'horas', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :readonly => :true}%>
+
+           <!--          <%= f.select(:grupo_id, TipoHora.all.collect{|t| [t.to_s, t.id]}, {:prompt => "Tipo horas"}, :id => "tipoHora",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Hora", :class=>"form-control form-alta form-select")%>   -->     
        
           			  <% if @materias_permitidas == nil then
           			  	@materias =Materium.all

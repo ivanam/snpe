@@ -2,6 +2,8 @@ ProyectoBase::Application.routes.draw do
   
   
 
+
+
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -73,8 +75,9 @@ ProyectoBase::Application.routes.draw do
     resources :plans
 
     resources :materia
-
-
+   
+    resources :tipo_horas
+    
     resources :lugar_pagos
 
     resources :formulario_inscrip_docente
@@ -406,15 +409,15 @@ ProyectoBase::Application.routes.draw do
     #----------------------------------------------------------------------------------------------------------------------------------  
     # Migraciones
 
-    get "/migracion/migrar_hs/:esc", to: 'migracion#migrar_hs'
+    get "/migracion/migrar_hs/", to: 'migracion#migrar_hs'
 
     get "migrar/", to: 'migracion#migrar'
 
     get "migracion/listado_a_informar/", to: 'migracion#listado_a_informar', as: :migracion_listado_a_informar
 
-    get "migracion/migrar_cargos/:esc", to: 'migracion#migrar_cargos'
+    get "migracion/migrar_cargos/", to: 'migracion#migrar_cargos'
 
-    get "/migracion/migrar_auxiliares/:esc", to: 'migracion#migrar_auxiliares'
+    get "/migracion/migrar_auxiliares/", to: 'migracion#migrar_auxiliares'
 
 
 

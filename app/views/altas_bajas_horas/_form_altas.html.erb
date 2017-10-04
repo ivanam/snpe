@@ -74,7 +74,9 @@
 
         <%= f.text_field :horas, :placeholder => "Hs", :class => "form-alta form-control", :id => "horas", :maxlength=>"2"%>
         
-        <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>              
+        <%= f.select(:grupo_id, Grupo.all.collect{|g| [g.to_s, g.id]}, {:prompt => "Grupo"}, :id => "grupo",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo", :class=>"form-control form-alta form-select")%>
+
+       <!--   <%= f.select(:grupo_id, TipoHora.all.collect{|h| [h.to_s, h.id]}, {:prompt => "Tipo horas"}, :id => "tipoHora",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Hora", :class=>"form-control form-alta form-select")%>     -->           
 
       </div>
       <div class="row">        

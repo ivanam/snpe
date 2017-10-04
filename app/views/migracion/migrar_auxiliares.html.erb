@@ -26,7 +26,7 @@
    <% @listacargoNSinSec.each do |b| %>
       <% persona = Persona.where(id: b.persona_id).first
       establecimiento = Establecimiento.where(id: b.establecimiento_id).first
-      cargo = Cargond.where(id: b.cargo_id).first
+      cargo = Cargosnd.where(id: b.cargo).first
       
     %>
    <tr>
@@ -35,7 +35,7 @@
         <td><%= persona.apeynom %></td>
         <td><%= b.secuencia %></td>
         <td><%= b.situacion_revista%></td>
-        <td><%= cargo.descripcion%></td>
+        <td><%= cargo.cargo_desc%></td>
         <td><%= b.turno%></td>
         <td><%= b.fecha_alta%></td>
         <td><%= b.fecha_baja%></td>

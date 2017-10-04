@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824155649) do
+ActiveRecord::Schema.define(version: 20171003144147) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(version: 20170824155649) do
     t.boolean  "programatica"
     t.string   "resolucion"
     t.string   "decreto"
+    t.integer  "tipo_hora_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -706,6 +707,12 @@ ActiveRecord::Schema.define(version: 20170824155649) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "codigo"
+  end
+
+  create_table "tipo_horas", force: true do |t|
+    t.string   "nombre"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "titulo_personas", force: true do |t|

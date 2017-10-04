@@ -70,6 +70,7 @@ class AsistenciaController < ApplicationController
   #--------------------------------------------- Funciones para Datatables ----------------------------------------------------------------------------------
 
   def index_personal_activo
+
     @anio, @mes = Util.anio_mes_periodo(params["anio"], params["mes"])
     respond_to do |format|
       format.html

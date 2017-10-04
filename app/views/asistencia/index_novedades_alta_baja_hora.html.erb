@@ -112,7 +112,7 @@
 
     $('#btn-ir').click(function(){
       //window.open("<%= asistencia_path %>?anio=" + $('#anio').val() + "&mes=" + $('#select_mes').val(),"_self");
-      tabla_horas_novedades.api().ajax.url('/soft/snpe/asistencias/personal_activo.json?anio='+$('#anio').val()+"&mes="+$('#select_mes').val());
+      tabla_horas_novedades.api().ajax.url('/soft/snpe/asistencias/novedades_hora.json?anio='+$('#anio').val()+"&mes="+$('#select_mes').val());
       // Recarga por ajax la tabla
       tabla_horas_novedades.api().ajax.reload();
     });

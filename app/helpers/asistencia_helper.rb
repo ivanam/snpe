@@ -14,10 +14,11 @@ module AsistenciaHelper
   def asistencia_horas_notificados(anio, mes)
     @asistencias = asistencia_alta_baja_horas(anio, mes)
     if @asistencias != [] #and @asistencias.first.estado_actual == "Notificado"
+
       @hora_ids = @asistencias.pluck(:altas_bajas_hora_id)
-      return AltasBajasHora.where(id: @hora_ids).includes(:persona)
+      return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where(id: @hora_ids).includes(:persona)
     else
-      return AltasBajasHora.where(id: nil).includes(:persona)
+      return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where(id: nil).includes(:persona)
     end
   end
 
@@ -25,9 +26,9 @@ module AsistenciaHelper
     @asistencias = asistencia_cargos(anio, mes)
     if @asistencias != [] #and @asistencias.first.estado_actual == "Notificado"
       @cargo_ids = @asistencias.pluck(:altas_bajas_cargo_id)
-      return Cargo.where(id: @cargo_ids).includes(:persona)
+      return Cargo.where(:establecimiento_id => session[:establecimiento]).where(id: @cargo_ids).includes(:persona)
     else
-      return Cargo.where(id: nil).includes(:persona)
+      return Cargo.where(:establecimiento_id => session[:establecimiento]).where(id: nil).includes(:persona)
     end
   end
 
@@ -35,9 +36,9 @@ module AsistenciaHelper
     @asistencias = asistencia_cargo_no_docentes(anio, mes)
     if @asistencias != [] #and @asistencias.first.estado_actual == "Notificado"
       @cargo_no_docente_ids = @asistencias.pluck(:altas_bajas_cargo_no_docente_id)
-      return CargoNoDocente.where(id: @cargo_no_docente_ids).includes(:persona)
+      return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).where(id: @cargo_no_docente_ids).includes(:persona)
     else
-      return CargoNoDocente.where(id: nil).includes(:persona)
+      return CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).where(id: nil).includes(:persona)
     end
   end
 

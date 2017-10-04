@@ -66,12 +66,16 @@
   </div>
 
 
-  <a class="btn btn-info" href="javascript:abrir_reporte('<%=cargos_imprimir_asistencia_path()%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
+  <a id="boton_imprimir" class="btn btn-info" href="#"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
 
 </div>
 
 <script type="text/javascript">
   $(document).ready(function($) {
+
+     $('#boton_imprimir').click(function(){
+      var w = window.open('/soft/snpe/asistencias/cargos_imprimir.pdf?anio='+$('#anio').val()+"&mes="+$('#select_mes').val(), "popupWindow", "width=1500, height=900  top=100, left=100, scrollbars=yes");      
+    });
 
     //Define el idioma de combodate
     moment.locale('es');
