@@ -42,7 +42,7 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-    if params["rango"] == nil
+    if params["rango"] == ""
       @mindate_year = Date.today.year
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
@@ -55,12 +55,12 @@ class LicenciaController < ApplicationController
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res}) }
+      format.json { render json: ListadoLicencia2Datatable.new(view_context, { query: @res}) }
     end
   end
 
    def listado_licencias_cnds
-     if params["rango2"] == nil
+     if params["rango2"] == ""
        @mindate_year2 = Date.today.year
        @mindate2 = Date.today.to_s
        @maxdate2 = Date.today.to_s
@@ -73,12 +73,12 @@ class LicenciaController < ApplicationController
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadosLicenciaCargosndsDatatable.new(view_context, { query: @res2}) }
+      format.json { render json: ListadosLicenciaCargosnds2Datatable.new(view_context, { query: @res2}) }
     end
   end
 
   def listado_licencias_carg
-     if params["rango3"] == nil
+     if params["rango3"] == ""
        @mindate_year3 = Date.today.year
        @mindate3 = Date.today.to_s
        @maxdate3 = Date.today.to_s
@@ -91,7 +91,7 @@ class LicenciaController < ApplicationController
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res3}) }
+      format.json { render json: ListadoLicenciaCargos2Datatable.new(view_context, { query: @res3}) }
     end
   end
 
