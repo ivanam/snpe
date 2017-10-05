@@ -1,4 +1,4 @@
-class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
+class ListadoLicenciaCargos2Datatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns    
@@ -16,20 +16,11 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
        [
-            if record.altas_bajas_hora_id != nil  
-              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.establecimiento.codigo_jurisdiccional
-            elsif record.cargo_id != nil
-              Cargo.where(:id => record.cargo_id.to_i).first.establecimiento.codigo_jurisdiccional
-            else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.establecimiento.codigo_jurisdiccional
-            end,
-            record.secuencia,
+
+      
             "Cargo",
             Funcion.where(categoria: Cargo.where(id: record.cargo_id).first.cargo.to_i).first.to_s,
             Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s,
-            record.situacion_revista,
-            record.anio,
-            record.division,
             record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
             Util.fecha_a_es(record.fecha_desde),
             Util.fecha_a_es(record.fecha_hasta),

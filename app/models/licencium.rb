@@ -55,13 +55,14 @@ class Licencium < ActiveRecord::Base
 	 end  
      
 	 def cancelar_licencia
+	 	
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 			if self.por_baja
 	 				alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 			else
-		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where(" id > " +  alta_horas.id.to_s )
+		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" id > " +  alta_horas.id.to_s )
 					if suplentes_activos == []
 		 				alta_horas.update!(estado: 'ALT')
 		 			else
@@ -75,7 +76,7 @@ class Licencium < ActiveRecord::Base
 	 			if self.por_baja
 	 				cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 			else
-		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
+		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
 		 			if suplentes_activos == []
 		 				cargo.update!(estado: 'ALT')
 		 			else

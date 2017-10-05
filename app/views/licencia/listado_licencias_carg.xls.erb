@@ -58,7 +58,6 @@
               <Cell><Data ss:Type="String"><%= @artdesc.to_s %></Data></Cell>
          <Cell><Data ss:Type="String"><%= s["vigente"].to_s %></Data></Cell>
          <% @estab = session[:establecimiento] %>    
-         <Cell><Data ss:Type="String"><%= Establecimiento.find(@estab.to_i).to_s %></Data></Cell>
           <% if s.altas_bajas_hora_id != nil %>
                  <% @personaCalle = AltasBajasHora.where(:id => s.altas_bajas_hora_id.to_i).first.persona.calle%>
                  <Cell><Data ss:Type="String"><%= @personaCalle %></Data></Cell>

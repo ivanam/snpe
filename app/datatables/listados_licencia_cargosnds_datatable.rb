@@ -49,7 +49,7 @@ class ListadosLicenciaCargosndsDatatable < AjaxDatatablesRails::Base
             else
               CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.to_s
             end,
-
+            record.situacion_revista,
             record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
             Util.fecha_a_es(record.fecha_desde),
             Util.fecha_a_es(record.fecha_hasta),
