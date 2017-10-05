@@ -163,7 +163,8 @@ class AltasBajasHorasController < ApplicationController
     @planes_permitidos = select_planes_permitidos
     @tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
-    @tipoHora = params["tipo_hora"]
+
+    #@tipoHora = params["tipo_hora"]
     @dni = params["dni"]
     @apeynom = params["apeynom"]
     @cuil = params["cuil"]
@@ -193,7 +194,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.observaciones = params[:altas_bajas_hora][:observaciones]
     @altas_bajas_hora.resolucion = params[:altas_bajas_hora][:resolucion]
     @altas_bajas_hora.decreto = params[:altas_bajas_hora][:decreto]
-    @altas_bajas_hora.tipo_hora = params[:altas_bajas_hora][:tipo_hora]
+    #@altas_bajas_hora.tipo_hora = params[:altas_bajas_hora][:tipo_hora]
 
     #Estado, necesario para Ministerio de economia
     @altas_bajas_hora.estado = "ALT"
@@ -836,7 +837,7 @@ end
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :tipo_hora)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
     end
 
 
