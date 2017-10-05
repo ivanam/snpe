@@ -7,6 +7,8 @@ class Licencium < ActiveRecord::Base
 
   before_create :actualizar_estado
   before_update :cancelar_licencia
+
+  validate :fecha_inicio_valida
  
  def ash_id
  
@@ -19,21 +21,37 @@ class Licencium < ActiveRecord::Base
  end
 
  private
-	 def actualizar_estado
-	 	if self.articulo.con_goce
-	 		estado = 'ART' #Cuando la licencia no debe ser informada a Economía
-	 	else 
-			estado = 'LIC' 		
-	 	end
-	 	if self.altas_bajas_hora_id != nil
-	 		AltasBajasHora.find(self.altas_bajas_hora_id).update!(estado: estado)
-	 	elsif self.cargo_id != nil
-	 		Cargo.find(self.cargo_id).update!(estado: estado)
-	 	elsif self.cargo_no_docente_id != nil
-	 		CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
-	 	    # CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]
-	 		# CargoNoDocente.find(self.cargo_no_docente_id).save(:validate => false)
-	 	end
+ 		def fecha_inicio_valida
+ 			
+ 			fecha_alta = nil
+ 			if self.altas_bajas_hora_id != nil
+ 				fecha_alta = self.altas_bajas_hora.fecha_alta
+ 			elsif self.cargo_id != nil
+ 				fecha_alta = self.cargo.fecha_alta
+ 			elsif self.cargo_no_docente_id != nil 				
+ 				fecha_alta = self.cargo_no_docente.fecha_alta
+ 			end
+
+ 			if self.fecha_inicio < fecha_alta
+ 				errors.add(:fecha_inicio, "No puede ser menor a la fecha de alta")
+ 			end
+ 		end
+
+	 	def actualizar_estado
+			if self.articulo.con_goce
+				estado = 'ART' #Cuando la licencia no debe ser informada a Economía
+			else 
+				estado = 'LIC' 		
+			end
+			if self.altas_bajas_hora_id != nil
+				AltasBajasHora.find(self.altas_bajas_hora_id).update!(estado: estado)
+			elsif self.cargo_id != nil
+				Cargo.find(self.cargo_id).update!(estado: estado)
+			elsif self.cargo_no_docente_id != nil
+				CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
+			    # CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]
+				# CargoNoDocente.find(self.cargo_no_docente_id).save(:validate => false)
+			end
 	 end  
      
 	 def cancelar_licencia
