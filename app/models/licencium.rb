@@ -32,8 +32,8 @@ class Licencium < ActiveRecord::Base
  				fecha_alta = self.cargo_no_docente.fecha_alta
  			end
 
- 			if self.fecha_inicio < fecha_alta
- 				errors.add(:fecha_inicio, "No puede ser menor a la fecha de alta")
+ 			if self.fecha_desde < fecha_alta
+ 				errors.add(:fecha_desde, "No puede ser menor a la fecha de alta")
  			end
  		end
 

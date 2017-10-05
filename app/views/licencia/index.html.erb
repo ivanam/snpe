@@ -501,13 +501,16 @@
           type: 'POST',
         })
       .done(function(data) {
-        
+        console.log(data)
         tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni); 
         tabla_horas_licencia.api().ajax.reload();
         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_horas" ).val("");
-        $("#input_anio_lic" ).val("");     
+        $("#input_anio_lic" ).val("");
+        if (data != "") {
+          alert(data); 
+        };
       })
     });
 

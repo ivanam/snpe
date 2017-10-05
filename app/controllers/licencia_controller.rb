@@ -226,8 +226,13 @@ def listado_licencias_todas_lic
 
   def guardar_licencia_horas
 
-    @licencia = Licencium.create(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
-    render json: 0
+    @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
+    if @licencia.save
+      render json: 0
+    else
+      msg = "error en la licencia"
+      render json: msg.to_json
+    end
   end 
 
   def guardar_licencia_cargos
@@ -236,21 +241,32 @@ def listado_licencias_todas_lic
   if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359" or params['articulo']=="360") and secuencia != 1000)
     cargo=Cargo.where(id: params['id_cargos']).first
     Cargo.create!(establecimiento_id: cargo.establecimiento_id, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: cargo.estado , observaciones:descripcion_articulo )
-    @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
-    render json: 0
+    @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+    if @licencia.save
+      render json: 0
+    else
+      msg = "error en la licencia"
+      render json: msg.to_json
+    end
   else
-    @licencia = Licencium.create(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
-    render json: 0
+    @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+    if @licencia.save
+      render json: 0
+    else
+      msg = "error en la licencia"
+      render json: msg.to_json
+    end
   end
   end
    
   def guardar_licencia_cargos_no_docentes
-    @licencia = Licencium.create!(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
-    if @licencia.save then
+    @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
+    if @licencia.save
       render json: 0
-      else
-      format.json { render json: @licencia, turno: :unprocessable_entity }
-      end      
+    else
+      msg = "error en la licencia"
+      render json: msg.to_json
+    end
   end
 
   def guardar_licencia_final 
