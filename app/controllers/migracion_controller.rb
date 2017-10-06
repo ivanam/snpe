@@ -122,25 +122,25 @@ class MigracionController < ApplicationController
 		      		end
 
 		      		##################COMENTAR PARA MIGRAR TODOOOOOO
-		       	else
+		     #   	else
 
-		        	if hora.estado != 'ART'
+		     #    	if hora.estado != 'ART'
 
-				       	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-				      		hora.estado =  r['estado']
-				      	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-				      		hora.estado =  r['estado']
-				       	elsif hora.fecha_baja != r['fecha_baja']
-				       		hora.fecha_baja = r['fecha_baja']
-				      		hora.estado = 'BAJ'
-				       	elsif hora.fecha_baja != nil
-				       		hora.estado = 'BAJ'
-				       	end
-				      end
+				   #     	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+				   #    		hora.estado =  r['estado']
+				   #    	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+				   #    		hora.estado =  r['estado']
+				   #     	elsif hora.fecha_baja != r['fecha_baja']
+				   #     		hora.fecha_baja = r['fecha_baja']
+				   #    		hora.estado = 'BAJ'
+				   #     	elsif hora.fecha_baja != nil
+				   #     		hora.estado = 'BAJ'
+				   #     	end
+				   #    end
 				
 				
-					  hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-					  hora.save      	
+					  # hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+					  # hora.save      	
 			      end	
 			end
 		end
@@ -231,23 +231,23 @@ class MigracionController < ApplicationController
 
 
 
-		       		##################COMENTAR PARA MIGRAR TODOOOOOO
-	        		else
-	   	 	   		if cargo.estado != 'ART'
-				      	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-				      		cargo.estado =  r['estado']
-				      	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-				      		cargo.estado =  r['estado']
-				      	elsif cargo.fecha_baja != r['fecha_baja']
-				      		cargo.fecha_baja = r['fecha_baja']
-				      		cargo.estado = 'BAJ'
-				      	elsif cargo.fecha_baja != nil
-				      		cargo.estado = 'BAJ'
-				      	end
-				  	end
+		    #    		##################COMENTAR PARA MIGRAR TODOOOOOO
+	     #    		else
+	   	 # 	   		if cargo.estado != 'ART'
+				  #     	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+				  #     		cargo.estado =  r['estado']
+				  #     	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+				  #     		cargo.estado =  r['estado']
+				  #     	elsif cargo.fecha_baja != r['fecha_baja']
+				  #     		cargo.fecha_baja = r['fecha_baja']
+				  #     		cargo.estado = 'BAJ'
+				  #     	elsif cargo.fecha_baja != nil
+				  #     		cargo.estado = 'BAJ'
+				  #     	end
+				  # 	end
 			
-				  cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-				  cargo.save      	
+				  # cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+				  # cargo.save      	
 		 	    end	
 
 			end
@@ -333,23 +333,23 @@ class MigracionController < ApplicationController
 					end
 
 					##################COMENTAR PARA MIGRAR todooooo
-	       	  else
-		       		if cargond.estado != 'ART'
-				     	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-				     		cargond.estado =  r['estado']
-				    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-				     		cargond.estado =  r['estado']
-				     	elsif cargond.fecha_baja != r['fecha_baja']
-				     		cargond.fecha_baja = r['fecha_baja']
-				     		cargond.estado = 'BAJ'
-				     	elsif cargond.fecha_baja != nil
-				     		cargond.estado = 'BAJ'
-				     	end
-			     	end
+	    #    	  else
+		   #     		if cargond.estado != 'ART'
+				 #     	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+				 #     		cargond.estado =  r['estado']
+				 #    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+				 #     		cargond.estado =  r['estado']
+				 #     	elsif cargond.fecha_baja != r['fecha_baja']
+				 #     		cargond.fecha_baja = r['fecha_baja']
+				 #     		cargond.estado = 'BAJ'
+				 #     	elsif cargond.fecha_baja != nil
+				 #     		cargond.estado = 'BAJ'
+				 #     	end
+			  #    	end
 			
 			
-				     cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-					cargond.save      	
+				 #     cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+					# cargond.save      	
 		       end	
 
 		  	end

@@ -3,12 +3,12 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns
     # Declare strings in this format: ModelName.column_name
-    @sortable_columns ||= ['lote_impresions.fecha_impresion']
+    @sortable_columns ||= ['lote_impresions.id', 'lote_impresions.fecha_impresion']
   end
 
   def searchable_columns
     # Declare strings in this format: ModelName.column_name
-    @searchable_columns ||= ['lote_impresions.fecha_impresion']
+    @searchable_columns ||= ['lote_impresions.id','lote_impresions.fecha_impresion']
   end
 
   private
