@@ -3,12 +3,12 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
 
   def sortable_columns    
     #@sortable_columns ||= ['establecimientos.codigo_jurisdiccional', 'personas.nro_documento','personas.apeynom','licencia.altas_bajas_hora_id','licencia.altas_bajas_hora_id','licencia.fecha_desde','licencia.fecha_hasta','licencia.articulo_id']
-    @sortable_columns ||= ['Licencium.cargo_id', 'Cargo.persona_id', 'Articulo.codigo', 'Licencium.fecha_desde', 'Licencium.fecha_hasta']
+    @sortable_columns ||= ['Persona.nro_documento','Persona.apeynom','Licencium.cargo_id', 'Cargo.persona_id', 'Articulo.codigo', 'Licencium.fecha_desde', 'Licencium.fecha_hasta']
   end
 
   def searchable_columns
     #@searchable_columns ||= ['establecimientos.codigo_jurisdiccional','personas.nro_documento','personas.apeynom','licencia.altas_bajas_hora_id','licencia.altas_bajas_hora_id','licencia.fecha_desde','licencia.fecha_hasta','licencia.articulo_id']
-    @searchable_columns ||= ['Licencium.cargo_id', 'Cargo.persona_id', 'Articulo.codigo', 'Licencium.fecha_desde', 'Licencium.fecha_hasta']
+    @searchable_columns ||= ['Persona.nro_documento','Persona.apeynom','Licencium.cargo_id', 'Cargo.persona_id', 'Articulo.codigo', 'Licencium.fecha_desde', 'Licencium.fecha_hasta']
   end
 
   private
