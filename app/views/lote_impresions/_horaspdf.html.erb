@@ -1,0 +1,123 @@
+<dl class="dl-horizontal">
+
+<legend><h5>Novedades de Horas</h5></legend>
+
+<% establecimiento_ids = @lote_impresion.altas_bajas_horas.map(&:establecimiento_id) %>
+<% @lote_impresion.impresion_bajas.map(&:establecimiento_id).each do |id| %>
+  <% establecimiento_ids << id %>
+<% end %>
+
+<% Establecimiento.where(id: establecimiento_ids).each do |e| %>
+
+  <div class="page-header">
+    <h4><b>Impresión N° <%= @lote_impresion.id %></b></h4>
+    <h5>Fecha impresión: <%= Util.fecha_a_es(@lote_impresion.fecha_impresion) %></h5>
+  </div>
+
+  <div class="page-header">
+    <h3>Escuela N° <%= e.to_s %></h3>
+  </div>
+
+  <legend><h5>Altas</h5></legend>
+  <table class="table table-bordered table-striped table-compact">
+    <thead>
+      <tr>
+        <th>TD</th>
+        <th>N° doc.</th>
+        <th>Sec.</th>
+        <th>Apellido y nombre</th>         
+        <th>Ca</th>
+        <th>Ci</th>
+        <th>Cu</th>
+        <th>Di</th>
+        <th>Tu</th>
+        <th>Ma</th>
+        <th>Horas</th>
+        <th>Sit. Rev</th>
+        <th>Fecha alta</th>
+        <th>Fecha baja</th>
+        <th>LP</th>
+        <th>Observaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lote_impresion.altas_bajas_horas.where(establecimiento_id: e.id).each do |h| %>
+        <tr>
+          <td><%= h.persona.tipo_documento.codigo %></td>
+          <td><%= h.persona.nro_documento %></td>
+          <td><%= h.secuencia %></td>
+          <td><%= h.persona.to_s %></td>
+          <td><%= h.plan.codigo %></td>
+          <td><%= h.ciclo_carrera %></td>
+          <td><%= h.anio.to_s %></td>
+          <td><%= h.division.to_s %></td>
+          <td><%= h.turno.to_s %></td>
+          <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+          <td><%= h.horas %></td>
+          <td><%= h.situacion_revista %></td>
+          <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+          <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
+          <% if !h.lugar_pago.nil? %>
+            <td><%= h.lugar_pago.codigo %></td>
+          <% else %>
+            <td>&nbsp;</td>
+          <% end %> 
+          <td><%= h.observaciones %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <legend><h5>Bajas</h5></legend>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>TD</th>
+        <th>N° doc.</th>
+        <th>Sec.</th>
+        <th>Apellido y nombre</th>         
+        <th>Ca</th>
+        <th>Ci</th>
+        <th>Cu</th>
+        <th>Di</th>
+        <th>Tu</th>
+        <th>Ma</th>
+        <th>Horas</th>
+        <th>Sit. Rev</th>
+        <th>Fecha alta</th>
+        <th>Fecha baja</th>
+        <th>LP</th>
+        <th>Observaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @lote_impresion.impresion_bajas.where(establecimiento_id: e.id).each do |h| %>
+        <tr>
+          <td><%= h.persona.tipo_documento.codigo %></td>
+          <td><%= h.persona.nro_documento %></td>
+          <td><%= h.secuencia %></td>
+          <td><%= h.persona.to_s %></td>
+          <td><%= h.plan.codigo %></td>
+          <td><%= h.ciclo_carrera %></td>
+          <td><%= h.anio.to_s %></td>
+          <td><%= h.division.to_s %></td>
+          <td><%= h.turno.to_s %></td>
+          <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+          <td><%= h.horas %></td>
+          <td><%= h.situacion_revista %></td>
+          <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
+          <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
+          <% if !h.lugar_pago.nil? %>
+            <td><%= h.lugar_pago.codigo %></td>
+          <% else %>
+            <td>&nbsp;</td>
+          <% end %> 
+          <td><%= h.observaciones %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  
+
+<% end %>

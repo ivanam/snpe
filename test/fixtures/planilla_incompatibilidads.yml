@@ -1,0 +1,37 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  numero: 1
+  nota_ingreso: MyString
+  apellido: MyString
+  nombre: MyString
+  dni: 1
+  fecha_nacimiento: 2017-10-09
+  escuela_a: 1
+  escuela_b: 1
+  escuela_c: 1
+  escuela_d: 1
+  escuela_e: 1
+  observaciones_inc: MyText
+  fecha1: 2017-10-09
+  observaciones_suel: MyString
+  text: MyString
+  fecha2: 2017-10-09
+
+two:
+  numero: 1
+  nota_ingreso: MyString
+  apellido: MyString
+  nombre: MyString
+  dni: 1
+  fecha_nacimiento: 2017-10-09
+  escuela_a: 1
+  escuela_b: 1
+  escuela_c: 1
+  escuela_d: 1
+  escuela_e: 1
+  observaciones_inc: MyText
+  fecha1: 2017-10-09
+  observaciones_suel: MyString
+  text: MyString
+  fecha2: 2017-10-09
