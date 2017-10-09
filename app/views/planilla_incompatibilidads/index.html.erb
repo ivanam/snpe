@@ -1,0 +1,37 @@
+<div class="page-header">
+  <%= link_to new_planilla_incompatibilidad_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Planilla incompatibilidad
+  <% end %>
+  <h1>Planilla incompatibilidads</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-planilla_incompatibilidad" class="table table-striped table-bordered table-hover" data-source = "<%= planilla_incompatibilidads_path(format: :json) %>" >
+    <thead>
+      <tr>
+            <th>Numero</th>
+            <th>Nota ingreso</th>
+            <th>Agente</th>
+            <th>Observaciones inc</th>
+            <th>Observaciones suel</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-planilla_incompatibilidad').dataTable({
+        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-planilla_incompatibilidad').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

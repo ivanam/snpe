@@ -4,6 +4,8 @@ ProyectoBase::Application.routes.draw do
 
 
 
+
+
    scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -95,6 +97,8 @@ ProyectoBase::Application.routes.draw do
     resources :titulos
 
     resources :cargo_inscrip_docs
+
+    resources :planilla_incompatibilidads
 
 
     #---------------------------------------------------------------------------------------------------------------------------------------

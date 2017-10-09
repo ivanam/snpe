@@ -1,0 +1,64 @@
+<div class="page-header">
+  <h1>Planilla incompatibilidad</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Numero:</dt>
+  <dd><%= @planilla_incompatibilidad.numero %></dd>
+
+  <dt>Nota ingreso:</dt>
+  <dd><%= @planilla_incompatibilidad.nota_ingreso %></dd>
+
+  <dt>Apellido:</dt>
+  <dd><%= @planilla_incompatibilidad.apellido %></dd>
+
+  <dt>Nombre:</dt>
+  <dd><%= @planilla_incompatibilidad.nombre %></dd>
+
+  <dt>Dni:</dt>
+  <dd><%= @planilla_incompatibilidad.dni %></dd>
+
+  <dt>Fecha nacimiento:</dt>
+  <dd><%= @planilla_incompatibilidad.fecha_nacimiento %></dd>
+
+  <dt>Escuela a:</dt>
+  <dd><%= @planilla_incompatibilidad.escuela_a %></dd>
+
+  <dt>Escuela b:</dt>
+  <dd><%= @planilla_incompatibilidad.escuela_b %></dd>
+
+  <dt>Escuela c:</dt>
+  <dd><%= @planilla_incompatibilidad.escuela_c %></dd>
+
+  <dt>Escuela d:</dt>
+  <dd><%= @planilla_incompatibilidad.escuela_d %></dd>
+
+  <dt>Escuela e:</dt>
+  <dd><%= @planilla_incompatibilidad.escuela_e %></dd>
+
+  <dt>Observaciones inc:</dt>
+  <dd><%= @planilla_incompatibilidad.observaciones_inc %></dd>
+
+  <dt>Fecha1:</dt>
+  <dd><%= @planilla_incompatibilidad.fecha1 %></dd>
+
+  <dt>Observaciones suel:</dt>
+  <dd><%= @planilla_incompatibilidad.observaciones_suel %></dd>
+
+  <dt>Fecha2:</dt>
+  <dd><%= @planilla_incompatibilidad.fecha2 %></dd>
+
+  <br/><br/>
+  <%= link_to planilla_incompatibilidads_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_planilla_incompatibilidad_path(@planilla_incompatibilidad), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to planilla_incompatibilidad_path(@planilla_incompatibilidad), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>
