@@ -1,13 +1,22 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "licencia.js" %>
 
+
 <style type="text/css">
 .form-group{
   margin-left: 0px;
   margin-right: 0px;
 }
 </style>
-  
+
+<!-- <fieldset>
+  <div id="pers" class="form-group">
+    <div class="col-sm-6">
+      <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_licencia_path, :placeholder => "Buscar persona", id_element: '#persona_id', :style => 'width:90%;'%>
+      <%= hidden_field_tag :persona_id %>
+    </div>
+  </div>
+</fieldset> -->
 <fieldset>
   <div class="form-snpe" >
     <div class="row">

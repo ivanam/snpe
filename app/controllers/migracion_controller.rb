@@ -5,8 +5,7 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 		@listaAux = []
-		@escuelas = [1,4,8,20,28,41,47,78,84,167,178,185,190,202,401,403,404,410,412,414,441,453,459,504,506,508,509,512,523,525,552,556,603,702,
-712,725,728,729,732,752,767,774,776,795,2404,2412,7705,7727,3000,4001,4007,5009,567,3031,4002,4006]
+		@escuelas = [1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018]
 
 	    client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
@@ -123,25 +122,25 @@ class MigracionController < ApplicationController
 		      		end
 
 		      		##################COMENTAR PARA MIGRAR TODOOOOOO
-		       	else
+		     #   	else
 
-		        	if hora.estado != 'ART'
+		     #    	if hora.estado != 'ART'
 
-				       	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-				      		hora.estado =  r['estado']
-				      	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-				      		hora.estado =  r['estado']
-				       	elsif hora.fecha_baja != r['fecha_baja']
-				       		hora.fecha_baja = r['fecha_baja']
-				      		hora.estado = 'BAJ'
-				       	elsif hora.fecha_baja != nil
-				       		hora.estado = 'BAJ'
-				       	end
-				      end
+				   #     	if hora.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+				   #    		hora.estado =  r['estado']
+				   #    	elsif hora.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+				   #    		hora.estado =  r['estado']
+				   #     	elsif hora.fecha_baja != r['fecha_baja']
+				   #     		hora.fecha_baja = r['fecha_baja']
+				   #    		hora.estado = 'BAJ'
+				   #     	elsif hora.fecha_baja != nil
+				   #     		hora.estado = 'BAJ'
+				   #     	end
+				   #    end
 				
 				
-					  hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-					  hora.save      	
+					  # hora.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+					  # hora.save      	
 			      end	
 			end
 		end
@@ -155,8 +154,8 @@ class MigracionController < ApplicationController
 	def migrar_cargos
 
 		@listacargoSinSec = []
-		@escuelas = [1,4,8,20,28,41,47,78,84,167,178,185,190,202,401,403,404,410,412,414,441,453,459,504,506,508,509,512,523,525,552,556,603,702,
-712,725,728,729,732,752,767,774,776,795,2404,2412,7705,7727,3000,4001,4007,5009,567,3031,4002,4006]
+	    @escuelas = [1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018]
+
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 	 	#res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' and  secuencia<88 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
 	 #select secuencia as secMax, p.* from paddoc p where escuela = '"+params[:esc]+"' and secuencia<88  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
@@ -232,23 +231,23 @@ class MigracionController < ApplicationController
 
 
 
-		       		##################COMENTAR PARA MIGRAR TODOOOOOO
-	        		else
-	   	 	   		if cargo.estado != 'ART'
-				      	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-				      		cargo.estado =  r['estado']
-				      	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-				      		cargo.estado =  r['estado']
-				      	elsif cargo.fecha_baja != r['fecha_baja']
-				      		cargo.fecha_baja = r['fecha_baja']
-				      		cargo.estado = 'BAJ'
-				      	elsif cargo.fecha_baja != nil
-				      		cargo.estado = 'BAJ'
-				      	end
-				  	end
+		    #    		##################COMENTAR PARA MIGRAR TODOOOOOO
+	     #    		else
+	   	 # 	   		if cargo.estado != 'ART'
+				  #     	if cargo.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+				  #     		cargo.estado =  r['estado']
+				  #     	elsif cargo.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+				  #     		cargo.estado =  r['estado']
+				  #     	elsif cargo.fecha_baja != r['fecha_baja']
+				  #     		cargo.fecha_baja = r['fecha_baja']
+				  #     		cargo.estado = 'BAJ'
+				  #     	elsif cargo.fecha_baja != nil
+				  #     		cargo.estado = 'BAJ'
+				  #     	end
+				  # 	end
 			
-				  cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-				  cargo.save      	
+				  # cargo.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+				  # cargo.save      	
 		 	    end	
 
 			end
@@ -258,8 +257,8 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		@escuelas = [1,4,8,20,28,41,47,78,84,167,178,185,190,202,401,403,404,410,412,414,441,453,459,504,506,508,509,512,523,525,552,556,603,702,
-712,725,728,729,732,752,767,774,776,795,2404,2412,7705,7727,3000,4001,4007,5009,567,3031,4002,4006]
+		@escuelas = [1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018]
+
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
 
@@ -334,23 +333,23 @@ class MigracionController < ApplicationController
 					end
 
 					##################COMENTAR PARA MIGRAR todooooo
-	       	  else
-		       		if cargond.estado != 'ART'
-				     	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
-				     		cargond.estado =  r['estado']
-				    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
-				     		cargond.estado =  r['estado']
-				     	elsif cargond.fecha_baja != r['fecha_baja']
-				     		cargond.fecha_baja = r['fecha_baja']
-				     		cargond.estado = 'BAJ'
-				     	elsif cargond.fecha_baja != nil
-				     		cargond.estado = 'BAJ'
-				     	end
-			     	end
+	    #    	  else
+		   #     		if cargond.estado != 'ART'
+				 #     	if cargond.estado == 'LIC' && (( r['estado'] == 'ALT')  ||  ( r['estado'] == 'BAJ') ) 
+				 #     		cargond.estado =  r['estado']
+				 #    	elsif cargond.estado == 'ALT' && ( (r['estado'] == 'LIC') || ( r['estado'] == 'BAJ') ) 
+				 #     		cargond.estado =  r['estado']
+				 #     	elsif cargond.fecha_baja != r['fecha_baja']
+				 #     		cargond.fecha_baja = r['fecha_baja']
+				 #     		cargond.estado = 'BAJ'
+				 #     	elsif cargond.fecha_baja != nil
+				 #     		cargond.estado = 'BAJ'
+				 #     	end
+			  #    	end
 			
 			
-				     cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
-					cargond.save      	
+				 #     cargond.assign_attributes(fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista)
+					# cargond.save      	
 		       end	
 
 		  	end

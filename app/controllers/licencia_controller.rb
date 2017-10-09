@@ -1,7 +1,15 @@
 class LicenciaController < ApplicationController
+  autocomplete :persona, :apeynom, :full => false, :extra_data => [:apeynom, :nro_documento], :display_value => :to_s
   before_action :set_licencium, only: [:show, :edit, :update, :destroy]
+  
 
   respond_to :html
+
+
+
+  def get_autocomplete_items
+    render json: Persona.where('nro_documento like "%' + params[:term] + '%" or apeynom like "%' + params[:term] + '%"').pluck(:apeynom).to_json
+  end
 
   def index
 
@@ -94,6 +102,9 @@ class LicenciaController < ApplicationController
       format.json { render json: ListadoLicenciaCargos2Datatable.new(view_context, { query: @res3}) }
     end
   end
+
+
+
 
 #----------------------------------------------licencias sin goce---------------------------------------------------------------
 def listado_licencias_todas_lic

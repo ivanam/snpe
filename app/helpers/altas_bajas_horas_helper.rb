@@ -42,7 +42,9 @@ module AltasBajasHorasHelper
   end
 
   def altas_bajas_horas_permitidas_altas_notificadas(mindate, maxdate)
+
     @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
+    
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
       if a.estado_actual == "Notificado" || a.estado_actual == "Chequeado" || a.estado_actual == "Impreso"
