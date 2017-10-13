@@ -152,6 +152,11 @@
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic, options_for_select([['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>
+         <hr/>
+        <div class="row">
+        <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
+        </div>
+        <hr/>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -178,12 +183,15 @@
         <hr/>
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
-      </div>
+        </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>
-             <div id="anio_lic_1" >
+        <div id="anio_lic_1" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_1, options_for_select([['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010]], 0,), {:prompt => "Seleccionar fecha"} %> 
+        </div>
+        <div class="row">
+        <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_cargos" %>
         </div>
       </div>
       <div class="modal-footer">
@@ -285,6 +293,7 @@
 
   $(document).ready(function() {
   $('select#prestador').select2();
+  $("#select_destino_cargos").hide();
    });
 
   $(document).ready(function() {
@@ -586,11 +595,18 @@
           $("#alerta-dias-cargo").show();
           if (id_articulo == 241){
             $("#anio_lic_1").show();
-            $("#input_anio_lic_1" ).val(""); 
+            $("#input_anio_lic_1" ).val("");
           }
           else
           {
           $("#anio_lic_1").hide();
+          }
+          if (id_articulo == 360){
+            $("#select_destino_cargos").show();
+          }
+          else
+          {
+            $("#select_destino_cargos").hide();
           } 
           }) 
   });
