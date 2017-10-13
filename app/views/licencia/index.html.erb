@@ -765,7 +765,10 @@
         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos" ).val("");
-        $("#input_anio_lic_1" ).val("");          
+        $("#input_anio_lic_1" ).val("");   
+        if (data != "") {
+          alert(data); 
+        };       
       })
   });
 
@@ -965,7 +968,10 @@
         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos_no_docente8" ).val("");
-        $("#input_anio_lic_8" ).val("");           
+        $("#input_anio_lic_8" ).val("");   
+        if (data != "") {
+          alert(data); 
+        };        
       })
   });
 
