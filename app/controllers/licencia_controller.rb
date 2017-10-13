@@ -337,13 +337,19 @@ def listado_licencias_todas_lic
 
    
   def guardar_licencia_cargos_no_docentes
+    turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
+    if (turnocnds == nil or turnocnds == "")
+      msg = "El cargo auxiliar no tiene turno asignado"
+      render json: msg.to_json
+    else
     @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
     if @licencia.save
       render json: 0
     else
-      msg = "error en la licencia"
+      msg = "error al guardar la licencia"
       render json: msg.to_json
     end
+   end 
   end
 
   def guardar_licencia_cargos_no_docentes2
@@ -376,7 +382,6 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_final 
-
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
@@ -436,7 +441,7 @@ def listado_licencias_todas_lic
     @licencia_articulo.each do |l|
       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
     end
-    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias.to_i - @dias
     render json:  @dias_disponibles
   end
 

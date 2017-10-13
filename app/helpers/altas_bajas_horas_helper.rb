@@ -21,6 +21,7 @@ module AltasBajasHorasHelper
   end
 
   def select_planes_permitidos 
+
     @plan_ids = EstablecimientoPlan.where(:establecimiento_id => session[:establecimiento]).map(&:plan_id)          
     @planes_permitidos = Plan.where(:id => @plan_ids)
   end

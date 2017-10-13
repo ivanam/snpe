@@ -1,0 +1,115 @@
+<%= form_for(@planilla_incompatibilidad, :html => { :class => "form-horizontal" }) do |f| %>
+  <% if @planilla_incompatibilidad.errors.any? %>
+    <div class="alert alert-danger alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
+
+      <ul>
+      <% @planilla_incompatibilidad.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= f.label :numero, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :numero, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :nota_ingreso, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :nota_ingreso, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :apellido, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :apellido, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :nombre, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :nombre, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :dni, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :dni, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fecha_nacimiento, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :fecha_nacimiento, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :escuela_a, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :escuela_a, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :escuela_b, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :escuela_b, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :escuela_c, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :escuela_c, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :escuela_d, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :escuela_d, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :escuela_e, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :escuela_e, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :observaciones_inc, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_area :observaciones_inc, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fecha1, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :fecha1, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :observaciones_suel, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :observaciones_suel, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :fecha2, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.date_select :fecha2, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+
+      <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      <%= link_to planilla_incompatibilidads_path, :class => 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Atrás
+      <% end %>
+    </div>
+  </div>
+<% end %>

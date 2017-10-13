@@ -55,6 +55,10 @@ class Ability
         can :edit, [Persona]
         can :update, [Persona]
       end
+
+      if user.role? :incompatibilidad
+        can :manage [PlanillaIncompatibilidad]
+      end
       
       user.roles.each do |ro|
         can do |action, subject_class, subject|

@@ -8,7 +8,7 @@ class Licencium < ActiveRecord::Base
   before_create :actualizar_estado
   before_update :cancelar_licencia
 
-  validate :fecha_inicio_valida
+  #validate :fecha_inicio_valida
  
  def ash_id
  
@@ -22,7 +22,6 @@ class Licencium < ActiveRecord::Base
 
  private
  		def fecha_inicio_valida
- 			
  			fecha_alta = nil
  			if self.altas_bajas_hora_id != nil
  				fecha_alta = self.altas_bajas_hora.fecha_alta
@@ -56,7 +55,9 @@ class Licencium < ActiveRecord::Base
 			end
 	 end  
      
+
 	 def cancelar_licencia
+
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
@@ -65,7 +66,7 @@ class Licencium < ActiveRecord::Base
 	 			elsif self.por_continua
 
 	 			else
-		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" id > " +  alta_horas.id.to_s )
+		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_s + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
 					if suplentes_activos == []
 		 				alta_horas.update!(estado: 'ALT')
 		 			else

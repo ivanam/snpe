@@ -1,0 +1,2 @@
+module PlanillaIncompatibilidadsHelper
+end
