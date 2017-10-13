@@ -17,6 +17,7 @@ class CargosNuevosDatatable < AjaxDatatablesRails::Base
         record.persona.nro_documento,
         record.persona.to_s,
         record.situacion_revista,
+        Funcion.where(categoria: record.cargo).first.to_s,
         record.cargo,
         record.turno,
         record.anio,

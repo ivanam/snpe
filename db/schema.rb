@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171003144147) do
+ActiveRecord::Schema.define(version: 20171013131001) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -421,24 +421,13 @@ ActiveRecord::Schema.define(version: 20171003144147) do
     t.boolean  "por_baja"
     t.integer  "prestador_id"
     t.integer  "anio_lic"
+    t.boolean  "por_continua"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
-
-  create_table "licenciaV2", id: false, force: true do |t|
-    t.integer "nro_documento"
-    t.string  "apeynom"
-    t.string  "descripcion"
-    t.date    "fecha_desde"
-    t.date    "fecha_hasta"
-    t.string  "vigente"
-    t.string  "codigo_jurisdiccional"
-    t.integer "id",                    default: 0
-    t.string  "codigo"
-  end
 
   create_table "licenciasV", id: false, force: true do |t|
     t.string "apeynom"
@@ -568,6 +557,27 @@ ActiveRecord::Schema.define(version: 20171003144147) do
     t.datetime "updated_at"
     t.string   "cuil"
     t.string   "apeynom"
+  end
+
+  create_table "planilla_incompatibilidads", force: true do |t|
+    t.integer  "numero"
+    t.string   "nota_ingreso"
+    t.string   "apellido"
+    t.string   "nombre"
+    t.integer  "dni"
+    t.date     "fecha_nacimiento"
+    t.integer  "escuela_a"
+    t.integer  "escuela_b"
+    t.integer  "escuela_c"
+    t.integer  "escuela_d"
+    t.integer  "escuela_e"
+    t.text     "observaciones_inc"
+    t.date     "fecha1"
+    t.string   "observaciones_suel"
+    t.string   "text"
+    t.date     "fecha2"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "plans", force: true do |t|

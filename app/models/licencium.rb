@@ -31,8 +31,10 @@ class Licencium < ActiveRecord::Base
  			elsif self.cargo_no_docente_id != nil 				
  				fecha_alta = self.cargo_no_docente.fecha_alta
  			end
-
- 			if self.fecha_desde < fecha_alta
+ 			if self.fecha_desde.to_date < fecha_alta.to_date
+ 				errors.add(:fecha_desde, "No puede ser menor a la fecha de alta")
+ 			end
+ 			if self.fecha_desde.to_date > fecha_hasta.to_date
  				errors.add(:fecha_desde, "No puede ser menor a la fecha de alta")
  			end
  		end
@@ -55,12 +57,13 @@ class Licencium < ActiveRecord::Base
 	 end  
      
 	 def cancelar_licencia
-	 	
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 			if self.por_baja
 	 				alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
+	 			elsif self.por_continua
+
 	 			else
 		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" id > " +  alta_horas.id.to_s )
 					if suplentes_activos == []
@@ -75,6 +78,9 @@ class Licencium < ActiveRecord::Base
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
 	 				cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
+	 			elsif self.por_continua
+
+
 	 			else
 		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
 		 			if suplentes_activos == []
@@ -86,6 +92,8 @@ class Licencium < ActiveRecord::Base
 		 		end
 
 	 		elsif self.cargo_no_docente_id != nil
+	 			elsif self.por_continua
+	 			else
 	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
 	 		end
 		end
