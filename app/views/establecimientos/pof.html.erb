@@ -401,7 +401,7 @@
       <th>Editar domicilio</th>        
     </thead>
     <tbody>
-      <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id).each do |h| %>
+      <% establecimiento_actual.horas_activas.order(:turno, :anio, :division, :plan_id, :materium_id, :fecha_alta).each do |h| %>
         <tr>
           <td><%= h.persona.to_s %></td>
           <td style="display:none;" ><%= h.persona.id %></td>

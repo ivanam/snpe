@@ -345,7 +345,7 @@ def listado_licencias_todas_lic
     @licencia_articulo.each do |l|
       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
     end
-    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias.to_i - @dias
     render json:  @dias_disponibles
   end
 
