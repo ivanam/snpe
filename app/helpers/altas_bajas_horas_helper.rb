@@ -21,6 +21,7 @@ module AltasBajasHorasHelper
   end
 
   def select_planes_permitidos 
+
     @plan_ids = EstablecimientoPlan.where(:establecimiento_id => session[:establecimiento]).map(&:plan_id)          
     @planes_permitidos = Plan.where(:id => @plan_ids)
   end
@@ -47,7 +48,7 @@ module AltasBajasHorasHelper
     
     @altasbajashoras_ids = []
     @altasbajashoras.each do |a|
-      if a.estado_actual == "Notificado" || a.estado_actual == "Chequeado" || a.estado_actual == "Impreso"
+      if a.estado_actual == "Notificado" || a.estado_actual == "Chequeado" || a.estado_actual == "Impreso" 
         @altasbajashoras_ids << a.id
       end
     end
