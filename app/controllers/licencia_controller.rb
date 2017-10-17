@@ -212,6 +212,13 @@ def listado_licencias_todas_lic
     end
   end
 
+  def cargos_licencia_permitida2
+    @dni=params[:dni]
+    respond_to do |format|
+      format.json { render json: CargosLicenciaPermitidaDatatable.new(view_context, { query: cargos_persona_permitida(@dni)}) }
+    end
+  end
+
 
   def cargos_no_docentes_licencia_permitida
     @dni=params[:dni]
@@ -236,7 +243,6 @@ def listado_licencias_todas_lic
   end 
 
   def guardar_licencia_horas
-
     @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
     if @licencia.save
       render json: 0
@@ -246,7 +252,35 @@ def listado_licencias_todas_lic
     end
   end 
 
+
+  def guardar_licencia_horas2
+    @no_guarda = true
+    @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
+    @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
+    if @licencia_anterior.fecha_hasta == nil
+        if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
+          fecha = params[:fecha_inicio].to_date - 1
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+        else
+          @no_guarda = false
+        end
+    elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+    else
+      @no_guarda = false
+    end
+    if @no_guarda and @licencia.save
+        render json: 0
+      else
+        msg = "error en la licencia"
+        render json: msg.to_json
+      end
+    end
+
+
+
   def guardar_licencia_cargos
+
   secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
   descripcion_articulo= Articulo.where(id: params['articulo']).first.descripcion
   if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359" or params['articulo']=="360") and secuencia != 1000)
@@ -269,19 +303,85 @@ def listado_licencias_todas_lic
     end
   end
   end
+
+
+  def guardar_licencia_cargos2
+
+  @no_guarda = true
+  secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
+  descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
+  @licencia_anterior= Licencium.where(cargo_id: params['id_cargos'], vigente: 'vigente').last
+  @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+
+    if @licencia_anterior.fecha_hasta == nil
+        if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
+          fecha = params[:fecha_inicio].to_date - 1
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+        else
+          @no_guarda = false
+        end
+    elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+    else
+      @no_guarda = false
+    end
+ 
+    if @no_guarda and @licencia.save
+        render json: 0
+      else
+      
+        msg = "error en la licencia"
+        render json: msg.to_json
+      end
+    end
+
    
   def guardar_licencia_cargos_no_docentes
+    turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
+    if (turnocnds == nil or turnocnds == "")
+      msg = "El cargo auxiliar no tiene turno asignado"
+      render json: msg.to_json
+    else
     @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
     if @licencia.save
       render json: 0
     else
-      msg = "error en la licencia"
+      msg = "error al guardar la licencia"
       render json: msg.to_json
     end
+   end 
   end
 
-  def guardar_licencia_final 
+  def guardar_licencia_cargos_no_docentes2
+    @no_guarda = true
+    @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
+    @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
+    
+    if @licencia_anterior.fecha_hasta == nil
+        if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
+          fecha = params[:fecha_inicio].to_date - 1
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+        else
+          @no_guarda = false
+        end
+    elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+    else
+      @no_guarda = false
+    end
 
+    if @no_guarda and @licencia.save
+        render json: 0
+    else
+      
+        msg = "error en la licencia"
+        render json: msg.to_json
+      end
+    end
+
+
+
+  def guardar_licencia_final 
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
@@ -301,13 +401,13 @@ def listado_licencias_todas_lic
         @estado = Estado.where(:descripcion => "Notificado_Baja").first
         CargoEstado.create(estado_id: @estado.id, cargo_id: cargos.id, user_id: current_user.id) 
         msg = ''
-      end
-
-        
+      end  
     end
 
     render json: msg.to_json
   end 
+
+
 
   def cancelar_licencia
     @licencia = Licencium.where(id: params[:id_lic]).first

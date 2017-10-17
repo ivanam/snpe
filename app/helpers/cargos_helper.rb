@@ -15,7 +15,7 @@ module CargosHelper
     @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @cargos_ids = []
     @cargos.each do |c|
-      if c.estado_actual == "Notificado" || c.estado_actual == "Chequeado" || c.estado_actual == "Impreso" || c.estado_actual == "Modificado"
+      if c.estado_actual == "Notificado" || c.estado_actual == "Chequeado" || c.estado_actual == "Impreso" || c.estado_actual == "Modificado" || c.estado_actual == "Notificado_Baja"
         @cargos_ids << c.id
       end
     end
@@ -26,7 +26,7 @@ module CargosHelper
     @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
     @cargos_ids = []
     @cargos.each do |a|
-      if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso"
+      if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso" || a.estado_actual == "Notificado_Baja" || a.estado_actual == "Notificado_Alta"
         @cargos_ids << a.id
       end
     end
@@ -46,7 +46,7 @@ module CargosHelper
 
 
   def cargo_bajas_efectivas(mindate, maxdate)
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
     @cargos_ids = []
     @cargos.each do |c|
       if c.estado_actual == "Chequeado_Baja" || c.estado_actual == "Impreso" || c.estado_actual == "Notificado_Baja"

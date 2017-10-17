@@ -301,7 +301,7 @@ class CargosController < ApplicationController
 
   def cancelar_baja
     if Cargo.find(params["id"]).estado_actual == "Notificado_Baja"
-      if @cargo.update(:fecha_baja => nil)
+      if @cargo.update(:fecha_baja => nil, estado: 'ALT')
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
       end
