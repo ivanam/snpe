@@ -74,6 +74,7 @@ class Licencium < ActiveRecord::Base
 		 				return false
 		 			end
 		 		end
+
             
 	 		elsif self.cargo_id != nil
 	 			cargo = Cargo.find(self.cargo_id)
@@ -92,13 +93,15 @@ class Licencium < ActiveRecord::Base
 		 			end
 		 		end
 
+
 	 		elsif self.cargo_no_docente_id != nil
+	 			
+	 			if self.por_continua != nil 
 
-	 			elsif self.por_continua != nil 
-
-	 			else
-
-	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
+	 			elsif self.por_continua == nil 
+	 				
+	 				CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
+	 			end
 	 		end
 		end
 	 end 
