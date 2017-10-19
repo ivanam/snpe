@@ -63,7 +63,7 @@ class Licencium < ActiveRecord::Base
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 			if self.por_baja
 	 				alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
-	 			elsif self.por_continua
+	 			elsif self.por_continua == nil 
 
 	 			else
 		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_s + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
@@ -79,7 +79,7 @@ class Licencium < ActiveRecord::Base
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
 	 				cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
-	 			elsif self.por_continua
+	 			elsif self.por_continua == nil 
 
 
 	 			else
@@ -93,7 +93,8 @@ class Licencium < ActiveRecord::Base
 		 		end
 
 	 		elsif self.cargo_no_docente_id != nil
-	 			elsif self.por_continua
+	 			debugger
+	 			elsif self.por_continua == nil 
 	 			else
 	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
 	 		end
