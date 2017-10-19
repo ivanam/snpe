@@ -93,7 +93,7 @@ class Licencium < ActiveRecord::Base
 		 		end
 
 	 		elsif self.cargo_no_docente_id != nil
-	 			debugger
+	 			
 	 			elsif self.por_continua == nil 
 	 			else
 	 			CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
