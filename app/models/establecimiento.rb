@@ -58,6 +58,10 @@ class Establecimiento < ActiveRecord::Base
 	  end
 	end
 
+  def cargos_reubicacion
+    return Cargo.where(establecimiento_id: self.id, estado: ['REU'] )
+  end
+
   def cargos_director
     return Cargo.where(establecimiento_id: self.id, cargo: Funcion::DIRECTOR_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
   end
