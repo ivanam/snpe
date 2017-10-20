@@ -99,7 +99,8 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
+
+    return options[:query].order('fecha_desde DESC')
   end
 
 end

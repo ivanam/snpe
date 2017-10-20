@@ -61,7 +61,7 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   #Método que valida el alta de un paquete de horas
-  def validar_alta 
+  def validar_alta
     if self.estado == 'ALT'
       if validar_situacion_revista
         if plan_con_validacion
