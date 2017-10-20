@@ -61,7 +61,8 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   #Método que valida el alta de un paquete de horas
-  def validar_alta 
+  def validar_alta
+  debugger 
     if self.estado == 'ALT'
       if validar_situacion_revista
         if plan_con_validacion
@@ -166,6 +167,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Articulo sin goce de haberes
   def con_licencia_reemplazante(altasbajashoras)
+        debugger
     if altasbajashoras.where(situacion_revista: "1-1").first #Titular
       primer = altasbajashoras.where(situacion_revista: "1-1").first #Titular
     else 
