@@ -280,7 +280,6 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos
-    debugger
     secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
     if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359") and secuencia != 1000)
@@ -294,8 +293,7 @@ def listado_licencias_todas_lic
         render json: msg.to_json
       end
     elsif params[:articulo] == "360"
-
-      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino])
       if Cargo.find(params['id_cargos']).situacion_revista == "1-1" && @licencia.save && Cargo.find(params['id_cargos']).update(establecimiento_id: params[:destino], estado: 'REU')
         render json: 0
       else
