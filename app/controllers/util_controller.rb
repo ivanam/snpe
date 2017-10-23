@@ -1,9 +1,16 @@
 class UtilController < ApplicationController
+  autocomplete :persona, :apeynom, :full => false, :extra_data => [:apeynom, :nro_documento], :display_value => :to_s
 
   def buscar_persona    
     @persona = Persona.where(:nro_documento => params[:dni]).first()
     render json: @persona
   end
+
+
+  def get_autocomplete_items(parameters)
+      Persona.where('apellidos like "%' + parameters[:term] + '%" or nombres like "%' + parameters[:term] + '%" or nro_documento like "%' + parameters[:term] + '%" or apeynom like "%' + parameters[:term] + '%"')
+  end
+
 
   def buscar_hora
     @horas = AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))

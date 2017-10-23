@@ -359,6 +359,11 @@ ProyectoBase::Application.routes.draw do
     #-------------------------------------------------------------------------------
 
     resources :licencia
+    resources :util do
+        get :autocomplete_persona_apeynom, :on => :collection
+    end
+
+
 
     
     get "licencias/autocomplete_persona_apeynom", to: 'licencia#get_autocomplete_items', as: :autocomplete_persona_apeynom_licencia

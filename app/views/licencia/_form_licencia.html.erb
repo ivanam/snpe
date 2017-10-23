@@ -9,19 +9,14 @@
 }
 </style>
 
-<!-- <fieldset>
-  <div id="pers" class="form-group">
-    <div class="col-sm-6">
-      <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_licencia_path, :placeholder => "Buscar persona", id_element: '#persona_id', :style => 'width:90%;'%>
-      <%= hidden_field_tag :persona_id %>
-    </div>
-  </div>
-</fieldset> -->
+
 <fieldset>
   <div class="form-snpe" >
     <div class="row">
-      <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
-      <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control", :id => "input_dni2", :placeholder =>"N° Documento", :maxlength=>"8"} %>
+      <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_util_index_path, :placeholder => "Buscar persona", id_element: '#persona_id', :id => "persona" , :style => 'width:70%;'%>
+      <%= hidden_field_tag :persona_id  %>
+
+      
       <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
     </div>
     <div class="row">
@@ -63,40 +58,46 @@
 <% end %>
 
  <script type="text/javascript">
-  $("#input_dni2").keyup(function(e){
+    $("#persona").change(function(e){
+      
         
-       if(e.which == 13){//Enter key pressed
-        $('#btn_buscar_persona').click();//Trigger search button click event
-       }
-       var dni = parseInt($("#input_dni2").val(),10);
-       if (!Number.isNaN(dni)) //Verifico que se haya ingresaod un dni 
+       var id = parseInt($("#persona_id").val());
+       if (!Number.isNaN(id)) //Verifico que se haya ingresaod un dni 
        { 
-          $.ajax({
-            url: '/soft/snpe/util/buscar_persona/'+dni,
+
+        $.ajax({
+            url: '/soft/snpe/util/buscar_persona_por_id/'+id,
             type: 'POST',
           })
-          .done(function(data) {            
-            if (data != null) { 
-                
-              $("#datos_persona").show();           
-              $("#label_nombres").text(data.nombres);
-              $("#label_apellidos").text('Apellido y nombre: '+data.apeynom);
-              $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
-              $("#label_calle").text('Calle: '+data.calle);
-              $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
-              $("#label_calle").text('Calle: '+data.calle);
-              $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
-            }
-            else{
-              //alert("La persona no existe. Por favor cargue sus datos");
-              $("#datos_persona").hide();           
-              $("#label_nombres").text("");
-              $("#label_apellidos").text("");
-              $("#label_cuil").text("");
-              $("#label_calle").text("");
-              $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
-              $("#datepicker3").text("");
-            }
+            .done(function(data) {
+              window.dni = data.nro_documento
+            $.ajax({
+              url: '/soft/snpe/util/buscar_persona/'+window.dni,
+              type: 'POST',
+            })
+            .done(function(data) {            
+              if (data != null) { 
+                  
+                $("#datos_persona").show();           
+                $("#label_nombres").text(data.nombres);
+                $("#label_apellidos").text('Apellido y nombre: '+data.apeynom);
+                $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
+                $("#label_calle").text('Calle: '+data.calle);
+                $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+                $("#label_calle").text('Calle: '+data.calle);
+                $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
+              }
+              else{
+                //alert("La persona no existe. Por favor cargue sus datos");
+                $("#datos_persona").hide();           
+                $("#label_nombres").text("");
+                $("#label_apellidos").text("");
+                $("#label_cuil").text("");
+                $("#label_calle").text("");
+                $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
+                $("#datepicker3").text("");
+              }
+            })
           })
         }
     });  

@@ -562,10 +562,16 @@
         ]
     });
 
-    var dni
-    $('#btn_buscar_persona').on('click', function () {
-      dni = parseInt($("#input_dni2").val(),10);
-        
+
+    $('#btn_buscar_persona').on('click', function() { //Trigger search button click event
+      var id = parseInt($("#persona_id").val());
+      $.ajax({
+            url: '/soft/snpe/util/buscar_persona_por_id/'+id,
+            type: 'POST',
+          })
+            .done(function(data) {
+              window.dni = data.nro_documento
+      
       $("#div_horas").show();
       $("#div_cargos").show();
       $("#div_hr_horas").show();
@@ -577,17 +583,20 @@
       $("#div_personas").show();
       $("#div_hr_personas").show();
       
-      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
-      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni);
-      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
 
       tabla_horas_licencia.api().ajax.reload();
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
       tabla_personas.api().ajax.reload();
-    });
+      
+        })
+      }
+    );
 
 
   //--------------------------------Horas------------------------------------
@@ -623,9 +632,9 @@
           type: 'POST',
         })
       .done(function(data) {
-        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni); 
+        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni); 
         tabla_horas_licencia.api().ajax.reload();
-        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_horas" ).val("");
         $("#input_anio_lic" ).val("");
@@ -691,9 +700,9 @@
           type: 'POST',
         })
       .done(function(data) {
-        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni); 
+        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni); 
         tabla_horas_licencia.api().ajax.reload();
-        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_horas6" ).val("");
         $("#input_anio_lic_6" ).val("");
@@ -761,9 +770,9 @@
           type: 'POST',
         })
       .done(function(data) {
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni); 
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni); 
         tabla_cargos_licencia.api().ajax.reload();
-        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos" ).val("");
         $("#input_anio_lic_1" ).val("");   
@@ -832,9 +841,9 @@
           type: 'POST',
         })
       .done(function(data) {
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni); 
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni); 
         tabla_cargos_licencia.api().ajax.reload();
-        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos7" ).val("");
         $("#input_anio_lic_7" ).val("");
@@ -899,9 +908,9 @@
           type: 'POST',
         })
       .done(function(data) {
-        tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni); 
+        tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni); 
         tabla_cargos_no_docentes_licencia.api().ajax.reload();
-        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos_no_docente" ).val("");
         $("#input_anio_lic_2" ).val("");
@@ -964,9 +973,9 @@
           type: 'POST',
         })
       .done(function(data) {
-        tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni); 
+        tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni); 
         tabla_cargos_no_docentes_licencia.api().ajax.reload();
-        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni); 
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos_no_docente8" ).val("");
         $("#input_anio_lic_8" ).val("");   
@@ -1031,10 +1040,10 @@
       type: 'POST',
       })
     .done(function(data) {
-      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
-      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni);
-      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
       tabla_horas_licencia.api().ajax.reload();
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
@@ -1058,10 +1067,10 @@
       type: 'POST',
       })
     .done(function(data) {
-      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+dni);
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+dni);
-      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+dni);
-      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+dni);
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
       tabla_horas_licencia.api().ajax.reload();
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
