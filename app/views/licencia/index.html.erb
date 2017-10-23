@@ -766,7 +766,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo+'/'+fecha_anio_lic_1+'/'+destino,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo+'/'+fecha_anio_lic_1+'?destino='+destino,
           type: 'POST',
         })
       .done(function(data) {
