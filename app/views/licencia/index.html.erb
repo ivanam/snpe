@@ -145,7 +145,12 @@
         <%= text_field_tag 'input_fecha_fin'%>
         <hr/>
         <div class="row">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
+        <% if establecimiento_actual.codigo_jurisdiccional == "3000" %>
+          <% @articulos = Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"})%>
+        <% else %>
+          <% @articulos = Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}) %>
+        <% end %>
+        <%= select_tag "Articulo", options_from_collection_for_select(@articulos, "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
         </div>
         <hr/>
         <div id="alerta-dias" class="alert alert-info"> </div>
