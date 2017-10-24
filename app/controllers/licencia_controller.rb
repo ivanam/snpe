@@ -280,34 +280,37 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos
-
-  secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
-  descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
-  if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359") and secuencia != 1000)
-    cargo=Cargo.where(id: params['id_cargos']).first
-    Cargo.create!(establecimiento_id: cargo.establecimiento_id, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: cargo.estado , observaciones:descripcion_articulo )
-    @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
-    if @licencia.save
-      render json: 0
+    cargo = Cargo.where(id: params['id_cargos']).first
+    secuencia= cargo.secuencia
+    descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
+    if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359") and secuencia != 1000)
+      destino = cargo.establecimiento_id
+      if params[:articulo] == "359" and params[:destino].to_i > 0
+        destino = params[:destino]
+      end  
+      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino])
+      if @licencia.save && Cargo.create!(establecimiento_id: destino, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: 'REU' , observaciones: descripcion_articulo)
+        render json: 0
+      else
+        msg = "error en la licencia"
+        render json: msg.to_json
+      end
+    elsif params[:articulo] == "360"
+      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino])
+      if Cargo.find(params['id_cargos']).situacion_revista == "1-1" && @licencia.save && Cargo.find(params['id_cargos']).update(establecimiento_id: params[:destino], estado: 'REU')
+        render json: 0
+      else
+        render json: "no se puede realizar el traslado".to_json
+      end
     else
-      msg = "error en la licencia"
-      render json: msg.to_json
+      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+      if @licencia.save
+        render json: 0
+      else
+        msg = "error en la licencia"
+        render json: msg.to_json
+      end
     end
-  elsif params[:articulo] == "360"
-    if Cargo.find(params['id_cargos']).situacion_revista == "1-1" && Cargo.find(params['id_cargos']).update(establecimiento_id: params[:destino], estado: 'REU')
-      render json: 0
-    else
-      render json: "no se puede realizar el traslado".to_json
-    end
-  else
-    @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
-    if @licencia.save
-      render json: 0
-    else
-      msg = "error en la licencia"
-      render json: msg.to_json
-    end
-  end
   end
 
 
@@ -436,7 +439,7 @@ def listado_licencias_todas_lic
       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i + 1
     end
    
-    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias.to_i - @dias
     render json:  @dias_disponibles
   end
 
