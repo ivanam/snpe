@@ -395,6 +395,7 @@
   $(document).ready(function() {
   $('select#prestador').select2();
   $("#select_destino_cargos").hide();
+  $("#select_destino_horas").hide();
    });
 
   $(document).ready(function() {
@@ -652,19 +653,24 @@
     $.ajax({
       url: '/soft/snpe/licencia/buscar_articulo_dias_hora/'+id_articulo+'/'+id_horas,
       type: 'GET',
-      })
-        .done(function(data) {
-        $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
-        $("#alerta-dias").show();
-        if (id_articulo == 241){
-            $("#anio_lic").show();
-            $("#input_anio_lic" ).val(""); 
-            }
-            else
-            {
-            $("#anio_lic").hide();
-            } 
-        }) 
+    })
+    .done(function(data) {
+      $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
+      $("#alerta-dias").show();
+      if (id_articulo == 241){
+        $("#anio_lic").show();
+        $("#input_anio_lic" ).val(""); 
+      }else{
+        $("#anio_lic").hide();
+      } 
+      if (id_articulo == 360 || id_articulo == 359){
+        $("#select_destino_horas").show();
+      }
+      else
+      {
+        $("#select_destino_horas").hide();
+      } 
+    }) 
   });
 
 
@@ -800,7 +806,7 @@
           {
           $("#anio_lic_1").hide();
           }
-          if (id_articulo == 360){
+          if (id_articulo == 360 || id_articulo == 359){
             $("#select_destino_cargos").show();
           }
           else
@@ -924,22 +930,29 @@
 
   $("#select_articulo_cargos_no_docente" ).change(function() {
     var id_articulo = parseInt($("#select_articulo_cargos_no_docente option:selected").val(),10);
-      $.ajax({
-        url: '/soft/snpe/licencia/buscar_articulo_dias_cargo_no_docente/'+id_articulo+'/'+id_cargos_no_docentes,
-        type: 'GET',
-      })
-        .done(function(data) {
-          $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
-          $("#alerta-dias-cargo-no-docentes").show();
-          if (id_articulo == 289){
-            $("#anio_lic_2").show();
-            $("#input_anio_lic_2" ).val(""); 
-          }
-          else
-          {
-          $("#anio_lic_2").hide();
-          } 
-          })
+    $.ajax({
+      url: '/soft/snpe/licencia/buscar_articulo_dias_cargo_no_docente/'+id_articulo+'/'+id_cargos_no_docentes,
+      type: 'GET',
+    })
+    .done(function(data) {
+      $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
+      $("#alerta-dias-cargo-no-docentes").show();
+      if (id_articulo == 289){
+        $("#anio_lic_2").show();
+        $("#input_anio_lic_2" ).val(""); 
+      }
+      else
+      {
+      $("#anio_lic_2").hide();
+      }
+      if (id_articulo == 360 || id_articulo == 359){
+        $("#select_destino_cargos").show();
+      }
+      else
+      {
+        $("#select_destino_cargos").hide();
+      } 
+    })
   });
 
 
