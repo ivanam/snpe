@@ -521,6 +521,15 @@ end
     @cargos.grupo_id = params[:grupo_id]
     @cargos.observaciones = params[:observaciones]
 
+  if @cargos.estado == "REU" then
+          if params[:estado] == "ALT"  then
+            @cargos.estado = params[:estado]
+          end
+  end 
+
+
+
+
     if @cargos.estado == "LIC" then
         if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
           @cargos.estado = params[:estado]
