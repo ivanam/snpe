@@ -521,8 +521,8 @@ end
     @cargos.grupo_id = params[:grupo_id]
     @cargos.observaciones = params[:observaciones]
 
-  if @cargos.estado == "REU" then
-          if params[:estado] == "ALT"  then
+  if @cargos.estado == "ALT" then
+          if params[:estado] == "REU"  then
             @cargos.estado = params[:estado]
           end
   end 
