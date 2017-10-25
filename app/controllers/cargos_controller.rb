@@ -521,9 +521,9 @@ end
     @cargos.grupo_id = params[:grupo_id]
     @cargos.observaciones = params[:observaciones]
 
-  if @cargos.estado == "ALT" then
-          debugger
-          if params[:estado] == "REU"  then
+  if @cargos.estado == "REU" then
+          
+          if params[:estado] == "ALT"  then
             @cargos.estado = params[:estado]
           end
   end 
