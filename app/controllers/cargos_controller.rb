@@ -522,7 +522,7 @@ end
     @cargos.observaciones = params[:observaciones]
 
   if @cargos.estado == "ALT" then
-      debugger
+      
           if params[:estado] == "REU"  then
             @cargos.estado = params[:estado]
           end
