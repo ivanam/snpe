@@ -11,9 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20171013131001) do
-
+ActiveRecord::Schema.define(version: 20171024111547) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -267,7 +265,6 @@ ActiveRecord::Schema.define(version: 20171013131001) do
     t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
-    t.integer  "mod_lote_impresion_id"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -481,6 +478,9 @@ ActiveRecord::Schema.define(version: 20171013131001) do
     t.integer  "prestador_id"
     t.integer  "anio_lic"
     t.boolean  "por_continua"
+    t.string   "decreto"
+    t.string   "resolucion"
+    t.integer  "destino"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
