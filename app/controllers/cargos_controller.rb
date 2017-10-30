@@ -12,16 +12,9 @@ class CargosController < ApplicationController
     if @persona == nil
       @persona = Persona.new
     end
-
     @motivo_baja = select_motivo_baja
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_with(@cargo)
-    
-    #@rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
-    #respond_to do |format|
-    #  format.html
-    #  format.json { render json: CargosNotificadosDatatable.new(view_context, { query: cargos_notificados_permitidos(@mindate, @maxdate), rol: @rol }) }      
-    #end
   end
 
   def index_bajas
@@ -274,28 +267,18 @@ class CargosController < ApplicationController
 
   def imprimir
     respond_to do |format|
-      @cargo = Cargo.find(params["id"])
-      if @cargo.estado_actual == "Chequeado" || @cargo.estado_actual == "Chequeado_Baja"
-        if @cargo.estado_actual == "Impreso"
-          format.html { redirect_to cargos_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
-        else
-          @estado = Estado.where(descripcion: "Impreso").first
-          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2).last
-          if @lote_impresion == nil
-            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
-          end
-          if @cargo.estado_actual == "Chequeado"
-            @cargo.update!(alta_lote_impresion_id: @lote_impresion.id)
-          elsif @cargo.estado_actual == "Chequeado_Baja"
-            @cargo.update!(baja_lote_impresion_id: @lote_impresion.id)
-          end
-          CargoEstado.create( cargo_id: @cargo.id, estado_id: @estado.id, user_id: current_user.id)
-          format.html { redirect_to cargos_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
-        end
-      else
-        format.html { redirect_to cargos_index_novedades_path, notice: 'No se pudo pasar a impresión' }
+      cargo = Cargo.find(params["id"])
+      estado = Estado.where(descripcion: "Impreso").first
+      lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2).last
+      if lote_impresion == nil
+        lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
       end
-      format.json { head :no_content } # 204 No Content
+      if cargo.update!(baja_lote_impresion_id: lote_impresion.id)
+        CargoEstado.create( cargo_id: cargo.id, estado_id: estado.id, user_id: current_user.id)
+        format.json { head :no_content } # 204 No Content
+      else
+        format.json { head :no_content } # 204 No Content
+      end
     end
   end
 
