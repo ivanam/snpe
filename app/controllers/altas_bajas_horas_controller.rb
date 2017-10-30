@@ -747,34 +747,24 @@ class AltasBajasHorasController < ApplicationController
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
-      format.json { head :no_content } # 204 No Content
+      
     end
   end
 
   def imprimir    
     respond_to do |format|
-      @hora = AltasBajasHora.find(params["id"])
-      if @hora.estado_actual == "Chequeado" || @hora.estado_actual == "Chequeado_Baja"
-        if @hora.estado_actual == "Impreso"
-          format.html { redirect_to horas_index_novedades_path, alert: 'Ya se encuentra en cola de impresión' }
-        else
-          @estado = Estado.where(descripcion: "Impreso").first
-          @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1).last
-          if @lote_impresion == nil
-            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
-          end
-          if @hora.estado_actual == "Chequeado"
-            @hora.update(lote_impresion_id: @lote_impresion.id)
-          elsif @hora.estado_actual == "Chequeado_Baja"
-            @hora.update(baja_lote_impresion_id: @lote_impresion.id)
-          end
-          AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
-          format.html { redirect_to horas_index_novedades_path, notice: 'Se movio la novedad a la cola de impresión' }
-        end
-      else
-        format.html { redirect_to horas_index_novedades_path, notice: 'No se pudo pasar a impresión' }
+      hora = AltasBajasHora.find(params["id"])
+      estado = Estado.where(descripcion: "Impreso").first
+      lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1).last
+      if lote_impresion == nil
+        lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
       end
-      format.json { head :no_content } # 204 No Content
+      if hora.update(lote_impresion_id: lote_impresion.id)
+          AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
+          format.json { head :no_content, notice: 'Se movio la novedad a la cola de impresión' } # 204 No Content
+      else
+        format.json { head :no_content, notice: 'No se pudo pasar a impresión' } # 204 No Content
+      end
     end
   end
 
