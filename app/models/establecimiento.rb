@@ -102,4 +102,8 @@ class Establecimiento < ActiveRecord::Base
     return Cargo.where(establecimiento_id: self.id, estado: ['ALT', 'LIC', 'ART'] ).where.not(cargo: Funcion.cargos_especiales)
   end
 
+  def self.estab_sedes
+    return "(3000,3031,4002,4006,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018)"
+  end
+
 end
