@@ -12,7 +12,7 @@ class CargoEstado < ActiveRecord::Base
      @resultado = "success"
    elsif (@estado == "Ingresado") || (@estado == "Ingresado_Baja") then
      @resultado = "warning"
-   elsif (@estado == "Impreso") then
+   elsif (@estado == "Impreso") || (@estado == "Cobrado")
      @resultado = "primary"
      if (Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id != nil) || (Cargo.where(:id => self.cargo_id).first.baja_lote_impresion_id != nil) then
         if (LoteImpresion.where(:id => Cargo.where(:id => self.cargo_id).first.alta_lote_impresion_id).count > 0) then 
@@ -74,6 +74,9 @@ class CargoEstado < ActiveRecord::Base
      
      elsif @estado == "Chequeado_Baja" then
        @resultado = "Baja chequeada por " + User.find(self.user_id).email
+     
+     elsif @estado == "Cobrado" then
+       @resultado = "Cobrado"
      end
      return @resultado   
    end
