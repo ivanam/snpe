@@ -272,7 +272,7 @@ def listado_licencias_todas_lic
     if @no_guarda and @licencia.save
         render json: 0
       else
-        msg = "error en la licencia"
+        msg = "La fecha de inicio debe ser mayor a la fecha desde de la anterior licencia"
         render json: msg.to_json
       end
     end
@@ -390,7 +390,7 @@ def listado_licencias_todas_lic
 
 
 
-  def guardar_licencia_final 
+  def guardar_licencia_final
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
