@@ -129,7 +129,7 @@ class MigracionController < ApplicationController
 	def migrar_cargos
 
 		@listacargoSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [7729]
 		else
@@ -222,7 +222,7 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [704,711,732,746,749,757,760,766,799,7729,770]
 		else
