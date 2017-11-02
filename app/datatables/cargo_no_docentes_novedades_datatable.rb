@@ -18,6 +18,7 @@ class CargoNoDocentesNovedadesDatatable < AjaxDatatablesRails::Base
         record.persona.to_s,
         record.turno,
         Util.fecha_a_es(record.fecha_alta),
+        record.observaciones,
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_cargos_no_docentes" cargo-no-docente-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if options[:tipo_tabla] == "novedades" then
           if (record.estado_actual != "Impreso") then
