@@ -29,7 +29,6 @@ module CargosHelper
   end
 
   def cargos_novedades_permitidas(mindate, maxdate)
-    debugger
     @cargos = Cargo.where(:establecimiento_id => session[:establecimiento])
     @cargos_ids = []
     @cargos.each do |a|
