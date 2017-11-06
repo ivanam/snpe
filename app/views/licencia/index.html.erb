@@ -641,6 +641,7 @@
   $('#modal_licencia_horas').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
       $("#art_doc_1" ).val("");
+      $("#select_articulo_horas_esc").val(""); 
      
     });
 
@@ -652,10 +653,10 @@
     $("#art_doc_1" ).val("");
     $("#select_articulo_cargos_no_docente_h1").val("");
     $("#s2id_select_articulo_cargos_no_docente").val("");
-    $("#select_articulo_horas_esc").val(""); 
   });
 
   $('#btn_licencia_horas').on('click', function () {
+      var articulo = "";
       fecha_inicio = $("#input_fecha_inicio").val();
       fecha_fin = $("#input_fecha_fin").val();
 
