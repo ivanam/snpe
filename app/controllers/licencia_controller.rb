@@ -12,7 +12,6 @@ class LicenciaController < ApplicationController
   end
 
   def index
-
     respond_to do |format|
       format.html
       format.json { render json: LicenciaDatatable.new(view_context, { query: Licencium.all }) }
@@ -243,15 +242,20 @@ def listado_licencias_todas_lic
   end 
 
   def guardar_licencia_horas
-    @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
-    if @licencia.save
+    if params[:articulo] == "360"
+      @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic], destino: params[:destino])
+      cargo_guardado = AltasBajasHora.find(params[:id_horas]).update(establecimiento_id: params[:destino], estado: 'REU')
+    else
+      @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
+      cargo_guardado = true
+    end
+    if cargo_guardado && @licencia.save
       render json: 0
     else
       msg = "error en la licencia"
       render json: msg.to_json
     end
   end 
-
 
   def guardar_licencia_horas2
     @no_guarda = true
@@ -473,6 +477,14 @@ def listado_licencias_todas_lic
       end
     end  
   end 
+
+  def traslados
+    mes = params[:mes]
+    anio = params[:anio]
+    fecha_i = anio+"-"+mes+"-01"
+    fecha_f = anio+"-"+mes+"-31"
+    @licencias_cargos = Licencium.where.not(cargo_id: nil).where("fecha_desde >= '" + fecha_i + "' and fecha_desde <= '"+ fecha_f +"'").where(articulo_id: [359,360])
+  end
 
   private
     def set_licencium

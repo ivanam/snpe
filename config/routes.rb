@@ -404,6 +404,8 @@ ProyectoBase::Application.routes.draw do
 
     put "licencias/editar_licencias_cnds/:id", to: "licencias#editar_licencias_cnds", as: :editar_licencias_cnds
 
+    get "licencias/traslados", to: "licencia#traslados", as: :licencia_traslados
+
     #----------------Prestadores y Especialidades----------------------
 
     resources :especialidads

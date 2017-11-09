@@ -244,7 +244,9 @@ class CargosController < ApplicationController
 
     if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
       @estado = Estado.where(:descripcion => "Notificado_Baja").first
-      CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
+      if @cargo.fecha_baja != nil
+        CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
+      end
       respond_to do |format|
         format.html { redirect_to cargos_index_bajas_path, notice: 'Baja realizada correctamente' }
         format.json { render json: {status: 'ok'}}
