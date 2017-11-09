@@ -30,7 +30,7 @@ module AltasBajasHorasHelper
 
   def altas_bajas_horas_efectivas_bajas(mindate, maxdate)
     @horas_ids = []
-    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento])
+    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ")
     @horas.each do |h|
       if h.estado_actual == "Notificado_Baja"
         @horas_ids << h.id
