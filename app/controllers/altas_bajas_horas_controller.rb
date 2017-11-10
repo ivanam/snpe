@@ -760,7 +760,7 @@ class AltasBajasHorasController < ApplicationController
       end
       if hora.update(lote_impresion_id: lote_impresion.id)
         AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
-        render json: 0
+        render json: "".to_json
       else
         msj = hora.errors.full_messages[0]
         render json: msj.to_json
