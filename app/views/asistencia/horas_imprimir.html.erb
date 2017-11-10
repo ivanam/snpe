@@ -9,6 +9,7 @@
   <thead>
     <tr>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Año/División</th>
       <th>Materia</th>
       <th>Oblig</th>
@@ -21,6 +22,7 @@
     <% @asistencias.each do |asistencia| %>
       <tr>
         <td><%= asistencia.persona.nro_documento.to_s + " -- " + asistencia.persona.apeynom %></td>
+        <td><%= asistencia.secuencia %></td>
         <td><%= asistencia.anio.to_s + '/' + asistencia.division.to_s %></td>
         <td><%= asistencia.codificacion.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>       
         <td><%= asistencia.ina_injustificada(@anio, @mes) %></td>

@@ -15,6 +15,7 @@ class AltasBajasHoraAsistenciaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.persona.nro_documento.to_s + " -- " + record.persona.apeynom,
+        record.secuencia,
         record.anio.to_s + '/' + record.division.to_s,
         record.codificacion.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
         '<span class="oblig" data-type="text" data-resource="post" data-name="ina_injustificada" data-url="'+Rails.application.routes.url_helpers.asistencia_editar_asistencia_path(record.id.to_s, anio: options[:anio], mes: options[:mes])+'">'+record.ina_injustificada(options[:anio], options[:mes])+'</span>',
