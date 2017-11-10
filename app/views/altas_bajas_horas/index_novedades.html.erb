@@ -143,6 +143,10 @@
           .done(function(data) {
             tabla_horas_novedades.api().ajax.reload();
             tabla_cola_impresion.api().ajax.reload();
+            alert(data); 
+            if (data != "") {
+              
+            }; 
           });
         });
       });
