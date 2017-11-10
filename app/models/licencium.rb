@@ -3,6 +3,7 @@ class Licencium < ActiveRecord::Base
   belongs_to :cargo
   belongs_to :cargo_no_docente
   belongs_to :articulo
+  belongs_to :establecimiento_destino, :class_name => 'Establecimiento', :foreign_key => 'destino'
   has_many :licenciasV
 
   before_create :actualizar_estado

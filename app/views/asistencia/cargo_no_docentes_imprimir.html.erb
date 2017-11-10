@@ -9,6 +9,7 @@
   <thead>
     <tr>
       <th>Agente</th>
+      <th>Secuencia</th>
       <th>Cargo</th>
       <th>Días</th>
       <th>Licencia dene</th>
@@ -20,6 +21,7 @@
     <% @asistencias.each do |c| %>
       <tr>
         <td><%= c.persona.nro_documento.to_s + " -- " + c.persona.apeynom %></td>
+        <td><%= c.secuencia %></td>
         <td><%= Cargosnd.find(c.cargo).to_s %></td>
         <td><%= c.ina_injustificada(@anio, @mes) %></td>
         <td><%= c.licencia_d(@anio, @mes) %></td>

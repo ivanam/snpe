@@ -76,8 +76,8 @@ class AltasBajasHora < ActiveRecord::Base
 
   def validar_situacion_revista
     if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
-      titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').where.not(id: self.id, estado: "LIC P/BAJ").first
-      interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-2').where.not(id: self.id, estado: "LIC P/BAJ").first
+      titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
+      interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-2').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
       if (titular == nil) && (interino == nil)      
         errors.add(:base,"No puede darse de alta un suplente ni reemplazante si no existe titular o interino en el cargo")        
         return false
@@ -90,7 +90,7 @@ class AltasBajasHora < ActiveRecord::Base
   #3- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere de alta un titular
   def validar_titular 
     if self.situacion_revista == '1-1'
-      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id, estado: "LIC P/BAJ")      
+      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )")
       if (alta_horas != nil)
         titular = alta_horas.where(situacion_revista: "1-1").first
         if titular

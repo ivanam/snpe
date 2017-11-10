@@ -425,6 +425,7 @@
   $("#select_articulo_cargos_no_docente_h2").hide();
   $('select#prestador').select2();
   $("#select_destino_cargos").hide();
+  $("#select_destino_horas").hide();
   $("#select_articulo_horas_h2").hide();
   $("#art_doc_1").val("");
   $("#art_doc_2").val("");
@@ -675,6 +676,8 @@
         
       fecha_anio_lic = $("#input_anio_lic").val();
 
+      destino = $("#select_destino_horas").val();
+
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -685,7 +688,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic,
+          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino,
           type: 'POST',
         })
       .done(function(data) {
@@ -755,6 +758,13 @@
             else
             {
             $("#anio_lic").hide();
+            }
+            if (id_articulo == 360){
+            $("#select_destino_horas").show();
+            }
+            else
+            {
+              $("#select_destino_horas").hide();
             } 
         }) 
   });
