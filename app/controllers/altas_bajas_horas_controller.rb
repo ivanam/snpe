@@ -752,7 +752,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def imprimir    
-    respond_to do |format|
       hora = AltasBajasHora.find(params["id"])
       estado = Estado.where(descripcion: "Impreso").first
       lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1).last
@@ -760,12 +759,12 @@ class AltasBajasHorasController < ApplicationController
         lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
       end
       if hora.update(lote_impresion_id: lote_impresion.id)
-          AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
-          format.json { head :no_content, notice: 'Se movio la novedad a la cola de impresión' } # 204 No Content
+        AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
+        render json: "".to_json
       else
-        format.json { head :no_content, notice: 'No se pudo pasar a impresión' } # 204 No Content
+        msj = hora.errors.full_messages[0]
+        render json: msj.to_json
       end
-    end
   end
 
   def buscar_alta
