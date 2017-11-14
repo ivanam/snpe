@@ -1,0 +1,22 @@
+<table>
+  <head>
+    <th> Agente </th>
+    <th> Destino </th>
+    <th> Secuencia </th>
+    <th> Cargo </th>
+    <th> Curso </th>
+    <th> Articulo </th>
+  </head>
+  <body>
+    <% @licencias_cargos.each do |l|%>
+      <tr>
+        <td> <%= l.cargo.persona %> </td>
+        <td> <%= l.establecimiento_destino %> </td>
+        <td> <%= l.cargo.secuencia %> </td>
+        <td> <%= l.cargo.cargo %> </td>
+        <td> <%= l.cargo.anio %> / <%= l.cargo.division %> </td>
+        <td> <%= l.establecimiento_destino %> </td>
+      </tr>
+    <% end %>
+  </body>
+</table>
