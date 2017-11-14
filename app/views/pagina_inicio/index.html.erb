@@ -4,6 +4,14 @@
       <div class="col-sm-1 col-md-2">
 
       </div>
+    <% if current_user.role? :incompatibilidad %>
+      <div class="col-md-4">
+        <legend> Incompatibilidad</legend>
+        <center>
+          <%= link_to "Planilla incompatibilidad", planilla_incompatibilidads_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
+        </center>
+      </div>
+    <% else %>
 <!--     
       <br>
       <br>
@@ -52,6 +60,7 @@
         </center>
       </div>
 
+
       <!--<div class="col-md-4">
       <legend> Inscripciones</legend>
         <center>
@@ -61,6 +70,8 @@
       </div>-->
       
       </div>
+
+    <% end %>
       
       
     </div> 

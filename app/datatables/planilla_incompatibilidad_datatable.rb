@@ -21,6 +21,8 @@ class PlanillaIncompatibilidadDatatable < AjaxDatatablesRails::Base
         record.dni.to_s + ' - ' + record.apellido + ', ' + record.nombre,
         record.observaciones_inc,
         record.observaciones_suel,
+        record.region_id,
+        record.incompatible,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones

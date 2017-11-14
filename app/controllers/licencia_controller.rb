@@ -1,4 +1,5 @@
 class LicenciaController < ApplicationController
+  load_and_authorize_resource
   autocomplete :persona, :apeynom, :full => false, :extra_data => [:apeynom, :nro_documento], :display_value => :to_s
   before_action :set_licencium, only: [:show, :edit, :update, :destroy]
   

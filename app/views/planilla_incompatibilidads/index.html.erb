@@ -1,9 +1,17 @@
+<h3> Filtros</h3>
+
+<div class="jumbotron">
+  <h4> Region </p>
+  <%= select_tag 'Region', options_from_collection_for_select(Region.all, "id", "nombre"), :id => "select_region", :prompt => "Todos"%>
+</div>
+
 <div class="page-header">
   <%= link_to new_planilla_incompatibilidad_path, :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Planilla incompatibilidad
+    Nuevo registro
   <% end %>
   <h1>Planilla incompatibilidads</h1>
+
 </div>
 
 <div class="table-responsive">
@@ -15,6 +23,8 @@
             <th>Agente</th>
             <th>Observaciones inc</th>
             <th>Observaciones suel</th>
+            <th>Region</th>
+            <th>Incompatible</th>
             <th class="text-center">Acciones</th>
       </tr>
     </thead>
@@ -26,12 +36,24 @@
 
 <script type="text/javascript">
     $(document).ready(function($) {
-      $('#tabla-planilla_incompatibilidad').dataTable({
+      var planilla = $('#tabla-planilla_incompatibilidad').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
         ajax : $('#tabla-planilla_incompatibilidad').data('source'),
         pagingType: "simple",
+      });
+
+      function getParams() {
+        var params = '?region=' + $('#select_region').val();
+        return  params
+      };
+
+      $('#select_region').on('change', function() {
+        // Cambia la url agregando el campo rango como atributo
+        planilla.api().ajax.url('<%= planilla_incompatibilidads_path(format: :json) %>'+ getParams() );
+        // Recarga por ajax la tabla
+        planilla.api().ajax.reload();
       });
     });
 </script>
