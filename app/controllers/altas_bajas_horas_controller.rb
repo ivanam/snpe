@@ -320,7 +320,6 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.fecha_alta = params[:altas_bajas_hora][:fecha_alta]
     @altas_bajas_hora.fecha_baja = params[:altas_bajas_hora][:fecha_baja]
     @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
-    @altas_bajas_hora.horas = params[:altas_bajas_hora][:horas]
     @altas_bajas_hora.ciclo_carrera = params[:altas_bajas_hora][:ciclo_carrera]
     @altas_bajas_hora.anio = params[:altas_bajas_hora][:anio]
     @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
@@ -366,7 +365,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def guardar_edicion2   
-
     @persona = Persona.where(:nro_documento => params[:dni]).first
     @altas_bajas_horas = AltasBajasHora.where(:id => params[:edi]).first
     @altas_bajas_horas.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
@@ -375,7 +373,6 @@ class AltasBajasHorasController < ApplicationController
     @persona.cuil = params[:cuil] 
     @persona.sexo_id = Sexo.where(:id => params[:sexo]).first.id
     @altas_bajas_horas.turno = params[:turno]
-    @altas_bajas_horas.horas = params[:horas]
     @altas_bajas_horas.anio = params[:anio]
     @altas_bajas_horas.division = params[:division]
     @altas_bajas_horas.materium_id = params[:materium_id]
@@ -490,7 +487,7 @@ class AltasBajasHorasController < ApplicationController
   end
   
   def update
-    @altas_bajas_hora.update(altas_bajas_hora_params)
+    @altas_bajas_hora.update(altas_bajas_hora_params_update)
     respond_with(@altas_bajas_hora)
   end
 
@@ -827,6 +824,10 @@ end
 
     def altas_bajas_hora_params
       params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+    end
+
+    def altas_bajas_hora_params_update
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
     end
 
 
