@@ -36,6 +36,7 @@ class Ability
           can :read, [Persona]
           can :edit, [Persona]
           can :update, [Persona]
+          can :manage, [Licencium]
         end
 
         if user.role? :personal
@@ -44,6 +45,7 @@ class Ability
           can :modificacion, [AltasBajasHora]
           can :modificacion, [Cargo]
           can :modificacion, [CargoNoDocente]
+          can :manage, [Licencium]
         end
 
         if user.role? :licencia
@@ -55,10 +57,11 @@ class Ability
           can :read, [Persona]
           can :edit, [Persona]
           can :update, [Persona]
+          can :manage, [Licencium]
         end
 
         if user.role? :incompatibilidad
-          can :manage [PlanillaIncompatibilidad]
+          can :manage, [PlanillaIncompatibilidad]
         end
       
         user.roles.each do |ro|

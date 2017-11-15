@@ -28,16 +28,16 @@ class AltasBajasHora < ActiveRecord::Base
     validate :validar_alta 
 
 
-  #  #Validates de persona en AltasBajas
-  #  #validates :persona_id,:nro_documento, presence: true
-  #  #validates :persona_id,:nombres, :presence => true
-  #  #validates :person_id,:apellidos, presence: true
-  #  #validates :person_id,:cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+   #Validates de persona en AltasBajas
+   #validates :persona_id,:nro_documento, presence: true
+   #validates :persona_id,:nombres, :presence => true
+   #validates :person_id,:apellidos, presence: true
+   #validates :person_id,:cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
 
-  #  #validates :nro_documento, presence: true
-  #  #validates :nombres, presence: true
-  #  #validates :apellidos, presence: true
-  #  #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+   #validates :nro_documento, presence: true
+   #validates :nombres, presence: true
+   #validates :apellidos, presence: true
+   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
     before_save :actualizar_materia
     before_update :dar_baja
 

@@ -85,7 +85,7 @@
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :fecha1, :class => "col-sm-2 control-label" %>
+    <%= f.label "Fecha de obser", :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.date_select :fecha1, :class => "form-control" %>
     </div>
@@ -97,9 +97,22 @@
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :fecha2, :class => "col-sm-2 control-label" %>
+    <%= f.label "Fecha de salida", :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.date_select :fecha2, :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :incompatible, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-2">
+      <%= f.check_box :incompatible, { :class => 'form-control' }, "true", "false" %>      
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :region, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.collection_select :region_id, Region.all, :id, :to_s, {prompt: false}, {:class => "form-control"} %>
     </div>
   </div>
   <div class="form-group">
