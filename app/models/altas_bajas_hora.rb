@@ -52,7 +52,6 @@ class AltasBajasHora < ActiveRecord::Base
 
   def control_horas
     if !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
-      debugger
       self.horas = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id, anio: self.anio).first.carga_horaria
     end
   end
