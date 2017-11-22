@@ -18,3 +18,42 @@
   clear: both;
   page-break-after: always;
 }
+
+.tabla-reportes{
+  width: 100%;
+  border: solid 1px;
+}
+
+.tabla-reportes th, .tabla-reportes td {
+    border: solid 1px;
+    padding: 15px;
+    text-align: left;
+}
+
+
+.tabla-reportes th {
+    background-image: linear-gradient(to bottom, #194981 0%, #53a0e0 100%);
+    color: white;
+}
+.tabla-filtros{
+  
+  width: 100%;  
+}
+
+.btn-filtro{
+  width: 100%;
+}
+
+.tabla-filtros td, .tabla-filtros th {
+
+  padding: 5px;
+  border: solid 1px;
+  text-align: center;
+
+}
+
+.tabla-filtros tr {
+
+  border: solid 1px;
+ 
+}
