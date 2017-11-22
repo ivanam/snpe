@@ -89,6 +89,10 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
             else
               CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.depto
             end,
+            if record.estado_lic == nil then
+               AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.nro_calle
+
+            end
      ]
     end
   end

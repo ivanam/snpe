@@ -41,12 +41,20 @@ class AltasBajasHora < ActiveRecord::Base
     before_save :actualizar_materia
     before_update :dar_baja
 
+    before_create :control_horas
+
 
   #-------------------------------------
 
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
+
+  def control_horas
+    if !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
+      self.horas = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id, anio: self.anio).first.carga_horaria
+    end
+  end
 
   def no_es_licencia_para_baja
     self.estado != "LIC P/BAJ"
