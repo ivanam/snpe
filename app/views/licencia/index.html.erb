@@ -190,12 +190,17 @@
         <h4 class="modal-title" id="myModalLabel">Generar licencia horas</h4>
       </div>
       <div class="modal-body">
-        <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
+        <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
+        <%= select_tag "prestador_2", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_2", :style=>"width:100%" %>
+        <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
+        <%= label_tag "Fecha Inicio Nueva Licencia:", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio6', Date.today %>
-        <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
+        <br><br>
+        <%= label_tag "Fecha Final Nueva Licencia:", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin6'%>
-        <hr/>
+        <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
         <% if (current_user.role? :licencia) || (current_user.role? :sadmin) then %>
+         <br>
         <div id="art_doc" >
            <%= label_tag "Seleccione que tipo de articulo le corresponde", nil,  :class => "control-label" %>
            <%= select_tag :art_doc_2, options_for_select([['Docente', "Docente"], ['Auxiliar', "Auxiliar"]], 0,), {:prompt => "Seleccione si es docente o auxiliar", :id => "art_doc_2"} %> 
@@ -271,16 +276,20 @@
         <h4 class="modal-title" id="myModalLabel">Generar licencia cargos</h4>
       </div>
       <div class="modal-body">
-        <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
+        <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
+        <%= select_tag "prestador_3", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_3", :style=>"width:100%" %>
+        <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
+        <%= label_tag "Fecha Inicio Nueva Licencia:", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio7', Date.today %>
-        <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
+        <br><br>
+        <%= label_tag "Fecha Final Nueva Licencia:", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin7'%>
-        <hr/>
+        <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
         <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos7" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo de la nueva licencia",:class => "form-control col-sm-6", :id => "select_articulo_cargos7" %>
       </div>
         <hr/>
-        <div id="alerta-dias-cargo" class="alert alert-info"></div>
+        <div id="alerta-dias-cargo-1" class="alert alert-info"></div>
              <div id="anio_lic_7" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_7, options_for_select([['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
@@ -336,17 +345,21 @@
         <h4 class="modal-title" id="myModalLabel">Generar licencia cargos auxiliares</h4>
       </div>
       <div class="modal-body">
-        <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
+          <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
+          <%= select_tag "prestador_4", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_4", :style=>"width:100%" %>
+        <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
+        <%= label_tag "Fecha Inicio Nueva Licencia: ", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio8', Date.today %>
-        <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
+        <br><br>
+        <%= label_tag "Fecha Final Nueva Licencia: ", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_fin8'%>
-        <hr/>
+        <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "col-sm-6", :id => "select_articulo_cargos_no_docente8" %>
         </div>
         <hr/>
-        <div id="alerta-dias-cargo-no-docentes" class="alert alert-info"></div>
-        <div id="anio_lic_9" >
+        <div id="alerta-dias-cargo-no-docentes-1" class="alert alert-info"></div>
+        <div id="anio_lic_8" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_8, options_for_select([['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>     
@@ -565,8 +578,11 @@
   $("#anio_lic_5").hide();
   $("#anio_lic_6").hide();  
   $("#anio_lic_7").hide();  
-  $("#anio_lic_8").hide();  
+  $("#anio_lic_8").hide(); 
   $("#alerta-dias-cargo").hide();
+  $("#alerta-dias-cargo-1").hide();
+  $("#alerta-dias-cargo-no-docentes").hide();
+  $("#alerta-dias-cargo-no-docentes-1").hide();
 
 
   var tabla_personal_activo = $('#tabla-personal-activo')
@@ -825,6 +841,7 @@
     $("#select_articulo_cargos_no_docente_h2").hide();
     $("#art_doc_2" ).val("");
     $("#select_articulo_horas_esc_1").val("");
+    $("#prestador_2").val("");
   });
  
 
@@ -832,6 +849,7 @@
       fecha_inicio = $("#input_fecha_inicio6").val();
       fecha_fin = $("#input_fecha_fin6").val();
       fecha_anio_lic = $("#input_anio_lic_6").val();
+      prestador_2 = $("#prestador_2").val();
      
         if (($("#select_articulo_horas_h2").val() != "") && $("#select_articulo_horas_h2").val() != undefined)
          {
@@ -858,7 +876,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas2/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic,
+          url: '/soft/snpe/licencia/guardar_licencia_horas2/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+'&prestador_2='+prestador_2,
           type: 'POST',
         })
       .done(function(data) {
@@ -869,6 +887,7 @@
         $("#select_articulo_horas6" ).val("");
         $("#input_anio_lic_6" ).val("");
         $("#art_doc_2" ).val("");
+        $("#prestador").val("");
         if (data != "") {
           alert(data); 
         };
@@ -1064,9 +1083,10 @@
     });
 
   $('#modal_licencia_cargos2').on('hidden.bs.modal', function (e) {
-    $("#alerta-dias-cargo").hide();
+    $("#alerta-dias-cargo-1").hide();
     $("#anio_lic_7").hide();
     $("#select_articulo_cargos7").val("");
+    $("#prestador_3").val("");
   });
 
   $('#btn_licencia_cargos2').on('click', function () {
@@ -1074,6 +1094,7 @@
       fecha_fin = $("#input_fecha_fin7").val();
       articulo = $("#select_articulo_cargos7").val();
       fecha_anio_lic_7 = $("#input_anio_lic_7").val();
+      prestador_3 = $("#prestador_3").val();
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1084,7 +1105,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos2/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo+'/'+fecha_anio_lic_7,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos2/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_7+'&prestador_3='+prestador_3,
           type: 'POST',
         })
       .done(function(data) {
@@ -1110,8 +1131,8 @@
         type: 'GET',
       })
         .done(function(data) {
-          $("#alerta-dias-cargo").html("Cantidad máxima de días en este artículo: "+data);
-          $("#alerta-dias-cargo").show();
+          $("#alerta-dias-cargo-1").html("Cantidad máxima de días en este artículo: "+data);
+          $("#alerta-dias-cargo-1").show();
           if (id_articulo == 241 || id_articulo == 289){
             $("#anio_lic_7").show();
             $("#input_anio_lic_7" ).val(""); 
@@ -1189,16 +1210,17 @@
           })
   });
 
-
+//----------------------------------------------- modal nueva licencia cargos nds --------------------------------
 
   $('#modal_licencia_cargos_no_docentes2').on('shown.bs.modal', function (event) {      
       id_cargos_no_docentes = $(event.relatedTarget).attr('id_cargo_no_docentes');
     });
 
   $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
-    $("#alerta-dias-cargo-no-docentes").hide();
+    $("#alerta-dias-cargo-no-docentes-1").hide();
     $("#anio_lic_8").hide();
     $("#select_articulo_cargos_no_docente8").val("");
+    $("#prestador_4").val("");
   });
 
  $('#btn_licencia_cargos_no_docentes2').on('click', function () {
@@ -1206,6 +1228,7 @@
       fecha_fin = $("#input_fecha_fin8").val();
       articulo = $("#select_articulo_cargos_no_docente8").val();
       fecha_anio_lic_2 = $("#input_anio_lic_8").val();
+      prestador_4 = $("#prestador_4").val();
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1216,7 +1239,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes2/'+id_cargos_no_docentes+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo+'/'+fecha_anio_lic_2,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes2/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_2+'&prestador_4='+prestador_4,
           type: 'POST',
         })
       .done(function(data) {
@@ -1242,8 +1265,8 @@
         type: 'GET',
       })
         .done(function(data) {
-          $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
-          $("#alerta-dias-cargo-no-docentes").show();
+          $("#alerta-dias-cargo-no-docentes-1").html("Cantidad máxima de días en este artículo: "+data);
+          $("#alerta-dias-cargo-no-docentes-1").show();
           if (id_articulo == 289){
             $("#anio_lic_8").show();
             $("#input_anio_lic_8" ).val(""); 

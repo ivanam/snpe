@@ -259,18 +259,19 @@ def listado_licencias_todas_lic
   end 
 
   def guardar_licencia_horas2
+    prestador2 = params[:prestador_2]
     @no_guarda = true
     @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
     @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador2)
         else
           @no_guarda = false
         end
     elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador2)
     else
       @no_guarda = false
     end
@@ -320,22 +321,21 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos2
-
+  prestador_3 = params[:prestador_3]  
   @no_guarda = true
   secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
   descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
   @licencia_anterior= Licencium.where(cargo_id: params['id_cargos'], vigente: 'vigente').last
   @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
-
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador_3 )
         else
           @no_guarda = false
         end
     elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador_3)
     else
       @no_guarda = false
     end
@@ -367,6 +367,7 @@ def listado_licencias_todas_lic
   end
 
   def guardar_licencia_cargos_no_docentes2
+    prestador_4 = params[:prestador_4] 
     @no_guarda = true
     @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
     @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
@@ -374,12 +375,12 @@ def listado_licencias_todas_lic
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador_4)
         else
           @no_guarda = false
         end
     elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador_4)
     else
       @no_guarda = false
     end

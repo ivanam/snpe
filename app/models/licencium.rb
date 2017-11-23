@@ -85,6 +85,7 @@ class Licencium < ActiveRecord::Base
 
 	 			else
 		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
+		 			
 		 			if suplentes_activos == []
 		 				cargo.update!(estado: 'ALT')
 		 			else
