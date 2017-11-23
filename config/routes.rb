@@ -395,8 +395,8 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_cargos/:id_cargos/:fecha_inicio(/:fecha_fin)/:articulo(/:fecha_anio_lic_1)", to: "licencia#guardar_licencia_cargos", as: :guardar_licencia_cargos
     post "licencia/guardar_licencia_cargos_no_docentes/:id_cargos_no_docentes/:fecha_inicio(/:fecha_fin)/:articulo(/:fecha_anio_lic_2)", to: "licencia#guardar_licencia_cargos_no_docentes", as: :guardar_licencia_cargos_no_docentes
     post "licencia/guardar_licencia_horas2/", to: "licencia#guardar_licencia_horas2", as: :guardar_licencia_horas2
-    post "licencia/guardar_licencia_cargos2/:id_cargos/:fecha_inicio(/:fecha_fin)/:articulo(/:fecha_anio_lic_1)", to: "licencia#guardar_licencia_cargos2", as: :guardar_licencia_cargos2
-    post "licencia/guardar_licencia_cargos_no_docentes2/:id_cargos_no_docentes/:fecha_inicio(/:fecha_fin)/:articulo(/:fecha_anio_lic_2)", to: "licencia#guardar_licencia_cargos_no_docentes2", as: :guardar_licencia_cargos_no_docentes2
+    post "licencia/guardar_licencia_cargos2/", to: "licencia#guardar_licencia_cargos2", as: :guardar_licencia_cargos2
+    post "licencia/guardar_licencia_cargos_no_docentes2/", to: "licencia#guardar_licencia_cargos_no_docentes2", as: :guardar_licencia_cargos_no_docentes2
 
 
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)(/:prestador)", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
