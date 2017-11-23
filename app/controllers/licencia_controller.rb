@@ -107,7 +107,43 @@ class LicenciaController < ApplicationController
 
 
 #----------------------------------------------licencias sin goce---------------------------------------------------------------
+def obtenerdatarange
+    if params["rango"] == "" or params["rango"] == nil
+      @res = Util.max_min_periodo(@rango)
+    else
+      @res = params["rango"]
+    end  
+
+    @ras= [@res]
+    render json: @ras
+end
+
+def obtenerdatarange2
+    if params["rango"] == "" or params["rango"] == nil
+      @res = Util.max_min_periodo(@rango)
+    else
+      @res = params["rango"]
+    end  
+
+    @ras= [@res]
+    render json: @ras
+end
+
+def obtenerdatarange3
+    if params["rango"] == "" or params["rango"] == nil
+      @res = Util.max_min_periodo(@rango)
+    else
+      @res = params["rango"]
+    end  
+
+    @ras= [@res]
+    render json: @ras
+end
+
+
 def listado_licencias_todas_lic
+  
+
   @dni=params[:dni]
   if @dni == '' or @dni == ""
     @dni = nil
@@ -116,11 +152,12 @@ def listado_licencias_todas_lic
   if @art == '' or @art == ""
      @art = nil
   end
-    if params["rango"] == ""
+    if params["rango"] == "" or params["rango"] == "undefined"
       @mindate_year = Date.today.year
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
       @res = listado_de_licencias_sg(@mindate, @maxdate, @dni, @art)
+
     else
       @rango = params["rango"]
       @mindate, @maxdate = Util.max_min_periodo(@rango)
@@ -168,7 +205,7 @@ def listado_licencias_todas_lic
   if @art3 == '' or @art3 == ""
      @art3 = nil
   end
-     if params["rango3"] == ""
+     if params["rango3"] == ""  or params["rango3"] == "undefined" or params["rango3"] == nil 
        @mindate_year3 = Date.today.year
        @mindate3 = Date.today.to_s
        @maxdate3 = Date.today.to_s
@@ -478,6 +515,20 @@ def listado_licencias_todas_lic
       end
     end  
   end 
+
+  def chequear_finalizada
+    @lic = Licencium.where(:id => params[:id]).first
+    @lic.update!(finalizada: true, user_cheq_finalizada_id: current_user.id, fecha_cheq_finalizada: DateTime.now)
+    render json: @lic
+
+  end
+
+  def chequear_cargada
+    @lic = Licencium.where(:id => params[:id]).first
+    @lic.update!(cargada: true, user_cheq_cargada_id: current_user.id, fecha_cheq_cargada: DateTime.now)
+    render json: @lic
+
+  end
 
   def traslados
     mes = params[:mes]

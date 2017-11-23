@@ -403,6 +403,12 @@ ProyectoBase::Application.routes.draw do
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
 
     put "licencias/editar_licencias_cnds/:id", to: "licencias#editar_licencias_cnds", as: :editar_licencias_cnds
+    get "licencias/chequear_cargada/", to: "licencia#chequear_cargada", as: :licencias_chequear_cargada
+    get "licencias/chequear_finalizada/", to: "licencia#chequear_finalizada", as: :licencias_chequear_finalizada
+    get "licencias/obtenerdatarange/", to: "licencia#obtenerdatarange", as: :licencias_obtenerdatarange
+    get "licencias/obtenerdatarange2/", to: "licencia#obtenerdatarange2", as: :licencias_obtenerdatarange2
+    get "licencias/obtenerdatarange3/", to: "licencia#obtenerdatarange3", as: :licencias_obtenerdatarange3
+
 
     get "licencias/traslados", to: "licencia#traslados", as: :licencia_traslados
 

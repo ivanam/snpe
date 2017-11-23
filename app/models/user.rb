@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_many :user_roles, :foreign_key => 'user_id', :class_name => 'UserRole'
   has_many :roles, :through => :user_roles
   belongs_to :persona, :foreign_key => 'user_id', :class_name => 'persona'
+  belongs_to :licencia
 
 
   has_many :establecimientos_users, :foreign_key => 'user_id', :class_name => 'EstablecimientosUsers'

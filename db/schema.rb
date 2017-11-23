@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171117123931) do
+ActiveRecord::Schema.define(version: 20171121145257) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -427,6 +427,10 @@ ActiveRecord::Schema.define(version: 20171117123931) do
     t.integer  "destino"
     t.boolean  "cargada"
     t.boolean  "finalizada"
+    t.datetime "fecha_cheq_cargada"
+    t.datetime "fecha_cheq_finalizada"
+    t.integer  "user_cheq_cargada_id"
+    t.integer  "user_cheq_finalizada_id"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
