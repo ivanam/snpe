@@ -532,8 +532,15 @@ def listado_licencias_todas_lic
   end
 
   def traslados
-    mes = params[:mes]
+
+    mes = params[:mes] 
     anio = params[:anio]
+    if mes == nil
+      mes = Date.today.month.to_s
+    end
+    if anio == nil
+      anio = Date.today.year.to_s
+    end
     fecha_i = anio+"-"+mes+"-01"
     fecha_f = anio+"-"+mes+"-31"
     @licencias_cargos = Licencium.where.not(cargo_id: nil).where("fecha_desde >= '" + fecha_i + "' and fecha_desde <= '"+ fecha_f +"'").where(articulo_id: [359,360])
