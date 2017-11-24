@@ -18,7 +18,7 @@
 </div>
 
 <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
 </div> </br></br>
 
 <div class="">
@@ -73,7 +73,7 @@
 </div>
 
 <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos_no_docente" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos_no_docente" %>
 </div> </br></br>
 
 
@@ -102,6 +102,7 @@
               <th class="text-center col-md-1">Fecha Desde</th>
               <th class="text-center col-md-1">Fecha Hasta</th>
               <th class="text-center col-md-1">Estado</th>
+              <th class="text-center col-md-1">Estado LIC</th>
             </tr>
         </thead>
         <tbody>
@@ -126,7 +127,7 @@
 </div>
 
 <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos" %>
 </div> </br></br>
 
 <div class="">
@@ -156,6 +157,7 @@
               <th class="text-center col-md-1">Fecha Desde</th>
               <th class="text-center col-md-1">Fecha Hasta</th>
               <th class="text-center col-md-1">Estado</th>
+              <th class="text-center col-md-1">Estado LIC</th>
             </tr>
         </thead>
         <tbody>
@@ -167,7 +169,13 @@
 
 
 <script>
+
+
+
   $(document).ready(function($) {
+
+
+
     //Define el idioma de combodate
     moment.locale('es');
     $.fn.editable.defaults.mode = 'inline';
@@ -189,10 +197,47 @@
                   "orderable": false
               }
           ]
-  	  });
+  	  })
+      .on('draw.dt', function () {
+        $( ".btn-ajax" ).on( "click", function() {
+          var data_url = $(this).attr('data-url');
+          $.ajax({
+            url: data_url,
+            type: 'GET',
+          })
+          .done(function(data) {
+             $.ajax({
+              url: '/soft/snpe/licencias/obtenerdatarange?rango='+$('#daterange').val(),
+              type: 'GET',
+            })
+            .done(function(data) {
+              window.data2 = data[0].toString();
+            });
+
+              if (window.data2 != "undefined"){
+              tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val());
+              tabla_licencia.api().ajax.reload();
+              }else{
+              tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic');
+              tabla_licencia.api().ajax.reload();
+
+
+              }
+
+
+            
+          });
+        });
+      });
+
+
+
+
     $('#tabla-licencia').on( 'draw.dt', function() {      
       $('.calle').editable();
     });
+
+    
 
 
     var date = new Date();
@@ -255,6 +300,39 @@
                   "orderable": false
               }
           ]
+        })
+        .on('draw.dt', function () {
+        $( ".btn-ajax" ).on( "click", function() {
+          var data_url = $(this).attr('data-url');
+          $.ajax({
+            url: data_url,
+            type: 'GET',
+          })
+          .done(function(data) {
+             $.ajax({
+              url: '/soft/snpe/licencias/obtenerdatarange3?rango='+$("#daterange2").val(),
+              type: 'GET',
+            })
+            .done(function(data) {
+              window.data4 = data[0].toString();
+
+            });
+
+              alert("");
+              if (window.data4 != "undefined" && window.data4 != undefined){
+
+              tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg?rango2='+window.data4+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val());
+              tabla_licencia_cargnds.api().ajax.reload();
+              }if (window.data4 == "undefined" || window.data4 == undefined)
+
+              {
+              tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg');
+              tabla_licencia_cargnds.api().ajax.reload();
+
+
+              }
+          });
+        });
       });
     var date2 = new Date();
     $('#daterange2').daterangepicker({
@@ -305,6 +383,42 @@
                   "orderable": false
               }
           ]
+      })
+      .on('draw.dt', function () {
+        $( ".btn-ajax" ).on( "click", function() {
+          var data_url = $(this).attr('data-url');
+          $.ajax({
+            url: data_url,
+            type: 'GET',
+          })
+          .done(function(data) {
+             $.ajax({
+              url: '/soft/snpe/licencias/obtenerdatarange2?rango='+$("#daterange3").val(),
+              type: 'GET',
+            })
+            .done(function(data) {
+              window.data3 = data[0].toString();
+
+            });
+
+              alert("");
+              if (window.data3 != "undefined" && window.data3 != undefined){
+
+              tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg?rango3='+window.data3+"&dni3="+$('#dni3').val()+"&select_articulo_cargos="+$('#select_articulo_cargos').val());
+              tabla_licencia_crg.api().ajax.reload();
+              }if (window.data3 == "undefined" || window.data3 == undefined)
+
+              {
+              tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg');
+              tabla_licencia_crg.api().ajax.reload();
+
+
+              }
+
+
+            
+          });
+        });
       });
 
     var date3 = new Date();

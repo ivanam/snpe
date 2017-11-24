@@ -107,7 +107,43 @@ class LicenciaController < ApplicationController
 
 
 #----------------------------------------------licencias sin goce---------------------------------------------------------------
+def obtenerdatarange
+    if params["rango"] == "" or params["rango"] == nil
+      @res = Util.max_min_periodo(@rango)
+    else
+      @res = params["rango"]
+    end  
+
+    @ras= [@res]
+    render json: @ras
+end
+
+def obtenerdatarange2
+    if params["rango"] == "" or params["rango"] == nil
+      @res = Util.max_min_periodo(@rango)
+    else
+      @res = params["rango"]
+    end  
+
+    @ras= [@res]
+    render json: @ras
+end
+
+def obtenerdatarange3
+    if params["rango"] == "" or params["rango"] == nil
+      @res = Util.max_min_periodo(@rango)
+    else
+      @res = params["rango"]
+    end  
+
+    @ras= [@res]
+    render json: @ras
+end
+
+
 def listado_licencias_todas_lic
+  
+
   @dni=params[:dni]
   if @dni == '' or @dni == ""
     @dni = nil
@@ -116,11 +152,12 @@ def listado_licencias_todas_lic
   if @art == '' or @art == ""
      @art = nil
   end
-    if params["rango"] == ""
+    if params["rango"] == "" or params["rango"] == "undefined"
       @mindate_year = Date.today.year
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
       @res = listado_de_licencias_sg(@mindate, @maxdate, @dni, @art)
+
     else
       @rango = params["rango"]
       @mindate, @maxdate = Util.max_min_periodo(@rango)
@@ -168,7 +205,7 @@ def listado_licencias_todas_lic
   if @art3 == '' or @art3 == ""
      @art3 = nil
   end
-     if params["rango3"] == ""
+     if params["rango3"] == ""  or params["rango3"] == "undefined" or params["rango3"] == nil 
        @mindate_year3 = Date.today.year
        @mindate3 = Date.today.to_s
        @maxdate3 = Date.today.to_s
@@ -259,18 +296,19 @@ def listado_licencias_todas_lic
   end 
 
   def guardar_licencia_horas2
+    prestador2 = params[:prestador_2]
     @no_guarda = true
     @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
     @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador2)
         else
           @no_guarda = false
         end
     elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador2)
     else
       @no_guarda = false
     end
@@ -320,22 +358,21 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos2
-
+  prestador_3 = params[:prestador_3]  
   @no_guarda = true
   secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
   descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
   @licencia_anterior= Licencium.where(cargo_id: params['id_cargos'], vigente: 'vigente').last
   @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
-
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador_3 )
         else
           @no_guarda = false
         end
     elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador_3)
     else
       @no_guarda = false
     end
@@ -367,6 +404,7 @@ def listado_licencias_todas_lic
   end
 
   def guardar_licencia_cargos_no_docentes2
+    prestador_4 = params[:prestador_4] 
     @no_guarda = true
     @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
     @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
@@ -374,12 +412,12 @@ def listado_licencias_todas_lic
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1 )
+          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador_4)
         else
           @no_guarda = false
         end
     elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1 )
+         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador_4)
     else
       @no_guarda = false
     end
@@ -478,6 +516,20 @@ def listado_licencias_todas_lic
       end
     end  
   end 
+
+  def chequear_finalizada
+    @lic = Licencium.where(:id => params[:id]).first
+    @lic.update!(finalizada: true, user_cheq_finalizada_id: current_user.id, fecha_cheq_finalizada: DateTime.now)
+    render json: @lic
+
+  end
+
+  def chequear_cargada
+    @lic = Licencium.where(:id => params[:id]).first
+    @lic.update!(cargada: true, user_cheq_cargada_id: current_user.id, fecha_cheq_cargada: DateTime.now)
+    render json: @lic
+
+  end
 
   def traslados
 

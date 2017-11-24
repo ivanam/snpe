@@ -16,20 +16,15 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
        [
-            if record.altas_bajas_hora_id != nil  
-              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.establecimiento.codigo_jurisdiccional
-            elsif record.cargo_id != nil
-              Cargo.where(:id => record.cargo_id.to_i).first.establecimiento.codigo_jurisdiccional
-            else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.establecimiento.codigo_jurisdiccional
-            end,
-            record.secuencia,
+
+            Cargo.where(:id => record.cargo_id.to_i).first.establecimiento.codigo_jurisdiccional,
+            record.cargo.secuencia,
             "Cargo",
             Funcion.where(categoria: Cargo.where(id: record.cargo_id).first.cargo.to_i).first.to_s,
             Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s,
-            record.situacion_revista,
-            record.anio,
-            record.division,
+            record.cargo.situacion_revista,
+            record.cargo.anio,
+            record.cargo.division,
             record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
             Util.fecha_a_es(record.fecha_desde),
             Util.fecha_a_es(record.fecha_hasta),
@@ -42,38 +37,22 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             else
               '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
             end,
-              if record.altas_bajas_hora_id != nil  
-              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.calle
-              
-            elsif record.cargo_id != nil
-              Cargo.where(:id => record.cargo_id.to_i).first.persona.calle
-            else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.calle
+            if record.vigente == "Finalizada" and (record.finalizada == false or record.finalizada == nil) then
+            '<a class="btn btn-primary btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Chequear finalizada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_finalizada_path(id: record.id.to_s, :format => :json)+'">Chequear Finalizada<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
+            elsif record.vigente == "Finalizada" and record.finalizada == true then
+              '<a class="btn btn-info btn-sm"
+              <span class=aria-hidden="true" >Finalizada</span>
+              </a>'
+            elsif record.vigente == "Vigente" and (record.cargada == false or record.cargada == nil )then
+            '<a class="btn btn-primary btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Chequear cargada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_cargada_path(id: record.id.to_s, :format => :json)+'">Chequear Cargada<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
+
+            elsif record.vigente == "Vigente" and record.cargada == true then
+              '<a class="btn btn-info btn-sm"
+              <span class=aria-hidden="true" >Cargada</span>
+              </a>'
             end,
 
-            if record.altas_bajas_hora_id != nil  
-              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.nro_calle
-            elsif record.cargo_id != nil
-              Cargo.where(:id => record.cargo_id.to_i).first.persona.nro_calle
-            else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.nro_calle
-            end,
-
-            if record.altas_bajas_hora_id != nil  
-              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.piso
-            elsif record.cargo_id != nil
-              Cargo.where(:id => record.cargo_id.to_i).first.persona.piso
-            else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.piso
-            end,
-
-            if record.altas_bajas_hora_id != nil  
-              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.depto
-            elsif record.cargo_id != nil
-              Cargo.where(:id => record.cargo_id.to_i).first.persona.depto
-            else
-              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.depto
-            end,
+  
      ]
     end
   end
