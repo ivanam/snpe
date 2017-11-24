@@ -36,9 +36,9 @@ class ListadosLicenciaCargosndsDatatable < AjaxDatatablesRails::Base
               '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
             end,
             if record.vigente == "Finalizada" and (record.finalizada == false or record.finalizada == nil) then
-            '<a class="btn btn-info btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Chequear finalizada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_finalizada_path(id: record.id.to_s, :format => :json)+'">Chequear Finalizada<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
+            '<a class="btn btn-primary btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Chequear finalizada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_finalizada_path(id: record.id.to_s, :format => :json)+'">Chequear Finalizada<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
             elsif record.vigente == "Finalizada" and record.finalizada == true then
-              '<a class="btn btn-success btn-sm"
+              '<a class="btn btn-info btn-sm"
               <span class=aria-hidden="true" >Finalizada</span>
               </a>'
             elsif record.vigente == "Vigente" and (record.cargada == false or record.cargada == nil )then
