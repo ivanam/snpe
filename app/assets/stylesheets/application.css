@@ -35,25 +35,20 @@
     background-image: linear-gradient(to bottom, #194981 0%, #53a0e0 100%);
     color: white;
 }
+
+/* ------------------------Filtros-------------------------------- */
 .tabla-filtros{
-  
   width: 100%;  
 }
-
-.btn-filtro{
-  width: 100%;
-}
-
 .tabla-filtros td, .tabla-filtros th {
-
   padding: 5px;
   border: solid 1px;
   text-align: center;
-
 }
-
 .tabla-filtros tr {
-
-  border: solid 1px;
- 
+  border: solid 1px; 
+}
+/* -------------------------------------------------------- */
+.btn-filtro{
+  width: 100%;
 }
