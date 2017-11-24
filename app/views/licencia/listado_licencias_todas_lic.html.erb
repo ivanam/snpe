@@ -18,7 +18,7 @@
 </div>
 
 <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
 </div> </br></br>
 
 <div class="">
@@ -73,7 +73,7 @@
 </div>
 
 <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos_no_docente" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos_no_docente" %>
 </div> </br></br>
 
 
@@ -127,7 +127,7 @@
 </div>
 
 <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos" %>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_cargos" %>
 </div> </br></br>
 
 <div class="">
