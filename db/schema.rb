@@ -481,33 +481,18 @@ ActiveRecord::Schema.define(version: 20171121145257) do
     t.string   "decreto"
     t.string   "resolucion"
     t.integer  "destino"
-<<<<<<< HEAD
-=======
     t.boolean  "cargada"
     t.boolean  "finalizada"
     t.datetime "fecha_cheq_cargada"
     t.datetime "fecha_cheq_finalizada"
     t.integer  "user_cheq_cargada_id"
     t.integer  "user_cheq_finalizada_id"
->>>>>>> 75632c3806753f9a9fd56089d09267dd2397844c
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
-
-  create_table "licenciaV2", id: false, force: true do |t|
-    t.integer "nro_documento"
-    t.string  "apeynom"
-    t.string  "descripcion"
-    t.date    "fecha_desde"
-    t.date    "fecha_hasta"
-    t.string  "vigente"
-    t.string  "codigo_jurisdiccional"
-    t.integer "id",                    default: 0
-    t.string  "codigo"
-  end
 
   create_table "licenciasV", id: false, force: true do |t|
     t.string "apeynom"
