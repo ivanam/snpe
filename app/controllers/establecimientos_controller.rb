@@ -42,9 +42,14 @@ class EstablecimientosController < ApplicationController
   end
 
   def establecimientos_de_usuario
+    establecimientos = establecimientos_permitidos
+    if params[:region] != "" and params[:region] != nil and params[:region] != "undefined"
+      localidad_ids = Localidad.where(region_id: params[:region]).map(&:id)
+      establecimientos = establecimientos.where(localidad_id: localidad_ids)
+    end
     respond_to do |format|
       format.html
-      format.json { render json: EstablecimientoUserDatatable.new(view_context, { query: establecimientos_permitidos }) }
+      format.json { render json: EstablecimientoUserDatatable.new(view_context, { query: establecimientos }) }
     end
   end
 

@@ -346,6 +346,10 @@ class AltasBajasHora < ActiveRecord::Base
       self.materium_id = Materium.where(codigo: self.codificacion).first.id
     end
   end
+
+  def plan_materia
+    return self.plan.to_s + " / " + self.materium.to_s
+  end
 end
 
 #SELECT * FROM detalle d inner join recibos r on r.nume_docu = d.nume_docu where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000

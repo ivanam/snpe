@@ -532,11 +532,48 @@ def listado_licencias_todas_lic
   end
 
   def traslados
-    mes = params[:mes]
+
+    mes = params[:mes] 
     anio = params[:anio]
+    if mes == nil
+      mes = Date.today.month.to_s
+    end
+    if anio == nil
+      anio = Date.today.year.to_s
+    end
     fecha_i = anio+"-"+mes+"-01"
     fecha_f = anio+"-"+mes+"-31"
     @licencias_cargos = Licencium.where.not(cargo_id: nil).where("fecha_desde >= '" + fecha_i + "' and fecha_desde <= '"+ fecha_f +"'").where(articulo_id: [359,360])
+  end
+
+  def sin_goce
+    mes = params[:mes] 
+    anio = params[:anio]
+    tipo_cargo = params[:tipo_cargo]
+
+    if mes == nil
+      mes = Date.today.month.to_s
+    end
+    if anio == nil
+      anio = Date.today.year.to_s
+    end
+    fecha_i = anio+"-"+mes+"-01"
+    fecha_f = anio+"-"+mes+"-31"
+    articulo_ids = Articulo.where(con_goce: false).map(&:id)
+    licencias = Licencium.where(articulo_id: articulo_ids)
+    if tipo_cargo == nil || tipo_cargo == "horas"
+      licencias = licencias.where.not(altas_bajas_hora_id: nil)
+    elsif tipo_cargo == "cargos"
+      licencias = licencias.where.not(cargo_id: nil)
+    elsif tipo_cargo == "cargos no docente"
+      licencias = licencias.where.not(cargo_no_docente_id: nil)
+    end
+    @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f +"'")
+    @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f +"'")
+
+
+
+
   end
 
   private

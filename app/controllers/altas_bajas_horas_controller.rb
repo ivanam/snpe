@@ -325,6 +325,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora.division = params[:altas_bajas_hora][:division]
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
     @altas_bajas_hora.plan_id = params[:altas_bajas_hora][:plan_id]
+    @altas_bajas_hora.horas = params[:altas_bajas_hora][:horas]
     @altas_bajas_hora.materium_id = params[:altas_bajas_hora][:materium_id]    
     @materia = Materium.find(params[:altas_bajas_hora][:materium_id])
     @altas_bajas_hora.codificacion = @materia.codigo
