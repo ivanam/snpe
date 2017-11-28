@@ -213,7 +213,7 @@
             .done(function(data) {
               window.data2 = data[0].toString();
             });
-
+              console.log(window.data2);
               if (window.data2 != "undefined"){
               tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val());
               tabla_licencia.api().ajax.reload();
@@ -302,7 +302,7 @@
           ]
         })
         .on('draw.dt', function () {
-        $( ".btn-ajax" ).on( "click", function() {
+        $( ".btn-ajax1" ).on( "click", function() {
           var data_url = $(this).attr('data-url');
           $.ajax({
             url: data_url,
@@ -317,8 +317,7 @@
               window.data4 = data[0].toString();
 
             });
-
-              alert("");
+              console.log(window.data4);
               if (window.data4 != "undefined" && window.data4 != undefined){
 
               tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg?rango2='+window.data4+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val());
@@ -385,7 +384,7 @@
           ]
       })
       .on('draw.dt', function () {
-        $( ".btn-ajax" ).on( "click", function() {
+        $( ".btn-ajax2" ).on( "click", function() {
           var data_url = $(this).attr('data-url');
           $.ajax({
             url: data_url,
@@ -401,7 +400,7 @@
 
             });
 
-              alert("");
+              console.log(window.data3);
               if (window.data3 != "undefined" && window.data3 != undefined){
 
               tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg?rango3='+window.data3+"&dni3="+$('#dni3').val()+"&select_articulo_cargos="+$('#select_articulo_cargos').val());
