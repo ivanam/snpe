@@ -22,6 +22,56 @@ class Licencium < ActiveRecord::Base
  	return self.cargo_id
  end
 
+ def agente
+ 	if self.altas_bajas_hora_id != nil
+ 		return self.altas_bajas_hora.persona.to_s
+ 	elsif self.cargo_id != nil
+ 		return self.cargo.persona.to_s
+ 	elsif self.cargo_no_docente_id != nil 				
+ 		return self.cargo_no_docente.persona.to_s
+ 	end
+ end
+
+ def secuencia
+ 	if self.altas_bajas_hora_id != nil
+ 		return self.altas_bajas_hora.secuencia
+ 	elsif self.cargo_id != nil
+ 		return self.cargo.secuencia
+ 	elsif self.cargo_no_docente_id != nil 				
+ 		return self.cargo_no_docente.secuencia
+ 	end
+ end
+
+ def descripcion
+ 	if self.altas_bajas_hora_id != nil
+ 		return "Horas " + self.altas_bajas_hora.horas.to_s + " - " + self.altas_bajas_hora.plan_materia
+ 	elsif self.cargo_id != nil
+ 		return Funcion.where(categoria: self.cargo.cargo).first.to_s
+ 	elsif self.cargo_no_docente_id != nil 				
+ 		return self.cargo_no_docente.secuencia
+ 	end
+ end
+
+ def curso
+ 	if self.altas_bajas_hora_id != nil
+ 		return self.altas_bajas_hora.anio.to_s + " - " + self.altas_bajas_hora.division.to_s
+ 	elsif self.cargo_id != nil
+ 		return self.cargo.anio.to_s + " - " + self.cargo.division.to_s
+ 	elsif self.cargo_no_docente_id != nil 				
+ 		return self.cargo_no_docente.secuencia
+ 	end
+ end
+
+ def establecimiento
+ 	if self.altas_bajas_hora_id != nil
+ 		return self.altas_bajas_hora.establecimiento.codigo_jurisdiccional.to_s
+ 	elsif self.cargo_id != nil
+ 		return self.cargo.establecimiento.codigo_jurisdiccional.to_s
+ 	elsif self.cargo_no_docente_id != nil 				
+ 		return self.cargo_no_docente.establecimiento.codigo_jurisdiccional.to_s
+ 	end
+ end
+
  private
  		def fecha_inicio_valida
  			fecha_alta = nil
