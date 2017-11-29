@@ -3,6 +3,14 @@ class CargoEstado < ActiveRecord::Base
   belongs_to :estado
   belongs_to :user
 
+  validate :control_baja
+
+
+  def control_baja
+    if !(self.estado_id == 7 and self.cargo.fecha_baja.to_date > '0000-00-00'.to_date)
+      errors.add(:estado, "no corresponde")
+    end
+  end
 
   def color_estado
    @estado = Estado.where(:id => self.estado_id).first.descripcion.to_s
