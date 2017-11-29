@@ -570,11 +570,20 @@ def listado_licencias_todas_lic
     end
     @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f +"'")
     @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f +"'")
-
-
-
-
+    
+    respond_to do |format|
+    format.pdf do
+      render :pdf => 'sin_goce', 
+      :template => 'licencia/sin_goce_pdf.html.erb',
+      :layout => 'pdf.html.erb',
+      :orientation => 'Landscape',# default Portrait
+      :page_size => 'Legal', # default A4
+      :show_as_html => params[:debug].present?
+    end
+    format.html 
+    end 
   end
+
 
   private
     def set_licencium

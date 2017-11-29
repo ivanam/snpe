@@ -1,3 +1,4 @@
+
 <div>
   <center>  <h3>Filtros</h3> </center>
     <table class="tabla-filtros">
@@ -18,7 +19,16 @@
         </td>
       </tr>
     </table>
-  <center><button class="btn btn-primary btn-filtro" id="btn-filtrar">Filtrar</button></center>
+    <div>
+    <br>
+    <center>
+      <button class="btn btn-primary" id="btn-filtrar">Filtrar</button>
+      <button id="btn-filtrar1" class="btn btn-danger">
+      <span class="glyphicon glyphicon-print"></span>
+      Imprimir licencias s/goce de haberes
+      </button>
+      </center>
+    </div>
 </div>
 
 
@@ -87,5 +97,9 @@
     $('#btn-filtrar').on('click', function() {
       window.location.href = "<%= licencias_sin_goce_path %>" + getParams();
     });
+
+     $('#btn-filtrar1').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/sin_goce.pdf' + getParams();
+      })
   });
 </script>
