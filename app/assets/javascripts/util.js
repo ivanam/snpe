@@ -58,7 +58,7 @@
 	  });
 
 
-	  $('#modal_cargos').on('shown.bs.modal', function (event) {      
+	  $('#modal_cargos, #modal_bajas_efectivas').on('shown.bs.modal', function (event) {      
 	    var alta_id = $(event.relatedTarget).attr('cargo-id');
 	    $.ajax({
 	        url: '/soft/snpe/util/buscar_estados_cargo/'+alta_id,
