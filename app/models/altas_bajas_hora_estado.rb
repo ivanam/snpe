@@ -3,7 +3,7 @@ class AltasBajasHoraEstado < ActiveRecord::Base
   belongs_to :estado
    
 
-  validate :control_baja
+  #validate :control_baja
 
 
   def control_baja
