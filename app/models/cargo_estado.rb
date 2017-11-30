@@ -3,7 +3,7 @@ class CargoEstado < ActiveRecord::Base
   belongs_to :estado
   belongs_to :user
 
-  validate :control_baja
+  #validate :control_baja
 
 
   def control_baja
