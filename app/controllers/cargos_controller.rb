@@ -232,6 +232,7 @@ class CargosController < ApplicationController
   end
 
   def chequear
+    @cargo.update(updated_at: Date.today)
     @estado = Estado.where(descripcion: "Chequeado").first
     CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
