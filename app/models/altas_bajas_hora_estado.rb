@@ -7,8 +7,10 @@ class AltasBajasHoraEstado < ActiveRecord::Base
 
 
   def control_baja
-    if !(self.estado_id == 7 and self.alta_baja_hora.fecha_baja.to_date > '0000-00-00'.to_date)
-      errors.add(:estado, "no corresponde")
+    if self.estado_id == 7 
+      if self.alta_baja_hora.estado = 'BAJ')
+        errors.add(:estado, "no corresponde")
+      end
     end
   end
 
