@@ -23,6 +23,7 @@ class CargosBajasEfectivasDatatable < AjaxDatatablesRails::Base
         record.anio,
         record.division,
         record.grupo_id,
+        '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_bajas_efectivas" cargo-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
         if record.estado_actual == "Notificado_Baja" then
