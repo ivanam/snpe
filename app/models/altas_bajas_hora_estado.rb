@@ -8,7 +8,7 @@ class AltasBajasHoraEstado < ActiveRecord::Base
 
   def control_baja
     if self.estado_id == 7 
-      if self.alta_baja_hora.estado = 'BAJ')
+      if self.alta_baja_hora.estado = 'BAJ'
         errors.add(:estado, "no corresponde")
       end
     end
