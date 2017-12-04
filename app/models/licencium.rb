@@ -115,6 +115,7 @@ class Licencium < ActiveRecord::Base
 	 			if self.por_baja
 	 				if alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado: 7)
+	 				end
 	 			elsif self.por_continua != nil
         elsif  alta_horas.plan_id ==113 or alta_horas.plan_id ==249
 	 			else
@@ -133,6 +134,7 @@ class Licencium < ActiveRecord::Base
 	 			if self.por_baja
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado: 7)
+	 				end
 
 	 			elsif self.por_continua != nil 
 
