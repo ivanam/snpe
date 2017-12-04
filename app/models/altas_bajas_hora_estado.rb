@@ -1,6 +1,18 @@
 class AltasBajasHoraEstado < ActiveRecord::Base
   belongs_to :alta_baja_hora
   belongs_to :estado
+   
+
+  #validate :control_baja
+
+
+  def control_baja
+    if self.estado_id == 7 
+      if self.alta_baja_hora.estado = 'BAJ'
+        errors.add(:estado, "no corresponde")
+      end
+    end
+  end
 
    def mensaje_estado
      @estado = Estado.where(:id => self.estado_id).first.descripcion.to_s

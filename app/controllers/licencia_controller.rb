@@ -440,20 +440,6 @@ def listado_licencias_todas_lic
     if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede finalizar la licencia. Posee suplente. O no corresponde la situación de revista"
-    else
-      if @licencia.altas_bajas_hora_id != nil 
-        id_lic =@licencia.altas_bajas_hora_id
-        alta_horas = AltasBajasHora.where(:id => id_lic).first
-        @estado = Estado.where(:descripcion => "Notificado_Baja").first
-        AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: alta_horas.id, user_id: current_user.id) 
-        msg = ''
-      elsif @licencia.cargo_id != nil
-        id_lic =@licencia.cargo_id
-        cargos = Cargo.where(:id => id_lic).first
-        @estado = Estado.where(:descripcion => "Notificado_Baja").first
-        CargoEstado.create(estado_id: @estado.id, cargo_id: cargos.id, user_id: current_user.id) 
-        msg = ''
-      end  
     end
 
     render json: msg.to_json
@@ -570,11 +556,20 @@ def listado_licencias_todas_lic
     end
     @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f +"'")
     @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f +"'")
-
-
-
-
+    
+    respond_to do |format|
+    format.pdf do
+      render :pdf => 'sin_goce', 
+      :template => 'licencia/sin_goce_pdf.html.erb',
+      :layout => 'pdf.html.erb',
+      :orientation => 'Landscape',# default Portrait
+      :page_size => 'Legal', # default A4
+      :show_as_html => params[:debug].present?
+    end
+    format.html 
+    end 
   end
+
 
   private
     def set_licencium
