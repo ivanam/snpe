@@ -113,7 +113,8 @@ class Licencium < ActiveRecord::Base
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 			if self.por_baja
-	 				alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
+	 				if alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
+	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado: 7)
 	 			elsif self.por_continua != nil
         elsif  alta_horas.plan_id ==113 or alta_horas.plan_id ==249
 	 			else
@@ -130,7 +131,9 @@ class Licencium < ActiveRecord::Base
 	 		elsif self.cargo_id != nil
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
-	 				cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
+	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
+	 					CargoEstado.create(cargo_id: cargo.id, estado: 7)
+
 	 			elsif self.por_continua != nil 
 
 
