@@ -24,7 +24,7 @@ class MigracionController < ApplicationController
 	 		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 		    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
-		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 10 and anio = 2017  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
+		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 11 and anio = 2017  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
 		end
 		    # res=client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and (secuencia=73 or secuencia= 74 or secuencia= 72 or secuencia= 75 or secuencia=76) union 
 						# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=79 union
@@ -149,7 +149,7 @@ class MigracionController < ApplicationController
 	    		res= client.query("select secuencia as secMax, p.* from paddoc p where escuela = '"+e.to_s+"'  and estado= 'ALT' and  secuencia<88 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
 				select secuencia as secMax, p.* from paddoc p where escuela = '"+e.to_s+"' and secuencia<88  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 	    	else
-		    	res= client.query("SELECT secuencia as secMax, p.* FROM his_paddoc p where  p.escuela= '"+e.to_s+"'and secuencia<88 and mes = 10 and anio = 2017 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00' ")
+		    	res= client.query("SELECT secuencia as secMax, p.* FROM his_paddoc p where  p.escuela= '"+e.to_s+"'and secuencia<88 and mes = 11 and anio = 2017 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00' ")
 		    end
 
 
@@ -242,7 +242,7 @@ class MigracionController < ApplicationController
 	 	  		res = client.query("select secuencia, p.* from padaux p where escuela = '"+to_s+"'  and estado= 'ALT' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union 
 	 				select secuencia as secMax, p.* from padaux p where escuela = '"+e.to_s+"'  and estado= 'LIC' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 			else
-				res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where  p.escuela= '"+e.to_s+"'and secuencia<88 and mes = 10 and anio = 2017 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
+				res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where  p.escuela= '"+e.to_s+"'and secuencia<88 and mes = 11 and anio = 2017 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
 	 	    end
 	 	    #res= client.query("SELECT  secuencia as secMax, p.*  FROM padaux p where (p.fecha_alta > '2017-01-01' or p.fecha_baja> '2017-01-01' ) and p.escuela='"+params[:esc]+"' ")
 
