@@ -27,7 +27,6 @@
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
   </div>
 
-  <% if (current_user.role? :escuela) || (current_user.role? :sadmin) then %>
     <div class="panel panel-primary ">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -45,8 +44,8 @@
                 <th>Cargo</th>
                 <th>Cod. cargo</th>                
                 <th>Turno</th>
-                <th>Curso</th>
-                <th>División</th>
+                <th>Curso/División</th>
+                <th>Grupo</th>
                 <th>Fecha Alta</th>
                 <th>Fecha Baja</th>
                 <th>Notificaciones</th>
@@ -60,7 +59,6 @@
       </div>
     </div>
     <hr/>
-  <% end %>
 
   <div class="panel panel-success ">
     <div class="panel-heading">
@@ -78,8 +76,8 @@
               <th>Sit. Rev</th>
               <th>Cargo</th>              
               <th>Turno</th>
-              <th>Curso</th>
-              <th>Div</th>
+              <th>Curso/Div</th>
+              <th>Grupo </th>
               <th>Fecha Alta</th>
               <th>Fecha Baja</th>
               <th>Notificaciones</th>
