@@ -18,27 +18,22 @@
 
   <legend>Altas</legend>
   <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>TD</th>
-        <th>N° doc.</th>
-        <th>Sec.</th>
-        <th>Apellido y nombre</th>
-        <th>Cargo</th>
-        <th>Cu</th>
-        <th>Di</th>
-        <th>Tu</th>
-        <th>Sit. Rev</th>
-        <th>Fecha alta</th>
-        <th>Fecha baja</th>
-        <th>Observaciones</th>
-      </tr>
-      <tr>  
-        <th></th>
-      </tr>
-    </thead>
     <tbody>
-      <% @lote_impresion.alta_cargos.where(establecimiento_id: e.id).each do |c| %>   
+      <tr>
+        <td>TD</td>
+        <td>N° doc.</td>
+        <td>Sec.</td>
+        <td>Apellido y nombre</td>
+        <td>Cargo</td>
+        <td>Cu</td>
+        <td>Di</td>
+        <td>Tu</td>
+        <td>Sit. Rev</td>
+        <td>Fecha alta</td>
+        <td>Fecha baja</td>
+        <td>Observaciones</td>
+      </tr>
+        <% @lote_impresion.alta_cargos.where(establecimiento_id: e.id).each do |c| %>   
           <tr>
             <td><%= c.persona.tipo_documento.codigo %></td>
             <td><%= c.persona.nro_documento %></td>
@@ -59,26 +54,21 @@
 
   <legend>Bajas</legend>
   <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>TD</th>
-        <th>N° doc.</th>
-        <th>Sec.</th>
-        <th>Apellido y nombre</th>         
-        <th>Cargo</th>         
-        <th>Cu</th>
-        <th>Di</th>
-        <th>Tu</th>
-        <th>Sit. Rev</th>
-        <th>Fecha alta</th>
-        <th>Fecha baja</th>
-        <th>Observaciones</th>
-      </tr>
-      <tr>  
-        <th></th>
-      </tr>
-    </thead>
     <tbody>
+      <tr>
+        <td>TD</td>
+        <td>N° doc.</td>
+        <td>Sec.</td>
+        <td>Apellido y nombre</td>         
+        <td>Cargo</td>         
+        <td>Cu</td>
+        <td>Di</td>
+        <td>Tu</td>
+        <td>Sit. Rev</td>
+        <td>Fecha alta</td>
+        <td>Fecha baja</td>
+        <td>Observaciones</td>
+      </tr>
       <% @lote_impresion.baja_cargos.where(establecimiento_id: e.id).each do |c| %>   
         <tr>
           <td><%= c.persona.tipo_documento.codigo %></td>
