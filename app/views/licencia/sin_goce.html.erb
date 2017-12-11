@@ -88,6 +88,10 @@
 
   $(document).ready(function($) {
     
+    $('#select_mes').val("<%=@mes%>").change();
+    $('#select_anio').val("<%=@anio%>").change();
+    $('#select_tipo_cargo').val("<%=@tipo_cargo%>").change();
+
     function getParams() {
       var params = '?mes=' + $('#select_mes').val()+'&anio=' + $('#select_anio').val()+'&tipo_cargo=' + $('#select_tipo_cargo').val();
       return  params
