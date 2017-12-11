@@ -1304,11 +1304,6 @@
 
     prestador = $("#prestador").val();
    
-       
-    if (fecha_fin < fecha_inicio){
-      alert("La fecha de Finalización no puede ser menor a la de Inicio de la licencia");
-      return;
-    } 
    
     $.ajax({
       url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/'+prestador,

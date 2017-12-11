@@ -11,9 +11,12 @@ class Licencium < ActiveRecord::Base
   before_update :cancelar_licencia
 
   #validate :fecha_inicio_valida
+  validate :superposicion_fechas
+
+  validate :fecha_hasta_mayor_fecha_desde
  
+
  def ash_id
- 
  	return self.altas_bajas_hora_id
  end
 
@@ -73,6 +76,23 @@ class Licencium < ActiveRecord::Base
  end
 
  private
+
+ 	def superposicion_fechas
+
+ 		Licencium.where(cargo_id: self.cargo_id, altas_bajas_hora_id: self.altas_bajas_hora_id, cargo_no_docente_id: cargo_no_docente_id).where.not(id: self.id).each do |l|
+ 			if (l.fecha_desde == self.fecha_desde) || (l.fecha_hasta == self.fecha_desde)
+ 				return errors.add(:fecha_hasta, "La licencia se superpone")
+ 			elsif (l.fecha_desde == self.fecha_hasta) || (l.fecha_hasta == self.fecha_hasta)
+ 				return errors.add(:fecha_hasta, "La licencia se superpone")
+ 			elsif (l.fecha_desde < self.fecha_desde) && (self.fecha_desde < l.fecha_hasta)
+ 				return errors.add(:fecha_hasta, "La licencia se superpone")
+ 			elsif (l.fecha_desde < self.fecha_hasta) && (self.fecha_hasta < l.fecha_hasta)
+ 				return errors.add(:fecha_hasta, "La licencia se superpone")
+ 			end
+ 		end
+ 		
+ 	end
+
  		def fecha_inicio_valida
  			fecha_alta = nil
  			if self.altas_bajas_hora_id != nil
@@ -87,6 +107,12 @@ class Licencium < ActiveRecord::Base
  			end
  			if self.fecha_desde.to_date > fecha_hasta.to_date
  				errors.add(:fecha_desde, "No puede ser menor a la fecha de alta")
+ 			end
+ 		end
+
+ 		def fecha_hasta_mayor_fecha_desde
+ 			if self.fecha_desde > self.fecha_hasta
+ 				errors.add(:fecha_desde, "No puede ser menor a la fecha de finalización")
  			end
  		end
 

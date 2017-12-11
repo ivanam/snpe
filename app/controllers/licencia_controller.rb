@@ -290,7 +290,7 @@ def listado_licencias_todas_lic
     if cargo_guardado && @licencia.save
       render json: 0
     else
-      msg = "error en la licencia"
+      msg = @licencia.errors.full_messages.first
       render json: msg.to_json
     end
   end 
@@ -335,8 +335,7 @@ def listado_licencias_todas_lic
       if @licencia.save && Cargo.create!(establecimiento_id: destino, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: 'REU' , observaciones: descripcion_articulo)
         render json: 0
       else
-        msg = "error en la licencia"
-        render json: msg.to_json
+        render json: @licencia.errors.full_messages.first.to_json
       end
     elsif params[:articulo] == "360"
       @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino])
@@ -350,8 +349,7 @@ def listado_licencias_todas_lic
       if @licencia.save
         render json: 0
       else
-        msg = "error en la licencia"
-        render json: msg.to_json
+        render json: @licencia.errors.full_messages.first.to_json
       end
     end
   end
@@ -380,8 +378,11 @@ def listado_licencias_todas_lic
     if @no_guarda and @licencia.save
         render json: 0
       else
-      
-        msg = "error en la licencia"
+        if @no_guarda
+          msg = "error en licencia"
+        else
+          msg = @licencia.errors.full_messages.first
+        end
         render json: msg.to_json
       end
     end
