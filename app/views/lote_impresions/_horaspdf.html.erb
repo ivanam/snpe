@@ -20,27 +20,25 @@
 
   <legend><h5>Altas</h5></legend>
   <table class="table table-bordered table-striped table-compact">
-    <thead>
-      <tr>
-        <th>TD</th>
-        <th>N° doc.</th>
-        <th>Sec.</th>
-        <th>Apellido y nombre</th>         
-        <th>Ca</th>
-        <th>Ci</th>
-        <th>Cu</th>
-        <th>Di</th>
-        <th>Tu</th>
-        <th>Ma</th>
-        <th>Horas</th>
-        <th>Sit. Rev</th>
-        <th>Fecha alta</th>
-        <th>Fecha baja</th>
-        <th>LP</th>
-        <th>Observaciones</th>
-      </tr>
-    </thead>
     <tbody>
+      <tr>
+        <td>TD</td>
+        <td>N° doc.</td>
+        <td>Sec.</td>
+        <td>Apellido y nombre</td>         
+        <td>Ca</td>
+        <td>Ci</td>
+        <td>Cu</td>
+        <td>Di</td>
+        <td>Tu</td>
+        <td>Ma</td>
+        <td>Horas</td>
+        <td>Sit. Rev</td>
+        <td>Fecha alta</td>
+        <td>Fecha baja</td>
+        <td>LP</td>
+        <td>Observaciones</td>
+      </tr>
       <% @lote_impresion.altas_bajas_horas.where(establecimiento_id: e.id).each do |h| %>
         <tr>
           <td><%= h.persona.tipo_documento.codigo %></td>
@@ -70,27 +68,25 @@
 
   <legend><h5>Bajas</h5></legend>
   <table class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th>TD</th>
-        <th>N° doc.</th>
-        <th>Sec.</th>
-        <th>Apellido y nombre</th>         
-        <th>Ca</th>
-        <th>Ci</th>
-        <th>Cu</th>
-        <th>Di</th>
-        <th>Tu</th>
-        <th>Ma</th>
-        <th>Horas</th>
-        <th>Sit. Rev</th>
-        <th>Fecha alta</th>
-        <th>Fecha baja</th>
-        <th>LP</th>
-        <th>Observaciones</th>
-      </tr>
-    </thead>
     <tbody>
+      <tr>
+        <td>TD</td>
+        <td>N° doc.</td>
+        <td>Sec.</td>
+        <td>Apellido y nombre</td>         
+        <td>Ca</td>
+        <td>Ci</td>
+        <td>Cu</td>
+        <td>Di</td>
+        <td>Tu</td>
+        <td>Ma</td>
+        <td>Horas</td>
+        <td>Sit. Rev</td>
+        <td>Fecha alta</td>
+        <td>Fecha baja</td>
+        <td>LP</td>
+        <td>Observaciones</td>
+      </tr>
       <% @lote_impresion.impresion_bajas.where(establecimiento_id: e.id).each do |h| %>
         <tr>
           <td><%= h.persona.tipo_documento.codigo %></td>
@@ -117,7 +113,5 @@
       <% end %>
     </tbody>
   </table>
-
-  
 
 <% end %>
