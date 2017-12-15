@@ -111,9 +111,12 @@ class Licencium < ActiveRecord::Base
  		end
 
  		def fecha_hasta_mayor_fecha_desde
- 			if self.fecha_desde > self.fecha_hasta
- 				errors.add(:fecha_desde, "No puede ser menor a la fecha de finalización")
- 			end
+ 			if self.fecha_hasta != nil
+
+	 			if self.fecha_desde > self.fecha_hasta
+	 				errors.add(:fecha_desde, "No puede ser menor a la fecha de finalización")
+	 			end
+	 		end
  		end
 
 	 	def actualizar_estado
