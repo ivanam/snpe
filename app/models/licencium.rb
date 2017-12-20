@@ -85,9 +85,9 @@ class Licencium < ActiveRecord::Base
 	 				return errors.add(:fecha_hasta, "La licencia se superpone")
 	 			elsif (l.fecha_desde == self.fecha_hasta) || (l.fecha_hasta == self.fecha_hasta)
 	 				return errors.add(:fecha_hasta, "La licencia se superpone")
-	 			elsif (l.fecha_desde < self.fecha_desde) && (self.fecha_desde < l.fecha_hasta)
+	 			elsif (l.fecha_desde <= self.fecha_desde) && (self.fecha_desde <= l.fecha_hasta)
 	 				return errors.add(:fecha_hasta, "La licencia se superpone")
-	 			elsif (l.fecha_desde < self.fecha_hasta) && (self.fecha_hasta < l.fecha_hasta)
+	 			elsif (l.fecha_desde <= self.fecha_hasta) && (self.fecha_hasta <= l.fecha_hasta)
 	 				return errors.add(:fecha_hasta, "La licencia se superpone")
 	 			end
 	 		end
