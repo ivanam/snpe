@@ -6,6 +6,8 @@ gem 'rails', '4.0.13'
 
 gem 'sass-rails'
 
+gem 'railroady'
+
 gem 'coffee-rails'
 
 gem 'uglifier'
@@ -29,6 +31,8 @@ gem "therubyracer"
 gem "less-rails"
 
 gem 'thin'
+
+gem 'rails-erd', require: false, group: :development
 
 gem 'activeadmin', github: 'activeadmin'
 # ---------------------------
