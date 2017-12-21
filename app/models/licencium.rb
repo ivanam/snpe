@@ -11,7 +11,7 @@ class Licencium < ActiveRecord::Base
   before_update :cancelar_licencia
 
   #validate :fecha_inicio_valida
-  validate :superposicion_fechas
+  #validate :superposicion_fechas
 
   validate :fecha_hasta_mayor_fecha_desde
  
