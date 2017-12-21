@@ -4503,7 +4503,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>destino</td>
+    <td>destino -> escuela destino en casos de reubicación</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
