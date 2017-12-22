@@ -2883,7 +2883,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='despliegues'>
 <caption>despliegues
-<br>En esta tabla se relacionan los cursos, planes con las materias y las horas correspondinetes, ejmeplo: para el plan 112 la materia 501 cuerso 1 corresponden 2 horas </caption>
+<br>En esta tabla se relacionan los cursos, planes con las materias y las horas correspondinetes, ejemplo: para el plan 112 la materia 501 curso 1 corresponden 2 horas </caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
