@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="author" content="WB DataDic" />
     <meta name="description" content="snpe Data Dictionary." />
-    <title>snpe Data Dictionary</title>
+    <title>Diccionario de Datos Schema Sistema de Novedades</title>
     <style type="text/css">
     table{
         width: 100%;
@@ -42,16 +42,16 @@
     }
     #title-sect{
         color: gray;
-        text-align: right;
+        text-align: center;
     }
     .proj-desc{
-        text-align: right;
+        text-align: center;
     }
     </style>
 </head>
 <body>
 <div id="title-sect">
-<h1>snpe<br> Data Dictionay</h1>
+<h1>Schema Sistema de Novedades<br> Diccionario de Datos</h1>
 <p>
 <em>2017-12-20</em>
 </p>
