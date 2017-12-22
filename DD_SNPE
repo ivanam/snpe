@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="author" content="WB DataDic" />
     <meta name="description" content="snpe Data Dictionary." />
-    <title>snpe Data Dictionary</title>
+    <title>Diccionario de Datos Schema Sistema de Novedades</title>
     <style type="text/css">
     table{
         width: 100%;
@@ -42,16 +42,16 @@
     }
     #title-sect{
         color: gray;
-        text-align: right;
+        text-align: center;
     }
     .proj-desc{
-        text-align: right;
+        text-align: center;
     }
     </style>
 </head>
 <body>
 <div id="title-sect">
-<h1>snpe<br> Data Dictionay</h1>
+<h1>Schema Sistema de Novedades<br> Diccionario de Datos</h1>
 <p>
 <em>2017-12-20</em>
 </p>
@@ -60,7 +60,7 @@
 </p>
 </div>
 <h2>Indice</h2>
-<h3>En cada columna, separadas por ->,están las descripciones de los campos mas relevantes, lo que se detalla en las horas es lo mismo para cargos. luego en cada columna se hace mención a los datos posibles hasta ahora en cada uno. se adjuntarán también ejemplos con datos reales</h3>
+<h3>En cada columna, separadas por ->,están las descripciones de los campos mas relevantes, lo que se detalla en las horas es lo mismo para cargos. luego en cada columna se hace mención a los datos posibles en cada uno. se adjuntarán también ejemplos con datos reales. La descripción de la tabla cargos ,campo por campo, al ser igual a la tabla altas_bajas_horas queda plasmada en esta última.</h3>
 <ul>
 <li><a href='#active_admin_comments'>active_admin_comments</a></li>
 <li><a href='#admin_users'>admin_users</a></li>
@@ -123,326 +123,7 @@
 <li><a href='#users'>users</a></li>
 <li><a href='#utils'>utils</a></li>
 </ul>
-<table id='active_admin_comments'>
-<caption>active_admin_comments
-<br> no usado en este momento</caption>
-<tr><td colspan='11'></td></tr>
-<tr>
-    <th>Column name</th>
-    <th>DataType</th>
-    <th><abbr title='Primary Key'>PK</abbr></th>
-    <th><abbr title='Not Null'>NN</abbr></th>
-    <th><abbr title='Unique'>UQ</abbr></th>
-    <th><abbr title='Binary'>BIN</abbr></th>
-    <th><abbr title='Unsigned'>UN</abbr></th>
-    <th><abbr title='Zero Fill'>ZF</abbr></th>
-    <th><abbr title='Auto Increment'>AI</abbr></th>
-    <th>Default</th>
-    <th>Comment</th>
-</tr>
-<tr>
-    <td>id</td>
-    <td>INT(11)</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>namespace</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>body</td>
-    <td>TEXT</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>resource_id</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>resource_type</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>author_id</td>
-    <td>INT(11)</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>author_type</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>created_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>updated_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<table id='admin_users'>
-<caption>admin_users
-<br> no usado en este momento</caption>
-<tr><td colspan='11'></td></tr>
-<tr>
-    <th>Column name</th>
-    <th>DataType</th>
-    <th><abbr title='Primary Key'>PK</abbr></th>
-    <th><abbr title='Not Null'>NN</abbr></th>
-    <th><abbr title='Unique'>UQ</abbr></th>
-    <th><abbr title='Binary'>BIN</abbr></th>
-    <th><abbr title='Unsigned'>UN</abbr></th>
-    <th><abbr title='Zero Fill'>ZF</abbr></th>
-    <th><abbr title='Auto Increment'>AI</abbr></th>
-    <th>Default</th>
-    <th>Comment</th>
-</tr>
-<tr>
-    <td>id</td>
-    <td>INT(11)</td>
-    <td>&#10004;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td></td>
-    <td></td>
-</tr>
-<tr>
-    <td>email</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>''</td>
-    <td></td>
-</tr>
-<tr>
-    <td>encrypted_password</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>''</td>
-    <td></td>
-</tr>
-<tr>
-    <td>reset_password_token</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>reset_password_sent_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>remember_created_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>sign_in_count</td>
-    <td>INT(11)</td>
-    <td>&nbsp;</td>
-    <td>&#10004;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>'0'</td>
-    <td></td>
-</tr>
-<tr>
-    <td>current_sign_in_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>last_sign_in_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>current_sign_in_ip</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>last_sign_in_ip</td>
-    <td>VARCHAR(255)</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>created_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
-<tr>
-    <td>updated_at</td>
-    <td>DATETIME</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td class='attr'>&nbsp;</td>
-    <td>NULL</td>
-    <td></td>
-</tr>
+
 <table id='altas_bajas_hora_estados'>
 <caption>altas_bajas_hora_estados
 <br> Almacena los estados correspondientes a cada hora que fue dada de alta, los estados son los referidos a la tabla
@@ -872,7 +553,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>estado -> estado de las horas <a href='#estados'>estados</a></li></td>
+    <td>estado -> -> estado del cargo ALT - BAJ - LIC/BAJ - LIC - ART - REU</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1270,7 +951,8 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>tipo_articulo_id</td>
+    <td>tipo_articulo_id
+    <br> -> hace referencia al tipo de articulo, docente / auxiliar <a href='#tipo_articulos'>tipo_articulos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1313,7 +995,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>ina_justificada</td>
+    <td>ina_justificada -> cantidad de inasistencias justificadas</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1326,7 +1008,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>ina_injustificada</td>
+    <td>ina_injustificada -> cantidad de inasistencias injustificadas</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1352,7 +1034,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>lleg_tarde_justificada</td>
+    <td>lleg_tarde_justificada -> cantidad de llegadas tarde justificadas</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1365,7 +1047,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>lleg_tarde_injustificada</td>
+    <td>lleg_tarde_injustificada -> -> cantidad de llegadas tarde injustificadas</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1391,7 +1073,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>altas_bajas_hora_id</td>
+    <td>altas_bajas_hora_id -> id hora de referencia de la inasistencia <a href='#altas_bajas_hora'>altas_bajas_hora</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1404,7 +1086,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>altas_bajas_cargo_id</td>
+    <td>altas_bajas_cargo_id -> id cargo de referencia de la inasistencia <a href='#cargos'>cargos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1443,7 +1125,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>anio_periodo</td>
+    <td>anio_periodo -> año de la inasistencia</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1456,7 +1138,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>mes_periodo</td>
+    <td>mes_periodo -> mes de la inasistencia</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1469,7 +1151,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>altas_bajas_cargo_no_docente_id</td>
+    <td>altas_bajas_cargo_no_docente_id -> id cargo no docente de referencia de la inasistencia <a href='#cargo_no_docentes'>cargo no docentes</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1482,7 +1164,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>paro</td>
+    <td>paro -> dias de paro o tiempo de paro</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1495,7 +1177,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>licencia_d</td>
+    <td>licencia_d -> cantidad de dias por licencia denegada</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1550,7 +1232,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>asistencia_id</td>
+    <td>asistencia_id -> referencia a la asistencia <a href='#asistencia'>asistencia</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1563,7 +1245,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>estado_id</td>
+    <td>estado_id -> referencia a los estados de las inasistencias <a href='#estados'>estados</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1576,7 +1258,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>user_id</td>
+    <td>user_id -> usuario que registra la inasistencia</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1629,7 +1311,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='cargo_estados'>
 <caption>cargo_estados
-<br>Esta tabla corresponde a los estados que tiene cada cargo, en el campo cargo_id hace referencia al cargo</caption>
+<br>Esta tabla corresponde a los estados que tiene cada cargo o que fue teniendo ese cargo desde el momento de inicio en el campo cargo_id hace referencia al cargo</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -1658,7 +1340,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>cargo_id</td>
+    <td>cargo_id -> referencia al cargo <a href='#cargos'>cargos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1671,7 +1353,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>estado_id</td>
+    <td>estado_id -> referencia al estado que posee o al historial que tuvo ese cargo <a href='#estados'>estados</a></li> </td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1684,7 +1366,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>user_id</td>
+    <td>user_id -> usuario que fue registrando los estados por cargo </td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1888,7 +1570,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>cargo_no_docente_id</td>
+    <td>cargo_no_docente_id -> refiere a la tabla <a href='#cargo_no_docentes'>cargo_no_docentes</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1901,7 +1583,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>estado_id</td>
+    <td>estado_id -> refiere a la tabla <a href='#estados'>estados</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1940,7 +1622,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>user_id</td>
+    <td>user_id -> usuario que registra los estados para los cargos no docentes</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -1998,7 +1680,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>establecimiento_id</td>
+    <td>establecimiento_id ->  escuela / dependencia <a href='#establecimientos'>establecimiento</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2011,7 +1693,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>persona_id</td>
+    <td>persona_id ->  persona <a href='#personas'>personas</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2024,7 +1706,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>cargo</td>
+    <td>cargo -> nombre del cargo no docente</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2037,7 +1719,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>secuencia</td>
+    <td>secuencia -> nro de referencia en economia para el pago de haberes</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2050,7 +1732,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>turno</td>
+    <td>turno -> si es m / t / n / v m-t </td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2063,7 +1745,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>fecha_alta</td>
+    <td>fecha_alta -> fecha de alta del cargo no docente</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2076,7 +1758,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>fecha_baja</td>
+    <td>fecha_baja -> fecha de baja del cargo no docente</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2089,7 +1771,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>persona_reemplazada_id</td>
+    <td>persona_reemplazada_id -> no en uso</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2115,7 +1797,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>alta_lote_impresion_id</td>
+    <td>alta_lote_impresion_id -> posee el id del lote por el cual fue impreso para enviarlo a contaduria <a href='#lote_impresions'>lote_impresions</a></li> </td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2128,7 +1810,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>baja_lote_impresion_id</td>
+    <td>baja_lote_impresion_id -> posee el id del lote por el cual fue impreso para enviarlo a contaduria <a href='#lote_impresions'>lote_impresions</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2141,7 +1823,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>empresa_id</td>
+    <td>empresa_id -> no en uso en este momento</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2154,7 +1836,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>lugar_pago_id</td>
+    <td>lugar_pago_id -> no en uso en este momento</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2167,7 +1849,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>con_movilidad</td>
+    <td>con_movilidad -> no en uso en este momento</td>
     <td>TINYINT(1)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2180,7 +1862,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>ina_injustificadas</td>
+    <td>ina_injustificadas -> no en uso en este momento</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2193,7 +1875,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>licencia_desde</td>
+    <td>licencia_desde -> no en uso en este momento, se crea modulo de licencias</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2206,7 +1888,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>licencia_hasta</td>
+    <td>licencia_hasta -> no en uso en este momento, se crea modulo de licencias</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2219,7 +1901,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>cantidad_dias_licencia</td>
+    <td>cantidad_dias_licencia -> no en uso en este momento, se crea modulo de licencias</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2232,7 +1914,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>motivo_baja</td>
+    <td>motivo_baja -> -> no en uso en este momento</td>
     <td>TEXT</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2271,7 +1953,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>estado</td>
+    <td>estado -> estado del cargo ALT - BAJ - LIC/BAJ - LIC - ART - REU</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2284,7 +1966,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>situacion_revista</td>
+    <td>situacion_revista -> refiere al estado del cargo no docente <a href='#cargo_no_docentes'>cargo_no_docentes</a></li></td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2297,7 +1979,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>resolucion</td>
+    <td>resolucion -> numero de resolución si fue dado por uno</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2310,7 +1992,7 @@ No poseen situación de revista</caption>
     <td></td>
 </tr>
 <tr>
-    <td>decreto</td>
+    <td>decreto -> numero de decreto si fue dado por uno</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2882,7 +2564,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='despliegues'>
 <caption>despliegues
-<br>En esta tabla se relacionan los cursos, planes con las materias y las horas correspondinetes, ejmeplo: para el plan 112 la materia 501 cuerso 1 corresponden 2 horas </caption>
+<br>En esta tabla se relacionan los cursos, planes con las materias y las horas correspondinetes, ejemplo: para el plan 112 la materia 501 curso 1 corresponden 2 horas </caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -4503,7 +4185,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>destino</td>
+    <td>destino -> escuela destino en casos de reubicación</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -4689,7 +4371,8 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <table id='lote_impresions'>
-<caption>lote_impresions</caption>
+<caption>lote_impresions
+<br> Un lote de impresión contiene las altas y bajas para enviar a economia</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
