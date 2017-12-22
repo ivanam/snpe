@@ -60,7 +60,7 @@
 </p>
 </div>
 <h2>Indice</h2>
-<h3>En cada columna, separadas por ->,están las descripciones de los campos mas relevantes, lo que se detalla en las horas es lo mismo para cargos. luego en cada columna se hace mención a los datos posibles hasta ahora en cada uno. se adjuntarán también ejemplos con datos reales</h3>
+<h3>En cada columna, separadas por ->,están las descripciones de los campos mas relevantes, lo que se detalla en las horas es lo mismo para cargos. luego en cada columna se hace mención a los datos posibles en cada uno. se adjuntarán también ejemplos con datos reales. La descripción de la tabla cargos ,campo por campo, al ser igual a la tabla altas_bajas_horas queda plasmada en esta última.</h3>
 <ul>
 <li><a href='#active_admin_comments'>active_admin_comments</a></li>
 <li><a href='#admin_users'>admin_users</a></li>
@@ -1270,7 +1270,8 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>tipo_articulo_id</td>
+    <td>tipo_articulo_id
+    <br> -> hace referencia al tipo de articulo, docente / auxiliar <a href='#tipo_articulos'>tipo_articulos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -4689,7 +4690,8 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <table id='lote_impresions'>
-<caption>lote_impresions</caption>
+<caption>lote_impresions
+<br> Un lote de impresión contiene las altas y bajas para enviar a economia</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
