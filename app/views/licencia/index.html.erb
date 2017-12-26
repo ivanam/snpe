@@ -1032,7 +1032,8 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos/'+id_cargos+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo+'/'+fecha_anio_lic_1+'/'+destino,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino,
+          
           type: 'POST',
         })
       .done(function(data) {
@@ -1172,7 +1173,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/'+id_cargos_no_docentes+'/'+fecha_inicio+'/'+fecha_fin+'/'+articulo+'/'+fecha_anio_lic_2,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2,
           type: 'POST',
         })
       .done(function(data) {
