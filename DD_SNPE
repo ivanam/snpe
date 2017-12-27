@@ -62,8 +62,6 @@
 <h2>Indice</h2>
 <h3>En cada columna, separadas por ->,están las descripciones de los campos mas relevantes, lo que se detalla en las horas es lo mismo para cargos. luego en cada columna se hace mención a los datos posibles en cada uno. se adjuntarán también ejemplos con datos reales. La descripción de la tabla cargos ,campo por campo, al ser igual a la tabla altas_bajas_horas queda plasmada en esta última.</h3>
 <ul>
-<li><a href='#active_admin_comments'>active_admin_comments</a></li>
-<li><a href='#admin_users'>admin_users</a></li>
 <li><a href='#altas_bajas_hora_estados'>altas_bajas_hora_estados</a></li>
 <li><a href='#altas_bajas_horas'>altas_bajas_horas</a></li>
 <li><a href='#ambitos'>ambitos</a></li>
@@ -234,11 +232,9 @@
     <td></td>
 </tr>
 <table id='altas_bajas_horas'>
-<caption>altas_bajas_horas</caption>
-<caption>Esta tabla corresponde a las altas y bajas correspondientes a las horas catedra que se asignan por materias dictadas en las escuelas estas horas estan relacionadas con los estados para el flujo de proceso normal que hace la escuela en conjunto con el departamento correspondiente para completar el flujo en los sistemas de economia<li><a href='#estados'>estados</a></li>
-por otro lado estas horas manejan un estado propio de la columna que son: ALT - BAJ - LIC P/BAJ - ART (licencia con goce de haberes) - LIC (licencia sin goce de haberes)
-<a href='#situacion_revista'>situacion revista</a></li>
-La situación de revista refiere a la condición que se encuentra el cargo frente a la titularidad o no del mismo los datos son los que corresponden a la tabla situacion_revista
+<caption>altas_bajas_horas
+<br>Esta tabla corresponde a las altas y bajas correspondientes a las horas catedra que se asignan por materias dictadas en las escuelas estas horas estan relacionadas con los estados para el flujo de proceso normal que hace la escuela en conjunto con el departamento correspondiente para completar el flujo en los sistemas de economia<li><a href='#estados'>estados</a></li>
+por otro lado estas horas manejan un estado propio de la columna que son: ALT - BAJ - LIC P/BAJ - ART (licencia con goce de haberes) - LIC (licencia sin goce de haberes)</caption>
 <tr><td colspan='11'></td></tr></caption>
 <tr>
     <th>Column name</th>
@@ -1541,7 +1537,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 <table id='cargo_no_docente_estados'>
 <caption>cargo_no_docente_estados
 <br> En esta tabla se almacenan los estados referentes a los cargos no docentes, donde la relación esta definida por el campo 
- cargo_no_docente_id y estado_id refiere los estados <a href='#estados'>estados</a></li></caption>
+ cargo_no_docente_id y estado_id, refiere los estados de la tabla <a href='#estados'>estados</a></li></caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -1649,7 +1645,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='cargo_no_docentes'>
 <caption>cargo_no_docentes
-<br>Esta tabla corresponde a las altas y bajas correspondientes a los cargos no docentes (auxiliares de la educación) que se asignan  en las escuelas estan relacionadas con los estados para el flujo de proceso normal que hace la escuela en conjunto con el departamento correspondiente para completar el flujo en los sistemas de economia<li><a href='#estados'>estados</a></li>
+<br>Almacena las altas y bajas correspondientes a los cargos no docentes (auxiliares de la educación) que se asignan  en las escuelas, están relacionadas con los estados para el flujo de proceso normal que hace el departamento de personal en conjunto con el departamento de contaduria para completar el flujo en los sistemas de economia<li><a href='#estados'>estados</a></li>
 por otro lado estas horas manejan un estado propio de la columna que son: ALT - BAJ - LIC P/BAJ - ART (licencia con goce de haberes) - LIC (licencia sin goce de haberes)
 No poseen situación de revista</caption>
 <tr><td colspan='11'></td></tr>
@@ -2039,7 +2035,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>establecimiento_id</td>
+    <td>establecimiento_id -> <a href='#establecimientos'>establecimiento</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2052,7 +2048,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>persona_id</td>
+    <td>persona_id -> <a href='#personas'>personas</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2065,7 +2061,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>cargo</td>
+    <td>cargo -> almacena el numero del cargo del nomenclador de cargos <a href='#funcions'>funcions</a></li></td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2091,7 +2087,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>situacion_revista</td>
+    <td>situacion_revista -> <a href='#situacion_revista'>situacion_revista</a></li></td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2104,7 +2100,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>turno</td>
+    <td>turno -> <a href='#turnos'>turnos</a></li> </td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2117,7 +2113,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>anio</td>
+    <td>anio -> año donde presta función</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2130,7 +2126,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>curso</td>
+    <td>curso -> curso donde presta función</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2143,7 +2139,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>fecha_alta</td>
+    <td>fecha_alta -> fecha de alta del cargo</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2156,7 +2152,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>fecha_baja</td>
+    <td>fecha_baja -> fecha de baja del cargo</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2169,7 +2165,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>persona_reemplazada_id</td>
+    <td>persona_reemplazada_id -> no usado en esta etapa</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2195,7 +2191,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>alta_lote_impresion_id</td>
+    <td>alta_lote_impresion_id -> <a href='#lote_impresions'>lote_impresions</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2208,7 +2204,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>created_at</td>
+    <td>created_at -> propio del motor de base de datos</td>
     <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2221,7 +2217,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>updated_at</td>
+    <td>updated_at -> propio del motor de base de datos</td>
     <td>DATETIME</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2234,7 +2230,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>division</td>
+    <td>division -> división al que pertenece la función</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2273,7 +2269,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>empresa_id</td>
+    <td>empresa_id -><a href='#empresas'>empresas</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2286,7 +2282,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>lugar_pago_id</td>
+    <td>lugar_pago_id -> no en uso en esta etapa</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2299,7 +2295,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>con_movilidad</td>
+    <td>con_movilidad -> si posee medio de trasporte</td>
     <td>TINYINT(1)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2312,7 +2308,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>grupo_id</td>
+    <td>grupo_id -> para cargos que poseen mas de un curso y división, por ejemplo maestros especiales</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2325,7 +2321,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>ina_injustificadas</td>
+    <td>ina_injustificadas -> inasistencias injustificadas</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2338,7 +2334,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>licencia_desde</td>
+    <td>licencia_desde -> se remplaza por modulo de licencias</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2351,7 +2347,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>licencia_hasta</td>
+    <td>licencia_hasta -> se remplaza por modulo de licencias</td>
     <td>DATE</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2364,7 +2360,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>cantidad_dias_licencia</td>
+    <td>cantidad_dias_licencia -> se remplaza por modulo de licencias</td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2377,7 +2373,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>motivo_baja</td>
+    <td>motivo_baja -> en caso de baja del cargo mencionar el motivo</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2390,7 +2386,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>estado</td>
+    <td>estado -> estados propios del cargo mencionados arriba (LIC-LIC/BAJ-ART-ALT-BAJ-REU)</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2403,7 +2399,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>materium_id</td>
+    <td>materium_id -> <a href='#materia'>materia</a></li></td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2416,7 +2412,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>disposicion</td>
+    <td>disposicion -> nro de disposición en el caso del cargo salga por resolución</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2429,7 +2425,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <tr>
-    <td>resolucion</td>
+    <td>resolucion -> nro de resolución en el caso del cargo salga por resolución</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -2698,7 +2694,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='empresas'>
 <caption>empresas
-<br>Esta columna no esta en uso</caption>
+<br>almacena el departamento donde pertenece el/las cargos/horas</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -3462,8 +3458,9 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <table id='estados'>
-<caption>estados: </caption>
-<caption>Ingresado - Notificado - Cancelado - Chequeado - Impreso - Ingresado_Baja - Notificado_Baja - Cancelado_Baja - Chequeado_Baja - Cobrado</caption>
+<caption>estados:
+<br>
+Ingresado - Notificado - Cancelado - Chequeado - Impreso - Ingresado_Baja - Notificado_Baja - Cancelado_Baja - Chequeado_Baja - Cobrado</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -3532,7 +3529,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='funcions'>
 <caption>funcions
-<br> Almacena todas las funciones referentes a los cargos correspondientes por ejmplo codigo 111 es "Mastro de año"</caption>
+<br> Almacena todas las funciones referentes a los cargos correspondientes por ejemplo codigo 111 es "Mastro de año"</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -5256,7 +5253,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>tipo_documento_id</td>
+    <td>tipo_documento_id ->  <a href='#tipo_documentos'>tipo_documentos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -5334,7 +5331,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>estado_civil_id</td>
+    <td>estado_civil_id -> <a href='#estado_civils'>estado_civils</a></li> </td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -5347,7 +5344,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>sexo_id</td>
+    <td>sexo_id -> <a href='#sexos'>sexos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -5373,7 +5370,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>localidad_id</td>
+    <td>localidad_id -> <a href='#localidads'>localidads</a></li> </td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -5451,7 +5448,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>apeynom</td>
+    <td>apeynom -> apellido y nombre</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -6903,7 +6900,8 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <table id='situacion_revista'>
-<caption>situacion_revista : <br> los valores de situación de revista son: 1-1 (titular) / 1-2 (interino) / 1-3 (remplazante) / 2-3 (suplente de corta duración) / 2-4 (suplente de larga duración) / 3-5 Planta transitoria</caption>
+<caption>situacion_revista : <br>
+La situación de revista refiere a la condición que se encuentra el/las cargo/horas frente a la titularidad o no de los mismos, los datos son los que corresponden  son: 1-1 (titular) / 1-2 (interino) / 1-3 (remplazante) / 2-3 (suplente de corta duración) / 2-4 (suplente de larga duración) / 3-5 Planta transitoria</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -6997,7 +6995,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>tipo_emp</td>
+    <td>tipo_emp -> almacena la caracteriztica del departamento donde pertenece <a href='#empresas'>empresas</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -7394,7 +7392,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>titulo_id</td>
+    <td>titulo_id -> <a href='#titulos'>titulos</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -7407,7 +7405,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>persona_id</td>
+    <td>persona_id -> <a href='#personas'>personas</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -7446,7 +7444,7 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <tr>
-    <td>inscripcion_id</td>
+    <td>inscripcion_id ->  <a href='#inscripcions'>inscripcions</a></li></td>
     <td>INT(11)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
