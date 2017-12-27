@@ -3781,8 +3781,9 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
     <td></td>
 </tr>
 <table id='estados'>
-<caption>estados: </caption>
-<caption>Ingresado - Notificado - Cancelado - Chequeado - Impreso - Ingresado_Baja - Notificado_Baja - Cancelado_Baja - Chequeado_Baja - Cobrado</caption>
+<caption>estados:
+<br>
+Ingresado - Notificado - Cancelado - Chequeado - Impreso - Ingresado_Baja - Notificado_Baja - Cancelado_Baja - Chequeado_Baja - Cobrado</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
@@ -3851,7 +3852,7 @@ La situación de revista refiere a la condición que se encuentra el cargo frent
 </tr>
 <table id='funcions'>
 <caption>funcions
-<br> Almacena todas las funciones referentes a los cargos correspondientes por ejmplo codigo 111 es "Mastro de año"</caption>
+<br> Almacena todas las funciones referentes a los cargos correspondientes por ejemplo codigo 111 es "Mastro de año"</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
