@@ -549,7 +549,7 @@ por otro lado estas horas manejan un estado propio de la columna que son: ALT - 
     <td></td>
 </tr>
 <tr>
-    <td>estado -> -> estado del cargo ALT - BAJ - LIC/BAJ - LIC - ART - REU</td>
+    <td>estado ->estado del cargo ALT - BAJ - LIC/BAJ - LIC - ART - REU</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
