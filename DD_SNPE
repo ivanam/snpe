@@ -6183,8 +6183,8 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <table id='regions'>
-<br> indica las regiones establecidas dentro del territorio de la provincia del chubut: I - II - III - IV - V - VI
-<caption>regions</caption>
+<caption>regions
+<br> indica las regiones establecidas dentro del territorio de la provincia del chubut: I - II - III - IV - V - VI</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
