@@ -549,7 +549,7 @@ por otro lado estas horas manejan un estado propio de la columna que son: ALT - 
     <td></td>
 </tr>
 <tr>
-    <td>estado -> -> estado del cargo ALT - BAJ - LIC/BAJ - LIC - ART - REU</td>
+    <td>estado ->estado del cargo ALT - BAJ - LIC/BAJ - LIC - ART - REU</td>
     <td>VARCHAR(255)</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -6183,8 +6183,8 @@ esta en etapa de desarrollo</caption>
     <td></td>
 </tr>
 <table id='regions'>
-<br> indica las regiones establecidas dentro del territorio de la provincia del chubut: I - II - III - IV - V - VI
-<caption>regions</caption>
+<caption>regions
+<br> indica las regiones establecidas dentro del territorio de la provincia del chubut: I - II - III - IV - V - VI</caption>
 <tr><td colspan='11'></td></tr>
 <tr>
     <th>Column name</th>
