@@ -9,21 +9,21 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :materium
   belongs_to :plan
 
-  #   validates :fecha_alta, :presence => true
-  #   validates :situacion_revista, :presence => true
-  #   validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
-  #   validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
-  #   validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
-  #   validates :persona_id, :presence => true
-  #   validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
-  #   validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
-  #   validates :turno, :presence => true, if: :no_es_licencia_para_baja
+    validates :fecha_alta, :presence => true
+    validates :situacion_revista, :presence => true
+    validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
+    validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
+    validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
+    validates :persona_id, :presence => true
+    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
+    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
+    validates :turno, :presence => true, if: :no_es_licencia_para_baja
 
-  # # # #Validación de alta
-  #   validate :validar_alta 
-  #   before_save :actualizar_materia
-  #   before_update :dar_baja
-  #   before_create :control_horas
+  # # #Validación de alta
+    validate :validar_alta 
+    before_save :actualizar_materia
+    before_update :dar_baja
+    before_create :control_horas
 
 
   #-------------------------------------
