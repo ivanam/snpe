@@ -16,6 +16,25 @@ class Licencium < ActiveRecord::Base
   validate :fecha_hasta_mayor_fecha_desde
  
 
+
+  def self.corregir_licencia_hora_con_goce
+  	con_goce = Articulo.where(con_goce: true).map(&:id)
+  	licencias_hora = Licencium.where(vigente: "Vigente", articulo_id: con_goce).where.not(altas_bajas_hora_id: nil).map(&:altas_bajas_hora_id)
+  	AltasBajasHora.where(id: licencias_hora, estado: "ALT").each do |hora|
+  		hora.update(estado: "ART")
+  	end
+  end
+
+  def self.corregir_licencias_cargo_con_goce
+  	con_goce = Articulo.where(con_goce: true).map(&:id)
+  	licencias_cargo = Licencium.where(vigente: "Vigente", articulo_id: con_goce).where.not(cargo_id: nil).map(&:cargo_id)
+  	Cargo.where(id: licencias_cargo, estado: "ALT").each do |cargo|
+  		cargo.update(estado: "ART")
+  	end
+  end
+
+
+
  def ash_id
  	return self.altas_bajas_hora_id
  end
