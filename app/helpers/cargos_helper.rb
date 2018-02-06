@@ -59,7 +59,7 @@ module CargosHelper
         @cargos_ids << c.id
       end
     end
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate).where('updated_at >= ?', mindate).where('updated_at <= ?', maxdate)
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @cargos.each do |c|
       if c.estado_actual == "Chequeado_Baja" || c.estado_actual == "Impreso"
         @cargos_ids << c.id
