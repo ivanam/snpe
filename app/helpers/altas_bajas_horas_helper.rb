@@ -36,7 +36,7 @@ module AltasBajasHorasHelper
         @horas_ids << h.id
       end
     end
-    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate).where('updated_at >= ?', mindate).where('updated_at <= ?', maxdate)
+    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @horas.each do |h|
       if h.estado_actual == "Chequeado_Baja" || h.estado_actual == "Impreso"
         @horas_ids << h.id
@@ -53,7 +53,7 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_alta >= ?', mindate).where('fecha_alta <= ?', maxdate)
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @altasbajashoras.each do |a|
       if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso" || a.estado_actual == "Cobrado" 
         @altasbajashoras_ids << a.id
@@ -71,7 +71,7 @@ module AltasBajasHorasHelper
         @altasbajashoras_ids << a.id
       end
     end
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @altasbajashoras.each do |a|
       if a.estado_actual == "Impreso" || a.estado_actual == "Cobrado"
         @altasbajashoras_ids << a.id
