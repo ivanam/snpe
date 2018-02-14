@@ -757,12 +757,22 @@ class AltasBajasHorasController < ApplicationController
       if lote_impresion == nil
         lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
       end
-      if hora.update(lote_impresion_id: lote_impresion.id)
-        AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
-        render json: "".to_json
+      if hora.estado_actual == "Chequeado"
+        if hora.update(lote_impresion_id: lote_impresion.id)
+          AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
+          render json: "".to_json
+        else
+          msj = hora.errors.full_messages[0]
+          render json: msj.to_json
+        end
       else
-        msj = hora.errors.full_messages[0]
-        render json: msj.to_json
+        if hora.update(baja_lote_impresion_id: lote_impresion.id)
+          AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
+          render json: "".to_json
+        else
+          msj = hora.errors.full_messages[0]
+          render json: msj.to_json
+        end
       end
   end
 
