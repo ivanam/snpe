@@ -480,10 +480,6 @@ class AltasBajasHorasController < ApplicationController
 
       
     end
-
-
-   
-    
   
   end
   
@@ -502,176 +498,7 @@ class AltasBajasHorasController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def importar
-    # Conexion a la base, ya la probe localmente y funciona
-    @client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
-
-    # Aca el result es un conjunto de objetos
-    results = @client.query("SELECT * FROM padhc")# where estado='ALT'")     
-
-    #@@client = Mysql2::Client.new(:host => "localhost", :username => "root", :password => "root", :database => "snpe")
-    #results = @@client.query("SELECT * FROM establecimientos LIMIT 0,1000")
-
-    # Recorremos el conjunto de objetos y captura las transacciones
-    AltasBajasHora.transaction do
-      AltasBajasHoraEstado.transaction do
-        results.each do |abh|
-          if abh['escuela'] == 702 then
-            @establecimiento = Establecimiento.where(:codigo_jurisdiccional => abh['escuela']).first
-            @persona = Persona.where(:nro_documento => abh['nume_docu']).first
-            if not(@establecimiento == nil or @persona == nil) then
-              @data = AltasBajasHora.new(:establecimiento_id => @establecimiento.id, :persona_id => @persona.id, :secuencia => abh['secuencia'], :fecha_alta => abh['fecha_alta'], :fecha_baja => abh['fecha_baja'], :situacion_revista => nil, :horas => abh['hora_cate'], :ciclo_carrera => abh['ciclo'], :anio => abh['curso'], :division => abh['division'], :turno => abh['turno'], :oblig => nil, :observaciones => nil, :horas => abh['horas_cate'], :codificacion => abh['materia'], :situacion_revista => abh['tipo_emp'])
-              @data.save!
-              @estado = Estado.where(:descripcion => "Ingresado").first
-              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @data.id, user_id: current_user.id)
-            end
-          end
-        end
-      end
-    end
-    respond_to do |format|
-      if @data.id != nil
-        format.html { redirect_to altas_bajas_horas_path, notice: 'Importacion correcta' }
-      else
-        format.html { redirect_to altas_bajas_horas_path, alert: 'Importacion incorrecta' }
-      end
-    end
-  end
-
-  def importar_recibos
-    # Conexion a la base
-    @client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
-
-    # Recupera el mes actual
-    mes = Date.today.month
-
-    # Recupera el año actual
-    anio = Date.today.year
-
-    # Verifica si el mes actual es enero
-    if mes == 1 then
-      mes = 12
-      anio = anio - 1
-    else
-      mes = mes - 1
-    end
-
-    mes = mes.to_s
-    anio = anio.to_s
-
-    escuela = 702
-    escuela = escuela.to_s
-
-    puts "1 - Realizando las consultas a la base MEC"
-
-    # Recibos de MEC
-    recibos = @client.query("SELECT nume_docu, tipo_docu, secuencia, apynom, escuela, mes, anio, empresa FROM recibos where (secuencia != 0 and mes = "+mes+" and anio = "+anio+" and escuela = "+escuela+")").to_a
-
-    # Detalle de los recibos con la cantidad de horas catedras
-    recibos_detalles = @client.query("SELECT nume_docu, secuencia, escuela, importe FROM detalle r where (codigo = 2808 and mes = "+mes+" and anio = "+anio+" and escuela = "+escuela+")").to_a
-
-    # Padron de horas
-    padhc = @client.query("SELECT nume_docu, escuela, ciclo, curso, division, materia, secuencia, estado, fecha_ing, fecha_alta, fecha_baja FROM padhc where escuela = "+escuela).to_a
-
-    #recibos.select {|r| r["nume_docu"] == 17759477 and r["nume_docu"] == 000}
-
-    puts "2 - Procesando los codigos de materias y las horas de los recibos"
-
-    # Recorre todos los recibos para actualizar la cantidad de horas y el codigo de materia
-    recibos.each do |r|
-
-      #Recorre el detalle de los recibos buscando la cantidad de horas catedras
-      r['horas'] = nil
-      recibos_detalles.each do |rd|
-        if r['nume_docu'] == rd['nume_docu'] and r['escuela'] == rd['escuela'] and r['secuencia'] == rd['secuencia']
-          r['horas'] = rd['importe']
-        end
-      end
-
-      #Recorre el padron de horas buscando el codigo de materia
-      r['materia'] = nil
-      padhc.each do |p|
-        if r['nume_docu'] == p['nume_docu'] and r['escuela'] == p['escuela'] and r['secuencia'] == p['secuencia']
-          r['materia'] = p['materia']
-        end
-      end
-
-    end
-
-    puts "3 - Cargando los datos en la base"
-
-    # Recorremos el conjunto de objetos y captura las transacciones
-    AltasBajasHora.transaction do
-      PeriodoLiqHora.transaction do
-
-        # Inicializo para compapara al final
-        @periodo_recibo = "nada"
-
-        recibos.each do |recibo|
-
-          # Recupero el agente del recibo
-          @agente = Persona.where(nro_documento: recibo['nume_docu'].to_i).first()
-
-          # Verifico que el agente este cargado
-          if @agente != nil then
-
-            # Recupero las Altas/Bajas del agente
-            @horas_agente = AltasBajasHora.where(persona_id: @agente.id).includes(:establecimiento)
-
-            # Verifico que el agente tenga horas
-            if @horas_agente != nil then
-
-              @primer_recibo = true
-              
-              # Recorro cada una de las horas que tiene el agente y comparo la secuencia
-              @horas_agente.each do |horas|
-                # Si la secuencia y la escuela coinciden, hay unicidad
-                if recibo['secuencia'] != 0 and recibo['secuencia'] == horas.secuencia and recibo['escuela'] == horas.establecimiento.codigo_jurisdiccional.to_i
-                  if PeriodoLiqHora.where(mes: mes, anio: anio, altas_bajas_hora_id: horas.id).count == 0
-                    @periodo_recibo = PeriodoLiqHora.new(mes: mes, anio: anio, altas_bajas_hora_id: horas.id)
-                    @periodo_recibo.save!
-                  end
-                  @primer_recibo = false
-                  break
-                end
-              end
-
-              # Si es la primera vez que cobra, entonces hay que cargar la secuencia en AltasBajasHora
-              if @primer_recibo == true
-
-                #Recorro todas las horas del agente
-                @horas_agente.each do |horas|
-                  if recibo['escuela'] == horas.establecimiento.codigo_jurisdiccional.to_i and recibo['horas'] == horas.horas and recibo['materia'] == horas.codificacion
-                    if PeriodoLiqHora.where(mes: mes, anio: anio, altas_bajas_hora_id: horas.id).count == 0
-                      horas.update(secuencia: recibo['secuencia'])
-                      @periodo_recibo = PeriodoLiqHora.new(mes: mes, anio: anio, altas_bajas_hora_id: horas.id)
-                      @periodo_recibo.save!
-                    end
-                    @primer_recibo = false
-                    break
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-
-    puts "4 - Termino!!"
-
-    respond_to do |format|
-      if @periodo_recibo != nil and @periodo_recibo != "nada"
-        format.html { redirect_to altas_bajas_horas_path, notice: 'Se realizo correctamente la importación de los recibos del mes ' }
-      elsif @periodo_recibo != nil and @periodo_recibo == "nada"
-        format.html { redirect_to altas_bajas_horas_path, notice: 'La base se encuentra actualizada' }
-      else
-        format.html { redirect_to altas_bajas_horas_path, alert: 'Importacion incorrecta' }
-      end
-    end
-  end
-
+  
   def dar_baja
     
     if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
@@ -765,7 +592,7 @@ class AltasBajasHorasController < ApplicationController
           msj = hora.errors.full_messages[0]
           render json: msj.to_json
         end
-      else
+      elsif cargo.estado_actual == "Chequeado_Baja"
         if hora.update(baja_lote_impresion_id: lote_impresion.id)
           AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
           render json: "".to_json

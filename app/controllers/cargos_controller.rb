@@ -276,11 +276,20 @@ class CargosController < ApplicationController
       if lote_impresion == nil
         lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
       end
-      if cargo.update!(baja_lote_impresion_id: lote_impresion.id)
-        CargoEstado.create( cargo_id: cargo.id, estado_id: estado.id, user_id: current_user.id)
-        format.json { head :no_content } # 204 No Content
-      else
-        format.json { head :no_content } # 204 No Content
+      if cargo.estado_actual == "Chequeado"
+        if cargo.update!(alta_lote_impresion_id: lote_impresion.id)
+          CargoEstado.create( cargo_id: cargo.id, estado_id: estado.id, user_id: current_user.id)
+          format.json { head :no_content } # 204 No Content
+        else
+          format.json { head :no_content } # 204 No Content
+        end
+      elsif cargo.estado_actual == "Chequeado_Baja"
+        if cargo.update!(baja_lote_impresion_id: lote_impresion.id)
+          CargoEstado.create( cargo_id: cargo.id, estado_id: estado.id, user_id: current_user.id)
+          format.json { head :no_content } # 204 No Content
+        else
+          format.json { head :no_content } # 204 No Content
+        end
       end
     end
   end
@@ -316,20 +325,6 @@ class CargosController < ApplicationController
     end
   end
 
-  def chequear_modificacion
-    respond_to do |format|
-      if Cargo.find(params["id"]).estado_actual == "Notificado_Modificacion"
-        @estado = Estado.where(descripcion: "Chequeado_Modificacion").first
-        if CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id) then
-          format.json { render json: {status: 'ok', msj: "Modificación chequeada correctamente"} }
-        else
-          format.json { render json: {status: 'error', msj: "No se pudo chequear la modificación"} }
-        end
-      else
-        format.json { render json: {status: 'error', msj: "No se pudo chequear la modificación"} }
-      end
-    end
-  end
 
   #------------------------------------------- FUNCIONES PARA DATATABLES ----------------------------------------------------------------------------
 
