@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226130426) do
+ActiveRecord::Schema.define(version: 20180206133353) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -261,8 +261,8 @@ ActiveRecord::Schema.define(version: 20171226130426) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
   end
@@ -300,6 +300,39 @@ ActiveRecord::Schema.define(version: 20171226130426) do
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "escuela4", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "ley_r",                    default: 0,  null: false
+    t.integer "agrup_r",                  default: 0,  null: false
+    t.integer "cargo_r",                  default: 0,  null: false
+    t.integer "categ_r",                  default: 0,  null: false
+    t.integer "ley_s",                    default: 0,  null: false
+    t.integer "agrup_s",                  default: 0,  null: false
+    t.integer "cargo_s",                  default: 0,  null: false
+    t.integer "categ_s",                  default: 0,  null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
   end
 
   create_table "especialidads", force: true do |t|
@@ -408,6 +441,29 @@ ActiveRecord::Schema.define(version: 20171226130426) do
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
   add_index "inscripcions", ["rubro_id"], name: "index_inscripcions_on_rubro_id", using: :btree
 
+  create_table "inscriptos_2017_marzo", id: false, force: true do |t|
+    t.integer "nombre",                               limit: 1, null: false
+    t.integer "apellidos",                            limit: 1, null: false
+    t.integer "tipo documento",                       limit: 1, null: false
+    t.integer "nro_documento",                        limit: 1, null: false
+    t.integer "fecha reempadronamiento",              limit: 1, null: false
+    t.integer "rol",                                  limit: 1, null: false
+    t.integer "localidad",                            limit: 1, null: false
+    t.integer "establecimiento",                      limit: 1, null: false
+    t.integer "cant_urbanos",                         limit: 1, null: false
+    t.integer "empresa transporte urbano",            limit: 1, null: false
+    t.integer "cant_urbanos2",                        limit: 1, null: false
+    t.integer "empresa transporte urbano 2",          limit: 1, null: false
+    t.integer "cant_interubanos",                     limit: 1, null: false
+    t.integer "empresa transporte interurbano",       limit: 1, null: false
+    t.integer "cant_interubanos2",                    limit: 1, null: false
+    t.integer "empresa transporte interurbano 2",     limit: 1, null: false
+    t.integer "cant_media_distancia",                 limit: 1, null: false
+    t.integer "empresa transporte media distancia",   limit: 1, null: false
+    t.integer "cant_media_distancia2",                limit: 1, null: false
+    t.integer "empresa transporte media distancia 2", limit: 1, null: false
+  end
+
   create_table "licencia", force: true do |t|
     t.integer  "altas_bajas_hora_id"
     t.date     "fecha_desde"
@@ -438,6 +494,31 @@ ActiveRecord::Schema.define(version: 20171226130426) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string "apeynom"
+    t.string "descripcion"
+    t.date   "fecha_desde"
+    t.date   "fecha_hasta"
+    t.string "vigente"
+    t.string "nombre_establecimi"
+    t.string "codigo"
+    t.string "cargos"
+    t.string "estados cargnodoc"
+    t.string "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.string  "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
@@ -474,43 +555,6 @@ ActiveRecord::Schema.define(version: 20171226130426) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "oficinas", force: true do |t|
-    t.integer  "nombre"
-    t.integer  "tipo"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "periodo_asistencia", force: true do |t|
-    t.string   "mes"
-    t.integer  "anio"
-    t.integer  "asistencia_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "periodo_asistencia", ["asistencia_id"], name: "index_periodo_asistencia_on_asistencia_id", using: :btree
-
-  create_table "periodo_liq_cargos", force: true do |t|
-    t.string   "mes"
-    t.integer  "anio"
-    t.integer  "altas_bajas_cargo_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "periodo_liq_cargos", ["altas_bajas_cargo_id"], name: "index_periodo_liq_cargos_on_altas_bajas_cargo_id", using: :btree
-
-  create_table "periodo_liq_horas", force: true do |t|
-    t.integer  "mes"
-    t.integer  "anio"
-    t.integer  "altas_bajas_hora_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "periodo_liq_horas", ["altas_bajas_hora_id"], name: "index_periodo_liq_horas_on_altas_bajas_hora_id", using: :btree
 
   create_table "permissions", force: true do |t|
     t.integer  "user_id"
@@ -583,20 +627,6 @@ ActiveRecord::Schema.define(version: 20171226130426) do
   end
 
   add_index "prestadors", ["especialidad_id"], name: "index_prestadors_on_especialidad_id", using: :btree
-
-  create_table "primaria_cargos", force: true do |t|
-    t.string   "descripcion"
-    t.integer  "codigo_nomen"
-    t.integer  "cargo_inscrip_doc_id"
-    t.integer  "inscripcion_id"
-    t.integer  "funcion_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "primaria_cargos", ["cargo_inscrip_doc_id"], name: "index_primaria_cargos_on_cargo_inscrip_doc_id", using: :btree
-  add_index "primaria_cargos", ["funcion_id"], name: "index_primaria_cargos_on_funcion_id", using: :btree
-  add_index "primaria_cargos", ["inscripcion_id"], name: "index_primaria_cargos_on_inscripcion_id", using: :btree
 
   create_table "rails_admin_histories", force: true do |t|
     t.text     "message"
@@ -679,19 +709,6 @@ ActiveRecord::Schema.define(version: 20171226130426) do
     t.integer  "planta_pre"
     t.integer  "tipo_emp"
   end
-
-  create_table "suplentes", force: true do |t|
-    t.integer  "altas_bajas_hora_id"
-    t.date     "fecha_desde"
-    t.date     "fecha_hasta"
-    t.text     "observaciones"
-    t.string   "estado"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "tipo_suplente"
-  end
-
-  add_index "suplentes", ["altas_bajas_hora_id"], name: "index_suplentes_on_altas_bajas_hora_id", using: :btree
 
   create_table "tipo_articulos", force: true do |t|
     t.string   "descripcion"
