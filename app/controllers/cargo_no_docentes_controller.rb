@@ -228,17 +228,22 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def dar_baja
     @cargo_no_docente = CargoNoDocente.find(params[:id])
-    #Estado, necesario para Minsiterio de economia
-    if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
-      @estado = Estado.where(:descripcion => "Notificado_Baja").first
-      CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
-      respond_to do |format|
-        format.html { redirect_to cargo_no_docentes_index_bajas_path, notice: 'Baja realizada correctamente' }
-        format.json { render json: {status: 'ok'}}
+    
+    if @cargo_no_docente.estado_actual == "Vacio" || @cargo_no_docente.estado_actual == "Impreso" || @cargo_no_docente.estado_actual == "Cobrado"
+      if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
+        @estado = Estado.where(:descripcion => "Notificado_Baja").first
+        CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
+        respond_to do |format|
+          format.json { render json: {status: 'ok'}}
+        end
+      else
+        respond_to do |format|
+          format.json { render json: @cargo_no_docente.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
+        end
       end
     else
       respond_to do |format|
-        format.json { render json: @cargo_no_docente.errors, status: :unprocessable_entity} # 204 No Content
+        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
       end
     end
   end

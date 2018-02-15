@@ -242,19 +242,23 @@ class CargosController < ApplicationController
   end
 
   def dar_baja
-
-    if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
-      @estado = Estado.where(:descripcion => "Notificado_Baja").first
-      if @cargo.fecha_baja != nil
-        CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
+    if @cargo.estado_actual == "Vacio" || @cargo.estado_actual == "Impreso" || @cargo.estado_actual == "Cobrado"
+      if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
+        @estado = Estado.where(:descripcion => "Notificado_Baja").first
+        if @cargo.fecha_baja != nil
+          CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
+        end
+        respond_to do |format|
+          format.json { render json: {status: 'ok'}}
+        end
+      else
+        respond_to do |format|
+          format.json { render json: @cargo.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
+        end
       end
+    else 
       respond_to do |format|
-        format.html { redirect_to cargos_index_bajas_path, notice: 'Baja realizada correctamente' }
-        format.json { render json: {status: 'ok'}}
-      end
-    else
-      respond_to do |format|
-        format.json { render json: @cargo.errors, status: :unprocessable_entity} # 204 No Content
+        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
       end
     end
   end

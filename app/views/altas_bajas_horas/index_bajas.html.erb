@@ -139,6 +139,9 @@ $(document).ready(function($) {
         .done(function(data) { //if (data[status] == 'ok')
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
+          if (data != "") {
+            alert(data);   
+          }; 
         });
       });
     })
