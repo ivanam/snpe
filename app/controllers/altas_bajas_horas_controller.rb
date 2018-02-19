@@ -500,18 +500,22 @@ class AltasBajasHorasController < ApplicationController
   end
   
   def dar_baja
-    
-    if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
-      @estado = Estado.where(:descripcion => "Notificado_Baja").first
-      AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
-      respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'Baja realizada correctamente' }
-        format.json { render json: {status: 'ok'}}
+    if @altas_bajas_hora.estado_actual == "Vacio" || @altas_bajas_hora.estado_actual == "Impreso" || @altas_bajas_hora.estado_actual == "Cobrado"
+
+      if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
+        @estado = Estado.where(:descripcion => "Notificado_Baja").first
+        AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
+        respond_to do |format|
+          format.json { render json: {status: 'ok'}}
+        end
+      else
+        respond_to do |format|
+          format.json { render json: @altas_bajas_hora.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
+        end
       end
     else
       respond_to do |format|
-        format.html { redirect_to altas_bajas_horas_index_bajas_path }
-        format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity} # 204 No Content
+        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
       end
     end
   end
