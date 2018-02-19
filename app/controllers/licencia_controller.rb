@@ -323,7 +323,6 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos
-    debugger
     cargo = Cargo.where(id: params['id_cargos']).first
     secuencia= cargo.secuencia
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
@@ -346,7 +345,6 @@ def listado_licencias_todas_lic
         render json: "no se puede realizar el traslado".to_json
       end
     else
-      debugger
       @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones])
       if @licencia.save
         render json: 0
@@ -391,7 +389,6 @@ def listado_licencias_todas_lic
 
    
   def guardar_licencia_cargos_no_docentes
-    debugger
     turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
     if (turnocnds == nil or turnocnds == "")
       msg = "El cargo auxiliar no tiene turno asignado"
@@ -408,7 +405,6 @@ def listado_licencias_todas_lic
   end
 
   def guardar_licencia_cargos_no_docentes2
-    debugger
     prestador_4 = params[:prestador_4] 
     @no_guarda = true
     @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
