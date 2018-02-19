@@ -281,10 +281,10 @@ def listado_licencias_todas_lic
 
   def guardar_licencia_horas
     if params[:articulo] == "360"
-      @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic], destino: params[:destino])
+      @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic], destino: params[:destino], observaciones: params[:observaciones])
       cargo_guardado = AltasBajasHora.find(params[:id_horas]).update(establecimiento_id: params[:destino], estado: 'REU')
     else
-      @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
+      @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones])
       cargo_guardado = true
     end
     if cargo_guardado && @licencia.save
@@ -299,7 +299,7 @@ def listado_licencias_todas_lic
     prestador2 = params[:prestador_2]
     @no_guarda = true
     @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
-    @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic])
+    @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones])
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
@@ -323,6 +323,7 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos
+    debugger
     cargo = Cargo.where(id: params['id_cargos']).first
     secuencia= cargo.secuencia
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
@@ -331,7 +332,7 @@ def listado_licencias_todas_lic
       if params[:articulo] == "359" and params[:destino].to_i > 0
         destino = params[:destino]
       end  
-      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino])
+      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino], observaciones: params[:observaciones])
       if @licencia.save && Cargo.create!(establecimiento_id: destino, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: 'REU' , observaciones: descripcion_articulo)
         render json: 0
       else
@@ -345,7 +346,8 @@ def listado_licencias_todas_lic
         render json: "no se puede realizar el traslado".to_json
       end
     else
-      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+      debugger
+      @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones])
       if @licencia.save
         render json: 0
       else
@@ -361,7 +363,7 @@ def listado_licencias_todas_lic
   secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
   descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
   @licencia_anterior= Licencium.where(cargo_id: params['id_cargos'], vigente: 'vigente').last
-  @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1])
+  @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones])
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
           fecha = params[:fecha_inicio].to_date - 1
@@ -389,12 +391,13 @@ def listado_licencias_todas_lic
 
    
   def guardar_licencia_cargos_no_docentes
+    debugger
     turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
     if (turnocnds == nil or turnocnds == "")
       msg = "El cargo auxiliar no tiene turno asignado"
       render json: msg.to_json
     else
-    @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
+    @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones])
     if @licencia.save
       render json: 0
     else
@@ -405,10 +408,11 @@ def listado_licencias_todas_lic
   end
 
   def guardar_licencia_cargos_no_docentes2
+    debugger
     prestador_4 = params[:prestador_4] 
     @no_guarda = true
     @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
-    @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2  ])
+    @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones])
     
     if @licencia_anterior.fecha_hasta == nil
         if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
