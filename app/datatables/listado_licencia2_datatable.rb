@@ -85,7 +85,7 @@ class ListadoLicencia2Datatable < AjaxDatatablesRails::Base
             else
               CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.depto
             end,
-            record.observaciones,
+            record.observaciones.to_s,
      ]
     end
   end

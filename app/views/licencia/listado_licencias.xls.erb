@@ -18,6 +18,7 @@
           <Cell><Data ss:Type="String">Nro de Calle</Data></Cell>
           <Cell><Data ss:Type="String">Piso</Data></Cell>
           <Cell><Data ss:Type="String">Departamento</Data></Cell>
+          <Cell><Data ss:Type="String">Observaciones</Data></Cell>
         </Row>
           <% @licencias.each do |s| %>
           <Row>
@@ -101,6 +102,7 @@
                    <% @personaDepto = CargoNoDocente.where(:id => s.cargo_no_docente_id.to_i).first.persona.depto%>
                    <Cell><Data ss:Type="String"><%= @personaDepto %></Data></Cell>
                 <%end%>
+                <Cell><Data ss:Type="String"><%= s.observaciones %></Data></Cell>
           </Row>
           <% end %>
       </Table>
