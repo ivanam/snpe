@@ -44,6 +44,7 @@
       <th>Curso </th>
       <th>Articulo </th>
       <th>Inicio / Fin </th>
+      <th>Observaciones </th>
     </tr>
     <% @licencia_alta.each do |l|%>
       <tr>
@@ -54,6 +55,7 @@
         <td><%= l.curso %></td>
         <td><%= l.articulo %></td>
         <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+        <td><%= l.observaciones%> </td>
       </tr>
     <% end %>
   </table>
@@ -69,6 +71,7 @@
       <th>Curso </th>
       <th>Articulo </th>
       <th>Inicio / Fin </th>
+      <th>Observaciones </th>
     </tr>
     <% @licencia_fin.each do |l|%>
       <tr>
@@ -79,6 +82,7 @@
         <td><%= l.curso %></td>
         <td><%= l.articulo %></td>
         <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+        <td><%= l.observaciones%> </td>
       </tr>
     <% end %>
   </table>
