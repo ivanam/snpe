@@ -173,7 +173,7 @@ class Licencium < ActiveRecord::Base
 	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado: 7)
 	 				end
 	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).codigo_jurisdiccional.to_i)
-	 				debugger
+	 				
 	 				alta_horas.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil
         		elsif alta_horas.plan_id ==113 or alta_horas.plan_id ==249
