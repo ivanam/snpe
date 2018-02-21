@@ -596,7 +596,7 @@ class AltasBajasHorasController < ApplicationController
           msj = hora.errors.full_messages[0]
           render json: msj.to_json
         end
-      elsif cargo.estado_actual == "Chequeado_Baja"
+      elsif hora.estado_actual == "Chequeado_Baja"
         if hora.update(baja_lote_impresion_id: lote_impresion.id)
           AltasBajasHoraEstado.create( alta_baja_hora_id: hora.id, estado_id: estado.id, user_id: current_user.id)
           render json: "".to_json
