@@ -163,7 +163,6 @@ class Licencium < ActiveRecord::Base
 	 	
 
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
-
 	 		if self.altas_bajas_hora_id != nil
 
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
@@ -203,7 +202,7 @@ class Licencium < ActiveRecord::Base
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado: 7)
 	 				end
-	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(AltasBajasHora.find(self.cargo_id).establecimiento_id).codigo_jurisdiccional.to_i)
+	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).codigo_jurisdiccional.to_i)
 	 				cargo.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil 
 
