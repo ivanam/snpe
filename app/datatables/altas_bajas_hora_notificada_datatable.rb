@@ -20,7 +20,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
         record.persona.to_s,
         record.situacion_revista,
         record.horas,        
-        record.ciclo_carrera,        
+        record.plan.to_s,        
         record.anio,
         record.division,
         record.turno,
