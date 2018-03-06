@@ -190,7 +190,7 @@ class Licencium < ActiveRecord::Base
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
-	 					CargoEstado.create(cargo_id: cargo.id, estado: 7)
+	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7)
 	 				end
 	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).codigo_jurisdiccional.to_i)
 	 				cargo.update!(estado: 'ALT')
