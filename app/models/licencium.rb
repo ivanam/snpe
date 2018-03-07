@@ -164,7 +164,6 @@ class Licencium < ActiveRecord::Base
 
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
-
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 		
 	 			if self.por_baja
@@ -174,7 +173,7 @@ class Licencium < ActiveRecord::Base
 	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).codigo_jurisdiccional.to_i)
 	 				alta_horas.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil
-        		elsif alta_horas.plan_id ==113 or alta_horas.plan_id ==249
+        		elsif alta_horas.plan_id !=113 && alta_horas.plan_id !=249
 	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_s + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
 					if suplentes_activos == []
 		 				alta_horas.update!(estado: 'ALT')
@@ -183,16 +182,6 @@ class Licencium < ActiveRecord::Base
 		 				return false
 		 			end
 
-
-
-	 			else
-		 			suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_s + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
-					if suplentes_activos == []
-		 				alta_horas.update!(estado: 'ALT')
-		 			else
-		 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
-		 				return false
-		 			end
 		 		end
 
             
