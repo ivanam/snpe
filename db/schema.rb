@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180307133834) do
+ActiveRecord::Schema.define(version: 20180307135335) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -417,6 +417,7 @@ ActiveRecord::Schema.define(version: 20180307133834) do
     t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
+    t.integer  "anio_pof"
   end
 
   create_table "inscripcions", force: true do |t|
