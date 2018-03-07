@@ -428,6 +428,10 @@ ProyectoBase::Application.routes.draw do
 
     get "/migracion/migrar_hs/", to: 'migracion#migrar_hs'
 
+    get "/migracion/migracion_inversa/", to: 'migracion#migracion_inversa'
+
+    get "/migracion/pofs/", to: 'migracion#pofs'
+
     get "migrar/", to: 'migracion#migrar'
 
     get "migracion/listado_a_informar/", to: 'migracion#listado_a_informar', as: :migracion_listado_a_informar
