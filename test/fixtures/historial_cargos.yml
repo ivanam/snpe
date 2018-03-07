@@ -1,0 +1,67 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  establecimiento_id: 1
+  persona_id: 1
+  cargo: MyString
+  secuencia: 1
+  situacion_revista: MyString
+  turno: MyString
+  anio: 1
+  curso: 1
+  fecha_alta: 2018-03-07
+  fecha_baja: 2018-03-07
+  persona_reemplazada_id: 1
+  observatorio: MyString
+  alta_lote_impresion_id: 1
+  created_at: 2018-03-07 10:38:34
+  updated_at: 2018-03-07 10:38:34
+  division: 1
+  observaciones: MyText
+  baja_lote_impresion_id: 1
+  empresa_id: 1
+  lugar_pago_id: 1
+  con_movilidad: false
+  grupo_id: 1
+  ina_injustificadas: 1
+  licencia_desde: 2018-03-07
+  licencia_hasta: 2018-03-07
+  cantidad_dias_licencia: 1
+  motivo_baja: MyString
+  estado: MyString
+  materium_id: MyString
+  disposicion: MyString
+  resolucion: MyString
+
+two:
+  establecimiento_id: 1
+  persona_id: 1
+  cargo: MyString
+  secuencia: 1
+  situacion_revista: MyString
+  turno: MyString
+  anio: 1
+  curso: 1
+  fecha_alta: 2018-03-07
+  fecha_baja: 2018-03-07
+  persona_reemplazada_id: 1
+  observatorio: MyString
+  alta_lote_impresion_id: 1
+  created_at: 2018-03-07 10:38:34
+  updated_at: 2018-03-07 10:38:34
+  division: 1
+  observaciones: MyText
+  baja_lote_impresion_id: 1
+  empresa_id: 1
+  lugar_pago_id: 1
+  con_movilidad: false
+  grupo_id: 1
+  ina_injustificadas: 1
+  licencia_desde: 2018-03-07
+  licencia_hasta: 2018-03-07
+  cantidad_dias_licencia: 1
+  motivo_baja: MyString
+  estado: MyString
+  materium_id: MyString
+  disposicion: MyString
+  resolucion: MyString
