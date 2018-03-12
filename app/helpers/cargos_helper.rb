@@ -55,7 +55,7 @@ module CargosHelper
     @cargos_ids = []
     @cargos = Cargo.where(:establecimiento_id => session[:establecimiento])
     @cargos.each do |c|
-      if c.estado_actual == "Notificado_Baja"
+      if c.estado_actual_s_cobro == "Notificado_Baja"
         @cargos_ids << c.id
       end
     end
