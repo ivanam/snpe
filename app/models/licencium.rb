@@ -168,7 +168,7 @@ class Licencium < ActiveRecord::Base
 	 		
 	 			if self.por_baja
 	 				if alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
-	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 7, , user_id: 1)
+	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 7, user_id: 1)
 	 				end
 	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).codigo_jurisdiccional.to_i)
 	 				alta_horas.update!(estado: 'ALT')
