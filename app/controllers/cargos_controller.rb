@@ -242,7 +242,7 @@ class CargosController < ApplicationController
   end
 
   def dar_baja
-    if @cargo.estado_actual == "Vacio" || @cargo.estado_actual == "Impreso" || @cargo.estado_actual == "Cobrado"
+    if @cargo.estado_actual == "Vacio" || @cargo.estado_actual == "Impreso" || @cargo.estado_actual == "Cobrado" || @cargo.estado_actual == "Cancelado_Baja"
       if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
         @estado = Estado.where(:descripcion => "Notificado_Baja").first
         if @cargo.fecha_baja != nil

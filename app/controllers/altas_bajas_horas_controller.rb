@@ -500,7 +500,7 @@ class AltasBajasHorasController < ApplicationController
   end
   
   def dar_baja
-    if @altas_bajas_hora.estado_actual == "Vacio" || @altas_bajas_hora.estado_actual == "Impreso" || @altas_bajas_hora.estado_actual == "Cobrado"
+    if @altas_bajas_hora.estado_actual == "Vacio" || @altas_bajas_hora.estado_actual == "Impreso" || @altas_bajas_hora.estado_actual == "Cobrado" || @altas_bajas_hora.estado_actual == "Cancelado_Baja"
 
       if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
         @estado = Estado.where(:descripcion => "Notificado_Baja").first
