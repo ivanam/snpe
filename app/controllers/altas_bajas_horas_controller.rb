@@ -120,7 +120,7 @@ class AltasBajasHorasController < ApplicationController
     @bajas = altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date)
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: @bajas , rol: @rol }) }
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: @bajas.order(:fecha_baja) , rol: @rol }) }
       format.pdf do
         render :pdf => 'bajas_notificadas',
         :template => 'altas_bajas_horas/reporte_horas_baja.html.erb',
