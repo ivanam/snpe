@@ -229,7 +229,7 @@ class CargoNoDocentesController < InheritedResources::Base
   def dar_baja
     @cargo_no_docente = CargoNoDocente.find(params[:id])
     
-    if @cargo_no_docente.estado_actual == "Vacio" || @cargo_no_docente.estado_actual == "Impreso" || @cargo_no_docente.estado_actual == "Cobrado"
+    if @cargo_no_docente.estado_actual == "Vacio" || @cargo_no_docente.estado_actual == "Impreso" || @cargo_no_docente.estado_actual == "Cobrado" || @cargo_no_docente.estado_actual == "Cancelado_Baja"
       if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
         @estado = Estado.where(:descripcion => "Notificado_Baja").first
         CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
