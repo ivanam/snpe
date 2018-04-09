@@ -61,6 +61,12 @@ class Ability
           can :manage, [Licencium]
         end
 
+        if user.role? :carga_planes
+          can :manage, [Plan]
+          can :manage, [Despliegue]
+          can :manage, [Materium]
+        end
+
         if user.role? :incompatibilidad
           can :manage, [PlanillaIncompatibilidad]
         end

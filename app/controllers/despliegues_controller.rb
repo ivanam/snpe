@@ -26,17 +26,18 @@ class DesplieguesController < InheritedResources::Base
   def create
     @despliegue = Despliegue.new(despliegue_params)
     @despliegue.save
-    respond_with(@despliegue)
+    respond_with(@despliegue.plan)
   end
 
   def update
     @despliegue.update(despliegue_params)
-    respond_with(@despliegue)
+    respond_with(@despliegue.plan)
   end
 
   def destroy
+    plan = @despliegue.plan
     @despliegue.destroy
-    respond_with(@despliegue)
+    respond_with(plan)
   end
 
   private
