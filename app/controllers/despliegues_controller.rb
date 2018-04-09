@@ -25,8 +25,12 @@ class DesplieguesController < InheritedResources::Base
 
   def create
     @despliegue = Despliegue.new(despliegue_params)
-    @despliegue.save
-    respond_with(@despliegue.plan)
+    
+    if @despliegue.save
+      respond_with(@despliegue.plan)
+    else
+      respond_with(@despliegue)
+    end
   end
 
   def update
