@@ -8,7 +8,7 @@ class Ability
       if user.role? :sadmin
       	can :manage, :all
       end
-      if true
+      if false
         if (user.role? :escuela) || (user.role? :personal)
           can :cargos_bajas_efectivas, [Cargo]
           can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
