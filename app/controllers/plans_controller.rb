@@ -45,7 +45,7 @@ class PlansController < InheritedResources::Base
     end
 
     def plan_params
-      params.require(:plan).permit(:codigo, :descripcion)
+      params.require(:plan).permit(:codigo, :descripcion, :nivel_id, :resolucion, :tipo_plan_id, establecimientos_plans_attributes: [:id, :establecimiento_id, :_destroy])
     end
 end
 
