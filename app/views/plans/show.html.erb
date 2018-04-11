@@ -15,7 +15,7 @@
     <td> Cant. Docentes </td>
     <td> Acciones </td>
   </tr>
-  <% @plan.despliegues.order(:anio).each do |d| %>
+  <% @plan.despliegues.order(:anio, :updated_at).each do |d| %>
       <tr>
         <td> <%= d.anio %></td>
         <td> <%= d.materium%> </td>
