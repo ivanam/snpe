@@ -3,6 +3,7 @@
 </div>
 
 <div>
+  <h3>Carga de nuevo despliegue</h3>
   <% @despliegue = Despliegue.new(plan_id: @plan.id)%>
   <%= render 'form_despliegue' %>
 </div>
@@ -38,3 +39,10 @@
     Editar
   <% end %>
 </dl>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      document.getElementById("despliegue_anio").focus();
+    });
+</script>
