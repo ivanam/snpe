@@ -26,7 +26,7 @@
           </li>
         <% end %>
       </ul>
-      <% if (user_signed_in?) && (current_user.role? :cargaplanes) %>
+      <% if (user_signed_in?) && ((current_user.role? :cargaplanes) || (current_user.role? :personal) ) %>
         <%= render :partial => "layouts/menu_carga_planes" %>
       <% end %>
       <ul class="nav navbar-nav">
