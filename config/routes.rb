@@ -1,4 +1,5 @@
 ProyectoBase::Application.routes.draw do
+
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -85,6 +86,8 @@ ProyectoBase::Application.routes.draw do
 
     resources :suplentes
 
+    resources :tipo_plans
+    
     resources :titulo_personas
 
     resources :titulos
@@ -430,7 +433,7 @@ ProyectoBase::Application.routes.draw do
 
     get "/migracion/migracion_inversa/", to: 'migracion#migracion_inversa'
 
-    get "/migracion/pofs/", to: 'migracion#pofs'
+    get "/migracion/pofs/:esc", to: 'migracion#pofs'
 
     get "migrar/", to: 'migracion#migrar'
 

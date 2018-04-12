@@ -120,7 +120,7 @@
       <th>Editar domicilio</th>      
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_director.order(:turno, :situacion_revista, :fecha_alta).each do |d|  %>
+      <% establecimiento_actual.cargos_director.order(:turno, :fecha_alta).each do |d|  %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
@@ -168,7 +168,7 @@
       <th>Editar domicilio</th>       
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_vicedirector.order(:turno, :situacion_revista, :fecha_alta).each do |d|  %>
+      <% establecimiento_actual.cargos_vicedirector.order(:turno, :fecha_alta).each do |d|  %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
@@ -214,7 +214,7 @@
       <th>Editar domicilio</th>       
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_secretario.order(:turno, :situacion_revista, :fecha_alta).each do |d|  %>
+      <% establecimiento_actual.cargos_secretario.order(:turno, :grupo_id, :fecha_alta).each do |d|  %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
@@ -260,7 +260,7 @@
       <th>Editar domicilio</th>       
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_bibliotecario.order(:turno, :situacion_revista, :fecha_alta).each do |d| %>
+      <% establecimiento_actual.cargos_bibliotecario.order(:turno, :grupo_id, :fecha_alta).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
@@ -306,7 +306,7 @@
       <th>Editar domicilio</th>        
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_preceptor.each do |d| %>
+      <% establecimiento_actual.cargos_preceptor.order(:turno, :grupo_id, :fecha_alta).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
@@ -352,7 +352,7 @@
       <th>Editar domicilio</th>       
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_mot.each do |d| %>
+      <% establecimiento_actual.cargos_mot.order(:turno, :grupo_id, :fecha_alta).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
@@ -398,7 +398,7 @@
       <th>Editar domicilio</th>       
     </thead>
     <tbody>
-      <% establecimiento_actual.cargos_pep.each do |d| %>
+      <% establecimiento_actual.cargos_pep.order(:turno, :grupo_id, :fecha_alta).each do |d| %>
         <tr>
           <td><%= d.persona.to_s %></td>
           <td style="display:none;" ><%= d.persona.id %></td>
