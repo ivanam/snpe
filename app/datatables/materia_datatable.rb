@@ -28,7 +28,6 @@ class MateriaDatatable < AjaxDatatablesRails::Base
           <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation"><a role="menuitem" tabindex="-1" href="materia/'+record.id.to_s+'">Ver</a></li>
             <li role="presentation"><a role="menuitem" tabindex="-1" href="materia/'+record.id.to_s+'/edit">Editar</a></li>
-            <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="materia/'+record.id.to_s+'">Eliminar</a></li>
           </ul>
         </div>',
       ]

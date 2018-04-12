@@ -47,6 +47,8 @@ class Ability
           can :modificacion, [Cargo]
           can :modificacion, [CargoNoDocente]
           can :manage, [Licencium]
+          can :read, [Materium]
+          can :read, [Plan]
         end
 
         if user.role? :licencia
@@ -59,6 +61,12 @@ class Ability
           can :edit, [Persona]
           can :update, [Persona]
           can :manage, [Licencium]
+        end
+
+        if user.role? :carga_planes
+          can :manage, [Plan]
+          can :manage, [Despliegue]
+          can :manage, [Materium]
         end
 
         if user.role? :incompatibilidad

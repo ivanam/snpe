@@ -1,4 +1,4 @@
-<%= form_for(@plan, :html => { :class => "form-horizontal" }) do |f| %>
+<%= nested_form_for(@plan,multipart: true, :html => { :class => "form-horizontal" }) do |f| %>
   <% if @plan.errors.any? %>
     <div class="alert alert-danger alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -15,18 +15,52 @@
   <div class="form-group">
     <%= f.label :codigo, "Código", :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.number_field :codigo, :class => "form-control" %>
+      <%= f.number_field :codigo, :class => "form-control", :value => (Plan.where(nivel_id: 3).last.codigo.to_i + 1)  %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :descripcion, "Descripción", :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :descripcion, :class => "form-control" %>
+      <%= f.text_field :descripcion, :class => "form-control", :style => "text-transform:uppercase" %>
     </div>
   </div>
   <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
+    <%= f.label :resolucion, "Resolución", :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.text_field :resolucion, :class => "form-control", :style => "text-transform:uppercase" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :nivel_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.collection_select(:nivel_id, Nivel.all, :id, :to_s, {:prompt => true},:style=>"width:100%") %>
+    </div>
+  </div>
 
+  <div class="form-group">
+    <%= f.label :tipo_plan_id, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.collection_select(:tipo_plan_id, TipoPlan.all, :id, :to_s, {:prompt => true},:style=>"width:100%") %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+    <%= f.fields_for :establecimientos_plans do |e|%>
+      <div class="form-group"> 
+        <%= f.label "Establecimiento", :class => "col-sm-2 control-label" %>
+        <div class="col-sm-9"> 
+          <%= e.collection_select(:establecimiento_id, Establecimiento.all, :id, :to_s, {},:style=>"width:100%") %>         
+        </div>       
+        <%= e.link_to_remove "", :class => "btn btn-danger glyphicon glyphicon-trash pull-right" %>
+      </div>
+
+    <% end %>
+    <%= f.link_to_add "Agregar escuela", :establecimientos_plans, :class => "label label-success" %><hr/>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
       <%= link_to plans_path, :class => 'btn btn-default' do %>
         <span class="glyphicon glyphicon-list-alt"></span>

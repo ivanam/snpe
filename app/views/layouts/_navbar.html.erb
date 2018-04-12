@@ -26,6 +26,9 @@
           </li>
         <% end %>
       </ul>
+      <% if (user_signed_in?) && (current_user.role? :cargaplanes) %>
+        <%= render :partial => "layouts/menu_carga_planes" %>
+      <% end %>
       <ul class="nav navbar-nav">
         <% if user_signed_in? then %>
           <li class="dropdown">
