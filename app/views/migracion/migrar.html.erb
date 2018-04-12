@@ -34,7 +34,7 @@
 
   <form action="" method="GET" class="form-horizontal" role="form">
       <div class="form-group">
-        <button type="button" id="boton5" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"> Pofs 2017</span></button>
+        <input class="text_field" id="esc8"></input><button type="button" id="boton5" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-search"> Pofs 2017</span></button>
       </div>
   </form>
 
@@ -62,8 +62,8 @@
 
   $( "#boton5" ).click( function() {
 
-  
-  window.location = "/soft/snpe/migracion/pofs/";
+   var esc = parseInt($( "#esc8" ).val());
+  window.location = "/soft/snpe/migracion/pofs/"+esc;
 
 });
 
