@@ -22,7 +22,7 @@ class AltasBajasHora < ActiveRecord::Base
     validates :turno, :presence => true, if: :no_es_licencia_para_baja
 
   # # #Validación de alta
-    before_save :validar_horas
+    before_create :validar_horas
     validate :validar_alta 
     before_save :actualizar_materia
     before_update :dar_baja
