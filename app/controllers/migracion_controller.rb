@@ -169,11 +169,10 @@ class MigracionController < ApplicationController
 
 	def pofs
 
-		@escuelas = [178]
 		anio = 2017
-	    @escuelas.each do |e|
 
-	 		esc_id= Establecimiento.where(:codigo_jurisdiccional => e).first.id
+
+	 		esc_id= Establecimiento.where(:codigo_jurisdiccional => params[:esc]).first.id
 	 		
 	 		if HistorialCargos.where(establecimiento_id: esc_id).count == 0
 	
@@ -193,7 +192,7 @@ class MigracionController < ApplicationController
 		 	end
 		
 	
-		end
+	
 	end 
 
 
