@@ -22,6 +22,7 @@ class AltasBajasHora < ActiveRecord::Base
     validates :turno, :presence => true, if: :no_es_licencia_para_baja
 
   # # #Validación de alta
+    before_save :validar_horas
     validate :validar_alta 
     before_save :actualizar_materia
     before_update :dar_baja
@@ -64,6 +65,14 @@ class AltasBajasHora < ActiveRecord::Base
           validar_suplente
         end
       end      
+    end
+  end
+
+  def validar_horas
+    if Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil
+
+      errors.add(:base,"error en la carga horaria, no corresponde")
+      return false   
     end
   end
 
