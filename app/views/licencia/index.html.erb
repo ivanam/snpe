@@ -352,6 +352,10 @@
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_2, options_for_select([['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>
+        <div class="row">
+         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_car_aux" %>
+        </div>
+        </br>
           <div id="obv5">
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
            <%= text_area_tag 'observaciones5', nil, :class => "form-control col-sm-6"%>
@@ -393,6 +397,10 @@
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_8, options_for_select([['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>
+          <div class="row">
+         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_car_aux_2" %>
+        </div>
+        </br>
           <div id="obv6">
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
            <%= text_area_tag 'observaciones6', nil, :class => "form-control col-sm-6"%>
@@ -475,6 +483,7 @@
   $("#select_destino_cargos").hide();
   $("#select_destino_cargos2").hide();
   $("#select_destino_horas").hide();
+  $("#select_destino_car_aux").hide();
   $("#select_articulo_horas_h2").hide();
   $("#art_doc_1").val("");
   $("#art_doc_2").val("");
@@ -1271,6 +1280,7 @@
       articulo = $("#select_articulo_cargos_no_docente").val();
       fecha_anio_lic_2 = $("#input_anio_lic_2").val();
       observaciones = $("#observaciones5").val();
+      destino = $("#select_destino_car_aux").val();
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1281,7 +1291,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones+'&destino='+destino,
           type: 'POST',
         })
       .done(function(data) {
@@ -1292,6 +1302,7 @@
         $("#select_articulo_cargos_no_docente" ).val("");
         $("#input_anio_lic_2" ).val("");
         $("#observaciones5").val("");
+        $("#select_destino_car_aux").val("");
         if (data != "" && data != null) {
         alert(data) ; 
         };
@@ -1309,6 +1320,10 @@
         .done(function(data) {
           $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes").show();
+          if (id_articulo == 377 || id_articulo == 376){
+            $("#select_destino_car_aux").show();
+            $("#select_destino_car_aux").val("");
+          }
           if (id_articulo == 289){
             $("#anio_lic_2").show();
             $("#input_anio_lic_2" ).val(""); 
@@ -1388,6 +1403,9 @@
         .done(function(data) {
           $("#alerta-dias-cargo-no-docentes-1").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes-1").show();
+          if (id_articulo == 377){
+            $("#select_destino_car_aux").show();
+          }
           if (id_articulo == 289){
             $("#anio_lic_8").show();
             $("#input_anio_lic_8" ).val(""); 
