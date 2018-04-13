@@ -2,7 +2,6 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :establecimiento
   belongs_to :persona
   belongs_to :lote_impresion
-  #as_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
   has_many :estados, :class_name => 'AltasBajasHoraEstado', :foreign_key => 'alta_baja_hora_id', dependent: :destroy
   belongs_to :empresa
   belongs_to :lugar_pago
