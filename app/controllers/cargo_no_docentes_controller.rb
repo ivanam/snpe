@@ -449,8 +449,8 @@ class CargoNoDocentesController < InheritedResources::Base
     end 
 
         if @cargos.estado == "ALT" then
-            if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
-                flash[:error] = 'No debe pasar del estado ALT a LIC'
+            if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" || params[:estado] == "ART"then
+                flash[:error] = 'No debe pasar del estado ALT a LIC ni a ART'
                 @cargos.estado = "ALT"
             end
     end
@@ -464,6 +464,12 @@ class CargoNoDocentesController < InheritedResources::Base
                 flash[:error] = 'No debe pasar del estado LIC a ALT'
                 @cargos.estado = "LIC P/BAJ"
           end
+    end
+
+    if @cargos.estado == "REU" then
+          if params[:estado] == "ALT" || params[:estado] == "LIC P/BAJ" then
+          @cargos.estado = params[:estado]
+         end 
     end
 
    respond_to do |format|

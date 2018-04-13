@@ -152,6 +152,7 @@ class Licencium < ActiveRecord::Base
 				Cargo.find(self.cargo_id).update!(estado: estado)
 			elsif self.cargo_no_docente_id != nil
 				CargoNoDocente.find(self.cargo_no_docente_id).update(estado: estado)
+
 			    # CargoNoDocente.find(self.cargo_no_docente_id).attributes = params[:estado]
 				# CargoNoDocente.find(self.cargo_no_docente_id).save(:validate => false)
 			end
@@ -160,8 +161,6 @@ class Licencium < ActiveRecord::Base
 
 
 	 def cancelar_licencia
-	 	
-
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
@@ -211,7 +210,6 @@ class Licencium < ActiveRecord::Base
 
 
 	 		elsif self.cargo_no_docente_id != nil
-	 			
 	 			if self.por_continua != nil 
 
 	 			elsif self.por_continua == nil 
