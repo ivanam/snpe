@@ -290,9 +290,14 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def estado_actual
+    if self.id.to_i == 14936
+      debugger      
+    end
     @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).last
     if @relation == nil
       return "Vacio"
+    elsif @relation.estado.descripcion == "Cobrado" and AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id, estado_id: 7) != [] and AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id, estado_id: 8) == []
+      return "Notificado_Baja"
     else
       return @relation.estado.descripcion
     end
