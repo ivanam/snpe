@@ -290,9 +290,6 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def estado_actual
-    if self.id.to_i == 14936
-      debugger      
-    end
     @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).last
     if @relation == nil
       return "Vacio"
