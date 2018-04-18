@@ -159,7 +159,6 @@ class MigracionController < ApplicationController
 		 		if !(l.establecimiento_id == esc_id && l.persona_id==persona_id && l.secuencia == r['secMax'] && l.fecha_alta == r['fecha_alta'] && l.horas == r['horas_cate'])
 		 			@eliminados<< l
 		 			l.delete
-		 			debugger
 		 		end
 		 	end
 		 end

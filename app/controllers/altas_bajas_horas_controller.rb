@@ -489,10 +489,9 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def destroy
-    @altas_bajas_hora = AltasBajasHora.find(params[:id])    
+    @altas_bajas_hora = AltasBajasHora.find(params[:id])  
     @altas_bajas_hora.estados.destroy_all
     @altas_bajas_hora.destroy
-
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_url, notice: 'Se ha eliminado la carga' }
       format.json { head :no_content }

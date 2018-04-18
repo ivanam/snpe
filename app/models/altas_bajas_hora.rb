@@ -2,7 +2,6 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :establecimiento
   belongs_to :persona
   belongs_to :lote_impresion
-  has_many :periodos, :class_name => 'PeriodoLiqHora', :foreign_key => 'altas_bajas_hora_id', dependent: :destroy
   has_many :estados, :class_name => 'AltasBajasHoraEstado', :foreign_key => 'alta_baja_hora_id', dependent: :destroy
   belongs_to :empresa
   belongs_to :lugar_pago
@@ -22,7 +21,7 @@ class AltasBajasHora < ActiveRecord::Base
     validates :turno, :presence => true, if: :no_es_licencia_para_baja
 
   # # #Validación de alta
-    before_save :validar_horas
+    before_create :validar_horas
     validate :validar_alta 
     before_save :actualizar_materia
     before_update :dar_baja
@@ -291,9 +290,14 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def estado_actual
+    if self.id.to_i == 14936
+      debugger      
+    end
     @relation = AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id).last
     if @relation == nil
       return "Vacio"
+    elsif @relation.estado.descripcion == "Cobrado" and AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id, estado_id: 7) != [] and AltasBajasHoraEstado.where(:alta_baja_hora_id => self.id, estado_id: 8) == []
+      return "Notificado_Baja"
     else
       return @relation.estado.descripcion
     end
