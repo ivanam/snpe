@@ -383,6 +383,7 @@ ProyectoBase::Application.routes.draw do
     get 'licencias/listado_licencias_todas', to: 'licencia#listado_licencias_todas', as: :listado_licencias_todas
     get 'licencias/listado_licencias_cnds', to: 'licencia#listado_licencias_cnds', as: :listado_licencias_cnds
     get 'licencias/listado_licencias_carg', to: 'licencia#listado_licencias_carg', as: :listado_licencias_carg
+    get 'licencias/parte_diario', to: 'licencia#parte_diario', as: :parte_diario
     
     get 'licencias/listado_licencias_todas_lic', to: 'licencia#listado_licencias_todas_lic', as: :listado_licencias_todas_lic
     get 'licencias/listado_licencias_cnds_sg', to: 'licencia#listado_licencias_cnds_sg', as: :listado_licencias_cnds_sg

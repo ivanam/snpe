@@ -6,7 +6,14 @@
   xmlns:html="http://www.w3.org/TR/REC-html40">
     <ss:Styles>
     <ss:Style ss:ID="xl1">
-        <ss:Font ss:Bold="1" ss:Size ="12" ss:FontName="Arial">
+        <ss:Font ss:Bold="1" ss:Size ="13" ss:FontName="Arial">
+        </ss:Font>
+        <ss:Alignment ss:Horizontal="left">
+
+        </ss:Alignment>
+    </ss:Style>
+      <ss:Style ss:ID="xl3">
+        <ss:Font ss:Bold="1" ss:Size ="11" ss:FontName="Arial">
         </ss:Font>
         <ss:Alignment ss:Horizontal="left">
 
@@ -43,7 +50,23 @@
 
           </ss:Cell>
       </ss:Row>
-            <ss:Row ss:StyleID="xl1"  ss:Height="Double">    
+          <ss:Row ss:StyleID="xl1"  ss:Height="Double">    
+           <ss:Cell>
+
+
+          </ss:Cell>
+      </ss:Row>
+
+       <ss:Row ss:StyleID="xl3"  ss:Height="Double">    
+           <ss:Cell>
+                <ss:Data ss:Type="String" xmlns="http://www.w3.org/TR/REC-html40">
+                            Cargos No docentes
+
+                </ss:Data>
+
+          </ss:Cell>
+      </ss:Row>
+          <ss:Row ss:StyleID="xl1"  ss:Height="Double">    
            <ss:Cell>
 
 
@@ -61,7 +84,7 @@
           <Cell><Data ss:Type="String">Observaciones</Data></Cell>
         </ss:Row>
         <% @licenciasCnds.each do |s| %>
-        <Row>
+        <ss:Row ss:StyleID="xl3">
               <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_desde"]) %></Data></Cell>
               <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_hasta"]) %></Data></Cell>
               <% if s.altas_bajas_hora_id != nil %>
@@ -113,8 +136,10 @@
 
               <Cell><Data ss:Type="String"><%= s.observaciones %></Data></Cell>
 
-         </Row>
+         </ss:Row>
         <% end %>
+
+
       </Table>
     </Worksheet>
  </ss:Workbook>
