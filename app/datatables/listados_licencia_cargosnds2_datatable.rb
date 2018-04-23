@@ -71,6 +71,15 @@ class ListadosLicenciaCargosnds2Datatable < AjaxDatatablesRails::Base
               CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.nro_calle
             end,
 
+            if record.altas_bajas_hora_id != nil  
+              AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.piso
+            elsif record.cargo_id != nil
+              Cargo.where(:id => record.cargo_id.to_i).first.persona.piso
+            else
+              CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.piso
+            end,
+
+
             record.observaciones,
 
 

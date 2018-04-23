@@ -383,6 +383,7 @@ ProyectoBase::Application.routes.draw do
     get 'licencias/listado_licencias_todas', to: 'licencia#listado_licencias_todas', as: :listado_licencias_todas
     get 'licencias/listado_licencias_cnds', to: 'licencia#listado_licencias_cnds', as: :listado_licencias_cnds
     get 'licencias/listado_licencias_carg', to: 'licencia#listado_licencias_carg', as: :listado_licencias_carg
+    get 'licencias/parte_diario', to: 'licencia#parte_diario', as: :parte_diario
     
     get 'licencias/listado_licencias_todas_lic', to: 'licencia#listado_licencias_todas_lic', as: :listado_licencias_todas_lic
     get 'licencias/listado_licencias_cnds_sg', to: 'licencia#listado_licencias_cnds_sg', as: :listado_licencias_cnds_sg
@@ -400,7 +401,7 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_cargos_no_docentes2/", to: "licencia#guardar_licencia_cargos_no_docentes2", as: :guardar_licencia_cargos_no_docentes2
 
 
-    post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)(/:prestador)", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
+    post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
 
     put "licencias/editar_licencias_cnds/:id", to: "licencias#editar_licencias_cnds", as: :editar_licencias_cnds
