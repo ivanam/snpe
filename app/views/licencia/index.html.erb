@@ -1,5 +1,7 @@
 <%= render 'form_licencia' %>
-
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "daterangepicker"%>
+<%= stylesheet_link_tag "daterangepicker-bs3" %>
 
 <hr id="div_hr_horas"/>
 <div id="div_horas" class="panel panel-info">
@@ -141,8 +143,8 @@
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio', Date.today %>
-        <%= label_tag "Fecha Fin", nil,  :class => "control-label" %>
-        <%= text_field_tag 'input_fecha_fin'%>
+        <%= label_tag "Fecha Fin", nil,  :class => 'datepicker' %>
+        <%= text_field_tag 'input_fecha_fin' %>
         <hr/>
         <% if (current_user.role? :licencia) || (current_user.role? :sadmin) then %>
          <div id="art_doc" >
@@ -450,31 +452,31 @@
 
 
 
-
+  
 
 <% @listado_de_datepickers = ['input_fecha_inicio', 'input_fecha_fin', 'input_fecha_inicio2', 'input_fecha_fin2','input_fecha_inicio4','input_fecha_fin4','input_fecha_inicio3','input_fecha_fin3','input_fecha_inicio5','input_fecha_inicio8','input_fecha_fin8','input_fecha_inicio6','input_fecha_fin6','input_fecha_inicio7','input_fecha_fin7'] %>
 
 <% @listado_de_datepickers.each do |l| %>
 
+
   <script type="text/javascript">
       
-        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
-        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
-        changeYear: true,
-        yearRange: "1910:<%= Date.today.year + 10 %>", 
-        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
-        navigationAsDateFormat: true,
-        nextText: "Sig", 
-        prevText: "Ant", 
-        showAnim: "explode"
+        $("#<%=l%>").datepicker({
+         dateFormat: 'dd-mm-yy', 
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'], 
+                dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'], 
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'], 
+                firstDay: 1, 
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'], 
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '-100:+0',
           });
 
   </script>
 
 <% end %>
-
-
 
 <script type="text/javascript">
 
@@ -487,6 +489,7 @@
   $("#select_destino_cargos2").hide();
   $("#select_destino_horas").hide();
   $("#select_destino_car_aux").hide();
+  $("#select_destino_car_aux_2").hide();
   $("#select_articulo_horas_h2").hide();
   $("#art_doc_1").val("");
   $("#art_doc_2").val("");
@@ -843,7 +846,7 @@
             }
             else
             {
-              $("#select_destino_horas").hide();
+            $("#select_destino_horas").hide();
             }
             if (id_articulo != null ){
             $("#obv1").show();
@@ -1272,6 +1275,7 @@
     $("#alerta-dias-cargo-no-docentes").hide();
     $("#anio_lic_2").hide();
     $("#select_articulo_cargos_no_docente").val("");
+    $("#select_destino_car_aux").val("");
      $("#obv5" ).hide();
     $("#observaciones5").val("");
   });
@@ -1326,6 +1330,9 @@
           if (id_articulo == 377 || id_articulo == 376){
             $("#select_destino_car_aux").show();
             $("#select_destino_car_aux").val("");
+          }else
+          {
+            $("#select_destino_car_aux").hide();
           }
           if (id_articulo == 289){
             $("#anio_lic_2").show();
@@ -1355,6 +1362,7 @@
     $("#alerta-dias-cargo-no-docentes-1").hide();
     $("#anio_lic_8").hide();
     $("#select_articulo_cargos_no_docente8").val("");
+    $("#select_destino_car_aux_2").val("");
     $("#prestador_4").val("");
     $("#obv6").hide();
     $("#observaciones6").val("");
@@ -1367,6 +1375,7 @@
       fecha_anio_lic_2 = $("#input_anio_lic_8").val();
       prestador_4 = $("#prestador_4").val();
       observaciones = $("#observaciones6").val();
+      destino = $("#select_destino_car_aux_2").val();
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1387,7 +1396,8 @@
         tabla_licencia.api().ajax.reload();
         $("#select_articulo_cargos_no_docente8" ).val("");
         $("#input_anio_lic_8" ).val("");
-        $("#observaciones6").val("");   
+        $("#observaciones6").val("");
+        $("#select_destino_car_aux_2").val("");   
         if (data != "") {
           alert(data); 
         };        
@@ -1406,8 +1416,12 @@
         .done(function(data) {
           $("#alerta-dias-cargo-no-docentes-1").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes-1").show();
-          if (id_articulo == 377){
-            $("#select_destino_car_aux").show();
+           if (id_articulo == 377 || id_articulo == 376){
+            $("#select_destino_car_aux_2").show();
+            $("#select_destino_car_aux_2").val("");
+          }else
+          {
+            $("#select_destino_car_aux_2").hide();
           }
           if (id_articulo == 289){
             $("#anio_lic_8").show();
