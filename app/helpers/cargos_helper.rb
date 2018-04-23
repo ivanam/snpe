@@ -69,7 +69,11 @@ module CargosHelper
   end
 
    def cargos_bajas_permitidas
-    return Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ").where("fecha_baja is null or fecha_baja = '0000-00-00'").includes(:establecimiento, :persona)
+    establecimiento = session[:establecimiento]
+    if current_user.role? :licencia
+      establecimiento = current_user.establecimientos_users.map(&:establecimiento_id)
+    end
+    return Cargo.where(:establecimiento_id => establecimiento).where.not(:estado => "LIC P/BAJ").where("fecha_baja is null or fecha_baja = '0000-00-00'").includes(:establecimiento, :persona)
   end
 
 end
