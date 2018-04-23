@@ -430,6 +430,7 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos_no_docentes2
+    debugger
     prestador_4 = params[:prestador_4] 
     @no_guarda = true
     @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
@@ -460,6 +461,7 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_final
+    debugger
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
