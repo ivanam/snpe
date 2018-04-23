@@ -11,7 +11,11 @@ module AltasBajasHorasHelper
   end
 
   def altas_bajas_horas_permitidas_bajas
-    return AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ").where("fecha_baja = '0000-00-00' or fecha_baja is null").includes(:establecimiento, :persona)
+    establecimiento = session[:establecimiento]
+    if current_user.role? :licencia
+      establecimiento = current_user.establecimientos_users.map(&:establecimiento_id)
+    end 
+    return AltasBajasHora.where(:establecimiento_id => establecimiento).where.not(:estado => "LIC P/BAJ").where("fecha_baja = '0000-00-00' or fecha_baja is null").includes(:establecimiento, :persona)   
   end
 
   def altas_bajas_horas_modificacion 
