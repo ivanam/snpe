@@ -242,6 +242,8 @@ class Cargo < ActiveRecord::Base
     @relation = CargoEstado.where(:cargo_id => self.id).last
     if @relation == nil
       return "Vacio"
+    elsif @relation.estado.descripcion == "Cobrado" and Cargo.where(:cargo_id => self.id, estado_id: 7) != [] and Cargo.where(:cargo_id => self.id, estado_id: 8) == []
+      return "Notificado_Baja"
     else
       return @relation.estado.descripcion
     end

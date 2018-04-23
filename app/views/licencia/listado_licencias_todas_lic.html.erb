@@ -362,8 +362,9 @@
         return  params
       }
       
+      var d = new Date();
       $('#btn-filtrar2').on('click', function(){
-       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds_sg.xls?rango2='+$('#daterange2').val()+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val();
+       window.location.href = '/soft/snpe/licencias/listado_licencias_cnds_sg.xls?rango2='+ d.val()+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val();
       });
 
     moment.locale('es');
