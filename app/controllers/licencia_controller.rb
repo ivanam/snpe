@@ -32,7 +32,6 @@ class LicenciaController < ApplicationController
   end
 
   def create
-
     @licencium = Licencium.new(licencium_params)
     @licencium.save
     respond_with(@licencium)
@@ -50,7 +49,7 @@ class LicenciaController < ApplicationController
 
   #Reporte de todas las licencias de todos los establecimientos
   def listado_licencias
-    if params["rango"] == ""
+    if params["rango"] == "" or params["rango"] == nil
       @mindate_year = Date.today.year
       @mindate = Date.today.to_s
       @maxdate = Date.today.to_s
@@ -58,6 +57,9 @@ class LicenciaController < ApplicationController
     else
       @rango = params["rango"]
       @mindate, @maxdate = Util.max_min_periodo(@rango)
+       @mindate2 = @mindate.to_s
+       @maxdate2 = @maxdate.to_s
+
       @res = listado_de_licencias(@mindate, @maxdate)
     end  
     respond_to do |format|
@@ -67,15 +69,40 @@ class LicenciaController < ApplicationController
     end
   end
 
+  def parte_diario
+    if params["rango"] == "" or params["rango"] == nil
+      @mindate_year = Date.today.year
+      @mindate = Date.today.to_s
+      @maxdate = Date.today.to_s
+
+      @res = listado_parte_diario(@mindate, @maxdate)
+    else
+      @rango = params["rango"]
+      @mindate, @maxdate = Util.max_min_periodo(@rango)
+       @mindate2 = @mindate.to_s
+       @maxdate2 = @maxdate.to_s
+
+      @res = listado_parte_diario(@mindate, @maxdate)
+    end  
+    respond_to do |format|
+      format.xls 
+    end
+  end
+
    def listado_licencias_cnds
-     if params["rango2"] == ""
+
+     if params["rango"] == "" or params["rango"] == nil
        @mindate_year2 = Date.today.year
        @mindate2 = Date.today.to_s
        @maxdate2 = Date.today.to_s
        @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
+
      else
-       @rango2 = params["rango2"]
-       @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
+       @rango2 = params["rango"]
+       @mindate, @maxdate = Util.max_min_periodo(@rango2)
+       @mindate2 = @mindate.to_s
+       @maxdate2 = @maxdate.to_s
+
        @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
      end
     respond_to do |format|
@@ -86,14 +113,17 @@ class LicenciaController < ApplicationController
   end
 
   def listado_licencias_carg
-     if params["rango3"] == ""
+     if params["rango"] == ""
        @mindate_year3 = Date.today.year
        @mindate3 = Date.today.to_s
        @maxdate3 = Date.today.to_s
        @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
      else 
-       @rango3 = params["rango3"]
-       @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
+       @rango3 = params["rango"]
+       @mindate, @maxdate = Util.max_min_periodo(@rango3)
+       @mindate2 = @mindate.to_s
+       @maxdate2 = @maxdate.to_s
+
        @res3 = listado_de_licencias_cargo(@mindate3, @maxdate3)
      end
     respond_to do |format|
@@ -430,7 +460,6 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_cargos_no_docentes2
-    debugger
     prestador_4 = params[:prestador_4] 
     @no_guarda = true
     @licencia_anterior= Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes'], vigente: 'vigente').last
@@ -461,11 +490,11 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_final
-    debugger
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
-    if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador)
+    observaciones = params[:observaciones]
+    if !@licencia.update(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador, observaciones: observaciones)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede finalizar la licencia. Posee suplente. O no corresponde la situación de revista"
     end

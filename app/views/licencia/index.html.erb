@@ -436,6 +436,9 @@
         <br>
         <%= label_tag "Prestador que certifica la licencia: ", nil,  :class => "control-label" %>
         <%= select_tag "prestador", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador"%>
+        <br>
+        <%= label_tag "Observaciones", nil,  :class => "control-label" %>
+        <%= text_area_tag 'observaciones_final', nil, :class => "form-control col-sm-6"%>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -1445,6 +1448,7 @@
       id_lic = $(event.relatedTarget).attr('id_lic');
       $('#input_fecha_inicio3').val($(event.relatedTarget).attr('fecha_desde'));
       $("#input_fecha_fin3").val($(event.relatedTarget).attr('fecha_hasta'));
+      $("#observaciones_final").val($(event.relatedTarget).attr('observaciones'));
       $("#prestador").val($(event.relatedTarget).attr('prestador'));
   });
 
@@ -1461,13 +1465,14 @@
     }
     fecha_inicio = $("#input_fecha_inicio3").val();
     fecha_fin = $("#input_fecha_fin3").val();
+    observaciones = $("#observaciones_final").val();
     por_baja = $("#por_baja:checked").val();
 
     prestador = $("#prestador").val();
    
    
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/'+prestador,
+      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/?observaciones='+observaciones+'&prestador='+prestador,
       type: 'POST',
       })
     .done(function(data) {

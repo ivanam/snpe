@@ -8,6 +8,7 @@ class Licencium < ActiveRecord::Base
   has_many :licenciasV
 
   before_create :actualizar_estado
+  before_update :ponerle_fecha
   before_update :cancelar_licencia
 
   #validate :fecha_inicio_valida
@@ -42,6 +43,10 @@ class Licencium < ActiveRecord::Base
  def c_id
  
  	return self.cargo_id
+ end
+
+ def ponerle_fecha
+ 	self.fecha_creacion = Date.today.to_s
  end
 
  def agente
