@@ -70,7 +70,6 @@ class LicenciaController < ApplicationController
   end
 
   def parte_diario
-    debugger
     if params["rango"] == "" or params["rango"] == nil
       @mindate_year = Date.today.year
       @mindate = Date.today.to_s
@@ -91,12 +90,10 @@ class LicenciaController < ApplicationController
   end
 
    def listado_licencias_cnds
-     debugger
      if params["rango"] == "" or params["rango"] == nil
        @mindate_year2 = Date.today.year
        @mindate2 = Date.today.to_s
        @maxdate2 = Date.today.to_s
-       debugger
        @res2 = listado_de_licencias_cargonds(@mindate2, @maxdate2)
 
      else
