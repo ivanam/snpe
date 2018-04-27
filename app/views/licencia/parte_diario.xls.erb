@@ -1,46 +1,44 @@
 <?xml version="1.0"?>
-<ss:Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:o="urn:schemas-microsoft-com:office:office"
   xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
   xmlns:html="http://www.w3.org/TR/REC-html40">
-
-  <Worksheet>
-
-      <Table>
-      <ss:Row>    
-           <ss:Cell>
-                <ss:Data ss:Type="String" xmlns="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+           <Cell>
+                <Data ss:Type="String">
                             Ministerio de Educación 
 
 
 
                                 <% @date =Date.today.to_s %>
                                 <%= @date %>
-                </ss:Data>
+                </Data>
 
-          </ss:Cell>
-      </ss:Row>
-            <ss:Row>    
-           <ss:Cell>
+          </Cell>
+      </Row>
+            <Row>    
+           <Cell>
 
 
-          </ss:Cell>
-      </ss:Row>
-        <ss:Row>
+          </Cell>
+      </Row>
+      <Row>
+        <Cell><Data ss:Type="String">Fecha Desde</Data></Cell>
+        <Cell><Data ss:Type="String">Fecha Hasta</Data></Cell>
+        <Cell><Data ss:Type="String">Apellido y nombres</Data></Cell>
+        <Cell><Data ss:Type="String">Tipo de cargo</Data></Cell>
+        <Cell><Data ss:Type="String">Articulo y descripción</Data></Cell>
+        <Cell><Data ss:Type="String">Estado de la licencia</Data></Cell>
+        <Cell><Data ss:Type="String">Calle</Data></Cell>
+        <Cell><Data ss:Type="String">Nro</Data></Cell>
+        <Cell><Data ss:Type="String">Piso</Data></Cell>
+        <Cell><Data ss:Type="String">Observaciones</Data></Cell>
+      </Row>
 
-          <Cell><Data ss:Type="String">Fecha Desde</Data></Cell>
-          <Cell><Data ss:Type="String">Fecha Hasta</Data></Cell>
-          <Cell><Data ss:Type="String">Apellido y nombres</Data></Cell>
-          <Cell><Data ss:Type="String">Tipo de cargo</Data></Cell>
-          <Cell><Data ss:Type="String">Articulo y descripción</Data></Cell>
-          <Cell><Data ss:Type="String">Estado de la licencia</Data></Cell>
-          <Cell><Data ss:Type="String">Calle</Data></Cell>
-          <Cell><Data ss:Type="String">Nro</Data></Cell>
-          <Cell><Data ss:Type="String">Piso</Data></Cell>
-          <Cell><Data ss:Type="String">Observaciones</Data></Cell>
-        </ss:Row>
-          <% @licencias.each do |s| %>
+      <% @licencias.each do |s| %>
   
           <Row>
                 <Cell><Data ss:Type="String"><%= Util.fecha_a_es(s["fecha_desde"]) %></Data></Cell>
@@ -101,8 +99,6 @@
                 <Cell><Data ss:Type="String"><%= s.observaciones %></Data></Cell>
           </Row>
           <% end %>
-      </Table>
-    </Worksheet>
- </ss:Workbook>
-
-
+    </Table>
+  </Worksheet>
+</Workbook>
