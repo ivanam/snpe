@@ -1,0 +1,79 @@
+<div>
+  <td><p align="left"><u> PARTE DIARIO DE AUSENCIA POR ENFERMEDAD <u/></p></td>
+  <td><p align="right"><%= Date.today %></p></td>
+ <table class="table table-bordered table-striped" style="font-size: 1" >
+    <tr>
+      <th>Tipo Doc </th>
+      <th>Documento </th>
+      <th>Localidad </th>
+      <th>Agente </th>
+      <th>Domicilio </th>
+      <th>Lic </th>
+      <th>Desde/Hasta </th>
+      <th>Observaciones </th>
+    </tr style="page-break-after: always"> 
+    <% @res.each do |l|%>
+      <% if l.altas_bajas_hora_id != nil %>
+        <% @persona = AltasBajasHora.where(:id => l.altas_bajas_hora_id.to_i).first.persona%>
+      <% elsif l.cargo_id != nil%>
+        <% @persona  = Cargo.where(:id => l.cargo_id.to_i).first.persona%>
+      <%else%>
+        <% @persona  = CargoNoDocente.where(:id => l.cargo_no_docente_id.to_i).first.persona%>
+      <%end%>
+      <% if @persona.localidad_id.to_i == 59 %>
+        <tr>  
+          <td><%= @persona.tipo_documento %></td>
+          <td><%= @persona.nro_documento %></td>
+          <td><%= @persona.localidad %></td>
+          <td><%= @persona.apeynom %></td>
+          <td><%= @persona.calle %> N° <%= @persona.nro_calle %> Piso:<%= @persona.piso %> Depto:<%= @persona.depto %></td>
+          <td><%= l.articulo.codigo %></td>
+          <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+          <td><%= l.observaciones%> </td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% @res.each do |l|%>
+      <% if l.altas_bajas_hora_id != nil %>
+        <% @persona = AltasBajasHora.where(:id => l.altas_bajas_hora_id.to_i).first.persona%>
+      <% elsif l.cargo_id != nil%>
+        <% @persona  = Cargo.where(:id => l.cargo_id.to_i).first.persona%>
+      <%else%>
+        <% @persona  = CargoNoDocente.where(:id => l.cargo_no_docente_id.to_i).first.persona%>
+      <%end%>
+      <% if @persona.localidad_id.to_i == 50 %>
+        <tr>  
+          <td><%= @persona.tipo_documento %></td>
+          <td><%= @persona.nro_documento %></td>
+          <td><%= @persona.localidad %></td>
+          <td><%= @persona.apeynom %></td>
+          <td><%= @persona.calle %> N° <%= @persona.nro_calle %> Piso:<%= @persona.piso %> Depto:<%= @persona.depto %></td>
+          <td><%= l.articulo.codigo %></td>
+          <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+          <td><%= l.observaciones%> </td>
+        </tr style="page-break-after: always">
+      <% end %>
+    <% end %>
+    <% @res.each do |l|%>
+      <% if l.altas_bajas_hora_id != nil %>
+        <% @persona = AltasBajasHora.where(:id => l.altas_bajas_hora_id.to_i).first.persona%>
+      <% elsif l.cargo_id != nil%>
+        <% @persona  = Cargo.where(:id => l.cargo_id.to_i).first.persona%>
+      <%else%>
+        <% @persona  = CargoNoDocente.where(:id => l.cargo_no_docente_id.to_i).first.persona%>
+      <%end%>
+      <% if @persona.localidad_id.to_i != 59 and @persona.localidad_id.to_i != 50 %>
+        <tr>  
+          <td><%= @persona.tipo_documento %></td>
+          <td><%= @persona.nro_documento %></td>
+          <td><%= @persona.localidad %></td>
+          <td><%= @persona.apeynom %></td>
+          <td><%= @persona.calle %> N° <%= @persona.nro_calle %> Piso:<%= @persona.piso %> Depto:<%= @persona.depto %></td>
+          <td><%= l.articulo.codigo %></td>
+          <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+          <td><%= l.observaciones%> </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+</div>
