@@ -54,4 +54,4 @@
 }
 
 
-tr { page-break-inside: avoid; }
+tr { page-break-inside: auto; }

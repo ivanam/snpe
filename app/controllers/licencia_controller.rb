@@ -92,7 +92,7 @@ class LicenciaController < ApplicationController
       :layout => 'lic_pdf.html.erb',
       :orientation => 'Landscape',# default Portrait
       :page_size => 'Legal', # default A4
-      :footer => { :right => 'Pagina: [page] of [topage]' },
+      :footer => { :right => 'Pagina: [page]' },
        #margin: { top: 40 },
       :show_as_html => params[:debug].present?
     end  
