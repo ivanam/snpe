@@ -28,9 +28,11 @@ class LoteImpresionsController < ApplicationController
         :layout => 'pdf.html.erb',
         :orientation => 'Landscape',# default Portrait
         :page_size => 'Legal', # default A4
-
-        :margin => {:top=> 30},
-
+        header: {
+                html: {
+                  template: 'layouts/_header_pdf.html.erb'
+                }
+              },
         :show_as_html => params[:debug].present?
 
       end
