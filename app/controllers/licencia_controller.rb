@@ -83,8 +83,19 @@ class LicenciaController < ApplicationController
        @maxdate2 = @maxdate.to_s
 
       @res = listado_parte_diario(@mindate, @maxdate)
-    end  
+    end
     respond_to do |format|
+    format.pdf do
+      render :pdf => 'parte_diario',
+      #:header => { :html => { :template => 'layouts/_header_lic.html.erb'} }, 
+      :template => 'licencia/parte_diario_pdf.html.erb',
+      :layout => 'lic_pdf.html.erb',
+      :orientation => 'Landscape',# default Portrait
+      :page_size => 'Legal', # default A4
+      :footer => { :right => 'Pagina: [page]' },
+       #margin: { top: 40 },
+      :show_as_html => params[:debug].present?
+    end  
       format.xls 
     end
   end

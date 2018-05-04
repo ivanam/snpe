@@ -9,6 +9,13 @@
      Descargar Parte Diario
   </button>
 </div>
+<br/>
+<div align="right">
+ <button id="btn-filtrar5" class="btn btn-success">
+ <span class="glyphicon glyphicon-download-alt"></span>
+     Descargar Parte Diario en PDF
+  </button>
+</div>
 
 <br/>
 
@@ -214,14 +221,11 @@
       $('#btn-filtrar4').on('click', function(){
        window.location.href = '/soft/snpe/licencias/parte_diario.xls' + getParams1();
       })
-
-
-
-
-
-
-
-
    
+
+      $('#btn-filtrar5').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/parte_diario.pdf' + getParams1();
+      })
+ 
   });
 </script>
