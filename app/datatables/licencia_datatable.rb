@@ -94,6 +94,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
           end
         else
         end,
+        '<a href="licencia/'+record.id.to_s+'"><span class="glyphicon glyphicon-search"></a></li>'
       ]
     end
   end
