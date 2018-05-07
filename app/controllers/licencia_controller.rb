@@ -510,7 +510,17 @@ def listado_licencias_todas_lic
     end
 
     render json: msg.to_json
-  end 
+  end
+
+  def editar_comentario_licencia_final
+    @licencia = Licencium.where(id: params[:id_lic]).first
+    observaciones = params[:observaciones]
+    if !@licencia.update(observaciones: observaciones)
+      msg = @licencia.errors.full_messages.first
+      msg = "No se puede editar el comentario"
+    end
+    render json: msg.to_json
+  end  
 
 
 
