@@ -52,3 +52,8 @@
 .btn-filtro{
   width: 100%;
 }
+
+
+tr {page-break-inside: avoid;}
+thead{display: table-header-group;}
+
