@@ -1,0 +1,2 @@
+module CargosEspecialsHelper
+end

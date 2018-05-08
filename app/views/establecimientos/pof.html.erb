@@ -438,6 +438,7 @@
       <th>Turno</th>
       <th>Curso/División</t>
       <th>Grupo</th>
+      <th>Cargo Esp.</th>
       <th>Sit. Revista</th>
       <th>Estado</th>
       <th>Artículo</th>
@@ -453,7 +454,9 @@
           <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
           <td><%= d.turno %></td>
           <td><%= d.curso_division %></td>
+          <%debugger%>
           <td><%= d.grupo_id %></td>
+          <td><%= d.cargo_especial.to_s %></td>
           <td><%= d.situacion_revista %></td>
           <td><%= d.estado %></td>
           <% if (d.estado == "ART" || d.estado == "LIC") %>

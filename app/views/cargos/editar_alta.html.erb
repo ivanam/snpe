@@ -59,6 +59,8 @@
 
           <%= f.text_field :grupo_id, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo",  :class => "form-alta form-control", :id => "grupo", :maxlength=>"2", :placeholder => "Grupo"}%>
 
+          <%= f.select(:cargo_especial_id, CargosEspecial.all.collect{|m| [m.descripcion]}, {:prompt => "Cargo especial"}, :id => "cargo_especial_id",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos Especiales", :class=>"form-control form-alta form-select")%>
+
           <%= f.text_field :disposicion, :placeholder => "Disposición", :style => "width: 35%;"%>
 
           <%= f.text_field :resolucion, :placeholder => "Resolución", :style => "width: 35%;"%>
