@@ -5,7 +5,7 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 		@listaAux = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [175,492]
 		else
@@ -200,7 +200,7 @@ class MigracionController < ApplicationController
 	def migrar_cargos
 
 		@listacargoSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [492,175]
 		else
@@ -294,7 +294,7 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas =  [175,492]
 		else
