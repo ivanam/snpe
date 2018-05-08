@@ -21,6 +21,11 @@
   <dt>Articulo:</dt>
   <dd><%= @licencium.articulo %></dd>
 
+  <% if @licencium.anio_lic != nil %>
+    <dt>Anio de Licencia Anual:</dt>
+    <dd><%= @licencium.anio_lic%></dd>
+  <%end%>
+
   <dt>Observaciones:</dt>
   <dd><%= @licencium.observaciones %></dd>
 

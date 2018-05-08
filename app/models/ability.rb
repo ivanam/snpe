@@ -62,6 +62,7 @@ class Ability
           can :edit, [Persona]
           can :update, [Persona]
           can :manage, [Licencium]
+          can :read, [Licencium]
         end
 
         if user.role? :carga_planes
