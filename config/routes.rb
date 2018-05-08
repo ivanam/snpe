@@ -402,6 +402,7 @@ ProyectoBase::Application.routes.draw do
 
 
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final
+    post "licencia/editar_comentario_licencia_final/", to: "licencia#editar_comentario_licencia_final", as: :editar_comentario_licencia_final
     post "licencia/cancelar_licencia/:id_lic", to: "licencia#cancelar_licencia", as: :cancelar_licencia
 
     put "licencias/editar_licencias_cnds/:id", to: "licencias#editar_licencias_cnds", as: :editar_licencias_cnds

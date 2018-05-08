@@ -121,6 +121,7 @@
               <th>Artículo</th>
               <th class="text-center col-md-1">Estado</th>
               <th class="text-center col-md-1">Continuar</th>
+              <th>Ver</th>
             </tr>
           </thead>
           <tbody>
@@ -440,7 +441,9 @@
         <%= label_tag "Observaciones", nil,  :class => "control-label" %>
         <%= text_area_tag 'observaciones_final', nil, :class => "form-control col-sm-6"%>
       </div>
+      <br/>
       <div class="modal-footer">
+        <button type="button" id="btn_editar_com" class="btn btn-default" data-dismiss="modal">Editar Comentario</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Finalizar licencia</button>
         <button type="button" id="btn_cancelar" class="btn btn-default" data-dismiss="modal">Cancelar licencia</button>
@@ -1515,6 +1518,25 @@
         alert(data) ; 
       };
       
+    })
+  });
+
+
+  $('#btn_editar_com').on('click', function () {
+    observaciones = $("#observaciones_final").val();
+    $.ajax({
+      url: '/soft/snpe/licencia/editar_comentario_licencia_final/?id_lic='+id_lic+'&observaciones='+observaciones,
+      type: 'POST',
+      })
+    .done(function(data) {
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
+      tabla_horas_licencia.api().ajax.reload();
+      tabla_cargos_licencia.api().ajax.reload();
+      tabla_cargos_no_docentes_licencia.api().ajax.reload();
+      tabla_licencia.api().ajax.reload();
     })
   });
 </script>
