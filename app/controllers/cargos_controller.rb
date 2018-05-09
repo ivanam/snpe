@@ -83,6 +83,7 @@ class CargosController < ApplicationController
     end
 
     @cargo = Cargo.new(cargo_params)
+    @cargo.cargo_especial_id = CargosEspecial.where(:descripcion => params[:cargo][:cargo_especial_id]).first.id
     @cargo.situacion_revista = params[:cargo][:situacion_revista]
     @cargo.turno = params[:cargo][:turno]
     @cargo.con_movilidad = params[:cargo][:con_movilidad]
