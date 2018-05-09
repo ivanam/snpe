@@ -1,0 +1,33 @@
+<div class="page-header">
+  <%= link_to new_cargos_especial_path, :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Nuevo Cargos especial
+  <% end %>
+  <h1>Listado de cargos_especials</h1>
+</div>
+
+<div class="table-responsive">
+  <table id="tabla-cargos_especial" class="table table-striped table-bordered table-hover" data-source = "<#= cargos_especials_path(format: :json) #>" >
+    <thead>
+      <tr>
+            <th>Descripcion</th>
+            <th class="text-center">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+      $('#tabla-cargos_especial').dataTable({
+        language : {"sUrl": "<#= asset_path('language.es.json') #>",},
+        processing : true,
+        serverSide : true,
+        ajax : $('#tabla-cargos_especial').data('source'),
+        pagingType: "simple",
+      });
+    });
+</script>

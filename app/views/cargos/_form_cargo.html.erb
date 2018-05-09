@@ -63,6 +63,9 @@
 
         <%= f.text_field :grupo_id, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo",  :class => "form-alta form-control", :id => "grupo", :maxlength=>"2", :placeholder => "Grupo"}%>
 
+        
+        <%= f.select(:cargo_especial_id, CargosEspecial.all.collect{|m| [m.descripcion]}, {:prompt => "Cargo especial"}, :id => "cargo_especial_id",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos Especiales", :class=>"form-control form-alta form-select")%>
+
 
         <%= f.text_field :disposicion, :placeholder => "Disposición", :style => "width: 25%;"%>
 
@@ -129,4 +132,18 @@
   $('#datepicker').change(function(){
     $('#datepicker4').datepicker('option','minDate',$('#datepicker').val());
   });
+
+  $(document).ready(function($) {
+    $("#cargo_especial_id").hide();
+    $("#grupo").bind("propertychange change click keyup input paste",function(){
+
+      if ($("#grupo").val() != ""){
+        $("#cargo_especial_id").show();
+      }
+      else{
+        $("#cargo_especial_id").hide();
+      }
+});
+
+});
 </script>

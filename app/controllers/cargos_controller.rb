@@ -587,7 +587,7 @@ end
     end
 
     def cargo_params
-      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion)
+      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion, :cargo_especial_id)
     end
 end
 
