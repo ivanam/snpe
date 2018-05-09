@@ -1,4 +1,4 @@
-class AgregoCampoACargo2 < ActiveRecord::Migration
+class AgrgeoColumnAcArgo < ActiveRecord::Migration
   def change
   	add_column :cargos, :cargo_especial_id, :integer
   end

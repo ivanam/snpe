@@ -36,6 +36,8 @@
   
   <div class="form-snpe" >
       <div class="row">
+
+      <%= Cargo::CARGOS_ESPECIALES %>
         <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
 
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>
@@ -56,6 +58,8 @@
 
         <%= f.select(:situacion_revista, SituacionRevistum.all.collect{|m| [m.to_s, m.codigo]}, {:prompt => "S.Rev"}, :id => "sit-revista",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Sit Rev", :class=>"form-control form-alta form-select")%>
 
+
+
         <%= f.text_field :anio, :placeholder => "Cur",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso - ej: 4", :class => "form-alta form-control", :id => "curso", :maxlength=>"2"%>
         <%= f.text_field :division, :placeholder => "Div",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Division - ej: 1", :class => "form-alta form-control", :id => "division", :maxlength=>"2"%>
 
@@ -64,7 +68,7 @@
         <%= f.text_field :grupo_id, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Grupo",  :class => "form-alta form-control", :id => "grupo", :maxlength=>"2", :placeholder => "Grupo"}%>
 
         
-        <%= f.select(:cargo_especial_id, CargosEspecial.all.collect{|m| [m.descripcion]}, {:prompt => "Cargo especial"}, :id => "cargo_especial_id",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos Especiales", :class=>"form-control form-alta form-select")%>
+        <%= f.select(:cargo_especial_id, CargosEspecial.all.collect{|m| [m.to_s]}, {:prompt => "Cargo especial"}, :id => "cargo_especial_id",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cargos Especiales", :class=>"form-control form-alta form-select")%>
 
 
         <%= f.text_field :disposicion, :placeholder => "Disposición", :style => "width: 25%;"%>
@@ -134,15 +138,15 @@
   });
 
   $(document).ready(function($) {
-    $("#cargo_especial_id").hide();
-    $("#grupo").bind("propertychange change click keyup input paste",function(){
+    $("#cargo").on("change",function(){
+console.log("entro");
+      if(jQuery.inArray($("#cargo").val(), "<%= Cargo::CARGOS_ESPECIALES %>") != 1) {
+          console.log("is in array");
+      } else {
+          console.log("is NOT in array");
+      } 
 
-      if ($("#grupo").val() != ""){
-        $("#cargo_especial_id").show();
-      }
-      else{
-        $("#cargo_especial_id").hide();
-      }
+
 });
 
 });
