@@ -7,9 +7,9 @@ class MigracionController < ApplicationController
 		@listaAux = []
 		nueva = true
 		if nueva
-			@escuelas = [411,459,3004,3000,4000]
+			@escuelas = [753]
 		else
-			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006]
+			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000]
 		end
 		client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 	    #client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -202,9 +202,9 @@ class MigracionController < ApplicationController
 		@listacargoSinSec = []
 		nueva = true
 		if nueva
-			@escuelas = [787,7718]
+			@escuelas = [753]
 		else
-			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,711,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,492,175]
+			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,711,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,492,175,787,7718,411,459,3004]
 		end
 
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -298,16 +298,17 @@ class MigracionController < ApplicationController
 		@listacargoNSinSec = []
 		nueva = true
 		if nueva
-			@escuelas =  [411,459,3004,3000,4000]
+			@escuelas =  [753]
 		else
-			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,732,749,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,411,3004 ]
+			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,732,749,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,411,411,459,3004]
 		end
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
 
 		@escuelas.each do |e|
 			if nueva
-	 	  		res = client.query("select secuencia, p.* from padaux p where escuela = 411  and estado= 'ALT' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
+	 	  		res = client.query("select secuencia as secMax, p.* from padaux p where escuela = '"+e.to_s+"'  and estado= 'ALT' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
+	 		select secuencia as secMax, p.* from padaux p where escuela = '"+e.to_s+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 	 				
 			else
 				res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where  p.escuela= '"+e.to_s+"'and secuencia<88 and mes = 4 and anio = 2018 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
