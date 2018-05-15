@@ -35,6 +35,33 @@ class AltasBajasHora < ActiveRecord::Base
   PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
 
+
+  def quinto_b_historico
+    total = 0
+    Licencium.where(altas_bajas_hora_id: self.id).where.not(vigente: "Cancelada").where("articulo_id = 292 or articulo_id = 243 or articulo_id = 377").each do |lic|
+      if lic.fecha_hasta.nil?
+        f_h = Date.today
+      else
+        f_h = lic.fecha_hasta
+      end
+      total = total + (f_h - lic.fecha_desde).to_i
+    end
+    return total
+  end
+
+  def razones_particulares_anual
+    total = 0
+    Licencium.where(altas_bajas_hora_id: self.id).where.not(vigente: "Cancelada").where("articulo_id = 348 or articulo_id = 286 or articulo_id = 287").each do |lic|
+      if lic.fecha_hasta.nil?
+        f_h = Date.today
+      else
+        f_h = lic.fecha_hasta
+      end
+      total = total + (f_h - lic.fecha_desde).to_i
+    end
+    return total
+  end
+
   def control_horas
     if !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
       self.horas = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id, anio: self.anio).first.carga_horaria
@@ -354,6 +381,8 @@ class AltasBajasHora < ActiveRecord::Base
   def plan_materia
     return self.plan.to_s + " / " + self.materium.to_s
   end
+
+  
 end
 
 #SELECT * FROM detalle d inner join recibos r on r.nume_docu = d.nume_docu where d.nume_docu = 30284359 and d.mes = 4 and d.anio = 2015 LIMIT 0,1000
