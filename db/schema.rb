@@ -261,8 +261,8 @@ ActiveRecord::Schema.define(version: 20180509151650) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
     t.integer  "cargo_especial_id"
@@ -307,6 +307,39 @@ ActiveRecord::Schema.define(version: 20180509151650) do
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "escuela4", id: false, force: true do |t|
+    t.integer "escuela",                  default: 0,  null: false
+    t.integer "prog",                     default: 0,  null: false
+    t.integer "ley_r",                    default: 0,  null: false
+    t.integer "agrup_r",                  default: 0,  null: false
+    t.integer "cargo_r",                  default: 0,  null: false
+    t.integer "categ_r",                  default: 0,  null: false
+    t.integer "ley_s",                    default: 0,  null: false
+    t.integer "agrup_s",                  default: 0,  null: false
+    t.integer "cargo_s",                  default: 0,  null: false
+    t.integer "categ_s",                  default: 0,  null: false
+    t.date    "fecha_ing",                             null: false
+    t.date    "fecha_alta",                            null: false
+    t.date    "fecha_baja",                            null: false
+    t.integer "planta_pre",               default: 0,  null: false
+    t.integer "tipo_emp",                 default: 0,  null: false
+    t.integer "horas_cate",               default: 0,  null: false
+    t.integer "tipo_docu",                default: 0,  null: false
+    t.integer "nume_docu",                default: 0,  null: false
+    t.integer "secuencia",                default: 0,  null: false
+    t.string  "apeynom",       limit: 30, default: "", null: false
+    t.integer "materia",                  default: 0,  null: false
+    t.integer "curso",                    default: 0,  null: false
+    t.integer "division",                 default: 0,  null: false
+    t.string  "turno",         limit: 3,  default: "", null: false
+    t.string  "estado",        limit: 3,  default: "", null: false
+    t.string  "empresa",       limit: 6,  default: "", null: false
+    t.integer "aa_antig",                 default: 0,  null: false
+    t.integer "mm_antig",                 default: 0,  null: false
+    t.integer "dd_antig",                 default: 0,  null: false
+    t.string  "observaciones", limit: 50, default: "", null: false
   end
 
   create_table "especialidads", force: true do |t|
@@ -450,6 +483,29 @@ ActiveRecord::Schema.define(version: 20180509151650) do
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
   add_index "inscripcions", ["rubro_id"], name: "index_inscripcions_on_rubro_id", using: :btree
 
+  create_table "inscriptos_2017_marzo", id: false, force: true do |t|
+    t.integer "nombre",                               limit: 1, null: false
+    t.integer "apellidos",                            limit: 1, null: false
+    t.integer "tipo documento",                       limit: 1, null: false
+    t.integer "nro_documento",                        limit: 1, null: false
+    t.integer "fecha reempadronamiento",              limit: 1, null: false
+    t.integer "rol",                                  limit: 1, null: false
+    t.integer "localidad",                            limit: 1, null: false
+    t.integer "establecimiento",                      limit: 1, null: false
+    t.integer "cant_urbanos",                         limit: 1, null: false
+    t.integer "empresa transporte urbano",            limit: 1, null: false
+    t.integer "cant_urbanos2",                        limit: 1, null: false
+    t.integer "empresa transporte urbano 2",          limit: 1, null: false
+    t.integer "cant_interubanos",                     limit: 1, null: false
+    t.integer "empresa transporte interurbano",       limit: 1, null: false
+    t.integer "cant_interubanos2",                    limit: 1, null: false
+    t.integer "empresa transporte interurbano 2",     limit: 1, null: false
+    t.integer "cant_media_distancia",                 limit: 1, null: false
+    t.integer "empresa transporte media distancia",   limit: 1, null: false
+    t.integer "cant_media_distancia2",                limit: 1, null: false
+    t.integer "empresa transporte media distancia 2", limit: 1, null: false
+  end
+
   create_table "licencia", force: true do |t|
     t.integer  "altas_bajas_hora_id"
     t.date     "fecha_desde"
@@ -481,6 +537,31 @@ ActiveRecord::Schema.define(version: 20180509151650) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string "apeynom"
+    t.string "descripcion"
+    t.date   "fecha_desde"
+    t.date   "fecha_hasta"
+    t.string "vigente"
+    t.string "nombre_establecimi"
+    t.string "codigo"
+    t.string "cargos"
+    t.string "estados cargnodoc"
+    t.string "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.string  "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
