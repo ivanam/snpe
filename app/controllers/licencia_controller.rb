@@ -483,7 +483,6 @@ def listado_licencias_todas_lic
     end
 
   def guardar_licencia_cargos_no_docentes2_obs
-    debugger
   end
 
 
