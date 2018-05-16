@@ -245,6 +245,76 @@
   </div>
 </div>
 
+ <div class="modal fade" id="modal_licencia_horas2_obs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar Observaciones</h4>
+      </div>
+      <div class="modal-body">
+        
+          <div id="obv2">
+               <%= label_tag "Observaciones", nil,  :class => "control-label" %>
+               <%= text_area_tag 'observaciones12', nil, :class => "form-control col-sm-6"%>
+          </div>
+          </br>
+         
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="btn_licencia_horas2_obs" class="btn btn-default" data-dismiss="modal">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal_licencia_cargos2_obs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar Observaciones</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div id="obv2">
+             <%= label_tag "Observaciones", nil,  :class => "control-label" %>
+             <%= text_area_tag 'observaciones11', nil, :class => "form-control col-sm-6"%>
+        </div>
+        </br>
+       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="btn_licencia_cargos2_obs" class="btn btn-default" data-dismiss="modal">Guardar</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+ <div class="modal fade" id="modal_licencia_cargos_no_docentes2_obs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Agregar Observaciones</h4>
+      </div>
+      <div class="modal-body">
+        
+        <div id="obv2">
+             <%= label_tag "Observaciones", nil,  :class => "control-label" %>
+             <%= text_area_tag 'observaciones10', nil, :class => "form-control col-sm-6"%>
+        </div>
+        </br>
+       
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="btn_licencia_cargos_no_docentes2_obs" class="btn btn-default" data-dismiss="modal">Guardar</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
 
 
 <div class="modal fade" id="modal_licencia_cargos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -911,6 +981,34 @@
 
 //-------------------------------------------Modal Horas 1 Fin--------------------------------------------------------------------
 //-------------------------------------------Modal Horas 2    --------------------------------------------------------------------
+  
+  $('#modal_licencia_horas2_obs').on('shown.bs.modal', function (event) {      
+      id_lic = $(event.relatedTarget).attr('id_lic');
+
+    });
+
+
+  $('#btn_licencia_horas2_obs').on('click', function () {
+      observaciones = $("#observaciones12").val();
+     
+      $.ajax({
+          url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
+          type: 'POST',
+        })
+      .done(function(data) {
+        tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni); 
+        tabla_horas_licencia.api().ajax.reload();
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
+        tabla_licencia.api().ajax.reload();
+        if (data != "") {
+          alert(data); 
+        };
+      })
+    });
+
+
+
+
   $('#modal_licencia_horas2').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
     });
@@ -1195,6 +1293,37 @@
     $("#observaciones4").val("");
   });
 
+  $('#modal_licencia_cargos2_obs').on('shown.bs.modal', function (event) {      
+      id_cargos = $(event.relatedTarget).attr('id_cargos');
+    });
+
+  $('#modal_licencia_cargos2_obs').on('hidden.bs.modal', function (e) {
+    $("#observaciones11").val("");
+  });
+
+  $('#btn_licencia_cargos2_obs').on('click', function () {
+      observaciones = $("#observaciones11").val();
+     
+      $.ajax({
+          url: '/soft/snpe/licencia/guardar_licencia_obs/?id_cargos='+id_cargos+'&observaciones='+observaciones,
+          type: 'POST',
+        })
+      .done(function(data) {
+        tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni); 
+        tabla_cargos_licencia.api().ajax.reload();
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
+        tabla_licencia.api().ajax.reload();
+        $("#observaciones11").val("");
+        if (data != "") {
+          alert(data); 
+        
+        };          
+      })
+  });
+
+
+
+
   $('#btn_licencia_cargos2').on('click', function () {
       fecha_inicio = $("#input_fecha_inicio7").val();
       fecha_fin = $("#input_fecha_fin7").val();
@@ -1355,6 +1484,36 @@
   });
 
 //----------------------------------------------- modal nueva licencia cargos nds --------------------------------
+
+$('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (event) {      
+      id_cargos_no_docentes = $(event.relatedTarget).attr('id_cargo_no_docentes');
+    });
+
+  $('#modal_licencia_cargos_no_docentes2_obs').on('hidden.bs.modal', function (e) {
+    $("#observaciones10").val("");
+  });
+
+ $('#btn_licencia_cargos_no_docentes2_obs').on('click', function () {
+      observaciones = $("#observaciones10").val();
+      $.ajax({
+          url: '/soft/snpe/licencia/guardar_licencia_obs/?id_cargos_no_docentes='+id_cargos_no_docentes+'&observaciones='+observaciones,
+          type: 'POST',
+        })
+      .done(function(data) {
+        tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni); 
+        tabla_cargos_no_docentes_licencia.api().ajax.reload();
+        tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
+        tabla_licencia.api().ajax.reload();
+        $("#observaciones10").val("");  
+        if (data != "") {
+          alert(data); 
+        };        
+      })
+  });
+
+
+
+
 
   $('#modal_licencia_cargos_no_docentes2').on('shown.bs.modal', function (event) {      
       id_cargos_no_docentes = $(event.relatedTarget).attr('id_cargo_no_docentes');

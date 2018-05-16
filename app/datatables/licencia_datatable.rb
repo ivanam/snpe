@@ -86,14 +86,21 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         end,
         if record.vigente == "Vigente" 
           if record.altas_bajas_hora_id != nil  and record.vigente == "Vigente"
-          '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_horas="'+record.altas_bajas_hora_id.to_s+'" id_lic="'+record.id.to_s+'" data-target="#modal_licencia_horas2" title="Editar" ><span class=aria-hidden="true" >Cerrar y Agregar Otra Lic</span></a>'
-        elsif record.cargo_id != nil and record.vigente == "Vigente"
-          '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_cargos="'+record.cargo_id.to_s+'"  id_lic="'+record.id.to_s+'" data-target="#modal_licencia_cargos2" title="Editar" ><span class=aria-hidden="true" >Cerrar y Agregar Otra Lic</span></a>'
-        elsif record.cargo_no_docente_id != nil  and record.vigente == "Vigente"
-          '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_cargo_no_docentes="'+record.cargo_no_docente_id.to_s+' "id_lic="'+record.id.to_s+'" data-target="#modal_licencia_cargos_no_docentes2" title="Editar" ><span class=aria-hidden="true" >Cerrar y Agregar Otra Lic</span></a>'
+            '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_horas="'+record.altas_bajas_hora_id.to_s+'" id_lic="'+record.id.to_s+'" data-target="#modal_licencia_horas2" title="Editar" ><span class=aria-hidden="true" >Cerrar y Agregar Otra Lic</span></a>'
+          elsif record.cargo_id != nil and record.vigente == "Vigente"
+            '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_cargos="'+record.cargo_id.to_s+'"  id_lic="'+record.id.to_s+'" data-target="#modal_licencia_cargos2" title="Editar" ><span class=aria-hidden="true" >Cerrar y Agregar Otra Lic</span></a>'
+          elsif record.cargo_no_docente_id != nil  and record.vigente == "Vigente"
+            '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_cargo_no_docentes="'+record.cargo_no_docente_id.to_s+' "id_lic="'+record.id.to_s+'" data-target="#modal_licencia_cargos_no_docentes2" title="Editar" ><span class=aria-hidden="true" >Cerrar y Agregar Otra Lic</span></a>'
           end
         else
-        end,
+          if record.altas_bajas_hora_id != nil  and record.vigente == "Finalizada"
+            '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_horas="'+record.altas_bajas_hora_id.to_s+'" id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" data-target="#modal_licencia_horas2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
+          elsif record.cargo_id != nil and record.vigente == "Finalizada"
+            '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_cargos="'+record.cargo_id.to_s+'"  id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" data-target="#modal_licencia_cargos2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
+          elsif record.cargo_no_docente_id != nil  and record.vigente == "Finalizada"
+            '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="modal" id_cargo_no_docentes="'+record.cargo_no_docente_id.to_s+' "id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" data-target="#modal_licencia_cargos_no_docentes2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
+          end
+         end,
         '<a href="licencia/'+record.id.to_s+'"><span class="glyphicon glyphicon-search"></a></li>'
       ]
     end
