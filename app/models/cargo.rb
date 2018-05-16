@@ -29,7 +29,7 @@ class Cargo < ActiveRecord::Base
   CARGOS_ESPECIALES = ['112', 117, 312, 717, 718, 719, 517, 119, 712, 819, 711, 518, 519, 317, 512, 212, 812, 319, 817, 818, 612, 312, 617, 618, 619, 112, 117, 312, 212, 617, 619, 217, 219, 317, 318, 319, 118, 119, 817 ]
 
   def no_es_sede
-    return !(Establecimiento.estab_sedes.include? self.establecimiento.codigo_jurisdiccional)
+    return !(Establecimiento.estab_sedes.include? self.establecimiento.codigo_jurisdiccional).to_s
   end
 
   def controlar_turno
