@@ -14,7 +14,7 @@ module LicenciaHelper
   
 	def cargos_no_docente_persona_permitida(dni)
 		if current_user.role? :escuela then
-			cargo_nd_ids = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, :establecimiento_id => session[:establecimiento]).where("(estado = 'ALT' or estado = 'LIC')")
+			cargo_nd_ids = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}, :establecimiento_id => session[:establecimiento].to_i).where("(estado = 'ALT' or estado = 'LIC')")
     else
 			cargo_nd_ids = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC')")
     end
