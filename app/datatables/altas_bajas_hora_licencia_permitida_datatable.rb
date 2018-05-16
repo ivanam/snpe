@@ -15,7 +15,7 @@ class AltasBajasHoraLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         '<center><div class="btn-acciones"><a  target="_blank" href="'+Rails.application.routes.url_helpers.altas_bajas_hora_path(record.id)+'"><span class=aria-hidden="true" >'+record.secuencia.to_s+'</span></a>',
-        record.establecimiento.codigo_jurisdiccional + " -- " + record.establecimiento.nombre,    
+        record.establecimiento.codigo_jurisdiccional.to_s + " -- " + record.establecimiento.nombre,    
         record.plan.to_s,
         record.materium.to_s,        
         record.anio,
