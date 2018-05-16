@@ -335,30 +335,12 @@ def listado_licencias_todas_lic
     end
   end 
 
-  def guardar_licencia_horas2
-    prestador2 = params[:prestador_2]
-    @no_guarda = true
-    @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
-    @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones])
-    if @licencia_anterior.fecha_hasta == nil
-        if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
-          fecha = params[:fecha_inicio].to_date - 1
-          @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador2)
-        else
-          @no_guarda = false
-        end
-    elsif params[:fecha_inicio].to_date > @licencia_anterior.fecha_hasta.to_date
-         @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador2)
-    else
-      @no_guarda = false
-    end
-    if @no_guarda and @licencia.save
-        render json: 0
-      else
-        msg = "La fecha de inicio debe ser mayor a la fecha desde de la anterior licencia"
-        render json: msg.to_json
-      end
-    end
+   def guardar_licencia_obs
+     lic = Licencium.where(:id => params["id_lic"]).first
+     lic.observaciones = params["observaciones"]
+     horas.save
+     render json: 0
+   end
 
 
 
@@ -426,6 +408,9 @@ def listado_licencias_todas_lic
         render json: msg.to_json
       end
     end
+
+  def guardar_licencia_cargos2_obs
+  end
 
   
 
@@ -496,6 +481,10 @@ def listado_licencias_todas_lic
         render json: msg.to_json
       end
     end
+
+  def guardar_licencia_cargos_no_docentes2_obs
+    debugger
+  end
 
 
 
