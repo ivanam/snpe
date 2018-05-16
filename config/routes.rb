@@ -402,6 +402,7 @@ ProyectoBase::Application.routes.draw do
     post "licencia/guardar_licencia_cargos2/", to: "licencia#guardar_licencia_cargos2", as: :guardar_licencia_cargos2
 
     post "licencia/guardar_licencia_cargos_no_docentes2/", to: "licencia#guardar_licencia_cargos_no_docentes2", as: :guardar_licencia_cargos_no_docentes2
+    post "licencia/guardar_licencia_obs/", to: "licencia#guardar_licencia_obs", as: :guardar_licencia_obs
 
 
     post "licencia/guardar_licencia_final/:id_lic/:fecha_inicio/:fecha_fin(/:por_baja)", to: "licencia#guardar_licencia_final", as: :guardar_licencia_final

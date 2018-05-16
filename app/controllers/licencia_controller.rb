@@ -338,8 +338,12 @@ def listado_licencias_todas_lic
    def guardar_licencia_obs
      lic = Licencium.where(:id => params["id_lic"]).first
      lic.observaciones = params["observaciones"]
-     horas.save
-     render json: 0
+     if lic.save 
+        render json: 0
+     else 
+      msg = "error al guardar observaciones"
+      render json: msg.to_json
+     end
    end
 
 

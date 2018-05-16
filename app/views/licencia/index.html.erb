@@ -262,7 +262,7 @@
          
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-            <button type="button" id="btn_editar_com" class="btn btn-default" data-dismiss="modal">Guardar</button>
+            <button type="button" id="btn_editar_obs" class="btn btn-default" data-dismiss="modal">Guardar</button>
           </div>
         </div>
     </div>
@@ -286,7 +286,7 @@
        
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" id="btn_editar_com" class="btn btn-default" data-dismiss="modal">Guardar</button>
+          <button type="button" id="btn_editar_obs2" class="btn btn-default" data-dismiss="modal">Guardar</button>
         </div>
         </div>
     </div>
@@ -310,7 +310,7 @@
        
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-          <button type="button" id="btn_editar_com" class="btn btn-default" data-dismiss="modal">Guardar</button>
+          <button type="button" id="btn_editar_obs3" class="btn btn-default" data-dismiss="modal">Guardar</button>
         </div>
       </div>
     </div>
@@ -1276,7 +1276,7 @@
   });
 
   $('#modal_licencia_cargos2_obs').on('shown.bs.modal', function (event) {      
-      id_cargos = $(event.relatedTarget).attr('id_cargos');
+      id_lic = $(event.relatedTarget).attr('id_lic');
       $("#observaciones11").val($(event.relatedTarget).attr('observaciones'));
     });
 
@@ -1445,7 +1445,7 @@
 //----------------------------------------------- modal nueva licencia cargos nds --------------------------------
 
 $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (event) {      
-      id_cargos_no_docentes = $(event.relatedTarget).attr('id_cargo_no_docentes');
+      id_lic = $(event.relatedTarget).attr('id_lic');
       $("#observaciones10").val($(event.relatedTarget).attr('observaciones'));
     });
 
@@ -1637,7 +1637,7 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
   });
 
   $('#btn_editar_obs').on('click', function () {
-    observaciones = $("#observaciones").val();
+    observaciones = $("#observaciones12").val();
     $.ajax({
       url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
       type: 'POST',
@@ -1651,6 +1651,54 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
+      if (data != "") {
+        alert(data) ; 
+      };
     })
   });
+
+
+  $('#btn_editar_obs2').on('click', function () {
+    observaciones = $("#observaciones11").val();
+    $.ajax({
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
+      type: 'POST',
+      })
+    .done(function(data) {
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
+      tabla_horas_licencia.api().ajax.reload();
+      tabla_cargos_licencia.api().ajax.reload();
+      tabla_cargos_no_docentes_licencia.api().ajax.reload();
+      tabla_licencia.api().ajax.reload();
+      if (data != "") {
+        alert(data) ; 
+      };
+    })
+  });
+
+
+  $('#btn_editar_obs3').on('click', function () {
+    observaciones = $("#observaciones10").val();
+    $.ajax({
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
+      type: 'POST',
+      })
+    .done(function(data) {
+      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
+      tabla_horas_licencia.api().ajax.reload();
+      tabla_cargos_licencia.api().ajax.reload();
+      tabla_cargos_no_docentes_licencia.api().ajax.reload();
+      tabla_licencia.api().ajax.reload();
+      if (data != "") {
+        alert(data) ; 
+      };
+    })
+  });
+
 </script>
