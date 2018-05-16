@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180509151650) do
+ActiveRecord::Schema.define(version: 20180516130555) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -359,7 +359,7 @@ ActiveRecord::Schema.define(version: 20180509151650) do
   add_index "establecimiento_plans", ["plan_id"], name: "index_establecimiento_plans_on_plan_id", using: :btree
 
   create_table "establecimientos", force: true do |t|
-    t.string   "codigo_jurisdiccional"
+    t.integer  "codigo_jurisdiccional"
     t.integer  "cue"
     t.integer  "anexo"
     t.integer  "cue_anexo"
@@ -387,6 +387,7 @@ ActiveRecord::Schema.define(version: 20180509151650) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "lugar_pago"
+    t.boolean  "sede"
   end
 
   create_table "establecimientos_users", force: true do |t|
@@ -539,16 +540,16 @@ ActiveRecord::Schema.define(version: 20180509151650) do
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
 
   create_table "licenciasV", id: false, force: true do |t|
-    t.string "apeynom"
-    t.string "descripcion"
-    t.date   "fecha_desde"
-    t.date   "fecha_hasta"
-    t.string "vigente"
-    t.string "nombre_establecimi"
-    t.string "codigo"
-    t.string "cargos"
-    t.string "estados cargnodoc"
-    t.string "Estado AltBaHor"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "nombre_establecimi"
+    t.string  "codigo"
+    t.string  "cargos"
+    t.string  "estados cargnodoc"
+    t.string  "Estado AltBaHor"
   end
 
   create_table "licenciasvs", id: false, force: true do |t|
@@ -558,7 +559,7 @@ ActiveRecord::Schema.define(version: 20180509151650) do
     t.date    "fecha_desde"
     t.date    "fecha_hasta"
     t.string  "vigente"
-    t.string  "codigo_jurisdiccional"
+    t.integer "codigo_jurisdiccional"
     t.integer "id",                    default: 0
     t.string  "codigo"
   end
