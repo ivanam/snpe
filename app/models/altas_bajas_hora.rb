@@ -57,7 +57,8 @@ class AltasBajasHora < ActiveRecord::Base
       else
         f_h = lic.fecha_hasta
       end
-      total = total + (f_h - lic.fecha_desde).to_i
+
+      total = total + (f_h - lic.fecha_desde).to_i + 1
     end
     return total
   end
