@@ -15,6 +15,8 @@ class Licencium < ActiveRecord::Base
   validate :superposicion_fechas
 
   validate :fecha_hasta_mayor_fecha_desde
+
+  validate :validaAnioLic
  
   ESTABLECIMIENTOS = [4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,3000,3031,4002,4006]
 
@@ -89,6 +91,13 @@ class Licencium < ActiveRecord::Base
  	end
  end
 
+ def validaAnioLic
+ 	debugger
+ 	if (self.articulo_id == 289 && self.anio_lic == nil)
+ 		errors.add(:base, "La fecha del año a la que corresponde la licencia no puede estar vacia")
+    end
+ end 
+
  def establecimiento
  	if self.altas_bajas_hora_id != nil
  		return self.altas_bajas_hora.establecimiento.codigo_jurisdiccional.to_s
@@ -104,7 +113,6 @@ class Licencium < ActiveRecord::Base
  	def superposicion_fechas
  		if self.fecha_hasta != nil
 	 		Licencium.where(cargo_id: self.cargo_id, altas_bajas_hora_id: self.altas_bajas_hora_id, cargo_no_docente_id: cargo_no_docente_id).where.not(id: self.id).where.not(vigente: "Cancelada").each do |l|
-	 			
 	 			if (l.fecha_desde == self.fecha_desde) || (l.fecha_hasta == self.fecha_desde)
 	 				return errors.add(:fecha_hasta, "La licencia se superpone")
 	 			elsif (l.fecha_desde == self.fecha_hasta) || (l.fecha_hasta == self.fecha_hasta)
