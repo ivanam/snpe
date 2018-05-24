@@ -32,7 +32,7 @@ class LicenciaController < ApplicationController
   end
 
   def create
-    debugger
+
     @licencium = Licencium.new(licencium_params)
     @licencium.save
     respond_with(@licencium)
@@ -420,7 +420,7 @@ def listado_licencias_todas_lic
   
 
   def guardar_licencia_cargos_no_docentes
-    debugger
+
     turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
     cargonds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
@@ -435,7 +435,7 @@ def listado_licencias_todas_lic
       if params[:articulo] == "378" and params[:destino].to_i > 0
         destino = params[:destino]
       end
-      debugger
+ 
       @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], destino: destino, observaciones: params[:observaciones])
       if @licencia.save && CargoNoDocente.create!(establecimiento_id: params[:destino], persona_id: cargonds.persona_id, cargo: cargonds.cargo, secuencia: 1000, fecha_alta: cargonds.fecha_alta, fecha_baja: cargonds.fecha_baja, situacion_revista: cargonds.situacion_revista, turno: cargonds.turno,   estado: 'REU' , observaciones: descripcion_articulo)
         render json: 0
@@ -451,7 +451,7 @@ def listado_licencias_todas_lic
         render json: "no se puede realizar el traslado".to_json
       end
     else
-      debugger
+     
       @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones])
       if @licencia.save
         render json: 0
