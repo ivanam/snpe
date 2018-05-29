@@ -420,7 +420,6 @@ def listado_licencias_todas_lic
   
 
   def guardar_licencia_cargos_no_docentes
-
     turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
     cargonds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
