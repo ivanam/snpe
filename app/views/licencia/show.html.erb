@@ -29,6 +29,21 @@
   <dt>Observaciones:</dt>
   <dd><%= @licencium.observaciones %></dd>
 
+  <dt>Observaciones:</dt>
+  <dd><%= @licencium.observaciones %></dd>
+
+  <dt>Apellido y Nombre:</dt>
+      <% if @licencium.altas_bajas_hora_id != nil %>
+        <% @persona = AltasBajasHora.where(:id => @licencium.altas_bajas_hora_id.to_i).first.persona%>
+      <% elsif @licencium.cargo_id != nil%>
+        <% @persona  = Cargo.where(:id => @licencium.cargo_id.to_i).first.persona%>
+      <%else%>
+        <% @persona  = CargoNoDocente.where(:id => @licencium.cargo_no_docente_id.to_i).first.persona%>
+      <%end%>
+   <dd><%= @persona.apeynom %></dd>
+   <dt>Numero de Documento:</dt>
+   <dd><%= @persona.nro_documento %></dd>
+
   <br/><br/>
   <%= link_to licencia_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
