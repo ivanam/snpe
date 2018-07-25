@@ -29,9 +29,6 @@
   <dt>Observaciones:</dt>
   <dd><%= @licencium.observaciones %></dd>
 
-  <dt>Observaciones:</dt>
-  <dd><%= @licencium.observaciones %></dd>
-
   <dt>Apellido y Nombre:</dt>
       <% if @licencium.altas_bajas_hora_id != nil %>
         <% @persona = AltasBajasHora.where(:id => @licencium.altas_bajas_hora_id.to_i).first.persona%>
