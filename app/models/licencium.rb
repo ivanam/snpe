@@ -12,7 +12,7 @@ class Licencium < ActiveRecord::Base
   before_update :cancelar_licencia
 
   #validate :fecha_inicio_valida
-  validate :superposicion_fechas
+  #validate :superposicion_fechas
 
   validate :fecha_hasta_mayor_fecha_desde
 
@@ -110,22 +110,22 @@ class Licencium < ActiveRecord::Base
 
  private
 
- 	def superposicion_fechas
- 		if self.fecha_hasta != nil
-	 		Licencium.where(cargo_id: self.cargo_id, altas_bajas_hora_id: self.altas_bajas_hora_id, cargo_no_docente_id: cargo_no_docente_id).where.not(id: self.id).where.not(vigente: "Cancelada").each do |l|
-	 			if (l.fecha_desde == self.fecha_desde) || (l.fecha_hasta == self.fecha_desde)
-	 				return errors.add(:fecha_hasta, "La licencia se superpone")
-	 			elsif (l.fecha_desde == self.fecha_hasta) || (l.fecha_hasta == self.fecha_hasta)
-	 				return errors.add(:fecha_hasta, "La licencia se superpone")
-	 			elsif (l.fecha_desde < self.fecha_desde) && (self.fecha_desde < l.fecha_hasta)
-	 				return errors.add(:fecha_hasta, "La licencia se superpone")
-	 			elsif (l.fecha_desde < self.fecha_hasta) && (self.fecha_hasta < l.fecha_hasta)
-	 				return errors.add(:fecha_hasta, "La licencia se superpone")
-	 			end
-	 		end
-	 	end
+ 	# def superposicion_fechas
+ 	# 	if self.fecha_hasta != nil
+	 # 		Licencium.where(cargo_id: self.cargo_id, altas_bajas_hora_id: self.altas_bajas_hora_id, cargo_no_docente_id: cargo_no_docente_id).where.not(id: self.id).where.not(vigente: "Cancelada").each do |l|
+	 # 			if (l.fecha_desde == self.fecha_desde) || (l.fecha_hasta == self.fecha_desde)
+	 # 				return errors.add(:fecha_hasta, "La licencia se superpone")
+	 # 			elsif (l.fecha_desde == self.fecha_hasta) || (l.fecha_hasta == self.fecha_hasta)
+	 # 				return errors.add(:fecha_hasta, "La licencia se superpone")
+	 # 			elsif (l.fecha_desde < self.fecha_desde) && (self.fecha_desde < l.fecha_hasta)
+	 # 				return errors.add(:fecha_hasta, "La licencia se superpone")
+	 # 			elsif (l.fecha_desde < self.fecha_hasta) && (self.fecha_hasta < l.fecha_hasta)
+	 # 				return errors.add(:fecha_hasta, "La licencia se superpone")
+	 # 			end
+	 # 		end
+	 # 	end
  		
- 	end
+ 	# end
 
  		def fecha_inicio_valida
  			fecha_alta = nil
