@@ -5,7 +5,7 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 		@listaAux = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [603]
 		else
@@ -24,7 +24,7 @@ class MigracionController < ApplicationController
 	 		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 		    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
-		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 4 and anio = 2018  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
+		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 6 and anio = 2018  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
 		end
 		    # res=client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and (secuencia=73 or secuencia= 74 or secuencia= 72 or secuencia= 75 or secuencia=76) union 
 						# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=79 union
@@ -296,7 +296,7 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas =  [3004]
 		else
