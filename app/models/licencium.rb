@@ -223,6 +223,7 @@ class Licencium < ActiveRecord::Base
 
 
 	 		elsif self.cargo_no_docente_id != nil
+	 			
 	 			if self.por_continua != nil 
 
 	 			elsif self.por_continua == nil 
