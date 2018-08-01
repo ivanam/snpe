@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180727132825) do
+ActiveRecord::Schema.define(version: 20180801130318) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -478,6 +478,7 @@ ActiveRecord::Schema.define(version: 20180727132825) do
     t.date     "fecha_creacion"
     t.integer  "user_id"
     t.integer  "nro_documento",           limit: 8
+    t.integer  "oficina"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
