@@ -476,6 +476,7 @@ ActiveRecord::Schema.define(version: 20180727132825) do
     t.integer  "user_cheq_cargada_id"
     t.integer  "user_cheq_finalizada_id"
     t.date     "fecha_creacion"
+    t.integer  "user_id"
     t.integer  "nro_documento",           limit: 8
   end
 
