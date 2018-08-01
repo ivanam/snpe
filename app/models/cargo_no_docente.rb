@@ -27,7 +27,6 @@ class CargoNoDocente < ActiveRecord::Base
    if self.estado == 'ALT'
      cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).where.not(estado: 'BAJ').where.not(estado: 'LIC').where.not(estado: 'LIC P/BAJ').where.not(id: self.id).first
      if cargo_existe != nil
-      debugger
        errors.add(:base, "Esta persona ya posee un cargo auxiliar")
      end
    end  
