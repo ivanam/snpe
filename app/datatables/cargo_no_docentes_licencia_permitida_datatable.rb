@@ -15,6 +15,7 @@ class CargoNoDocentesLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.secuencia,
+        record.turno.to_s,
         record.establecimiento.codigo_jurisdiccional,
         record.establecimiento.nombre,
         record.observaciones,
