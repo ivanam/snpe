@@ -497,7 +497,6 @@ def listado_licencias_todas_lic
         render json: "no se puede realizar el traslado".to_json
       end
     else
-     debugger
       @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
       if @licencia.save
         render json: 0
