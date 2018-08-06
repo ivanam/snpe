@@ -92,8 +92,7 @@ class Licencium < ActiveRecord::Base
  end
 
  def validaAnioLic
- 
- 	if (self.articulo_id == 289 && self.anio_lic == nil)
+ 	if ((self.articulo_id == 289 or self.articulo_id == 241) && (self.anio_lic == nil))
  		errors.add(:base, "La fecha del año a la que corresponde la licencia no puede estar vacia")
     end
  end 

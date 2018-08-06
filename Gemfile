@@ -16,7 +16,6 @@ gem 'railties'
 
 gem 'debugger'
 
-
 gem 'mysql2', '~>0.3.17'
 
 gem 'devise'
