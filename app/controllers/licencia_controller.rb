@@ -545,6 +545,7 @@ def listado_licencias_todas_lic
 
 
   def guardar_licencia_final
+    debugger
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"
     prestador = params[:prestador]
