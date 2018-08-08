@@ -18,7 +18,7 @@ class Licencium < ActiveRecord::Base
 
   validate :validaAnioLic
  
-  ESTABLECIMIENTOS = [4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,3000,3031,4002,4006]
+  ESTABLECIMIENTOS = [4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,3000,3031,4002,4006,9000]
 
   def self.corregir_licencia_hora_con_goce
   	con_goce = Articulo.where(con_goce: true).map(&:id)
