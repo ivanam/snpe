@@ -72,6 +72,11 @@ class Ability
           can :manage, [Materium]
         end
 
+         if user.role? :junta
+          can :manage, [Inscripcion]
+          can :manage, [Titulo]
+        end
+
         if user.role? :incompatibilidad
           can :manage, [PlanillaIncompatibilidad]
         end

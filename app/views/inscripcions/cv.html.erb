@@ -77,7 +77,9 @@
        <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
        <% @titulo_persona = r.titulo_id  %>
        <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <%if t.alcance != nil%>
        <% @alcance =  t.alcance + @alcance %>
+       <% end %>
        <% end %>
        <% end %>
        <dd><%= @alcance %></dd>
@@ -181,7 +183,7 @@
       <dt>Cargos:</dt> </div>  
        <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
        <% @cargo_id = ca.cargo_id  %>  
-       <% PrimariaCargo.where(:id => @cargo_id).each do |fu| %>
+       <% Funcion.where(:id => @cargo_id).each do |fu| %>
        <% @cargo_descripcion = fu.descripcion  %>
        <dd><%= @cargo_descripcion %></dd>
        <% end %>
