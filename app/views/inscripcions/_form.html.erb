@@ -90,7 +90,7 @@
             </tr>    
             <tr>
                 <td WIDTH=6000 ALIGN=LEFT ><%= f.label :Presta_Servicios_en_el_ámbito%></td>
-                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :id, :nombre, {:prompt => 'Seleccione el Ambito -Nacional-Provincial-etc'}, :style=>"width:100%")%>
+                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :nombre, :nombre, {:prompt => 'Seleccione el Ambito -Nacional-Provincial-etc'}, :style=>"width:100%")%>
             </tr>
             
              <tr>
