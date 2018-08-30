@@ -77,7 +77,9 @@
        <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
        <% @titulo_persona = r.titulo_id  %>
        <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <%if t.alcance != nil%>
        <% @alcance =  t.alcance + @alcance %>
+       <% end %>
        <% end %>
        <% end %>
        <dd><%= @alcance %></dd>
@@ -181,7 +183,7 @@
       <dt>Cargos:</dt> </div>  
        <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
        <% @cargo_id = ca.cargo_id  %>  
-       <% PrimariaCargo.where(:id => @cargo_id).each do |fu| %>
+       <% Funcion.where(:id => @cargo_id).each do |fu| %>
        <% @cargo_descripcion = fu.descripcion  %>
        <dd><%= @cargo_descripcion %></dd>
        <% end %>
@@ -200,7 +202,7 @@
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
     <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
-    <dd><%= s.serv_activo %></dd>
+    <dd><%= s.serv_activo.to_s %></dd>
     </div>
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
@@ -220,7 +222,7 @@
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
   <% end %>&nbsp;
-  <%= link_to new_inscripcions_path(:persona_id => @persona.id), :class => 'btn btn-primary' do %>
+  <%= link_to new_inscripcion_path(:persona_id => @persona.id), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
    Solicitar nuevo cargo
   <% end %>
