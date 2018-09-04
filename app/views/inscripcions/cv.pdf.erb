@@ -98,28 +98,41 @@
    <div>
    <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap" >Mis Inscripciones</font></center></p> </legend>
    </div>
-  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
-    <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
+  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+   <dt>Cargos:</dt> </div> 
+       <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
+       <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
+       <% @cargo_id = ca.cargo_id  %>  
+       <% Funcion.where(:id => @cargo_id).each do |fu| %>
+       <% @cargo_descripcion = fu.descripcion  %>
+       <dd><%= @cargo_descripcion %></dd>
+       <% end %>
+       <% end %>
+       <% end %>
+      </div>    
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left"> 
+    <% Inscripcion.where(persona_id: @persona.id).each do |se| %>
     <div class="row">
       <div class="col-md-7 col-xs-3" align="left">
        <dt>Fecha de Inscripcion:</dt>
-       <dd><%= s.fecha_incripcion %></dd>
+       <dd><%= se.fecha_incripcion %></dd>
       </div> 
       <div class="col-md-7 col-xs-3" align="left">
         <dt>Escuela y/o dependencia donde es TITULAR:</dt>
-        <dd><%= s.escuela_titular %></dd>
+        <dd><%= se.escuela_titular %></dd>
       </div>
       <div class="col-md-7 col-xs-3" align="left">
         <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt>
-        <dd><%= s.serv_activo %></dd>
+        <dd><%= se.serv_activo %></dd>
       </div>
       <div class="col-md-7 col-xs-3" align="left">
         <dt>Lugar:</dt>
-        <dd><%= s.lugar_serv_act %></dd>
+        <dd><%= se.lugar_serv_act %></dd>
       </div>
       <div class="col-md-7 col-xs-3" align="left">
        <dt>Cabecera:</dt>
-       <dd><%= s.cabecera %></dd>
+       <dd><%= se.cabecera %></dd>
       </div> 
     </div>
     <hr style="height:1px;border-width:0;color:red;background-color:red"/>
