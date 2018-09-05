@@ -108,7 +108,7 @@
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
   <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mi Rubros Totales </font></center></p></legend>
   <% @total = 0 %>
-  <% Rubro.where(persona_id: @persona.nro_documento).each do |ru| %>
+  <% Rubro.where(persona_id: @persona.id).each do |ru| %>
     <div class="row">
     <div class="col-md-2 col-xs-4">
       <dt>Cargo:</dt>
