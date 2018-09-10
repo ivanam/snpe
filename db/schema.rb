@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180830121516) do
+ActiveRecord::Schema.define(version: 20180907120351) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20180830121516) do
     t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "opcion"
   end
 
   add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
@@ -307,39 +308,6 @@ ActiveRecord::Schema.define(version: 20180830121516) do
     t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "escuela4", id: false, force: true do |t|
-    t.integer "escuela",                  default: 0,  null: false
-    t.integer "prog",                     default: 0,  null: false
-    t.integer "ley_r",                    default: 0,  null: false
-    t.integer "agrup_r",                  default: 0,  null: false
-    t.integer "cargo_r",                  default: 0,  null: false
-    t.integer "categ_r",                  default: 0,  null: false
-    t.integer "ley_s",                    default: 0,  null: false
-    t.integer "agrup_s",                  default: 0,  null: false
-    t.integer "cargo_s",                  default: 0,  null: false
-    t.integer "categ_s",                  default: 0,  null: false
-    t.date    "fecha_ing",                             null: false
-    t.date    "fecha_alta",                            null: false
-    t.date    "fecha_baja",                            null: false
-    t.integer "planta_pre",               default: 0,  null: false
-    t.integer "tipo_emp",                 default: 0,  null: false
-    t.integer "horas_cate",               default: 0,  null: false
-    t.integer "tipo_docu",                default: 0,  null: false
-    t.integer "nume_docu",                default: 0,  null: false
-    t.integer "secuencia",                default: 0,  null: false
-    t.string  "apeynom",       limit: 30, default: "", null: false
-    t.integer "materia",                  default: 0,  null: false
-    t.integer "curso",                    default: 0,  null: false
-    t.integer "division",                 default: 0,  null: false
-    t.string  "turno",         limit: 3,  default: "", null: false
-    t.string  "estado",        limit: 3,  default: "", null: false
-    t.string  "empresa",       limit: 6,  default: "", null: false
-    t.integer "aa_antig",                 default: 0,  null: false
-    t.integer "mm_antig",                 default: 0,  null: false
-    t.integer "dd_antig",                 default: 0,  null: false
-    t.string  "observaciones", limit: 50, default: "", null: false
   end
 
   create_table "especialidads", force: true do |t|
@@ -476,6 +444,7 @@ ActiveRecord::Schema.define(version: 20180830121516) do
     t.datetime "updated_at"
     t.integer  "cabecera"
     t.integer  "user_id"
+    t.integer  "region_id"
   end
 
   add_index "inscripcions", ["establecimiento_id"], name: "index_inscripcions_on_establecimiento_id", using: :btree
@@ -483,29 +452,6 @@ ActiveRecord::Schema.define(version: 20180830121516) do
   add_index "inscripcions", ["nivel_id"], name: "index_inscripcions_on_nivel_id", using: :btree
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
   add_index "inscripcions", ["rubro_id"], name: "index_inscripcions_on_rubro_id", using: :btree
-
-  create_table "inscriptos_2017_marzo", id: false, force: true do |t|
-    t.integer "nombre",                               limit: 1, null: false
-    t.integer "apellidos",                            limit: 1, null: false
-    t.integer "tipo documento",                       limit: 1, null: false
-    t.integer "nro_documento",                        limit: 1, null: false
-    t.integer "fecha reempadronamiento",              limit: 1, null: false
-    t.integer "rol",                                  limit: 1, null: false
-    t.integer "localidad",                            limit: 1, null: false
-    t.integer "establecimiento",                      limit: 1, null: false
-    t.integer "cant_urbanos",                         limit: 1, null: false
-    t.integer "empresa transporte urbano",            limit: 1, null: false
-    t.integer "cant_urbanos2",                        limit: 1, null: false
-    t.integer "empresa transporte urbano 2",          limit: 1, null: false
-    t.integer "cant_interubanos",                     limit: 1, null: false
-    t.integer "empresa transporte interurbano",       limit: 1, null: false
-    t.integer "cant_interubanos2",                    limit: 1, null: false
-    t.integer "empresa transporte interurbano 2",     limit: 1, null: false
-    t.integer "cant_media_distancia",                 limit: 1, null: false
-    t.integer "empresa transporte media distancia",   limit: 1, null: false
-    t.integer "cant_media_distancia2",                limit: 1, null: false
-    t.integer "empresa transporte media distancia 2", limit: 1, null: false
-  end
 
   create_table "licencia", force: true do |t|
     t.integer  "altas_bajas_hora_id"
