@@ -1,5 +1,6 @@
 class RubrosController < InheritedResources::Base
-  
+  #before_action :rubro, only: [:show, :edit, :update, :destroy]
+
   def index
   	respond_to do |format|
       format.html
@@ -7,10 +8,17 @@ class RubrosController < InheritedResources::Base
     end
   end
 
+
+  
+  def new
+    @rubro = Rubro.new
+    respond_with(@articulo)
+  end
+   
  def edit
     @rubro = Rubro.find(params[:id])
-    @rubro.total =  @rubro.rubro_titulo.to_f + @rubro.rubro_concepto.to_f + @rubro.rubro_asis_perf.to_f + @rubro.rubro_ser_prest.to_f +  @rubro.promedio.to_f + @rubro.rubro_residencia.to_f + @rubro.rubro_gestion.to_f + @rubro.rubro_cursos.to_f + @rubro.ant_doc.to_f
-    @rubro.save
+    #@rubro.total =  @rubro.rubro_titulo.to_f + @rubro.rubro_concepto.to_f + @rubro.rubro_asis_perf.to_f + @rubro.rubro_ser_prest.to_f +  @rubro.promedio.to_f + @rubro.rubro_residencia.to_f + @rubro.rubro_gestion.to_f + @rubro.rubro_cursos.to_f + @rubro.ant_doc.to_f
+    #@rubro.save
   end 
 
   def create
