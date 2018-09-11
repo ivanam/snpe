@@ -393,10 +393,10 @@ def listado_licencias_todas_lic
     @oficina = Establecimiento.where(id: cargo.establecimiento_id).first
     nro_oficina = @oficina.codigo_jurisdiccional
     if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359") and secuencia != 1000)
-      destino = cargo.id
+      destino = @oficina.id
       if params[:articulo] == "359" and params[:destino].to_i > 0
         destino = params[:destino]
-      end  
+      end 
       @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], destino: destino, observaciones: params[:observaciones],nro_documento: nro_documento, oficina: nro_oficina)
       if @licencia.save && Cargo.create!(establecimiento_id: destino, persona_id: cargo.persona_id, cargo: cargo.cargo, grupo_id: 100 , secuencia: 1000, fecha_alta: cargo.fecha_alta, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista,  anio:0, division: 0, turno: cargo.turno,   estado: 'REU' , observaciones: descripcion_articulo)
         render json: 0
