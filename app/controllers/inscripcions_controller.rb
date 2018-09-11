@@ -25,7 +25,6 @@ class InscripcionsController < InheritedResources::Base
  end   
 
   def edit
-    debugger
     @inscripcion = Inscripcion.find(params[:id])
     @titulo = @inscripcion.persona.titulo
   end
