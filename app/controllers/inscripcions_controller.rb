@@ -25,12 +25,12 @@ class InscripcionsController < InheritedResources::Base
  end   
 
   def edit
-    debugger
     @inscripcion = Inscripcion.find(params[:id])
     @titulo = @inscripcion.persona.titulo
   end
 
   def create
+    debugger
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save  
     respond_to do |format|
@@ -86,7 +86,7 @@ class InscripcionsController < InheritedResources::Base
   private
 
     def inscripcion_params
-      params.require(:inscripcion).permit(:pesona_id, :establecimiento_id, :funcion_id, :nivel_id, :escuela_titular, :serv_activo, :lugar_serv_act, :documentacion, :rubro_id, :fecha_incripcion, :rubro_id, :persona_id, :establecimiento_id, :funcion_id, :nivel_id, :cabecera, titulo_persona_attributes: [:id, :titulo_id, :persona_id, :_destroy], cargo_inscrip_doc_attributes: [:id, :inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id, :_destroy])
+      params.require(:inscripcion).permit(:pesona_id, :establecimiento_id, :funcion_id, :nivel_id, :escuela_titular, :serv_activo, :lugar_serv_act, :documentacion, :rubro_id, :fecha_incripcion, :rubro_id, :persona_id, :establecimiento_id, :funcion_id, :nivel_id, :cabecera, titulo_persona_attributes: [:id, :titulo_id, :persona_id, :_destroy], cargo_inscrip_doc_attributes: [:id, :inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id, :_destroy, :opcion])
     end
 end
 

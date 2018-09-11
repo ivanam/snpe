@@ -24,12 +24,30 @@
 
 <script type="text/javascript">
      $(document).ready(function($) {
-      // $("#btn-busqueda-persona").click(function(event) {
-      //   var busqueda_persona = $("#busqueda_persona option:selected").val();
-      //   open('/soft/teg/personas/'+busqueda_persona,"_self");
-      // });
+      //$( "#buscar" ).bind("propertychange click input paste",function()
       $( "#buscar" ).bind("propertychange click input paste",function(){ 
-      //$("#input_buscar_persona" ).change(function() {
+      //$("#buscar" ).change(function() {
+        var dni = parseInt($("#input_buscar_persona").val(),10);
+        $.ajax({
+          url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            open('/soft/snpe/inscripcions/cv/'+data.id);
+          }
+          else{
+            alert("La persona no existe");
+            $('#input_buscar_persona').text("");
+          }
+        })
+      });
+
+    });
+     $(document).keypress(function($) {
+      //$( "#buscar" ).bind("propertychange click input paste",function()
+      $( "#buscar" ).keypress("propertychange click input paste",function(){ 
+      //$("#buscar" ).change(function() {
         var dni = parseInt($("#input_buscar_persona").val(),10);
         $.ajax({
           url: '/soft/snpe/inscripcions/buscar_persona/'+dni,

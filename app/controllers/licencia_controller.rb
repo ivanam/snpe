@@ -550,7 +550,6 @@ def listado_licencias_todas_lic
     prestador = params[:prestador]
     observaciones = params[:observaciones]
     if !@licencia.update!(fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador, observaciones: observaciones)
-      debugger
       msg = @licencia.errors.full_messages.first
       msg = "No se puede finalizar la licencia. Posee suplente. O no corresponde la situación de revista"
     end
