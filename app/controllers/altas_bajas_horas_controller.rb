@@ -571,7 +571,6 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def chequear
-    debugger
     @altas_bajas_hora.update(updated_at: Date.today)
     @estado = Estado.where(descripcion: "Chequeado").first
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
