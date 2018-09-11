@@ -44,7 +44,9 @@ ProyectoBase::Application.routes.draw do
 
     get "titulos/new", to: "titulos#new", as: :new_titulos 
 
-    get "/titulo_personas/index", to: 'titulo_personas#index'   
+    get "/titulo_personas/index", to: 'titulo_personas#index'
+
+    get "/titulo_personas/index", to: 'titulo_personas#index'
 
     resources :especialidads
 
