@@ -18,6 +18,24 @@
  <center>
   <h1><font align="center" face="arial" size="6" color="#1b85c3"> Nueva Inscripción Docente</font> </h1>
   </center>
+  </br>
+   <% Rubro.where(persona_id: @persona.id).each do |ru| %>
+   <div class="row">
+      <div class="col-md-5 col-xs-2">
+       <dt>Region en la cual esta realizando la inscripción (desea editarla?):</dt>
+      </div>
+      <div class="col-md-2 col-xs-6">
+        <dt><%= ru.region %></dt>
+        <% ru.id %>
+         </div>
+        <div class="col-md-3 col-xs-6"> 
+        <%= link_to edit_rubro_path(@persona.id), :class => 'btn btn-primary' do %>
+         <span class="glyphicon glyphicon-pencil"></span>
+         Editar
+         <% end %>
+        </div>  
+    </div>
+  <% end %>
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
    <font align="center" face="arial" size="5" color="#1b85c3"> Cargos que solicita</font> 
 </div>
@@ -28,7 +46,7 @@
        <div class="form-group" title="Ingrese titulo">
           <%= f.label :titulo_id, "Nombre Titulo", :class => "col-sm-4 control-label" %>
           <div class="col-sm-4">
-          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {:prompt => true}, :style=>"width:100%") %>         
+          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {:prompt => true}, :style=>"width:100%") %> 
           </div>
             <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
           <div class="col-sm-4">
@@ -53,17 +71,21 @@
       <%= f.fields_for :cargo_inscrip_doc do |ca|%>
       <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
           <div class="form-group">
-                 <%= label_tag "Elija la opción para el cargo(nivel de prioridad)", nil,  :class => "col-sm-4 control-label" %>
-                 <div class="col-sm-06">
-                 <%= select_tag :opcion, options_for_select([['1', 1],['2', 2], ['3', 3]], 0,), {:prompt => "Seleccione opción"} %>
-                 </div>
+            <%= label_tag "Elija la opción para el cargo(nivel de prioridad)", nil,  :class => "col-sm-4 control-label" %>
+            <div class="col-sm-06">
+              <%= ca.number_field :opcion, :class => "form-control", :id => "opcion", :style=>"width:10%" %>
+            </div>
           </div>
-          <div class="form-group">
+         <div class="form-group">
             <%= f.label :cargo_id, "Nombre Cargo", :class => "col-sm-4 control-label" %>
             <div class="col-sm-06">
             <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {:prompt => true}, :style=>"width:30%") %>
-             </div>     
+            </div>     
           </div>
+         <div class="form-group">      
+            <div class="text-right">
+            <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_cargo" %>  
+            </div>
          </div>
            <div class="form-group">
             <%= f.label :inscripcion_id, :class => "col-sm-2 control-label hidden" %>
@@ -89,13 +111,8 @@
             <%= ca.text_field :nivel_id, :class => "form-control hidden" %>
             </div>
          </div>
-         <div class="form-group">      
-            <div class="text-right">
-            <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_funcion" %>  
-            </div>
-         </div>
        <% end %>
-           <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
+      <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
   
     <div form-group>
        <div class="col-sm-offset-2 col-sm-6">
@@ -108,12 +125,8 @@
   <br/><br/> 
   <div class="row">
     <div class="col-md-3 col-xs-3">
-      <dt>Nombres:</dt>
-      <dd><%= @persona.nombres %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Apellidos:</dt>
-      <dd><%= @persona.apellidos %></dd>
+      <dt>Nombres y apellido:</dt>
+      <dd><%= @persona.apeynom %></dd>
     </div>
     <div class="col-md-3 col-xs-3">
       <dt>Tipo documento:</dt>
@@ -197,18 +210,18 @@
        <%= f.date_select :fecha_incripcion, :class => "form-control" %>
        </div>
      </div>
-       <div class="form-group">
+    <div class="form-group">
        <%= f.label :cabecera, :class => "col-sm-4 control-label" %>
        <div class="col-sm-6">
        <%= f.text_field :cabecera, :class => "form-control" %>
        </div>
      </div>
-     <div class="form-group">
+<!--      <div class="form-group">
        <%= f.label :Documentación_Presentada_Fojas_Nros, :class => "col-sm-4 control-label" %>
        <div class="col-sm-6">
        <%= f.text_field :documentacion, :class => "form-control" %>
        </div>
-     </div>
+     </div> -->
     <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>

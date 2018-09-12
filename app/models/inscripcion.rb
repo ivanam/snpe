@@ -13,7 +13,7 @@ class Inscripcion < ActiveRecord::Base
   accepts_nested_attributes_for :titulo_persona, allow_destroy: true
 
   has_many :cargo_inscrip_doc, :foreign_key => 'inscripcion_id', :class_name => 'CargoInscripDoc'
-  has_many :funcion, :through => :cargo_inscrip_doc 
+  has_many :cargo, :through => :cargo_inscrip_doc 
   accepts_nested_attributes_for :cargo_inscrip_doc, allow_destroy: true
 
 end
