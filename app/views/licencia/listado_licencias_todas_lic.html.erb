@@ -213,15 +213,25 @@
             .done(function(data) {
               window.data2 = data[0].toString();
             });
-              console.log(window.data2);
-              if (window.data2 != "undefined"){
-              tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val());
-              tabla_licencia.api().ajax.reload();
+              if ($('#daterange').val() != ""){
+                if ($('#dni').val() != "" ){
+                  if ($('#select_articulo_horas').val() != "" ){
+                    tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val());
+                    tabla_licencia.api().ajax.reload();
+                  }else{
+                    tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val());
+                    tabla_licencia.api().ajax.reload();
+                  }
+
+                }else{
+                    tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2);
+                    tabla_licencia.api().ajax.reload();
+                }
+                
               }else{
-              tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic');
-              tabla_licencia.api().ajax.reload();
 
-
+                tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?');
+                tabla_licencia.api().ajax.reload();
               }
 
 
