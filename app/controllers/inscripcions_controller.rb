@@ -30,7 +30,6 @@ class InscripcionsController < InheritedResources::Base
   end
 
   def create
-    debugger
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save  
     respond_to do |format|
