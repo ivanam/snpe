@@ -30,7 +30,7 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   #-------------------------------------
-
+  MATERIAS_SIN_VALIDACION = [1994] #codigo materia 5881
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
@@ -96,10 +96,12 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def validar_horas
-    if Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil
+    if !MATERIAS_SIN_VALIDACION.include? self.materium_id 
+      if Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil
 
-      errors.add(:base,"error en la carga horaria, no corresponde")
-      return false   
+        errors.add(:base,"error en la carga horaria, no corresponde")
+        return false   
+      end
     end
   end
 

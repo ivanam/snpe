@@ -676,8 +676,9 @@ def listado_licencias_todas_lic
     elsif @tipo_cargo == "cargos no docente"
       licencias = licencias.where.not(cargo_no_docente_id: nil)
     end
-    @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f +"'")
-    @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f +"'")
+    
+    @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f + "'and user_cheq_cargada_id ='" + current_user.id.to_s + "'")
+    @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f + "'and user_cheq_finalizada_id ='" + current_user.id.to_s + "'" )
     respond_to do |format|
     format.pdf do
       render :pdf => 'sin_goce', 
