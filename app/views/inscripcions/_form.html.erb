@@ -19,55 +19,19 @@
   <h1><font align="center" face="arial" size="6" color="#1b85c3"> Nueva Inscripción Docente</font> </h1>
   </center>
   </br>
-   <% Rubro.where(persona_id: @persona.id).each do |ru| %>
+   <% Rubro.where(persona_id: @persona.id).first %>
    <div class="row">
-      <div class="col-md-5 col-xs-2">
-       <dt>Region en la cual esta realizando la inscripción (desea editarla?):</dt>
-      </div>
-      <div class="col-md-2 col-xs-6">
-        <dt><%= ru.region %></dt>
-        <% ru.id %>
-         </div>
-        <div class="col-md-3 col-xs-6"> 
-        <%= link_to edit_rubro_path(@persona.id), :class => 'btn btn-primary' do %>
-         <span class="glyphicon glyphicon-pencil"></span>
-         Editar
-         <% end %>
-        </div>  
+       <div class="form-group">
+       <%= label_tag "Elija una Región en caso de querer modificarla para esta inscripción", nil, :class => "col-sm-5 control-label" %>
+       <div class="col-sm-6">
+       <%= f.collection_select(:rubro_id, Region.all, :id, :nombre, {:prompt => true}, :style=>"width:30%") %>
+       </div>
+     </div>  
     </div>
-  <% end %>
   <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
    <font align="center" face="arial" size="5" color="#1b85c3"> Cargos que solicita</font> 
 </div>
 <div class="form-group">
-<!--    <% if current_user.role? :junta %> -->
-   <%= f.fields_for :titulo_persona do |pe|%>
-   <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
-       <div class="form-group" title="Ingrese titulo">
-          <%= f.label :titulo_id, "Nombre Titulo", :class => "col-sm-4 control-label" %>
-          <div class="col-sm-4">
-          <%= pe.collection_select(:titulo_id, Titulo.all, :id, :nombre, {:prompt => true}, :style=>"width:100%") %> 
-          </div>
-            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
-          <div class="col-sm-4">
-            <%= pe.number_field :persona_id, :class => "form-control hidden", :value => @inscripcion.persona_id %>
-          </div>
-        </div>
-        <div class="form-group">      
-            <div class="text-right">
-            <%= pe.link_to_remove "Eliminar", :class => "label label-danger eliminar_titulo" %>  
-            </div>
-        </div>
-        <div class="form-group">
-            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
-            <div class="col-sm-6">
-            <%= pe.number_field :persona_id, :class => "form-control hidden", :value => @inscripcion.persona_id  %>
-            </div>
-        </div>      
-    <% end %>
-    </div>
-    <%= f.link_to_add "Agregar titulo", :titulo_persona, :class => "label label-success" %><hr/>
-<!--     <% end %> -->
       <%= f.fields_for :cargo_inscrip_doc do |ca|%>
       <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
           <div class="form-group">
@@ -79,7 +43,9 @@
          <div class="form-group">
             <%= f.label :cargo_id, "Nombre Cargo", :class => "col-sm-4 control-label" %>
             <div class="col-sm-06">
-            <%= ca.collection_select(:cargo_id, Funcion.all, :id, :descripcion, {:prompt => true}, :style=>"width:30%") %>
+            <% @funcions = Rubro.where(persona_id: @persona.id).map(&:id) %>
+            <% @fun_rubro = Funcion.where(:id => @funcions)%>
+            <%= ca.collection_select(:cargo_id, @fun_rubro, :id, :descripcion, {:prompt => true}, :style=>"width:30%") %>
             </div>     
           </div>
          <div class="form-group">      
@@ -177,7 +143,8 @@
        <dd><%= @alcance %></dd>
        <% end %>
        <% end %>
-      </div> 
+      </div>
+      </div>
   </div>
     <br/><br/>
     <div>

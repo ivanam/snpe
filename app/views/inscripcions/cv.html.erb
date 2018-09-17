@@ -9,7 +9,7 @@
     <% end %>
     </div>
 </div>
-<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+<hr style="height:1px;border-width:0;color:red;background-color: black" />
 <center>
   <font align="center" face="arial" size="7" color="#1b85c3"> Datos personales del docente</font>
    </center >
@@ -100,16 +100,23 @@
       <dd><%= @persona.depto %></dd>
     </div>
   </div>
+  </br>
+  <td>  
+    <%= link_to "/soft/snpe/personas/"+@persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Editar Domicilio
+    <% end %>
+  </td>
 
-  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+  <hr style="height:1px;border-width:0;color:red;background-color: black" />
   <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mi Rubros Totales </font></center></p></legend>
   <% @total = 0 %>
-  <% Rubro.where(persona_id: @persona.id).each do |ru| %>
+  <% ru = Rubro.where(persona_id: @persona.id).first %>
     <div class="row">
-    <div class="col-md-2 col-xs-4">
-      <dt>Cargo:</dt>
-      <dd><%= ru.cargo %></dd>
-    </div>
+<!--      <div class="col-md-2 col-xs-4">
+       <dt>Cargo:</dt>
+       <dd><%= ru.cargo %></dd>
+      </div> -->
      <div class="col-md-2 col-xs-4">
       <dt>Region:</dt>
       <dd><%= ru.region %></dd>
@@ -159,58 +166,45 @@
        <dd><%=ru.total %></dd>
       </div>
     </div>
-    <% end %>
-     <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
 <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mis Inscripciones</font></center></p></legend>
-<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
-    <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
-    <!-- <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left"  >
-    <dt>Inscripción Persona Id:</dt></div>
-    <dd><%= s.persona_id %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-    <dt>Inscripción Id:</dt></div>
-    <dd><%= s.id %></dd>
-    </div> -->
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-      <dt>Cargos:</dt> </div>  
+<% Inscripcion.where(persona_id: @persona.id).each do |s| %>
        <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
        <% @cargo_id = ca.cargo_id  %>  
        <% Funcion.where(:id => @cargo_id).each do |fu| %>
        <% @cargo_descripcion = fu.descripcion  %>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+       <dt>Cargos:</dt> </div>  
        <dd><%= @cargo_descripcion %></dd>
-       <% end %>
-       <% end %>
     </div>    
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
-    <dt>Fecha de Inscripción:</dt></div>
-    <dd><%= s.fecha_incripcion %></dd>
+      <dt>Fecha de Inscripción:</dt></div>
+      <dd><%= s.fecha_incripcion %></dd>
     </div>
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
-    <dt>Escuela y/o dependencia donde es TITULAR:</dt></div>
-    <dd><%= s.escuela_titular %></dd>
+      <dt>Escuela y/o dependencia donde es TITULAR:</dt></div>
+      <dd><%= s.escuela_titular %></dd>
     </div>
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
-    <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
-    <dd><%= s.serv_activo.to_s %></dd>
+      <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
+      <dd><%= s.serv_activo.to_s %></dd>
     </div>
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
-    <dt>Lugar:</dt></div>
-    <dd><%= s.lugar_serv_act %></dd>
+      <dt>Lugar:</dt></div>
+      <dd><%= s.lugar_serv_act %></dd>
     </div>
     <div class="row" align="left">
     <div class="col-md-7 col-xs-3" align="left">
-    <dt>Cabecera:</dt></div>
-    <dd><%= s.cabecera %></dd>
+      <dt>Cabecera:</dt></div>
+      <dd><%= s.cabecera %></dd>
     </div>
-    <hr style="height:1px;border-width:0;color:red;background-color:red"/>
+    <hr style="height:1px;border-width:0;color:red;background-color: black"/>
+    <% end %>
+    <% end %>
     <% end %>
    <br/>
    <br/><br/>

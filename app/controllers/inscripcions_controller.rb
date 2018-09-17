@@ -30,7 +30,6 @@ class InscripcionsController < InheritedResources::Base
   end
 
   def create
-    debugger
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save  
     respond_to do |format|
@@ -68,12 +67,15 @@ class InscripcionsController < InheritedResources::Base
         render :pdf => 'cv',
         :template => 'inscripcions/cv.html.erb',
         :template => 'inscripcions/cv.pdf.erb',
-        #:layout => 'pdf.html.erb',
-        :page_size=>  'A4',
-        :margin => {:top=> 0,
-                   :bottom => 0,
-                   :left => 2,
-                   :right => 2}
+        :layout => 'pdf.html.erb',
+        :orientation => 'Portrait',# default Portrait
+        :page_size => 'Legal', # default A4
+        header: {
+                html: {
+                  template: 'layouts/_header_pdf.html.erb'
+                }
+              },
+        :show_as_html => params[:debug].present?
       end
     end
   end
