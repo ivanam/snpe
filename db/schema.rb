@@ -11,11 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20180912123819) do
-=======
-ActiveRecord::Schema.define(version: 20180911161235) do
->>>>>>> 6483f6a62323a2015d4ec86063325d33d9b5e10c
+ActiveRecord::Schema.define(version: 20180917132539) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -262,8 +258,8 @@ ActiveRecord::Schema.define(version: 20180911161235) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
     t.integer  "cargo_especial_id"
@@ -441,6 +437,7 @@ ActiveRecord::Schema.define(version: 20180911161235) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "region_id"
+    t.integer  "cabecera"
   end
 
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
@@ -480,6 +477,31 @@ ActiveRecord::Schema.define(version: 20180911161235) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "nombre_establecimi"
+    t.string  "codigo"
+    t.string  "cargos"
+    t.string  "estados cargnodoc"
+    t.string  "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
