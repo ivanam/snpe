@@ -2,10 +2,8 @@
   <font align="center" face="arial" size="5" color="black"> Inscripciones por docente seleccionado</font>
   </center >
   <br/> 
-  <% region_id = Rubro.where(persona_id: @persona.id).first.id %>
-  <% nombre_region = Region.where(id: region_id).first.nombre %>
   <center>
-       <dt>Region de la Inscripción:   <%= nombre_region%></dt>
+       <dt>Region de la Inscripción: <%= @persona.inscripcions.first.region %></dt>
    </center >
    <center>
    <br/> 

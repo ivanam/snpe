@@ -1,6 +1,5 @@
 class InscripcionsController < InheritedResources::Base
 
-  
   def index
   	respond_to do |format|
       format.html
@@ -9,7 +8,24 @@ class InscripcionsController < InheritedResources::Base
   end
 
   def show
-  	@inscripcion = Inscripcion.find(params[:id])
+    @inscripcion = Inscripcion.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => 'cv',
+        :template => 'inscripcions/cv.html.erb',
+        :template => 'inscripcions/cvNUEVO.pdf.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Portrait',
+        :page_size => 'Legal',
+        header: {
+                html: {
+                  template: 'layouts/_header_pdf.html.erb'
+                }
+              },
+        :show_as_html => params[:debug].present?
+      end
+    end
   end
 
   def new
@@ -18,28 +34,23 @@ class InscripcionsController < InheritedResources::Base
     #    @persona=Persona.where(:user_id => current_user.id).first()
     #    else
        @inscripcion = Inscripcion.new  
-       @persona=Persona.find(params[:persona_id])
+       @persona=Persona.find(21435)
        @inscripcion.persona_id = @persona.id
        # @inscripcion.user_id = @current_user.id
     # end
- end   
-
-  def edit
-    @inscripcion = Inscripcion.find(params[:id])
-    @titulo = @inscripcion.persona.titulo
-  end
+ end
 
   def create
+    # leer aca la persona a partir del current user 
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save  
-    respond_to do |format|
-    format.html { redirect_to cv_path (@inscripcion.persona_id) }
-    end
-  end
 
-  def update
-    @inscripcion.update(inscripcion_params)
-    respond_with(@inscripcion)
+    if @inscripcion.save
+      redirect_to @inscripcion # show
+      #redirect_to cv_path (@inscripcion.persona_id)
+    else
+      render "new"
+    end
   end
 
   def destroy
@@ -54,13 +65,12 @@ class InscripcionsController < InheritedResources::Base
   def buscar_persona
     @persona = Persona.where(:nro_documento => params[:dni]).first()
      render json: @persona
-
     # @rubro_persona = Rubro.where(:persona_id => params[:dni]).first()
     # render json: @rubro_persona
   end
 
   def cv
-    @persona = Persona.find(params[:id])
+    @persona = Persona.find(21435)
     respond_to do |format|
       format.html
       format.pdf do
@@ -88,7 +98,19 @@ class InscripcionsController < InheritedResources::Base
   private
 
     def inscripcion_params
-      params.require(:inscripcion).permit(:pesona_id, :establecimiento_id, :funcion_id, :nivel_id, :escuela_titular, :serv_activo, :lugar_serv_act, :documentacion, :rubro_id, :fecha_incripcion, :rubro_id, :persona_id, :establecimiento_id, :funcion_id, :nivel_id, :cabecera, titulo_persona_attributes: [:id, :titulo_id, :persona_id, :_destroy], cargo_inscrip_doc_attributes: [:id, :inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id, :_destroy, :opcion])
+      params.require(:inscripcion).permit(
+        :persona_id, 
+        :region_id,
+        :cabecera, 
+        :fecha_incripcion, 
+        cargo_inscrip_doc_attributes: [
+          :id, 
+          :inscripcion_id, 
+          :funcion_id, 
+          :opcion, 
+          :_destroy, :opcion
+        ]
+      )
     end
 end
 

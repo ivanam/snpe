@@ -1,105 +1,51 @@
-<div class="page-header">
-  <center>
-  <font align="center" face="arial" size="10" color="#1b85c3"> Inscripciones por docente seleccionado</font>
-  </center >
-   <div align="right">
-    <%= link_to cv_path(@persona, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
-        <span class="glyphicon glyphicon-plus"></span>
-        IMPRIMIR PDF
-    <% end %>
-    </div>
+<div class="page-header row">
+  <div class="">
+    <h1 class="text-center">Inscripción a Concurso
+        <div class="pull-right">
+            <%= link_to cv_path(@persona, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
+                Imprimir PDF
+          <% end %>
+        </div>
+    </h1>
+  </div>
 </div>
-<hr style="height:1px;border-width:0;color:red;background-color: black" />
-<center>
-  <font align="center" face="arial" size="7" color="#1b85c3"> Datos personales del docente</font>
-   </center >
-  <br/>
-  <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Nombres y Apellidos:</dt>
-      <dd><%= @persona.apeynom %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Tipo documento:</dt>
-      <dd><%= @persona.tipo_documento %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Nro documento:</dt>
-      <dd><%= @persona.nro_documento %></dd>
-    </div>  
-  </div>
-    <br/>
-     <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Localidad:</dt>
-      <dd><%= @persona.localidad %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Estado civil:</dt>
-      <dd><%= @persona.estado_civil %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Sexo:</dt>
-      <dd><%= @persona.sexo %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Fecha nacimiento:</dt>
-      <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Telefono contacto:</dt>
-      <dd><%= @persona.telefono_contacto %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Email:</dt>
-      <dd><%= @persona.email %></dd>
-    </div>
-     <div class="col-md-3 col-xs-3">
-      <dt>Titulos:</dt>
-       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
-       <% @titulo_persona = r.titulo_id  %>
-       <% Titulo.where(:id => @titulo_persona).each do |t| %>
-       <% @titulo_nombre = t.nombre  %>
-       <dd><%= @titulo_nombre %></dd>
-       <% end %>
-       <% end %>
-      </div>  
-       <% @alcance = 0 %>
-       <div class="col-md-3 col-xs-3">
-       <dt>Alcance del Titulo:</dt>
-       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
-       <% @titulo_persona = r.titulo_id  %>
-       <% Titulo.where(:id => @titulo_persona).each do |t| %>
-       <%if t.alcance != nil%>
-       <% @alcance =  t.alcance + @alcance %>
-       <% end %>
-       <% end %>
-       <% end %>
-       <dd><%= @alcance %></dd>
-      </div>
-   </div>     
-    <br/>
-  <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Calle:</dt>
-      <dd><%= @persona.calle %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Nro calle:</dt>
-      <dd><%= @persona.nro_calle %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Piso:</dt>
-      <dd><%= @persona.piso %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Depto:</dt>
-      <dd><%= @persona.depto %></dd>
-    </div>
-  </div>
+  <h2>Datos personales del docente</h2>
+  <table class="table table-striped table-bordered table-hover">
+    <tbody>
+      <tr>
+        <th colspan="3">Nombre</th>
+        <th>Tipo Documento</th>
+        <th>Nro Documento</th>
+      </tr>
+      <tr>
+        <td colspan="3"><%= @persona.apeynom %></td>
+        <td><%= @persona.tipo_documento %></td>
+        <td><%= @persona.nro_documento %></td>
+      </tr>
+      <tr>
+        <th colspan="2">Telefono</th>
+        <th colspan="3">Email</th>        
+      </tr>
+      <tr>
+        <td colspan="2"><%= @persona.telefono_contacto %></td>
+        <td colspan="3"><%= @persona.email %></td>
+      </tr>
+      <tr>
+        <th>Localidad</th>
+        <th>Calle</th>
+        <th>Nro</th>
+        <th>Piso</th>
+        <th>Depto</th>
+      </tr>
+      <tr>
+        <td><%= @persona.localidad %></td>
+        <td><%= @persona.calle %></td>
+        <td><%= @persona.nro_calle %></td>
+        <td><%= @persona.piso %></td>
+        <td><%= @persona.depto %></td>
+      </tr>
+    </tbody>
+  </table>
   </br>
   <td>  
     <%= link_to "/soft/snpe/personas/"+@persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
@@ -107,109 +53,72 @@
     Editar Domicilio
     <% end %>
   </td>
+<h2>Puntajes</h2>    
+<div class="table-responsive">
+  <table id="tabla-inscripcion" class="table table-striped table-bordered table-hover">
+      <thead>
+          <tr>
+            <th>Region</th>
+            <th>Cabecera</th>
+            <th>Cargo</th>
+            <th>Puntaje</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% @persona.rubros.each do |rubro| %>
+          <tr>
+            <td><%= rubro.region %></td>
+            <td><%= rubro.cabecera %></td>
+            <td><%= rubro.funcion %></td>
+            <td><%= rubro.total %></td>
+          </tr>
+          <% end %>        
+      </tbody>
+    </table>
+</div>
 
-  <hr style="height:1px;border-width:0;color:red;background-color: black" />
-  <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mi Rubros Totales </font></center></p></legend>
-  <% @total = 0 %>
-  <% ru = Rubro.where(persona_id: @persona.id).first %>
-    <div class="row">
-     <div class="col-md-2 col-xs-4">
-      <dt>Region:</dt>
-      <dd><%= ru.region %></dd>
-    </div>
-    <div class="col-md-2 col-xs-4">
-      <dt>Cabecera:</dt>
-      <dd><%= ru.cabecera %></dd>
-    </div>
-     <div class="col-md-2 col-xs-4">
-      <dt>Orden:</dt>
-      <dd><%= ru.orden %></dd>
-    </div>
-    <div class="col-md-2 col-xs-4">
-      <dt>R.I(Titulo):</dt>
-      <dd><%= ru.rubro_titulo %></dd>
-    </div>
-     <div class="col-md-2 col-xs-4">
-      <dt>R.II(Promedio):</dt>
-      <dd><%= ru.promedio %></dd>
-    </div>
-     <div class="col-md-2 col-xs-4">
-      <dt>R.III(Ant. Titulo):</dt>
-      <dd><%= ru.ant_doc %></dd>
-    </div>
-     <div class="col-md-2 col-xs-4">
-      <dt>R.IV (Ant Gestión):</dt>
-      <dd><%= ru.rubro_gestion %></dd>
-    </div>
-    <div class="col-md-2 col-xs-4">
-      <dt>R.V (Serv. Prestados):</dt>
-      <dd><%= ru.rubro_ser_prest %></dd>
-    </div>
-     <div class="col-md-2 col-xs-4">
-      <dt>R.VII (Residencia):</dt>
-      <dd><%= ru.rubro_residencia %></dd>
-    </div>
-    <div class="col-md-2 col-xs-4">
-      <dt>R.IX (Cursos):</dt>
-      <dd><%= ru.rubro_cursos %></dd>
-    </div>
-    <div class="col-md-2 col-xs-4">
-      <dt>R.XI (Capacitaciones):</dt>
-      <dd><%= ru.rubro_concepto %></dd>
-    </div>
-    <div class="col-md-2 col-xs-4">
-      <dt>Total de Rubros:</dt>
-       <dd><%=ru.total %></dd>
-      </div>
-    </div>
-<legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mis Inscripciones</font></center></p></legend>
-<% Inscripcion.where(persona_id: @persona.id).each do |s| %>
-       <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
-       <% @cargo_id = ca.cargo_id  %>  
-       <% Funcion.where(:id => @cargo_id).each do |fu| %>
-       <% @cargo_descripcion = fu.descripcion  %>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-       <dt>Cargos:</dt> </div>  
-       <dd><%= @cargo_descripcion %></dd>
-    </div>    
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-      <dt>Fecha de Inscripción:</dt></div>
-      <dd><%= s.fecha_incripcion %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-      <dt>Escuela y/o dependencia donde es TITULAR:</dt></div>
-      <dd><%= s.escuela_titular %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-      <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
-      <dd><%= s.serv_activo.to_s %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-      <dt>Lugar:</dt></div>
-      <dd><%= s.lugar_serv_act %></dd>
-    </div>
-    <div class="row" align="left">
-    <div class="col-md-7 col-xs-3" align="left">
-      <dt>Cabecera:</dt></div>
-      <dd><%= s.cabecera %></dd>
-    </div>
-    <hr style="height:1px;border-width:0;color:red;background-color: black"/>
-    <% end %>
-    <% end %>
-    <% end %>
-   <br/>
+<% inscripcion =  @persona.inscripcions.first # INSCRIPCION DEBE SER UNICA%>
+<h2>Inscripciones</h2>
+<% if not inscripcion.nil?%>
+  <p>Fecha: <%= inscripcion.fecha_incripcion %></p>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+          <th>Cargo</th>
+          <th>Region</th>
+          <th>Cabecera</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% inscripcion.cargo_inscrip_doc.each do |cargo_inscripcion| %>
+        <tr>
+          <td><%= cargo_inscripcion.funcion %></td>
+          <td><%= @persona.inscripcions.first.region %></td>
+          <td><%= @persona.inscripcions.first.cabecera %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+  <br/>
    <br/><br/>
   <%= link_to buscar_cv_persona_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
   <% end %>&nbsp;
-  <%= link_to new_inscripcion_path(:persona_id => @persona.id), :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-   Solicitar nuevo cargo
+
+  <% if inscripcion.nil? %>
+    <%= link_to new_inscripcion_path, :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+     Solicitar nuevo cargo
+    <% end %>
+  <% else %>
+    <%= link_to edit_inscripcion_path(inscripcion), :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+     Solicitar nuevo cargo
+    <% end %>
   <% end %>
+  
+
+
    <br/>
