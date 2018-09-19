@@ -11,6 +11,9 @@ class Persona < ActiveRecord::Base
   validates :nro_documento, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
   has_many :user
+  has_many :rubros
+  has_many :inscripcions
+
 
   def to_s
   	"#{ self.apeynom } - #{self.nro_documento} "
@@ -25,5 +28,13 @@ class Persona < ActiveRecord::Base
   def horas_activas
   end
 
+  # retorna Cargo[] permitidos para inscripcion
+  def get_cargos
+    funciones = self.rubros.map do |rubro|
+      rubro.funcion
+    end
+    return funciones.uniq
+  end
+  
 end
 
