@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180917132539) do
+ActiveRecord::Schema.define(version: 20180918150012) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -172,14 +172,14 @@ ActiveRecord::Schema.define(version: 20180917132539) do
 
   create_table "cargo_inscrip_docs", force: true do |t|
     t.integer  "persona_id"
-    t.integer  "cargo_id"
+    t.integer  "funcion_id"
     t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "opcion"
   end
 
-  add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
+  add_index "cargo_inscrip_docs", ["funcion_id"], name: "index_cargo_inscrip_docs_on_funcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
 
