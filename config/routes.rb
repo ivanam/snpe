@@ -34,7 +34,7 @@ ProyectoBase::Application.routes.draw do
 
     get "inscripcions/buscar_persona/:dni", to: 'inscripcions#buscar_persona'
 
-    get "inscripcions/new", to: "inscripcions#new", as: :new_inscripcions
+    get "inscripcions/new/:id", to: "inscripcions#new", as: :new_inscripcions
 
     get "cargo_inscrip_docs/new", to: "cargo_inscrip_docs#new", as: :new_cargo_inscrip_docs
 

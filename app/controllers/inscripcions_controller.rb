@@ -29,25 +29,21 @@ class InscripcionsController < InheritedResources::Base
   end
 
   def new
-    # if current_user.id != nil 
-    #    @inscripcion = Inscripcion.new
-    #    @persona=Persona.where(:user_id => current_user.id).first()
-    #    else
-       @inscripcion = Inscripcion.new  
-       @persona=Persona.find(21435)
-       @inscripcion.persona_id = @persona.id
-       # @inscripcion.user_id = @current_user.id
-    # end
- end
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
+    if @inscripcion.nil?
+      @inscripcion = Inscripcion.new    
+      @inscripcion.persona_id = @persona.id
+    else
+      redirect_to action: "show", id: @inscripcion.id
+    end
+  end
 
   def create
-    # leer aca la persona a partir del current user 
     @inscripcion = Inscripcion.new(inscripcion_params)
-    @inscripcion.save  
-
+    @inscripcion.save
     if @inscripcion.save
-      redirect_to @inscripcion # show
-      #redirect_to cv_path (@inscripcion.persona_id)
+      redirect_to @inscripcion      
     else
       render "new"
     end
@@ -64,13 +60,11 @@ class InscripcionsController < InheritedResources::Base
 
   def buscar_persona
     @persona = Persona.where(:nro_documento => params[:dni]).first()
-     render json: @persona
-    # @rubro_persona = Rubro.where(:persona_id => params[:dni]).first()
-    # render json: @rubro_persona
+     render json: @persona    
   end
 
   def cv
-    @persona = Persona.find(21435)
+    @persona = Persona.where(:id => params[:id]).first()
     respond_to do |format|
       format.html
       format.pdf do
@@ -96,7 +90,6 @@ class InscripcionsController < InheritedResources::Base
     end
 
   private
-
     def inscripcion_params
       params.require(:inscripcion).permit(
         :persona_id, 
