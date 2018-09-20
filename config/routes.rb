@@ -32,6 +32,8 @@ ProyectoBase::Application.routes.draw do
 
     get "buscar_cv_persona/", to: 'inscripcions#buscar_cv_persona'
 
+    post "/users/buscar_persona/:dni", to: 'users#buscar_persona'
+
     get "inscripcions/buscar_persona/:dni", to: 'inscripcions#buscar_persona'
 
     get "inscripcions/new/:id", to: "inscripcions#new", as: :new_inscripcions
@@ -474,8 +476,8 @@ ProyectoBase::Application.routes.draw do
 
     resources :role_permissions
 
-    devise_for :users, :path => 'user'
-
+    devise_for :users, :path => 'user' 
+    
     resources :roles
     
     resources :users

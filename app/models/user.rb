@@ -13,10 +13,10 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable# , :confirmable
+         :recoverable, :rememberable, :trackable, :validatable , :confirmable
 
   # Setup accessible (or protected) attributes for your model
-  #attr_accessible :email, :password, :password_confirmation, :remember_me, :role_ids, :apellidos, :nombres
+  #attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :apellidos, :nombres, :documento
 
   def to_s
     "#{ self.nombres } + #{ self.apellidos }"
@@ -27,12 +27,73 @@ class User < ActiveRecord::Base
     return !!self.roles.find_by_description(role.to_s.camelize)
   end
 
-  #after_create :default_role
+  after_create :default_role
+  before_create :set_persona
+  after_create :actualizar_persona
+  after_create :set_nombre_y_apellido
 
-  #private 
-  #def default_role    
-  #  UserRole.create(:user_id => self.id, :role_id => Role.where(:description => 'User').first.id)
-  #end
+
+ private
+
+  def actualizar_persona
+    #una vez que se guarda el user, le seteo el id a la persona
+    persona = Persona.where(:nro_documento => self.documento).first()
+    #agregar linea, pregunmtando si existe en la tabla rubros
+    # if Rubro.where(:persona_id => persona.id).first != nil
+      if persona.user_id == nil or persona.user_id == 0
+          persona.user_id = self.id
+          persona.save
+      else 
+        #agregar mensaje de error
+        errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
+        return false  
+      end
+      #else
+        #errors.add(:base,"la persona no existe en el padrón")
+      #end
+
+  end
+
+  
+  def set_persona
+    #corroborar que la opersona existe en el padrón
+    if Persona.where(:nro_documento => self.documento).first() != nil
+      persona = Persona.where(:nro_documento => self.documento).first()
+      #agregar linea, pregunmtando si existe en la tabla rubros
+      #if Rubro.where(:persona_id => persona.id).first != nil 
+        #corroborar que la persona no tiene un user asignado
+        if (persona.user_id != nil or persona.user_id != 0) 
+          #corroborar que el user existe
+          if (User.where(:id => persona.user_id).first != nil)
+            user = User.where(:id => persona.user_id).first
+             #corroborar que el user no este confirmado
+            if user.confirmed_at != nil
+              #agregar mensaje de error
+              errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
+              return false  
+            end
+          end
+        end
+      #else
+      #errors.add(:base,"la persona no existe en el padrón")
+      #end
+    else
+      #no existe en el padrón
+      errors.add(:base,"la persona no existe")
+      return false  
+    end
+  end  
+
+  def set_nombre_y_apellido
+    self.nombres
+    self.apellidos
+  end
+
+  def default_role    
+    #una vex creado el user steo el user_role
+    UserRole.create(:user_id => self.id, :role_id => Role.where(:description => 'UserJunta').first.id)
+
+  end
 
 end
 

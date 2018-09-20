@@ -11,8 +11,11 @@
           <%= link_to "Planilla incompatibilidad", planilla_incompatibilidads_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
         </center>
       </div>
-    <% else %>
-  
+    <% elsif  current_user.role? :UserJunta %>
+
+      <!--render template: /Inscripciones/_form%> -->
+    <%else%>
+
       <% if false%>
         <br>
         <br>

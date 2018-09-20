@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
+ActiveRecord::Schema.define(version: 20180920121231) do
+=======
 ActiveRecord::Schema.define(version: 20180918150012) do
+>>>>>>> 51a9662c5494a46c44a3deab4f9d4429d38a8d23
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -569,6 +573,7 @@ ActiveRecord::Schema.define(version: 20180918150012) do
     t.datetime "updated_at"
     t.string   "cuil"
     t.string   "apeynom"
+    t.integer  "user_id"
   end
 
   create_table "planilla_incompatibilidads", force: true do |t|
@@ -774,6 +779,7 @@ ActiveRecord::Schema.define(version: 20180918150012) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.integer  "documento"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
