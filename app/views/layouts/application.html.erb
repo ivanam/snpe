@@ -59,7 +59,7 @@
       <% end %>      
       <%= yield %>
     </div>
-    <%if not user_signed_in? %>
+    <%if not user_signed_in? and request.path == "/soft/snpe"%>
 
         <%= render template: "devise/sessions/new" ,
             :locals => { 

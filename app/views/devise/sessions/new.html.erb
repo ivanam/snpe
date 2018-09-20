@@ -1,3 +1,4 @@
+<%if request.path != "/soft/snpe/user/sign_up" and request.path !=  "/soft/snpe/user/password/new" and request.path !=  "/soft/snpe/user/confirmation/new" %>
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -12,9 +13,10 @@
                     </br>
                     </br>
                     <%= link_to "Registrarse", new_user_registration_path, :class => "btn btn-md btn-success btn-block" %>   
-                    <%= link_to "¿Desea recuperar la contraseña?", new_password_path(resource_name), :class => "btn btn-md btn-basic btn-block" %>       
+                    <%= link_to "¿Desea recuperar la contraseña?", new_password_path(resource_name), :class => "btn btn-md btn-basic btn-block" %>  
+                    <%= link_to "¿No recibió las instrucciones de confirmación?", new_confirmation_path(resource_name) %><br />     
 	                <% if devise_mapping.rememberable? %>
-	                	<%= link_to "¿No recibió las instrucciones de confirmación?", new_confirmation_path(resource_name) %><br />
+	                	
 	  				<% end %>
                 <% end %>
                 <br/>
@@ -22,3 +24,4 @@
         </div>
     </div>
 </div>
+<%end%>
