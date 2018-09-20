@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20180920121231) do
+=======
+ActiveRecord::Schema.define(version: 20180918150012) do
+>>>>>>> 51a9662c5494a46c44a3deab4f9d4429d38a8d23
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -172,14 +176,14 @@ ActiveRecord::Schema.define(version: 20180920121231) do
 
   create_table "cargo_inscrip_docs", force: true do |t|
     t.integer  "persona_id"
-    t.integer  "cargo_id"
+    t.integer  "funcion_id"
     t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "opcion"
   end
 
-  add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
+  add_index "cargo_inscrip_docs", ["funcion_id"], name: "index_cargo_inscrip_docs_on_funcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
 
@@ -437,6 +441,7 @@ ActiveRecord::Schema.define(version: 20180920121231) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.integer  "region_id"
+    t.integer  "cabecera"
   end
 
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
@@ -672,6 +677,7 @@ ActiveRecord::Schema.define(version: 20180920121231) do
     t.string   "region"
     t.integer  "cabecera"
     t.string   "observaciones"
+    t.integer  "funcion_id"
   end
 
   add_index "rubros", ["persona_id"], name: "index_rubros_on_persona_id", using: :btree

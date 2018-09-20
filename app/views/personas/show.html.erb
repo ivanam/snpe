@@ -43,10 +43,19 @@
   <dd><%= @persona.email %></dd>
   <br/><br/>
 
+  <% if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin) %>
   <%= link_to establecimiento_pof_path, :class => 'btn btn-primary' do%>
    <span class="glyphicon glyphicon-share-alt"></span>
    volver a la POF
+   <% end %>
    <% end %>  
+   
+   <% if (current_user.role? :junta) then %>
+     <%=  link_to cv_path(@persona.id), :class => 'btn btn-primary' do%>
+     <span class="glyphicon glyphicon-share-alt"></span>
+     volver a la inscripcion
+     <% end %>
+   <% end %>    
   
   <% if (current_user.role? :sadmin) then %>
     <br/><br/>

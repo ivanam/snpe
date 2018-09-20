@@ -14,7 +14,6 @@ class CargoInscripDocsController < InheritedResources::Base
   end
 
   def new
-    
     @cargo_inscrip_docs = CargoInscripDoc.new
     respond_with(@cargo_inscrip_docs)
   end
@@ -24,7 +23,6 @@ class CargoInscripDocsController < InheritedResources::Base
   end
 
   def create
-    
     @cargo_inscrip_docs = CargoInscripDoc.new(cargo_inscrip_doc_params)
     @cargo_inscrip_docs.save
     respond_with(@cargo_inscrip_docs)
