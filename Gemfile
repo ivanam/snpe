@@ -14,7 +14,7 @@ gem 'uglifier'
 
 gem 'railties'
 
-#gem 'debugger'
+gem 'debugger'
 
 gem 'mysql2', '~>0.3.17'
 
@@ -25,8 +25,6 @@ gem 'cancancan'
 gem 'will_paginate'
 
 gem "therubyracer"
-
-gem 'json', github: 'flori/json', branch: 'v1.8'
 
 gem "less-rails"
 
