@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180911161235) do
+ActiveRecord::Schema.define(version: 20180920121231) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -258,8 +258,8 @@ ActiveRecord::Schema.define(version: 20180911161235) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
     t.integer  "cargo_especial_id"
@@ -477,6 +477,31 @@ ActiveRecord::Schema.define(version: 20180911161235) do
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
 
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "nombre_establecimi"
+    t.string  "codigo"
+    t.string  "cargos"
+    t.string  "estados cargnodoc"
+    t.string  "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
+
   create_table "localidads", force: true do |t|
     t.string   "nombre"
     t.integer  "region_id"
@@ -543,6 +568,7 @@ ActiveRecord::Schema.define(version: 20180911161235) do
     t.datetime "updated_at"
     t.string   "cuil"
     t.string   "apeynom"
+    t.integer  "user_id"
   end
 
   create_table "planilla_incompatibilidads", force: true do |t|
@@ -747,6 +773,7 @@ ActiveRecord::Schema.define(version: 20180911161235) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.integer  "documento"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

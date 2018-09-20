@@ -37,16 +37,23 @@
         <% else %>
           <div class="col-md-12">
         <% end %>
-          <div class="col-md-12 logo">
-              <p align="center">
-                <%=image_tag("logo.png", :class => "img-responsive")%>
+            <div class="col-md-12 logo">
+                <p align="center">
+                  <%=image_tag("logo.png", :class => "img-responsive")%>
 
-              </p>
-          </div>
-          <div class="title">
-            <h1 align="center"> Módulo de Novedades </h1>
-          </div>
+                </p>
+            </div>
+            <%if (user_signed_in? && (!current_user.role? :UserJunta)) then %>
+              <div class="title">
+                <h1 align="center"> Módulo de Novedades </h1>
+              </div>
+            <%elsif (user_signed_in? && (current_user.role? :UserJunta))  %>
+              <div class="title">
+                <h1 align="center"> Inscripción al Concurso Docente </h1>
+              </div>
+            <%end%>
+
       </div>
-      <!--  -->
     </div>
+
 </div>

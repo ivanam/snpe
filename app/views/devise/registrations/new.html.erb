@@ -22,12 +22,19 @@
 	  				<%= f.text_field :apellidos, :placeholder => "Apellidos", :class => "form-control" %>
 				</div> 
             </div>
+            <%= f.number_field :documento,:placeholder =>"Número de Documento", :class => "form-control", :min => 1000000, :max => 99999999, id: "numero_doc" %>
   			<%= f.email_field :email, :placeholder => "Correo Electrónico", :class => "form-control" %>
   			<%= f.password_field :password, :placeholder => "Contraseña", :class => "form-control" %>
   			<%= f.password_field :password_confirmation, :placeholder => "Confirmar Contraseña", :class => "form-control" %>
-            <br />
-            <%= f.submit "Registrarse", :class => "btn btn-lg btn-primary btn-block" %>
+            <%= recaptcha_tags %>
+            <br/>
+            
+            <%= f.submit "Registrarse", id: "guardar", :class => "btn btn-lg btn-primary btn-block" %>
             <% end %>
         </div>
     </div>
 </div>
+
+
+
+</script>

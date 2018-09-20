@@ -38,6 +38,11 @@
       <i>(necesitamos tu contraseña actual para confirmar los cambios)</i>
     </div>
   </div>
+   
+  <div class="col-sm-4">
+    <%= recaptcha_tags %>
+  </div>
+   
 
   <div class="text-center"><%= f.submit "Actualizar", :class => "btn btn-primary" %></div></br></br></br>
 <% end %>

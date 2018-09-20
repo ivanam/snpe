@@ -22,6 +22,7 @@
     <%= javascript_include_tag "combodate"%>
     <%= javascript_include_tag "moment-with-locales"%>
     <%= javascript_include_tag "autocomplete-rails.js" %>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
   </head>
   <body>
     <%= render :partial => "layouts/navbar" %>
@@ -40,8 +41,8 @@
             <%= msg %>
           </div>
         <%elsif name.to_s=="warning"%>
-          <div class="alert alert-warning"
-   >         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
             <%= msg %>
           </div>
         <%elsif name.to_s=="success" || name.to_s=="notice"%>
@@ -58,6 +59,12 @@
       <% end %>      
       <%= yield %>
     </div>
+    <%if not user_signed_in? %>
+
+        <%= render template: "devise/sessions/new" ,
+            :locals => { 
+                  :resource_name => :user } %>
+    <%end%>
     <%= render :partial => "layouts/footer" %>
   </body>
 </html>

@@ -10,7 +10,9 @@ class Persona < ActiveRecord::Base
   has_many :titulos , inverse_of: :persona
   validates :nro_documento, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-  has_many :user
+  
+  #has_many :user
+  belongs_to :user 
 
   def to_s
   	"#{ self.apeynom } - #{self.nro_documento} "
