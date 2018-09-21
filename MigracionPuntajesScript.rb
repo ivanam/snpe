@@ -1,6 +1,7 @@
 # Script para migracion de puntajes de docentes, a partir de archivo exel.
 # Fecha creacion: 21 sep 2018
 # Fecha de migracion: ---
+# Ejecutar: ruby MigrarPuntajesScript.rb print migrate force
 # Este script puede ser configurado para:
 # - leer un determinado archivo .xls
 # - configurar las columnas a parsear (indices deben ser validos)
