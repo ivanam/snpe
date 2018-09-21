@@ -46,7 +46,7 @@
                 <li><%=link_to "Inasistencia de Cargos auxiliares", asistencia_index_cargo_no_docente_path, :tabindex => "-1"%></li> 
               <% end %>
              <% if (current_user.role? :junta) || (current_user.role? :docente) then %>
-                    <li><%=link_to "Inscripciones Docente Primaria", buscar_cv_persona_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Inscripciones Docente Primaria", inscripcions_path, :tabindex => "-1"%></li>
                     <% end %>
                     <% if current_user.role? :junta then %>
                     <li><%=link_to "Puntaje Docente (Rubros)", rubros_path, :tabindex => "-1"%></li>

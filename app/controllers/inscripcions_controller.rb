@@ -12,18 +12,18 @@ class InscripcionsController < InheritedResources::Base
     respond_to do |format|
       format.html
       format.pdf do
-        render :pdf => 'cv',
+        render :pdf => 'Comprobante de inscripcion',
         :template => 'inscripcions/cv.html.erb',
-        :template => 'inscripcions/cvNUEVO.pdf.erb',
+        :template => 'inscripcions/inscripcion.pdf.erb',
         :layout => 'pdf.html.erb',
         :orientation => 'Portrait',
         :page_size => 'Legal',
         header: {
-                html: {
-                  template: 'layouts/_header_pdf.html.erb'
-                }
-              },
-        :show_as_html => params[:debug].present?
+          html: {
+            template: 'layouts/_header_pdf.html.erb'
+            }
+          },
+          :show_as_html => params[:debug].present?
       end
     end
   end
@@ -61,27 +61,6 @@ class InscripcionsController < InheritedResources::Base
   def buscar_persona
     @persona = Persona.where(:nro_documento => params[:dni]).first()
      render json: @persona    
-  end
-
-  def cv
-    @persona = Persona.where(:id => params[:id]).first()
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render :pdf => 'cv',
-        :template => 'inscripcions/cv.html.erb',
-        :template => 'inscripcions/cv.pdf.erb',
-        :layout => 'pdf.html.erb',
-        :orientation => 'Portrait',# default Portrait
-        :page_size => 'Legal', # default A4
-        header: {
-                html: {
-                  template: 'layouts/_header_pdf.html.erb'
-                }
-              },
-        :show_as_html => params[:debug].present?
-      end
-    end
   end
 
   private
