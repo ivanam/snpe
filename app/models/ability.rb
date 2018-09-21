@@ -80,6 +80,13 @@ class Ability
           can :update, [Persona]
         end
 
+         if user.role? :UserJunta
+          can :manage, [Inscripcion]
+          can :read, [Persona]
+          can :edit, [Persona]
+          can :update, [Persona]
+        end
+
         if user.role? :incompatibilidad
           can :manage, [PlanillaIncompatibilidad]
         end
