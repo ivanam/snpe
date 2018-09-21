@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
     #una vez que se guarda el user, le seteo el id a la persona
     persona = Persona.where(:nro_documento => self.documento).first()
     #agregar linea, pregunmtando si existe en la tabla rubros
-    # if Rubro.where(:persona_id => persona.id).first != nil
+    #if Rubro.where(:persona_id => persona.id).first != nil
       if persona.user_id == nil or persona.user_id == 0
           persona.user_id = self.id
           persona.save
@@ -48,9 +48,9 @@ class User < ActiveRecord::Base
         errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
         return false  
       end
-      #else
-        #errors.add(:base,"la persona no existe en el padrón")
-      #end
+    #else
+    #    errors.add(:base,"la persona no existe en el padrón")
+    #end
 
   end
 
@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
     if Persona.where(:nro_documento => self.documento).first() != nil
       persona = Persona.where(:nro_documento => self.documento).first()
       #agregar linea, pregunmtando si existe en la tabla rubros
-      #if Rubro.where(:persona_id => persona.id).first != nil 
+      if Rubro.where(:persona_id => persona.id).first != nil 
         #corroborar que la persona no tiene un user asignado
         if (persona.user_id != nil or persona.user_id != 0) 
           #corroborar que el user existe
@@ -74,9 +74,10 @@ class User < ActiveRecord::Base
             end
           end
         end
-      #else
-      #errors.add(:base,"la persona no existe en el padrón")
-      #end
+      else
+        errors.add(:base,"la persona no existe en el padrón")
+        return false
+      end
     else
       #no existe en el padrón
       errors.add(:base,"la persona no existe")
