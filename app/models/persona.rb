@@ -8,12 +8,15 @@ class Persona < ActiveRecord::Base
   belongs_to :tipo_documento
   has_many :altas_bajas_hora , inverse_of: :persona
   has_many :titulos , inverse_of: :persona
-  validates :nro_documento, presence: true
-  #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
-
   has_many :user
   has_many :rubros
   has_many :inscripcions
+  
+  validates :nro_documento, presence: true
+  #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
+
+
+
 
   def to_s
   	"#{ self.apeynom } - #{self.nro_documento} "
