@@ -13,7 +13,7 @@
       </div>
     <% elsif  current_user.role? :UserJunta %>
 
-      <!--render template: /Inscripciones/_form%> -->
+      <%=render template: "inscripcions/form_user"%>
     <%else%>
 
       <% if false%>
