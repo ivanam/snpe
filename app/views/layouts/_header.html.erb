@@ -21,7 +21,10 @@
                 <div class="profile-usertitle">
                   <div class="profile-usertitle-job text-center">
                     Escuela Nº: <%= @e.codigo_jurisdiccional %> </br>
-                    <%= @e.nombre.titleize %></br>
+                    <% if @e.nombre != nil %> 
+                      <%= @e.nombre.titleize %></br>
+                    <% end%>
+
                     <%= @e.localidad.to_s.titleize %>
                   </div>
                 </div>
