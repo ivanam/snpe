@@ -28,7 +28,7 @@ ProyectoBase::Application.routes.draw do
 
     get "/inscripcions/index", to: 'inscripcions#index'
 
-    get "inscripcions/cv/:id", to: "inscripcions#cv", as: :cv
+    get "/docenteInscripcion/:id", to: "inscripcions#docenteInscripcion", as: :docenteInscripcion
 
     get "buscar_cv_persona/", to: 'inscripcions#buscar_cv_persona'
 

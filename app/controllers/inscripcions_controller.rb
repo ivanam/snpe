@@ -7,13 +7,13 @@ class InscripcionsController < InheritedResources::Base
     end
   end
 
-  def show
-    @inscripcion = Inscripcion.find(params[:id])
+  def docenteInscripcion
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
     respond_to do |format|
       format.html
       format.pdf do
         render :pdf => 'Comprobante de inscripcion',
-        :template => 'inscripcions/cv.html.erb',
         :template => 'inscripcions/inscripcion.pdf.erb',
         :layout => 'pdf.html.erb',
         :orientation => 'Portrait',
@@ -26,6 +26,11 @@ class InscripcionsController < InheritedResources::Base
           :show_as_html => params[:debug].present?
       end
     end
+  end
+
+  def show
+    @inscripcion = Inscripcion.find(params[:id])
+    redirect_to action: "docenteInscripcion", id: @inscripcion.persona.id
   end
 
   def new
