@@ -43,7 +43,7 @@
   <dd><%= @persona.email %></dd>
   <br/><br/>
 
-  <% if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin) %>
+  <% if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin) || (current_user.role? :licencia) %>
   <%= link_to establecimiento_pof_path, :class => 'btn btn-primary' do%>
    <span class="glyphicon glyphicon-share-alt"></span>
    volver a la POF
