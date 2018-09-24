@@ -1,4 +1,6 @@
 class InscripcionsController < InheritedResources::Base
+  before_filter :authenticate_user!
+  before_action :junta_only
 
   def index
   	respond_to do |format|
@@ -69,6 +71,13 @@ class InscripcionsController < InheritedResources::Base
   end
 
   private
+
+    def junta_only
+      if not current_user.tiene_rol('Junta')
+        redirect_to root_path, :alert => "Access denied."
+      end
+    end
+
     def set_inscripcion
       @inscripcion = Inscripcion.find(params[:id])
     end

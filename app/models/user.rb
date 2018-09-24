@@ -32,6 +32,12 @@ class User < ActiveRecord::Base
   after_create :actualizar_persona
   after_create :set_nombre_y_apellido
 
+  def tiene_rol(rol) 
+    roles = self.roles.map do |rol|
+      rol.description
+    end
+    return roles.include? rol
+  end
 
  private
 
