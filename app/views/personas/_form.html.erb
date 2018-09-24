@@ -81,7 +81,7 @@
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-   <%  if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin)%>
+   <%  if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin) || (current_user.role? :licencia) %>
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
       <%=link_to establecimiento_pof_path, :class => 'btn btn-default' do%>
         <span class="glyphicon glyphicon-list-alt"></span>
