@@ -9,7 +9,7 @@ class MigracionController < ApplicationController
 		if nueva
 			@escuelas = []
 		else
-			@escuelas = [753]
+			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753, 603]
 		end
 		client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 	    #client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -130,7 +130,7 @@ class MigracionController < ApplicationController
 	def migracion_inversa
 		listado = AltasBajasHora.all
 		@eliminados = []
-		@escuelas = [753]
+		@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018]
 		#client = Mysql2::Client.new (:username=>'root', :host=>'localhost', :password=>'root', :database=>'snpe', :local_infile => true)
 	    client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "gest", :database => "mec", :port => 3306, :local_infile => true)
 
@@ -204,7 +204,7 @@ class MigracionController < ApplicationController
 		if nueva
 			@escuelas = []
 		else
-			@escuelas = [753]
+			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,711,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,492,175,787,7718,411,459,3004,753,603]
 		end
 
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
