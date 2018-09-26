@@ -16,10 +16,11 @@ worksheets = workbook.worksheets
 
 ActiveRecord::Base.establish_connection(
   adapter:  'mysql2',
-  host:     'localhost',
+  host:     '127.0.0.1',
   database: 'snpe',
   username: 'root',
   password: 'root'
+  #password: 'zzpregasep'
 )
 
 # Clase usada para parsear y validar la informacion del exel.
