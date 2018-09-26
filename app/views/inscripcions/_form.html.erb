@@ -81,7 +81,7 @@
    <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
-      <%= link_to @inscripcion, :class => 'btn btn-default' do %>
+      <%= link_to docenteInscripcion_path(id: @persona.id), :class => 'btn btn-default' do %>
         <span class="glyphicon glyphicon-list-alt"></span>
         Atrás
       <% end %>

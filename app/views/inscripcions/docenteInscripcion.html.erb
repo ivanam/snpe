@@ -106,19 +106,19 @@
 <% end %>
   
   <br/><br/><br/>
-  <%= link_to inscripcions_path, :class => 'btn btn-default' do %>
+<!--   <%= link_to docenteInscripcion_path(id: @persona.id), :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
-  <% end %>&nbsp;
+  <% end %>&nbsp; -->
 
   <% if @inscripcion.nil? %>
     <%= link_to new_inscripcion_path(id: @persona.id), :class => 'btn btn-primary' do %>
       <span class="glyphicon glyphicon-plus"></span>
-     Regisatrar nueva inscripcion
+     Registrar nueva inscripcion
     <% end %>
   <% else %>
     <%= link_to edit_inscripcion_path(@inscripcion), :class => 'btn btn-primary' do %>
       <span class="glyphicon glyphicon-plus"></span>
-     Editar inscripcion
+     Editar inscripción
     <% end %>
   <% end %>
