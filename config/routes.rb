@@ -1,5 +1,6 @@
 ProyectoBase::Application.routes.draw do
 
+
   resources :cargos_especials
 
   scope '/soft/snpe' do
@@ -103,6 +104,8 @@ ProyectoBase::Application.routes.draw do
     resources :cargo_inscrip_docs
 
     resources :planilla_incompatibilidads
+
+    resources :concursos
 
 
     #---------------------------------------------------------------------------------------------------------------------------------------

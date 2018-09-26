@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180924142154) do
+ActiveRecord::Schema.define(version: 20180926133100) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -281,6 +281,15 @@ ActiveRecord::Schema.define(version: 20180924142154) do
     t.integer  "cargo_categ"
     t.integer  "nivel"
     t.string   "cargo_desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "concursos", force: true do |t|
+    t.datetime "fecha_concurso"
+    t.datetime "fecha_inicio"
+    t.datetime "fecha_fin"
+    t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
