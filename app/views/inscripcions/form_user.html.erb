@@ -1,7 +1,6 @@
 <% @persona = Persona.where(:user_id => current_user.id).first%>
 <div class="page-header row">
   <div class="">
-    <h1 class="text-center">Inscripción a Concurso
         <div class="pull-right">
 
             <%= link_to docenteInscripcion_path(@persona.id, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
@@ -117,7 +116,7 @@
   <% else %>
     <%= link_to edit_inscripcion_path(inscripcion), :class => 'btn btn-primary' do %>
       <span class="glyphicon glyphicon-plus"></span>
-     Editar cargo
+     Editar Inscripción
     <% end %>
   <% end %>
   
