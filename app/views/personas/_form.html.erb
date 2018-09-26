@@ -93,7 +93,7 @@
 
  <%  if (current_user.role? :junta) || (current_user.role? :UserJunta) %>
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
-      <%=link_to cv_path(@persona.id), :class => 'btn btn-default' do%>
+      <%=link_to docenteInscripcion_path(@persona.id), :class => 'btn btn-default' do%>
         <span class="glyphicon glyphicon-list-alt"></span>
         Atrás
       <% end %>
