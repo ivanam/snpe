@@ -1,5 +1,8 @@
 class RubrosController < InheritedResources::Base
-  #before_action :rubro, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
+  before_action :junta_only
+
+  #before_action :rubro, only: [:show, :edit, :update]
 
   def index
   	respond_to do |format|
@@ -36,11 +39,21 @@ class RubrosController < InheritedResources::Base
     respond_with(@rubro)
   end
     
- def show
+  def show
   	@rubro = Rubro.find(params[:id])
   end
 
+  def destroy
+    redirect_to rubros_path, :alert => "Operacion no permitida."
+  end
+
   private
+
+    def junta_only
+      if not current_user.tiene_rol('Junta')
+        redirect_to root_path, :alert => "Access denied."
+      end
+    end
 
     def rubro_params
       params.require(:rubro).permit(:rubro_titulo, :rubro_concepto, :rubro_asis_perf, :rubro_ser_prest, :rubro_residencia, :rubro_gestion, :rubro_cursos, :ant_doc, :total, :promedio, :persona_id, :establecimiento_id, :nombre_apellido)

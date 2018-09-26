@@ -73,8 +73,13 @@ class InscripcionsController < InheritedResources::Base
   private
 
     def junta_only
-      if not current_user.tiene_rol('Junta')
-        redirect_to root_path, :alert => "Access denied."
+      #current_user.tiene_rol('UserJunta')
+      if current_user.role? :UserJunta
+           # solo puede ver su info
+      else
+        if not current_user.role? :Junta 
+            redirect_to root_path, :alert => "Access denied."
+        end
       end
     end
 
