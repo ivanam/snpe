@@ -39,6 +39,12 @@ class User < ActiveRecord::Base
     return roles.include? rol
   end
 
+  # refactorizar esto. geberia ser User.pesona
+  def get_persona
+    persona = Persona.where(:nro_documento => self.documento).first()
+    return persona
+  end
+
  private
 
   def actualizar_persona
