@@ -115,9 +115,9 @@
         <% end %>
       </ul>
 
-      <%if (user_signed_in? && (!current_user.role? :UserJunta)) then
-        render :partial => "layouts/menu_licencias" 
-      end%>
+      <%if (user_signed_in? && (!current_user.role? :UserJunta)) then %>
+        <%= render :partial => "layouts/menu_licencias" %>
+      <%end%>
 
       <ul class="nav navbar-nav">
         <% if user_signed_in? then %>
