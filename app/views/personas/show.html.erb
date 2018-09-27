@@ -50,10 +50,10 @@
    <% end %>
    <% end %>  
    
-   <% if (current_user.role? :junta) then %>
-     <%=  link_to cv_path(@persona.id), :class => 'btn btn-primary' do%>
+   <% if (current_user.role? :junta) || (current_user.role? :UserJunta) then %>
+     <%=  link_to docenteInscripcion_path(@persona.id), :class => 'btn btn-primary' do%>
      <span class="glyphicon glyphicon-share-alt"></span>
-     volver a la inscripcion
+     volver a la inscripción
      <% end %>
    <% end %>    
   

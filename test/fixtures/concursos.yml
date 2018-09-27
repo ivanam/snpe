@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fecha_concurso: 2018-09-26
+  fecha_inicio: 2018-09-26
+  fecha_fin: 2018-09-26
+  descripcion: MyString
+
+two:
+  fecha_concurso: 2018-09-26
+  fecha_inicio: 2018-09-26
+  fecha_fin: 2018-09-26
+  descripcion: MyString

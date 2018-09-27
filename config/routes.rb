@@ -1,5 +1,6 @@
 ProyectoBase::Application.routes.draw do
 
+
   resources :cargos_especials
 
   scope '/soft/snpe' do
@@ -28,7 +29,7 @@ ProyectoBase::Application.routes.draw do
 
     get "/inscripcions/index", to: 'inscripcions#index'
 
-    get "inscripcions/cv/:id", to: "inscripcions#cv", as: :cv
+    get "/docenteInscripcion/:id", to: "inscripcions#docenteInscripcion", as: :docenteInscripcion
 
     get "buscar_cv_persona/", to: 'inscripcions#buscar_cv_persona'
 
@@ -36,7 +37,9 @@ ProyectoBase::Application.routes.draw do
 
     get "inscripcions/buscar_persona/:dni", to: 'inscripcions#buscar_persona'
 
-    get "inscripcions/new", to: "inscripcions#new", as: :new_inscripcions
+    get "inscripcions/new/:id", to: "inscripcions#new", as: :new_inscripcions
+
+    get "inscripcions/form_user"
 
     get "cargo_inscrip_docs/new", to: "cargo_inscrip_docs#new", as: :new_cargo_inscrip_docs
 
@@ -101,6 +104,8 @@ ProyectoBase::Application.routes.draw do
     resources :cargo_inscrip_docs
 
     resources :planilla_incompatibilidads
+
+    resources :concursos
 
 
     #---------------------------------------------------------------------------------------------------------------------------------------

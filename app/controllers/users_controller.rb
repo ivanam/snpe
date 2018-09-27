@@ -47,8 +47,6 @@ class UsersController < ApplicationController
 
     @user = User.new(user_params)
 
-
-
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }
@@ -86,6 +84,6 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :remember_me, {:role_ids => []}, :apellidos, :nombres, establecimientos_users_attributes: [:id, :establecimiento_id, :_destroy])
+      params.require(:user).permit(:email, :documento, :password, :password_confirmation, :remember_me, {:role_ids => []}, :apellidos, :nombres, establecimientos_users_attributes: [:id, :establecimiento_id, :_destroy])
     end
 end

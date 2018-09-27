@@ -1,6 +1,7 @@
 class InscripcionsController < InheritedResources::Base
+  before_filter :authenticate_user!
+  before_action :junta_only
 
-  
   def index
   	respond_to do |format|
       format.html
@@ -8,38 +9,51 @@ class InscripcionsController < InheritedResources::Base
     end
   end
 
+  def docenteInscripcion
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render :pdf => 'Comprobante de inscripcion',
+        :template => 'inscripcions/inscripcion.pdf.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Portrait',
+        :page_size => 'Legal',
+        header: {
+          html: {
+            template: 'layouts/_header_pdf.html.erb'
+            }
+          },
+          :show_as_html => params[:debug].present?
+      end
+    end
+  end
+
   def show
-  	@inscripcion = Inscripcion.find(params[:id])
+    @inscripcion = Inscripcion.find(params[:id])
+    redirect_to action: "docenteInscripcion", id: @inscripcion.persona.id
   end
 
   def new
-    # if current_user.id != nil 
-    #    @inscripcion = Inscripcion.new
-    #    @persona=Persona.where(:user_id => current_user.id).first()
-    #    else
-       @inscripcion = Inscripcion.new  
-       @persona=Persona.find(params[:persona_id])
-       @inscripcion.persona_id = @persona.id
-       # @inscripcion.user_id = @current_user.id
-    # end
- end   
-
-  def edit
-    @inscripcion = Inscripcion.find(params[:id])
-    @titulo = @inscripcion.persona.titulo
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
+    if @inscripcion.nil?
+      @inscripcion = Inscripcion.new    
+      @inscripcion.persona_id = @persona.id
+    else
+      redirect_to action: "show", id: @inscripcion.id
+    end
   end
 
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
-    @inscripcion.save  
-    respond_to do |format|
-    format.html { redirect_to cv_path (@inscripcion.persona_id) }
+    @inscripcion.save
+    if @inscripcion.save
+      redirect_to @inscripcion      
+    else
+      render "new"
     end
-  end
-
-  def update
-    @inscripcion.update(inscripcion_params)
-    respond_with(@inscripcion)
   end
 
   def destroy
@@ -53,42 +67,41 @@ class InscripcionsController < InheritedResources::Base
 
   def buscar_persona
     @persona = Persona.where(:nro_documento => params[:dni]).first()
-     render json: @persona
-
-    # @rubro_persona = Rubro.where(:persona_id => params[:dni]).first()
-    # render json: @rubro_persona
-  end
-
-  def cv
-    @persona = Persona.find(params[:id])
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render :pdf => 'cv',
-        :template => 'inscripcions/cv.html.erb',
-        :template => 'inscripcions/cv.pdf.erb',
-        :layout => 'pdf.html.erb',
-        :orientation => 'Portrait',# default Portrait
-        :page_size => 'Legal', # default A4
-        header: {
-                html: {
-                  template: 'layouts/_header_pdf.html.erb'
-                }
-              },
-        :show_as_html => params[:debug].present?
-      end
-    end
+     render json: @persona    
   end
 
   private
+
+    def junta_only
+      #current_user.tiene_rol('UserJunta')
+      if current_user.role? :UserJunta
+           # solo puede ver su info
+      else
+        if not current_user.role? :Junta 
+            redirect_to root_path, :alert => "Access denied."
+        end
+      end
+    end
+
     def set_inscripcion
       @inscripcion = Inscripcion.find(params[:id])
     end
 
   private
-
     def inscripcion_params
-      params.require(:inscripcion).permit(:pesona_id, :establecimiento_id, :funcion_id, :nivel_id, :escuela_titular, :serv_activo, :lugar_serv_act, :documentacion, :rubro_id, :fecha_incripcion, :rubro_id, :persona_id, :establecimiento_id, :funcion_id, :nivel_id, :cabecera, titulo_persona_attributes: [:id, :titulo_id, :persona_id, :_destroy], cargo_inscrip_doc_attributes: [:id, :inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id, :_destroy, :opcion])
+      params.require(:inscripcion).permit(
+        :persona_id, 
+        :region_id,
+        :cabecera, 
+        :fecha_incripcion, 
+        cargo_inscrip_doc_attributes: [
+          :id, 
+          :inscripcion_id, 
+          :funcion_id, 
+          :opcion, 
+          :_destroy, :opcion
+        ]
+      )
     end
 end
 

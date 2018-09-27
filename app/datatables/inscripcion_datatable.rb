@@ -2,11 +2,11 @@ class InscripcionDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-     @sortable_columns ||= ['inscripcions.id','inscripcions.fecha_incripcion']
+     @sortable_columns ||= ['fecha_incripcion']
    end
 
    def searchable_columns
-     @searchable_columns ||= ['inscripcions.id','inscripcions.fecha_incripcion']
+     @searchable_columns ||= []
    end
 
   private
@@ -15,16 +15,9 @@ class InscripcionDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.fecha_incripcion,
-        record.persona_id,
-        record.establecimiento_id,
-        record.funcion_id,
-        record.nivel_id,
-        record.escuela_titular,
-        record.serv_activo,
-        record.lugar_serv_act,
-        record.documentacion,
-        record.rubro_id,
+        record.region.nombre,
         record.cabecera,
+        record.persona.to_s,        
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones
@@ -41,8 +34,8 @@ class InscripcionDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
-    #Inscripcion.all
+    #return options[:query]
+    Inscripcion.all
   end
 
 end

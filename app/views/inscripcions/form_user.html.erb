@@ -1,0 +1,125 @@
+<% @persona = Persona.where(:user_id => current_user.id).first%>
+<div class="page-header row">
+  <div class="">
+        <div class="pull-right">
+
+            <%= link_to docenteInscripcion_path(@persona.id, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
+                Imprimir PDF
+          <% end %>
+        </div>
+    </h1>
+  </div>
+</div>
+  <h2>Datos personales del docente</h2>
+  <table class="table table-striped table-bordered table-hover">
+    <tbody>
+      <tr>
+        <th colspan="3">Nombre</th>
+        <th>Tipo Documento</th>
+        <th>Nro Documento</th>
+      </tr>
+      <tr>
+        <td colspan="3"><%= @persona.apeynom %></td>
+        <td><%= @persona.tipo_documento %></td>
+        <td><%= @persona.nro_documento %></td>
+      </tr>
+      <tr>
+        <th colspan="2">Telefono</th>
+        <th colspan="3">Email</th>        
+      </tr>
+      <tr>
+        <td colspan="2"><%= @persona.telefono_contacto %></td>
+        <td colspan="3"><%= @persona.email %></td>
+      </tr>
+      <tr>
+        <th>Localidad</th>
+        <th>Calle</th>
+        <th>Nro</th>
+        <th>Piso</th>
+        <th>Depto</th>
+      </tr>
+      <tr>
+        <td><%= @persona.localidad %></td>
+        <td><%= @persona.calle %></td>
+        <td><%= @persona.nro_calle %></td>
+        <td><%= @persona.piso %></td>
+        <td><%= @persona.depto %></td>
+      </tr>
+    </tbody>
+  </table>
+  </br>
+  <td>  
+    <%= link_to "/soft/snpe/personas/"+@persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Editar Domicilio
+    <% end %>
+  </td>
+<h2>Puntajes</h2>    
+<div class="table-responsive">
+  <table id="tabla-inscripcion" class="table table-striped table-bordered table-hover">
+      <thead>
+          <tr>
+            <th>Region</th>
+            <th>Cabecera</th>
+            <th>Cargo</th>
+            <th>Puntaje</th>
+          </tr>
+      </thead>
+      <tbody>
+          <% @persona.rubros.each do |rubro| %>
+          <tr>
+            <td><%= rubro.region %></td>
+            <td><%= rubro.cabecera %></td>
+            <td><%= rubro.funcion %></td>
+            <td><%= rubro.total %></td>
+          </tr>
+          <% end %>        
+      </tbody>
+    </table>
+</div>
+
+<% inscripcion =  @persona.inscripcions.first # INSCRIPCION DEBE SER UNICA%>
+<h2>Inscripciones</h2>
+<% if not inscripcion.nil?%>
+  <p>Fecha: <%= inscripcion.fecha_incripcion %></p>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+          <th>Cargo</th>
+          <th>Region</th>
+          <th>Cabecera</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% inscripcion.cargo_inscrip_doc.each do |cargo_inscripcion| %>
+        <tr>
+          <td><%= cargo_inscripcion.funcion %></td>
+          <td><%= @persona.inscripcions.first.region %></td>
+          <td><%= @persona.inscripcions.first.cabecera %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+  <br/>
+   <br/><br/>
+<!--   <%= link_to buscar_cv_persona_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>&nbsp; -->
+
+  <% if inscripcion.nil? %>
+    <%= link_to new_inscripcion_path(id: @persona.id), :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+     Solicitar nuevo cargo
+    <% end %>
+  <% else %>
+    <%= link_to edit_inscripcion_path(inscripcion), :class => 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+     Editar Inscripción
+    <% end %>
+  <% end %>
+  
+
+
+   <br/>

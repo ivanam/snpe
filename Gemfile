@@ -33,6 +33,8 @@ gem 'thin'
 gem 'rails-erd', require: false, group: :development
 
 gem 'activeadmin', github: 'activeadmin'
+
+gem 'recaptcha', '~> 1.1' , require: "recaptcha/rails"
 # ---------------------------
 
 # GEMAS DE BOOTSTRAP

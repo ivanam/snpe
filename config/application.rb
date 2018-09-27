@@ -13,7 +13,8 @@ module ProyectoBase
   class Application < Rails::Application
 
     config.encoding = "utf-8"
-
+    config.time_zone = 'Buenos Aires'
+    config.active_record.default_timezone = :local # Or :utc
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
 

@@ -199,6 +199,8 @@ GEM
       activesupport (>= 3.0)
       i18n
       polyamorous (~> 1.2)
+    recaptcha (1.1.0)
+      json
     ref (1.0.5)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
@@ -272,6 +274,7 @@ DEPENDENCIES
   rails-erd
   rails4-autocomplete
   railties
+  recaptcha (~> 1.1)
   sass-rails
   select2-rails
   therubyracer

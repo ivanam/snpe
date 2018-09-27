@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180917132539) do
+ActiveRecord::Schema.define(version: 20180926133100) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -172,14 +172,14 @@ ActiveRecord::Schema.define(version: 20180917132539) do
 
   create_table "cargo_inscrip_docs", force: true do |t|
     t.integer  "persona_id"
-    t.integer  "cargo_id"
+    t.integer  "funcion_id"
     t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "opcion"
   end
 
-  add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
+  add_index "cargo_inscrip_docs", ["funcion_id"], name: "index_cargo_inscrip_docs_on_funcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
 
@@ -281,6 +281,15 @@ ActiveRecord::Schema.define(version: 20180917132539) do
     t.integer  "cargo_categ"
     t.integer  "nivel"
     t.string   "cargo_desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "concursos", force: true do |t|
+    t.datetime "fecha_concurso"
+    t.datetime "fecha_inicio"
+    t.datetime "fecha_fin"
+    t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -569,6 +578,7 @@ ActiveRecord::Schema.define(version: 20180917132539) do
     t.datetime "updated_at"
     t.string   "cuil"
     t.string   "apeynom"
+    t.integer  "user_id"
   end
 
   create_table "planilla_incompatibilidads", force: true do |t|
@@ -669,7 +679,7 @@ ActiveRecord::Schema.define(version: 20180917132539) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "orden"
-    t.string   "region"
+    t.integer  "region_id"
     t.integer  "cabecera"
     t.string   "observaciones"
     t.integer  "funcion_id"
@@ -774,6 +784,7 @@ ActiveRecord::Schema.define(version: 20180917132539) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
+    t.integer  "documento"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

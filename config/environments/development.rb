@@ -31,14 +31,19 @@ ProyectoBase::Application.configure do
   # Algo de rails4
   config.eager_load = false
 
+  config.action_mailer.perform_deliveries = true 
+  config.action_mailer.raise_delivery_errors = true
+
+
+
   #SMTP
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }  
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   :address              => "smtp.gmail.com",
   :port                 => 587,
-  :user_name            => 'pregase.chubut@gmail.com',
-  :password             => 'elzzpregase99',
+  :user_name            => 'iva.moyano@gmail.com',
+  :password             => '1311ivaniita**',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
 

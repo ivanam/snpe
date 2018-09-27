@@ -11,8 +11,11 @@
           <%= link_to "Planilla incompatibilidad", planilla_incompatibilidads_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
         </center>
       </div>
-    <% else %>
-  
+    <% elsif  current_user.role? :UserJunta %>
+
+      <%=render template: "inscripcions/form_user"%>
+    <%else%>
+
       <% if false%>
         <br>
         <br>
@@ -62,14 +65,6 @@
         </center>
       </div>
 
-
-      <!--<div class="col-md-4">
-      <legend> Inscripciones</legend>
-        <center>
-          <%= link_to "Inscripciones Docentes", new_inscripcions_path(:persona_id => current_user.id), :tabindex => "-1", :class => "btn btn-success btn-block" %>
-
-        </center>
-      </div>-->
       
       </div>
 

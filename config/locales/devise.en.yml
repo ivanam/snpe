@@ -12,8 +12,8 @@ en:
   devise:
     failure:
       already_authenticated: 'Ya iniciaste sesión.'
-      unauthenticated: 'Tienes que registrarte o iniciar sesión antes de continuar.'
-      unconfirmed: 'Tienes que confirmar tu cuenta antes de continuar.'
+      unauthenticated: 'Tienes que registrarte, iniciar sesión o CONFIRMAR TU CUENTA  antes de continuar.'
+      unconfirmed: 'Tienes que CONFIRMAR tu cuenta antes de continuar. (Para confirmar tu cuenta, debes hacer ingresar al link que te enviamos por correo electrónico)'
       locked: 'Tu cuente está bloqueada.'
       invalid: 'Email o contraseña inválidos.'
       invalid_token: 'Token de autentificación inválido.'
@@ -48,11 +48,11 @@ en:
       failure: 'No pudimos autentificar tu cuenta de %{kind} por la siguiente razón: %{reason}.'
     mailer:
       confirmation_instructions:
-        subject: 'Instrucciones de confirmación'
+        subject: 'Instrucciones de confirmación - Ministerio de Educación Chubut'
       reset_password_instructions:
-        subject: 'Instrucciones de cambio de contraseña'
+        subject: 'Instrucciones de cambio de contraseña - Ministerio de Educación Chubut'
       unlock_instructions:
-        subject: 'Instrucciones de desbloqueo'
+        subject: 'Instrucciones de desbloqueo - Ministerio de Educación Chubut'
 
   unauthorized:
     manage:

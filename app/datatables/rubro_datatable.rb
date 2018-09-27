@@ -2,11 +2,11 @@ class RubroDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
     def sortable_columns
-      @sortable_columns ||= ['rubros.total']
+      @sortable_columns ||= ['total']
     end
 
     def searchable_columns
-      @searchable_columns ||= ['rubros.persona_id']
+      @searchable_columns ||= ['']
     end
 
   private
@@ -14,16 +14,9 @@ class RubroDatatable < AjaxDatatablesRails::Base
   def data
       records.map do |record|
       [
-      record.persona_id,
-      record.nombre_apellido,
-      record.rubro_titulo,
-      record.promedio,
-      record.ant_doc,
-      record.rubro_gestion,
-      record.rubro_ser_prest,
-      record.rubro_residencia,
-      record.rubro_cursos,
-      record.rubro_concepto,
+      record.persona.to_s,
+      record.region.nombre,
+      record.funcion.descripcion,
       record.total,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

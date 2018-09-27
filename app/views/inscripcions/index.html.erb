@@ -1,11 +1,12 @@
 <div class="page-header">
-  <%= link_to new_inscripcion_path, :class => 'btn btn-primary' do %>
-   <br/>
-    <span class="glyphicon glyphicon-plus"></span>
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-     <font align="center" face="arial" size="5" color="#1b85c3"> Nueva Inscripción Docente</font>  
-  <% end %>
-  <h1>Listado de inscripcions</h1>
+  <div class="hidden-print">
+    <div class="form-group">
+      <label align="Left">(para la prueba use el DNI: 27775562) <label>
+      <input placeholder="Ingrese DNI."class="text_field" id="input_buscar_persona"></input>
+      <button id="buscar" type="button" class="btn btn-primary btn-sm">Nueva Inscripcion</button>
+    </div>      
+  </div>
+  <h1>Listado de inscripciones</h1>
 </div>
 
 <div class="table-responsive">
@@ -13,16 +14,9 @@
     <thead>
       <tr>
             <th>Fecha inscripcion</th> 
-            <th>Persona</th>
-            <th>Establecimiento</th>
-            <th>Funcion</th>
-            <th>Nivel</th>
-            <th>Escuela titular</th>
-            <th>Serv activo</th>
-            <th>Lugar serv act</th>
-            <th>Documentacion</th>
-            <th>Rubro</th>
+            <th>Region</th>
             <th>Cabecera</th>
+            <th>Persona</th>
             <th class="text-center">Acciones</th>
       </tr>
     </thead>
@@ -30,7 +24,6 @@
     </tbody>
   </table>
 </div>
-
 
 <script type="text/javascript">
     $(document).ready(function($) {
@@ -40,6 +33,24 @@
         serverSide : true,
         ajax : $('#tabla-inscripcion').data('source'),
         pagingType: "simple",
+      });
+    
+     $( "#buscar" ).bind("propertychange click input paste",function(){ 
+      //$("#buscar" ).change(function() {
+        var dni = parseInt($("#input_buscar_persona").val(),10);
+        $.ajax({
+          url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
+          type: 'GET',
+        })
+        .done(function(data) {
+          if (data != null) {
+            open('/soft/snpe/docenteInscripcion/'+data.id);
+          }
+          else{
+            alert("No se puede completar la operacion");
+            $('#input_buscar_persona').text("");
+          }
+        })
       });
     });
 </script>
