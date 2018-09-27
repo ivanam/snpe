@@ -11,6 +11,10 @@
         <%= link_to "SNPE", root_path, :class => "navbar-brand" %>
       <%end%>
 
+      <%if (user_signed_in? && (current_user.role? :UserJunta)) then %>
+        <%= link_to "Inscribirse", docenteInscripcion_path(id: current_user.get_persona.id), :class => "navbar-brand" %>
+      <%end%>
+
 
     </div>
     <div class="collapse navbar-collapse">
@@ -115,7 +119,7 @@
         <% end %>
       </ul>
 
-      <%if (user_signed_in? && (!current_user.role? :UserJunta)) then %>
+      <%if (user_signed_in? && (not current_user.role? :Junta) && (not current_user.role? :UserJunta)) then %>
         <%= render :partial => "layouts/menu_licencias" %>
       <%end%>
 
