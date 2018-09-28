@@ -1,5 +1,8 @@
 class Concurso < ActiveRecord::Base
-  	validate :validar_rango_fechas, :validar_unico_concurso_activo, :validar_fechas_futuras
+  	validate :validar_rango_fechas, 
+  		:validar_unico_concurso_activo, 
+  		:validar_fechas_futuras,
+  		:validar_fecha_concurso
 	
 	def es_activo
 		current = DateTime.current
@@ -22,8 +25,7 @@ class Concurso < ActiveRecord::Base
   	def validar_rango_fechas
   		ini = self.fecha_inicio
 		fin = self.fecha_fin
-		diff = fin - ini
-		if (diff <= 0) and (DateTime.new(diff).day <= 1)
+		if ini >= fin or (fin - ini).to_i < 1
 			errors.add(:base, "Ingrese rango de fechas validos.")
 		end
   	end
@@ -33,8 +35,13 @@ class Concurso < ActiveRecord::Base
   		ini = self.fecha_inicio
   		if ini > hoy
 			errors.add(:base, "Fecha de comienzo debe ser mayor a la fecha actual.")
-  		end
-		
+  		end		
   	end 
+
+  	def validar_fecha_concurso
+  		if self.fecha_fin > self.fecha_concurso
+  			errors.add(:base, "Fecha de concurso es anterior al cierre de inscripciones.")
+  		end
+  	end
 
 end
