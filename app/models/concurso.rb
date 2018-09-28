@@ -4,6 +4,15 @@ class Concurso < ActiveRecord::Base
   		:validar_fechas_futuras,
   		:validar_fecha_concurso
 	
+  	def self.get_concurso_activo
+  		Concurso.all.each do |concurso|
+			if concurso.es_activo
+				return concurso
+			end 
+		end
+		return nil
+	end
+
 	def es_activo
 		current = DateTime.current
 		result = (self.fecha_inicio < current) and (self.fecha_fin >= current)
