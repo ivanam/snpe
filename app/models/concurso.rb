@@ -15,7 +15,9 @@ class Concurso < ActiveRecord::Base
 
 	def es_activo
 		current = DateTime.current
-		result = (self.fecha_inicio < current) and (self.fecha_fin >= current)
+		ini = self.fecha_inicio
+		fin = self.fecha_fin
+		result = (ini < current) && (fin >= current)
 		return result
 	end
 
@@ -35,16 +37,20 @@ class Concurso < ActiveRecord::Base
   	def validar_rango_fechas
   		ini = self.fecha_inicio
 		fin = self.fecha_fin
-		if ini >= fin or (fin - ini).to_i < 1
+		if ini >= fin || (fin - ini).to_i < 1
 			errors.add(:base, "Ingrese rango de fechas validos.")
 		end
   	end
 
   	def validar_fechas_futuras
-  		hoy = DateTime.current
-  		ini = self.fecha_inicio
-  		if ini < hoy
-			errors.add(:base, "Fecha de comienzo debe ser mayor a la fecha actual.")
+  		if not self.created_at.nil?
+  			creacion = self.created_at.to_date
+  		else
+  			creacion = Date.current
+  		end
+  		ini = self.fecha_inicio.to_date
+  		if ini < creacion
+			errors.add(:base, "Fecha de comienzo debe ser mayor o igual a la fecha actual.")
   		end		
   	end 
 
