@@ -139,6 +139,7 @@ class InscripcionsController < InheritedResources::Base
       params.require(:inscripcion).permit(
         :persona_id, 
         :region_id,
+        :concurso_id,
         :cabecera, 
         :fecha_incripcion, 
         cargo_inscrip_doc_attributes: [

@@ -37,7 +37,13 @@
        <%= f.text_field :persona_id, :class => "form-control hidden" %>
        </div>
     </div>
-    
+    <div class="form-group">
+       <%= f.label :concurso_id, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.collection_select(:concurso_id, Concurso.all, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>
+       </div>
+    </div>
+       
 <h2>Cargos</h2>
    
       <%= f.fields_for :cargo_inscrip_doc do |ca|%>
