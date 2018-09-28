@@ -54,7 +54,7 @@
                     <% end %>
                     <% if current_user.role? :junta then %>
                     <li><%=link_to "Puntaje Docente (Rubros)", rubros_path, :tabindex => "-1"%></li>
-                    <li><%=link_to "Titulos", titulos_path, :tabindex => "-1"%></li>
+                    <li><%=link_to "Concursos", concursos_path, :tabindex => "-1"%></li>
                      <% end %>
               <% if ver_model("AltasBajasHora") then %>
                 <li class="dropdown-submenu">
