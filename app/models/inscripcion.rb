@@ -13,14 +13,14 @@ class Inscripcion < ActiveRecord::Base
   validates :cargo_inscrip_doc, presence: { message: "Debe agregar al menos un cargo" }
   validates :concurso, :presence => true
 
-  validate :concurso_es_activo, 
+  validate :concurso_es_activo
 
   def concurso_es_activo
-  	if not self.concurso.es_activo
+  	if !self.concurso.nil? && !self.concurso.es_activo
   		if self.created_at.nil?
-			errors.add(:base, "Debe inscribirse a un concurso activo.")
-		else
-			errors.add(:base, "Ya cerro la inscripcion, no puede editarla.")
+		  	errors.add(:base, "Debe inscribirse a un concurso activo.")
+		  else
+			 errors.add(:base, "Ya cerro la inscripcion, no puede editarla.")
   		end
   	end  	
   end
