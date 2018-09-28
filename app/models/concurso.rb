@@ -24,7 +24,8 @@ class Concurso < ActiveRecord::Base
 		ini = self.fecha_inicio
 		fin = self.fecha_fin
 		Concurso.all.each do |concurso|
-			if (self.fecha_inicio <= concurso.fecha_fin && self.fecha_fin >= concurso.fecha_inicio)
+			if (concurso.id != self.id and
+				self.fecha_inicio <= concurso.fecha_fin && self.fecha_fin >= concurso.fecha_inicio)
 				errors.add(:base, "Ya se existe concurso habilitado para la fecha.")
 				break
 			end 
@@ -42,7 +43,7 @@ class Concurso < ActiveRecord::Base
   	def validar_fechas_futuras
   		hoy = DateTime.current
   		ini = self.fecha_inicio
-  		if ini > hoy
+  		if ini < hoy
 			errors.add(:base, "Fecha de comienzo debe ser mayor a la fecha actual.")
   		end		
   	end 
