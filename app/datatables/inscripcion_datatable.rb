@@ -15,7 +15,7 @@ class InscripcionDatatable < AjaxDatatablesRails::Base
     records.map do |record|
       [
         record.fecha_incripcion,
-        record.region.nombre,
+        record.region.to_s,
         record.cabecera,
         record.persona.to_s,        
         '<div class="dropdown">

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180926133100) do
+ActiveRecord::Schema.define(version: 20181001124756) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -104,12 +104,9 @@ ActiveRecord::Schema.define(version: 20180926133100) do
 
   create_table "ambitos", force: true do |t|
     t.string   "nombre"
-    t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "ambitos", ["inscripcion_id"], name: "index_ambitos_on_inscripcion_id", using: :btree
 
   create_table "articulos", force: true do |t|
     t.string   "codigo"
@@ -435,8 +432,8 @@ ActiveRecord::Schema.define(version: 20180926133100) do
   end
 
   create_table "inscripcions", force: true do |t|
-    t.string   "escuela_titular"
-    t.string   "serv_activo"
+    t.integer  "establecimiento_id"
+    t.integer  "ambito_id"
     t.string   "lugar_serv_act"
     t.string   "documentacion"
     t.integer  "rubro_id"
@@ -447,6 +444,7 @@ ActiveRecord::Schema.define(version: 20180926133100) do
     t.integer  "user_id"
     t.integer  "region_id"
     t.integer  "cabecera"
+    t.integer  "concurso_id"
   end
 
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree

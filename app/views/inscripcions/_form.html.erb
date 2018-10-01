@@ -14,7 +14,7 @@
 
 <h1>Inscripción Docente</h1><br>
     <div class="form-group">
-        <%= label_tag "Cambiar region", nil, :class => "col-sm-4 control-label" %>
+        <%= label_tag "Region", nil, :class => "col-sm-4 control-label" %>
        <div class="col-sm-8">
        <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu") %>
        </div>
@@ -37,8 +37,28 @@
        <%= f.text_field :persona_id, :class => "form-control hidden" %>
        </div>
     </div>
-    
-<h2>Cargos</h2>
+    <div class="form-group">
+       <%= f.label :concurso_id, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.collection_select(:concurso_id, Concurso.all, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>
+       </div>
+    </div>
+
+<h2>Cargos que posee</h2> <br>
+    <div class="form-group">
+       <%= f.label :ambito, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.select(:ambito_id, ["",""]+Ambito.all.map { |e| [e.to_s, e.id] }, {include_blank: true}, :style=>"width:100%" )%>
+       </div>
+    </div>
+    <div class="form-group">
+       <%= f.label :escuela_titular, :class => "col-sm-4 control-label" %>
+       <div class="col-sm-6">
+       <%= f.select( :establecimiento_id, ["", ""] + Establecimiento.all.map { |e| [e.to_s, e.id] }, { include_blank: true }, :style=>"width:100%") %>
+       </div>
+    </div>
+       
+<h2>Cargos que solicita</h2>
    
       <%= f.fields_for :cargo_inscrip_doc do |ca|%>
          <div class="form-group">

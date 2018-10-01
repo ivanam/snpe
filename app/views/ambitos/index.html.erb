@@ -11,11 +11,14 @@
     <thead>
       <tr>
             <th>Nombre</th>
-            <th>Inscripcion</th>
-            <th class="text-center">Acciones</th>
       </tr>
     </thead>
     <tbody>
+      <% @ambitos.each do |ambito| %>
+        <tr>
+          <td> <%= ambito.nombre %> </td>        
+        </tr>
+      <% end %>
     </tbody>
   </table>
 </div>
