@@ -140,6 +140,8 @@ class InscripcionsController < InheritedResources::Base
         :persona_id, 
         :region_id,
         :concurso_id,
+        :ambito_id,
+        :establecimiento_id,
         :cabecera, 
         :fecha_incripcion, 
         cargo_inscrip_doc_attributes: [

@@ -57,6 +57,27 @@
     Editar Domicilio
     <% end %>
   </td>
+
+<% if !@inscripcion.nil? && @inscripcion.tiene_cargo %>
+  <h2>Cargos</h2>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Ambito</th>
+          <th>Escuela</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td> <%= @inscripcion.ambito.to_s %> </td>
+          <td> <%= @inscripcion.establecimiento.to_s %> </td>
+        </tr>
+      </tbody>
+    </table>
+<% else %>
+  <p>No tiene cargos ocupados.</p>
+<% end %>
+
 <h2>Puntajes</h2>    
 <div class="table-responsive">
   <table id="tabla-inscripcion" class="table table-striped table-bordered table-hover">
@@ -81,7 +102,7 @@
     </table>
 </div>
 
-<h2>Inscripciones</h2>
+<h2>Inscripcion</h2>
 <% if not @inscripcion.nil? %>
   <p>Fecha: <%= @inscripcion.fecha_incripcion %></p>
   <table class="table table-striped table-bordered table-hover">
