@@ -19,8 +19,8 @@ ActiveRecord::Base.establish_connection(
   host:     '127.0.0.1',
   database: 'snpe',
   username: 'root',
-  #password: 'root'
-  password: 'zzpregasep'
+  password: 'root'
+  #password: 'zzpregasep'
 )
 
 # Clase usada para parsear y validar la informacion del exel.
@@ -171,7 +171,7 @@ if ARGV.include?('migrate')
             total: dataExcel.puntaje,
             cabecera: dataExcel.cabecera,
             persona_id: persona.id, 
-            region: region.id,
+            region_id: region.id,
             funcion_id: cargo.id
           )
           total_records += 1
