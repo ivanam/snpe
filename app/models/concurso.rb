@@ -4,6 +4,10 @@ class Concurso < ActiveRecord::Base
   		:validar_fechas_futuras,
   		:validar_fecha_concurso
 	
+	def to_s
+  		"#{ self.descripcion }"
+  	end
+
   	def self.get_concurso_activo
   		Concurso.all.each do |concurso|
 			if concurso.es_activo
