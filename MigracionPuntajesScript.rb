@@ -19,8 +19,8 @@ ActiveRecord::Base.establish_connection(
   host:     '127.0.0.1',
   database: 'snpe',
   username: 'root',
-  password: 'root'
-  #password: 'zzpregasep'
+  #password: 'root'
+  password: 'zzpregasep'
 )
 
 # Clase usada para parsear y validar la informacion del exel.
