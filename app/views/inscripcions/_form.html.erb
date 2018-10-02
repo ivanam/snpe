@@ -38,10 +38,9 @@
        </div>
     </div>
     <div class="form-group">
-       <%= f.label :concurso_id, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.collection_select(:concurso_id, Concurso.all, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>
-       </div>
+      <%= f.label :concurso_id, :class => "col-sm-4 control-label" %>
+      <%= f.text_field :concurso_id, :class => "form-control hidden" %>
+      <%= f.text_area :concurso_descripcion, :value => @inscripcion.concurso.descripcion%>
     </div>
 
 <h2>Cargos que posee</h2> <br>
