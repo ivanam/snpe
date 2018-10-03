@@ -65,7 +65,7 @@
               <%= f.label :funcion_id, "Cargo", :class => "control-label" %>
             </div>
             <div class="col-sm-6">
-              <%= ca.collection_select(:funcion_id, @inscripcion.persona.get_cargos, :id, :descripcion, {:prompt => true}, :style=>"width:100%") %>
+              <%= ca.collection_select(:funcion_id, @inscripcion.persona.get_cargos, :id, :to_s, {:prompt => true}, :style=>"width:100%") %>
             </div>
           <div class="col-sm-2">
             <%= label_tag "Prioridad", nil,  :class => "col-sm-4 control-label" %>
