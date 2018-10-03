@@ -1,0 +1,77 @@
+
+<div>
+  <center>  <h3>Filtros</h3> </center>
+    <table class="tabla-filtros">
+      <tr>
+        <th>Mes</th>
+        <th>Año</th>
+        <th>Tipo de cargo</th>
+      </tr>
+      <tr>
+        <td>
+          <%= select_tag 'Mes', options_for_select((1..12).to_a), :id => "select_mes"%>
+        </td>
+        <td>
+          <%= select_tag 'anio', options_for_select((2017..Date.today.year.to_i).to_a), :id => "select_anio"%>
+        </td>
+      </tr>
+    </table>
+    <div>
+    <br>
+    <center>
+      <button class="btn btn-primary" id="btn-filtrar">Filtrar</button>
+      <button id="btn-filtrar1" class="btn btn-danger">
+      <span class="glyphicon glyphicon-print"></span>
+      Imprimir licencias s/goce de haberes
+      </button>
+      </center>
+    </div>
+</div>
+
+
+<div>
+  <h3> Licencias sin certificado médico</h3>
+
+  <table class="tabla-reportes">
+    <tr>
+      <th>Agente </th>
+      <th>Secuencia </th>
+      <th>Establecimiento </th>
+      <th>Articulo </th>
+      <th>Inicio / Fin </th>
+    </tr>
+    <% @licencias_sin_cert.each do |l|%>
+      <tr>
+        <td><%= l.agente %></td>
+        <td><%= l.secuencia %></td>
+        <td><%= l.establecimiento %></td>
+        <td><%= l.articulo %></td>
+        <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+      </tr>
+    <% end %>
+  </table>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function($) {
+    
+    $('#select_mes').val("<%=@mes%>").change();
+    $('#select_anio').val("<%=@anio%>").change();
+    $('#select_tipo_cargo').val("<%=@tipo_cargo%>").change();
+
+    function getParams() {
+      var params = '?mes=' + $('#select_mes').val()+'&anio=' + $('#select_anio').val()+'&tipo_cargo=' + $('#select_tipo_cargo').val();
+      return  params
+    };
+
+
+    $('#btn-filtrar').on('click', function() {
+      window.location.href = "<%= licencias_sin_certificado_path %>" + getParams();
+    });
+
+     $('#btn-filtrar1').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/sin_certificado.pdf' + getParams();
+      })
+  });
+</script>
