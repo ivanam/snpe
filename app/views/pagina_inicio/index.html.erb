@@ -11,7 +11,7 @@
           <%= link_to "Planilla incompatibilidad", planilla_incompatibilidads_path, :tabindex => "-1", :class => "btn btn-success btn-block" %>
         </center>
       </div>
-    <% elsif  current_user.role? :UserJunta then%>
+    <% elsif  (current_user.role? :UserJunta) || (current_user.role? :Junta) then%>
       <%# controller.redirect_to docenteInscripcion_path id: current_user.get_persona.id %>
     <%else%>
 
