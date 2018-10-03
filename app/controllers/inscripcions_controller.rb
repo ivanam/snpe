@@ -42,11 +42,16 @@ class InscripcionsController < InheritedResources::Base
   end
 
   def new
+    @concurso = Concurso.get_concurso_activo
+    if @concurso.nil? 
+      redirect_to request.referrer, :alert => "Sin concurso abierto para inscribirse."
+    end
     @persona = Persona.where(id: params[:id]).first
     @inscripcion = @persona.inscripcions.first
     if @inscripcion.nil?
       @inscripcion = Inscripcion.new    
-      @inscripcion.persona_id = @persona.id
+      @inscripcion.persona = @persona
+      @inscripcion.concurso = @concurso
     else
       redirect_to action: "show", id: @inscripcion.id
     end
@@ -140,6 +145,8 @@ class InscripcionsController < InheritedResources::Base
         :persona_id, 
         :region_id,
         :concurso_id,
+        :ambito_id,
+        :establecimiento_id,
         :cabecera, 
         :fecha_incripcion, 
         cargo_inscrip_doc_attributes: [
