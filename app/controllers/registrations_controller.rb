@@ -1,13 +1,13 @@
 class RegistrationsController < Devise::RegistrationsController
-  def create
-    if verify_recaptcha
-      super
-    else
-      build_resource(sign_up_params)
-      clean_up_passwords(resource)
-      flash.now[:alert] = "Hubo un error al ingresar el código de la imagen, por favor reingrese el código."
-      flash.delete :recaptcha_error
-      render :new
+  prepend_before_action :check_captcha, only: [:create] # Change this to be any actions you want to protect.
+
+  private
+    def check_captcha
+      unless verify_recaptcha
+        self.resource = resource_class.new sign_up_params
+        resource.validate # Look for any other validation errors besides Recaptcha
+        set_minimum_password_length
+        respond_with resource
+      end 
     end
-  end
 end

@@ -171,7 +171,7 @@ if ARGV.include?('migrate')
             total: dataExcel.puntaje,
             cabecera: dataExcel.cabecera,
             persona_id: persona.id, 
-            region: region.id,
+            region_id: region.id,
             funcion_id: cargo.id
           )
           total_records += 1

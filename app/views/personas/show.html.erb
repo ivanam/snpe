@@ -9,6 +9,15 @@
   <dt>Nro documento:</dt>
   <dd><%= @persona.nro_documento %></dd>
 
+  <dt>Año de Antigüedad:</dt>
+  <dd><%= @persona.anio %></dd>
+
+  <dt>Mes de Antigüedad:</dt>
+  <dd><%= @persona.mes %></dd>
+
+  <dt>Día de Antigüedad:</dt>
+  <dd><%= @persona.dia %></dd>
+
   <dt>CUIL/CUIT:</dt>
   <dd><%= @persona.cuil %></dd>
 
@@ -43,7 +52,7 @@
   <dd><%= @persona.email %></dd>
   <br/><br/>
 
-  <% if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin) %>
+  <% if (current_user.role? :escuela) || (current_user.role? :personal) || (current_user.role? :sadmin) || (current_user.role? :licencia) %>
   <%= link_to establecimiento_pof_path, :class => 'btn btn-primary' do%>
    <span class="glyphicon glyphicon-share-alt"></span>
    volver a la POF

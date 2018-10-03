@@ -46,8 +46,7 @@ class UsersController < ApplicationController
     
 
     @user = User.new(user_params)
-    debugger
-
+    
     respond_to do |format|
       if @user.save
         format.html { redirect_to @user, notice: 'User was successfully created.' }

@@ -58,8 +58,15 @@ class User < ActiveRecord::Base
 
   
   def set_persona
-    debugger
     #corroborar que la opersona existe en el padrón
+    if (self.nombres == nil or self.nombres == "")
+      errors.add(:base, "Debe completar el nombre")
+      return false
+    end
+    if (self.apellidos == nil or apellidos == "")
+      errors.add(:base, "Debe completar el apellido")
+      return false
+    end
     if Persona.where(:nro_documento => self.documento).first() != nil
       persona = Persona.where(:nro_documento => self.documento).first()
       #agregar linea, pregunmtando si existe en la tabla rubros
