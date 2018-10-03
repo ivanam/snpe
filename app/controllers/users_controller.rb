@@ -46,6 +46,7 @@ class UsersController < ApplicationController
     
 
     @user = User.new(user_params)
+    debugger
 
     respond_to do |format|
       if @user.save

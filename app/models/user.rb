@@ -48,26 +48,17 @@ class User < ActiveRecord::Base
  private
 
   def actualizar_persona
-    #una vez que se guarda el user, le seteo el id a la persona
+  
     persona = Persona.where(:nro_documento => self.documento).first()
-    #agregar linea, pregunmtando si existe en la tabla rubros
-    #if Rubro.where(:persona_id => persona.id).first != nil
-      if persona.user_id == nil or persona.user_id == 0
-          persona.user_id = self.id
-          persona.save
-      else 
-        #agregar mensaje de error
-        errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
-        return false  
-      end
-    #else
-    #    errors.add(:base,"la persona no existe en el padrón")
-    #end
+    persona.user_id = self.id
+    persona.save
+
 
   end
 
   
   def set_persona
+    debugger
     #corroborar que la opersona existe en el padrón
     if Persona.where(:nro_documento => self.documento).first() != nil
       persona = Persona.where(:nro_documento => self.documento).first()
@@ -79,6 +70,7 @@ class User < ActiveRecord::Base
           if (User.where(:id => persona.user_id).first != nil)
             user = User.where(:id => persona.user_id).first
              #corroborar que el user no este confirmado
+             
             if user.confirmed_at != nil
               #agregar mensaje de error
               errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
