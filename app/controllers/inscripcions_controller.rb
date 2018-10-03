@@ -61,18 +61,10 @@ class InscripcionsController < InheritedResources::Base
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.save
     if @inscripcion.save
-      redirect_to @inscripcion      
+      flash[:success] = "Inscripcion registrada correctamente"
+      redirect_to action: "docenteInscripcion", id: @inscripcion.persona.id
     else
       render "new"
-    end
-  end
-
-  def destroy
-  	@inscripcion = Inscripcion.find(params[:id])
-    @inscripcion.destroy
-    respond_to do |format|
-      format.html { redirect_to inscripcions_url }
-      format.json { head :no_content }
     end
   end
 
