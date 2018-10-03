@@ -481,7 +481,7 @@ ProyectoBase::Application.routes.draw do
 
     resources :role_permissions
 
-    devise_for :users, :path => 'user' 
+    devise_for :users, :path => 'user', controllers: { registrations: "registrations"}
     
     resources :roles
     
