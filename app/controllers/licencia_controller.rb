@@ -692,6 +692,42 @@ def listado_licencias_todas_lic
     end 
   end
 
+  def sin_certificado
+    @mes = params["mes"] 
+    @anio = params["anio"]
+
+    if @mes == nil
+      @mes = Date.today.month.to_s
+    end
+    if @anio == nil
+      @anio = Date.today.year.to_s
+    end
+    fecha_i = @anio+"-"+@mes+"-01"
+    fecha_f = @anio+"-"+@mes+"-31"
+    articulo_ids = Articulo.where(con_goce: false).map(&:id)
+    licencias = Licencium.where(articulo_id: articulo_ids)
+    if @tipo_cargo == nil || @tipo_cargo == "horas"
+      licencias = licencias.where.not(altas_bajas_hora_id: nil)
+    elsif @tipo_cargo == "cargos"
+      licencias = licencias.where.not(cargo_id: nil)
+    elsif @tipo_cargo == "cargos no docente"
+      licencias = licencias.where.not(cargo_no_docente_id: nil)
+    end
+    @licencias_sin_cert = Licencium.select('licencia.*').from('licencia, establecimientos').where(' YEAR(licencia.fecha_desde) = ' + @anio + ' and MONTH(licencia.fecha_desde) = '+ @mes +' and licencia.fecha_desde >= "2018-09-01" and establecimientos.codigo_jurisdiccional = licencia.oficina and establecimientos.sede = 1 and (licencia.observaciones = "" or licencia.observaciones = null) and (licencia.articulo_id = 292 or licencia.articulo_id = 291 or licencia.articulo_id = 321 or licencia.articulo_id = 322 or licencia.articulo_id = 323 or licencia.articulo_id = 324 or licencia.articulo_id = 325) and licencia.vigente != "Cancelada"')
+    
+    respond_to do |format|
+    format.pdf do
+      render :pdf => 'sin_certificado', 
+      :template => 'licencia/sin_certificado_pdf.html.erb',
+      :layout => 'pdf.html.erb',
+      :orientation => 'Landscape',# default Portrait
+      :page_size => 'Legal', # default A4
+      :show_as_html => params[:debug].present?
+    end
+        format.html 
+    end 
+  end
+
 
   private
     def set_licencium
