@@ -8,6 +8,7 @@
       <th>Establecimiento </th>
       <th>Articulo </th>
       <th>Inicio / Fin </th>
+      
     </tr>
     <% @licencias_sin_cert.each do |l|%>
       <tr>
@@ -16,6 +17,7 @@
         <td><%= l.establecimiento %></td>
         <td><%= l.articulo %></td>
         <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+
       </tr>
     <% end %>
   </table>
