@@ -49,7 +49,7 @@ class PersonasController < ApplicationController
     end
 
     def persona_params
-      params.require(:persona).permit(:apellidos, :calle, :depto, :email, :estado_civil_id, :fecha_nacimiento, :localidad_id, :nombres, :nro_calle, :nro_documento, :piso, :sexo_id, :situacion_revista_id, :telefono_contacto, :tipo_documento_id, :cuil)
+      params.require(:persona).permit(:apellidos, :anio, :mes, :dia, :calle, :depto, :email, :estado_civil_id, :fecha_nacimiento, :localidad_id, :nombres, :nro_calle, :nro_documento, :piso, :sexo_id, :situacion_revista_id, :telefono_contacto, :tipo_documento_id, :cuil)
   end
 
 end

@@ -32,6 +32,8 @@ ProyectoBase::Application.routes.draw do
 
     get "buscar_cv_persona/", to: 'inscripcions#buscar_cv_persona'
 
+    post "/users/buscar_persona/:dni", to: 'users#buscar_persona'
+
     get "inscripcions/buscar_persona/:dni", to: 'inscripcions#buscar_persona'
 
     get "inscripcions/new", to: "inscripcions#new", as: :new_inscripcions
@@ -374,6 +376,8 @@ ProyectoBase::Application.routes.draw do
     get "licencias/autocomplete_persona_apeynom", to: 'licencia#get_autocomplete_items', as: :autocomplete_persona_apeynom_licencia
 
     get "licencias/sin_goce", to: 'licencia#sin_goce', as: :licencias_sin_goce
+    get "licencias/sin_certificado", to: 'licencia#sin_certificado', as: :licencias_sin_certificado
+
     get "util/buscar_hora/:dni", to: 'util#buscar_hora'
     post "util/buscar_hora/:dni", to: 'util#buscar_hora'
     get 'licencia/altas_bajas_horas_licencia_permitida/:dni', to: 'licencia#altas_bajas_horas_licencia_permitida', as: :altas_bajas_horas_licencia_permitida
@@ -474,8 +478,8 @@ ProyectoBase::Application.routes.draw do
 
     resources :role_permissions
 
-    devise_for :users, :path => 'user'
-
+    devise_for :users, :path => 'user' 
+    
     resources :roles
     
     resources :users
