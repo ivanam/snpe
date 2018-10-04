@@ -11,8 +11,10 @@
         <%= link_to "SNPE", root_path, :class => "navbar-brand" %>
       <%end%>
 
-      <%if (user_signed_in? && (current_user.role? :UserJunta)) then %>
-        <%= link_to "Inscribirse", docenteInscripcion_path(id: current_user.get_persona.id), :class => "navbar-brand" %>
+      <%if (user_signed_in? && (current_user.role? :UserJunta)) && current_user.get_persona != false then %>
+          <%= link_to "Inscribirse", docenteInscripcion_path(id: current_user.get_persona.id), :class => "navbar-brand" %>
+      <%else%>
+            <%flash[:error] = " Ya existe un usuario para la persona"%>
       <%end%>
 
 

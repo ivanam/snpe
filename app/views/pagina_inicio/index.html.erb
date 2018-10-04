@@ -13,6 +13,14 @@
       </div>
     <% elsif  (current_user.role? :UserJunta) || (current_user.role? :Junta) then%>
       <%# controller.redirect_to docenteInscripcion_path id: current_user.get_persona.id %>
+        <% if current_user.get_persona != false %>
+            <div class="alert alert-danger alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <ul>
+              <%="Ya existe un usuario para la persona"%>
+              </ul>
+            </div>
+        <%end%>
     <%else%>
 
       <% if false%>

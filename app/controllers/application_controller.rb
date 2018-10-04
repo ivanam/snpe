@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
 
   registration_params = [:email, :nombres , :apellidos,:documento, :password]
-
+    
     if params[:action] == 'create'
       devise_parameter_sanitizer.for(:sign_up) do
         |u| u.permit(registration_params)

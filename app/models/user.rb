@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   after_create :actualizar_persona
   after_create :set_nombre_y_apellido
 
+
   def tiene_rol(rol) 
     roles = self.roles.map do |rol|
       rol.description
@@ -42,7 +43,11 @@ class User < ActiveRecord::Base
   # refactorizar esto. geberia ser User.pesona
   def get_persona
     persona = Persona.where(:nro_documento => self.documento).first()
-    return persona
+    if persona.user_id == self.id    
+      return persona
+    else
+      return false
+    end 
   end
 
  private
@@ -74,7 +79,7 @@ class User < ActiveRecord::Base
     if Persona.where(:nro_documento => self.documento).first() != nil
       persona = Persona.where(:nro_documento => self.documento).first()
       #agregar linea, pregunmtando si existe en la tabla rubros
-      if Rubro.where(:persona_id => persona.id).first != nil 
+      if Rubro.where(:persona_id => persona.id).first != nil  
         #corroborar que la persona no tiene un user asignado
         if (persona.user_id != nil or persona.user_id != 0) 
           #corroborar que el user existe
