@@ -88,6 +88,11 @@ class User < ActiveRecord::Base
               return false  
             end
           end
+        else
+          #agregar mensaje de error
+          errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
+          return false 
+        end
         end
       else
         errors.add(:base,"la persona no existe en el padrón")
