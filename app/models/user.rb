@@ -48,14 +48,16 @@ class User < ActiveRecord::Base
  private
 
   def actualizar_persona
-    if persona.user_id == nil
       persona = Persona.where(:nro_documento => self.documento).first()
-      persona.user_id = self.id
-      persona.save
-    else
-      errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
-      return false  
-    end
+      if persona != nil 
+        if persona.user_id == nil
+          persona.user_id = self.id
+          persona.save
+        else
+          errors.add(:base,"ya existe un usuario para la persona #{persona.to_s}")
+          return false  
+        end
+      end
   end
 
   
