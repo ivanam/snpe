@@ -5,7 +5,7 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 		@listaAux = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726]
 		else
@@ -200,7 +200,7 @@ class MigracionController < ApplicationController
 	def migrar_cargos
 
 		@listacargoSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726]
 		else
@@ -296,7 +296,7 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726]
 		else
