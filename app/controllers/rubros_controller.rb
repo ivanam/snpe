@@ -50,7 +50,7 @@ class RubrosController < InheritedResources::Base
   private
 
     def junta_only
-      if not current_user.tiene_rol('Junta')
+      if not current_user.role? :Junta
         redirect_to root_path, :alert => "Access denied."
       end
     end
