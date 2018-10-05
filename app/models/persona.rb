@@ -8,7 +8,7 @@ class Persona < ActiveRecord::Base
   belongs_to :tipo_documento
   has_many :altas_bajas_hora , inverse_of: :persona
   has_many :titulos , inverse_of: :persona
-  has_many :user
+  belongs_to :user
   has_many :rubros
   has_many :inscripcions
   
