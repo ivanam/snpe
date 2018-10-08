@@ -72,12 +72,13 @@ class Ability
           can :manage, [Materium]
         end
 
-         if user.role? :junta
+        if user.role? :junta
           can :manage, [Inscripcion]
           can :manage, [Titulo]
+          can :manage, [Concurso]
         end
 
-         if user.role? :UserJunta
+        if user.role? :UserJunta
           can :manage, [Inscripcion]
           can :read, [Persona]
           can :edit, [Persona]
@@ -87,7 +88,7 @@ class Ability
         if user.role? :incompatibilidad
           can :manage, [PlanillaIncompatibilidad]
         end
-      
+
         user.roles.each do |ro|
           can do |action, subject_class, subject|
             ro.permissions.find_all_by_action([aliases_for_action(action), :manage].flatten).any? do |permission|
