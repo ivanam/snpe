@@ -82,11 +82,11 @@ class Ability
 
         if user.role? :UserJunta
           
-          cannot :index, Inscripcion
           can :read, Inscripcion, persona_id: user.get_persona.id
           can :update, Inscripcion, persona_id: user.get_persona.id
           can :create, Inscripcion, persona_id: user.get_persona.id
           can :edit, Inscripcion, persona_id: user.get_persona.id
+          cannot :index, Inscripcion
           
           can :read, Persona, :id => user.get_persona.id
           can :edit, Persona, :id => user.get_persona.id
