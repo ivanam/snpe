@@ -73,16 +73,24 @@ class Ability
         end
 
         if user.role? :junta
+          #can :docenteInscripcion, [Inscripcion], id:
           can :manage, [Inscripcion]
+          can :manage, [Persona]
           can :manage, [Titulo]
           can :manage, [Concurso]
         end
 
         if user.role? :UserJunta
-          can :manage, [Inscripcion]
-          can :read, [Persona]
-          can :edit, [Persona]
-          can :update, [Persona]
+          
+          cannot :index, Inscripcion
+          can :read, Inscripcion, persona_id: user.get_persona.id
+          can :update, Inscripcion, persona_id: user.get_persona.id
+          can :create, Inscripcion, persona_id: user.get_persona.id
+          can :edit, Inscripcion, persona_id: user.get_persona.id
+          
+          can :read, Persona, :id => user.get_persona.id
+          can :edit, Persona, :id => user.get_persona.id
+          can :update, Persona, :id => user.get_persona.id
         end
 
         if user.role? :incompatibilidad

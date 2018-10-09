@@ -1,13 +1,10 @@
 class InscripcionsController < InheritedResources::Base
+  skip_load_and_authorize_resource :only => :docenteInscripcion
+  load_and_authorize_resource
   before_filter :authenticate_user!
-  before_action :permisos_index, only: [:index]
-  before_action :permisos_edit, only: [:edit]
-
-  before_action :permisos_get, only: [:new]
-  before_action :permisos_post, only: [:create, :update]
-
-
+  
   def index
+    authorize! :index, Inscripcion
   	respond_to do |format|
       format.html
       format.json { render json: InscripcionDatatable.new(view_context, { query: Inscripcion.all.order(fecha_incripcion: :desc) }) }
@@ -18,6 +15,11 @@ class InscripcionsController < InheritedResources::Base
     puts params[:id]
     @persona = Persona.where(id: params[:id]).first
     @inscripcion = @persona.inscripcions.first
+    if !@inscripcion.nil?
+      authorize! :read, @inscripcion
+    end
+    authorize! :read, @persona
+
     respond_to do |format|
       format.html
       format.pdf do
@@ -75,63 +77,17 @@ class InscripcionsController < InheritedResources::Base
 
   private
 
-    def permisos_index
-        if not current_user.role? :Junta 
-            redirect_to root_path, :alert => "Access denied."
-        end
-    end
+  def find_inscripcion
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
+  end
 
-    def permisos_edit
-      if current_user.role? :UserJunta
-        @inscripcion = Inscripcion.find(params[:id])  
-        @persona = @inscripcion.persona
-        if @persona.id != current_user.get_persona.id
-          flash[:error]= "Access denied."
-          redirect_to :back
-          #redirect_to root_path, :alert => "Access denied."
-        end
-      elsif not current_user.role? :Junta
-        redirect_to root_path, :alert => "Access denied."
-      end  
-    end
-
-    def permisos_get
-      if current_user.role? :UserJunta
-        p1 = current_user.get_persona.id
-        p2 = Persona.where(id: params[:id]).first.id
-        if p1 != p2
-          flash[:error]= "Access denied."
-          redirect_to :back
-          #redirect_to root_path, :alert => "Access denied."
-        end        
-      else
-        if not current_user.role? :Junta
-            redirect_to root_path, :alert => "Access denied."
-        end
-      end
-    end
-
-    def permisos_post
-      if current_user.role? :UserJunta
-        p1 = current_user.get_persona.id
-        p2 = Persona.where(id: inscripcion_params[:persona_id]).first.id
-        if p1 != p2
-          flash[:error]= "Access denied."
-          redirect_to :back
-          #redirect_to root_path, :alert => "Access denied."
-        end        
-      else
-        if not current_user.role? :Junta 
-          redirect_to root_path, :alert => "Access denied."
-        end
-      end
-    end
-
-    def set_inscripcion
-      @inscripcion = Inscripcion.find(params[:id])
-    end
+  def set_inscripcion
+    @inscripcion = Inscripcion.find(params[:id])
+  end
 
   private
+  
     def inscripcion_params
       params.require(:inscripcion).permit(
         :persona_id, 
@@ -150,5 +106,6 @@ class InscripcionsController < InheritedResources::Base
         ]
       )
     end
+
 end
 
