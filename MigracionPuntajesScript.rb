@@ -1,7 +1,7 @@
 # Script para migracion de puntajes de docentes, a partir de archivo exel.
 # Fecha creacion: 21 sep 2018
 # Fecha de migracion: ---
-# Ejecutar: ruby MigrarPuntajesScript.rb print migrate force
+# Ejecutar: ruby MigracionPuntajesScript.rb print migrate force
 # Este script puede ser configurado para:
 # - leer un determinado archivo .xls
 # - configurar las columnas a parsear (indices deben ser validos)
@@ -49,7 +49,7 @@ class DataExel
     end
 
     def clean_cargo 
-      self.cargo = "107"
+      self.cargo = Random.rand(107..108).to_s
     end
 
     def clean_cabecera
