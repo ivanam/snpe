@@ -26,22 +26,52 @@
 </div>
 
 <script type="text/javascript">
-    $(document).ready(function($) {
-      $('#tabla-inscripcion').dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-inscripcion').data('source'),
-        pagingType: "simple",
-      });
     
-     $( "#buscar" ).bind("propertychange click input paste",function(){ 
-      //$("#buscar" ).change(function() {
-        var dni = parseInt($("#input_buscar_persona").val(),10);
-        $.ajax({
-          url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
-          type: 'GET',
-        })
+  $(document).ready(function($) {
+
+    var table = $('#tabla-inscripcion').DataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      ajax : $('#tabla-inscripcion').data('source'),
+      pagingType: "simple",
+      orderCellsTop: true,
+      fixedHeader: true,   
+      dom: 'Bf',
+      paginate: true,
+      buttons: [
+        {
+          extend: 'excel',
+          exportOptions: {
+              columns: 'th:not(:last-child)', // exclude action column                    
+          },
+          text:'<span class="pull-right glyphicon glyphicon-export">Excel</span>'
+        }
+      ]
+    });
+
+    // Filtros por columna
+    $('#tabla-inscripcion thead tr').clone(true).appendTo( '#tabla-inscripcion thead' );
+    $('#tabla-inscripcion thead tr:eq(1) th').each( function (i) {
+      if ( [0, 3, 4].includes(i) ) { $(this).html(""); return; }; //exclude colujmns
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+            table
+              .column(i)
+              .search( this.value )
+              .draw();
+          }
+        });
+    });
+    
+    $( "#buscar" ).bind("propertychange click input paste",function(){
+      var dni = parseInt($("#input_buscar_persona").val(),10);
+      $.ajax({
+        url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
+        type: 'GET',
+      })
         .done(function(data) {
           if (data != null) {
             open('/soft/snpe/docenteInscripcion/'+data.id);
@@ -52,5 +82,6 @@
           }
         })
       });
-    });
+
+  });
 </script>
