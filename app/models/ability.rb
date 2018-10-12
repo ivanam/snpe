@@ -73,11 +73,12 @@ class Ability
         end
 
         if user.role? :junta
-          #can :docenteInscripcion, [Inscripcion], id:
           can :manage, [Inscripcion]
           can :manage, [Persona]
           can :manage, [Titulo]
           can :manage, [Concurso]
+          can :manage, [Rubro]
+          cannot :destroy, [Rubro]
         end
 
         if user.role? :UserJunta
