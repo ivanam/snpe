@@ -16,7 +16,7 @@ class RubroDatatable < AjaxDatatablesRails::Base
   def data
       records.map do |record|
       [
-        record.persona.to_s,
+        link_to(record.persona.to_s, edit_persona_path(record.persona)),
         record.region.nombre,
         record.funcion.descripcion,
         record.total,
