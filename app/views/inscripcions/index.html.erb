@@ -36,9 +36,10 @@
       serverSide : true,
       ajax : $('#tabla-inscripcion').data('source'),
       pagingType: "simple",
+      "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todos"] ],
       orderCellsTop: true,
       fixedHeader: true,   
-      dom: 'Bf',
+      dom: 'Bflrtip',
       paginate: true,
       buttons: [
         {
