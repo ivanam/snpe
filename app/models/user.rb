@@ -8,8 +8,7 @@ class User < ActiveRecord::Base
   
   accepts_nested_attributes_for :establecimientos_users, allow_destroy: true
   
-  validate :validar_documento, :validar_cuenta_usuario
-  after_create :default_role
+  validate :validar_cuenta_usuario
   after_create :actualizar_persona
 
   # Include default devise modules. Others available are:
@@ -44,19 +43,6 @@ class User < ActiveRecord::Base
   end
 
  private
-
-  def validar_documento
-    documento = self.documento
-    persona = Persona.where(:nro_documento => self.documento).first
-    if !persona.nil?
-      rubro = Rubro.where(:persona_id => persona.id).first
-      if rubro.nil?
-        errors.add(:base,"DNI ingresado no se encuentra en el padron")
-      end
-    else
-      errors.add(:base,"DNI ingresado no se encuentra en el padron")
-    end
-  end
 
   def validar_cuenta_usuario
     documento = self.documento
