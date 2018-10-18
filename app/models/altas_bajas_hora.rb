@@ -9,7 +9,7 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :plan
 
 
-  if true
+  if false
     validates :fecha_alta, :presence => true
     validates :situacion_revista, :presence => true
     validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
@@ -34,6 +34,12 @@ class AltasBajasHora < ActiveRecord::Base
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
+
+  def self.horas_persona(dni)
+    
+    hora_ids = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC' or estado = 'ART')").map(&:id)
+    return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
+  end
 
 
   def quinto_b_historico
