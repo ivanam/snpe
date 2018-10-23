@@ -153,6 +153,7 @@ class Licencium < ActiveRecord::Base
  		end
 
 	 	def actualizar_estado
+	 		debugger
 			if self.articulo.con_goce
 				estado = 'ART' #Cuando la licencia no debe ser informada a Economía
 			else 
