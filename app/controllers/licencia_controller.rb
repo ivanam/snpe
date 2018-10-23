@@ -70,6 +70,40 @@ class LicenciaController < ApplicationController
     end
   end
 
+
+
+  def historial
+    @dni=params[:dni]
+    
+  end
+
+
+  def historial_horas
+    @dni=params[:dni]
+    respond_to do |format|
+      format.json { render json: HistorialLicHorasDatatable.new(view_context, { query: horas_persona(@dni)}) }
+    end
+
+  end
+
+
+  def historial_cargos
+    @dni=params[:dni]
+    respond_to do |format|
+      format.json { render json: HistorialLicCargosDatatable.new(view_context, { query: cargos_persona(@dni)}) }
+    end
+    
+  end
+
+  def historial_cargos_no_docentes
+    @dni=params[:dni]
+    respond_to do |format|
+      format.json { render json: HistorialLicCargosNoDocentesDatatable.new(view_context, { query: cargos_no_docentes_persona(@dni)}) }
+    end
+    
+  end
+
+
   def parte_diario
     if params["rango"] == "" or params["rango"] == nil
       @mindate_year = Date.today.year
@@ -282,7 +316,8 @@ def listado_licencias_todas_lic
     end
   end
   
-  
+
+
   def cargos_licencia_permitida
     @dni=params[:dni]
     respond_to do |format|
@@ -404,6 +439,7 @@ def listado_licencias_todas_lic
         render json: @licencia.errors.full_messages.first.to_json
       end
     elsif params[:articulo] == "360"
+      debugger
       @licencia = Licencium.new(cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic_1], destino: params[:destino],nro_documento: nro_documento, oficina: nro_oficina)
       if Cargo.find(params['id_cargos']).situacion_revista == "1-1" && @licencia.save && Cargo.find(params['id_cargos']).update(establecimiento_id: params[:destino], estado: 'REU')
         render json: 0
@@ -464,6 +500,7 @@ def listado_licencias_todas_lic
   
 
   def guardar_licencia_cargos_no_docentes
+
     turnocnds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first.turno
     cargonds = CargoNoDocente.where(id: params['id_cargos_no_docentes']).first
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
@@ -473,35 +510,41 @@ def listado_licencias_todas_lic
     nro_documento = persona.nro_documento
     @oficina = Establecimiento.where(id: cargonds.establecimiento_id).first
     nro_oficina = @oficina.codigo_jurisdiccional
+    # lista de arituculos que generan traslados definitivos
+    listaArtTrasladosDef =  ["378","394"]
+    # lista de arituculos que generan traslados transitorios
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360"]
     if (turnocnds == nil or turnocnds == "")
       msg = "El cargo auxiliar no tiene turno asignado"
-      render json: msg.to_json
-    end 
-   if ((params['articulo']=="352" or params['articulo']=="353" or params['articulo']=="354" or params['articulo']=="355" or params['articulo']=="356" or params['articulo']=="357" or params['articulo']=="358" or params['articulo']=="359") and secuencia != 1000)
-      destino = cargonds.id
-      if params[:articulo] == "378" and params[:destino].to_i > 0
-        destino = params[:destino]
-      end
-      @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], destino: destino, observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
-      if @licencia.save && CargoNoDocente.create!(establecimiento_id: params[:destino], persona_id: cargonds.persona_id, cargo: cargonds.cargo, secuencia: 1000, fecha_alta: cargonds.fecha_alta, fecha_baja: cargonds.fecha_baja, situacion_revista: cargonds.situacion_revista, turno: cargonds.turno,   estado: 'REU' , observaciones: descripcion_articulo)
-        render json: 0
+      render json: msg.to_json 
+    else 
+      debugger
+      if ((listaArtTrasladosTrans.include? params['articulo'] and secuencia != 1000)
+        destino = cargonds.id
+        if params[:articulo] == "378" and params[:destino].to_i > 0
+          destino = params[:destino]
+        end
+        @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], destino: destino, observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
+        if @licencia.save && CargoNoDocente.create!(establecimiento_id: params[:destino], persona_id: cargonds.persona_id, cargo: cargonds.cargo, secuencia: 1000, fecha_alta: cargonds.fecha_alta, fecha_baja: cargonds.fecha_baja, situacion_revista: cargonds.situacion_revista, turno: cargonds.turno,   estado: 'REU' , observaciones: descripcion_articulo)
+          render json: 0
+        else
+          render json: @licencia.errors.full_messages.first.to_json
+        end
+      elsif (params[:articulo] == "377")
+         cargondsid = cargonds.id
+         @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic_2], destino: cargondsid, nro_documento: nro_documento, oficina: nro_oficina)
+        if  @licencia.save && CargoNoDocente.find(params['id_cargos_no_docentes']).update(establecimiento_id: params[:destino], estado: 'REU')
+          render json: 0
+        else
+          render json: "no se puede realizar el traslado".to_json
+        end
       else
-        render json: @licencia.errors.full_messages.first.to_json
-      end
-    elsif params[:articulo] == "377"
-      cargondsid = cargonds.id
-       @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Finalizada", anio_lic: params[:fecha_anio_lic_2], destino: cargondsid, nro_documento: nro_documento, oficina: nro_oficina)
-      if  @licencia.save && CargoNoDocente.find(params['id_cargos_no_docentes']).update(establecimiento_id: params[:destino], estado: 'REU')
-        render json: 0
-      else
-        render json: "no se puede realizar el traslado".to_json
-      end
-    else
-      @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
-      if @licencia.save
-        render json: 0
-      else
-        render json: @licencia.errors.full_messages.first.to_json
+        @licencia = Licencium.new(cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
+        if @licencia.save
+          render json: 0
+        else
+          render json: @licencia.errors.full_messages.first.to_json
+        end
       end
     end
   end
