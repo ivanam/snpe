@@ -172,14 +172,14 @@ ActiveRecord::Schema.define(version: 20181001113304) do
 
   create_table "cargo_inscrip_docs", force: true do |t|
     t.integer  "persona_id"
-    t.integer  "funcion_id"
+    t.integer  "cargo_id"
     t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "opcion"
   end
 
-  add_index "cargo_inscrip_docs", ["funcion_id"], name: "index_cargo_inscrip_docs_on_funcion_id", using: :btree
+  add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
   add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
 
@@ -258,8 +258,8 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "estado"
     t.string   "materium_id"
+    t.string   "estado"
     t.string   "disposicion"
     t.string   "resolucion"
     t.integer  "cargo_especial_id"
@@ -281,15 +281,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.integer  "cargo_categ"
     t.integer  "nivel"
     t.string   "cargo_desc"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "concursos", force: true do |t|
-    t.datetime "fecha_concurso"
-    t.datetime "fecha_inicio"
-    t.datetime "fecha_fin"
-    t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -447,7 +438,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.integer  "user_id"
     t.integer  "region_id"
     t.integer  "cabecera"
-    t.integer  "concurso_id"
   end
 
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
@@ -487,31 +477,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
-
-  create_table "licenciasV", id: false, force: true do |t|
-    t.string  "apeynom"
-    t.string  "descripcion"
-    t.date    "fecha_desde"
-    t.date    "fecha_hasta"
-    t.string  "vigente"
-    t.integer "nombre_establecimi"
-    t.string  "codigo"
-    t.string  "cargos"
-    t.string  "estados cargnodoc"
-    t.string  "Estado AltBaHor"
-  end
-
-  create_table "licenciasvs", id: false, force: true do |t|
-    t.integer "nro_documento"
-    t.string  "apeynom"
-    t.string  "descripcion"
-    t.date    "fecha_desde"
-    t.date    "fecha_hasta"
-    t.string  "vigente"
-    t.integer "codigo_jurisdiccional"
-    t.integer "id",                    default: 0
-    t.string  "codigo"
-  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
@@ -579,7 +544,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.datetime "updated_at"
     t.string   "cuil"
     t.string   "apeynom"
-    t.integer  "user_id"
     t.integer  "anio"
     t.integer  "mes"
     t.integer  "dia"
@@ -683,7 +647,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "orden"
-    t.integer  "region_id"
+    t.string   "region"
     t.integer  "cabecera"
     t.string   "observaciones"
     t.integer  "funcion_id"
@@ -788,7 +752,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "documento"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
