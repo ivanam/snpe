@@ -35,6 +35,12 @@ class AltasBajasHora < ActiveRecord::Base
   PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
 
+  def self.horas_persona(dni)
+    
+    hora_ids = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC' or estado = 'ART')").map(&:id)
+    return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
+  end
+
 
   def quinto_b_historico
     total = 0
