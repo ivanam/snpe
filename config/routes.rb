@@ -425,6 +425,11 @@ ProyectoBase::Application.routes.draw do
 
     get "licencias/traslados", to: "licencia#traslados", as: :licencia_traslados
 
+    get 'licencias/historial', to: 'licencia#historial', as: :licencia_historial
+    get 'licencias/historial_index', to: 'licencia#historial_index', as: :licencia_historial_index
+
+
+
     #----------------Prestadores y Especialidades----------------------
 
     resources :especialidads
