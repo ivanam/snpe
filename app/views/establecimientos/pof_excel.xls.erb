@@ -117,6 +117,105 @@
         <% end %>
       </Table>
     </Worksheet>
+    <Worksheet ss:Name="Preceptores">
+      <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Agente</Data></Cell>
+          <Cell><Data ss:Type="String">Secuencia</Data></Cell>
+          <Cell><Data ss:Type="String">Cargo</Data></Cell>
+          <Cell><Data ss:Type="String">Turno</Data></Cell>
+          <Cell><Data ss:Type="String">Grupo</Data></Cell>
+          <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
+          <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
+        </Row>
+        <% establecimiento_actual.cargos_preceptor.each do |pre| %>
+        <Row>
+            <Cell><Data ss:Type="String"><%= pre.persona.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pre.secuencia %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= Funcion.where(categoria: pre.cargo).first.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pre.turno %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pre.grupo_id %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pre.situacion_revista %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pre.estado %></Data></Cell>
+            <% if pre.estado == "ART" or  pre.estado == "LIC"%>
+              <% licencia = Licencium.where(cargo_id: pre.id).last %>
+              <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
+              <% else%>
+              <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
+            <% end %>
+            <Cell><Data ss:Type="String"><%= Util.fecha_a_es(pre.fecha_alta) %></Data></Cell>
+        </Row>
+        <% end %>
+      </Table>
+    </Worksheet>
+    <Worksheet ss:Name="MOT">
+      <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Agente</Data></Cell>
+          <Cell><Data ss:Type="String">Secuencia</Data></Cell>
+          <Cell><Data ss:Type="String">Cargo</Data></Cell>
+          <Cell><Data ss:Type="String">Turno</Data></Cell>
+          <Cell><Data ss:Type="String">Grupo</Data></Cell>
+          <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
+          <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
+        </Row>
+        <% establecimiento_actual.cargos_mot.each do |mt| %>
+        <Row>
+            <Cell><Data ss:Type="String"><%= mt.persona.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= mt.secuencia %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= Funcion.where(categoria: mt.cargo).first.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= mt.turno %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= mt.grupo_id %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= mt.situacion_revista %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= mt.estado %></Data></Cell>
+            <% if mt.estado == "ART" or  mt.estado == "LIC"%>
+              <% licencia = Licencium.where(cargo_id: mt.id).last %>
+              <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
+              <% else%>
+              <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
+            <% end %>
+            <Cell><Data ss:Type="String"><%= Util.fecha_a_es(mt.fecha_alta) %></Data></Cell>
+        </Row>
+        <% end %>
+      </Table>
+     </Worksheet>
+        <Worksheet ss:Name="PEP">
+      <Table>
+        <Row>
+          <Cell><Data ss:Type="String">Agente</Data></Cell>
+          <Cell><Data ss:Type="String">Secuencia</Data></Cell>
+          <Cell><Data ss:Type="String">Cargo</Data></Cell>
+          <Cell><Data ss:Type="String">Turno</Data></Cell>
+          <Cell><Data ss:Type="String">Grupo</Data></Cell>
+          <Cell><Data ss:Type="String">Sit. Revista</Data></Cell>
+          <Cell><Data ss:Type="String">Estado</Data></Cell>
+          <Cell><Data ss:Type="String">Artículo</Data></Cell>
+          <Cell><Data ss:Type="String">Fecha de alta</Data></Cell>
+        </Row>
+        <% establecimiento_actual.cargos_pep.each do |pep| %>
+        <Row>
+            <Cell><Data ss:Type="String"><%= pep.persona.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pep.secuencia %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= Funcion.where(categoria: pep.cargo).first.to_s %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pep.turno %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pep.grupo_id %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pep.situacion_revista %></Data></Cell>
+            <Cell><Data ss:Type="String"><%= pep.estado %></Data></Cell>
+            <% if pep.estado == "ART" or  pep.estado == "LIC"%>
+              <% licencia = Licencium.where(cargo_id: pep.id).last %>
+              <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
+              <% else%>
+              <Cell><Data ss:Type="String"><%= licencia == nil ? '' : licencia.articulo.codigo %></Data></Cell>
+            <% end %>
+            <Cell><Data ss:Type="String"><%= Util.fecha_a_es(pep.fecha_alta) %></Data></Cell>
+        </Row>
+        <% end %>
+      </Table>
+     </Worksheet>
     <Worksheet ss:Name="cargos_docentes">
       <Table>
         <Row>
