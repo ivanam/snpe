@@ -7,19 +7,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <%if (user_signed_in? && (!current_user.role? :UserJunta)) then %>
-        <%= link_to "SNPE", root_path, :class => "navbar-brand" %>
-      <%end%>
-
-      <%if (user_signed_in? && (current_user.role? :UserJunta)) then %>
-        <%= link_to "Inscribirse", docenteInscripcion_path(id: current_user.get_persona.id), :class => "navbar-brand" %>
-      <%end%>
-
-
+      <%= link_to "SNPE", root_path, :class => "navbar-brand" %>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-            
+
         <%if (user_signed_in? && (!current_user.role? :UserJunta)) then %>
           <li class="dropdown">
             <%= link_to "http://www.chubut.edu.ar/preguntas/Preguntas_frecuentes_mnp.pdf" do %>
@@ -49,18 +41,7 @@
                 <li><%=link_to "Inasistencia de Cargos", asistencia_index_cargo_path, :tabindex => "-1"%></li>
                 <li><%=link_to "Inasistencia de Cargos auxiliares", asistencia_index_cargo_no_docente_path, :tabindex => "-1"%></li> 
               <% end %>
-             <% if (current_user.role? :junta) || (current_user.role? :docente) then %>
-
-                <% if can? :manage, Inscripcion %>
-                <li><%=link_to "Inscripciones Docente Primaria", inscripcions_path, :tabindex => "-1"%></li>
-                <% end %>
-                <% end %>
-                <% if current_user.role? :junta then %>
-                <li><%=link_to "Puntaje Docente (Rubros)", rubros_path, :tabindex => "-1"%></li>
-                <% if can? :index, Concurso %>
-                  <li><%=link_to "Concursos", concursos_path, :tabindex => "-1"%></li>
-                <% end %>
-                 <% end %>
+             
               <% if ver_model("AltasBajasHora") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#" onclick='return false;'>Horas</a>
@@ -123,6 +104,10 @@
           </li>
         <% end %>
       </ul>
+
+      <%if ( (user_signed_in?) && ( can? :read, Inscripcion)) then %>
+        <%= render :partial => "layouts/menu_inscripciones" %>
+      <%end%>
 
       <%if (user_signed_in? && (not current_user.role? :Junta) && (not current_user.role? :UserJunta)) then %>
         <%= render :partial => "layouts/menu_licencias" %>
