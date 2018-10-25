@@ -11,9 +11,22 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     @user = User.new(sign_up_params)
-    @persona = Persona.where(:nro_documento => @user.documento).first
-    if @persona.nil? 
-      @user.errors.add(:base, "DNI no esta en el padron.")
+
+    if @user.documento.nil? || @user.documento.to_s.empty?
+      @user.errors.add(:base, "Ingrese DNI.")
+    else
+      @persona = Persona.where(:nro_documento => @user.documento).first
+      if @persona.nil?
+        @user.errors.add(:base, "DNI incorrecto.")
+      else
+        @rubro = Rubro.where(persona_id: @persona.id).first
+        if @rubro.nil?
+          @user.errors.add(:base, "DNI no registrado en el padron.")
+        end
+      end
+    end  
+   
+    if !@user.errors.messages.empty?
       respond_with @user
     else
       super do |resource|
