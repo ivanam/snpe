@@ -30,6 +30,9 @@ class CargosDatatable < AjaxDatatablesRails::Base
         Util.fecha_a_es(record.fecha_baja),
         '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/cargos/'+record.id.to_s+'"><strong>Ver</strong></a>',
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
+        if record.estado.to_s == "LIC" then
+        '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" onclicK=licbaj('+record.id.to_s+') title="Lic/Baja"><strong>Lic/Baja</strong></a>'
+        end
 
       ]
     end
