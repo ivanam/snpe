@@ -311,7 +311,7 @@ ProyectoBase::Application.routes.draw do
 
     post "cargo_no_docente/guardar_edicion3", to: "cargo_no_docentes#guardar_edicion3", as: :cargo_no_docentes_guardar_edicion2
 
-     post "cargo_no_docente/guardar_edicion2", to: "cargo_no_docentes#guardar_edicion", as: :cargo_no_docentes_guardar_edicion3
+    post "cargo_no_docente/guardar_edicion2", to: "cargo_no_docentes#guardar_edicion2", as: :cargo_no_docentes_guardar_edicion3
 
     get "cargo_no_docente/buscar_cuil/:id", to: "cargo_no_docentes#buscar_cuil", as: :cargo_no_docentes_buscar_cuil
 
