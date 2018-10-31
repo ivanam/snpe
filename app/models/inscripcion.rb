@@ -12,7 +12,6 @@ class Inscripcion < ActiveRecord::Base
   validates :persona, :presence => true, uniqueness: { message: "Ya existe una inscripcion para el docente." }
   validates :region, :presence => true
   validates :fecha_incripcion, :presence => true
-  validates :cabecera, :presence => true
   validates :cargo_inscrip_doc, presence: { message: "Debe agregar al menos un cargo" }
   validates :concurso, :presence => true
 
