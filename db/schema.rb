@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181001113304) do
+ActiveRecord::Schema.define(version: 20181029160111) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.string   "resolucion"
     t.string   "decreto"
     t.integer  "tipo_hora_id"
+    t.text     "obs_lic"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -222,6 +223,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.string   "situacion_revista"
     t.string   "resolucion"
     t.string   "decreto"
+    t.text     "obs_lic"
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
@@ -258,11 +260,12 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.date     "licencia_hasta"
     t.integer  "cantidad_dias_licencia"
     t.string   "motivo_baja"
-    t.string   "materium_id"
     t.string   "estado"
+    t.string   "materium_id"
     t.string   "disposicion"
     t.string   "resolucion"
     t.integer  "cargo_especial_id"
+    t.text     "obs_lic"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -281,6 +284,15 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.integer  "cargo_categ"
     t.integer  "nivel"
     t.string   "cargo_desc"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "concursos", force: true do |t|
+    t.datetime "fecha_concurso"
+    t.datetime "fecha_inicio"
+    t.datetime "fecha_fin"
+    t.string   "descripcion"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -471,12 +483,39 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.integer  "user_id"
     t.integer  "nro_documento",           limit: 8
     t.integer  "oficina"
+    t.integer  "licencia_anterior_id"
+    t.text     "obs_licencia_anterior"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
   add_index "licencia", ["articulo_id"], name: "index_licencia_on_articulo_id", using: :btree
   add_index "licencia", ["cargo_id"], name: "index_licencia_on_cargo_id", using: :btree
   add_index "licencia", ["cargo_no_docente_id"], name: "index_licencia_on_cargo_no_docente_id", using: :btree
+
+  create_table "licenciasV", id: false, force: true do |t|
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "nombre_establecimi"
+    t.string  "codigo"
+    t.string  "cargos"
+    t.string  "estados cargnodoc"
+    t.string  "Estado AltBaHor"
+  end
+
+  create_table "licenciasvs", id: false, force: true do |t|
+    t.integer "nro_documento"
+    t.string  "apeynom"
+    t.string  "descripcion"
+    t.date    "fecha_desde"
+    t.date    "fecha_hasta"
+    t.string  "vigente"
+    t.integer "codigo_jurisdiccional"
+    t.integer "id",                    default: 0
+    t.string  "codigo"
+  end
 
   create_table "localidads", force: true do |t|
     t.string   "nombre"
