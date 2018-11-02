@@ -193,7 +193,9 @@ ProyectoBase::Application.routes.draw do
     patch "altas_bajas_horas/guardar_edicion/:id", to: "altas_bajas_horas#guardar_edicion", as: :altas_bajas_horas_guardar_edicion
 
     post "altas_bajas_horas/guardar_edicion2", to: "altas_bajas_horas#guardar_edicion2", as: :altas_bajas_horas_guardar_edicion2
-
+    
+    get "altas_bajas_horas/guardar_edicion3", to: "altas_bajas_horas#guardar_edicion3", as: :altas_bajas_horas_guardar_edicion3
+    
     get "altas_bajas_horas/notificar/:id", to: "altas_bajas_horas#notificar", as: :altas_bajas_horas_notificar
 
     put "altas_bajas_horas/cancelar/:id", to: "altas_bajas_horas#cancelar", as: :altas_bajas_horas_cancelar
@@ -254,6 +256,8 @@ ProyectoBase::Application.routes.draw do
     get "cargo/mostrar_edicion2/:id", to: "cargos#mostrar_edicion2", as: :cargos_mostrar_edicion2
 
     post "cargo/guardar_edicion2", to: "cargos#guardar_edicion2", as: :cargos_guardar_edicion2
+    
+    get "cargo/guardar_edicion3", to: "cargos#guardar_edicion3", as: :cargos_guardar_edicion3
 
     patch "cargo/guardar_edicion/:id", to: "cargos#guardar_edicion", as: :cargo_guardar_edicion
 
@@ -305,7 +309,9 @@ ProyectoBase::Application.routes.draw do
 
     get "cargo_no_docente/mostrar_edicion2/:id", to: "cargo_no_docentes#mostrar_edicion2", as: :cargo_no_docentes_mostrar_edicion2
 
-    post "cargo_no_docente/guardar_edicion2", to: "cargo_no_docentes#guardar_edicion2", as: :cargo_no_docentes_guardar_edicion2
+    post "cargo_no_docente/guardar_edicion3", to: "cargo_no_docentes#guardar_edicion3", as: :cargo_no_docentes_guardar_edicion2
+
+    post "cargo_no_docente/guardar_edicion2", to: "cargo_no_docentes#guardar_edicion2", as: :cargo_no_docentes_guardar_edicion3
 
     get "cargo_no_docente/buscar_cuil/:id", to: "cargo_no_docentes#buscar_cuil", as: :cargo_no_docentes_buscar_cuil
 
