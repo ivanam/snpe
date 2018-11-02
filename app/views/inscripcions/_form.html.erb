@@ -38,18 +38,27 @@
     </div>
 
 <h2>Cargos que posee</h2> <br>
-    <div class="form-group">
-       <%= f.label :ambito, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.select(:ambito_id, ["",""]+Ambito.all.map { |e| [e.to_s, e.id] }, {include_blank: true}, :style=>"width:100%" )%>
-       </div>
-    </div>
-    <div class="form-group">
-       <%= f.label :escuela_titular, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.select( :establecimiento_id, ["", ""] + Establecimiento.all.map { |e| [e.to_s, e.id] }, { include_blank: true }, :style=>"width:100%") %>
-       </div>
-    </div>
+  <% @inscripcion.persona.rubros.each do |rubro| %>
+    <% if rubro.titular %>
+      
+      <p>Titular en cargo  <%= rubro.funcion.descripcion %></p>
+      <div class="form-group">
+         <%= f.label :ambito, :class => "col-sm-4 control-label" %>
+         <div class="col-sm-6">
+         <%= f.select(:ambito_id, ["",""]+Ambito.all.map { |e| [e.to_s, e.id] }, {include_blank: true}, :style=>"width:100%" )%>
+         </div>
+      </div>
+      <div class="form-group">
+         <%= f.label :escuela_titular, :class => "col-sm-4 control-label" %>
+         <div class="col-sm-6">
+         <%= f.select( :establecimiento_id, ["", ""] + Establecimiento.all.map { |e| [e.to_s, e.id] }, { include_blank: true }, :style=>"width:100%") %>
+         </div>
+      </div>
+
+    <% end %>
+  <% end %>
+
+    
        
 <h2>Cargos que solicita</h2>
    
