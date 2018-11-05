@@ -2,7 +2,6 @@
 <%= javascript_include_tag "util.js" %>
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
-
 <hr id="div_hr_horas"/>
 <div id="div_horas" class="panel panel-info">
     <div class="panel-heading">
@@ -603,12 +602,14 @@
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,
     serverSide : true,
+    "scrollX": true,
+
     ajax : $('#tabla-licencium').data('source'),
     pagingType: "simple",
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 5 ],
+                "targets": [ 12 ],
                 "searchable": false,
                 "orderable": false
             }

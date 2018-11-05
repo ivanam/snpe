@@ -581,7 +581,20 @@ end
   
   end
 
-
+  def guardar_edicion3
+          @cargo = Cargo.find(params[:id_lic]) 
+          if @cargo.update(:estado => "LIC P/BAJ")
+            respond_to do |format|
+            format.html { redirect_to cargos_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.json { render action: 'modificacion', location: @cargo }
+            end
+           else
+            respond_to do |format|
+            format.html { render action: 'modificacion' }
+            format.json { render json: @cargo.errors, status: :unprocessable_entity }
+            end
+          end
+  end
 
   #---------------------------------------------------------------------------------------------------------------------------------------------------
 

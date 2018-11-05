@@ -116,7 +116,7 @@ class Cargo < ActiveRecord::Base
   def cargo_jerarquico
     #Revisa si existe la persona en el establecimiento con un cargo jerarquico asignado
     #Cargo.find(self.cargo_id).update!(estado: estado)
-    if self.estado != "LIC P/BAJ" && self.estado != "LIC"
+    if self.estado != "LIC P/BAJ" && self.estado != "LIC" && self.estado != "BAJ"
       if Cargo.where(establecimiento_id: self.establecimiento_id, cargo: Funcion.cargos_jerarquicos, persona_id: self.persona_id, estado: "ALT").where.not(id: self.id).order(fecha_alta: :desc).limit(1) != []
         errors.add(:persona, "no puede tomar el cargo porque posee un cargo jerarquico")
       end

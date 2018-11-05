@@ -32,6 +32,9 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
         else
           '<a class="btn btn-danger btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Cancelar impresión" data-url="'+Rails.application.routes.url_helpers.cargo_cancelar_cola_path(id: record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'
         end,
+        if record.estado.to_s == "LIC" then
+        '<a class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" onclicK=licbaj('+record.id.to_s+') title="Lic/Baja"><strong>Lic/Baja</strong></a>'
+        end
       ]
     end
   end

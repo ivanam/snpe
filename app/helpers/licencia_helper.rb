@@ -1,5 +1,22 @@
 module LicenciaHelper
 
+  def horas_persona(dni)
+    hora_ids = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC' or estado = 'ART')").map(&:id)
+    return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
+  end
+
+
+  def cargos_persona(dni) #funcion de busqueda para licencias
+
+    cargo_ids = Cargo.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC' or estado = 'ART')").map(&:id)
+    return Cargo.where(id: cargo_ids).includes(:establecimiento)
+  end
+
+  def cargos_no_docentes_persona(dni)
+    cargo_nd_ids = CargoNoDocente.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC' or estado = 'ART')")
+    return CargoNoDocente.where(id: cargo_nd_ids).includes(:establecimiento)
+  end
+
 
 	def cargos_persona_permitida(dni) #funcion de busqueda para licencias
 

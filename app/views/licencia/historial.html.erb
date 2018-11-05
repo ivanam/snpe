@@ -1,0 +1,235 @@
+
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "daterangepicker"%>
+<%= stylesheet_link_tag "daterangepicker-bs3" %>
+<%= javascript_include_tag "licencia.js" %>
+
+
+
+<style type="text/css">
+.form-group{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+</style>
+
+<div class="row">
+  <div class="col-lg-12">
+      <h1 class="page-header">Historial de licencias</h1>
+    </div>
+</div>
+
+</br>
+<div class="row">
+  <div class="col-lg-12">
+      <h3 class="page-header">Buscar Persona</h3>
+    </div>
+</div>
+
+<fieldset>
+  <div class="form-snpe" >
+    <div class="row">
+      <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_util_index_path, :placeholder => "Buscar persona", id_element: '#persona_id', :id => "persona" , :style => 'width:70%;' %>
+      <%= hidden_field_tag :persona_id  %>
+
+      
+      <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
+    </div>
+    <div class="row">
+      <div id="datos_persona" class="well" style="display: none;">
+        <%= label_tag 'dni', "", {:id => "label_dni", :hidden => true, :value => @dni} %><br/>
+        <%= label_tag 'cuil', "", {:id => "label_cuil"} %><br/>
+        <%= label_tag 'apellidos', "", {:id => "label_apellidos", :placeholder => "Apellido/s"} %><br/>
+        <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %><br/>
+        <%= label_tag 'Datos_Domicilio', "",{:id => "Datos_Domicilio"} %><br/>
+        <%= label_tag 'Calle/altura', "", {:id => "label_calle"} %><br/>
+        <%= label_tag 'Nro Calle', "", {:id => "nro_calle"} %><br/>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+</br>
+</br>
+
+<%= @dni%>
+<div id="tabla_horas">
+hfhfdh
+
+<% AltasBajasHora.horas_persona(@dni).each do |h| %>
+gsgepalta
+<form>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Agente</label>
+            <p class="form-control-static"></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">DNI</label>
+            <p class="form-control-static"></p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label class="control-label">Cuil</label>
+            <p class="form-control-static"></p>
+          </div>
+        </div>
+    </div>
+  </div>
+  </div>
+</form>
+<%end%>
+</div>
+
+
+<div class="table-responsive">
+    <table  class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ART  Aux/ Doc</th>
+          <th>Historico</th>
+          <th>Anual</th>
+          <th>Mensual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>5B</td>
+          <td> de 547</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>31 / 36</td>
+          <td>0</td>
+          <td> de 6</td>
+          <td>0 de 2</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>0</td>
+          <td>0 de 12</td>
+          <td>0 de 1</td>
+        </tr>
+        <tr>
+          <td>22a</td>
+          <td>0 de 150</td>
+          <td>0 de 30</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>22B</td>
+          <td>0 de 150</td>
+          <td>0 de 20</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>22c</td>
+          <td>0 de 150</td>
+          <td>0 de 10</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+  
+  <div class="text-center">
+    <%= link_to altas_bajas_horas_path, :class => 'btn btn-default' do %>
+      <span class="glyphicon glyphicon-list-alt"></span>
+      Atrás
+    <% end %>
+    
+  </div>
+
+</form>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+      $("#div_horas").hide();
+      $("#div_cargos").hide();
+      $("#div_cargos_no_docentes").hide();
+      $("#tabla_horas").hide()
+    })
+
+  $("#persona").change(function(e){
+      
+        
+       var id = parseInt($("#persona_id").val());
+       if (!Number.isNaN(id)) //Verifico que se haya ingresaod un dni 
+       { 
+
+        $.ajax({
+            url: '/soft/snpe/util/buscar_persona_por_id/'+id,
+            type: 'POST',
+          })
+            .done(function(data) {
+              window.dni = data.nro_documento
+            $.ajax({
+              url: '/soft/snpe/util/buscar_persona/'+window.dni,
+              type: 'POST',
+            })
+            .done(function(data) {            
+              if (data != null) { 
+                  
+                $("#datos_persona").show();           
+                $("#label_nombres").text(data.nombres);
+                $("#label_dni").text(data.nro_documento);
+                $("#label_apellidos").text('Apellido y nombre: '+data.apeynom);
+                $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
+                $("#label_calle").text('Calle: '+data.calle);
+                $("#nro_calle").text('Nro Calle: '+data.nro_calle);
+                $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+                $("#label_calle").text('Calle: '+data.calle);
+                $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
+                              window.location ='/soft/snpe/licencias/historial?dni='+data.nro_documento;
+
+              }
+              else{
+                //alert("La persona no existe. Por favor cargue sus datos");
+                $("#datos_persona").hide();           
+                $("#label_nombres").text("");
+                $("#label_apellidos").text("");
+                $("#label_cuil").text("");
+                $("#label_calle").text("");
+                $("#nro_calle").text("");
+                $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
+                $("#datepicker3").text("");
+              }
+            })
+          })
+        }
+    });  
+
+
+
+ 
+
+    $('#btn_buscar_persona').on('click', function() { //Trigger search button click event
+      var id = parseInt($("#persona_id").val());
+
+      $.ajax({
+            url: '/soft/snpe/util/buscar_persona_por_id/'+id,
+            type: 'POST',
+          })
+            .done(function(data) {
+              window.dni = data.nro_documento
+              $("#tabla_horas").show();
+
+        })
+      }
+    );
+
+
+
+    </script>

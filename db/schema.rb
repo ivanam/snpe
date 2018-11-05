@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181001113304) do
+ActiveRecord::Schema.define(version: 20181029160111) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.string   "resolucion"
     t.string   "decreto"
     t.integer  "tipo_hora_id"
+    t.text     "obs_lic"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -172,14 +173,14 @@ ActiveRecord::Schema.define(version: 20181001113304) do
 
   create_table "cargo_inscrip_docs", force: true do |t|
     t.integer  "persona_id"
-    t.integer  "funcion_id"
+    t.integer  "cargo_id"
     t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "opcion"
   end
 
-  add_index "cargo_inscrip_docs", ["funcion_id"], name: "index_cargo_inscrip_docs_on_funcion_id", using: :btree
+  add_index "cargo_inscrip_docs", ["cargo_id"], name: "index_cargo_inscrip_docs_on_cargo_id", using: :btree
   add_index "cargo_inscrip_docs", ["inscripcion_id"], name: "index_cargo_inscrip_docs_on_inscripcion_id", using: :btree
   add_index "cargo_inscrip_docs", ["persona_id"], name: "index_cargo_inscrip_docs_on_persona_id", using: :btree
 
@@ -222,6 +223,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.string   "situacion_revista"
     t.string   "resolucion"
     t.string   "decreto"
+    t.text     "obs_lic"
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree
@@ -263,6 +265,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.string   "disposicion"
     t.string   "resolucion"
     t.integer  "cargo_especial_id"
+    t.text     "obs_lic"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -447,7 +450,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.integer  "user_id"
     t.integer  "region_id"
     t.integer  "cabecera"
-    t.integer  "concurso_id"
   end
 
   add_index "inscripcions", ["persona_id"], name: "index_inscripcions_on_persona_id", using: :btree
@@ -481,6 +483,8 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.integer  "user_id"
     t.integer  "nro_documento",           limit: 8
     t.integer  "oficina"
+    t.integer  "licencia_anterior_id"
+    t.text     "obs_licencia_anterior"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
@@ -579,7 +583,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.datetime "updated_at"
     t.string   "cuil"
     t.string   "apeynom"
-    t.integer  "user_id"
     t.integer  "anio"
     t.integer  "mes"
     t.integer  "dia"
@@ -683,7 +686,7 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "orden"
-    t.integer  "region_id"
+    t.string   "region"
     t.integer  "cabecera"
     t.string   "observaciones"
     t.integer  "funcion_id"
@@ -788,7 +791,6 @@ ActiveRecord::Schema.define(version: 20181001113304) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
-    t.integer  "documento"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

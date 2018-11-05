@@ -5,26 +5,20 @@
 
 
 
-<div class="container">
+<div class="container" style="width:110%" >
 
 	</br>
 
 	<legend class="legend-small">Modificacion de Cargos</legend>  
 
-
+  <div class="table-responsive">
 
 <% if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal) then %>
 		<div class="panel panel-primary ">
 			<div class="panel-heading">
-				<h3 class="panel-title">
-				
-				</h3>
+				<h3 class="panel-title"></h3>
 			</div>
 			<div class="panel-body">
-			<div class="table-responsive">
-
-
-			
 			<div id="editar">
 			<%= form_for Cargo.new, :url => {:action => "guardar_edicion2", :id => @cargos },:html => { :class => "form-horizontal" } do |f| %> 
 				<fieldset>
@@ -78,12 +72,11 @@
       				<%= f.submit :class => "btn btn-primary", :value => "Guardar" , :id =>"formulario" %>
 
 				      </strong></a>
-				   	</div>
+				   	  </div>
 
-		        	</div>
 		   		 </fieldset>
 		   		 <%end%> 
-			<hr>
+			  <hr>
 			</div>
 			
 		    <br/>
@@ -109,12 +102,10 @@
                 <th>Fecha Baja</th>
 								<th>Ver</th>
 								<th>Editar</th>
+                <th>Lic/Baja</th>
 
 							</tr>
 						</thead>
-						<tbody>
-
-					</tbody>
 					</table>
 				</div>
 			</div>
@@ -198,7 +189,7 @@
            };
 
 
-       function guardar(){
+    function guardar(){
 
 
 		    $.ajax({
@@ -207,6 +198,13 @@
 		    })
 
 		};
+
+    function licbaj(id){
+      window.varId= id;
+       window.location.href = '/soft/snpe/cargo/guardar_edicion3/?id_lic='+window.varId;
+    
+
+    };
 
 
 
@@ -222,10 +220,13 @@ $(document).ready(function($) {
 		processing : true,
 		serverSide : true,
 		ajax : $('#tabla-cargos').data('source'),
-		pagingType: "simple",
+    pagingType: "full",
+    stateSave: true,
+    scrollY: '50vh',
+    scrollCollapse: true,
 		columnDefs: [
             {
-            		"targets": [ 1, 2, 3, 4, 5, 6 ],
+            		"targets": [ 1, 2, 3, 4, 5, 6],
             		"searchable": false,
                 "orderable": false
             }

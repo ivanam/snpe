@@ -488,6 +488,21 @@ class AltasBajasHorasController < ApplicationController
     respond_with(@altas_bajas_hora)
   end
 
+  def guardar_edicion3
+          @altas_bajas_hora = AltasBajasHora.find(params[:id_lic]) 
+          if @altas_bajas_hora.update(:estado => "LIC P/BAJ")
+            respond_to do |format|
+            format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
+            format.json { render action: 'modificacion', location: @altas_bajas_horas }
+            end
+           else
+            respond_to do |format|
+            format.html { render action: 'modificacion' }
+            format.json { render json: @altas_bajas_horas.errors, status: :unprocessable_entity }
+            end
+          end
+  end
+
   def destroy
     @altas_bajas_hora = AltasBajasHora.find(params[:id])  
     @altas_bajas_hora.estados.destroy_all
