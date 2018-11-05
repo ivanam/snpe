@@ -37,11 +37,14 @@
       <%= f.text_area :concurso_descripcion, :value => @inscripcion.concurso.descripcion%>
     </div>
 
+
+<% titulares = @inscripcion.persona.rubros.select  { |rubro| rubro.titular }   %>
+<% if titulares.size > 0  %>
 <h2>Cargos que posee</h2> <br>
-  <% @inscripcion.persona.rubros.each do |rubro| %>
+  <% titulares.each do |rubro| %>
     <% if rubro.titular %>
       
-      <p>Titular en cargo  <%= rubro.funcion.descripcion %></p>
+      <p>Titular en cargo  <%= rubro.juntafuncion.descripcion %></p>
       <div class="form-group">
          <%= f.label :ambito, :class => "col-sm-4 control-label" %>
          <div class="col-sm-6">
@@ -57,7 +60,7 @@
 
     <% end %>
   <% end %>
-
+<% end %>
     
        
 <h2>Cargos que solicita</h2>
