@@ -1,9 +1,10 @@
 class CargoInscripDoc < ActiveRecord::Base
   belongs_to :inscripcion
-  belongs_to :funcion
+  belongs_to :juntafuncion
+
 
  # validates :inscripcion, :presence => true
-  validates :funcion, :presence => true
+  validates :juntafuncion, :presence => true
   validates :opcion, :presence => true
 
 end

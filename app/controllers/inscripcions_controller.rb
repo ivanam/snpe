@@ -100,7 +100,7 @@ class InscripcionsController < InheritedResources::Base
         cargo_inscrip_doc_attributes: [
           :id, 
           :inscripcion_id, 
-          :funcion_id, 
+          :juntafuncion_id, 
           :opcion, 
           :_destroy, :opcion
         ]

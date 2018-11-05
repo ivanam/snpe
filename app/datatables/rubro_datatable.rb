@@ -4,11 +4,11 @@ class RubroDatatable < AjaxDatatablesRails::Base
     def_delegators :@view, :link_to, :edit_rubro_path, :edit_persona_path
 
     def sortable_columns
-      @sortable_columns ||= ['Persona.apeynom', 'Region.nombre', 'Funcion.descripcion', 'total']
+      @sortable_columns ||= ['Persona.apeynom', 'Region.nombre', 'Juntafuncion.descripcion', 'total']
     end
 
     def searchable_columns
-      @searchable_columns ||= ['Persona.apeynom', 'Region.nombre', 'Funcion.descripcion', 'Persona.nro_documento']
+      @searchable_columns ||= ['Persona.apeynom', 'Region.nombre', 'Juntafuncion.descripcion', 'Persona.nro_documento']
     end
 
   private
@@ -18,7 +18,7 @@ class RubroDatatable < AjaxDatatablesRails::Base
       [
         link_to(record.persona.to_s, edit_persona_path(record.persona)),
         record.region.nombre,
-        record.funcion.descripcion,
+        record.juntafuncion.descripcion,
         record.total,
           '<div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -36,7 +36,7 @@ class RubroDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query].joins(:region, :persona, :funcion)
+    return options[:query].joins(:region, :persona, :juntafuncion)
   end
 
 end

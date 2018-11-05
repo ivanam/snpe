@@ -49,7 +49,9 @@ class DataExel
     end
 
     def clean_cargo 
+      cargo = self.cargo
       self.cargo = Random.rand(107..108).to_s
+      self.cargo = cargo
     end
 
     def clean_cabecera
@@ -113,6 +115,9 @@ end
 class Inscripcion < ActiveRecord::Base
   self.table_name = "inscripcions"
 end
+class Juntafuncion < ActiveRecord::Base
+  self.table_name = "juntafuncions"
+end
 class Funcion < ActiveRecord::Base
   self.table_name = "funcions"
 end
@@ -138,6 +143,10 @@ if ARGV.include?('print')
   puts "Total de registros: #{count}"
 end
 
+def crear_cargo(descript)
+  puts "creando cargo #{descript}"
+  return Juntafuncion.create(descripcion: descript)
+end
 # transaccion sql para insertar tuplas a la base de datos.
 if ARGV.include?('migrate')
   puts "Migrando ..."
@@ -148,7 +157,8 @@ if ARGV.include?('migrate')
       if dataExcel.isValid
         persona = Persona.where(nro_documento: dataExcel.dni).first
         region = Region.where(nombre: dataExcel.region).first
-        cargo = Funcion.where(categoria: dataExcel.cargo).first
+        #cargo = Funcion.where(categoria: dataExcel.cargo).first
+        juntacargo = Juntafuncion.where(descripcion: dataExcel.cargo).first
         rubro = Rubro.new
         
         if persona.nil?
@@ -157,8 +167,12 @@ if ARGV.include?('migrate')
         if region.nil?
           rubro.errors[:base] << "REGION #{dataExcel.region} no se encontro en la base"
         end
-        if cargo.nil?
-          rubro.errors[:base] << "CARGO #{dataExcel.cargo} no se encontro en la base"
+        #if cargo.nil?
+        #  rubro.errors[:base] << "CARGO #{dataExcel.cargo} no se encontro en la base"
+        #end
+
+        if juntacargo.nil?
+          juntacargo = crear_cargo(dataExcel.cargo)
         end
 
         if rubro.errors.size > 0
@@ -172,7 +186,8 @@ if ARGV.include?('migrate')
             cabecera: dataExcel.cabecera,
             persona_id: persona.id, 
             region_id: region.id,
-            funcion_id: cargo.id
+            funcion_id: nil,
+            juntafuncion_id: juntacargo.id
           )
           total_records += 1
         end

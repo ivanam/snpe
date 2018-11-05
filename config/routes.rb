@@ -489,6 +489,8 @@ ProyectoBase::Application.routes.draw do
     
     resources :grupos
 
+    resources :juntafuncions
+
     root :to => "pagina_inicio#index"
 
   end

@@ -13,7 +13,7 @@
       <tr>
             <th>Persona</th>
             <th>Region</th>
-            <th>Cargo</th>
+            <th>Cargo Junta</th>
             <th>Puntaje Total</th>
             <th class="text-center">Acciones</th>
       </tr>
@@ -52,7 +52,7 @@
        // Filtros por columna
       $('#tabla-rubro thead tr').clone(true).appendTo( '#tabla-rubro thead' );
       $('#tabla-rubro thead tr:eq(1) th').each( function (i) {
-        if ( [0, 2, 3, 4].includes(i) ) { $(this).html(""); return; }; //exclude columns
+        if ( [0, 3, 4, 5].includes(i) ) { $(this).html(""); return; }; //exclude columns
           var title = $(this).text();
           $(this).html( '<input type="text" placeholder="Buscar '+title+'" />' );
           $( 'input', this ).on( 'keyup change', function () {

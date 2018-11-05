@@ -54,8 +54,8 @@ class Inscripcion < ActiveRecord::Base
   def validacion_cargo_permitido
     cargo_inscrip_doc.each do |cargoInscripcion|
       if (!cargoInscripcion.marked_for_destruction?) &&
-        (!cargoInscripcion.funcion.nil?) && 
-        (!persona.get_cargos.include? cargoInscripcion.funcion)
+        (!cargoInscripcion.juntafuncion.nil?) && 
+        (!persona.get_cargos.include? cargoInscripcion.juntafuncion)
         errors.add(:base, "Cargo ingresado no esta permitido")
       end
     end
@@ -76,7 +76,7 @@ class Inscripcion < ActiveRecord::Base
   def validacion_cargos_no_repetidos
     cargos = self.cargo_inscrip_doc.map { |cargoIinscripcion| 
       if !cargoIinscripcion.marked_for_destruction? then
-        cargoIinscripcion.funcion 
+        cargoIinscripcion.juntafuncion 
       end
     }
     cargos.delete(nil)

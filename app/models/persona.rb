@@ -34,7 +34,7 @@ class Persona < ActiveRecord::Base
   # retorna Cargo[] permitidos para inscripcion
   def get_cargos
     funciones = self.rubros.map do |rubro|
-      rubro.funcion
+      rubro.juntafuncion
     end
     return funciones.uniq
   end
