@@ -4,6 +4,8 @@ class Concurso < ActiveRecord::Base
   		:validar_fechas_futuras,
   		:validar_fecha_concurso
 	
+	has_many :inscripcions
+
 	def to_s
   		"#{ self.descripcion }"
   	end

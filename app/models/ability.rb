@@ -79,6 +79,7 @@ class Ability
           can :manage, [Concurso]
           can :manage, [Rubro]
           cannot :destroy, [Rubro]
+          cannot :destroy, [Concurso]
         end
 
         if user.role? :UserJunta
