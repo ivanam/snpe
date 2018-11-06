@@ -69,13 +69,14 @@
     
     $( "#buscar" ).bind("propertychange click input paste",function(){
       var dni = parseInt($("#input_buscar_persona").val(),10);
+      if (dni === '' || dni === null){ return;}
       $.ajax({
         url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
         type: 'GET',
       })
         .done(function(data) {
           if (data != null) {
-            open('/soft/snpe/docenteInscripcion/'+data.id);
+            window.location.href = '/soft/snpe/docenteInscripcion/'+data.id;            
           }
           else{
             alert("No se puede completar la operacion");
