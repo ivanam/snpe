@@ -1,6 +1,6 @@
   <div class="container">
     <div class="row" style="margin-bottom: -10px;">
-        <% if user_signed_in? then %>
+        <% if user_signed_in? && (!current_user.role? :junta) then %>
           <% if session[:establecimiento] != nil then%>
             <%@e = Establecimiento.find(session[:establecimiento])%>                  
             <!-- SIDEBAR -->
@@ -46,7 +46,7 @@
 
                 </p>
             </div>
-            <%if (user_signed_in? && (!current_user.role? :UserJunta)) then %>
+            <%if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta)) then %>
               <div class="title">
                 <h1 align="center"> Módulo de Novedades </h1>
               </div>
