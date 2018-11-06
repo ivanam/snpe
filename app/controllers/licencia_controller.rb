@@ -587,23 +587,27 @@ def listado_licencias_todas_lic
     end
 
   def poner_establecimientos
-    debugger
+    
     lic = Licencium.where(:oficina => nil)
+    
     lic.each do |e| 
       if e.altas_bajas_hora_id != nil
         if AltasBajasHora.where(:id => e.altas_bajas_hora_id).first != nil
           ofi_id = AltasBajasHora.where(:id => e.altas_bajas_hora_id).first.establecimiento_id
           e.oficina = Establecimiento.where(:id => ofi_id).first.codigo_jurisdiccional
+          e.save
         end
       elsif e.cargo_id != nil
         if  Cargo.where(:id => e.cargo_id).first != nil
           ofi_id = Cargo.where(:id => e.cargo_id).first.establecimiento_id
           e.oficina = Establecimiento.where(:id => ofi_id).first.codigo_jurisdiccional
+          e.save
         end
       elsif e.cargo_no_docente_id != nil
         if CargoNoDocente.where(:id => e.cargo_no_docente_id).first != nil
           ofi_id = CargoNoDocente.where(:id => e.cargo_no_docente_id).first.establecimiento_id
           e.oficina = Establecimiento.where(:id => ofi_id).first.codigo_jurisdiccional
+          e.save
         end
       end
     end
