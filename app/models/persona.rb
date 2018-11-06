@@ -11,7 +11,7 @@ class Persona < ActiveRecord::Base
   belongs_to :user
   has_many :rubros
   has_many :inscripcions
-  
+  accepts_nested_attributes_for :rubros
   validates :nro_documento, presence: true
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
 
@@ -39,5 +39,11 @@ class Persona < ActiveRecord::Base
     return funciones.uniq
   end
   
+  def tiene_cargo_titular
+    titulares = self.rubros.select do |rubro|
+      return rubro.titular
+    end 
+    return titulares.size > 0
+  end
 end
 

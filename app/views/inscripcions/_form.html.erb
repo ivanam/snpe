@@ -31,38 +31,8 @@
        <%= f.text_field :persona_id, :class => "form-control hidden" %>
        </div>
     </div>
-    <div class="form-group">
-      <%= f.label :concurso_id, :class => "col-sm-4 control-label" %>
       <%= f.text_field :concurso_id, :class => "form-control hidden" %>
-      <%= f.text_area :concurso_descripcion, :value => @inscripcion.concurso.descripcion%>
-    </div>
-
-
-<% titulares = @inscripcion.persona.rubros.select  { |rubro| rubro.titular }   %>
-<% if titulares.size > 0  %>
-<h2>Cargos que posee</h2> <br>
-  <% titulares.each do |rubro| %>
-    <% if rubro.titular %>
       
-      <p>Titular en cargo  <%= rubro.juntafuncion.descripcion %></p>
-      <div class="form-group">
-         <%= f.label :ambito, :class => "col-sm-4 control-label" %>
-         <div class="col-sm-6">
-         <%= f.select(:ambito_id, ["",""]+Ambito.all.map { |e| [e.to_s, e.id] }, {include_blank: true}, :style=>"width:100%" )%>
-         </div>
-      </div>
-      <div class="form-group">
-         <%= f.label :escuela_titular, :class => "col-sm-4 control-label" %>
-         <div class="col-sm-6">
-         <%= f.select( :establecimiento_id, ["", ""] + Establecimiento.all.map { |e| [e.to_s, e.id] }, { include_blank: true }, :style=>"width:100%") %>
-         </div>
-      </div>
-
-    <% end %>
-  <% end %>
-<% end %>
-    
-       
 <h2>Cargos que solicita</h2>
    
       <%= f.fields_for :cargo_inscrip_doc do |ca|%>

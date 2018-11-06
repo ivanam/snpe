@@ -35,7 +35,18 @@ class PersonasController < ApplicationController
 
   def update
     @persona.update(persona_params)
-    respond_with(@persona)
+    if request.referrer.include? "inscripcions"
+      if !@persona.valid?
+        @persona.errors.full_messages.each do |msg| 
+          flash[:error] = msg
+        end
+      else
+        flash[:success] = 'Lugar de titularidad guardado correctamente'
+      end
+      redirect_to :back
+    else
+      respond_with(@persona)
+    end
   end
 
   def destroy
@@ -49,7 +60,34 @@ class PersonasController < ApplicationController
     end
 
     def persona_params
-      params.require(:persona).permit(:apellidos, :anio, :mes, :dia, :calle, :depto, :email, :estado_civil_id, :fecha_nacimiento, :localidad_id, :nombres, :nro_calle, :nro_documento, :piso, :sexo_id, :situacion_revista_id, :telefono_contacto, :tipo_documento_id, :cuil)
+      params.require(:persona).permit(
+        :apellidos, 
+        :anio, 
+        :mes, 
+        :dia, 
+        :calle, 
+        :depto, 
+        :email, 
+        :estado_civil_id, 
+        :fecha_nacimiento, 
+        :localidad_id, 
+        :nombres, 
+        :nro_calle, 
+        :nro_documento, 
+        :piso, 
+        :sexo_id, 
+        :situacion_revista_id, 
+        :telefono_contacto, 
+        :tipo_documento_id, 
+        :cuil,
+        rubros_attributes: [
+          :id, 
+          :ambito_id, 
+          :establecimiento_id, 
+          :_destroy, :opcion
+        ]
+      )
+
   end
 
 end
