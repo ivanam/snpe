@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181029160111) do
+ActiveRecord::Schema.define(version: 20181106133321) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -758,6 +758,16 @@ ActiveRecord::Schema.define(version: 20181029160111) do
   end
 
   add_index "titulos", ["persona_id"], name: "index_titulos_on_persona_id", using: :btree
+
+  create_table "traslados", force: true do |t|
+    t.integer  "alta_baja_hora_id"
+    t.integer  "cargo_id"
+    t.integer  "cargo_no_docente_id"
+    t.date     "fecha_cambio_oficina"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "turnos", force: true do |t|
     t.string   "descripcion"
