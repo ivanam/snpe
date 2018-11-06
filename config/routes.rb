@@ -380,7 +380,7 @@ ProyectoBase::Application.routes.draw do
         get :autocomplete_persona_apeynom, :on => :collection
     end
 
-    
+    get "licencias/poner_establecimientos", to: 'licencia#poner_establecimientos'
     get "licencias/autocomplete_persona_apeynom", to: 'licencia#get_autocomplete_items', as: :autocomplete_persona_apeynom_licencia
 
     get "licencias/sin_goce", to: 'licencia#sin_goce', as: :licencias_sin_goce
