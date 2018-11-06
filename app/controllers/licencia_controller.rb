@@ -370,14 +370,13 @@ def listado_licencias_todas_lic
      ultima_lic = Licencium.where(cargo_id: params['id_horas']).last
      art_id = Articulo.where(id: params['articulo']).first.id
      licencias_anuales = [241,289]
+     @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
+     nro_oficina = @oficina.codigo_jurisdiccional
 
     if licencias_anuales.include? art_id
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
-    end
-
-
-    if (altbahora.turno == nil or altbahora.turno == "")
+    elsif  (altbahora.turno == nil or altbahora.turno == "")
       msg = "El cargo docente no tiene turno asignado"
       render json: msg.to_json 
     elsif 
@@ -404,10 +403,12 @@ def listado_licencias_todas_lic
 
       # ----------------traslados definitivo
       elsif listaArtTrasladosDef.include? params[:articulo] and altbahora.secuencia != 1000
+        
         @oficinaActual = Establecimiento.where(id: altbahora.establecimiento_id).first
         @oficina = Establecimiento.where(id: params[:destino]).first
         if params[:destino].to_i > 0 and (@oficinaActual != @oficina) 
           if  AltasBajasHora.find(params['id_horas']).update(establecimiento_id: @oficina.id, estado: 'REU')
+              Traslado.create!(:alta_baja_hora_id => altbahora.id, user_id: current_user.id, fecha: Date.today.to_date)
              render json: 0
           end
         else
@@ -430,6 +431,10 @@ def listado_licencias_todas_lic
 
    def guardar_licencia_horas2
     prestador_3 = params[:prestador_2]
+    # lista de arituculos que generan traslados definitivos
+    listaArtTrasladosDef =  ["394","395",  394, 395]
+    # lista de arituculos que generan traslados transitorios
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378]
 
     @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
     altbahora = AltasBajasHora.where(id: params['id_horas']).first
@@ -445,18 +450,7 @@ def listado_licencias_todas_lic
     if licencias_anuales.include? art_id
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
-    end
-
-
-
-    # lista de arituculos que generan traslados definitivos
-    listaArtTrasladosDef =  ["394","395",  394, 395]
-    # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378]
-
-
-    #---- VERIFICO QUE ESTÈ EL TURNO
-    if (altbahora.turno == nil or altbahora.turno == "")
+    elsif (altbahora.turno == nil or altbahora.turno == "")
       msg = "Las horas cátedra no tiene turno asignado"
       render json: msg.to_json 
     #SI POSEE TURNO VERIFICO LO DEMÀS
@@ -531,6 +525,7 @@ def listado_licencias_todas_lic
             #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
             #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
             if  AltasBajasHora.find(params['id_horas']).update(establecimiento_id: @oficina.id, estado: 'REU')
+                Traslado.create!(:alta_baja_hora_id => altbahora.id, user_id: current_user.id, fecha: Date.today.to_date)
                 if @licencia_anterior.fecha_hasta == nil
                     if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
                       fecha = params[:fecha_inicio].to_date - 1
@@ -614,9 +609,8 @@ def listado_licencias_todas_lic
     if licencias_anuales.include? art_id
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
-    end
 
-    if (cargo.turno == nil or cargo.turno == "")
+    elsif (cargo.turno == nil or cargo.turno == "")
       msg = "El cargo docente no tiene turno asignado"
       render json: msg.to_json 
     elsif 
@@ -647,8 +641,10 @@ def listado_licencias_todas_lic
       elsif listaArtTrasladosDef.include? params[:articulo] and cargo.secuencia != 1000
         @oficinaActual = Establecimiento.where(id: cargo.establecimiento_id).first
         @oficina = Establecimiento.where(id: params[:destino]).first
+        
         if params[:destino].to_i > 0 and (@oficinaActual != @oficina) 
           if  Cargo.find(params['id_cargos']).update(establecimiento_id: @oficina.id, estado: 'REU')
+              Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha: Date.today.to_date)
              render json: 0
           end
         else
@@ -692,15 +688,13 @@ def listado_licencias_todas_lic
   ultima_lic = Licencium.where(cargo_id: params['id_cargos']).last
   art_id = Articulo.where(id: params['articulo']).first.id
   licencias_anuales = [241,289]
+  @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
+  nro_oficina = @oficina.codigo_jurisdiccional
 
   if licencias_anuales.include? art_id
     msg = "Complete el año de la licencia"
     render json: msg.to_json 
-  end
-
-
-  #---- VERIFICO QUE ESTÈ EL TURNO
-  if (cargo.turno == nil or cargo.turno == "")
+  elsif (cargo.turno == nil or cargo.turno == "")
     msg = "El cargo docente no tiene turno asignado"
     render json: msg.to_json 
   #SI POSEE TURNO VERIFICO LO DEMÀS
@@ -778,6 +772,7 @@ def listado_licencias_todas_lic
           #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
           #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
           if  Cargo.find(params['id_cargos']).update(establecimiento_id: @oficina.id, estado: 'REU')
+              Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha: Date.today.to_date)
               if @licencia_anterior.fecha_hasta == nil
                   if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
                     fecha = params[:fecha_inicio].to_date - 1
@@ -865,9 +860,7 @@ def listado_licencias_todas_lic
     if licencias_anuales.include? art_id
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
-    end
-
-    if (turnocnds == nil or turnocnds == "")
+    elsif (turnocnds == nil or turnocnds == "")
       msg = "El cargo auxiliar no tiene turno asignado"
       render json: msg.to_json 
     elsif 
@@ -904,6 +897,7 @@ def listado_licencias_todas_lic
         end
 
         if  CargoNoDocente.find(params['id_cargos_no_docentes']).update(establecimiento_id: @oficina.id, estado: 'REU')
+            Traslado.create!(:cargo_no_docente_id => params['id_cargos_no_docentes'], user_id: current_user.id, fecha: Date.today.to_date)
            render json: 0
         else
            render json: "no se puede realizar el traslado".to_json
@@ -939,6 +933,8 @@ def listado_licencias_todas_lic
     persona = Persona.where(id: cargo.persona_id).first
     nro_documento = persona.nro_documento
     ultima_lic = Licencium.where(cargo_no_docente_id: params['id_cargos_no_docentes']).last
+    @oficina = Establecimiento.where(id: cargonds.establecimiento_id).first
+    nro_oficina = @oficina.codigo_jurisdiccional
 
     art_id = Articulo.where(id: params['articulo']).first.id
     licencias_anuales = [241,289]
@@ -946,10 +942,7 @@ def listado_licencias_todas_lic
     if licencias_anuales.include? art_id
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
-    end
-    
-    #---- VERIFICO QUE ESTÈ EL TURNO
-    if (cargo.turno == nil or cargo.turno == "")
+    elsif (cargo.turno == nil or cargo.turno == "")
       msg = "El cargo docente auxiliar no tiene turno asignado"
       render json: msg.to_json 
     #SI POSEE TURNO VERIFICO LO DEMÀS
@@ -1028,6 +1021,7 @@ def listado_licencias_todas_lic
           #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
           #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
           if  CargoNoDocente.find(params['id_cargos_no_docentes']).update(establecimiento_id: @oficina.id, estado: 'REU')
+              Traslado.create!(:cargo_no_docente_id => params['id_cargos_no_docentes'], user_id: current_user.id, fecha: Date.today.to_date)
               if @licencia_anterior.fecha_hasta == nil
                   if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
                     fecha = params[:fecha_inicio].to_date - 1
@@ -1271,7 +1265,9 @@ def listado_licencias_todas_lic
     end
     fecha_i = anio+"-"+mes+"-01"
     fecha_f = anio+"-"+mes+"-31"
-    @licencias_cargos = Licencium.where.not(cargo_id: nil).where("fecha_desde >= '" + fecha_i + "' and fecha_desde <= '"+ fecha_f +"'").where(articulo_id: [359,360])
+    debugger
+
+    @licencias_cargos = Licencium.where("fecha_desde >= '" + fecha_i + "'").where(articulo_id: [394,395])
   end
 
   def sin_goce

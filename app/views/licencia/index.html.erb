@@ -1235,8 +1235,11 @@
         type: 'GET',
       })
         .done(function(data) {
+
           $("#alerta-dias-cargo").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo").show();
+
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
           if (id_articulo == 241 || id_articulo == 289){
             $("#anio_lic_1").show();
             $("#input_anio_lic_1" ).val("");
@@ -1245,7 +1248,7 @@
           {
           $("#anio_lic_1").hide();
           }
-          if (id_articulo == 360){
+          if(jQuery.inArray(id_articulo, myarray) !== -1){
             $("#select_destino_cargos").show();
           }
           else

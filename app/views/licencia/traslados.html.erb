@@ -22,19 +22,43 @@
       <th> Agente </th>
       <th> Destino </th>
       <th> Secuencia </th>
-      <th> Cargo </th>
-      <th> Curso </th>
-      <th> Articulo </th>
+      <th> Tipo de Cargo </th>
     </head>
     <body>
       <% @licencias_cargos.each do |l|%>
         <tr>
-          <td> <%= l.cargo.persona %> </td>
-          <td> <%= l.establecimiento_destino %> </td>
-          <td> <%= l.cargo.secuencia %> </td>
-          <td> <%= l.cargo.cargo %> </td>
-          <td> <%= l.cargo.anio %> / <%= l.cargo.division %> </td>
-          <td> <%= l.establecimiento_destino %> </td>
+          <%if l.cargo_id != nil%>
+            <td> <%= l.cargo.persona %> </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> <%= l.cargo_no_docente.persona %> </td>
+          <%else%>
+            <td> <%= l.alta_baja_hora.persona %> </td>
+          <%end%>
+
+          <%if l.cargo_id != nil%>
+            <td> <%= l.cargo.establecimiento %> </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> <%= l.cargo_no_docente.establecimiento %> </td>
+          <%else%>
+            <td> <%= l.alta_baja_hora.establecimiento %> </td>
+          <%end%>
+          <%if l.cargo_id != nil%>
+            <td> <%= l.cargo.secuencia %> </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> <%= l.cargo_no_docente.secuencia %> </td>
+          <%else%>
+            <td> <%= l.alta_baja_hora.secuencia %> </td>
+          <%end%>
+
+          <%if l.cargo_id != nil%>
+            <td> Cargo </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> Cargo no Docente </td>
+          <%else%>
+            <td> Horas </td>
+          <%end%>
+
+
         </tr>
       <% end %>
     </body>

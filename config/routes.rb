@@ -1,5 +1,7 @@
 ProyectoBase::Application.routes.draw do
 
+  resources :traslados
+
   resources :cargos_especials
 
   scope '/soft/snpe' do
