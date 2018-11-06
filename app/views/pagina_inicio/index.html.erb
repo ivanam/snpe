@@ -69,7 +69,11 @@
 
     <% end %>
       
-      
+    <% if  (current_user.role? :UserJunta) || (current_user.role? :Junta) then%>
+      <%= render 'welcomeInscripciones' %>
+
+    <% end %>    
+
     </div> 
   </div>
 <% end %>
