@@ -1113,11 +1113,6 @@ def listado_licencias_todas_lic
 
 
 
-
-
-
-
-
   def guardar_licencia_cargos_no_docentes2_obs
   end
 
@@ -1201,7 +1196,7 @@ def listado_licencias_todas_lic
   end
 
   def editar_comentario_licencia_final
-    debugger
+    
     @licencia = Licencium.where(id: params[:id_lic]).first
     observaciones = params[:observaciones]
     if !@licencia.update(observaciones: observaciones)
@@ -1210,6 +1205,17 @@ def listado_licencias_todas_lic
     end
     render json: msg.to_json
   end  
+
+  def guardar_licencia_obs
+    
+    @licencia = Licencium.where(id: params[:id_lic]).first
+    observaciones = params[:observaciones]
+    if !@licencia.update(observaciones: observaciones)
+      msg = @licencia.errors.full_messages.first
+      msg = "No se puede editar el comentario"
+    end
+    render json: msg.to_json
+  end
 
 
 
