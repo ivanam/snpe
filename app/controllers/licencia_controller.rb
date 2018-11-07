@@ -1201,6 +1201,7 @@ def listado_licencias_todas_lic
   end
 
   def editar_comentario_licencia_final
+    debugger
     @licencia = Licencium.where(id: params[:id_lic]).first
     observaciones = params[:observaciones]
     if !@licencia.update(observaciones: observaciones)
