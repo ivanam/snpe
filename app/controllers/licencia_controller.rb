@@ -356,11 +356,13 @@ def listado_licencias_todas_lic
   end 
 
   def guardar_licencia_horas
-
+    
         # lista de arituculos que generan traslados definitivos
     listaArtTrasladosDef =  ["394","395"]
     # lista de arituculos que generan traslados transitorios
     listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378"]
+     con_formulario = params['con_formulario'].to_i
+     con_certificado = params['con_certificado'].to_i
 
      altbahora = AltasBajasHora.where(id: params['id_horas']).first
      descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
@@ -394,8 +396,8 @@ def listado_licencias_todas_lic
             nro_oficina = @oficina.codigo_jurisdiccional
           end
           
-          @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], licencia_anterior_id: params[:id] , nro_documento: nro_documento, oficina: nro_oficina)
-          if @licencia.save && AltasBajasHora.create!(establecimiento_id: @oficina.id, persona_id: altbahora.persona_id, secuencia: 1000, horas: altbahora.horas, plan_id: altbahora.plan_id, materium_id: altbahora.materium_id, fecha_alta: altbahora.fecha_alta, anio: altbahora.anio, division: altbahora.division, fecha_baja: altbahora.fecha_baja, ciclo_carrera: altbahora.ciclo_carrera, situacion_revista: altbahora.situacion_revista, turno: altbahora.turno, estado: 'REU', obs_lic: descripcion_articulo)
+          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario , altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones] , nro_documento: nro_documento, oficina: nro_oficina)
+          if @licencia.save && AltasBajasHora.create(establecimiento_id: @oficina.id, persona_id: altbahora.persona_id, secuencia: 1000, horas: altbahora.horas, plan_id: altbahora.plan_id, materium_id: altbahora.materium_id, fecha_alta: altbahora.fecha_alta, anio: altbahora.anio, division: altbahora.division, fecha_baja: altbahora.fecha_baja, ciclo_carrera: altbahora.ciclo_carrera, situacion_revista: altbahora.situacion_revista, turno: altbahora.turno, estado: 'REU', obs_lic: descripcion_articulo)
             render json: 0
           else
             render json: @licencia.errors.full_messages.first.to_json
@@ -418,7 +420,7 @@ def listado_licencias_todas_lic
       elsif (listaArtTrasladosDef.include? params[:articulo] and altbahora.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and altbahora.secuencia == 1000)
           render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-            @licencia = Licencium.new(altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
+            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario ,altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, oficina: nro_oficina)
             if @licencia.save
                  render json: 0
             else

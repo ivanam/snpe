@@ -133,6 +133,9 @@
 
 
 
+
+
+
   <div class="modal fade" id="modal_licencia_horas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -174,6 +177,7 @@
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
         </div>
+
         <hr/>
         <div id="obv1" >
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
@@ -188,6 +192,12 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
 
   <div class="modal fade" id="modal_licencia_horas2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -231,6 +241,12 @@
            <%= select_tag :input_anio_lic_6, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>
       <br>
+      <hr/>
+        <div class="row">
+        <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
+        </div>
+        <hr/>
+
       <div id="obv2">
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
            <%= text_area_tag 'observaciones2', nil, :class => "form-control col-sm-6"%>
@@ -556,21 +572,75 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-  $("#select_articulo_horas").hide();
-  $("#select_articulo_cargos_no_docente_h1").hide();
-  $("#select_articulo_cargos_no_docente_h2").hide();
-  $('select#prestador').select2();
-  $("#select_destino_cargos").hide();
-  $("#select_destino_cargos2").hide();
-  $("#select_destino_horas").hide();
-  $("#select_destino_car_aux").hide();
-  $("#select_destino_car_aux_2").hide();
-  $("#select_articulo_horas_h2").hide();
-  $("#art_doc_1").val("");
-  $("#art_doc_2").val("");
+    $("#select_articulo_horas").hide();
+    $("#select_articulo_cargos_no_docente_h1").hide();
+    $("#select_articulo_cargos_no_docente_h2").hide();
+    $('select#prestador').select2();
+    $("#select_destino_cargos").hide();
+    $("#select_destino_cargos2").hide();
+
+    $("#select_destino_horas").hide();
+    $("#select_destino_horas2").hide();
+
+    $("#select_destino_car_aux").hide();
+    $("#select_destino_car_aux_2").hide();
+
+    $("#select_articulo_horas_h2").hide();
+    $("#art_doc_1").val("");
+    $("#art_doc_2").val("");
+
+    $("#con_certificado1").hide();
+    $("#con_certificado2").hide();
+    $("#con_certificado3").hide();
+    $("#con_certificado4").hide();
+    $("#con_certificado5").hide();
+    $("#con_certificado5").hide();
 
 
-   });
+    $("#con_formulario1").hide();
+    $("#con_formulario2").hide();
+    $("#con_formulario3").hide();
+    $("#con_formulario4").hide();
+    $("#con_formulario5").hide();
+    $("#con_formulario6").hide();
+
+
+    var id_horas;
+    var id_cargos;
+    var id_cargos_no_docentes;
+    $("#div_horas").hide();
+    $("#div_cargos").hide();
+    $("#div_hr_horas").hide();
+    $("#div_hr_cargos").hide();
+    $("#div_hr_horas").hide();
+    $("#div_cargos_no_docentes").hide();
+    $("#div_hr_licencias").hide();
+    $("#div_licencias").hide();
+    $("#alerta-dias").hide();
+    $("#alerta-dias-1").hide();
+    $("#anio_lic").hide();
+    $("#obv1").hide();
+    $("#obv2").hide();
+    $("#obv3").hide();
+    $("#obv4").hide();
+    $("#obv5").hide();
+    $("#obv6").hide();
+    $("#anio_lic_1").hide();
+    $("#anio_lic_2").hide();
+    $("#anio_lic_3").hide();
+    $("#anio_lic_4").hide();
+    $("#anio_lic_5").hide();
+    $("#anio_lic_6").hide();  
+    $("#anio_lic_7").hide();  
+    $("#anio_lic_8").hide(); 
+    $("#alerta-dias-cargo").hide();
+    $("#alerta-dias-cargo-1").hide();
+    $("#alerta-dias-cargo-no-docentes").hide();
+    $("#alerta-dias-cargo-no-docentes-1").hide();
+    $("#select_destino_horas").hide();
+    $("#select_destino_horas2").hide();
+
+  });
 
   $(document).ready(function() {
   $('select#select_articulo_cargos_no_docente').select2();
@@ -685,40 +755,6 @@
    
   });
 
-  var id_horas;
-  var id_cargos;
-  var id_cargos_no_docentes;
-  $("#div_horas").hide();
-  $("#div_cargos").hide();
-  $("#div_hr_horas").hide();
-  $("#div_hr_cargos").hide();
-  $("#div_hr_horas").hide();
-  $("#div_cargos_no_docentes").hide();
-  $("#div_hr_licencias").hide();
-  $("#div_licencias").hide();
-  $("#alerta-dias").hide();
-  $("#alerta-dias-1").hide();
-  $("#anio_lic").hide();
-  $("#obv1").hide();
-  $("#obv2").hide();
-  $("#obv3").hide();
-  $("#obv4").hide();
-  $("#obv5").hide();
-  $("#obv6").hide();
-  $("#anio_lic_1").hide();
-  $("#anio_lic_2").hide();
-  $("#anio_lic_3").hide();
-  $("#anio_lic_4").hide();
-  $("#anio_lic_5").hide();
-  $("#anio_lic_6").hide();  
-  $("#anio_lic_7").hide();  
-  $("#anio_lic_8").hide(); 
-  $("#alerta-dias-cargo").hide();
-  $("#alerta-dias-cargo-1").hide();
-  $("#alerta-dias-cargo-no-docentes").hide();
-  $("#alerta-dias-cargo-no-docentes-1").hide();
-  $("#select_destino_horas").hide();
-
 
   var tabla_personal_activo = $('#tabla-personal-activo')
     .on('draw.dt', function () {
@@ -759,32 +795,29 @@
           })
             .done(function(data) {
               window.dni = data.nro_documento
-      
-      $("#div_horas").show();
-      $("#div_cargos").show();
-      $("#div_hr_horas").show();
-      $("#div_hr_cargos").show();
-      $("#div_hr_horas").show();
-      $("#div_cargos_no_docentes").show();
-      $("#div_hr_licencias").show();
-      $("#div_licencias").show();
-      $("#div_personas").show();
-      $("#div_hr_personas").show();
-      
-      tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
-      tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
-      tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
+              $("#div_horas").show();
+              $("#div_cargos").show();
+              $("#div_hr_horas").show();
+              $("#div_hr_cargos").show();
+              $("#div_hr_horas").show();
+              $("#div_cargos_no_docentes").show();
+              $("#div_hr_licencias").show();
+              $("#div_licencias").show();
+              $("#div_personas").show();
+              $("#div_hr_personas").show();
+              
+              tabla_horas_licencia.api().ajax.url('/soft/snpe/licencia/altas_bajas_horas_licencia_permitida/'+window.dni);
+              tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni);
+              tabla_cargos_no_docentes_licencia.api().ajax.url('<%= cargos_no_docentes_licencia_permitida_path %>?dni='+window.dni);
+              tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni);
 
-      tabla_horas_licencia.api().ajax.reload();
-      tabla_cargos_licencia.api().ajax.reload();
-      tabla_cargos_no_docentes_licencia.api().ajax.reload();
-      tabla_licencia.api().ajax.reload();
-      tabla_personas.api().ajax.reload();
-      
+              tabla_horas_licencia.api().ajax.reload();
+              tabla_cargos_licencia.api().ajax.reload();
+              tabla_cargos_no_docentes_licencia.api().ajax.reload();
+              tabla_licencia.api().ajax.reload();
+              tabla_personas.api().ajax.reload();
         })
-      }
-    );
+      });
 
 
   //--------------------------------Horas------------------------------------
@@ -794,19 +827,26 @@
       $("#art_doc_1" ).val("");
       $("#select_articulo_horas_esc").val(""); 
       $("#observaciones" ).val("");
-     
+      $('#con_formulario1').show();
+
     });
 
-  $('#modal_licencia_horas').on('hidden.bs.modal', function (e) {
-    $("#alerta-dias").hide();
-    $("#anio_lic").hide();
-    $("#select_articulo_horas").hide();
-    $("#select_articulo_cargos_no_docente_h1").hide();
-    $("#art_doc_1" ).val("");
-    $("#obv1" ).hide();
-    $("#select_articulo_cargos_no_docente_h1").val("");
-    $("#s2id_select_articulo_cargos_no_docente").val("");
-  });
+
+    $('#modal_licencia_horas').on('hidden.bs.modal', function (e) {
+      $("#alerta-dias").hide();
+      $("#anio_lic").hide();
+      $("#select_articulo_horas").hide();
+      $("#select_articulo_cargos_no_docente_h1").hide();
+      $("#art_doc_1" ).val("");
+      $("#obv1" ).hide();
+      $("#select_articulo_cargos_no_docente_h1").val("");
+      $("#s2id_select_articulo_cargos_no_docente").val("");
+      $('#con_certificado1').hide();
+
+
+
+    });
+
 
   $('#btn_licencia_horas').on('click', function () {
       var articulo = "";
@@ -814,24 +854,24 @@
       fecha_fin = $("#input_fecha_fin").val();
       observaciones = $("#observaciones" ).val();
 
-         if (($("#select_articulo_horas").val() != "") && $("#select_articulo_horas").val() != undefined)
-         {
-          articulo = $("#select_articulo_horas").val();
-         }
-          if(($("#select_articulo_cargos_no_docente_h1").val() != "") && $("#select_articulo_cargos_no_docente_h1").val() != undefined)
-         {        
-          articulo = $("#select_articulo_cargos_no_docente_h1").val();
-         }
-         if(($("#select_articulo_horas_esc").val() != "") && $("#select_articulo_horas_esc").val() != undefined)
-         {
-          articulo = $("#select_articulo_horas_esc").val();
- 
-          }
-        
+      con_certificado = $("#con_certificado1:checked").val();
+      con_formulario = $("#con_formulario1:checked").val();
       fecha_anio_lic = $("#input_anio_lic").val();
-
       destino = $("#select_destino_horas").val();
 
+      if (($("#select_articulo_horas").val() != "") && $("#select_articulo_horas").val() != undefined)
+      {
+      articulo = $("#select_articulo_horas").val();
+      }
+      if(($("#select_articulo_cargos_no_docente_h1").val() != "") && $("#select_articulo_cargos_no_docente_h1").val() != undefined)
+      {        
+      articulo = $("#select_articulo_cargos_no_docente_h1").val();
+      }
+      if(($("#select_articulo_horas_esc").val() != "") && $("#select_articulo_horas_esc").val() != undefined)
+      {
+      articulo = $("#select_articulo_horas_esc").val();
+      }
+      
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -842,7 +882,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -913,6 +953,45 @@
         $("#alerta-dias").show();
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
         var vacaciones = [241,289,365,366]
+        var art_medicos = [242,243]
+
+        if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+          $('#con_certificado1').show();
+        }
+
+        if(jQuery.inArray(id_articulo, vacaciones) !== -1){
+          $("#anio_lic").show();
+          $("#input_anio_lic" ).val(""); 
+        }
+        else{ 
+          $("#anio_lic").hide();
+          }
+        if(jQuery.inArray(id_articulo, myarray) !== -1){
+            $("#select_destino_horas").show();
+        }
+        else{
+            $("#select_destino_horas").hide();
+        }
+        if (id_articulo != null ){
+            $("#obv1").show();
+        }else{
+          $("#obv1").hide();
+        } 
+      }) 
+  });
+
+    $("#select_articulo_horas_esc" ).change(function() {
+
+    var id_articulo = parseInt($("#select_articulo_horas_esc option:selected").val(),10);
+    $.ajax({
+      url: '/soft/snpe/licencia/buscar_articulo_dias_hora/'+id_articulo+'/'+id_horas,
+      type: 'GET',
+      })
+        .done(function(data) {
+        $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
+        $("#alerta-dias").show();
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241,289,365,366]
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic").show();
@@ -936,34 +1015,6 @@
         }) 
   });
 
-    $("#select_articulo_horas_esc" ).change(function() {
-
-    var id_articulo = parseInt($("#select_articulo_horas_esc option:selected").val(),10);
-    $.ajax({
-      url: '/soft/snpe/licencia/buscar_articulo_dias_hora/'+id_articulo+'/'+id_horas,
-      type: 'GET',
-      })
-        .done(function(data) {
-        $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
-        $("#alerta-dias").show();
-        if (id_articulo == 241){
-            $("#anio_lic").show();
-            $("#input_anio_lic" ).val(""); 
-            }
-            else
-            {
-            $("#anio_lic").hide();
-            }
-            if (id_articulo != null ){
-            $("#obv1").show();
-            }
-            else
-            {
-            $("#obv1").hide();
-            }  
-        }) 
-  });
-
    $("#select_articulo_cargos_no_docente_h1" ).change(function() {
 
     var id_articulo = parseInt($("#select_articulo_cargos_no_docente_h1 option:selected").val(),10);
@@ -974,15 +1025,30 @@
         .done(function(data) {
         $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
-        if (id_articulo == 289){
-            $("#anio_lic").show();
-            $("#input_anio_lic" ).val(""); 
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241,289,365,366]
+
+        if(jQuery.inArray(id_articulo, vacaciones) !== -1){
+          $("#anio_lic").show();
+          $("#input_anio_lic" ).val(""); 
+        }
+        else{
+          $("#anio_lic").hide();
+          }
+          if(jQuery.inArray(id_articulo, myarray) !== -1){
+            $("#select_destino_horas").show();
+          }
+          else{
+              $("#select_destino_horas").hide();
             }
-            else
-            {
-            $("#anio_lic").hide();
+            if (id_articulo != null ){
+              $("#obv1").show();
+            }
+            else{
+              $("#obv1").hide();
             } 
         }) 
+         
   });
 
 //-------------------------------------------Modal Horas 1 Fin--------------------------------------------------------------------
@@ -1125,16 +1191,34 @@
         .done(function(data) {
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
-        if (id_articulo == 241 ){
-            $("#anio_lic_6").show();
-            $("#input_anio_lic_6" ).val(""); 
+
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241,289,365,366]
+
+        if(jQuery.inArray(id_articulo, vacaciones) !== -1){
+          $("#anio_lic_6").show();
+          $("#input_anio_lic_6" ).val(""); 
+        }
+        else{
+          $("#anio_lic_6").hide();
+          }
+          if(jQuery.inArray(id_articulo, myarray) !== -1){
+            $("#select_destino_horas").show();
+          }
+          else{
+              $("#select_destino_horas").hide();
             }
-            else
-            {
-            $("#anio_lic_6").hide();
+            if (id_articulo != null ){
+              $("#obv1").show();
+            }
+            else{
+              $("#obv1").hide();
             } 
         }) 
+
   });
+
+
 
    $("#select_articulo_cargos_no_docente_h2" ).change(function() {
 
@@ -1146,13 +1230,27 @@
         .done(function(data) {
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
-        if (id_articulo == 289 ){
-            $("#anio_lic_6").show();
-            $("#input_anio_lic_6" ).val(""); 
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241,289,365,366]
+
+        if(jQuery.inArray(id_articulo, vacaciones) !== -1){
+          $("#anio_lic_6").show();
+          $("#input_anio_lic_6" ).val(""); 
+        }
+        else{
+          $("#anio_lic_6").hide();
+          }
+          if(jQuery.inArray(id_articulo, myarray) !== -1){
+            $("#select_destino_horas").show();
+          }
+          else{
+              $("#select_destino_horas").hide();
             }
-            else
-            {
-            $("#anio_lic_6").hide();
+            if (id_articulo != null ){
+              $("#obv1").show();
+            }
+            else{
+              $("#obv1").hide();
             } 
         }) 
   });
@@ -1167,13 +1265,27 @@
         .done(function(data) {
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
-        if (id_articulo == 241){
-            $("#anio_lic_6").show();
-            $("#input_anio_lic_6" ).val(""); 
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241,289,365,366]
+
+        if(jQuery.inArray(id_articulo, vacaciones) !== -1){
+          $("#anio_lic_6").show();
+          $("#input_anio_lic_6" ).val(""); 
+        }
+        else{
+          $("#anio_lic_6").hide();
+          }
+          if(jQuery.inArray(id_articulo, myarray) !== -1){
+            $("#select_destino_horas").show();
+          }
+          else{
+              $("#select_destino_horas").hide();
             }
-            else
-            {
-            $("#anio_lic_6").hide();
+            if (id_articulo != null ){
+              $("#obv1").show();
+            }
+            else{
+              $("#obv1").hide();
             } 
         }) 
   });
@@ -1423,29 +1535,32 @@
         .done(function(data) {
           $("#alerta-dias-cargo-no-docentes").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes").show();
-          if (id_articulo ==378 || id_articulo == 376){
-            $("#select_destino_car_aux").show();
-            $("#select_destino_car_aux").val("");
-          }else
-          {
-            $("#select_destino_car_aux").hide();
-          }
-          if (id_articulo == 289){
+          $("#select_destino_car_aux").show();
+          $("#select_destino_car_aux").val("");
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var vacaciones = [241,289,365,366]
+
+          if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_2").show();
             $("#input_anio_lic_2" ).val(""); 
           }
-          else
-          {
-          $("#anio_lic_2").hide();
-          }
-          if (id_articulo == null){
-            $("#obv5").hide();
-          }
-            else
-          {
-            $("#obv5").show();
-          }   
-          })
+          else{
+            $("#anio_lic_2").hide();
+            }
+            if(jQuery.inArray(id_articulo, myarray) !== -1){
+              $("#select_destino_car_aux").show();
+            }
+            else{
+                $("#select_destino_car_aux").hide();
+              }
+              if (id_articulo != null ){
+                $("#obv5").show();
+              }
+              else{
+                $("#obv5").hide();
+              } 
+          }) 
+
   });
 
 //----------------------------------------------- modal nueva licencia cargos nds --------------------------------
@@ -1521,29 +1636,32 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
         .done(function(data) {
           $("#alerta-dias-cargo-no-docentes-1").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes-1").show();
-           if (id_articulo ==378 || id_articulo == 376){
-            $("#select_destino_car_aux_2").show();
-            $("#select_destino_car_aux_2").val("");
-          }else
-          {
-            $("#select_destino_car_aux_2").hide();
-          }
-          if (id_articulo == 289){
+
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var vacaciones = [241,289,365,366]
+
+          if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_8").show();
             $("#input_anio_lic_8" ).val(""); 
           }
-          else
-          {
-          $("#anio_lic_8").hide();
-          }
-          if (id_articulo == null){
-            $("#obv6").hide();
-          }
-            else
-          {
-            $("#obv6").show();
-          }    
-          })
+          else{
+            $("#anio_lic_8").hide();
+            }
+            if(jQuery.inArray(id_articulo, myarray) !== -1){
+              $("#select_destino_car_aux_2").show();
+              $("#select_destino_car_aux_2").val("");
+            }
+            else{
+                $("#select_destino_car_aux_2").hide();
+              }
+              if (id_articulo != null ){
+                $("#obv6").show();
+              }
+              else{
+                $("#obv6").hide();
+              } 
+          }) 
+
   });
 
 //----------------------------Confirmacion de licencia-----------------------
