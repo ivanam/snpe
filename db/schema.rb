@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181106133321) do
+ActiveRecord::Schema.define(version: 20181107142152) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 20181106133321) do
     t.string   "suplencia"
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
+    t.boolean  "medico"
   end
 
   create_table "asistencia", force: true do |t|
@@ -483,8 +484,8 @@ ActiveRecord::Schema.define(version: 20181106133321) do
     t.integer  "user_id"
     t.integer  "nro_documento",           limit: 8
     t.integer  "oficina"
-    t.integer  "licencia_anterior_id"
-    t.text     "obs_licencia_anterior"
+    t.boolean  "con_certificado"
+    t.boolean  "con_formulario"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
