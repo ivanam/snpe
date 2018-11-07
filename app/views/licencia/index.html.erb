@@ -717,6 +717,7 @@
   $("#alerta-dias-cargo-1").hide();
   $("#alerta-dias-cargo-no-docentes").hide();
   $("#alerta-dias-cargo-no-docentes-1").hide();
+  $("#select_destino_horas").hide();
 
 
   var tabla_personal_activo = $('#tabla-personal-activo')
@@ -910,27 +911,27 @@
         .done(function(data) {
         $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
-        if (id_articulo == 241){
-            $("#anio_lic").show();
-            $("#input_anio_lic" ).val(""); 
-            }
-            else
-            {
-            $("#anio_lic").hide();
-            }
-            if (id_articulo == 360){
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241,289,365,366]
+
+        if(jQuery.inArray(id_articulo, vacaciones) !== -1){
+          $("#anio_lic").show();
+          $("#input_anio_lic" ).val(""); 
+        }
+        else{
+          $("#anio_lic").hide();
+          }
+          if(jQuery.inArray(id_articulo, myarray) !== -1){
             $("#select_destino_horas").show();
-            }
-            else
-            {
-            $("#select_destino_horas").hide();
+          }
+          else{
+              $("#select_destino_horas").hide();
             }
             if (id_articulo != null ){
-            $("#obv1").show();
+              $("#obv1").show();
             }
-            else
-            {
-            $("#obv1").hide();
+            else{
+              $("#obv1").hide();
             } 
         }) 
   });
@@ -1240,28 +1241,27 @@
           $("#alerta-dias-cargo").show();
 
           var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
-          if (id_articulo == 241 || id_articulo == 289){
+          var vacaciones = [241,289,365,366]
+
+          if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_1").show();
-            $("#input_anio_lic_1" ).val("");
+            $("#input_anio_lic_1" ).val(""); 
           }
-          else
-          {
-          $("#anio_lic_1").hide();
-          }
-          if(jQuery.inArray(id_articulo, myarray) !== -1){
-            $("#select_destino_cargos").show();
-          }
-          else
-          {
-            $("#select_destino_cargos").hide();
-          }
-          if (id_articulo == null){
+          else{
+            $("#anio_lic_1").hide();
+            }
+            if(jQuery.inArray(id_articulo, myarray) !== -1){
+              $("#select_destino_cargos").show();
+            }
+            else{
+                $("#select_destino_cargos").hide();
+              }
+            if (id_articulo == null){
             $("#obv3").hide();
-          }
-            else
-          {
-            $("#obv3").show();
-          } 
+            }
+            else{
+              $("#obv3").show();
+            } 
           }) 
   });
 
@@ -1335,30 +1335,31 @@
         .done(function(data) {
           $("#alerta-dias-cargo-1").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-1").show();
-          if (id_articulo == 241 || id_articulo == 289){
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var vacaciones = [241,289,365,366]
+
+          if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_7").show();
             $("#input_anio_lic_7" ).val(""); 
           }
-          else
-          {
-          $("#anio_lic_7").hide();
-          }
-           if (id_articulo == 360){
-            $("#select_destino_cargos2").show();
-          }
-          else
-          {
-            $("#select_destino_cargos2").hide();
-          }
-          if (id_articulo == null){
-            $("#obv4").hide();
-          }
-            else
-          {
-            $("#obv4").show();
-          }  
-          }) 
-  });
+          else{
+            $("#anio_lic_7").hide();
+            }
+            if(jQuery.inArray(id_articulo, myarray) !== -1){
+              $("#select_destino_cargos2").show();
+            }
+            else{
+                $("#select_destino_cargos2").hide();
+              }
+            if (id_articulo == null){
+              $("#obv4").hide();
+              }
+              else
+              {
+              $("#obv4").show();
+              }  
+            }) 
+    });
 
   //---------------------------Cargos no docentes-------------------------------------
   
@@ -1678,7 +1679,7 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
-      if (data != "") {
+      if (data != "")  {
         alert(data) ; 
       };
     })
