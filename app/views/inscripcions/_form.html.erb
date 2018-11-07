@@ -13,61 +13,56 @@
   <% end %>
 
 <h1>Inscripción Docente</h1><br>
+  <div class="row">
     <div class="form-group">
-        <%= label_tag "Region", nil, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-8">
-       <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu") %>
-       </div>
+      <div class="col-md-2">
+        <%= label_tag "Region", nil, :class => "control-label" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu", :style=>"width:80%") %>
+      </div>      
     </div>
     <div class="form-group">
-       <%= f.label :fecha_de_incripción, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.date_select :fecha_incripcion, :class => "form-control" %>
-       </div>
-     </div>
-     <div class="form-group">
-       <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
-       <div class="col-sm-6">
-       <%= f.text_field :persona_id, :class => "form-control hidden" %>
-       </div>
+      <div class="col-md-4">
+         <%= f.label :fecha_de_incripción, :class => "control-label" %>
+      </div>
+      <div class="col-md-8">
+         <%= f.date_select :fecha_incripcion, :class => "form-control", :style=>"width:100%" %>
+      </div>      
     </div>
-      <%= f.text_field :concurso_id, :class => "form-control hidden" %>
+    <%= f.text_field :persona_id, :class => "form-control hidden" %>
+    <%= f.text_field :concurso_id, :class => "form-control hidden" %>
+  </div>
       
 <h2>Cargos que solicita</h2>
    
-      <%= f.fields_for :cargo_inscrip_doc do |ca|%>
-         <div class="form-group">
-            <div class="col-sm-2">
-              <%= f.label :juntafuncion_id, "Cargo", :class => "control-label" %>
-            </div>
-            <div class="col-sm-6">
-              <%= ca.collection_select(:juntafuncion_id, @inscripcion.persona.get_cargos, :id, :to_s, {:prompt => true}, :style=>"width:100%") %>
-            </div>
-          <div class="col-sm-2">
-            <%= label_tag "Prioridad", nil,  :class => "col-sm-4 control-label" %>
-          </div>
-            <div class="col-sm-2">
-              <%= ca.number_field :opcion, :class => "form-control", :id => "opcion" %>
-            </div>
-          </div>
-     
-         <div class="form-group">      
-            <div class="text-right">
-            <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_cargo" %>  
-            </div>
-         </div>
-           <div class="form-group">
-            <%= f.label :inscripcion_id, :class => "col-sm-2 control-label hidden" %>
-            <div class="col-sm-06">
-            <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>
-            </div>
-         </div>                 
-       <% end %>
-      <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
+  <%= f.fields_for :cargo_inscrip_doc do |ca|%>
+    <div class="row">
+      <div class="form-group">
+        <div class="col-sm-2">
+          <%= f.label :juntafuncion_id, "Cargo", :class => "control-label" %>
+        </div>
+        <div class="col-sm-4">
+          <%= ca.collection_select(:juntafuncion_id, @inscripcion.persona.get_cargos, :id, :to_s, {:prompt => true}, :style=>"width:100%") %>
+        </div>
+        <div class="col-sm-2">
+          <%= label_tag "Prioridad", nil,  :class => "control-label" %>
+        </div>
+        <div class="col-sm-2">
+          <%= ca.number_field :opcion, :class => "form-control", :id => "opcion" %>
+        </div>
+        <div class="col-sm-1">      
+          <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_cargo" %>  
+        </div>        
+      </div>
+    </div>    
+    <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>                         
+  <% end %>
+  <div class="row">
+    <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
+  </div><br/>
   
-  <br/>
-  
-   <div class="form-group">
+  <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
       <%= link_to docenteInscripcion_path(@inscripcion.persona.id), :class => 'btn btn-default' do %>
@@ -76,6 +71,7 @@
       <% end %>
     </div>
   </div>
+
 <% end %>
 
 <script>

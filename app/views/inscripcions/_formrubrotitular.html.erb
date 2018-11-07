@@ -3,23 +3,25 @@
   	<h2>Cargos ocupados</h2>
     <%= pa.fields_for :rubros do |ru| %>
     	<% if ru.object.titular %>
+    	<div class="row">
     		<p>Titular en cargo<strong> <%= ru.object.juntafuncion.descripcion %></strong></p>
     		<div class="form-group">
-	      		<div class="col-sm-6">
-	      			<%= ru.label :ambito, :class => "col-sm-4 control-label" %>
+	      		<div class="col-md-4">
+	      			<%= ru.label :ambito, :class => "control-label" %>
 	      		</div>
-		         <div class="col-sm-6">
+		         <div class="col-md-8">
 		         <%= ru.select(:ambito_id, ["",""]+Ambito.all.map { |e| [e.to_s, e.id] }, {include_blank: true}, :style=>"width:100%" )%>
 		         </div>
 		    </div>
 		    <div class="form-group">
-			    <div class="col-sm-6">
-			        <%= ru.label :establecimiento, :class => "col-sm-4 control-label" %>
+			    <div class="col-md-4">
+			        <%= ru.label :establecimiento, :class => "control-label" %>
 			    </div>
-		        <div class="col-sm-6">
+		        <div class="col-md-8">
 		        <%= ru.select( :establecimiento_id, ["", ""] + Establecimiento.all.map { |e| [e.to_s, e.id] }, { include_blank: true }, :style=>"width:100%") %>
 		        </div>
 		    </div>
+		</div>
     	<% end %>
     <% end %>
     <br><br><br>
