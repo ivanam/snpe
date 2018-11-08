@@ -1,33 +1,8 @@
 
+<div>
+  <h3> Listado de agentes con cambio de oficina de cobro</h3>
 
-<div class="jumbotron">
-<center> <h3> Agrentes con cambio de oficina de cobro </h3> </center>
-<center>  <h3>Filtros</h3> </center>
-  <table class="tabla-filtros">
-    <tr>
-      <th>Mes</th>
-      <th>Año</th>
-    </tr>
-    <tr>
-      <td>
-        <%= select_tag 'Mes', options_for_select((1..12).to_a), :id => "select_mes", :prompt => "Seleccione mes"%>
-      </td>
-      <td>
-        <%= select_tag 'anio', options_for_select((2017..Date.today.year.to_i).to_a), :id => "select_anio", :prompt => "Seleccione año"%>
-      </td>
-    </tr>
-  </table>
-  <center><button class="btn btn-primary btn-filtro" id="btn-filtrar">Filtrar</button></center>
-
-</div>
-
-
-<button id="btn-filtrar1" class="btn btn-danger">
-    <span class="glyphicon glyphicon-print"></span>
-    Imprimir Agentes con Cambio de Oficina
-</button>
-<div style="padding: 5px;">
-  <table class="tabla-reportes">
+  <table class="table table-bordered table-striped">
     <head>
       <th> Agente </th>
       <th> Destino </th>
@@ -84,23 +59,3 @@
   </table>
 
 </div>
-
-<script type="text/javascript">
-
-  $(document).ready(function($) {
-    
-    function getParams() {
-      var params = '?mes=' + $('#select_mes').val()+'&anio=' + $('#select_anio').val();
-      return  params
-    };
-
-
-    $('#btn-filtrar').on('click', function() {
-      window.location.href = "<%= traslados_path %>" + getParams();
-    });
-
-    $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/traslados.pdf' + getParams();
-      })
-  });
-</script>
