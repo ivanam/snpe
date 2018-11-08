@@ -289,15 +289,6 @@ ActiveRecord::Schema.define(version: 20181107142152) do
     t.datetime "updated_at"
   end
 
-  create_table "concursos", force: true do |t|
-    t.datetime "fecha_concurso"
-    t.datetime "fecha_inicio"
-    t.datetime "fecha_fin"
-    t.string   "descripcion"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "despliegues", force: true do |t|
     t.integer  "anio"
     t.integer  "plan_id"
