@@ -61,6 +61,7 @@ class InscripcionsController < InheritedResources::Base
 
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
+    @inscripcion.fecha_incripcion = Date.current
     @inscripcion.save
     if @inscripcion.save
       flash[:success] = "Inscripcion registrada correctamente"

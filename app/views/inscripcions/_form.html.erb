@@ -27,7 +27,7 @@
          <%= f.label :fecha_de_incripción, :class => "control-label" %>
       </div>
       <div class="col-md-8">
-         <%= f.date_select :fecha_incripcion, :class => "form-control", :style=>"width:100%" %>
+         <%= f.date_select :fecha_incripcion, disabled: true, :class => "form-control", :style=>"width:100%" %>
       </div>      
     </div>
     <%= f.text_field :persona_id, :class => "form-control hidden" %>
