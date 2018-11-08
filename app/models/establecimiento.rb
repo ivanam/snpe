@@ -65,6 +65,10 @@ class Establecimiento < ActiveRecord::Base
   def cargosnds_reubicacion
     return CargoNoDocente.where(establecimiento_id: self.id, estado: ['REU'] )
   end
+ 
+  def horas_reubicacion
+    return AltasBajasHora.where(establecimiento_id: self.id, estado: ['REU'] )
+  end
 
   def cargos_director
     return Cargo.where(establecimiento_id: self.id, cargo: Funcion::DIRECTOR_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
