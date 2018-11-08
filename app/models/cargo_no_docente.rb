@@ -7,7 +7,7 @@ class CargoNoDocente < ActiveRecord::Base
   has_many :estados, :class_name => 'CargoNoDocenteEstado', :foreign_key => 'cargo_no_docente_id', dependent: :destroy
 
 
-  if false
+  if true
     validates :turno, presence: true
     validates :fecha_alta, presence: true
     validates :cargo, presence: true
