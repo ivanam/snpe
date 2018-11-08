@@ -41,6 +41,7 @@ class Ability
         end
 
         if user.role? :personal
+          can :manage, [Traslado]
           can :cargos_bajas_efectivas, [Cargo]
           can :manage, [Cargo]
           can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]

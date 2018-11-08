@@ -177,12 +177,7 @@
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
         </div>
-
-        <hr/>
-        <div id="obv1" >
-           <%= label_tag "Observaciones", nil,  :class => "control-label" %>
-           <%= text_area_tag 'observaciones' , nil, :class => "form-control col-sm-6"%>
-        </div>
+       
         <hr/> 
       </div>
       <div class="modal-footer">
