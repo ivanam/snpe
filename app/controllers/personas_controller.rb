@@ -82,9 +82,10 @@ class PersonasController < ApplicationController
         :cuil,
         rubros_attributes: [
           :id, 
-          :ambito_id, 
-          :establecimiento_id, 
-          :_destroy, :opcion
+          :otro_lugar, 
+          :establecimiento_id,
+          :opcion,
+          :_destroy
         ]
       )
 

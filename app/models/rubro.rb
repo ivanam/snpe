@@ -6,7 +6,15 @@ class Rubro < ActiveRecord::Base
 	belongs_to :ambito
 	belongs_to :establecimiento
 
-	validates :ambito, presence: true, on: :update
-	validates :establecimiento, presence: true, on: :update
+	validate :unico_lugar
+
+	# otro_lugar y establecimientos_id excluyetes
+	def unico_lugar
+		if self.establecimiento.present? && self.otro_lugar.present?
+			errors.add(:base, "Seleccione unico lugar.")
+		elsif !self.establecimiento.present? && !self.otro_lugar.present?
+			errors.add(:base, "Seleccione un lugar.")
+		end
+	end
 
 end
