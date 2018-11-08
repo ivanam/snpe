@@ -439,10 +439,10 @@ def listado_licencias_todas_lic
     listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378]
 
     @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
-    altbahora = AltasBajasHora.where(id: params['id_horas']).first
+    altbahora = AltasBajasHora.where(id: params['id_horas']).first 
     @persona = Persona.where(id: altbahora.persona_id).first
     nro_documento = @persona.nro_documento
-    @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
+    @oficina = Establecimiento.where(id: cargo.establecimiento_id).first
     nro_oficina = @oficina.codigo_jurisdiccional
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
     ultima_lic = Licencium.where(cargo_id: params['id_horas']).last
@@ -718,7 +718,7 @@ def listado_licencias_todas_lic
   ultima_lic = Licencium.where(cargo_id: params['id_cargos']).last
   art_id = Articulo.where(id: params['articulo']).first.id
   licencias_anuales = [241,289]
-  @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
+  @oficina = Establecimiento.where(id: cargo.establecimiento_id).first
   nro_oficina = @oficina.codigo_jurisdiccional
 
   if licencias_anuales.include? art_id and params[:fecha_anio_lic_7] == nil
