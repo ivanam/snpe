@@ -42,13 +42,13 @@ ProyectoBase::Application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   #SMTP
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }  
+  config.action_mailer.default_url_options = { :host => 'www.chubut.edu.ar/' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   :address              => "smtp.gmail.com",
   :port                 => 587,
-  :user_name            => 'iva.moyano@gmail.com',
-  :password             => '1311ivaniita**',
+  :user_name            => 'mecinscripciones2018@gmail.com',
+  :password             => '_12345678',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
 
