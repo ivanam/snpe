@@ -177,19 +177,7 @@
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
         </div>
-        <div id="con_certificado1">
-          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
-          <%= check_box_tag 'con_certificado1' %> 
-        </div>
-        <div id="con_formulario1">
-          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
-          <%= check_box_tag 'con_formulario1' %> 
-        </div>
-        <hr/>
-        <div id="obv1" >
-           <%= label_tag "Observaciones", nil,  :class => "control-label" %>
-           <%= text_area_tag 'observaciones' , nil, :class => "form-control col-sm-6"%>
-        </div>
+       
         <hr/> 
       </div>
       <div class="modal-footer">
