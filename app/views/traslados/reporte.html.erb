@@ -39,6 +39,7 @@
     <body>
       <% @licencias_cargos.each do |l|%>
         <tr>
+
           <% @cargo = Cargo.where(id: l.cargo_id).first %>
           <% @horas = AltasBajasHora.where(:id => l.alta_baja_hora_id).first %>
           <% @cargond = CargoNoDocente.where(:id => l.cargo_no_docente_id).first %>
@@ -96,11 +97,11 @@
 
 
     $('#btn-filtrar').on('click', function() {
-      window.location.href = "<%= traslados_path %>" + getParams();
+      window.location.href = "<%= traslados_reporte_path %>" + getParams();
     });
 
     $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/traslados.pdf' + getParams();
+       window.location.href = '/soft/snpe/traslados/reporte.pdf' + getParams();
       })
   });
 </script>

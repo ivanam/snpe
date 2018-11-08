@@ -431,7 +431,7 @@ ProyectoBase::Application.routes.draw do
     get "licencias/obtenerdatarange3/", to: "licencia#obtenerdatarange3", as: :licencias_obtenerdatarange3
 
 
-    get "licencias/traslados", to: "licencia#traslados", as: :licencia_traslados
+    get "traslados/reporte", to: "traslados#reporte", as: :traslados_reporte
 
     get 'licencias/historial', to: 'licencia#historial', as: :licencia_historial
     get 'licencias/historial_index', to: 'licencia#historial_index', as: :licencia_historial_index
