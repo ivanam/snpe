@@ -3,9 +3,34 @@
 
 <h4> <strong> <ins> COMPROBANTE DE INSCRIPCION </ins> </strong> </h4>
 <br>
-<p>Estimado, </p>
+<p>Estimado/a <%= @persona.apeynom%>, </p>
 <p style="text-indent: 5em"> Hemos confirmado su participacion en el Concurso de Ingreso en el Primer Grado del Escalafon Docente.</p>
 <br>
+
+<% inscripcion =  @persona.inscripcions.first # INSCRIPCION DEBE SER UNICA%>
+<h4><strong>Cargos Confirmados</strong></h4>
+<% if not inscripcion.nil?%>
+  <p>Fecha: <%= inscripcion.fecha_incripcion %></p>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+          <th>Region</th>
+          <th>Cargo</th>
+          <th>Prioridad</th>          
+        </tr>
+    </thead>
+    <tbody>
+      <% inscripcion.cargo_inscrip_doc.each do |cargo_inscripcion| %>
+        <tr>
+          <td><%= inscripcion.region %></td>
+          <td><%= cargo_inscripcion.juntafuncion %></td>
+          <td><%= cargo_inscripcion.opcion %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
 
 <p>Los CAMBIOS DE CABECERA podran realizarse hasta 48 horas antes del primer  ACTO PUBLICO PROVINCIAL del CONCURSO DE  INGRESO A LA DOCENCIA, en la JUNTA DE CLASIFICACION correspondiente.</p>
 <br>
