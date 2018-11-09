@@ -21,18 +21,19 @@
          <%= f.date_select :fecha_incripcion, disabled: true, :class => "form-control", :style=>"width:100%" %>
       </div>      
     </div>
+
     <div class="form-group">
-      <div class="col-md-2">
-        <%= label_tag "Region", nil, :class => "control-label" %>
+      <div class="col-md-4">
+        <%= label_tag "Indique la región a la que desea inscribirse:", nil, :class => "control-label" %>
       </div>
-      <div class="col-md-10">
+      <div class="col-md-8">
         <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu", :style=>"width:80%") %>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-2">        
+      <div class="col-md-4">        
       </div>
-      <div class="col-md-10">
+      <div class="col-md-8">
         <p>Los CAMBIOS DE CABECERA podran realizarse hasta 48 horas antes del primer  ACTO PUBLICO PROVINCIAL del CONCURSO DE  INGRESO A LA DOCENCIA, en la JUNTA DE CLASIFICACION correspondiente.</p>
       </div>
     </div>
@@ -41,7 +42,7 @@
   </div>
       
 <h2>Cargos que solicita</h2>
-   
+  <h4>Seleccione los cargos ingresando a la opción "Agregar Cargo"</h4>
   <%= f.fields_for :cargo_inscrip_doc do |ca|%>
     <div class="row">
       <div class="form-group">
@@ -64,10 +65,12 @@
     </div>    
     <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>                         
   <% end %>
+
   <div class="row">
     <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
-  </div><br/>
+    </div><br/>
   
+<h4>Para que se guarde la confirmación de todos sus datos ingresados, NO olvide hacer click en "Guardar"</h4>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>

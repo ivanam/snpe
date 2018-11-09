@@ -9,6 +9,8 @@
   <dt>Nro documento:</dt>
   <dd><%= @persona.nro_documento %></dd>
 
+<%if !(current_user.role? :junta) && !(current_user.role? :UserJunta) %>
+
   <dt>Año de Antigüedad:</dt>
   <dd><%= @persona.anio %></dd>
 
@@ -20,6 +22,7 @@
 
   <dt>CUIL/CUIT:</dt>
   <dd><%= @persona.cuil %></dd>
+<% end %>
 
   <dt>Calle:</dt>
   <dd><%= @persona.calle %></dd>
