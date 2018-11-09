@@ -12,16 +12,7 @@
     </div>
   <% end %>
 
-<h1>Inscripción Docente</h1><br>
   <div class="row">
-    <div class="form-group">
-      <div class="col-md-2">
-        <%= label_tag "Region", nil, :class => "control-label" %>
-      </div>
-      <div class="col-md-10">
-        <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu", :style=>"width:80%") %>
-      </div>      
-    </div>
     <div class="form-group">
       <div class="col-md-4">
          <%= f.label :fecha_de_incripción, :class => "control-label" %>
@@ -29,6 +20,21 @@
       <div class="col-md-8">
          <%= f.date_select :fecha_incripcion, disabled: true, :class => "form-control", :style=>"width:100%" %>
       </div>      
+    </div>
+    <div class="form-group">
+      <div class="col-md-2">
+        <%= label_tag "Region", nil, :class => "control-label" %>
+      </div>
+      <div class="col-md-10">
+        <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu", :style=>"width:80%") %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">        
+      </div>
+      <div class="col-md-10">
+        <p>Los CAMBIOS DE CABECERA podran realizarse hasta 48 horas antes del primer  ACTO PUBLICO PROVINCIAL del CONCURSO DE  INGRESO A LA DOCENCIA, en la JUNTA DE CLASIFICACION correspondiente.</p>
+      </div>
     </div>
     <%= f.text_field :persona_id, :class => "form-control hidden" %>
     <%= f.text_field :concurso_id, :class => "form-control hidden" %>

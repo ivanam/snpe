@@ -12,10 +12,10 @@
         <li> <%= link_to "Puntajes", rubros_path %> </li>
       <% end %>
       <% if can? :manage, Inscripcion %>
-        <li> <%= link_to "Inscripciones", inscripcions_path %> </li>
+        <li> <%= link_to "Confirmaciones", inscripcions_path %> </li>
       <% end %>
       <% if ( current_user.role? :UserJunta ) then %>
-        <li> <%= link_to "Inscripciones", docenteInscripcion_path(id: current_user.get_persona.id) %> </li>
+        <li> <%= link_to "Confirmar Inscripcion", docenteInscripcion_path(id: current_user.get_persona.id) %> </li>
       <% end %>
 
     </ul>
