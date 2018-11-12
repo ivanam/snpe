@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-      <% inscripcion.cargo_inscrip_doc.each do |cargo_inscripcion| %>
+      <% inscripcion.cargo_inscrip_doc.order(opcion: :asc).each do |cargo_inscripcion| %>
         <tr>
           <td><%= inscripcion.region %></td>
           <td><%= cargo_inscripcion.juntafuncion %></td>
