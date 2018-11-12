@@ -30,7 +30,7 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   #-------------------------------------
-  MATERIAS_SIN_VALIDACION = [1994,1346] #codigo materia 5881
+  MATERIAS_SIN_VALIDACION = [1994] #codigo materia 5881
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
