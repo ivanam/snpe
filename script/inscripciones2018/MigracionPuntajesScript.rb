@@ -16,10 +16,10 @@ worksheets = workbook.worksheets
 
 ActiveRecord::Base.establish_connection(
   adapter:  'mysql2',
-  host:     '127.0.0.1',
-  database: 'snpe',
-  username: 'root',
-  password: 'root'
+  host:     '127.0.0.1', # 172.16.0.15
+  database: 'snpe', # snpedevelop
+  username: 'root', # root
+  password: 'root' # klP7879#1
   #password: 'zzpregasep'
 )
 
@@ -33,6 +33,14 @@ class DataExel
     attr_accessor :cabecera
     attr_accessor :titular
 
+    attr_accessor :I
+    attr_accessor :II
+    attr_accessor :III
+    attr_accessor :IV
+    attr_accessor :V
+    attr_accessor :VII
+    attr_accessor :IX
+    attr_accessor :XI
 
     def clean_puntaje
       puntaje = self.puntaje.to_s
@@ -90,7 +98,7 @@ class DataExel
     end
 
     def to_s
-      "(#{self.cargo}) #{self.titular} #{self.dni} #{self.nombre} -> #{self.puntaje} #{self.region} / #{self.cabecera}"
+      "(#{self.cargo}) #{self.titular} #{self.dni} #{self.nombre} -> #{self.puntaje} #{self.region} / #{self.cabecera} \n  \t #{self.I} #{self.II} #{self.III} "
     end  
 end
 
@@ -102,7 +110,16 @@ INDICES = {
   'CARGO' => 6,
   'PUNTAJE' => 7,
   'NOMBRE' => 4,
-  'TITULAR' =>3
+  'TITULAR' => 3,
+
+  'I' => 8, #titulo
+  'II' => 9, #promedio
+  'III' => 10, #antiguedad_titulo
+  'IV' => 11, # antiguedad_gestion
+  'V' => 12, # servbicio_prestado
+  'VII' => 13, # residencia
+  'IX' => 14, # cursos
+  'XI' => 15 # capacitaciones
 }
 
 result = []
@@ -117,6 +134,15 @@ worksheets.each do |worksheet|
     d.region = String(row_cells[INDICES['REGION']])
     d.cabecera = String(row_cells[INDICES['CABECERA']])
     d.titular = String(row_cells[INDICES['TITULAR']])
+
+    d.I = String(row_cells[INDICES['I']])
+    d.II = String(row_cells[INDICES['II']])
+    d.III = String(row_cells[INDICES['III']])
+    d.IV = String(row_cells[INDICES['IV']])
+    d.V = String(row_cells[INDICES['V']])
+    d.VII = String(row_cells[INDICES['VII']])
+    d.IX = String(row_cells[INDICES['IX']])
+    d.XI = String(row_cells[INDICES['XI']])
 
     result.push(d)
   end
@@ -220,9 +246,19 @@ if ARGV.include?('migrate')
             region_id: region.id,
             funcion_id: nil,
             juntafuncion_id: juntacargo.id,
-            titular: dataExcel.titular
+            titular: dataExcel.titular,
+
+            rubro_titulo: dataExcel.I,
+            promedio: dataExcel.II,
+            ant_doc: dataExcel.III,
+            rubro_gestion: dataExcel.IV,
+            rubro_ser_prest: dataExcel.V,
+            rubro_residencia: dataExcel.VII,
+            rubro_cursos: dataExcel.IX,
+            rubro_concepto: dataExcel.XI # capacitaciones
+
           )
-          total_records += 1
+        total_records += 1
         end
       end
     end
