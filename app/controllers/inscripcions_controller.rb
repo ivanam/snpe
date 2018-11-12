@@ -38,6 +38,14 @@ class InscripcionsController < InheritedResources::Base
     end
   end
 
+  def update
+    params = inscripcion_params
+    params[:updated_by] = current_user.id
+    @inscripcion.update(params)
+    @inscripcion.updated_by = current_user.id
+    respond_with(@inscripcion)
+  end
+
   def show
     @inscripcion = Inscripcion.find(params[:id])
     redirect_to action: "docenteInscripcion", id: @inscripcion.persona.id
@@ -62,6 +70,7 @@ class InscripcionsController < InheritedResources::Base
   def create
     @inscripcion = Inscripcion.new(inscripcion_params)
     @inscripcion.fecha_incripcion = Date.current
+    @inscripcion.created_by = current_user.id
     @inscripcion.save
     if @inscripcion.save
       flash[:success] = "Inscripcion registrada correctamente"
