@@ -178,7 +178,14 @@
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
         </div>
-
+        <div id="con_certificado1">
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado1' %> 
+        </div>
+        <div id="con_formulario1">
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario1' %> 
+        </div>
         <hr/>
         <div id="obv1" >
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
@@ -642,8 +649,15 @@
     $("#select_destino_horas2").hide();
 
     $('select#select_articulo_cargos_no_docente').select2();
-
-
+    $('select#select_articulo_cargos_no_docente_h1').select2();
+    $('select#select_articulo_cargos_no_docente_h2').select2();
+    $('select#select_articulo_horas').select2();
+    $('select#select_articulo_horas6').select2();
+    $('select#select_articulo_horas_esc').select2();
+    $('select#select_articulo_horas_h2').select2();
+    $('select#select_articulo_horas_esc_1').select2();
+    $('select#select_articulo_cargos').select2();
+    $('select#select_articulo_cargos').select2();
 
 
   });
@@ -682,7 +696,7 @@
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 9 ],
+                "targets": [ 12 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -845,6 +859,8 @@
       $("#select_articulo_cargos_no_docente_h1").val("");
       $("#s2id_select_articulo_cargos_no_docente").val("");
       $('#con_certificado1').hide();
+
+
 
     });
 
@@ -1776,6 +1792,9 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
+      if (data != "") {
+        alert(data) ; 
+      };
     })
   });
 
@@ -1795,7 +1814,9 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
-
+      if (data != "")  {
+        alert(data) ; 
+      };
     })
   });
 
@@ -1815,7 +1836,9 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       tabla_cargos_licencia.api().ajax.reload();
       tabla_cargos_no_docentes_licencia.api().ajax.reload();
       tabla_licencia.api().ajax.reload();
-
+      if (data != "") {
+        alert(data) ; 
+      };
     })
   });
 
