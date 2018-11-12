@@ -45,5 +45,10 @@ class Persona < ActiveRecord::Base
     end 
     return titulares.size > 0
   end
+
+  def esta_en_el_padron
+    return self.rubros.size > 0
+  end
+
 end
 

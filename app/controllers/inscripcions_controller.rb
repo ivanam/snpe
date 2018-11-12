@@ -14,26 +14,32 @@ class InscripcionsController < InheritedResources::Base
   def docenteInscripcion
     puts params[:id]
     @persona = Persona.where(id: params[:id]).first
-    @inscripcion = @persona.inscripcions.first
-    if !@inscripcion.nil?
-      authorize! :read, @inscripcion
-    end
-    authorize! :read, @persona
+    if !@persona.esta_en_el_padron
+      flash[:error] = 'DNI Ingresado no existe en el sistema de inscripciones.'
+      redirect_to :back
+    else
 
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render :pdf => 'Comprobante de inscripcion',
-        :template => 'inscripcions/inscripcion.pdf.erb',
-        :layout => 'pdf.html.erb',
-        :orientation => 'Portrait',
-        :page_size => 'Legal',
-        header: {
-          html: {
-            template: 'layouts/_header_pdf.html.erb'
-            }
-          },
-          :show_as_html => params[:debug].present?
+      @inscripcion = @persona.inscripcions.first
+      if !@inscripcion.nil?
+        authorize! :read, @inscripcion
+      end
+      authorize! :read, @persona
+
+      respond_to do |format|
+        format.html
+        format.pdf do
+          render :pdf => 'Comprobante de inscripcion',
+          :template => 'inscripcions/inscripcion.pdf.erb',
+          :layout => 'pdf.html.erb',
+          :orientation => 'Portrait',
+          :page_size => 'Legal',
+          header: {
+            html: {
+              template: 'layouts/_header_pdf.html.erb'
+              }
+            },
+            :show_as_html => params[:debug].present?
+        end
       end
     end
   end

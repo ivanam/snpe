@@ -69,7 +69,7 @@
     
     $( "#buscar" ).bind("propertychange click input paste",function(){
       var dni = parseInt($("#input_buscar_persona").val(),10);
-      if (dni === '' || dni === null){ return;}
+      if (dni === '' || dni === null || isNaN(dni) || dni === undefined){ return;}
       $.ajax({
         url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
         type: 'GET',
@@ -79,7 +79,7 @@
             window.location.href = '/soft/snpe/docenteInscripcion/'+data.id;            
           }
           else{
-            alert("No se puede completar la operacion");
+            alert("DNI Ingresado no existe en el sistema.");
             $('#input_buscar_persona').text("");
           }
         })

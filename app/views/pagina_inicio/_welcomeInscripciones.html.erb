@@ -6,5 +6,7 @@
 </div>
 <div class="row">
 
-	 <%= link_to "Confirmación a Concurso de Ingreso", docenteInscripcion_path(id: current_user.get_persona.id), :class => 'btn btn-lg btn-primary' %> 
+	<% if current_user.get_persona.esta_en_el_padron %>
+		<%= link_to "Confirmación a Concurso de Ingreso", docenteInscripcion_path(id: current_user.get_persona.id), :class => 'btn btn-lg btn-primary' %> 
+	<% end %>
 </div>
