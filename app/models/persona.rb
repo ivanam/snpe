@@ -50,5 +50,9 @@ class Persona < ActiveRecord::Base
     return self.rubros.size > 0
   end
 
+  def get_puntaje_para(juntafuncion)
+    return self.rubros.where(juntafuncion_id: juntafuncion.id).first.total
+  end
+
 end
 

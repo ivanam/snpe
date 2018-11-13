@@ -2,7 +2,7 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
     def sortable_columns
-      @sortable_columns ||= ['cargo_inscrip_docs.id']
+      @sortable_columns ||= ['Persona.nro_documento', 'Region,nombre', 'Juntafuncion.descripcion', 'Rubro.total', 'CargoInscripDoc.opcion']
     end
 
     def searchable_columns
@@ -10,15 +10,19 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
     end
 
   private
+
+
   
   def data
     records.map do |record|
       [
-        record.inscripcion_id,
-        record.persona_id,
-        record.cargosnds_id,
-        record.cargo_id,
-        record.nivel_id,
+        record.inscripcion.persona.nro_documento,
+        record.inscripcion.region.to_s, 
+        record.juntafuncion.to_s,
+        record.inscripcion.persona.get_puntaje_para(record.juntafuncion).to_f,
+        
+        record.opcion.to_i,
+        
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
             Acciones
@@ -35,8 +39,7 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
-    #Inscripcion.all
+    CargoInscripDoc.joins(:juntafuncion, inscripcion: [{ persona: :rubros }, :region])
   end
 
 end

@@ -78,6 +78,8 @@ class Ability
           can :manage, [Titulo]
           can :manage, [Concurso]
           can :manage, [Rubro]
+          can :manage, [CargoInscripDoc]
+          cannot :destroy, [CargoInscripDoc]
           cannot :destroy, [Rubro]
           cannot :destroy, [Concurso]
         end
