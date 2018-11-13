@@ -4,11 +4,11 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
   def_delegators :@view, :link_to, :inscripcion_path, :edit_persona_path
 
     def sortable_columns
-      @sortable_columns ||= ['Persona.nro_documento', 'Region,nombre', 'Juntafuncion.descripcion', 'Rubro.total', 'CargoInscripDoc.opcion']
+      @sortable_columns ||= ['Region.nombre', 'Juntafuncion.descripcion', 'Rubro.total', 'Rubro.promedio', 'CargoInscripDoc.opcion', 'Persona.nro_documento']
     end
 
     def searchable_columns
-      @searchable_columns ||= ['cargo_inscrip_docs.id']
+      @searchable_columns ||= ['Juntafuncion.descripcion', 'Persona.nro_documento']
     end
 
   private
