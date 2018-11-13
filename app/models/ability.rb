@@ -82,6 +82,11 @@ class Ability
           cannot :destroy, [CargoInscripDoc]
           cannot :destroy, [Rubro]
           cannot :destroy, [Concurso]
+          
+          can :manage, [Juntafuncion]
+          cannot :destroy, [Juntafuncion]
+          cannot :edit, [Juntafuncion]
+          cannot :update, [Juntafuncion]
         end
 
         if user.role? :UserJunta

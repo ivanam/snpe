@@ -8,11 +8,17 @@
       <% if can? :manage, Concurso %>
         <li> <%= link_to "Concursos", concursos_path %> </li>
       <% end %>
+      <% if can? :manage, Juntafuncion %>
+        <li> <%= link_to "Cargos", juntafuncions_path %> </li>
+      <% end %>
       <% if can? :manage, Rubro %>
         <li> <%= link_to "Puntajes", rubros_path %> </li>
       <% end %>
       <% if can? :manage, Inscripcion %>
         <li> <%= link_to "Confirmaciones", inscripcions_path %> </li>
+      <% end %>
+      <% if can? :manage, CargoInscripDoc %>
+        <li> <%= link_to "Listado detallado", cargo_inscrip_docs_path %> </li>
       <% end %>
       <% if ( current_user.role? :UserJunta ) then %>
         <li> <%= link_to "Confirmar Inscripcion", docenteInscripcion_path(id: current_user.get_persona.id) %> </li>
