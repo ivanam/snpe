@@ -18,12 +18,12 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
-        record.inscripcion.persona.nro_documento,
         record.inscripcion.region.to_s, 
         record.juntafuncion.to_s,
         record.inscripcion.persona.get_puntaje_para(record.juntafuncion).to_f,
-        
+        record.inscripcion.persona.get_puntaje_II_para(record.juntafuncion).to_f,
         record.opcion.to_i,
+        record.inscripcion.persona.nro_documento,
         
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">

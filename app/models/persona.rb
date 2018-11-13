@@ -54,5 +54,9 @@ class Persona < ActiveRecord::Base
     return self.rubros.where(juntafuncion_id: juntafuncion.id).first.total
   end
 
+  def get_puntaje_II_para(juntafuncion)
+    return self.rubros.where(juntafuncion_id: juntafuncion.id).first.promedio
+  end
+
 end
 
