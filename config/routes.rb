@@ -1,9 +1,6 @@
 ProyectoBase::Application.routes.draw do
 
-<<<<<<< HEAD
-=======
   resources :traslados
->>>>>>> master
 
   resources :cargos_especials
 
