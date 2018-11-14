@@ -25,6 +25,17 @@ class Inscripcion < ActiveRecord::Base
            :on => :create, 
            :if => :persona_id?
 
+
+  HUMANIZED_ATTRIBUTES = {
+    :cargo_inscrip_doc => "Cargos",
+      :fecha_incripcion => "Fecha de Inscripcion",
+  }
+
+  def self.human_attribute_name(attr, options = {}) # 'options' wasn't available in Rails 3, and prior versions.
+    HUMANIZED_ATTRIBUTES[attr.to_sym] || super
+  end
+
+
   def tiene_cargo
     return !self.ambito.nil? && !self.establecimiento.nil?
   end
