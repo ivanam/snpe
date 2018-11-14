@@ -1,0 +1,2 @@
+module JuntafuncionsHelper
+end

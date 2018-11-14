@@ -102,7 +102,7 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def validar_horas
-    if !MATERIAS_SIN_VALIDACION.include? self.materium_id 
+    if !MATERIAS_SIN_VALIDACION.include? self.materium_id and !PLANES_SIN_VALIDACION.include? self.plan_id
       if Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil
 
         errors.add(:base,"error en la carga horaria, no corresponde")

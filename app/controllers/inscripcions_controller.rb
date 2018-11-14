@@ -1,94 +1,127 @@
 class InscripcionsController < InheritedResources::Base
-
+  skip_load_and_authorize_resource :only => :docenteInscripcion
+  load_and_authorize_resource
+  before_filter :authenticate_user!
   
   def index
+    authorize! :index, Inscripcion
   	respond_to do |format|
       format.html
       format.json { render json: InscripcionDatatable.new(view_context, { query: Inscripcion.all.order(fecha_incripcion: :desc) }) }
     end
   end
 
-  def show
-  	@inscripcion = Inscripcion.find(params[:id])
-  end
+  def docenteInscripcion
+    puts params[:id]
+    @persona = Persona.where(id: params[:id]).first
+    if !@persona.esta_en_el_padron
+      flash[:error] = 'DNI Ingresado no existe en el sistema de inscripciones.'
+      redirect_to :back
+    else
 
-  def new
-    # if current_user.id != nil 
-    #    @inscripcion = Inscripcion.new
-    #    @persona=Persona.where(:user_id => current_user.id).first()
-    #    else
-       @inscripcion = Inscripcion.new  
-       @persona=Persona.find(params[:persona_id])
-       @inscripcion.persona_id = @persona.id
-       # @inscripcion.user_id = @current_user.id
-    # end
- end   
+      @inscripcion = @persona.inscripcions.first
+      if !@inscripcion.nil?
+        authorize! :read, @inscripcion
+      end
+      authorize! :read, @persona
 
-  def edit
-    @inscripcion = Inscripcion.find(params[:id])
-    @titulo = @inscripcion.persona.titulo
-  end
-
-  def create
-    @inscripcion = Inscripcion.new(inscripcion_params)
-    @inscripcion.save  
-    respond_to do |format|
-    format.html { redirect_to cv_path (@inscripcion.persona_id) }
+      respond_to do |format|
+        format.html
+        format.pdf do
+          render :pdf => 'Comprobante de inscripcion',
+          :template => 'inscripcions/inscripcion.pdf.erb',
+          :layout => 'pdf.html.erb',
+          :orientation => 'Portrait',
+          :page_size => 'Legal',
+          header: {
+            html: {
+              template: 'layouts/_header_pdf.html.erb'
+              }
+            },
+            :show_as_html => params[:debug].present?
+        end
+      end
     end
   end
 
   def update
-    @inscripcion.update(inscripcion_params)
+    params = inscripcion_params
+    params[:updated_by] = current_user.id
+    @inscripcion.update(params)
+    @inscripcion.updated_by = current_user.id
     respond_with(@inscripcion)
   end
 
-  def destroy
-  	@inscripcion = Inscripcion.find(params[:id])
-    @inscripcion.destroy
-    respond_to do |format|
-      format.html { redirect_to inscripcions_url }
-      format.json { head :no_content }
+  def show
+    @inscripcion = Inscripcion.find(params[:id])
+    redirect_to action: "docenteInscripcion", id: @inscripcion.persona.id
+  end
+
+  def new
+    @concurso = Concurso.get_concurso_activo
+    if @concurso.nil? 
+      redirect_to request.referrer, :alert => "Sin concurso abierto para inscribirse."
+    end
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
+    if @inscripcion.nil?
+      @inscripcion = Inscripcion.new    
+      @inscripcion.persona = @persona
+      @inscripcion.concurso = @concurso
+    else
+      redirect_to action: "show", id: @inscripcion.id
+    end
+  end
+
+  def create
+    @inscripcion = Inscripcion.new(inscripcion_params)
+    @inscripcion.fecha_incripcion = Date.current
+    @inscripcion.created_by = current_user.id
+    @inscripcion.save
+    if @inscripcion.save
+      flash[:success] = "Inscripcion registrada correctamente"
+      redirect_to action: "docenteInscripcion", id: @inscripcion.persona.id
+    else
+      render "new"
     end
   end
 
   def buscar_persona
     @persona = Persona.where(:nro_documento => params[:dni]).first()
-     render json: @persona
-
-    # @rubro_persona = Rubro.where(:persona_id => params[:dni]).first()
-    # render json: @rubro_persona
-  end
-
-  def cv
-    @persona = Persona.find(params[:id])
-    respond_to do |format|
-      format.html
-      format.pdf do
-        render :pdf => 'cv',
-        :template => 'inscripcions/cv.html.erb',
-        :template => 'inscripcions/cv.pdf.erb',
-        :layout => 'pdf.html.erb',
-        :orientation => 'Portrait',# default Portrait
-        :page_size => 'Legal', # default A4
-        header: {
-                html: {
-                  template: 'layouts/_header_pdf.html.erb'
-                }
-              },
-        :show_as_html => params[:debug].present?
-      end
-    end
+     render json: @persona    
   end
 
   private
-    def set_inscripcion
-      @inscripcion = Inscripcion.find(params[:id])
-    end
+
+  def find_inscripcion
+    @persona = Persona.where(id: params[:id]).first
+    @inscripcion = @persona.inscripcions.first
+  end
+
+  def set_inscripcion
+    @inscripcion = Inscripcion.find(params[:id])
+  end
 
   private
-
+  
     def inscripcion_params
-      params.require(:inscripcion).permit(:pesona_id, :establecimiento_id, :funcion_id, :nivel_id, :escuela_titular, :serv_activo, :lugar_serv_act, :documentacion, :rubro_id, :fecha_incripcion, :rubro_id, :persona_id, :establecimiento_id, :funcion_id, :nivel_id, :cabecera, titulo_persona_attributes: [:id, :titulo_id, :persona_id, :_destroy], cargo_inscrip_doc_attributes: [:id, :inscripcion_id, :persona_id, :cargosnds_id, :cargo_id, :nivel_id, :_destroy, :opcion])
+      params.require(:inscripcion).permit(
+        :persona_id, 
+        :region_id,
+        :concurso_id,
+        :ambito_id,
+        :establecimiento_id,
+        :cabecera, 
+        :fecha_incripcion, 
+        cargo_inscrip_doc_attributes: [
+          :id, 
+          :inscripcion_id, 
+          :juntafuncion_id, 
+          :opcion, 
+          :_destroy, :opcion
+        ]
+      )
     end
+
 end
 

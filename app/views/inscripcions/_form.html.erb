@@ -1,6 +1,3 @@
-<script>
-  $(document).ready(function() { $('select').select2(); });
-</script>
 <div class="page-header">
 <%= nested_form_for(@inscripcion, multipart: true, :html => { :class => "form-horizontal" }) do |f| %>
   <% if @inscripcion.errors.any? %>
@@ -14,176 +11,81 @@
       </ul>
     </div>
   <% end %>
-<div class="page-header">
- <center>
-  <h1><font align="center" face="arial" size="6" color="#1b85c3"> Nueva Inscripción Docente</font> </h1>
-  </center>
-  </br>
-   <% Rubro.where(persona_id: @persona.id).first %>
-   <div class="row">
-       <div class="form-group">
-       <%= label_tag "Elija una Región en caso de querer modificarla para esta inscripción", nil, :class => "col-sm-5 control-label" %>
-       <div class="col-sm-6">
-       <%= f.collection_select(:rubro_id, Region.all, :id, :nombre, {:prompt => true}, :style=>"width:30%") %>
-       </div>
-     </div>  
+
+  <div class="row">
+    <div class="form-group">
+      <div class="col-md-4">
+         <%= f.label :fecha_de_incripción, :class => "control-label" %>
+      </div>
+      <div class="col-md-8">
+         <%= f.date_select :fecha_incripcion, disabled: true, :class => "form-control", :style=>"width:100%" %>
+      </div>      
     </div>
-  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-   <font align="center" face="arial" size="5" color="#1b85c3"> Cargos que solicita</font> 
-</div>
-<div class="form-group">
-      <%= f.fields_for :cargo_inscrip_doc do |ca|%>
-      <hr style="height:2px;border-width:0;color:red;background-color:red" /> 
-          <div class="form-group">
-            <%= label_tag "Elija la opción para el cargo(nivel de prioridad)", nil,  :class => "col-sm-4 control-label" %>
-            <div class="col-sm-06">
-              <%= ca.number_field :opcion, :class => "form-control", :id => "opcion", :style=>"width:10%" %>
-            </div>
-          </div>
-         <div class="form-group">
-            <%= f.label :cargo_id, "Nombre Cargo", :class => "col-sm-4 control-label" %>
-            <div class="col-sm-06">
-            <% @funcions = Rubro.where(persona_id: @persona.id).map(&:id) %>
-            <% @fun_rubro = Funcion.where(:id => @funcions)%>
-            <%= ca.collection_select(:cargo_id, @fun_rubro, :id, :descripcion, {:prompt => true}, :style=>"width:30%") %>
-            </div>     
-          </div>
-         <div class="form-group">      
-            <div class="text-right">
-            <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_cargo" %>  
-            </div>
-         </div>
-           <div class="form-group">
-            <%= f.label :inscripcion_id, :class => "col-sm-2 control-label hidden" %>
-            <div class="col-sm-06">
-            <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>
-            </div>
-         </div>
-         <div class="form-group">
-            <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
-            <div class="col-sm-6">
-            <%= ca.number_field :persona_id, :class => "form-control hidden", :value => @inscripcion.persona_id  %>
-            </div>
-         </div>
-       <% end %>
-      <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
+
+    <div class="form-group">
+      <div class="col-md-4">
+        <%= label_tag "Indique la región a la que desea inscribirse:", nil, :class => "control-label" %>
+      </div>
+      <div class="col-md-8">
+        <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=> "dropdown-menu", :style=>"width:80%") %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">        
+      </div>
+      <div class="col-md-8">
+        <p>Los CAMBIOS DE CABECERA podran realizarse hasta 48 horas antes del primer  ACTO PUBLICO PROVINCIAL del CONCURSO DE  INGRESO A LA DOCENCIA, en la JUNTA DE CLASIFICACION correspondiente.</p>
+      </div>
+    </div>
+    <%= f.text_field :persona_id, :class => "form-control hidden" %>
+    <%= f.text_field :concurso_id, :class => "form-control hidden" %>
+  </div>
+      
+<h2>Cargos que solicita</h2>
+  <h4>Seleccione los cargos ingresando a la opción "Agregar Cargo"</h4>
+  <%= f.fields_for :cargo_inscrip_doc do |ca|%>
+    <div class="row">
+      <div class="form-group">
+        <div class="col-sm-2">
+          <%= f.label :juntafuncion_id, "Cargo", :class => "control-label" %>
+        </div>
+        <div class="col-sm-4">
+          <%= ca.collection_select(:juntafuncion_id, @inscripcion.persona.get_cargos, :id, :to_s, {:prompt => true}, :style=>"width:100%") %>
+        </div>
+        <div class="col-sm-2">
+          <%= label_tag "Prioridad", nil,  :class => "control-label" %>
+        </div>
+        <div class="col-sm-2">
+          <%= ca.number_field :opcion, :class => "form-control", :id => "opcion" %>
+        </div>
+        <div class="col-sm-1">      
+          <%= ca.link_to_remove "Eliminar", :class => "label label-danger eliminar_cargo" %>  
+        </div>        
+      </div>
+    </div>    
+    <%= ca.number_field :inscripcion_id, :class => "form-control hidden" %>                         
+  <% end %>
+
+  <div class="row">
+    <%= f.link_to_add "Agregar Cargo", :cargo_inscrip_doc, :class => "label label-success" %>
+    </div><br/>
   
-    <div form-group>
-       <div class="col-sm-offset-2 col-sm-6">
-     </div>
-  </div>
-  <br/>
-   <center>
-  <font align="center" face="arial" size="5" color="#1b85c3"> Datos personales del docente</font>
-  </center >
-  <br/><br/> 
-  <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Nombres y apellido:</dt>
-      <dd><%= @persona.apeynom %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Tipo documento:</dt>
-      <dd><%= @persona.tipo_documento %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Nro documento:</dt>
-      <dd><%= @persona.nro_documento %></dd>
-    </div>  
-  </div>
-    <br/>
-     <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Localidad:</dt>
-      <dd><%= @persona.localidad %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Estado civil:</dt>
-      <dd><%= @persona.estado_civil %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Sexo:</dt>
-      <dd><%= @persona.sexo %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Fecha nacimiento:</dt>
-      <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
-    </div>
-  </div>
-  <br/>
-  <div class="row">
-    <div class="col-md-3 col-xs-3">
-      <dt>Telefono contacto:</dt>
-      <dd><%= @persona.telefono_contacto %></dd>
-    </div>
-    <div class="col-md-3 col-xs-3">
-      <dt>Email:</dt>
-      <dd><%= @persona.email %></dd>
-    </div>
-     <div class="col-md-3 col-xs-3">
-      <dt>Titulos:</dt>
-       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
-       <% @titulo_persona = r.titulo_id  %>
-       <% Titulo.where(:id => @titulo_persona).each do |t| %>
-       <% @titulo_nombre = t.nombre  %>
-       <% @alcance = t.alcance  %>
-       <dd><%= @titulo_nombre %></dd>
-       <dd><%= @alcance %></dd>
-       <% end %>
-       <% end %>
-      </div>
-      </div>
-  </div>
-    <br/><br/>
-    <div>
-        <table border="2px" WIDTH=0 HEIGHT=0 > <!-- Lo cambiaremos por CSS -->
-            <tr>
-                <td colspan="2"><%= f.label :Escuela_y_o_Dependencia_donde_es_TITULAR %>
-                <%= f.collection_select(:escuela_titular, Establecimiento.all, :nombre, :nombre, {:prompt => 'Seleccione un establecimiento'}, :style=>"width:100%")%>
-                </td>
-            </tr>    
-            <tr>
-                <td WIDTH=6000 ALIGN=LEFT ><%= f.label :Presta_Servicios_en_el_ámbito%></td>
-                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:serv_activo, Ambito.all, :nombre, :nombre, {:prompt => 'Seleccione el Ambito -Nacional-Provincial-etc'}, :style=>"width:100%")%>
-            </tr>
-            
-             <tr>
-                <td WIDTH=6000 HEIGHT=100 ALIGN=LEFT ><%= f.label :Lugar_donde_presta_servicio %></td>
-                <td WIDTH=3000 HEIGHT=100><%= f.collection_select(:lugar_serv_act, Localidad.all, :nombre, :nombre, {:prompt => 'Ciudad o Localidad donde trabaja'},:style=>"width:100%")%></td>
-              </tr>
-        </table>
-    </div>
-    <div class="form-group">
-       <%= f.label :persona_id, :class => "col-sm-2 control-label hidden" %>
-       <div class="col-sm-6">
-       <%= f.text_field :persona_id, :class => "form-control hidden" %>
-       </div>
-    </div>
-    <div class="form-group">
-       <%= f.label :fecha_de_incripción, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.date_select :fecha_incripcion, :class => "form-control" %>
-       </div>
-     </div>
-    <div class="form-group">
-       <%= f.label :cabecera, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.text_field :cabecera, :class => "form-control" %>
-       </div>
-     </div>
-<!--      <div class="form-group">
-       <%= f.label :Documentación_Presentada_Fojas_Nros, :class => "col-sm-4 control-label" %>
-       <div class="col-sm-6">
-       <%= f.text_field :documentacion, :class => "form-control" %>
-       </div>
-     </div> -->
-    <div class="form-group">
+<h4>Para que se guarde la confirmación de todos sus datos ingresados, NO olvide hacer click en "Guardar"</h4>
+  <div class="form-group">
     <div class="col-sm-offset-2 col-sm-6">
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
-      <%= link_to cv_path(@persona.id), :class => 'btn btn-default' do %>
+      <%= link_to docenteInscripcion_path(@inscripcion.persona.id), :class => 'btn btn-default' do %>
         <span class="glyphicon glyphicon-list-alt"></span>
         Atrás
       <% end %>
     </div>
-    </div>
+  </div>
+
 <% end %>
+
+<script>
+  $(document).ready(function() { 
+    $('select').select2(); 
+    $('div.marked_for_destruction').hide()
+  });
+</script>

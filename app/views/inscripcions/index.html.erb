@@ -1,11 +1,13 @@
+ <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/datatables.min.js"></script>
 <div class="page-header">
-  <%= link_to new_inscripcion_path, :class => 'btn btn-primary' do %>
-   <br/>
-    <span class="glyphicon glyphicon-plus"></span>
-    <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
-     <font align="center" face="arial" size="5" color="#1b85c3"> Nueva Inscripción Docente</font>  
-  <% end %>
-  <h1>Listado de inscripcions</h1>
+  <div class="hidden-print">
+    <div class="form-group">
+      <label align="Left">(para la prueba use el DNI: 17900720) <label>
+      <input placeholder="Ingrese DNI."class="text_field" id="input_buscar_persona"></input>
+      <button id="buscar" type="button" class="btn btn-primary btn-sm">Nueva Inscripcion</button>
+    </div>      
+  </div>
+  <h1>Listado de inscripciones</h1>
 </div>
 
 <div class="table-responsive">
@@ -13,16 +15,8 @@
     <thead>
       <tr>
             <th>Fecha inscripcion</th> 
+            <th>Region</th>
             <th>Persona</th>
-            <th>Establecimiento</th>
-            <th>Funcion</th>
-            <th>Nivel</th>
-            <th>Escuela titular</th>
-            <th>Serv activo</th>
-            <th>Lugar serv act</th>
-            <th>Documentacion</th>
-            <th>Rubro</th>
-            <th>Cabecera</th>
             <th class="text-center">Acciones</th>
       </tr>
     </thead>
@@ -31,15 +25,65 @@
   </table>
 </div>
 
-
 <script type="text/javascript">
-    $(document).ready(function($) {
-      $('#tabla-inscripcion').dataTable({
-        language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        processing : true,
-        serverSide : true,
-        ajax : $('#tabla-inscripcion').data('source'),
-        pagingType: "simple",
-      });
+    
+  $(document).ready(function($) {
+
+    var table = $('#tabla-inscripcion').DataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      ajax : $('#tabla-inscripcion').data('source'),
+      pagingType: "simple",
+      "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todos"] ],
+      orderCellsTop: true,
+      fixedHeader: true,   
+      dom: 'Bflrtip',
+      paginate: true,
+      buttons: [
+        {
+          extend: 'excel',
+          exportOptions: {
+              columns: 'th:not(:last-child)', // exclude action column                    
+          },
+          text:'<span class="pull-right glyphicon glyphicon-export">Excel</span>'
+        }
+      ]
     });
+
+    // Filtros por columna
+    $('#tabla-inscripcion thead tr').clone(true).appendTo( '#tabla-inscripcion thead' );
+    $('#tabla-inscripcion thead tr:eq(1) th').each( function (i) {
+      if ( [0, 3, 4].includes(i) ) { $(this).html(""); return; }; //exclude colujmns
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+        $( 'input', this ).on( 'keyup change', function () {
+          if ( table.column(i).search() !== this.value ) {
+            table
+              .column(i)
+              .search( this.value )
+              .draw();
+          }
+        });
+    });
+    
+    $( "#buscar" ).bind("propertychange click input paste",function(){
+      var dni = parseInt($("#input_buscar_persona").val(),10);
+      if (dni === '' || dni === null || isNaN(dni) || dni === undefined){ return;}
+      $.ajax({
+        url: '/soft/snpe/inscripcions/buscar_persona/'+dni,
+        type: 'GET',
+      })
+        .done(function(data) {
+          if (data != null) {
+            window.location.href = '/soft/snpe/docenteInscripcion/'+data.id;            
+          }
+          else{
+            alert("DNI Ingresado no existe en el sistema.");
+            $('#input_buscar_persona').text("");
+          }
+        })
+      });
+
+  });
 </script>

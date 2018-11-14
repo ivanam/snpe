@@ -6,6 +6,9 @@ class ApplicationController < ActionController::Base
   include ::CargoNoDocentesHelper
   include ::AsistenciaHelper
   include ::LicenciaHelper
+
+  before_action :configure_permitted_parameters, if: :devise_controller?
+
   
   rescue_from CanCan::AccessDenied do |exception|
     flash[:error] = exception.message
@@ -25,6 +28,7 @@ class ApplicationController < ActionController::Base
   end
 
 
+
   class SelectClass
     def initialize(id, descripcion)  
       # Instance variables  
@@ -42,5 +46,18 @@ class ApplicationController < ActionController::Base
   def select_motivo_baja
     return [SelectClass.new(1,"Renuncia"),SelectClass.new(2,"Jubilación"),SelectClass.new(3,"Fallecimiento"),SelectClass.new(4,"Presentación de titular")]
   end  
+
+  protected
+
+  def configure_permitted_parameters
+
+  registration_params = [:email, :nombres , :apellidos,:documento, :password]
+
+    if params[:action] == 'create'
+      devise_parameter_sanitizer.for(:sign_up) do
+        |u| u.permit(registration_params)
+      end
+    end
+  end
 
 end

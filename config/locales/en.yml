@@ -2,12 +2,12 @@ en:
   flash:
     actions:
       create:
-        notice: "%{resource_name} was successfully creado."
+        notice: "%{resource_name} fue creado correctamente."
       update:
-        notice: "%{resource_name} was successfully updated."
+        notice: "%{resource_name} fue actualizado correctamente."
       destroy:
-        notice: "%{resource_name} was successfully destroyed."
-        alert: "%{resource_name} could not be destroyed."
+        notice: "%{resource_name} fue eliminado correctamente."
+        alert: "%{resource_name} no puede ser eliminado."
   date:
     abbr_day_names:
     - dom
@@ -124,7 +124,7 @@ en:
       not_an_integer: debe ser un entero
       odd: debe ser un número non
       record_invalid: ! 'La validación falló: %{errors}'
-      taken: ya ha sido tomado
+      taken: ya existe.
       too_long:
         one: es demasiado largo (máximo 1 caracter)
         other: es demasiado largo (máximo %{count} caracteres)

@@ -1,7 +1,10 @@
 class CargoInscripDoc < ActiveRecord::Base
   belongs_to :inscripcion
-  has_many :cargo
-  has_many :nivel
-  has_many :persona
-  #has_many :cargo_no_docente
+  belongs_to :juntafuncion
+
+
+ # validates :inscripcion, :presence => true
+  validates :juntafuncion, :presence => true
+  validates :opcion, :presence => true
+
 end

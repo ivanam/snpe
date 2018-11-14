@@ -1,5 +1,5 @@
-<p>Welcome <%= @email %>!</p>
+<p>Bienvenido al concurso docente 2018. Miniserio de Educación del Chubut. <%= @email %>!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>Ud. puede confirmar su cuenta a travez del siguiente link:</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to 'Confirmar mi cuenta', confirmation_url(@resource, confirmation_token: @token) %></p>

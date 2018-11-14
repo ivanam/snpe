@@ -73,15 +73,40 @@ class Ability
           can :manage, [Materium]
         end
 
-         if user.role? :junta
+        if user.role? :junta
           can :manage, [Inscripcion]
+          can :manage, [Persona]
           can :manage, [Titulo]
+          can :manage, [Concurso]
+          can :manage, [Rubro]
+          can :manage, [CargoInscripDoc]
+          cannot :destroy, [CargoInscripDoc]
+          cannot :destroy, [Rubro]
+          cannot :destroy, [Concurso]
+          
+          can :manage, [Juntafuncion]
+          cannot :destroy, [Juntafuncion]
+          cannot :edit, [Juntafuncion]
+          cannot :update, [Juntafuncion]
+        end
+
+        if user.role? :UserJunta
+          
+          can :read, Inscripcion, persona_id: user.get_persona.id
+          can :update, Inscripcion, persona_id: user.get_persona.id
+          can :create, Inscripcion, persona_id: user.get_persona.id
+          can :edit, Inscripcion, persona_id: user.get_persona.id
+          cannot :index, Inscripcion
+          
+          can :read, Persona, :id => user.get_persona.id
+          can :edit, Persona, :id => user.get_persona.id
+          can :update, Persona, :id => user.get_persona.id
         end
 
         if user.role? :incompatibilidad
           can :manage, [PlanillaIncompatibilidad]
         end
-      
+
         user.roles.each do |ro|
           can do |action, subject_class, subject|
             ro.permissions.find_all_by_action([aliases_for_action(action), :manage].flatten).any? do |permission|
