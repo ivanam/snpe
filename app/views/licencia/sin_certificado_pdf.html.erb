@@ -1,0 +1,25 @@
+<div>
+  <h3> Licencias sin certificado médico</h3>
+
+  <table class="table table-bordered table-striped">
+    <tr>
+      <th>Agente </th>
+      <th>Secuencia </th>
+      <th>Establecimiento </th>
+      <th>Articulo </th>
+      <th>Inicio / Fin </th>
+      
+    </tr>
+    <% @licencias_sin_cert.each do |l|%>
+      <tr>
+        <td><%= l.agente %></td>
+        <td><%= l.secuencia %></td>
+        <td><%= l.establecimiento %></td>
+        <td><%= l.articulo %></td>
+        <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
+
+      </tr>
+    <% end %>
+  </table>
+
+</div>

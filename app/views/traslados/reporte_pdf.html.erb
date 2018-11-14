@@ -1,0 +1,61 @@
+
+<div>
+  <h3> Listado de agentes con cambio de oficina de cobro</h3>
+
+  <table class="table table-bordered table-striped">
+    <head>
+      <th> Agente </th>
+      <th> Destino </th>
+      <th> Secuencia </th>
+      <th> Tipo de Cargo </th>
+      <th> Fecha Cambio de oficina </th>
+      <th> usuario originante </th>
+    </head>
+    <body>
+      <% @licencias_cargos.each do |l|%>
+        <tr>
+          <% @cargo = Cargo.where(id: l.cargo_id).first %>
+          <% @horas = AltasBajasHora.where(:id => l.alta_baja_hora_id).first %>
+          <% @cargond = CargoNoDocente.where(:id => l.cargo_no_docente_id).first %>
+
+          <%if l.cargo_id != nil%>
+            <td> <%= @cargo.persona %> </td>
+          <% elsif l.cargo_no_docente_id != nil %>
+            <td> <%= @cargond.persona %> </td>
+          <%else%>
+            <td> <%= @horas.persona %> </td>
+          <%end%>
+
+          <%if l.cargo_id != nil%>
+            <td> <%= @cargo.establecimiento %> </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> <%= @cargond.establecimiento %> </td>
+          <%else%>
+            <td> <%= @horas.establecimiento %> </td>
+          <%end%>
+
+          <%if l.cargo_id != nil%>
+            <td> <%= @cargo.secuencia %> </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> <%= @cargond.secuencia %> </td>
+          <%else%>
+            <td> <%= @horas.secuencia %> </td>
+          <%end%>
+
+          <%if l.cargo_id != nil%>
+            <td> Cargo </td>
+          <%elsif l.cargo_no_docente_id != nil%>
+            <td> Cargo no Docente </td>
+          <%else%>
+            <td> Horas </td>
+          <%end%>
+          <td><%= l.fecha_cambio_oficina%></td>
+          <td><%= User.where(id: l.user_id).first.email%>
+
+
+        </tr>
+      <% end %>
+    </body>
+  </table>
+
+</div>

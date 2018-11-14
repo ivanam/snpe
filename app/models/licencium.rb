@@ -153,6 +153,7 @@ class Licencium < ActiveRecord::Base
  		end
 
 	 	def actualizar_estado
+	 		
 			if self.articulo.con_goce
 				estado = 'ART' #Cuando la licencia no debe ser informada a Economía
 			else 
@@ -173,6 +174,7 @@ class Licencium < ActiveRecord::Base
 
 
 	 def cancelar_licencia
+    
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
@@ -181,14 +183,16 @@ class Licencium < ActiveRecord::Base
 	 				if alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 7, user_id: 1)
 	 				end
-	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).codigo_jurisdiccional.to_i)
+	 			elsif Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).sede
 	 				alta_horas.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil
 
         elsif alta_horas.plan_id !=113 && alta_horas.plan_id !=249
 	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_s + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
 					if suplentes_activos == []
-		 				alta_horas.update!(estado: 'ALT')
+            if alta_horas.estado != 'BAJ'
+		 				 alta_horas.update!(estado: 'ALT')
+            end
 		 			else
 		 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
 		 				return false
@@ -204,7 +208,7 @@ class Licencium < ActiveRecord::Base
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: 1)
 	 				end
-	 			elsif ESTABLECIMIENTOS.include?(Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).codigo_jurisdiccional.to_i)
+	 			elsif Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede
 	 				cargo.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil 
 

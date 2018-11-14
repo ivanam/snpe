@@ -148,7 +148,7 @@
                   </ul>
                 </li>
               <% end %>
-              <li><%=link_to "Traslados", licencia_traslados_path, :tabindex => "-1"%></li>
+              <li><%=link_to "Traslados", traslados_reporte_path, :tabindex => "-1"%></li>
               <li><%=link_to "Lic sin goce", licencias_sin_goce_path, :tabindex => "-1"%></li>
             </ul>
           </li>
@@ -183,6 +183,7 @@
                   </ul>
                 </li>
                  <li><%=link_to "Lic sin goce", licencias_sin_goce_path, :tabindex => "-1"%></li>
+                 <li><%=link_to "Lic sin certificado", licencias_sin_certificado_path, :tabindex => "-1"%></li>
             </ul>
           </li>
         <% end %>
@@ -316,9 +317,6 @@
                       </div>
                       <%= f.submit 'Entrar', class: "btn btn-primary btn-block btn-login" %>
                     <% end %>
-                  </div>
-                  <div class="bottom text-center">
-                    ¿Eres nuevo? <%= link_to "Registrarse", new_user_registration_path, :tabindex => "-1"%>
                   </div>
                 </div>
               </li>

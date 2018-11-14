@@ -33,6 +33,7 @@ ProyectoBase::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+
   # Aca va el scope
   config.relative_url_root = "/soft/snpe"
 

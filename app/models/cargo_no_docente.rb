@@ -25,9 +25,12 @@ class CargoNoDocente < ActiveRecord::Base
   def cargo_existente
      #Revisa si existe una persona en el cargo
    if self.estado == 'ALT'
-     cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).where.not(estado: 'BAJ').where.not(estado: 'LIC').where.not(estado: 'LIC P/BAJ').where.not(id: self.id).first
-     if cargo_existe != nil
-       errors.add(:base, "Esta persona ya posee un cargo auxiliar")
+     cargo_existe_reu = CargoNoDocente.where(id: self.id).where(:secuencia => 1000).first
+     cargo_existe = CargoNoDocente.where(:persona_id => self.persona.id).where.not(estado: 'BAJ').where.not(estado: 'LIC').where.not(estado: 'LIC P/BAJ').where.not(estado: 'REU').where.not(secuencia: 1000).where.not(id: self.id).first
+     if cargo_existe_reu == nil
+       if cargo_existe != nil
+          errors.add(:base, "Esta persona ya posee un cargo auxiliar")
+       end
      end
    end  
   end
