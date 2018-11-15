@@ -39,7 +39,8 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    CargoInscripDoc.joins(:juntafuncion, inscripcion: [{ persona: :rubros }, :region]).distinct
+    CargoInscripDoc.joins(:juntafuncion, inscripcion: [{ persona: :rubros }, :region ])
+      .distinct.order('regions.nombre', 'juntafuncions.descripcion','rubros.total desc', 'rubros.promedio desc',  :opcion)
   end
 
 end
