@@ -451,13 +451,6 @@ def listado_licencias_todas_lic
       msg = "Las horas cátedra no tiene turno asignado"
       render json: msg.to_json 
     #SI POSEE TURNO VERIFICO LO DEMÀS
-    elsif 
-      if ultima_lic != nil
-        if params[:fecha_inicio].to_date <= ultima_lic.fecha_hasta.to_date
-          msg = "Error de fechas"
-          render json: msg.to_json 
-        end
-      end
     else 
       
       # ----------------reubicaciones y traslados transitorio
@@ -638,13 +631,7 @@ def listado_licencias_todas_lic
     elsif (cargo.turno == nil or cargo.turno == "")
       msg = "El cargo docente no tiene turno asignado"
       render json: msg.to_json 
-    # elsif 
-    #   if ultima_lic != nil
-    #     if params[:fecha_inicio].to_date <= ultima_lic.fecha_hasta.to_date
-    #       msg = "Error de fechas"
-    #       render json: msg.to_json 
-    #     end
-    #   end
+   
     else 
       # ----------------reubicaciones y traslados transitorio
       if listaArtTrasladosTrans.include? params[:articulo] and cargo.secuencia != 1000
@@ -723,14 +710,6 @@ def listado_licencias_todas_lic
     msg = "El cargo docente no tiene turno asignado"
     render json: msg.to_json 
   #SI POSEE TURNO VERIFICO LO DEMÀS
-  elsif 
-    
-    if ultima_lic != nil and ultima_lic.fecha_hasta != nil
-      if params[:fecha_inicio].to_date <= ultima_lic.fecha_hasta.to_date
-        msg = "Error de fechas"
-        render json: msg.to_json 
-      end
-    end
   else 
     
     # ----------------reubicaciones y traslados transitorio
@@ -889,13 +868,7 @@ def listado_licencias_todas_lic
     elsif (turnocnds == nil or turnocnds == "")
       msg = "El cargo auxiliar no tiene turno asignado"
       render json: msg.to_json 
-    # elsif 
-    #   if ultima_lic != nil and ultima_lic.fecha_hasta != nil
-    #     if params[:fecha_inicio].to_date <= ultima_lic.fecha_hasta.to_date
-    #       msg = "Error de fechas"
-    #       render json: msg.to_json 
-    #     end
-    #   end
+   
     else 
       # ----------------reubicaciones y traslados transitorio
       if listaArtTrasladosTrans.include? params[:articulo] and cargonds.secuencia != 1000
@@ -972,14 +945,7 @@ def listado_licencias_todas_lic
       msg = "El cargo docente auxiliar no tiene turno asignado"
       render json: msg.to_json 
     #SI POSEE TURNO VERIFICO LO DEMÀS
-    elsif 
-      
-      if ultima_lic != nil and ultima_lic.fecha_hasta != nil
-        if params[:fecha_inicio].to_date <= ultima_lic.fecha_hasta.to_date
-          msg = "Error de fechas"
-          render json: msg.to_json 
-        end
-      end
+  
     else 
 
 
