@@ -244,7 +244,7 @@
       <br>
       <hr/>
         <div class="row">
-        <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
+        <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas_ag" %>
         </div>
         <hr/>
 
@@ -581,6 +581,7 @@
     $("#select_destino_cargos2").hide();
 
     $("#select_destino_horas").hide();
+    $("#select_destino_horas_ag").hide();
     $("#select_destino_horas2").hide();
 
     $("#select_destino_car_aux").hide();
@@ -639,6 +640,7 @@
     $("#alerta-dias-cargo-no-docentes").hide();
     $("#alerta-dias-cargo-no-docentes-1").hide();
     $("#select_destino_horas").hide();
+    $("#select_destino_horas_ag").hide();
     $("#select_destino_horas2").hide();
 
     $('select#select_articulo_cargos_no_docente').select2();
@@ -1076,6 +1078,7 @@
     $("#prestador_2").val("");
     $("#obv2" ).hide();
     $("#observaciones2").val("");
+    $("#select_destino_horas_ag").hide();
   });
  
 
@@ -1204,10 +1207,10 @@
           $("#anio_lic_6").hide();
           }
           if(jQuery.inArray(id_articulo, myarray) !== -1){
-            $("#select_destino_horas").show();
+            $("#select_destino_horas_ag").show();
           }
           else{
-              $("#select_destino_horas").hide();
+              $("#select_destino_horas_ag").hide();
             }
             if (id_articulo != null ){
               $("#obv1").show();
@@ -1266,8 +1269,8 @@
         .done(function(data) {
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
-        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
-        var vacaciones = [241,289,365,366]
+        var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var vacaciones = [241, 289, 365, 366]
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic_6").show();
@@ -1277,10 +1280,10 @@
           $("#anio_lic_6").hide();
           }
           if(jQuery.inArray(id_articulo, myarray) !== -1){
-            $("#select_destino_horas").show();
+            $("#select_destino_horas_ag").show();
           }
           else{
-              $("#select_destino_horas").hide();
+              $("#select_destino_horas_ag").hide();
             }
             if (id_articulo != null ){
               $("#obv1").show();
