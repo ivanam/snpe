@@ -1,20 +1,17 @@
 <div class="page-header">
-  <%= link_to new_cargo_inscrip_doc_path, :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-plus"></span>
-    Nuevo Cargo inscrip doc
-  <% end %>
-  <h1>Listado de cargo_inscrip_docs</h1>
+  <h1>Listado Detallado de Inscripciones</h1>
 </div>
 
 <div class="table-responsive">
   <table id="tabla-cargo_inscrip_doc" class="table table-striped table-bordered table-hover" data-source = "<%= cargo_inscrip_docs_path(format: :json) %>" >
     <thead>
       <tr>
-            <th>inscripcion_id</th>
-            <th>persona_id</th>
-            <th>cargosnds_id</th>
-            <th>cargo_id</th>
-            <th>nivel_id</th>
+            <th>Region</th>
+            <th>Cargo</th>
+            <th>Puntaje Total</th>
+            <th>Rubro II</th>
+            <th>Prioridad</th>            
+            <th>DNI</th>
            <th class="text-center">Acciones</th>
       </tr>
     </thead>

@@ -1,3 +1,4 @@
+<%if request.path != "/soft/snpe/user/sign_up" and request.path !=  "/soft/snpe/user/password/new" and request.path !=  "/soft/snpe/user/confirmation/new" %>
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
@@ -7,12 +8,13 @@
                 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => { :class => "form-signin" }) do |f| %>
 	                <%= f.email_field :email, :class => "form-control", :placeholder => "Correo Electrónico", :autofocus => true %>
 	                <%= f.password_field :password, :placeholder => "Contraseña", :class => "form-control"%>
-                    <label class="checkbox pull-right">
-                        Recordarme <%= f.check_box :remember_me %>
-                    </label>
 	                <%= f.submit "Iniciar Sesión", :class => "btn btn-md btn-primary btn-block" %>
-                    <%= link_to "Recuperar contraseña", new_password_path(resource_name), :class => "btn btn-md btn-primary btn-block" %>       
-                    <%= link_to "Registrarse", new_user_registration_path, :class => "btn btn-md btn-success btn-block" %>        
+                    </br>
+                    </br>
+                    </br>
+                    <%= link_to "Registrarse", new_user_registration_path, :class => "btn btn-md btn-success btn-block" %>   
+                    <%= link_to "¿Desea recuperar la contraseña?", new_password_path(resource_name), :class => "btn btn-md btn-basic btn-block" %>  
+                    <%= link_to "¿No recibió las instrucciones de confirmación?", new_confirmation_path(resource_name) %><br />     
 	                <% if devise_mapping.rememberable? %>
 	                	
 	  				<% end %>
@@ -22,3 +24,4 @@
         </div>
     </div>
 </div>
+<%end%>

@@ -1,6 +1,6 @@
   <div class="container">
     <div class="row" style="margin-bottom: -10px;">
-        <% if user_signed_in? then %>
+        <% if user_signed_in? && (!current_user.role? :junta) then %>
           <% if session[:establecimiento] != nil then%>
             <%@e = Establecimiento.find(session[:establecimiento])%>                  
             <!-- SIDEBAR -->
@@ -40,16 +40,23 @@
         <% else %>
           <div class="col-md-12">
         <% end %>
-          <div class="col-md-12 logo">
-              <p align="center">
-                <%=image_tag("logo.png", :class => "img-responsive")%>
+            <div class="col-md-12 logo">
+                <p align="center">
+                  <%=image_tag("logo.png", :class => "img-responsive")%>
 
-              </p>
-          </div>
-          <div class="title">
-            <h1 align="center"> Módulo de Novedades </h1>
-          </div>
+                </p>
+            </div>
+            <%if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta)) then %>
+              <div class="title">
+                <h1 align="center"> Módulo de Novedades </h1>
+              </div>
+            <%elsif (user_signed_in? && (current_user.role? :UserJunta))  %>
+              <div class="title">
+                <h1 align="center">  </h1>
+              </div>
+            <%end%>
+
       </div>
-      <!--  -->
     </div>
+
 </div>

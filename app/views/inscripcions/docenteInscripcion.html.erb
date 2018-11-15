@@ -1,0 +1,141 @@
+<% @inscripcion = @persona.inscripcions.first %>
+<div class="page-header row">
+  <div class="">
+    <h1 class="text-center">Confirmación a Concurso de Ingreso
+    <% if not @inscripcion.nil? %>
+    	<div class="pull-right">
+            <%= link_to docenteInscripcion_path(@inscripcion.persona.id, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
+                Imprimir Comprobante
+          <% end %>
+        </div>
+    <% end %>        
+    </h1>
+  </div>
+</div>
+  <h2><p class= "glyphicon glyphicon glyphicon-ok" style="color:grey"> </p> 1- Datos Personales</h2>
+  <table class="table table-striped table-bordered table-hover">
+    <tbody>
+      <tr>
+        <th colspan="3">Nombre</th>
+        <th>Tipo Documento</th>
+        <th>Nro Documento</th>
+      </tr>
+      <tr>
+        <td colspan="3"><%= @persona.apeynom %></td>
+        <td><%= @persona.tipo_documento %></td>
+        <td><%= @persona.nro_documento %></td>
+      </tr>
+      <tr>
+        <th colspan="2">Telefono</th>
+        <th colspan="3">Email</th>        
+      </tr>
+      <tr>
+        <td colspan="2"><%= @persona.telefono_contacto %></td>
+        <td colspan="3"><%= @persona.email %></td>
+      </tr>
+      <tr>
+        <th>Localidad</th>
+        <th>Calle</th>
+        <th>Nro</th>
+        <th>Piso</th>
+        <th>Depto</th>
+      </tr>
+      <tr>
+        <td><%= @persona.localidad %></td>
+        <td><%= @persona.calle %></td>
+        <td><%= @persona.nro_calle %></td>
+        <td><%= @persona.piso %></td>
+        <td><%= @persona.depto %></td>
+      </tr>
+    </tbody>
+  </table>
+  </br>
+  <td> 
+
+    <h4>
+    Complete sus datos personales haciendo click en el botón <b> "Editar Domicilio"</b>
+    </h4>
+
+    <%= link_to edit_persona_path(@persona), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    Editar Domicilio
+    <% end %>
+  </td>
+
+<% if @persona.tiene_cargo_titular %>
+  <h2>Cargos</h2>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>Cargo</th>
+          <th>Establecimiento</th>
+          <th>Ambito</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @persona.rubros.each do |rubro| %>
+          <% if rubro.titular %>
+            <tr>
+              <td> <%= rubro.juntafuncion.to_s %> </td>
+              <td> <%= rubro.establecimiento.to_s %> </td>
+              <td> <%= rubro.ambito.to_s %> </td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+<% end %>
+
+<h2><p class= "glyphicon glyphicon glyphicon-ok" style="color:grey"> </p> 2- Puntajes</h2>
+<h4>
+  Puede consultar su puntaje en los Listados de Interinatos y Suplencias Definitivos 2019 que se encuentran publicados en la pagina WEB: <a href="http://www.chubut.edu.ar" target="_blank">www.chubut.edu.ar</a>
+</h4>
+
+<h2><p class= "glyphicon glyphicon glyphicon-ok" style="color:grey"> </p> 3- Confirme sus cargos para participar en el Concurso de Ingreso</h2>
+
+</br>
+<% if @inscripcion.nil? %>
+  <%= link_to new_inscripcion_path(id: @persona.id), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+   Confirmar cargos a los que deseo concursar
+  <% end %>
+<% else %>
+  <%= link_to edit_inscripcion_path(@inscripcion), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+   Editar confirmacion de inscripción
+  <% end %>
+<% end %>
+
+
+
+<h2><p class= "glyphicon glyphicon glyphicon-ok" style="color:grey"> </p> 4- Usted se confirmó en:</h2>
+<% if not @inscripcion.nil? %>
+  <p>Fecha: <%= @inscripcion.fecha_incripcion %></p>
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+          <th>Cargo</th>
+          <th>Region</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% @inscripcion.cargo_inscrip_doc.order(opcion: :asc).each do |cargo_inscripcion| %>
+        <tr>
+          <td><%= cargo_inscripcion.juntafuncion %></td>
+          <td><%= @persona.inscripcions.first.region %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+	<p style="color:red">No ha realizado ninguna confirmación de cargos al momento.</p>
+<% end %>
+  
+
+  <br/><br/><br/>
+<!--   <%= link_to docenteInscripcion_path(id: @persona.id), :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>&nbsp; -->
+
+

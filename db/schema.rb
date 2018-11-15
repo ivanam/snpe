@@ -105,12 +105,9 @@ ActiveRecord::Schema.define(version: 20181107142152) do
 
   create_table "ambitos", force: true do |t|
     t.string   "nombre"
-    t.integer  "inscripcion_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "ambitos", ["inscripcion_id"], name: "index_ambitos_on_inscripcion_id", using: :btree
 
   create_table "articulos", force: true do |t|
     t.string   "codigo"
@@ -430,8 +427,8 @@ ActiveRecord::Schema.define(version: 20181107142152) do
   end
 
   create_table "inscripcions", force: true do |t|
-    t.string   "escuela_titular"
-    t.string   "serv_activo"
+    t.integer  "establecimiento_id"
+    t.integer  "ambito_id"
     t.string   "lugar_serv_act"
     t.string   "documentacion"
     t.integer  "rubro_id"
@@ -578,6 +575,7 @@ ActiveRecord::Schema.define(version: 20181107142152) do
     t.integer  "anio"
     t.integer  "mes"
     t.integer  "dia"
+    t.integer  "user_id"
   end
 
   create_table "planilla_incompatibilidads", force: true do |t|

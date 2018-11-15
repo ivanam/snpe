@@ -1,3 +1,6 @@
 class Ambito < ActiveRecord::Base
-  belongs_to :inscripcion
+  
+  def to_s
+	"#{ self.nombre }"
+  end
 end

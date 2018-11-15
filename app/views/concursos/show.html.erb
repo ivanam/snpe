@@ -1,0 +1,31 @@
+<div class="page-header">
+  <h1>concurso</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Fecha concurso:</dt>
+  <dd><%= @concurso.fecha_concurso %></dd>
+
+  <dt>Fecha inicio:</dt>
+  <dd><%= @concurso.fecha_inicio %></dd>
+
+  <dt>Fecha fin:</dt>
+  <dd><%= @concurso.fecha_fin %></dd>
+
+  <dt>Descripcion:</dt>
+  <dd><%= @concurso.descripcion %></dd>
+
+  <br/><br/>
+  <%= link_to concursos_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_concurso_path(@concurso), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to concurso_path(@concurso), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

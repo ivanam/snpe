@@ -1,0 +1,45 @@
+<% @persona = @inscripcion.persona %>
+<% inscripcion = @persona.inscripcions.first %>
+
+<h4> <strong> <ins> COMPROBANTE DE INSCRIPCIÓN </ins> </strong> </h4>
+<br>
+<p>Estimado/a <%= @persona.apeynom%>,</p>
+<p style="text-indent: 5em"> Hemos confirmado su participación en el Concurso de Ingreso en el Primer Grado del Escalafón Docente.</p>
+<br>
+
+<% inscripcion =  @persona.inscripcions.first # INSCRIPCION DEBE SER UNICA%>
+<h4><strong>Cargos Confirmados</strong></h4>
+<% if not inscripcion.nil?%>
+  
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+          <th>Región</th>
+          <th>Cargo</th>
+          <th>Prioridad</th>          
+        </tr>
+    </thead>
+    <tbody>
+      <% inscripcion.cargo_inscrip_doc.order(opcion: :asc).each do |cargo_inscripcion| %>
+        <tr>
+          <td><%= inscripcion.region %></td>
+          <td><%= cargo_inscripcion.juntafuncion %></td>
+          <td><%= cargo_inscripcion.opcion %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+
+
+<p>Los CAMBIOS DE CABECERA podrán realizarse hasta 48 horas antes del primer  ACTO PÚBLICO PROVINCIAL del CONCURSO DE  INGRESO A LA DOCENCIA, en la JUNTA DE CLASIFICACIÓN correspondiente.</p>
+<br>
+
+<p>LAS FECHAS DE LOS ACTOS PÚBLICOS POR REGIÓN SERAN PUBLICADAS EN LA PÁGINA WEB DEL MINISTERIO DE EDUCACIÓN http://www.chubut.edu.ar/</p>
+
+</br>
+<% adjusted_datetime = (inscripcion.updated_at).to_datetime 
+
+l = I18n.localize(adjusted_datetime, :format => :long)%>
+<b>Fecha y Horario de Inscripción:</b> <%= l %>

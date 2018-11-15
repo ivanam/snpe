@@ -1,5 +1,5 @@
 {
-    "sProcessing":     "<img src='/assets/images/cargando.gif'>",
+    "sProcessing":     "<i class=\"fa fa-spinner fa-spin\" style=\"font-size:30px\"></i>",
     "sLengthMenu":     "Mostrar _MENU_ registros",
     "sZeroRecords":    "No se encontraron resultados",
     "sEmptyTable":     "Ningún dato disponible en esta tabla",
