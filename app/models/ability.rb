@@ -73,16 +73,19 @@ class Ability
           can :manage, [Materium]
         end
 
+        if user.role? :adminJunta
+          can :manage, [Concurso]
+          cannot :destroy, [Concurso]
+        end
+
         if user.role? :junta
           can :manage, [Inscripcion]
           can :manage, [Persona]
           can :manage, [Titulo]
-          can :manage, [Concurso]
           can :manage, [Rubro]
           can :manage, [CargoInscripDoc]
           cannot :destroy, [CargoInscripDoc]
           cannot :destroy, [Rubro]
-          cannot :destroy, [Concurso]
           
           can :manage, [Juntafuncion]
           cannot :destroy, [Juntafuncion]
