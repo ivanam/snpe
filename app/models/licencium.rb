@@ -203,16 +203,18 @@ class Licencium < ActiveRecord::Base
 
             
 	 		elsif self.cargo_id != nil
+
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: 1)
 	 				end
+
 	 			elsif (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede == nil)
 	 				cargo.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil 
-
-
+        elsif Cargo.find(self.cargo_id).trabaja_en_sede != nil or (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede != nil)
+          cargo.update!(estado: 'ALT')
 	 			else
 		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
 		 			
