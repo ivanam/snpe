@@ -4,7 +4,8 @@ class CargoInscripDocsController < InheritedResources::Base
   def index
   	respond_to do |format|
       format.html
-      format.json { render json: CargoInscripDocDatatable.new(view_context, { query: CargoInscripDoc.all }) }
+      format.json { render json: CargoInscripDocDatatable.new(view_context, { 
+        query: CargoInscripDoc.all, current_user: current_user }) }
     end
   end
 

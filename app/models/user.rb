@@ -20,6 +20,22 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   #attr_accessible :email, :password, :password_confirmation, :remember_me, :role_id, :apellidos, :nombres, :documento
 
+  JUNTA_REGION = {
+    'juntaclasregion1@gmail.com' => 'I',
+    'juntaclasificacionmadryn@gmail.com' => 'II',
+    'tresmutisias@gmail.com' => 'III',
+    'juntarcuarta@gmail.com' => 'IV',
+    'juntaclasificacionregionv@gmail.com' => 'V',
+    'juntadeclasificacion.region6@gmail.com' => 'VI'
+  }
+
+  def get_nombre_region
+    if (self.role? :Junta) && (!JUNTA_REGION[self.email].nil?)
+      return JUNTA_REGION[self.email]
+    end
+    return nil
+  end
+  
   def to_s
     "#{ self.nombres } + #{ self.apellidos }"
   end
