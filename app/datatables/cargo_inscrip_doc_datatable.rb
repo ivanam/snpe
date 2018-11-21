@@ -12,11 +12,17 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
     end
 
   private
-
-
   
   def data
-    records.map do |record|
+    # Junta solo ve su region
+    @user = options[:current_user]
+    nombre = @user.get_nombre_region
+    @region = Region.where(nombre: nombre).first
+    _records = records
+    if !@region.nil?
+      _records = _records.where('inscripcions.region_id' => @region.id)
+    end
+    _records.map do |record|
       [
         record.inscripcion.region.to_s, 
         record.juntafuncion.to_s,
@@ -39,7 +45,7 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    CargoInscripDoc.joins(:juntafuncion, inscripcion: [{ persona: :rubros }, :region ])
+    options[:query].joins(:juntafuncion, inscripcion: [{ persona: :rubros }, :region ])
       .distinct.order('regions.nombre', 'juntafuncions.descripcion','rubros.total desc', 'rubros.promedio desc',  :opcion)
   end
 

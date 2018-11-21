@@ -1,3 +1,4 @@
+ <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.4/b-flash-1.5.4/b-html5-1.5.4/datatables.min.js"></script>
 <div class="page-header">
   <h1>Listado Detallado de Inscripciones</h1>
 </div>
@@ -29,6 +30,19 @@
         serverSide : true,
         ajax : $('#tabla-cargo_inscrip_doc').data('source'),
         pagingType: "simple",
+        "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todos"] ],
+        dom: 'Bflrtip',
+        paginate: true,
+        buttons: [
+          {
+            extend: 'excel',
+            exportOptions: {
+                columns: 'th:not(:last-child)', // exclude action column                    
+            },
+            text:'<span class="pull-right glyphicon glyphicon-export">Excel</span>',
+            title: 'Confirmaciones (listado final) 2018'
+          }
+        ]
       });
     });
 </script>
