@@ -1,50 +1,121 @@
+<style type="text/css">
+  .dl-horizontal dt {
+    width: 20%;
+  }
+</style>
 <div class="page-header">
-  <h1>rubro</h1>
+  <h1>Puntajes</h1>
 </div>
 
-<dl class="dl-horizontal">
-
-  <dt>Persona:</dt>
-  <dd><%= @rubro.persona %></dd>
-
-  <dt>R.I (Rubro titulo):</dt>
-  <dd><%= @rubro.rubro_titulo %></dd>
-
-  <dt>R.II (Promedio):</dt>
-  <dd><%= @rubro.promedio %></dd>
-
-  <dt>R.III (Rubro Antiguedad del Titulo):</dt>
-  <dd><%= @rubro.ant_doc %></dd>
-
-  <dt>R.IV (Rubro Antiguead de Gestion):</dt>
-  <dd><%= @rubro.rubro_gestion %></dd>
+<div class="row">
   
-  <dt>R.V (Rubro ser prest):</dt>
-  <dd><%= @rubro.rubro_ser_prest %></dd>
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Persona</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control">
+        <%= @rubro.persona %></label>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Cargo</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.juntafuncion %></label>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Titulo (I)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.rubro_titulo %></label>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Promedio (II)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.promedio %></label>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Antiguedad del Titulo (III)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.ant_doc %></label>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Antiguead de Gestion (IV)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.rubro_gestion %></label>
+    </div>  
+  </div>
   
-  <dt>R.VII (Rubro residencia):</dt>
-  <dd><%= @rubro.rubro_residencia %></dd>
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Servicio Prestados (V)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.rubro_ser_prest %></label>
+    </div>  
+  </div>
 
-  <dt>R.IX (Rubro Capacitaciones:</dt>
-  <dd><%= @rubro.rubro_concepto %></dd>
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Residencia (VII)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.rubro_residencia %></label>
+    </div>  
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Capacitaciones (IX)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.rubro_concepto %></label>
+    </div>  
+  </div>
   
-  <dt>R.XI (Rubro Cursos):</dt>
-  <dd><%= @rubro.rubro_cursos %></dd>
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Cursos (XI)</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.rubro_cursos %></label>
+    </div>  
+  </div>
+  
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Total</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.total %></label>
+    </div>  
+  </div>
 
-  <dt>Total:</dt>
-  <dd><%= @rubro.total %></dd>
-
-  <br/><br/>
+</div>
+<br/><br/>
+<div class="row">
+  
   <%= link_to rubros_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
   <% end %>
-  <%= link_to edit_rubro_path(@rubro), :class => 'btn btn-primary' do %>
-    <span class="glyphicon glyphicon-pencil"></span>
-    Editar
-  <% end %>
-  <%= link_to rubro_path(@rubro), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
-    <span class="glyphicon glyphicon-trash"></span>
-    Eliminar
-  <% end %>
-</dl>
+  
+</div>

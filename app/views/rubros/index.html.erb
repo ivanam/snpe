@@ -35,14 +35,21 @@
         "lengthMenu": [ [10, 50, 100, -1], [10, 50, 100, "Todos"] ],
         dom: 'Bflrtip',
         buttons: [
-        {
-          extend: 'excel',
-          exportOptions: {
-              columns: 'th:not(:last-child)', // exclude action column                    
-          },
-          text:'<span class="pull-right glyphicon glyphicon-export">Excel</span>'
+          {
+            extend: 'excel',
+            exportOptions: {
+                columns: 'th:not(:last-child)', // exclude action column                    
+            },
+            text:'<span class="pull-right glyphicon glyphicon-export">Excel</span>'
+          }
+        ],
+        "bStateSave": true,
+        "fnStateSave": function (oSettings, oData) {
+            localStorage.setItem('offersDataTables', JSON.stringify(oData));
+        },
+        "fnStateLoad": function (oSettings) {
+            return JSON.parse(localStorage.getItem('offersDataTables'));
         }
-      ]
       });
 
        // Filtros por columna
