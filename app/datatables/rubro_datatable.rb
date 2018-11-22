@@ -1,7 +1,7 @@
 class RubroDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
-    def_delegators :@view, :link_to, :edit_rubro_path, :edit_persona_path
+    def_delegators :@view, :link_to, :edit_persona_path
 
     def sortable_columns
       @sortable_columns ||= ['Persona.apeynom', 'Region.nombre', 'Juntafuncion.descripcion', 'total']
@@ -27,8 +27,6 @@ class RubroDatatable < AjaxDatatablesRails::Base
            </button>
              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                <li role="presentation">'+ link_to("Ver", record) +'</li>
-              <li role="presentation">'+ link_to("Editar", edit_rubro_path(record)) +'</li>
-              <li role="presentation">'+ link_to('Eliminar', record, method: :delete, data: { confirm: 'Seguro que desea eliminar?' }) +'</li>
             </ul>
           </div>',
        ]
