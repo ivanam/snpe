@@ -22,7 +22,6 @@ class AltasBajasHoraLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
         record.division,
         record.turno,
         #record.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0'),        
-
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal"  id_horas="'+record.id.to_s+'" data-target="#modal_licencia_horas" title="Editar" ><span class=aria-hidden="true" >Licenciar</span></a>', 
           

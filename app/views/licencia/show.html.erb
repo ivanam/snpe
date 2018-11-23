@@ -41,6 +41,20 @@
    <dt>Numero de Documento:</dt>
    <dd><%= @persona.nro_documento %></dd>
 
+  <dt>Entregó certificado: </dt>
+  <%if @licencium.con_certificado = 1 %>
+    <dd>SI</dd>
+  <%else%>
+    <dd>No</dd>
+  <%end%>
+
+  <dt>Entregó formulario: </dt>
+  <%if @licencium.con_formulario = 1 %>
+    <dd>SI</dd>
+  <%else%>
+    <dd>No</dd>
+  <%end%>
+
   <br/><br/>
   <%= link_to licencia_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>

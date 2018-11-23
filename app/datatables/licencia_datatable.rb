@@ -14,6 +14,14 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [        
+         if record.altas_bajas_hora_id != nil
+           Establecimiento.where(id: (AltasBajasHora.where(id: record.altas_bajas_hora_id).first.establecimiento_id)).first.codigo_jurisdiccional
+         elsif record.cargo_id != nil
+           Establecimiento.where(id: (Cargo.where(id: record.cargo_id).first.establecimiento_id)).first.codigo_jurisdiccional
+         else
+           Establecimiento.where(id: (CargoNoDocente.where(id: record.cargo_no_docente_id).first.establecimiento_id)).first.codigo_jurisdiccional
+         end,
+
         if record.altas_bajas_hora_id != nil  
           "Horas"
         elsif record.cargo_id != nil
@@ -39,19 +47,9 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
          end,
          
          if record.altas_bajas_hora_id != nil
-           AltasBajasHora.find(record.altas_bajas_hora_id).ciclo_carrera.to_s
-         end,
-         
-         if record.altas_bajas_hora_id != nil
-           AltasBajasHora.find(record.altas_bajas_hora_id).anio.to_s
-          elsif record.cargo_id != nil
-           Cargo.find(record.cargo_id).anio.to_s
-         end,
-
-         if record.altas_bajas_hora_id != nil
-           AltasBajasHora.find(record.altas_bajas_hora_id).division.to_s
+           AltasBajasHora.find(record.altas_bajas_hora_id).ciclo_carrera.to_s+'/'+ AltasBajasHora.find(record.altas_bajas_hora_id).anio.to_s + '/' + AltasBajasHora.find(record.altas_bajas_hora_id).division.to_s
          elsif record.cargo_id != nil
-           Cargo.find(record.cargo_id).division.to_s
+            Cargo.find(record.cargo_id).anio.to_s + '-' + Cargo.find(record.cargo_id).division.to_s 
          end,
 
          if record.cargo_id != nil
@@ -79,8 +77,23 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         Util.fecha_a_es(record.fecha_desde),
         Util.fecha_a_es(record.fecha_hasta),
         record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
+        if record.con_certificado == true
+          "SI"
+        elsif record.con_certificado == nil
+          ""
+        else
+          "NO"
+        end,
+        if record.con_formulario == true
+          "SI"
+        elsif record.con_formulario == nil
+          ""
+        else
+          "NO"
+        end,
         if record.vigente == "Vigente" 
-          '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" id_art="'+record.articulo_id.to_s+'" data-target="#modal_licencia_final" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 
+
+          '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" id_art="'+record.articulo_id.to_s+'" con_certificado="' +record.con_certificado.to_s+'" con_formulario="'+ record.con_formulario.to_s+'" data-target="#modal_licencia_final" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 
         else
           '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
         end,
