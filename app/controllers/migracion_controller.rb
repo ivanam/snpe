@@ -2,6 +2,9 @@ class MigracionController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource :class => false
 
+#ARMAR VISTA DE LOS DTAOS QUE NO COINCIDEN--->>>>> NOOOO CREARRRR REGIASTROS
+
+
 
 	def migrar_hs
 		@listaAux = []

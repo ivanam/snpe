@@ -106,18 +106,19 @@
         <table id="tabla-licencium" class="table table-striped table-bordered table-hover" data-source = "<%= licencia_path(format: :json,dni: 0) %>" >
           <thead>
             <tr>
+              <th>Establ.</th>
               <th>Tipo</th>
-              <th>Secuencia</th>
+              <th>Sec.</th>
               <th>Turno</th>
-              <th>Ciclo</th>
-              <th>Año</th>
-              <th>División</th>
-              <th>Sit. Rev.</th>
+              <th>Ciclo/Mat./Año/Div.</th>
+              <th>Sit.Rev.</th>
               <th>Grupo</th>
-              <th>Descripción</th>
+              <th>Descrip.</th>
               <th style="width: 50px;">Fecha Desde</th>
               <th style="width: 50px;">Fecha Hasta</th>
               <th>Artículo</th>
+              <th>Con Certificado</th>
+              <th>Sin Formulario</th>
               <th class="text-center col-md-1">Estado</th>
               <th class="text-center col-md-1">Continuar</th>
               <th>Ver</th>
@@ -154,12 +155,15 @@
            <%= label_tag "Seleccione que tipo de articulo le corresponde", nil,  :class => "control-label" %>
            <%= select_tag :art_doc_1, options_for_select([['Docente', "Docente"], ['Auxiliar', "Auxiliar"]], 0,), {:prompt => "Seleccione si es docente o auxiliar", :id => "art_doc_1"} %> 
          </div>
+
          <br>
          <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
 
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos_no_docente_h1" %>
          </div>
+
+
          </Br>
          <div id="alerta-dias" class="alert alert-info"> </div>
         <% else %>
@@ -170,6 +174,19 @@
          <div id="alerta-dias" class="alert alert-info"> </div>
          <hr/>
         <% end %>
+
+        <div id="con_certificado1" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado1' %>
+        </div>
+
+        <div id="con_formulario1" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario1' %>
+        </div>
+
+
+
         <div id="anio_lic" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
@@ -237,6 +254,16 @@
          </Br>
          <div id="alerta-dias-1" class="alert alert-info"> </div>
         <% end %>
+
+        <div id="con_certificado2" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado2' %>
+        </div>
+
+        <div id="con_formulario2" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario2' %>
+        </div>
         <div id="anio_lic_6" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_6, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
@@ -353,6 +380,15 @@
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
         </div>
+        <div id="con_certificado6" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado6' %>
+        </div>
+
+        <div id="con_formulario6" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario6' %>
+        </div>
         <hr/>
         <div id="alerta-dias-cargo" class="alert alert-info"></div>
         <div id="anio_lic_1" >
@@ -406,6 +442,16 @@
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_cargos2" %>
         </div>
+
+        <div id="con_certificado7" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado7' %>
+        </div>
+
+        <div id="con_formulario7" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario7' %>
+        </div>
            <div id="obv4">
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
            <%= text_area_tag 'observaciones4', nil, :class => "form-control col-sm-6"%>
@@ -446,6 +492,15 @@
         </div>
         <div class="row">
          <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_car_aux" %>
+        </div>
+        <div id="con_certificado8" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado8' %>
+        </div>
+
+        <div id="con_formulario8" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario8' %>
         </div>
         </br>
           <div id="obv5">
@@ -492,6 +547,15 @@
           <div class="row">
          <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_car_aux_2" %>
         </div>
+        <div id="con_certificado9" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado9' %>
+        </div>
+
+        <div id="con_formulario9" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario9' %>
+        </div>
         </br>
           <div id="obv6">
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
@@ -526,6 +590,16 @@
         <br>
         <%= label_tag "Prestador que certifica la licencia: ", nil,  :class => "control-label" %>
         <%= select_tag "prestador", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador"%>
+        <br>
+        <div id="con_certificado5">
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado5' %>
+        </div>
+
+        <div id="con_formulario5" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario5' %>
+        </div>
         <br>
         <%= label_tag "Observaciones", nil,  :class => "control-label" %>
         <%= text_area_tag 'observaciones_final', nil, :class => "form-control col-sm-6"%>
@@ -595,17 +669,11 @@
     $("#con_certificado2").hide();
     $("#con_certificado3").hide();
     $("#con_certificado4").hide();
-    $("#con_certificado5").hide();
-    $("#con_certificado5").hide();
-
-
-    $("#con_formulario1").hide();
-    $("#con_formulario2").hide();
-    $("#con_formulario3").hide();
-    $("#con_formulario4").hide();
-    $("#con_formulario5").hide();
-    $("#con_formulario6").hide();
-
+    $("#con_certificado6").hide();
+    $("#con_certificado7").hide();
+    $("#con_certificado8").hide();
+    $("#con_certificado9").hide();
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 
     var id_horas;
     var id_cargos;
@@ -645,9 +713,6 @@
 
     $('select#select_articulo_cargos_no_docente').select2();
 
-
-
-
   });
 
 
@@ -677,14 +742,14 @@
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,
     serverSide : true,
-    "scrollX": true,
+
 
     ajax : $('#tabla-licencium').data('source'),
     pagingType: "simple",
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 9 ],
+                "targets": [ 15 ],
                 "searchable": false,
                 "orderable": false
             }
@@ -752,13 +817,15 @@
     retrieve: true,
     columnDefs: [
             {
-                "targets": [ 5 ],
+                "targets": [ 6 ],
                 "searchable": false,
                 "orderable": false
             }
         ]
    
   });
+
+
 
 
   var tabla_personal_activo = $('#tabla-personal-activo')
@@ -833,6 +900,7 @@
       $("#select_articulo_horas_esc").val(""); 
       $("#observaciones" ).val("");
       $('#con_formulario1').show();
+      $('input:checkbox').removeAttr('checked');
 
     });
 
@@ -847,6 +915,7 @@
       $("#select_articulo_cargos_no_docente_h1").val("");
       $("#s2id_select_articulo_cargos_no_docente").val("");
       $('#con_certificado1').hide();
+      $('input:checkbox').removeAttr('checked');
 
     });
 
@@ -858,7 +927,7 @@
       observaciones = $("#observaciones" ).val();
 
       con_certificado = $("#con_certificado1:checked").val();
-      con_formulario = $("#con_formulario1:checked").val();
+      con_formulario =  $("#con_formulario1:checked").val();
       fecha_anio_lic = $("#input_anio_lic").val();
       destino = $("#select_destino_horas").val();
 
@@ -959,7 +1028,13 @@
         var art_medicos = [242,243]
 
         if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+          $('input:checkbox').removeAttr('checked');
           $('#con_certificado1').show();
+        }else{
+
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado1').hide();
+
         }
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
@@ -995,6 +1070,16 @@
         $("#alerta-dias").show();
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
         var vacaciones = [241,289,365,366]
+        var art_medicos = [242,243]
+
+        if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado2').show();
+        }else{
+
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado2').hide();
+        }
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic").show();
@@ -1030,6 +1115,16 @@
         $("#alerta-dias").show();
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
         var vacaciones = [241,289,365,366]
+        var art_medicos = [242,243]
+
+        if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado3').show();
+        }else{
+
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado3').hide();
+        }
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic").show();
@@ -1060,14 +1155,23 @@
   $('#modal_licencia_horas2_obs').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
       $("#observaciones12").val($(event.relatedTarget).attr('observaciones'));
+      $('input:checkbox').removeAttr('checked');
+      $('#con_formulario2').show();
+      $('#con_certificado2').hide();
+
     });
 
 
   $('#modal_licencia_horas2').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
+      $('input:checkbox').removeAttr('checked');
+      $('#con_formulario2').show();
+      $('#con_certificado2').hide();
+      $('input:checkbox').removeAttr('checked');
     });
 
     $('#modal_licencia_horas2').on('hidden.bs.modal', function (e) {
+    $('input:checkbox').removeAttr('checked');
     $("#alerta-dias-1").hide();
     $("#anio_lic_6").hide();
     $("#select_articulo_horas6" ).val("");
@@ -1079,6 +1183,9 @@
     $("#obv2" ).hide();
     $("#observaciones2").val("");
     $("#select_destino_horas_ag").hide();
+    $('#con_certificado2').hide();
+    $('#con_formulario2').hide();
+    $('input:checkbox').removeAttr('checked');
   });
  
 
@@ -1088,6 +1195,9 @@
       fecha_anio_lic = $("#input_anio_lic_6").val();
       prestador_2 = $("#prestador_2").val();
       observaciones = $("#observaciones2").val();
+
+      con_certificado = $("#con_certificado2:checked").val();
+      con_formulario = $("#con_formulario2:checked").val();
      
         if (($("#select_articulo_horas_h2").val() != "") && $("#select_articulo_horas_h2").val() != undefined)
          {
@@ -1114,7 +1224,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas2/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+'&prestador_2='+prestador_2+'&observaciones='+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_horas2/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+'&fecha_anio_lic='+fecha_anio_lic+'&prestador_2='+prestador_2+'&observaciones='+observaciones,
           type: 'POST',
         })
       .done(function(data) {
@@ -1137,9 +1247,7 @@
 
   $("#art_doc_2" ).change(function() {
     art_doc_2 = $("#art_doc_2").val();
-      console.log(art_doc_2)
       if (art_doc_2 == "Docente"){
-        console.log("entre a docente");
          $("#obv2").show();
          $("#select_articulo_horas6").show();
          $("#select_articulo_horas_h2").show();
@@ -1185,6 +1293,7 @@
   });
 
 
+
   $("#select_articulo_horas_h2" ).change(function() {
 
     var id_articulo = parseInt($("#select_articulo_horas_h2 option:selected").val(),10);
@@ -1198,6 +1307,16 @@
 
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
         var vacaciones = [241,289,365,366]
+        var art_medicos = [242,243]
+
+        if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado2').show();
+        }else{
+
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado2').hide();
+        }
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic_6").show();
@@ -1236,6 +1355,16 @@
         $("#alerta-dias-1").show();
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
         var vacaciones = [241,289,365,366]
+        var art_medicos = [242,243,291]
+
+        if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado2').show();
+        }else{
+
+          $('input:checkbox').removeAttr('checked');
+          $('#con_certificado2').hide();
+        }
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic_6").show();
@@ -1272,6 +1401,7 @@
         var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378];
         var vacaciones = [241, 289, 365, 366]
 
+
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
           $("#anio_lic_6").show();
           $("#input_anio_lic_6" ).val(""); 
@@ -1298,6 +1428,9 @@
   
   $('#modal_licencia_cargos').on('shown.bs.modal', function (event) {      
       id_cargos = $(event.relatedTarget).attr('id_cargos');
+      $("#con_certificado6").hide();
+      $("#con_formulario6").show();
+      $('input:checkbox').removeAttr('checked');
     });
 
   $('#modal_licencia_cargos').on('hidden.bs.modal', function (e) {
@@ -1306,6 +1439,10 @@
     $("#select_articulo_cargos").val("");
     $("#obv3" ).hide();
     $("#observaciones3").val("");
+    $("#con_certificado6").hide();
+    $("#con_formulario6").hide();
+    $('input:checkbox').removeAttr('checked');
+
   });
 
 
@@ -1316,6 +1453,9 @@
       fecha_anio_lic_1 = $("#input_anio_lic_1").val();
       destino = $("#select_destino_cargos").val();
       observaciones = $("#observaciones3").val();
+      con_certificado = $("#con_certificado6:checked").val();
+      con_formulario = $("#con_formulario6:checked").val();
+
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1326,12 +1466,12 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           
           type: 'POST',
         })
       .done(function(data) {
-      tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni); 
+       tabla_cargos_licencia.api().ajax.url('/soft/snpe/licencia/cargos_licencia_permitida/'+window.dni); 
         tabla_cargos_licencia.api().ajax.reload();
         tabla_licencia.api().ajax.url('/soft/snpe/licencia/licencia_dadas/'+window.dni); 
         tabla_licencia.api().ajax.reload();
@@ -1358,6 +1498,16 @@
 
           var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
           var vacaciones = [241,289,365,366]
+          var art_medicos = [242,243,291]
+
+          if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado6').show();
+          }else{
+
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado6').hide();
+          }
 
           if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_1").show();
@@ -1385,6 +1535,7 @@
 //------------------------------------------------------------------------Cargos 2 -----------------------------------------------------
   $('#modal_licencia_cargos2').on('shown.bs.modal', function (event) {      
       id_cargos = $(event.relatedTarget).attr('id_cargos');
+      $('input:checkbox').removeAttr('checked');
     });
 
   $('#modal_licencia_cargos2').on('hidden.bs.modal', function (e) {
@@ -1394,14 +1545,13 @@
     $("#prestador_3").val("");
     $("#obv4" ).hide();
     $("#observaciones4").val("");
+    $('input:checkbox').removeAttr('checked');
   });
 
   $('#modal_licencia_cargos2_obs').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
       $("#observaciones11").val($(event.relatedTarget).attr('observaciones'));
     });
-
-
 
 
   $('#btn_licencia_cargos2').on('click', function () {
@@ -1412,6 +1562,10 @@
       prestador_3 = $("#prestador_3").val();
       destino = $("#select_destino_cargos2").val();
       observaciones = $("#observaciones4").val();
+      con_certificado = $("#con_certificado7:checked").val();
+      con_formulario = $("#con_formulario7:checked").val();
+
+
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1422,7 +1576,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos2/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_7+'&prestador_3='+prestador_3+'&observaciones='+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos2/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_7+'&prestador_3='+prestador_3+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -1453,6 +1607,16 @@
           $("#alerta-dias-cargo-1").show();
           var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
           var vacaciones = [241,289,365,366]
+          var art_medicos = [242,243,291]
+
+          if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado7').show();
+          }else{
+
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado7').hide();
+          }
 
           if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_7").show();
@@ -1481,6 +1645,7 @@
   
   $('#modal_licencia_cargos_no_docentes').on('shown.bs.modal', function (event) {      
       id_cargos_no_docentes = $(event.relatedTarget).attr('id_cargo_no_docentes');
+      $('input:checkbox').removeAttr('checked');
     });
 
   $('#modal_licencia_cargos_no_docentes').on('hidden.bs.modal', function (e) {
@@ -1488,8 +1653,9 @@
     $("#anio_lic_2").hide();
     $("#select_articulo_cargos_no_docente").val("");
     $("#select_destino_car_aux").val("");
-     $("#obv5" ).hide();
+    $("#obv5" ).hide();
     $("#observaciones5").val("");
+    $('input:checkbox').removeAttr('checked');
   });
 
 
@@ -1500,6 +1666,9 @@
       fecha_anio_lic_2 = $("#input_anio_lic_2").val();
       observaciones = $("#observaciones5").val();
       destino = $("#select_destino_car_aux").val();
+      con_certificado = $("#con_certificado8:checked").val();
+      con_formulario = $("#con_formulario8:checked").val();
+
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1510,7 +1679,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones+'&destino='+destino,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -1543,6 +1712,16 @@
           $("#select_destino_car_aux").val("");
           var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
           var vacaciones = [241,289,365,366]
+          var art_medicos = [242,243,291]
+
+          if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado8').show();
+          }else{
+
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado8').hide();
+          }
 
           if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_2").show();
@@ -1574,15 +1753,12 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       $("#observaciones10").val($(event.relatedTarget).attr('observaciones'));
     });
 
-
-
-
-
-  $('#modal_licencia_cargos_no_docentes2').on('shown.bs.modal', function (event) {      
+$('#modal_licencia_cargos_no_docentes2').on('shown.bs.modal', function (event) {      
       id_cargos_no_docentes = $(event.relatedTarget).attr('id_cargo_no_docentes');
+      $('input:checkbox').removeAttr('checked');
     });
 
-  $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
+$('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
     $("#alerta-dias-cargo-no-docentes-1").hide();
     $("#anio_lic_8").hide();
     $("#select_articulo_cargos_no_docente8").val("");
@@ -1590,6 +1766,7 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
     $("#prestador_4").val("");
     $("#obv6").hide();
     $("#observaciones6").val("");
+    $('input:checkbox').removeAttr('checked');
   });
 
  $('#btn_licencia_cargos_no_docentes2').on('click', function () {
@@ -1600,6 +1777,9 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       prestador_4 = $("#prestador_4").val();
       observaciones = $("#observaciones6").val();
       destino = $("#select_destino_car_aux_2").val();
+      con_certificado = $("#con_certificado9:checked").val();
+      con_formulario = $("#con_formulario9:checked").val();
+
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
         return; 
@@ -1610,7 +1790,7 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes2/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_2+'&prestador_4='+prestador_4+'&observaciones='+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes2/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_2+'&prestador_4='+prestador_4+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -1643,6 +1823,18 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
 
           var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
           var vacaciones = [241,289,365,366]
+          var art_medicos = [242,243,291]
+
+          if(jQuery.inArray(id_articulo, art_medicos) !== -1){
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado9').show();
+
+          }else{
+
+            $('input:checkbox').removeAttr('checked');
+            $('#con_certificado9').hide();
+          }
+
 
           if(jQuery.inArray(id_articulo, vacaciones) !== -1){
             $("#anio_lic_8").show();
@@ -1670,13 +1862,19 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
 
 //----------------------------Confirmacion de licencia-----------------------
 
-  $('#modal_licencia_final').on('shown.bs.modal', function (event) { 
-      console.log("ver");     
+  $('#modal_licencia_final').on('shown.bs.modal', function (event) {    
       id_lic = $(event.relatedTarget).attr('id_lic');
       $('#input_fecha_inicio3').val($(event.relatedTarget).attr('fecha_desde'));
       $("#input_fecha_fin3").val($(event.relatedTarget).attr('fecha_hasta'));
       $("#observaciones_final").val($(event.relatedTarget).attr('observaciones'));
       $("#prestador").val($(event.relatedTarget).attr('prestador'));
+      if ($(event.relatedTarget).attr('con_certificado') == "true"){
+        $("input[name='con_certificado5']").prop('checked', true).change();
+      }
+      if ($(event.relatedTarget).attr('con_formulario') == "true"){
+        $("input[name='con_formulario5']").prop('checked', true).change();
+      }
+      
   });
 
 
@@ -1694,12 +1892,14 @@ $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (even
     fecha_fin = $("#input_fecha_fin3").val();
     observaciones = $("#observaciones_final").val();
     por_baja = $("#por_baja:checked").val();
-
     prestador = $("#prestador").val();
+
+    con_certificado = $("#con_certificado5:checked").val();
+    con_formulario = $("#con_formulario5:checked").val();
    
    
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/?observaciones='+observaciones+'&prestador='+prestador,
+      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/?observaciones='+observaciones+'&prestador='+prestador+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
