@@ -406,7 +406,7 @@ def listado_licencias_todas_lic
         @oficina = Establecimiento.where(id: params[:destino]).first
         if params[:destino].to_i > 0 and (@oficinaActual != @oficina) 
           if  AltasBajasHora.find(params['id_horas']).update(establecimiento_id: @oficina.id, estado: 'REU')
-              Traslado.create!(:alta_baja_hora_id => altbahora.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio])
+              Traslado.create!(:alta_baja_hora_id => altbahora.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio], disposicion: params[:disposicion])
              render json: 0
           end
         else
@@ -519,7 +519,7 @@ def listado_licencias_todas_lic
             #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
             #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
             if  AltasBajasHora.find(params['id_horas']).update(establecimiento_id: @oficina.id, estado: 'REU')
-                Traslado.create!(:alta_baja_hora_id => altbahora.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio])
+                Traslado.create!(:alta_baja_hora_id => altbahora.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio], disposicion: params[:disposicion])
                 if @licencia_anterior.fecha_hasta == nil
                     if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
                       fecha = params[:fecha_inicio].to_date - 1
@@ -662,7 +662,7 @@ def listado_licencias_todas_lic
         
         if params[:destino].to_i > 0 and (@oficinaActual != @oficina) 
           if  Cargo.find(params['id_cargos']).update(establecimiento_id: @oficina.id, estado: 'REU')
-              Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio])
+              Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio], disposicion: params[:disposicion])
              render json: 0
           end
         else
@@ -785,7 +785,7 @@ def listado_licencias_todas_lic
           #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
           #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
           if  Cargo.find(params['id_cargos']).update(establecimiento_id: @oficina.id, estado: 'REU')
-              Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio])
+              Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio] , disposicion: params[:disposicion])
               if @licencia_anterior.fecha_hasta == nil
                   if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
                     fecha = params[:fecha_inicio].to_date - 1
@@ -908,7 +908,7 @@ def listado_licencias_todas_lic
         end
 
         if  CargoNoDocente.find(params['id_cargos_no_docentes']).update(establecimiento_id: @oficina.id, estado: 'REU')
-            Traslado.create!(:cargo_no_docente_id => params['id_cargos_no_docentes'], user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio])
+            Traslado.create!(:cargo_no_docente_id => params['id_cargos_no_docentes'], user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio], disposicion: params[:disposicion])
            render json: 0
         else
            render json: "no se puede realizar el traslado".to_json
@@ -1028,7 +1028,7 @@ def listado_licencias_todas_lic
           #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
           #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
           if  CargoNoDocente.find(params['id_cargos_no_docentes']).update(establecimiento_id: @oficina.id, estado: 'REU')
-              Traslado.create!(:cargo_no_docente_id => params['id_cargos_no_docentes'], user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio])
+              Traslado.create!(:cargo_no_docente_id => params['id_cargos_no_docentes'], user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio], disposicion: params[:disposicion])
               if @licencia_anterior.fecha_hasta == nil
                   if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
                     fecha = params[:fecha_inicio].to_date - 1
@@ -1350,6 +1350,6 @@ def listado_licencias_todas_lic
     end
 
     def licencium_params
-      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :prestador_id, :observaciones, :anio_lic, :destino)
+      params.require(:licencium).permit(:altas_bajas_hora_id, :fecha_desde, :fecha_hasta, :articulo_id, :cargo_id, :cargo_no_docente_id, :vigente, :prestador_id, :observaciones, :anio_lic, :destino, :disposicion)
     end
 end

@@ -172,7 +172,7 @@
          <div id="alerta-dias" class="alert alert-info"> </div>
         <% else %>
          <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas_esc" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulooo",:class => "form-control col-sm-6", :id => "select_articulo_horas_esc" %>
           </div>
          </Br>
          <div id="alerta-dias" class="alert alert-info"> </div>
@@ -188,16 +188,20 @@
           <%= label_tag "Con formulario", nil,  :class => "control-label" %>
           <%= check_box_tag 'con_formulario1' %>
         </div>
-
-
-
+        
         <div id="anio_lic" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>  
          <hr/>
+
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_horas" %>
+        </div>
+
+        <div id="disposicion" class="">
+          <%= label_tag "Disposicion", nil,  :class => "control-label" %>
+          <%= text_area_tag 'disposicion', nil, :class => "form-control col-sm-6" %>
         </div>
 
         <hr/>
@@ -374,6 +378,7 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Generar licencia cargos</h4>
+        ACAA
       </div>
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
@@ -402,6 +407,11 @@
         <div class="row">
         <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_cargos" %>
         </div>
+
+      <div id="disposicion3">
+          <%= label_tag "Disposicion", nil,  :class => "control-label" %>
+          <%= text_area_tag 'disposicion3', nil, :class => "form-control col-sm-6" %>
+      </div>
        <div id="obv3">
            <%= label_tag "Observaciones", nil,  :class => "control-label" %>
            <%= text_area_tag 'observaciones3', nil, :class => "form-control col-sm-6"%>
@@ -649,6 +659,7 @@
 <% end %>
 
 <script type="text/javascript">
+  var traslado_definitivos = [394, 395];
 
   $(document).ready(function() {
     $("#select_articulo_horas").hide();
@@ -678,6 +689,8 @@
     $("#con_certificado8").hide();
     $("#con_certificado9").hide();
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    $("#disposicion").hide();
+    $("#disposicion3").hide();
 
     var id_horas;
     var id_cargos;
@@ -902,6 +915,8 @@
       id_horas = $(event.relatedTarget).attr('id_horas');
       $("#art_doc_1" ).val("");
       $("#select_articulo_horas_esc").val(""); 
+      $("textarea#disposicion").val("");
+      $("#disposicion").hide();
       $("#observaciones" ).val("");
       $('#con_formulario1').show();
       $('input:checkbox').removeAttr('checked');
@@ -934,6 +949,7 @@
       con_formulario =  $("#con_formulario1:checked").val();
       fecha_anio_lic = $("#input_anio_lic").val();
       destino = $("#select_destino_horas").val();
+      disposicion = $("textarea#disposicion").val();
 
       if (($("#select_articulo_horas").val() != "") && $("#select_articulo_horas").val() != undefined)
       {
@@ -955,10 +971,14 @@
       if (articulo == ""){
         alert("Debe seleccionar un Artículo");
         return; 
-      }   
+      }
+      if((jQuery.inArray(parseInt(articulo), traslado_definitivos) !== -1) && disposicion ===""){
+          alert("Campo disposicion no puede estar vacio.");
+          return;
+      }
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
           type: 'POST',
         })
       .done(function(data) {
@@ -972,6 +992,7 @@
         $("#select_articulo_horas_esc").val("");
         $("#anio_lic").val("");
         $("#art_doc_1").val("");
+        $("textarea#disposicion").val("");
         if (data != "") {
           alert(data); 
         };
@@ -1062,7 +1083,7 @@
       }) 
   });
 
-    $("#select_articulo_horas_esc" ).change(function() {
+    $("#select_articulo_horas_esc").change(function() {
 
     var id_articulo = parseInt($("#select_articulo_horas_esc option:selected").val(),10);
     $.ajax({
@@ -1073,8 +1094,13 @@
         $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
-        var vacaciones = [241,289,365,366]
-        var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
+        var vacaciones = [241,289,365,366];
+        var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325];
+
+        $('#disposicion').hide();          
+        if(jQuery.inArray(id_articulo, traslado_definitivos) !== -1){
+          $('#disposicion').show();
+        }
 
         if(jQuery.inArray(id_articulo, art_medicos) !== -1){
           $('input:checkbox').removeAttr('checked');
@@ -1121,6 +1147,10 @@
         var vacaciones = [241,289,365,366]
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
+        $('#disposicion').hide();          
+          if(jQuery.inArray(id_articulo, traslado_definitivos) !== -1){
+          $('#disposicion').show();
+        }
         if(jQuery.inArray(id_articulo, art_medicos) !== -1){
           $('input:checkbox').removeAttr('checked');
           $('#con_certificado3').show();
@@ -1400,6 +1430,7 @@
       type: 'GET',
       })
         .done(function(data) {
+          console.log("RESPONSEDE");
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
         var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378];
@@ -1433,6 +1464,8 @@
   $('#modal_licencia_cargos').on('shown.bs.modal', function (event) {      
       id_cargos = $(event.relatedTarget).attr('id_cargos');
       $("#con_certificado6").hide();
+      $("textarea#disposicion3").val("");
+      $("#disposicion3").hide();
       $("#con_formulario6").show();
       $('input:checkbox').removeAttr('checked');
     });
@@ -1459,6 +1492,7 @@
       observaciones = $("#observaciones3").val();
       con_certificado = $("#con_certificado6:checked").val();
       con_formulario = $("#con_formulario6:checked").val();
+      disposicion = $("textarea#disposicion3").val();
 
       if (fecha_inicio == ""){
         alert("Debe seleccionar una fecha de inicio");
@@ -1467,10 +1501,15 @@
       if (articulo == ""){
         alert("Debe seleccionar un Artículo");
         return; 
-      }   
+      }
+
+      if((jQuery.inArray(parseInt(articulo), traslado_definitivos) !== -1) && disposicion ===""){
+          alert("Campo disposicion no puede estar vacio.");
+          return;
+      }
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
           
           type: 'POST',
         })
@@ -1482,6 +1521,8 @@
         $("#select_articulo_cargos" ).val("");
         $("#input_anio_lic_1" ).val("");
         $("#observaciones3").val("");   
+        $("textarea#disposicion3").val("");
+
         if (data != "") {
           alert(data); 
         };       
@@ -1503,7 +1544,11 @@
           var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
           var vacaciones = [241,289,365,366]
           var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
-
+            
+          $('#disposicion3').hide();          
+          if(jQuery.inArray(id_articulo, traslado_definitivos) !== -1){
+            $('#disposicion3').show();
+          }
           if(jQuery.inArray(id_articulo, art_medicos) !== -1){
             $('input:checkbox').removeAttr('checked');
             $('#con_certificado6').show();
