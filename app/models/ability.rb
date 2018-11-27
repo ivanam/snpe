@@ -65,6 +65,9 @@ class Ability
           can :manage, [Licencium]
           can :read, [Licencium]
           can :read, [AltasBajasHora]
+          can :read, [Cargo]
+          can :read, [CargoNoDocente]
+
         end
 
         if user.role? :carga_planes

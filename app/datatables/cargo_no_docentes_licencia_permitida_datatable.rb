@@ -20,8 +20,9 @@ class CargoNoDocentesLicenciaPermitidaDatatable < AjaxDatatablesRails::Base
         record.establecimiento.nombre,
         record.observaciones,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
-          '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal"  id_cargo_no_docentes="'+record.id.to_s+'" data-target="#modal_licencia_cargos_no_docentes" title="Editar" ><span class=aria-hidden="true" >Licenciar</span></a>', 
-   
+        '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal"  id_cargo_no_docentes="'+record.id.to_s+'" data-target="#modal_licencia_cargos_no_docentes" title="Editar" ><span class=aria-hidden="true" >Licenciar</span></a>', 
+        '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" id_cargo_no_docentes="'+record.id.to_s+'"href="cargo_no_docentes/'+record.id.to_s+'" title="Historial" ><span class=aria-hidden="true" >Historial</span></a>'
+
       ]
     end
   end

@@ -437,8 +437,11 @@ ProyectoBase::Application.routes.draw do
 
     get "traslados/reporte", to: "traslados#reporte", as: :traslados_reporte
 
-    get 'licencias/historial', to: 'licencia#historial', as: :licencia_historial
-    get 'licencias/historial_index', to: 'licencia#historial_index', as: :licencia_historial_index
+    get 'altas_bajas_horas/:id/historial', to: 'altas_bajas_horas#show', as: :historial_agente
+    get 'cargos/:id/historial', to: 'cargos#show', as: :historial_agente_cargos
+    get 'cargo_no_docentes/:id/historial', to: 'cargo_no_docentes#show', as: :historial_agente_cargos_no_docentes
+
+
 
 
 

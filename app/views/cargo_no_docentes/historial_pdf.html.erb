@@ -1,88 +1,53 @@
-<div class="row">
-  <div class="col-lg-12">
-      <h1 class="page-header">Historial - <%= @cargo_no_docente.persona %></h1>
-    </div>
+
+<style type="text/css">
+.th .td {
+    font-size: 13px;
+  }
+.table {
+  font-size: 13px;
+}
+
+</style>
+<h3> Historial del agente <%= @cargo_no_docente.persona %> </h3>
+
+<div>
+<table class="table table-bordered table-striped">
+    <head>
+      <th> Establecimiento </th>
+      <th> Secuencia </th>
+      <th> Tipo de Cargo </th>
+      <th> Situaciòn de Revista </th>
+    </head>
+    <body>
+        <tr>
+          <td><%= @cargo_no_docente.establecimiento %></td>
+          <td><%= @cargo_no_docente.secuencia %></td>
+          <td>Horas</td>
+          <td><%= @cargo_no_docente.situacion_revista %></td>
+        </tr>
+    </body>
+</table>
 </div>
-
-<form>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label">Establecimiento</label>
-            <p class="form-control-static"><%= @cargo_no_docente.establecimiento %></p>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Fecha de alta</label>
-            <p class="form-control-static"><%= Util.fecha_a_es(@cargo_no_docente.fecha_alta) %></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Fecha de baja</label>
-            <p class="form-control-static"><%= Util.fecha_a_es(@cargo_no_docente.fecha_baja) %></p>
-          </div>
-        </div>
-        </div>
-      
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Turno</label>
-            <p class="form-control-static"><%= @cargo_no_docente.turno %></p>
-          </div>
-        </div>
-       
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label">Observaciones</label>
-            <p class="form-control-static"><%= @cargo_no_docente.observaciones %></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-
-</form>
-
-
-  <div><center>
-      <%= link_to historial_agente_cargos_no_docentes_path(@cargo_no_docente.id, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
-            Imprimir Historial de Agente
-      <% end %>
-      </center>
-  </div>
-
+ 
 
   <%
-
   fecha_limite_inicioAnio = Date.today.beginning_of_year().to_formatted_s(:db)
   fecha_limite_finAnio = Date.today.end_of_year().to_formatted_s(:db)
   fecha_limite_inicioMes = Date.today.at_beginning_of_month.to_formatted_s(:db)
   fecha_limite_finMes = Date.today.at_end_of_month.to_formatted_s(:db)
-  
   %>
 
-  <h3>Licencias</h3>
-  <h5>Cantidad de días tomados</h5>
-  <h5><b style="color:red">Recordar que pueden haber registros que no fueron llegaron a ser cargados en ESTE sistema </b></h5>
 
-  <div class="table-responsive">
-    <table  class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
+<h4>Licencias</h4>
+<div>
+  <table class="table table-bordered table-striped">
+    <head>
           <th>ART  Aux/ Doc</th>
           <th>Historico</th>
           <th>Anual</th>
           <th>Mensual</th>
-        </tr>
-      </thead>
-      <tbody>
+    </head>
+    <body>
         <tr>
           <td><b>5(a)</b></td>
           <td><%= @cargo_no_docente.calcular_licencia(0,0,0,0) %></td>
@@ -119,27 +84,26 @@
           <td><%= @cargo_no_docente.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,5,0) %> de 20</td>
           <td><%= @cargo_no_docente.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,5,0)%></td>
         </tr>
-      </tbody>
+      </body>
     </table>
-  </div>
+
+</div>
 
 
-<h3>Licencias Anuales</h3>
-  <div class="table-responsive">
-    <table  class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
+<h4>Licencias Anuales</h4>
+<div>
+  <table class="table table-bordered table-striped">
+    <head>
           <th>ART  Aux/ Doc</th>
-          <th>Cantidad de días tomados</th>
-          <th>Rangos de Fechas</th>
-        </tr>
-      </thead>
-      <tbody>
+          <th>Lic registradas en el sistema</th>
+           <th>Rangos de Fechas</th>
+    </head>
+    <body>
         <tr>
           <td><b>Anual 2018</b></td>
           <td><%= @cargo_no_docente.calcular_licencia(0,0,6,"2018") %></td>
           <td> <%@anuales2018.each do |l|%>
-          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )          
           <%end%> </td>
         </tr>
         <tr>
@@ -170,19 +134,6 @@
           (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
           <%end%> </td>
         </tr>
-      </tbody>
+      </body>
     </table>
   </div>
-
-
-  <div class="text-center">
-    <%= link_to cargo_no_docentes_path, :class => 'btn btn-default' do %>
-      <span class="glyphicon glyphicon-list-alt"></span>
-      Atrás
-    <% end %>
-    
-  </div>
-
-</form>
-
-

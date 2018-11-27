@@ -132,18 +132,25 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-  def show
-    @altas_bajas_hora = AltasBajasHora.find(params[:id])
-  end
+
 
   def show
+
     @altas_bajas_hora = AltasBajasHora.find(params[:id])
+    @licencias = Licencium.where(:altas_bajas_hora_id => params[:id])
+    @anuales2018 = @licencias.where("articulo_id in (241, 289,365,366) and anio_lic = 2018")
+    @anuales2017 = @licencias.where("articulo_id in (241, 289,365,366) and anio_lic = 2017")
+    @anuales2016 = @licencias.where("articulo_id in (241, 289,365,366) and anio_lic = 2016")
+    @anuales2015 = @licencias.where("articulo_id in (241, 289,365,366) and anio_lic = 2015")
+    @anuales = @licencias.where("articulo_id in (241, 289,365,366) and (anio_lic = 0 or anio_lic != null)")
+
+
     respond_to do |format|
       format.html
       format.pdf do
         render :pdf => 'file_name',
         #:template => 'entradas/show.html.erb',
-        :template => 'altas_bajas_horas/pdf.html.erb',
+        :template => 'altas_bajas_horas/historial_pdf.html.erb',
         #:layout => 'application.html.erb',
         :layout => 'pdf.html.erb',
         :show_as_html => params[:debug].present?
