@@ -1,3 +1,11 @@
+<% if can? :show_nav, Inscripcion %>
+  <nav class="nav">
+	  <%= link_to "Inscripciones", inscripcions_path %> / 
+	  <%= link_to "DNI (#{@inscripcion.persona.nro_documento})", docenteInscripcion_path(@inscripcion.persona.id) %>
+	  <a class="nav-link disabled" href="#">/ Confirmacion </a>
+	</nav>
+<% end %>
+
 <div class="page-header">
   <h1>Confirmación de Concurso Docente</h1>
 </div>
