@@ -79,6 +79,7 @@ class Ability
         end
 
         if user.role? :junta
+          can :show_nav, [Inscripcion]
           can :manage, [Inscripcion]
           can :manage, [Persona]
           can :manage, [Titulo]
