@@ -1,32 +1,12 @@
 <div class="row">
   <div class="col-lg-12">
-      <h1 class="page-header">Novedad - <%= @cargos.persona %></h1>
+      <h1 class="page-header">Historial - <%= @cargos.persona %></h1>
     </div>
 </div>
 
 <form>
   <div class="panel panel-default">
     <div class="panel-body">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Agente</label>
-            <p class="form-control-static"><%= @cargos.persona %></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">DNI</label>
-            <p class="form-control-static"><%= @cargos.persona.nro_documento %></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Cuil</label>
-            <p class="form-control-static"><%= @cargos.persona.cuil %></p>
-          </div>
-        </div>
-      </div>
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -84,16 +64,7 @@
           </div>
         </div>
        
-      
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Movilidad</label>
-            <p class="form-control-static"><%= @cargos.con_movilidad %></p>
-          </div>
-        </div>
- 
-      <div class="row">
+    
         <div class="col-md-12">
           <div class="form-group">
             <label class="control-label">Observaciones</label>
@@ -104,6 +75,134 @@
     </div>
   </div>
   
+
+</form>
+
+
+  <div><center>
+      <%= link_to historial_agente_cargos_path(@cargos.id, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
+            Imprimir Historial de Agente
+      <% end %>
+      </center>
+  </div>
+
+
+  <%
+
+  fecha_limite_inicioAnio = Date.today.beginning_of_year().to_formatted_s(:db)
+  fecha_limite_finAnio = Date.today.end_of_year().to_formatted_s(:db)
+  fecha_limite_inicioMes = Date.today.at_beginning_of_month.to_formatted_s(:db)
+  fecha_limite_finMes = Date.today.at_end_of_month.to_formatted_s(:db)
+  
+  %>
+
+  <h3>Licencias</h3>
+  <h5>Cantidad de días tomados</h5>
+  <h5><b style="color:red">Recordar que pueden haber registros que no fueron llegaron a ser cargados en ESTE sistema </b></h5>
+
+  <div class="table-responsive">
+    <table  class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ART  Aux/ Doc</th>
+          <th>Historico</th>
+          <th>Anual</th>
+          <th>Mensual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>5(a)</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,0,0) %></td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,0,0) %></td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,0,0)%> de 30</td>
+        </tr>
+        <tr>
+          <td><b>5(b)</b> </td>
+          <td><%= @cargos.calcular_licencia(0,0,1,0) %> de 547</td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,1,0) %></td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,1,0) %></td>
+        </tr>
+        <tr>
+          <td><b>31/36</b></td>
+          <td> - </td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,2,0) %> de 6 </td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,2,0)%> de 2</td>
+        </tr> 
+        <tr>
+          <td><b>12</b></td>
+          <td> - </td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,3,0) %> de 12 </td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,3,0)%> de 1</td>
+        </tr>
+        <tr>
+          <td><b>22(a) / 23(a)</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,4,0) %> de 150</td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,4,0) %> de 30</td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,4,0)%></td>
+        </tr>
+        <tr>
+          <td><b>23(b) / 23(b)</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,5,0) %> de 150</td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,5,0) %> de 20</td>
+          <td><%= @cargos.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,5,0)%></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+<h3>Licencias Anuales</h3>
+  <div class="table-responsive">
+    <table  class="table table-striped table-bordered table-hover">
+      <thead>
+        <tr>
+          <th>ART  Aux/ Doc</th>
+          <th>Cantidad de días tomados</th>
+          <th>Rangos de Fechas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Anual 2018</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,6,"2018") %></td>
+          <td> <%@anuales2018.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Anual 2017</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,6,"2017") %></td>
+          <td> <%@anuales2017.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Anual 2016</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,6,"2016") %></td>
+          <td> <%@anuales2016.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Anual 2015</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,6,"2015") %></td>
+          <td> <%@anuales2015.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Sin año</b></td>
+          <td><%= @cargos.calcular_licencia(0,0,6,"0") %></td>
+          <td> <%@anuales.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
   <div class="text-center">
     <%= link_to cargos_path, :class => 'btn btn-default' do %>
       <span class="glyphicon glyphicon-list-alt"></span>
@@ -113,3 +212,5 @@
   </div>
 
 </form>
+
+

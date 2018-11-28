@@ -1,0 +1,139 @@
+
+<style type="text/css">
+.th .td {
+    font-size: 13px;
+  }
+.table {
+  font-size: 13px;
+}
+
+</style>
+<h3> Historial del agente <%= @altas_bajas_hora.persona %> </h3>
+
+<div>
+<table class="table table-bordered table-striped">
+    <head>
+      <th> Establecimiento </th>
+      <th> Secuencia </th>
+      <th> Tipo de Cargo </th>
+      <th> Situaciòn de Revista </th>
+    </head>
+    <body>
+        <tr>
+          <td><%= @altas_bajas_hora.establecimiento %></td>
+          <td><%= @altas_bajas_hora.secuencia %></td>
+          <td>Horas</td>
+          <td><%= @altas_bajas_hora.situacion_revista %></td>
+        </tr>
+    </body>
+</table>
+</div>
+ 
+
+  <%
+  fecha_limite_inicioAnio = Date.today.beginning_of_year().to_formatted_s(:db)
+  fecha_limite_finAnio = Date.today.end_of_year().to_formatted_s(:db)
+  fecha_limite_inicioMes = Date.today.at_beginning_of_month.to_formatted_s(:db)
+  fecha_limite_finMes = Date.today.at_end_of_month.to_formatted_s(:db)
+  %>
+
+
+<h4>Licencias</h4>
+<div>
+  <table class="table table-bordered table-striped">
+    <head>
+          <th>ART  Aux/ Doc</th>
+          <th>Historico</th>
+          <th>Anual</th>
+          <th>Mensual</th>
+    </head>
+    <body>
+        <tr>
+          <td><b>5(a)</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,0,0) %></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,0,0) %></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,0,0)%> de 30</td>
+        </tr>
+        <tr>
+          <td><b>5(b)</b> </td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,1,0) %> de 547</td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,1,0) %></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,1,0) %></td>
+        </tr>
+        <tr>
+          <td><b>31/36</b></td>
+          <td> - </td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,2,0) %> de 6 </td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,2,0)%> de 2</td>
+        </tr> 
+        <tr>
+          <td><b>12</b></td>
+          <td> - </td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,3,0) %> de 12 </td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,3,0)%> de 1</td>
+        </tr>
+        <tr>
+          <td><b>22(a) / 23(a)</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,4,0) %> de 150</td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,4,0) %> de 30</td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,4,0)%></td>
+        </tr>
+        <tr>
+          <td><b>23(b) / 23(b)</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,5,0) %> de 150</td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,5,0) %> de 20</td>
+          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,5,0)%></td>
+        </tr>
+      </body>
+    </table>
+
+</div>
+
+
+<h4>Licencias Anuales</h4>
+<div>
+  <table class="table table-bordered table-striped">
+    <head>
+          <th>ART  Aux/ Doc</th>
+          <th>Lic registradas en el sistema</th>
+           <th>Rangos de Fechas</th>
+    </head>
+    <body>
+        <tr>
+          <td><b>Anual 2018</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2018") %></td>
+          <td> <%@anuales2018.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )          
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Anual 2017</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2017") %></td>
+          <td> <%@anuales2017.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Anual 2016</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2016") %></td>
+          <td> <%@anuales2016.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Anual 2015</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2015") %></td>
+          <td> <%@anuales2015.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+        <tr>
+          <td><b>Sin año</b></td>
+          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"0") %></td>
+          <td> <%@anuales.each do |l|%>
+          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+          <%end%> </td>
+        </tr>
+      </body>
+    </table>
+  </div>

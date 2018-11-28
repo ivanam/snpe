@@ -1327,6 +1327,7 @@ def listado_licencias_todas_lic
     elsif @tipo_cargo == "cargos no docente"
       licencias = licencias.where.not(cargo_no_docente_id: nil)
     end
+    
     @licencias_sin_cert = Licencium.select('licencia.*').from('licencia, establecimientos, articulos').where(' YEAR(licencia.fecha_desde) = ' + @anio + ' and MONTH(licencia.fecha_desde) = '+ @mes +' and licencia.fecha_desde >= "2018-09-01" and establecimientos.codigo_jurisdiccional = licencia.oficina and establecimientos.sede = 1 and (licencia.observaciones = "" or licencia.observaciones = null or licencia.con_certificado = null or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
     
     respond_to do |format|

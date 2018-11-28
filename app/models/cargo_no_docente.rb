@@ -35,6 +35,84 @@ class CargoNoDocente < ActiveRecord::Base
    end  
   end
 
+
+
+
+  def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)
+    total = 0
+    case posicion
+      #quinto A
+       when 0
+           articulos = "(291,242)"
+      #quintoB 
+       when 1
+          articulos = "(292, 243, 377)"
+      #razones particulares
+      when 2
+          articulos = "(348,286,287)"
+      when 3
+        articulos = "(301)"
+      #22a o 23a
+      when 4
+        articulos = "(321,263)"
+      #23b
+      when 5
+        articulos = "(322,264)"
+
+      #anual vacaciones
+      when 6
+        articulos = "(241,289,365,366)"
+      else
+        articulos = 0
+      end
+
+    #licencias anuales
+    if (anio_lic != 0 or posicion == 6)
+
+      Licencium.where(cargo_no_docente_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ anio_lic +" or anio_lic != null)").each do |lic|
+        if lic.fecha_hasta.nil?
+          f_h = Date.today
+        else
+          f_h = lic.fecha_hasta
+        end
+        total = total + (f_h - lic.fecha_desde).to_i + 1
+      end
+      return total
+
+    #licencias historicas
+    elsif (fecha_limite_inicio == 0  and fecha_limite_fin == 0)
+ 
+      Licencium.where(cargo_no_docente_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"").each do |lic|
+        if lic.fecha_hasta.nil?
+          f_h = Date.today
+        else
+          f_h = lic.fecha_hasta
+        end
+        total = total + (f_h - lic.fecha_desde).to_i + 1
+      end
+      return total
+
+    #licencias mensuales y anuales
+    else
+      Licencium.where(cargo_no_docente_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+" and fecha_desde BETWEEN '"+fecha_limite_inicio+"' and '"+fecha_limite_fin+"'").each do |lic|
+       
+        if lic.fecha_hasta.nil?
+          f_h = Date.today
+        else
+          f_h = lic.fecha_hasta
+        end
+        total = total + (f_h - lic.fecha_desde).to_i + 1
+      end
+      return total
+    end
+  end 
+
+  
+
+
+
+
+
    #-----------------------------------------------------------------------------------------------------------
   
   def ina_justificada(anio, mes)
