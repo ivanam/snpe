@@ -1,0 +1,108 @@
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "licencia.js" %>
+
+
+<style type="text/css">
+.form-group{
+  margin-left: 0px;
+  margin-right: 0px;
+}
+</style>
+
+
+<h3>Historial Agente </h3>
+<fieldset>
+  <div class="form-snpe" >
+    <div class="row">
+      <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_util_index_path, :placeholder => "Buscar persona", id_element: '#persona_id', :id => "persona" , :style => 'width:70%;'%>
+      <%= hidden_field_tag :persona_id  %>
+
+      
+      <button type="button" id="btn_buscar_persona" class="btn btn-default" data-dismiss="modal">Buscar</button>
+    </div>
+    <div class="row">
+      <div id="datos_persona" class="well" style="display: none;">
+        <%= label_tag 'cuil', "", {:id => "label_cuil"} %><br/>
+        <%= label_tag 'apellidos', "", {:id => "label_apellidos", :placeholder => "Apellido/s"} %><br/>
+        <%= label_tag 'fecha_nacimiento',"",{:id => "datepicker3"} %><br/>
+        <%= label_tag 'Datos_Domicilio', "",{:id => "Datos_Domicilio"} %><br/>
+        <%= label_tag 'Calle/altura', "", {:id => "label_calle"} %><br/>
+        <%= label_tag 'Nro Calle', "", {:id => "nro_calle"} %><br/>
+      </div>
+    </div>
+  </div>
+</fieldset>
+
+        
+<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "1910:<%= Date.today.year + 10 %>", 
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+  
+
+
+  </script>
+
+<% end %>
+
+ <script type="text/javascript">
+    $("#persona").change(function(e){
+      
+        
+       var id = parseInt($("#persona_id").val());
+       if (!Number.isNaN(id)) //Verifico que se haya ingresaod un dni 
+       { 
+
+        $.ajax({
+            url: '/soft/snpe/util/buscar_persona_por_id/'+id,
+            type: 'POST',
+          })
+            .done(function(data) {
+              window.dni = data.nro_documento
+            $.ajax({
+              url: '/soft/snpe/util/buscar_persona/'+window.dni,
+              type: 'POST',
+            })
+            .done(function(data) {            
+              if (data != null) { 
+                  
+                $("#datos_persona").show();           
+                $("#label_nombres").text(data.nombres);
+                $("#label_apellidos").text('Apellido y nombre: '+data.apeynom);
+                $("#label_cuil").text('CUIT/CUIL: '+data.cuil);
+                $("#label_calle").text('Calle: '+data.calle);
+                $("#nro_calle").text('Nro Calle: '+data.nro_calle);
+                $("#datepicker3").text('Fecha de nacimiento: '+data.fecha_nacimiento.split("-")[2]+"-"+data.fecha_nacimiento.split("-")[1]+"-"+data.fecha_nacimiento.split("-")[0]);
+                $("#label_calle").text('Calle: '+data.calle);
+                $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
+              }
+              else{
+                //alert("La persona no existe. Por favor cargue sus datos");
+                $("#datos_persona").hide();           
+                $("#label_nombres").text("");
+                $("#label_apellidos").text("");
+                $("#label_cuil").text("");
+                $("#label_calle").text("");
+                $("#nro_calle").text("");
+                $("#Datos_Domicilio").text("-------Datos Domicilio---------------");
+                $("#datepicker3").text("");
+              }
+            })
+          })
+        }
+    });  
+</script>
