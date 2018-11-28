@@ -1,0 +1,238 @@
+<%= render 'form_persona' %>
+<%= javascript_include_tag "util.js" %>
+<%= javascript_include_tag "daterangepicker"%>
+<%= stylesheet_link_tag "daterangepicker-bs3" %>
+
+
+<hr id="div_hr_horas"/>
+<div id="div_horas" class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Horas
+      </h3>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+      <table id="tabla-horas-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= agente_activo_horas_path(format: :json, dni: 0) %>" >
+        <thead>
+          <tr>
+            <th>Secuencia</th>
+            <th>Establecimiento</th>
+            <th>Ciclo</th>
+            <th>Materia</th>
+            <th>Año</th>
+            <th>Div</th>
+            <th>Turno</th>
+            <th>Fecha Alta</th>
+            <th>Historial</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+
+  <hr id="div_hr_cargos"/>
+  <div id="div_cargos" class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Cargos
+      </h3>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+      <table id="tabla-cargos-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= agente_activo_cargos_path(format: :json,dni: 0) %>" >
+        <thead>
+          <tr>
+            <th>Secuencia</th>
+            <th>CJ</th>
+            <th>Establecimiento</th>
+            <th>Sit Rev / Cargo</th>
+            <th>Turno</th>
+            <th>Curso</th>
+            <th>Div</th>
+            <th>Observaciones</th>
+            <th>Fecha Alta</th>
+            <th>Historial</th>
+
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+  <hr/>
+
+  <hr id="div_hr_cargos"/>
+  <div id="div_cargos_no_docentes" class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Cargos Auxiliares
+      </h3>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+         <table id="tabla-cargos-no-docentes-licencia" class="table table-striped table-bordered table-hover" data-source = "<%= agente_activo_auxiliares_path(format: :json,dni: 0) %>" >
+          <thead>
+           <tr>
+            <th>Secuencia</th>
+            <th>Turno</th>
+            <th>CJ</th>
+            <th>Establecimiento</th>
+            <th>Observaciones</th>
+            <th>Fecha Alta</th>
+            <th>Historial</th>
+           </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+  </div>
+ </div>
+  <hr/>
+
+
+
+
+<script type="text/javascript">
+
+
+  var tabla_personas = $('#tabla-persona').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-persona').data('source'),
+    pagingType: "simple",
+    retrieve: true,
+    columnDefs: [
+            {
+                "targets": [ 7 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+
+  });
+
+  var tabla_horas_licencia =  $('#tabla-horas-licencia').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-horas-licencia').data('source'),
+    pagingType: "simple",
+    retrieve: true,
+    columnDefs: [
+            {
+                "targets": [ 7 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+   
+  });
+
+  var tabla_cargos_licencia = $('#tabla-cargos-licencia').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-cargos-licencia').data('source'),
+    pagingType: "simple",
+    retrieve: true,
+    columnDefs: [
+            {
+                "targets": [ 8 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+   
+  });
+
+  var tabla_cargos_no_docentes_licencia = $('#tabla-cargos-no-docentes-licencia').dataTable({
+    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+    processing : true,
+    serverSide : true,
+    ajax : $('#tabla-cargos-no-docentes-licencia').data('source'),
+    pagingType: "simple",
+    retrieve: true,
+    columnDefs: [
+            {
+                "targets": [ 5 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+   
+  });
+
+
+
+
+  var tabla_personal_activo = $('#tabla-personal-activo')
+    .on('draw.dt', function () {
+      $('.popup-fecha')
+        .on('save', function(e, params) {
+          tabla_personal_activo.api().ajax.reload();
+          //tabla_bajas_efectivas.api().ajax.reload();
+        })
+        .editable({
+          savenochange: true,
+          success: function(response, newValue) {
+            if(response.status == 'error') return response.msg; //msg will be shown in editable form
+          }
+        });
+    })
+    .dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing: true,
+      serverSide: true,
+      ajax : $('#tabla-personal-activo').data('source'),
+      pagingType: "simple",
+      "pageLength": 5,
+      columnDefs: [
+            {
+                "targets": [ 10 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+    });
+
+
+    $('#btn_buscar_persona').on('click', function() { //Trigger search button click event
+      var id = parseInt($("#persona_id").val());
+      $.ajax({
+            url: '/soft/snpe/util/buscar_persona_por_id/'+id,
+            type: 'POST',
+          })
+            .done(function(data) {
+              window.dni = data.nro_documento
+              $("#div_horas").show();
+              $("#div_cargos").show();
+              $("#div_hr_horas").show();
+              $("#div_hr_cargos").show();
+              $("#div_hr_horas").show();
+              $("#div_cargos_no_docentes").show();
+              $("#div_hr_licencias").show();
+              $("#div_licencias").show();
+              $("#div_personas").show();
+              $("#div_hr_personas").show();
+              
+              tabla_horas_licencia.api().ajax.url('/soft/snpe/reportes/horas/'+window.dni);
+              tabla_cargos_licencia.api().ajax.url('/soft/snpe/reportes/cargos/'+window.dni);
+              tabla_cargos_no_docentes_licencia.api().ajax.url('/soft/snpe/reportes/auxiliares/'+window.dni);
+
+              tabla_horas_licencia.api().ajax.reload();
+              tabla_cargos_licencia.api().ajax.reload();
+              tabla_cargos_no_docentes_licencia.api().ajax.reload();
+              tabla_personas.api().ajax.reload();
+        })
+      });
+
+</script>

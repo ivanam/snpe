@@ -457,6 +457,16 @@ ProyectoBase::Application.routes.draw do
 
     get "reportes/licencias_diario", as: :reportes_licencias_diario
 
+    get "reportes/historial_agente_activo", as: :historial_agente_activo
+
+    get 'reportes/horas/:dni', to: 'reportes#horas', as: :agente_activo_horas
+
+    get 'reportes/cargos/:dni', to: 'reportes#cargos', as: :agente_activo_cargos
+
+    get 'reportes/auxiliares/:dni', to: 'reportes#auxiliares', as: :agente_activo_auxiliares
+
+
+
 
     #----------------------------------------------------------------------------------------------------------------------------------  
     # Migraciones

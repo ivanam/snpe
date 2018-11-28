@@ -360,7 +360,7 @@ def listado_licencias_todas_lic
         # lista de arituculos que generan traslados definitivos
     listaArtTrasladosDef =  ["394","395"]
     # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378"]
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", "396"]
     con_formulario = params['con_formulario'].to_i
     con_certificado = params['con_certificado'].to_i
 
@@ -432,7 +432,7 @@ def listado_licencias_todas_lic
     # lista de arituculos que generan traslados definitivos
     listaArtTrasladosDef =  ["394","395",  394, 395]
     # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378]
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378, 396, "396"]
 
     @licencia_anterior= Licencium.where(altas_bajas_hora_id: params['id_horas'], vigente: 'vigente').last
     altbahora = AltasBajasHora.where(id: params['id_horas']).first 
@@ -614,7 +614,7 @@ def listado_licencias_todas_lic
     # lista de arituculos que generan traslados definitivos
     listaArtTrasladosDef =  ["394","395"]
     # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378"]
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", "396"]
     cargo = Cargo.where(id: params['id_cargos']).first
     secuencia= cargo.secuencia
     descripcion_articulo = Articulo.where(id: params['articulo']).first.descripcion
@@ -694,7 +694,7 @@ def listado_licencias_todas_lic
   # lista de arituculos que generan traslados definitivos
   listaArtTrasladosDef =  ["394","395", 394, 395]
   # lista de arituculos que generan traslados transitorios
-  listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378]
+  listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378, 396, "396"]
 
   prestador_3 = params[:prestador_3]  
   secuencia=Cargo.where(id: params['id_cargos']).first.secuencia
@@ -868,7 +868,7 @@ def listado_licencias_todas_lic
     # lista de arituculos que generan traslados definitivos
     listaArtTrasladosDef =  ["394","395"]
     # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378"]
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", "396"]
 
     art_id = Articulo.where(id: params['articulo']).first.id
     licencias_anuales = [241,289]
@@ -933,7 +933,7 @@ def listado_licencias_todas_lic
 
     listaArtTrasladosDef =  ["394","395", 394, 395]
     # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378]
+    listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378, 396, "396"]
 
     
     @no_guarda = true
@@ -1101,7 +1101,7 @@ def listado_licencias_todas_lic
      # lista de arituculos que generan traslados definitivos
     listaArtTrasladosDef =  [394,395]
     # lista de arituculos que generan traslados transitorios
-    listaArtTrasladosTrans = [352,353, 354, 355, 356, 357, 358, 359, 360, 378]
+    listaArtTrasladosTrans = [352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396]
 
     @licencia = Licencium.where(id: params[:id_lic]).first
     baja = params[:por_baja] == "1"

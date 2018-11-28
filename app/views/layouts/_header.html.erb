@@ -42,13 +42,12 @@
         <% end %>
             <div class="col-md-12 logo">
                 <p align="center">
-                  <%=image_tag("logo.png", :class => "img-responsive")%>
-
+                  <%=image_tag("logo.png", :class => "img-responsive", style: "width:45%")%>
                 </p>
             </div>
             <%if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta)) then %>
               <div class="title">
-                <h1 align="center"> Módulo de Novedades </h1>
+                <h2 align="center"> Módulo de Novedades </h2>
               </div>
             <%elsif (user_signed_in? && (current_user.role? :UserJunta))  %>
               <div class="title">

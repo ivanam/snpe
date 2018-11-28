@@ -17,7 +17,7 @@ class TrasladosController < ApplicationController
     fecha_f = anio+"-"+mes+"-31"
 
 
-    @licencias_cargos = Traslado.where("fecha_cambio_oficina >= '" + fecha_i + "'")
+    @traslados = Traslado.where("fecha_cambio_oficina >= '" + fecha_i + "'")
 
     respond_to do |format|
     format.pdf do
