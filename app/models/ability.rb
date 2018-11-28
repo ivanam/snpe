@@ -72,10 +72,13 @@ class Ability
         end
 
         if user.role? :carga_planes
-          can :manage, [Plan]
-          can :manage, [Despliegue]
-          can :manage, [Materium]
-          cannot :destroy, [Despliegue]
+          can :create, [Plan]
+          can :read, [Plan]
+          can :create, [Despliegue]
+          can :read, [Despliegue]
+          can :create, [Materium]
+          can :read, [Materium]      
+
         end
 
         if user.role? :adminJunta
