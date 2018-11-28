@@ -759,8 +759,7 @@
     language : {"sUrl": "<%= asset_path('language.es.json') %>",},
     processing : true,
     serverSide : true,
-
-
+     "scrollX": true,
     ajax : $('#tabla-licencium').data('source'),
     pagingType: "simple",
     retrieve: true,
@@ -1048,7 +1047,7 @@
         .done(function(data) {
         $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
-        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241,289,365,366]
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
@@ -1093,7 +1092,7 @@
         .done(function(data) {
         $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
-        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241,289,365,366];
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325];
 
@@ -1143,7 +1142,7 @@
         .done(function(data) {
         $("#alerta-dias").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias").show();
-        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241,289,365,366]
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
@@ -1339,7 +1338,7 @@
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
 
-        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241,289,365,366]
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
@@ -1387,7 +1386,7 @@
         .done(function(data) {
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
-        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241,289,365,366]
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
@@ -1433,7 +1432,7 @@
           console.log("RESPONSEDE");
         $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
         $("#alerta-dias-1").show();
-        var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378];
+        var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241, 289, 365, 366]
 
 
@@ -1541,7 +1540,7 @@
           $("#alerta-dias-cargo").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo").show();
 
-          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
           var vacaciones = [241,289,365,366]
           var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
             
@@ -1654,7 +1653,7 @@
         .done(function(data) {
           $("#alerta-dias-cargo-1").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-1").show();
-          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
           var vacaciones = [241,289,365,366]
           var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
@@ -1759,7 +1758,7 @@
           $("#alerta-dias-cargo-no-docentes").show();
           $("#select_destino_car_aux").show();
           $("#select_destino_car_aux").val("");
-          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
           var vacaciones = [241,289,365,366]
           var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
@@ -1870,7 +1869,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
           $("#alerta-dias-cargo-no-docentes-1").html("Cantidad máxima de días en este artículo: "+data);
           $("#alerta-dias-cargo-no-docentes-1").show();
 
-          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378];
+          var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
           var vacaciones = [241,289,365,366]
           var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
 
