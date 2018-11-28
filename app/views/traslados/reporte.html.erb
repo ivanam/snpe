@@ -34,50 +34,51 @@
       <th> Secuencia </th>
       <th> Tipo de Cargo </th>
       <th> Fecha Cambio de oficina </th>
-      <th> usuario originante </th>
+      <th> Usuario Originante </th>
+      <th> Disposicion </th>
     </head>
     <body>
-      <% @licencias_cargos.each do |l|%>
+      <% @traslados.each do |traslado|%>
         <tr>
 
-          <% @cargo = Cargo.where(id: l.cargo_id).first %>
-          <% @horas = AltasBajasHora.where(:id => l.alta_baja_hora_id).first %>
-          <% @cargond = CargoNoDocente.where(:id => l.cargo_no_docente_id).first %>
+          <% @cargo = Cargo.where(id: traslado.cargo_id).first %>
+          <% @horas = AltasBajasHora.where(:id => traslado.alta_baja_hora_id).first %>
+          <% @cargond = CargoNoDocente.where(:id => traslado.cargo_no_docente_id).first %>
 
-          <%if l.cargo_id != nil%>
+          <%if traslado.cargo_id != nil%>
             <td> <%= @cargo.persona %> </td>
-          <% elsif l.cargo_no_docente_id != nil %>
+          <% elsif traslado.cargo_no_docente_id != nil %>
             <td> <%= @cargond.persona %> </td>
           <%else%>
             <td> <%= @horas.persona %> </td>
           <%end%>
 
-          <%if l.cargo_id != nil%>
+          <%if traslado.cargo_id != nil%>
             <td> <%= @cargo.establecimiento %> </td>
-          <%elsif l.cargo_no_docente_id != nil%>
+          <%elsif traslado.cargo_no_docente_id != nil%>
             <td> <%= @cargond.establecimiento %> </td>
           <%else%>
             <td> <%= @horas.establecimiento %> </td>
           <%end%>
 
-          <%if l.cargo_id != nil%>
+          <%if traslado.cargo_id != nil%>
             <td> <%= @cargo.secuencia %> </td>
-          <%elsif l.cargo_no_docente_id != nil%>
+          <%elsif traslado.cargo_no_docente_id != nil%>
             <td> <%= @cargond.secuencia %> </td>
           <%else%>
             <td> <%= @horas.secuencia %> </td>
           <%end%>
 
-          <%if l.cargo_id != nil%>
+          <%if traslado.cargo_id != nil%>
             <td> Cargo </td>
-          <%elsif l.cargo_no_docente_id != nil%>
+          <%elsif traslado.cargo_no_docente_id != nil%>
             <td> Cargo no Docente </td>
           <%else%>
             <td> Horas </td>
           <%end%>
-          <td><%= l.fecha_cambio_oficina%></td>
-          <td><%= User.where(id: l.user_id).first.email%>
-
+          <td><%= traslado.fecha_cambio_oficina%></td>
+          <td><%= User.where(id: traslado.user_id).first.email%></td>
+          <td><%= traslado.disposicion %></td>
 
         </tr>
       <% end %>
