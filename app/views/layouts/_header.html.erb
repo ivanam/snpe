@@ -1,5 +1,5 @@
   <div class="container">
-    <div class="row" style="margin-bottom: -10px;">
+    <div class="row" style="margin-bottom: -10px; margin-top:100px">
         <% if user_signed_in? && (!current_user.role? :junta) then %>
           <% if session[:establecimiento] != nil then%>
             <%@e = Establecimiento.find(session[:establecimiento])%>                  
@@ -42,7 +42,7 @@
         <% end %>
             <div class="col-md-12 logo">
                 <p align="center">
-                  <%=image_tag("logo.png", :class => "img-responsive", style: "width:45%")%>
+                  <%=image_tag("logo.png", :class => "img-responsive", style: "width:45%;")%>
                 </p>
             </div>
             <%if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta)) then %>
