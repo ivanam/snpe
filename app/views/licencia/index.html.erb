@@ -1037,7 +1037,7 @@
   });
 
 
-  $("#select_articulo_horas" ).change(function() {
+  $("#select_articulo_horas").change(function() {
 
     var id_articulo = parseInt($("#select_articulo_horas option:selected").val(),10);
     $.ajax({
@@ -1050,6 +1050,11 @@
         var myarray = [394,395,352,353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
         var vacaciones = [241,289,365,366]
         var art_medicos = [242,243,244,245,263,264,265,266,291,292,293,294,321,322,323,324,325]
+
+        $('#disposicion').hide();          
+          if(jQuery.inArray(id_articulo, traslado_definitivos) !== -1){
+          $('#disposicion').show();
+        }
 
         if(jQuery.inArray(id_articulo, art_medicos) !== -1){
           $('input:checkbox').removeAttr('checked');
@@ -1132,7 +1137,7 @@
         }) 
   });
 
-   $("#select_articulo_cargos_no_docente_h1" ).change(function() {
+   $("#select_articulo_cargos_no_docente_h1").change(function() {
 
     var id_articulo = parseInt($("#select_articulo_cargos_no_docente_h1 option:selected").val(),10);
     $.ajax({
