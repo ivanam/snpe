@@ -75,6 +75,7 @@ class Ability
           can :manage, [Plan]
           can :manage, [Despliegue]
           can :manage, [Materium]
+          cannot :destroy, [Despliegue]
         end
 
         if user.role? :adminJunta
