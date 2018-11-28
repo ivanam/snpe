@@ -1,31 +1,28 @@
-
-
 <div class="jumbotron">
-<center> <h3> Agrentes con cambio de oficina de cobro </h3> </center>
-<center>  <h3>Filtros</h3> </center>
-  <table class="tabla-filtros">
+<center><h3> Agrentes con cambio de oficina de cobro </h3></center>
+<center><h3>Filtros</h3></center>
+<table class="tabla-filtros">
+  <thead>
     <tr>
       <th>Mes</th>
       <th>Año</th>
     </tr>
+  </thead>
+  <tbody>
     <tr>
-      <td>
-        <%= select_tag 'Mes', options_for_select((1..12).to_a), :id => "select_mes", :prompt => "Seleccione mes"%>
-      </td>
-      <td>
-        <%= select_tag 'anio', options_for_select((2017..Date.today.year.to_i).to_a), :id => "select_anio", :prompt => "Seleccione año"%>
-      </td>
+      <td><%= select_tag 'Mes', options_for_select((1..12).to_a), :id => "select_mes", :prompt => "Seleccione mes"%></td>
+      <td><%= select_tag 'anio', options_for_select((2017..Date.today.year.to_i).to_a), :id => "select_anio", :prompt => "Seleccione año"%></td>
     </tr>
-  </table>
-  <center><button class="btn btn-primary btn-filtro" id="btn-filtrar">Filtrar</button></center>
-
+  </tbody>
+</table>
+<center><button class="btn btn-primary btn-filtro" id="btn-filtrar">Filtrar</button></center>
 </div>
 
-
-<button id="btn-filtrar1" class="btn btn-danger">
+<button id="btn-imprimir" class="btn btn-danger">
     <span class="glyphicon glyphicon-print"></span>
     Imprimir Agentes con Cambio de Oficina
 </button>
+
 <div style="padding: 5px;">
   <table class="tabla-reportes">
     <head>
@@ -39,70 +36,35 @@
     </head>
     <body>
       <% @traslados.each do |traslado|%>
-        <tr>
-
-          <% @cargo = Cargo.where(id: traslado.cargo_id).first %>
-          <% @horas = AltasBajasHora.where(:id => traslado.alta_baja_hora_id).first %>
-          <% @cargond = CargoNoDocente.where(:id => traslado.cargo_no_docente_id).first %>
-
-          <%if traslado.cargo_id != nil%>
-            <td> <%= @cargo.persona %> </td>
-          <% elsif traslado.cargo_no_docente_id != nil %>
-            <td> <%= @cargond.persona %> </td>
-          <%else%>
-            <td> <%= @horas.persona %> </td>
-          <%end%>
-
-          <%if traslado.cargo_id != nil%>
-            <td> <%= @cargo.establecimiento %> </td>
-          <%elsif traslado.cargo_no_docente_id != nil%>
-            <td> <%= @cargond.establecimiento %> </td>
-          <%else%>
-            <td> <%= @horas.establecimiento %> </td>
-          <%end%>
-
-          <%if traslado.cargo_id != nil%>
-            <td> <%= @cargo.secuencia %> </td>
-          <%elsif traslado.cargo_no_docente_id != nil%>
-            <td> <%= @cargond.secuencia %> </td>
-          <%else%>
-            <td> <%= @horas.secuencia %> </td>
-          <%end%>
-
-          <%if traslado.cargo_id != nil%>
-            <td> Cargo </td>
-          <%elsif traslado.cargo_no_docente_id != nil%>
-            <td> Cargo no Docente </td>
-          <%else%>
-            <td> Horas </td>
-          <%end%>
-          <td><%= traslado.fecha_cambio_oficina%></td>
-          <td><%= User.where(id: traslado.user_id).first.email%></td>
+        <tr>        
+          <td><%= traslado.get_persona %></td>
+          <td><%= traslado.get_establecimiento %></td>
+          <td><%= traslado.get_secuencia %></td>
+          <td><%= traslado.get_tipo_cargo %></td>
+          <td><%= traslado.fecha_cambio_oficina %></td>
+          <td><%= traslado.user.email %></td>
           <td><%= traslado.disposicion %></td>
-
         </tr>
       <% end %>
     </body>
   </table>
-
 </div>
 
 <script type="text/javascript">
-
   $(document).ready(function($) {
-    
+  
     function getParams() {
       var params = '?mes=' + $('#select_mes').val()+'&anio=' + $('#select_anio').val();
       return  params
     };
 
-
     $('#btn-filtrar').on('click', function() {
       window.location.href = "<%= traslados_reporte_path %>" + getParams();
     });
 
-    $('#btn-filtrar1').on('click', function(){
+    $('#btn-imprimir').on('click', function(){
        window.location.href = '/soft/snpe/traslados/reporte.pdf' + getParams();
-      })
+    })
+
   });
 </script>
