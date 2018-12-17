@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181120113753) do
+ActiveRecord::Schema.define(version: 20181214122634) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -662,6 +662,35 @@ ActiveRecord::Schema.define(version: 20181120113753) do
     t.datetime "updated_at"
   end
 
+  create_table "registros_para_solucionars", force: true do |t|
+    t.boolean  "horas_registro"
+    t.boolean  "cargos_registro"
+    t.boolean  "auxiliar_registro"
+    t.integer  "establecimiento_id"
+    t.integer  "persona_id"
+    t.integer  "secuencia"
+    t.date     "fecha_alta"
+    t.date     "fecha_baja"
+    t.string   "situacion_revista"
+    t.integer  "horas"
+    t.integer  "ciclo_carrera"
+    t.integer  "anio"
+    t.integer  "division"
+    t.string   "turno"
+    t.integer  "codificacion"
+    t.string   "estado"
+    t.integer  "materium_id"
+    t.integer  "plan_id"
+    t.integer  "cargo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "mes_liq"
+    t.integer  "anio_liq"
+    t.boolean  "chequeada"
+    t.integer  "user_chequeada_id"
+    t.date     "fecha_chequeada"
+  end
+
   create_table "role_permissions", force: true do |t|
     t.integer  "role_id"
     t.string   "regulator"
@@ -777,13 +806,14 @@ ActiveRecord::Schema.define(version: 20181120113753) do
   add_index "titulos", ["persona_id"], name: "index_titulos_on_persona_id", using: :btree
 
   create_table "traslados", force: true do |t|
-    t.integer  "alta_baja_hora_id"
+    t.integer  "altas_bajas_hora_id"
     t.integer  "cargo_id"
     t.integer  "cargo_no_docente_id"
     t.date     "fecha_cambio_oficina"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "disposicion"
   end
 
   create_table "turnos", force: true do |t|

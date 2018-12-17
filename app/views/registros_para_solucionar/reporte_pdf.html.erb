@@ -1,0 +1,55 @@
+   
+
+
+
+  <h3> Listado de registros para solucionar</h3>
+  <table class="table table-bordered table-striped">
+    <head>
+                <th>Tipo</th>
+                <th>Estab.</th>
+                <th>Persona</th>
+                <th>Sec.</th>
+                <th>Fecha alta</th>
+                <th>Fecha baja</th>
+                <th>Sit.revista</th>
+                <th>Cant.horas</th>
+                <th>Ciclo carrera</th>
+                <th>Año</th>
+                <th>Div.</th>
+                <th>Turno</th>
+                <th>Cod. Materia</th>
+                <th>Estado</th>
+                <th>Cargo</th>
+    </head>
+    <body>
+      <% @registros.each do |registros|%>
+        <tr>     
+
+        <%if registros.horas_registro == true%>
+          <td>Horas</td>
+        <%elsif registros.cargos_registro == true%>
+          <td>Cargo</td>
+        <%elsif registros.auxiliar_registro == true%>
+          <td>Auxiliar</td>        
+        <%else%>
+          <td></td>
+        <%end%>
+          <td><%=Establecimiento.where(:id => registros.establecimiento_id).first.codigo_jurisdiccional.to_s%>
+          <td><%=(Persona.where(id: registros.persona_id).first).to_s%></td>
+          <td><%=registros.secuencia%></td>
+          <td><%=registros.fecha_alta%></td>
+          <td><%=registros.fecha_baja%></td>
+          <td><%=registros.situacion_revista%></td>
+          <td><%=registros.horas%></td>
+          <td><%=registros.ciclo_carrera%></td>
+          <td><%=registros.anio%></td>
+          <td><%=registros.division%></td>
+          <td><%=registros.turno%></td>
+          <td><%=registros.codificacion%></td>
+          <td><%=registros.estado%></td>
+          <td><%=registros.cargo%></td>
+        </tr>
+      <% end %>
+    </body>
+  </table>
+</div>

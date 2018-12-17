@@ -52,6 +52,7 @@ class Ability
           can :manage, [Licencium]
           can :read, [Materium]
           can :read, [Plan]
+          can :manage, [RegistrosParaSolucionar]
         end
 
         if user.role? :licencia

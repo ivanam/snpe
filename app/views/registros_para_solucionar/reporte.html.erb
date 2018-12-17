@@ -1,0 +1,130 @@
+<div class="form-group">
+<div class="row">
+        <div id="liq"  class="col-md-12">
+           <%= label_tag "Selecciones Mes y año de liquidación", nil,  :class => "control-label" %>
+           <%= select_tag :input_mes, options_for_select([['1', 1],['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7', 7], ['8', 8], ['9', 9], ['10', 10], ['11', 11], ['12', 12]], 0,), {:prompt => "Seleccionar mes", id: "mes"} %>       
+           <%= select_tag :input_mes, options_for_select([['2018', 2018],['2017', 2017]], 0,), {:prompt => "Seleccionar año" , id: "anio"} %> 
+           <input id="btn-ir" class="btn btn-primary" type="submit" value="Ir">
+           <input id="descargar" class="btn btn-success" type="submit" value="Descargar PDF">
+
+      </div>
+</div>
+
+
+</div>
+<div id="div_horas" class="panel panel-info">
+    <div class="panel-heading">
+      <h1 class="panel-title">
+        Listado de registros para solucionar
+      </h1>
+    </div>
+    <div class="panel-body">
+    <div class="table-responsive">
+      <table id="tabla-registros_para_solucionar" class="table table-striped table-bordered table-hover" data-source = "<%= registros_para_solucionar_reporte_path(format: :json) %>" >
+        <thead>
+          <tr>
+                <th>Tipo</th>
+                <th>Estab.</th>
+                <th>Persona</th>
+                <th>Sec.</th>
+                <th>Fecha alta</th>
+                <th>Fecha baja</th>
+                <th>Sit.rev.</th>
+                <th>horas</th>
+                <th>Plan</th>
+                <th>Año/div/T/Mat</th>
+                <th>Estado</th>
+                <th>Cargo</th>
+                <th>Chequeado</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+    $(document).ready(function($) {
+
+
+
+
+  moment.locale('es');
+
+  //define el modo de visualizacion del x-editable
+  $.fn.editable.defaults.mode = 'popup';
+
+  //Carga DT
+  var tabla_registros_para_solucionar = $('#tabla-registros_para_solucionar')
+    .on('draw.dt', function () {
+      $( ".btn-ajax" ).on( "click", function() {
+        var data_url = $(this).attr('data-url');
+        $.ajax({
+          url: data_url,
+          type: 'GET',
+        })
+        .done(function(data) { //if (data[status] == 'ok')
+          tabla_registros_para_solucionar.api().ajax.reload();
+          if (data != "") { 
+          }; 
+        });
+      });
+    })
+    .dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      "scrollX": true,
+      ajax : $('#tabla-registros_para_solucionar').data('source'),
+      pagingType: "simple",
+      "pageLength": 10,
+      columnDefs: [
+            {
+                "targets": [ 12 ],
+                "searchable": false,
+                "orderable": false
+            }
+        ]
+    });
+
+
+  $('#btn-ir').click(function(){
+
+
+    if (($("#anio").val() != "") && ($("#mes").val() != "")){
+
+      anio = $("#anio").val();
+      mes = $("#mes").val();
+      window.location = '<%registros_para_solucionar_reporte_path%>?anio='+anio+'&mes='+mes;
+    }else{    
+      alert("Elija opciones válidas");
+  }
+  });
+
+  $('#descargar').click(function(){
+    if (($("#anio").val() != "") && ($("#mes").val() != "")){
+
+      anio = $("#anio").val();
+      mes = $("#mes").val();
+      window.location = '/soft/snpe/registros_para_solucionar/reporte.pdf?anio='+anio+'&mes='+mes;
+    }else{    
+      alert("Elija opciones válidas");}
+  });
+
+});  
+</script>
+
+
+
+   
+   
+  
