@@ -198,7 +198,7 @@ def listado_licencias_historico_agente_cnds
        @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
 
      else
-      debugger
+      
        @rango = params["rango"]
        @mindate, @maxdate = Util.max_min_periodo(@rango)
        @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
@@ -1362,7 +1362,16 @@ def listado_licencias_todas_lic
       licencias = licencias.where.not(cargo_no_docente_id: nil)
     end
     
-    @licencias_sin_cert = Licencium.select('licencia.*').from('licencia, establecimientos, articulos').where(' YEAR(licencia.fecha_desde) = ' + @anio + ' and MONTH(licencia.fecha_desde) = '+ @mes +' and licencia.fecha_desde >= "2018-09-01" and establecimientos.codigo_jurisdiccional = licencia.oficina and establecimientos.sede = 1 and (licencia.observaciones = "" or licencia.observaciones = null or licencia.con_certificado = null or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
+    @licencias_sin_cert = Licencium.select('licencia.*')
+    .from('licencia, establecimientos, articulos')
+    .where(' YEAR(licencia.fecha_desde) = ' + @anio + ' and MONTH(licencia.fecha_desde) = '+ 
+      @mes +' and licencia.fecha_desde >= "2018-09-01" 
+      and establecimientos.codigo_jurisdiccional = licencia.oficina 
+      and establecimientos.sede = 1 and 
+      (licencia.observaciones = "" or
+       licencia.observaciones = null ) and (licencia.con_certificado = null 
+      or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) 
+      and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
     
     respond_to do |format|
     format.pdf do
