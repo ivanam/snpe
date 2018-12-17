@@ -122,7 +122,7 @@ class MigracionController < ApplicationController
 		      			end
 		      		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first == nil
 		      			
-		      			RegistrosParaSolucionar.create!(mes_liq: 11, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+		      			RegistrosParaSolucionar.create!(mes_liq: 11, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 		      		end
 
 			      end	
