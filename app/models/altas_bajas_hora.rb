@@ -8,8 +8,8 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :materium
   belongs_to :plan
 
+ if  false
 
-  if true
     validates :fecha_alta, :presence => true
     validates :situacion_revista, :presence => true
     validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
@@ -83,7 +83,11 @@ class AltasBajasHora < ActiveRecord::Base
         end
         total = total + (f_h - lic.fecha_desde).to_i + 1
       end
-      return total
+      if total == 0
+        return "0 (o no se han registrado días en este sistema)"
+      else
+        return total
+      end
 
     #licencias historicas
     elsif (fecha_limite_inicio == 0  and fecha_limite_fin == 0)
@@ -113,7 +117,39 @@ class AltasBajasHora < ActiveRecord::Base
     end
   end 
 
-  
+  def calcular_dias_restantes_licencia_anual(fecha_antiguedad,cantidad_dias)
+      if cantidad_dias.is_a? String
+        return "-"
+
+      elsif fecha_antiguedad != "0000-00-00" and fecha_antiguedad != nil
+        antiguedad = fecha_antiguedad.to_date.year.to_i
+          if antiguedad <= 5
+            return (20 - cantidad_dias)
+          elsif antiguedad <= 10
+            return (25 - cantidad_dias)
+          elsif antiguedad <= 15
+            return (30 - cantidad_dias)
+          elsif antiguedad <= 20
+            return (35 - cantidad_dias)
+          elsif antiguedad <= 25
+            return (40 - cantidad_dias)
+          elsif antiguedad <= 30
+            return (45 - cantidad_dias)
+          elsif antiguedad <= 35
+            return (50 - cantidad_dias)
+          elsif antiguedad <= 40
+            return (55 - cantidad_dias)
+          elsif antiguedad > 40
+            return (60 - cantidad_dias)
+          else
+            return "error antigüedad"
+          end
+
+      else
+        return "no tiene resgitrada antigüedad"
+
+      end
+  end
 
 
 
@@ -424,6 +460,7 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   def dar_baja
+    debugger
     if self.fecha_baja != "" && self.fecha_baja != nil
       if self.estado == "LIC" || self.estado == "ART"
         errors.add(:base, self.persona.to_s + " debe terminar la licencia antes de generar la baja")
