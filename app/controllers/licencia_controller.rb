@@ -1368,7 +1368,7 @@ def listado_licencias_todas_lic
       @mes +' and licencia.fecha_desde >= "2018-09-01" 
       and establecimientos.codigo_jurisdiccional = licencia.oficina 
       and establecimientos.sede = 1 and 
-      (licencia.observaciones = "" and
+      (licencia.observaciones = "" or
        licencia.observaciones = null ) and (licencia.con_certificado = null 
       or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) 
       and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
