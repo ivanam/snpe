@@ -181,6 +181,37 @@ class LicenciaController < ApplicationController
 
 
 
+
+
+def listado_licencias_historico_agente_cnds
+
+    @dni = params["dni"]
+    @art=params["select_articulo_horas"]
+    if @art == '' or @art == ""
+       @art = nil
+    end
+     if params["rango"] == ""
+
+       @mindate_year2 = Date.today.year
+       @mindate = Date.today.to_s
+       @maxdate = Date.today.to_s
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
+
+     else
+      debugger
+       @rango = params["rango"]
+       @mindate, @maxdate = Util.max_min_periodo(@rango)
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
+
+     end
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: HistoricoLicenciasHorasDatatable.new(view_context, { query: @res2}) }
+    end
+  end
+
+
 #----------------------------------------------licencias sin goce---------------------------------------------------------------
 def obtenerdatarange
     if params["rango"] == "" or params["rango"] == nil
@@ -214,6 +245,9 @@ def obtenerdatarange3
     @ras= [@res]
     render json: @ras
 end
+
+
+
 
 
 def listado_licencias_todas_lic
