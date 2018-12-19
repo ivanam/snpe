@@ -31,6 +31,28 @@ class Persona < ActiveRecord::Base
   def horas_activas
   end
 
+  def get_antiguedad
+    if self.anio == nil
+      anio = "0000"
+    else
+      anio = self.anio
+    end
+
+    if self.mes == nil
+      mes = "00"
+    else
+      mes = self.mes
+    end
+
+    if self.dia == nil
+      dia = "00"
+    else
+      dia = self.dia
+    end
+
+    "#{ anio }-#{ mes }-#{ dia }"
+  end
+
   # retorna Cargo[] permitidos para inscripcion
   def get_cargos
     funciones = self.rubros.map do |rubro|

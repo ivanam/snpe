@@ -1207,10 +1207,11 @@ def listado_licencias_todas_lic
   end
 
   def editar_comentario_licencia_final
-    
+    con_formulario = params[:con_formulario].to_i
+    con_certificado = params[:con_certificado].to_i
     @licencia = Licencium.where(id: params[:id_lic]).first
     observaciones = params[:observaciones]
-    if !@licencia.update(observaciones: observaciones)
+    if !@licencia.update(observaciones: observaciones, con_certificado: con_certificado, con_formulario: con_formulario)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede editar el comentario"
     end
@@ -1221,7 +1222,9 @@ def listado_licencias_todas_lic
     
     @licencia = Licencium.where(id: params[:id_lic]).first
     observaciones = params[:observaciones]
-    if !@licencia.update(observaciones: observaciones)
+    con_formulario = params[:con_formulario].to_i
+    con_certificado = params[:con_certificado].to_i
+    if !@licencia.update(observaciones: observaciones, con_certificado: con_certificado, con_formulario: con_formulario)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede editar el comentario"
     end
