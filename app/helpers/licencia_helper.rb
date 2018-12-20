@@ -244,4 +244,4 @@ module LicenciaHelper
         return @licenciasCndsSg
   end
 end
-x
+
