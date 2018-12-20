@@ -108,7 +108,7 @@
 <% end %>
 
         
-<% @listado_de_datepickers = ['datepicker', 'datepicker2', 'datepicker3', 'datepicker4'] %>
+<% @listado_de_datepickers = [ 'datepicker2', 'datepicker3', 'datepicker4'] %>
 
 <% @listado_de_datepickers.each do |l| %>
 
@@ -129,6 +129,26 @@
   </script>
 
 <% end %>
+
+
+  <script type="text/javascript">
+      
+        $("#datepicker").datepicker({dateFormat:"dd-mm-yy",
+        dayNamesMin: ["Do", "Lu", "Ma", "Mie", "Jue", "Vie", "Sa"],
+        changeYear: true,
+        yearRange: "<%= Date.today.year + -2 %>:<%= Date.today.year %>",
+        maxDate: "<%= Date.today %>",
+        monthNames: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        monthNamesShort: ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"], 
+        navigationAsDateFormat: true,
+        nextText: "Sig", 
+        prevText: "Ant", 
+        showAnim: "explode"
+          });
+
+        
+
+  </script>
 
 <script type="text/javascript">
   var array = ["112", "117", "312", "717", "718", "719", "517", "119", "712", "819", "711", "518", "519", "317", "512", "212", "812", "319", "817", "818", "612", "312", "617", "618", "619", "112", "117", "312", "212", "617", "619", "217", "219", "317", "318", "319", "118", "119", "817" ]
