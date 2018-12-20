@@ -205,6 +205,8 @@ module LicenciaHelper
 		return @licenciasCargSg
 	end
 	
+
+
 	def listado_de_licencias_cargonds_sg(mindate2, maxdate2, dni2, art2)
 		if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then
 		    if  dni2 == nil and  art2 == nil	
@@ -235,4 +237,10 @@ module LicenciaHelper
 	end
 		return @licenciasCndsSg
 	end
+
+  def historico_licencias_agente(mindate, maxdate, dni, art)
+
+        @licenciasCndsSg = Licencium.select('licencia.*').from('licencia, cargo_no_docentes, establecimientos, personas, articulos').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('licencia.nro_documento= ?', dni).where('vigente not in ("Cancelada")')
+        return @licenciasCndsSg
+  end
 end
