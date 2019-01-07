@@ -8,7 +8,7 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :materium
   belongs_to :plan
 
- if false
+ if true
 
     validates :fecha_alta, :presence => true
     validates :situacion_revista, :presence => true
