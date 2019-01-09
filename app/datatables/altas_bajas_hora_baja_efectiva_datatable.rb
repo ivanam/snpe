@@ -16,6 +16,7 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
       [
         record.persona.to_s + ' -- ' + record.persona.cuil.to_s,
         record.secuencia,
+        record.situacion_revista,
         record.turno,
         record.anio,
         record.division,

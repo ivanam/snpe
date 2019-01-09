@@ -14,11 +14,14 @@ class CargoNoDocentesBajasEfectivasDatatable < AjaxDatatablesRails::Base
   def data
     records.map do |record|
       [
+        record.persona.nro_documento,
+        record.persona.cuil,
+        record.persona.to_s,
+        record.secuencia,
+        record.situacion_revista,
         record.establecimiento.codigo_jurisdiccional,
         record.establecimiento.cue,
-        record.persona.nro_documento,
-        record.persona.to_s,
-        record.persona.cuil,
+        record.establecimiento.nombre,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
         if record.estado_actual == "Notificado_Baja" then
