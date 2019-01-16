@@ -10,7 +10,7 @@
 require 'spreadsheet'
 require 'active_record'
 
-filename = './example.xls'
+filename = './listado_inscripciones.xls'
 workbook = Spreadsheet.open filename
 worksheets = workbook.worksheets
 
@@ -41,7 +41,8 @@ class DataExel
     end
 
     def clean_dni
-      dni = self.dni.to_s
+      dni = self.dni.to_s.strip
+      dni = dni.include?(' ') ? (dni.gsub! ' ', '') : dni 
       dni = dni.include?(',') ? (dni.gsub! ',', '') : dni 
       dni = dni.include?('.') ? (dni.gsub! '.', '') : dni
       dni = dni.to_i
@@ -82,12 +83,12 @@ end
 
 # indice (numero de columna a partir de 0) de los datos que quieren buscar
 INDICES = {
-  'DNI' => 4,
+  'DNI' => 6,
   'REGION' => 1,
   'CABECERA' => 2,
   'CARGO' => 3,
-  'PUNTAJE' => 13,
-  'NOMBRE' => 3
+  'PUNTAJE' => 15,
+  'NOMBRE' => 5
 }
 
 result = []
@@ -162,7 +163,10 @@ if ARGV.include?('migrate')
         rubro = Rubro.new
         
         if persona.nil?
-          rubro.errors[:base] << "DNI #{dataExcel.dni} con nombre #{dataExcel.nombre} no encontrado en la base"
+           persona = Persona.create!(:nro_documento => dataExcel.dni, apeynom: dataExcel.nombre )
+
+          #rubro.errors[:base] << "DNI #{dataExcel.dni} con nombre #{dataExcel.nombre} SE CREO EN LA BASE"
+          #rubro.errors[:base] << "DNI #{dataExcel.dni} con nombre #{dataExcel.nombre} no encontrado en la base"
         end
         if region.nil?
           rubro.errors[:base] << "REGION #{dataExcel.region} no se encontro en la base"
