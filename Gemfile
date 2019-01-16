@@ -6,7 +6,7 @@ gem 'rails', '4.0.13'
 
 gem 'sass-rails'
 
-gem 'spreadsheet'
+gem 'spreadsheet' 
 
 gem 'railroady'
 
