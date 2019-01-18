@@ -38,12 +38,17 @@ class ArticulosController < ApplicationController
     respond_with(@articulo)
   end
 
+  def permite_otro_organismo
+    @articulo = Articulo.find(params[:id])
+    render json: @articulo.permite_otro_organismo
+  end
+
   private
     def set_articulo
       @articulo = Articulo.find(params[:id])
     end
 
     def articulo_params
-      params.require(:articulo).permit(:codigo, :descripcion, :cantidad_maxima_dias, :tipo_articulo_id, :con_goce)
+      params.require(:articulo).permit(:codigo, :descripcion, :cantidad_maxima_dias, :tipo_articulo_id, :con_goce, :permite_otro_organismo)
     end
 end

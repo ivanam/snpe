@@ -440,6 +440,9 @@ ProyectoBase::Application.routes.draw do
     get "licencias/obtenerdatarange2/", to: "licencia#obtenerdatarange2", as: :licencias_obtenerdatarange2
     get "licencias/obtenerdatarange3/", to: "licencia#obtenerdatarange3", as: :licencias_obtenerdatarange3
 
+    #Articulos que permiten otro origanismo
+    get 'articulos/:id/permite_otro_organismo', to: 'articulos#permite_otro_organismo', as: :permite_otro_organismo
+
 
     get "traslados/reporte", to: "traslados#reporte", as: :traslados_reporte
 

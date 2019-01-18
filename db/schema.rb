@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181214122634) do
+ActiveRecord::Schema.define(version: 20190110143533) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20181214122634) do
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
     t.boolean  "medico"
+    t.boolean  "permite_otro_organismo", default: false
   end
 
   create_table "asistencia", force: true do |t|
@@ -496,6 +497,7 @@ ActiveRecord::Schema.define(version: 20181214122634) do
     t.integer  "oficina"
     t.boolean  "con_certificado"
     t.boolean  "con_formulario"
+    t.string   "organismo"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree

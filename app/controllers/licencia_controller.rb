@@ -410,7 +410,11 @@ def listado_licencias_todas_lic
      @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
      nro_oficina = @oficina.codigo_jurisdiccional
 
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic] == nil
+    # Valido que complete el campo organismo
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo] == nil
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json 
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
     elsif  (altbahora.turno == nil or altbahora.turno == "")
