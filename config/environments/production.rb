@@ -39,43 +39,23 @@ ProyectoBase::Application.configure do
 
   config.assets.prefix = "/soft/snpe/assets"
 
-   config.action_mailer.perform_deliveries = true 
-  # config.action_mailer.raise_delivery_errors = true
-
-  # #mail de respaldo cuando supera el maximo de enviados:
-  # #mecinscripciones2018@gmail.com
-
-
-  # #SMTP
-  # config.action_mailer.default_url_options = { :host => 'www.chubut.edu.ar/' }
-  # config.action_mailer.delivery_method = :smtp
-  # config.action_mailer.smtp_settings = {
-  # :address              => "smtp.gmail.com",
-  # :port                 => 587,
-  # :domain               => 'gmail.com',
-  # :user_name            => 'mecinscripciones2019@gmail.com',
-  # :password             => '_12345678',
-  # :authentication       => 'plain',
-  # :enable_starttls_auto => true  }
-
-
+  config.action_mailer.perform_deliveries = true 
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.smtp_settings = {
-   #address: "mail.chubut.gov.ar",
-   #port: 25, # 8025, 587 and 25 can also be used.
-   #domain: "mail.chubut.gov.ar",
-   #authentication: "plain",
-   #enable_starttls_auto: true,
-   #user_name: "teg.chubut-no-responder@chubut.gov.ar",
-   #password: " mv52p4"
-  #}
-  config.action_mailer.smtp_settings = {
-      :address   => "smtp.gmail.com",
-      :port      => 587,
-      :user_name => "mecinscripciones2019@gmail.com",
-      :password  => "_12345678"
-    }
 
+  #mail de respaldo cuando supera el maximo de enviados:
+  #mecinscripciones2018@gmail.com
+
+
+  #SMTP
+  config.action_mailer.default_url_options = { :host => 'www.chubut.edu.ar/' }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
+  :domain               => 'gmail.com',
+  :user_name            => 'mecinscripciones2019@gmail.com',
+  :password             => '_12345678',
+  :authentication       => 'plain',
+  :enable_starttls_auto => true  }
 
 end
