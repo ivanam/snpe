@@ -123,6 +123,7 @@
               <th>Artículo</th>
               <th>Con Certificado</th>
               <th>Sin Formulario</th>
+              <th>Organismo</th>
               <th class="text-center col-md-1">Estado</th>
               <th class="text-center col-md-1">Continuar</th>
               <th>Ver</th>
@@ -1007,6 +1008,7 @@
 
   $('#btn_licencia_horas').on('click', function () {
       var articulo = "";
+      permite_otro_organismo = $("#permite_otro_organismo").val();
       fecha_inicio = $("#input_fecha_inicio").val();
       fecha_fin = $("#input_fecha_fin").val();
       observaciones = $("#observaciones" ).val();
@@ -1044,7 +1046,7 @@
       }
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
           type: 'POST',
         })
       .done(function(data) {
@@ -1601,6 +1603,7 @@
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
       articulo = $("#select_articulo_cargos").val();
+      permite_otro_organismo = $("#permite_otro_organismo").val();
       fecha_anio_lic_1 = $("#input_anio_lic_1").val();
       destino = $("#select_destino_cargos").val();
       observaciones = $("#observaciones3").val();
@@ -1623,7 +1626,7 @@
       }
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
           
           type: 'POST',
         })
@@ -1859,6 +1862,7 @@
       fecha_inicio = $("#input_fecha_inicio4").val();
       fecha_fin = $("#input_fecha_fin4").val();
       articulo = $("#select_articulo_cargos_no_docente").val();
+      permite_otro_organismo = $("#permite_otro_organismo").val();
       fecha_anio_lic_2 = $("#input_anio_lic_2").val();
       observaciones = $("#observaciones5").val();
       destino = $("#select_destino_car_aux").val();
@@ -1875,7 +1879,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
