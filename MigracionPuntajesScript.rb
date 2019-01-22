@@ -82,12 +82,12 @@ end
 
 # indice (numero de columna a partir de 0) de los datos que quieren buscar
 INDICES = {
-  'DNI' => 6,
+  'DNI' => 7,
   'REGION' => 1,
   'CABECERA' => 2,
-  'CARGO' => 3,
-  'PUNTAJE' => 15,
-  'NOMBRE' => 5
+  'CARGO' => 4,
+  'PUNTAJE' => 16,
+  'NOMBRE' => 6
 }
 
 result = []
@@ -98,7 +98,7 @@ worksheets.each do |worksheet|
     d.nombre = String(row_cells[INDICES['NOMBRE']])
     d.dni = String(row_cells[INDICES['DNI']])
     d.puntaje = String(row_cells[INDICES['PUNTAJE']])
-    d.cargo = String(worksheet.name)
+    d.cargo = String(row_cells[INDICES['CARGO']])
     d.region = String(row_cells[INDICES['REGION']])
     d.cabecera = String(row_cells[INDICES['CABECERA']])
     result.push(d)
@@ -143,10 +143,11 @@ if ARGV.include?('print')
   puts "Total de registros: #{count}"
 end
 
-def crear_cargo(descript)
-  puts "creando cargo #{descript}"
-  return Juntafuncion.create(descripcion: descript)
-end
+# def crear_cargo(descript)
+#   puts "creando cargo #{descript}"
+#   return Juntafuncion.create(descripcion: descript)
+# end
+
 # transaccion sql para insertar tuplas a la base de datos.
 if ARGV.include?('migrate')
   puts "Migrando ..."
@@ -158,7 +159,7 @@ if ARGV.include?('migrate')
         persona = Persona.where(nro_documento: dataExcel.dni).first
         region = Region.where(nombre: dataExcel.region).first
         #cargo = Funcion.where(categoria: dataExcel.cargo).first
-        juntacargo = Juntafuncion.where(descripcion: dataExcel.cargo).first
+        juntacargo = Juntafuncion.where(id: dataExcel.cargo).first
         rubro = Rubro.new
         
         if persona.nil?
@@ -175,7 +176,8 @@ if ARGV.include?('migrate')
         #end
 
         if juntacargo.nil?
-          juntacargo = crear_cargo(dataExcel.cargo)
+          rubro.errors[:base] << "NO SE ENCONTRO EL CARGO #{dataExcel.dni}"
+          #juntacargo = crear_cargo(dataExcel.cargo)
         end
 
         if rubro.errors.size > 0
