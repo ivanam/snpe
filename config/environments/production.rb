@@ -44,6 +44,7 @@ ProyectoBase::Application.configure do
 
   #mail de respaldo cuando supera el maximo de enviados:
   #mecinscripciones2018@gmail.com
+  #mecinscripciones2019@gmail.com
 
 
   #SMTP
@@ -53,7 +54,7 @@ ProyectoBase::Application.configure do
   :address              => "smtp.gmail.com",
   :port                 => 587,
   :domain               => 'gmail.com',
-  :user_name            => 'mecinscripciones2019@gmail.com',
+  :user_name            => 'mecinscripciones20192@gmail.com',
   :password             => '_12345678',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
