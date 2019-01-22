@@ -723,8 +723,11 @@
 
   $(document).ready(function() {
     $("#permite_otro_organismo_horas").hide();
+    $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
     $("#permite_otro_organismo_cargos").hide();
+    $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
     $("#permite_otro_organismo_no_docente").hide();
+    $("#permite_otro_organismo_no_docente input").val(''); //Blanqueo el campo organismo
         
     $("#select_articulo_horas").hide();
     $("#select_articulo_cargos_no_docente_h1").hide();
@@ -1008,7 +1011,7 @@
 
   $('#btn_licencia_horas').on('click', function () {
       var articulo = "";
-      permite_otro_organismo = $("#permite_otro_organismo").val();
+      permite_otro_organismo = $("#permite_otro_organismo_horas input").val();
       fecha_inicio = $("#input_fecha_inicio").val();
       fecha_fin = $("#input_fecha_fin").val();
       observaciones = $("#observaciones" ).val();
@@ -1170,6 +1173,7 @@
           $("#permite_otro_organismo_horas").show();
         } else {
           $("#permite_otro_organismo_horas").hide();
+          $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
         } 
       });
   });
@@ -1280,6 +1284,7 @@
           $("#permite_otro_organismo_horas").show();
         } else {
           $("#permite_otro_organismo_horas").hide();
+          $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
         } 
       });
   });
@@ -1603,7 +1608,7 @@
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
       articulo = $("#select_articulo_cargos").val();
-      permite_otro_organismo = $("#permite_otro_organismo").val();
+      permite_otro_organismo = $("#permite_otro_organismo_cargos input").val();
       fecha_anio_lic_1 = $("#input_anio_lic_1").val();
       destino = $("#select_destino_cargos").val();
       observaciones = $("#observaciones3").val();
@@ -1704,6 +1709,7 @@
             $("#permite_otro_organismo_cargos").show();
           } else {
             $("#permite_otro_organismo_cargos").hide();
+            $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
           } 
         });
   });
@@ -1835,6 +1841,7 @@
               $("#permite_otro_organismo_cargos").show();
             } else {
               $("#permite_otro_organismo_cargos").hide();
+              $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
             } 
           });
 
@@ -1862,7 +1869,7 @@
       fecha_inicio = $("#input_fecha_inicio4").val();
       fecha_fin = $("#input_fecha_fin4").val();
       articulo = $("#select_articulo_cargos_no_docente").val();
-      permite_otro_organismo = $("#permite_otro_organismo").val();
+      permite_otro_organismo = $("#permite_otro_organismo_no_docente input").val();
       fecha_anio_lic_2 = $("#input_anio_lic_2").val();
       observaciones = $("#observaciones5").val();
       destino = $("#select_destino_car_aux").val();
@@ -1952,6 +1959,7 @@
             $("#permite_otro_organismo_no_docente").show();
           } else {
             $("#permite_otro_organismo_no_docente").hide();
+            $("#permite_otro_organismo_no_docente input").val('');
           } 
         });
   });
