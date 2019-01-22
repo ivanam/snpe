@@ -43,15 +43,16 @@ ProyectoBase::Application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   #mail de respaldo cuando supera el maximo de enviados:
-  #mecinscripciones2019@gmail.com
+  #mecinscripciones2018@gmail.com
 
-  
+
   #SMTP
   config.action_mailer.default_url_options = { :host => 'www.chubut.edu.ar/' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   :address              => "smtp.gmail.com",
   :port                 => 587,
+  :domain               => 'gmail.com',
   :user_name            => 'mecinscripciones2019@gmail.com',
   :password             => '_12345678',
   :authentication       => 'plain',
