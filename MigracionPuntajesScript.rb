@@ -10,7 +10,7 @@
 require 'spreadsheet'
 require 'active_record'
 
-filename = './example.xls'
+filename = './listado_inscripciones.xls'
 workbook = Spreadsheet.open filename
 worksheets = workbook.worksheets
 
@@ -18,9 +18,8 @@ ActiveRecord::Base.establish_connection(
   adapter:  'mysql2',
   host:     '127.0.0.1',
   database: 'snpe',
-  username: 'root',
-  password: 'root'
-  #password: 'zzpregasep'
+  username: 'pregase',
+  password: 'zzpregase99'
 )
 
 # Clase usada para parsear y validar la informacion del exel.
@@ -41,7 +40,8 @@ class DataExel
     end
 
     def clean_dni
-      dni = self.dni.to_s
+      dni = self.dni.to_s.strip
+      dni = dni.include?(' ') ? (dni.gsub! ' ', '') : dni 
       dni = dni.include?(',') ? (dni.gsub! ',', '') : dni 
       dni = dni.include?('.') ? (dni.gsub! '.', '') : dni
       dni = dni.to_i
@@ -82,12 +82,12 @@ end
 
 # indice (numero de columna a partir de 0) de los datos que quieren buscar
 INDICES = {
-  'DNI' => 4,
+  'DNI' => 7,
   'REGION' => 1,
   'CABECERA' => 2,
-  'CARGO' => 3,
-  'PUNTAJE' => 13,
-  'NOMBRE' => 3
+  'CARGO' => 4,
+  'PUNTAJE' => 16,
+  'NOMBRE' => 6
 }
 
 result = []
@@ -98,7 +98,7 @@ worksheets.each do |worksheet|
     d.nombre = String(row_cells[INDICES['NOMBRE']])
     d.dni = String(row_cells[INDICES['DNI']])
     d.puntaje = String(row_cells[INDICES['PUNTAJE']])
-    d.cargo = String(worksheet.name)
+    d.cargo = String(row_cells[INDICES['CARGO']])
     d.region = String(row_cells[INDICES['REGION']])
     d.cabecera = String(row_cells[INDICES['CABECERA']])
     result.push(d)
@@ -143,10 +143,11 @@ if ARGV.include?('print')
   puts "Total de registros: #{count}"
 end
 
-def crear_cargo(descript)
-  puts "creando cargo #{descript}"
-  return Juntafuncion.create(descripcion: descript)
-end
+# def crear_cargo(descript)
+#   puts "creando cargo #{descript}"
+#   return Juntafuncion.create(descripcion: descript)
+# end
+
 # transaccion sql para insertar tuplas a la base de datos.
 if ARGV.include?('migrate')
   puts "Migrando ..."
@@ -158,11 +159,14 @@ if ARGV.include?('migrate')
         persona = Persona.where(nro_documento: dataExcel.dni).first
         region = Region.where(nombre: dataExcel.region).first
         #cargo = Funcion.where(categoria: dataExcel.cargo).first
-        juntacargo = Juntafuncion.where(descripcion: dataExcel.cargo).first
+        juntacargo = Juntafuncion.where(id: dataExcel.cargo).first
         rubro = Rubro.new
         
         if persona.nil?
-          rubro.errors[:base] << "DNI #{dataExcel.dni} con nombre #{dataExcel.nombre} no encontrado en la base"
+           persona = Persona.create!(:nro_documento => dataExcel.dni, apeynom: dataExcel.nombre )
+
+          #rubro.errors[:base] << "DNI #{dataExcel.dni} con nombre #{dataExcel.nombre} SE CREO EN LA BASE"
+          #rubro.errors[:base] << "DNI #{dataExcel.dni} con nombre #{dataExcel.nombre} no encontrado en la base"
         end
         if region.nil?
           rubro.errors[:base] << "REGION #{dataExcel.region} no se encontro en la base"
@@ -172,7 +176,8 @@ if ARGV.include?('migrate')
         #end
 
         if juntacargo.nil?
-          juntacargo = crear_cargo(dataExcel.cargo)
+          rubro.errors[:base] << "NO SE ENCONTRO EL CARGO #{dataExcel.dni}"
+          #juntacargo = crear_cargo(dataExcel.cargo)
         end
 
         if rubro.errors.size > 0
