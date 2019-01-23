@@ -24,7 +24,7 @@ class AltasBajasHora < ActiveRecord::Base
   # # #Validación de alta
     before_create :validar_horas
     validate :validar_alta
-    validate :validar_nivel_superior
+    #validate :validar_nivel_superior
     before_save :actualizar_materia
     before_update :dar_baja
     before_create :control_horas
@@ -205,9 +205,9 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def validar_situacion_revista
-    establecimiento = Establecimiento.find(self.establecimiento_id)
-    nivel = establecimiento.nivel
-    debugger
+    # establecimiento = Establecimiento.find(self.establecimiento_id)
+    # nivel = establecimiento.nivel
+    # debugger
     if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
       titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
       interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-2').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
@@ -216,30 +216,30 @@ class AltasBajasHora < ActiveRecord::Base
       end
     end
 
-    if nivel.nombre == "Superior"
+    # if nivel.nombre == "Superior"
 
-      if self.situacion_revista == '1-1'
-        horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista: '1-2').where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
-        if horas != nil 
-            errors.add(:base,"No puede darse de alta a un TITULAR si la situación de revista de la pareja pedagógica es 'Interina'")        
-        end
-      elsif self.situacion_revista == '1-2'
-        horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista: '1-1').where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
-        if horas != nil 
-            errors.add(:base,"No puede darse de alta a un INTERINO si la situación de revista de la pareja pedagógica es 'Titular'")        
-        end
+    #   # if self.situacion_revista == '1-1'
+    #   #   horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista: '1-2').where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
+    #   #   if horas != nil 
+    #   #       errors.add(:base,"No puede darse de alta a un TITULAR si la situación de revista de la pareja pedagógica es 'Interina'")        
+    #   #   end
+    #   # elsif self.situacion_revista == '1-2'
+    #   #   horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista: '1-1').where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
+    #   #   if horas != nil 
+    #   #       errors.add(:base,"No puede darse de alta a un INTERINO si la situación de revista de la pareja pedagógica es 'Titular'")        
+    #   #   end
 
-      end
-    end
+    #   # end
+    # end
   end
 
   #2- hay un titular y se quiere dar de alta un titular
   #3- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere de alta un titular
   def validar_titular 
 
-    establecimiento = Establecimiento.find(self.establecimiento_id)
-    nivel = establecimiento.nivel
-    if nivel.nombre != "Superior"
+    # establecimiento = Establecimiento.find(self.establecimiento_id)
+    # nivel = establecimiento.nivel
+    # if nivel.nombre != "Superior"
       if self.situacion_revista == '1-1'
         alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )")
     
@@ -255,15 +255,15 @@ class AltasBajasHora < ActiveRecord::Base
           end
         end      
       end
-    end
+    #end
   end
 
   #4- hay un interino y se quiere dar de alta un interino
   #5- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere dar de alta interino
   def validar_interino
-    establecimiento = Establecimiento.find(self.establecimiento_id)
-    nivel = establecimiento.nivel
-    if nivel.nombre != "Superior"
+    # establecimiento = Establecimiento.find(self.establecimiento_id)
+    # nivel = establecimiento.nivel
+    # if nivel.nombre != "Superior"
 
       if self.situacion_revista == '1-2'
         alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )")      
@@ -279,7 +279,7 @@ class AltasBajasHora < ActiveRecord::Base
           end
         end  
       end
-    end
+    #end
   end
 
   #Se quiere crear un reemplazante
