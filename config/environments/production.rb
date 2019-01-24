@@ -54,7 +54,7 @@ ProyectoBase::Application.configure do
   :address              => "smtp.googlemail.com",
   :port                 => 465,
   :domain               => 'gmail.com',
-  :user_name            => 'mecinscripciones2018@gmail.com',
+  :user_name            => 'mecinscripciones20194@gmail.com',
   :password             => '_12345678',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
