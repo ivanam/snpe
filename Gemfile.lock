@@ -277,7 +277,7 @@ DEPENDENCIES
   rails-erd
   rails4-autocomplete
   railties
-  recaptcha (~> 1.1)
+  recaptcha
   sass-rails
   select2-rails
   spreadsheet

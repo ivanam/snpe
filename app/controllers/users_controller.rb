@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     end
   end
 
+
   # GET /users/new
   # GET /users/new.json
   def new
@@ -43,11 +44,11 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    
 
     @user = User.new(user_params)
     
     respond_to do |format|
+
       if @user.save
         @user.confirm!
         format.html { redirect_to @user, notice: 'User was successfully created.' }

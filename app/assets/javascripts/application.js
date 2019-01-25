@@ -36,5 +36,13 @@ function abrir_reporte(direccion, pantallacompleta, herramientas, direcciones, e
                    ",left=" + izquierda +
                    ",top=" + arriba;
     var ventana = window.open(direccion,"venta",opciones,sustituir);
-}                    
+} 
+
+grecaptcha.ready(function() {
+grecaptcha.execute('6LeibIwUAAAAAATVYUQfX6nmaOFzWscpTqanp-h8', {action: 'action_name'})
+.then(function(token) {
+// Verify the token on the server.
+});
+});
+                  
   

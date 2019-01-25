@@ -2,6 +2,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 # before_filter :configure_sign_up_params, only: [:create]
 # before_filter :configure_account_update_params, only: [:update]
   before_filter :configure_permitted_parameters, only: [:create]
+  prepend_before_action :check_captcha, only: [:create]
   
   # GET /resource/sign_up
   # def new
@@ -25,7 +26,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
         end
       end
     end  
-   
+     
+
     if !@user.errors.messages.empty?
       respond_with @user
     else
@@ -69,6 +71,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
         :email, :password, :password_confirmation)
     end    
   end
+
+
+    def check_captcha
+      unless verify_recaptcha
+        self.resource = resource_class.new 
+        self.resource.errors.add(:base, "Ud es un robot")
+        flash.delete(:recaptcha_error)
+        respond_with resource
+      end 
+    end
 
   # You can put the params you want to permit in the empty array.
   # def configure_sign_up_params
