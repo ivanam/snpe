@@ -184,7 +184,6 @@ class AltasBajasHora < ActiveRecord::Base
     if self.estado == 'ALT'
       establecimiento = Establecimiento.find(self.establecimiento_id)
       nivel = establecimiento.nivel
-      debugger      
       if (nivel == nil) || (nivel != nil && nivel.nombre != "Superior")
         if validar_situacion_revista
           if plan_con_validacion
