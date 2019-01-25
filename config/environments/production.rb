@@ -51,10 +51,10 @@ ProyectoBase::Application.configure do
   config.action_mailer.default_url_options = { :host => 'www.chubut.edu.ar/' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-  :address              => "smtp.googlemail.com",
-  :port                 => 465,
+  :address              => "smtp.gmail.com",
+  :port                 => 587,
   :domain               => 'gmail.com',
-  :user_name            => 'mecinscripciones2018@gmail.com',
+  :user_name            => 'mecinscripciones2019@gmail.com',
   :password             => '_12345678',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
