@@ -42,8 +42,7 @@ ProyectoBase::Application.configure do
   config.action_mailer.smtp_settings = {
   :address              => "smtp.gmail.com",
   :port                 => 587,
-  :domain               => 'gmail.com',
-  :user_name            => 'mecinscripciones20194@gmail.com',
+  :user_name            => 'mecinscripciones2019',
   :password             => '_12345678',
   :authentication       => 'plain',
   :enable_starttls_auto => true  }
