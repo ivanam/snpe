@@ -9,9 +9,12 @@
 	<% if current_user.get_persona.esta_en_el_padron %>
 		<%= link_to "Confirmación a Concurso de Ingreso", docenteInscripcion_path(id: current_user.get_persona.id), :class => 'btn btn-lg btn-primary' %> 
 	<% end %>
-   <center>
-      <%= link_to pagina_inicio_download_pdf_url , :class => "btn btn-large btn-danger glyphicon glyphicon-download" do %>
+ 
+    <center>
+      <%= link_to "http://www.chubut.edu.ar/preguntas/Instructivo_concurso_ingreso.pdf" , :class => "btn btn-large btn-danger glyphicon glyphicon-download" do %>
       Descargar INSTRUCTIVO
     <% end %>
   </center>
+
+
 </div>
