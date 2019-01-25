@@ -76,7 +76,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     def check_captcha
       unless verify_recaptcha
         self.resource = resource_class.new 
-        self.resource.errors.add(:base, "Ud es un robot")
+        self.resource.errors.add(:base, "Marque la casilla para verificar que no es un robot.")
         flash.delete(:recaptcha_error)
         respond_with resource
       end 
