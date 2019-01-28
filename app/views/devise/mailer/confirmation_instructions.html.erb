@@ -1,6 +1,6 @@
 <p>Cuenta de usuario registrada, bienvenido. <%= @email %>!</p>
 
-<p>Ud. puede confirmar su cuenta a travez del siguiente link:</p>
+<p>Ud. puede confirmar su cuenta a través del siguiente link:</p>
 
 <p><%= link_to 'Confirmar mi cuenta', confirmation_url(@resource, confirmation_token: @token) %></p>
 

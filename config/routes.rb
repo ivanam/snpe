@@ -498,8 +498,6 @@ ProyectoBase::Application.routes.draw do
 
     get "registros_para_solucionar/chequear_registro/:id", to: 'registros_para_solucionar#chequear_registro', as: :registros_para_solucionar_chequear_registro
 
- 
-
     #-----------------------------------------------------------------------------------------------------------------------------------
     resources :localidads
 
@@ -528,6 +526,8 @@ ProyectoBase::Application.routes.draw do
     resources :grupos
 
     resources :juntafuncions
+
+    get "pagina_inicio/download_pdf"
 
     root :to => "pagina_inicio#index"
 
