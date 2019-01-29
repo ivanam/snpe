@@ -524,8 +524,6 @@ ProyectoBase::Application.routes.draw do
 
     resources :juntafuncions
 
-    get "pagina_inicio/download_pdf"
-
     root :to => "pagina_inicio#index"
 
   end

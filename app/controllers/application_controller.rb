@@ -27,16 +27,6 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_user, session[:establecimiento])
   end
 
-  def download_pdf
-    send_file(
-      "#{Rails.root}/public/Instructivo_concurso_ingreso.pdf",
-      filename: "Instructivo_concurso_ingreso.pdf",
-      type: "application/pdf"
-    )
-  end
-
-
-
   class SelectClass
     def initialize(id, descripcion)  
       # Instance variables  
