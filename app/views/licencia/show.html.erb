@@ -42,14 +42,14 @@
    <dd><%= @persona.nro_documento %></dd>
 
   <dt>Entregó certificado: </dt>
-  <%if @licencium.con_certificado = 1 %>
+  <%if @licencium.con_certificado %>
     <dd>SI</dd>
   <%else%>
     <dd>No</dd>
   <%end%>
 
   <dt>Entregó formulario: </dt>
-  <%if @licencium.con_formulario = 1 %>
+  <%if @licencium.con_formulario %>
     <dd>SI</dd>
   <%else%>
     <dd>No</dd>
