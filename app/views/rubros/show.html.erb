@@ -109,6 +109,15 @@
     </div>  
   </div>
 
+  <div class="form-group">
+    <div class="col-md-4">
+      <label class="control-label">Titular</label>
+    </div>
+    <div class="col-md-8">
+      <label class="form-control"><%= @rubro.titular %></label>
+    </div>  
+  </div>
+
 </div>
 <br/><br/>
 <div class="row">
@@ -116,6 +125,10 @@
   <%= link_to rubros_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>
     Atrás
+  <% end %>
+  <%= link_to edit_rubro_path(@rubro), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
   <% end %>
   
 </div>
