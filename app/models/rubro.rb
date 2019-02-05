@@ -7,7 +7,9 @@ class Rubro < ActiveRecord::Base
 	validates :juntafuncion, :presence => true
 	validates :persona, :presence => true
 	validates :region, :presence => true
-	
+
+	validates_uniqueness_of :juntafuncion, :scope => [:persona, :region], message: "Cargo repetido para persona en region."
+
 	#validate :unico_lugar
 	
 	# otro_lugar y establecimientos_id excluyetes
