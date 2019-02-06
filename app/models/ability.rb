@@ -84,6 +84,8 @@ class Ability
 
         if user.role? :adminJunta
           can :manage, [Concurso]
+          can :manage, [Rubro]
+          cannot :destroy, [Rubro]
           cannot :destroy, [Concurso]
         end
 
@@ -92,11 +94,8 @@ class Ability
           can :manage, [Inscripcion]
           can :manage, [Persona]
           can :manage, [Titulo]
-          can :manage, [Rubro]
           can :manage, [CargoInscripDoc]
           cannot :destroy, [CargoInscripDoc]
-          cannot :destroy, [Rubro]
-          
           can :manage, [Juntafuncion]
           cannot :destroy, [Juntafuncion]
           cannot :edit, [Juntafuncion]
