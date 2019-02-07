@@ -22,7 +22,29 @@ class RubrosController < InheritedResources::Base
     @rubro.save
     respond_with(@rubro)
   end
-  
+    
+  def destroy
+    @rubro = Rubro.find(params[:id])  
+    @inscripcion = @rubro.persona.inscripcions.first
+    if !@inscripcion.nil?
+      cargos_inscriptos = @inscripcion.cargo_inscrip_doc.map do | cargo_inscripto |
+        cargo_inscripto.juntafuncion_id
+      end
+      if  cargos_inscriptos.include?(@rubro.juntafuncion_id) 
+        flash[:error] = "No se pudo eliminar el puntaje, ya existe una inscripcion."
+        redirect_to action: "show", id: @rubro.id
+      else
+        @rubro.destroy      
+        respond_with(@rubro)    
+      end
+    else
+      @rubro.destroy      
+      respond_with(@rubro)
+    end
+    
+    
+  end
+
   private
 
     def rubro_params
