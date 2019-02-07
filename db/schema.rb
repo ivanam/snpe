@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181214122634) do
+ActiveRecord::Schema.define(version: 20190207134750) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -736,6 +736,8 @@ ActiveRecord::Schema.define(version: 20181214122634) do
     t.integer  "establecimiento_id"
     t.integer  "ambito_id"
     t.string   "otro_lugar"
+    t.integer  "updated_by"
+    t.integer  "created_by"
   end
 
   add_index "rubros", ["persona_id"], name: "index_rubros_on_persona_id", using: :btree

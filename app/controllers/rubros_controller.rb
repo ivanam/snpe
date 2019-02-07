@@ -9,6 +9,20 @@ class RubrosController < InheritedResources::Base
     end
   end
 
+  def update
+    params = rubro_params
+    params[:updated_by] = current_user.id
+    @rubro.update(params)
+    respond_with(@rubro)
+  end
+
+  def create
+    @rubro = Rubro.new(rubro_params)
+    @rubro.created_by = current_user.id
+    @rubro.save
+    respond_with(@rubro)
+  end
+  
   private
 
     def rubro_params
