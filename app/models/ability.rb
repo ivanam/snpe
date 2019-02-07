@@ -85,7 +85,7 @@ class Ability
         if user.role? :adminJunta
           can :manage, [Concurso]
           can :manage, [Rubro]
-          cannot :destroy, [Rubro]
+          #cannot :destroy, [Rubro]
           cannot :destroy, [Concurso]
         end
 

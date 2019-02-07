@@ -9,11 +9,6 @@ class RubrosController < InheritedResources::Base
     end
   end
 
-  def destroy
-    redirect_to rubros_path, :alert => "Operacion no permitida."
-  end
-
-
   private
 
     def rubro_params
