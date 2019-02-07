@@ -1,5 +1,6 @@
 class CargoInscripDocsController < InheritedResources::Base
   load_and_authorize_resource
+  before_action :authenticate_user!
 
   def index
   	respond_to do |format|
