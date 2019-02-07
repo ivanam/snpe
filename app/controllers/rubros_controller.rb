@@ -17,7 +17,9 @@ class RubrosController < InheritedResources::Base
   private
 
     def rubro_params
-      params.require(:rubro).permit()
+      params.require(:rubro).permit(:persona_id, :region_id, :juntafuncion_id, :rubro_titulo, :promedio,
+        :ant_doc, :rubro_gestion, :rubro_ser_prest, :rubro_residencia, :rubro_concepto, :rubro_cursos, 
+        :total, :titular,
+        )
     end
 end
-
