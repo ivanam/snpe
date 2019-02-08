@@ -12,7 +12,10 @@
                     </br>
                     </br>
                     </br>
-                    <%= link_to "Registrarse", new_user_registration_path, :class => "btn btn-md btn-success btn-block" %>   
+                    <%= link_to "Registrarse", new_user_registration_path, :class => "btn btn-md btn-success btn-block" %>
+
+                    <br>
+                    <%= link_to "Olvide mi contraseña", new_user_password_path, :class => "btn-md  btn-block" %>
 
 	                <% if devise_mapping.rememberable? %>
 	                	
