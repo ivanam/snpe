@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   def validar_cuenta_usuario
     documento = self.documento
     persona = Persona.where(:nro_documento => self.documento).first
-    if !persona.nil? && !persona.user.nil? 
+    if !self.created_at && !persona.nil? && !persona.user.nil? 
       errors.add(:base,"Ya existe una cuenta para el dni ingresado.")
     end
   end
