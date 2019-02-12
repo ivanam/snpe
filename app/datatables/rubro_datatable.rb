@@ -27,6 +27,8 @@ class RubroDatatable < AjaxDatatablesRails::Base
            </button>
              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
                <li role="presentation">'+ link_to("Ver", record) +'</li>
+              <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="rubros/'+record.id.to_s+'">Eliminar</a></li>
+
             </ul>
           </div>',
        ]

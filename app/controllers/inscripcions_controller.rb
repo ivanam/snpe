@@ -1,7 +1,7 @@
 class InscripcionsController < InheritedResources::Base
   skip_load_and_authorize_resource :only => :docenteInscripcion
   load_and_authorize_resource
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   
   def index
     authorize! :index, Inscripcion

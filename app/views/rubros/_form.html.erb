@@ -10,25 +10,45 @@
       </ul>
     </div>
   <% end %>
-  <div class="form-group">
-    <%= f.label :Persona, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_util_index_path, :placeholder => "Buscar persona", id_element: '#rubro_persona_id', :id => "persona", :class => "form-control"%>
-      <%= f.hidden_field :persona_id %>
+  <% if !@rubro.id %>
+    <div class="form-group">
+      <%= f.label :Persona, :class => "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_util_index_path, :placeholder => "Buscar persona", id_element: '#rubro_persona_id', :id => "persona", :class => "form-control"%>
+        <%= f.hidden_field :persona_id %>
+      </div>
     </div>
-  </div>
+  <% else %>
+      <div class="form-group">
+      <%= f.label :Persona, :class => "control-label col-md-2" %>
+      <div class="col-md-10">
+        <%= f.text_field :persona, :disabled => true, :class => "form-control" %>
+      </div>
+      </div>    
+  <% end %>
   <div class="form-group">
     <%= f.label :Region, :class => "col-sm-2 control-label" %>
       <div class="col-md-10">
         <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=>"form-control") %>
       </div>
   </div>
-  <div class="form-group">
-    <%= f.label :juntafuncion_id, "Cargo", :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-          <%= f.collection_select(:juntafuncion_id, Juntafuncion.all, :id, :to_s, {:prompt => true}, :class=>"form-control") %>
-   </div>  
-  </div>
+  <% if !@rubro.id %>
+    <div class="form-group">
+      <%= f.label :juntafuncion_id, "Cargo", :class => "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+            <%= f.collection_select(:juntafuncion_id, Juntafuncion.all, :id, :to_s, {:prompt => true}, :class=>"form-control") %>
+     </div>  
+    </div>
+  <% else %>
+    <div class="form-group">
+      <%= f.label :juntafuncion_id, "Cargo", :class => "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :juntafuncion, :disabled => true, :class => "form-control" %>
+
+     </div>  
+    </div>
+  <% end %>
+  
   <div class="form-group">
     <%= f.label :I_Titulo, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
@@ -66,15 +86,15 @@
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :XI_concepto, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.number_field :rubro_concepto, :step => "0.01", :class => "form-control" %>
-    </div>
-  </div>
-   <div class="form-group">
     <%= f.label :IX_cursos, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
       <%= f.number_field :rubro_cursos, :step => "0.01", :class => "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :XI_concepto, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.number_field :rubro_concepto, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">

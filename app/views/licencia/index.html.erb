@@ -2181,7 +2181,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
     con_certificado = $("#con_certificado5:checked").val();
     con_formulario = $("#con_formulario5:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/editar_comentario_licencia_final/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+      url: '/soft/snpe/licencia/editar_comentario_licencia_final/?id_lic='+id_lic+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {

@@ -738,6 +738,8 @@ ActiveRecord::Schema.define(version: 20190110143533) do
     t.integer  "establecimiento_id"
     t.integer  "ambito_id"
     t.string   "otro_lugar"
+    t.integer  "updated_by"
+    t.integer  "created_by"
   end
 
   add_index "rubros", ["persona_id"], name: "index_rubros_on_persona_id", using: :btree
