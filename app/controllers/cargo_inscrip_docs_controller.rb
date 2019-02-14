@@ -1,5 +1,6 @@
 class CargoInscripDocsController < InheritedResources::Base
   load_and_authorize_resource
+  before_action :authenticate_user!
 
   def index
   	respond_to do |format|
@@ -32,15 +33,6 @@ class CargoInscripDocsController < InheritedResources::Base
   def update
     @cargo_inscrip_docs.update(cargo_inscrip_doc_params)
     respond_with(@cargo_inscrip_docs)
-  end
-
-  def destroy
-  	@cargo_inscrip_docs = CargoInscripDoc.find(params[:id])
-    @cargo_inscrip_docs.destroy
-    respond_to do |format|
-      format.html { redirect_to cargo_inscrip_docs_url }
-      format.json { head :no_content }
-    end
   end
 
   private

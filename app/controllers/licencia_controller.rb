@@ -181,6 +181,37 @@ class LicenciaController < ApplicationController
 
 
 
+
+
+def listado_licencias_historico_agente_cnds
+
+    @dni = params["dni"]
+    @art=params["select_articulo_horas"]
+    if @art == '' or @art == ""
+       @art = nil
+    end
+     if params["rango"] == ""
+
+       @mindate_year2 = Date.today.year
+       @mindate = Date.today.to_s
+       @maxdate = Date.today.to_s
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
+
+     else
+      
+       @rango = params["rango"]
+       @mindate, @maxdate = Util.max_min_periodo(@rango)
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
+
+     end
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: HistoricoLicenciasHorasDatatable.new(view_context, { query: @res2}) }
+    end
+  end
+
+
 #----------------------------------------------licencias sin goce---------------------------------------------------------------
 def obtenerdatarange
     if params["rango"] == "" or params["rango"] == nil
@@ -214,6 +245,9 @@ def obtenerdatarange3
     @ras= [@res]
     render json: @ras
 end
+
+
+
 
 
 def listado_licencias_todas_lic
@@ -1173,10 +1207,11 @@ def listado_licencias_todas_lic
   end
 
   def editar_comentario_licencia_final
-    
+    con_formulario = params[:con_formulario].to_i
+    con_certificado = params[:con_certificado].to_i
     @licencia = Licencium.where(id: params[:id_lic]).first
     observaciones = params[:observaciones]
-    if !@licencia.update(observaciones: observaciones)
+    if !@licencia.update(observaciones: observaciones, con_certificado: con_certificado, con_formulario: con_formulario)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede editar el comentario"
     end
@@ -1187,7 +1222,9 @@ def listado_licencias_todas_lic
     
     @licencia = Licencium.where(id: params[:id_lic]).first
     observaciones = params[:observaciones]
-    if !@licencia.update(observaciones: observaciones)
+    con_formulario = params[:con_formulario].to_i
+    con_certificado = params[:con_certificado].to_i
+    if !@licencia.update(observaciones: observaciones, con_certificado: con_certificado, con_formulario: con_formulario)
       msg = @licencia.errors.full_messages.first
       msg = "No se puede editar el comentario"
     end
@@ -1328,7 +1365,16 @@ def listado_licencias_todas_lic
       licencias = licencias.where.not(cargo_no_docente_id: nil)
     end
     
-    @licencias_sin_cert = Licencium.select('licencia.*').from('licencia, establecimientos, articulos').where(' YEAR(licencia.fecha_desde) = ' + @anio + ' and MONTH(licencia.fecha_desde) = '+ @mes +' and licencia.fecha_desde >= "2018-09-01" and establecimientos.codigo_jurisdiccional = licencia.oficina and establecimientos.sede = 1 and (licencia.observaciones = "" or licencia.observaciones = null or licencia.con_certificado = null or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
+    @licencias_sin_cert = Licencium.select('licencia.*')
+    .from('licencia, establecimientos, articulos')
+    .where(' YEAR(licencia.fecha_desde) = ' + @anio + ' and MONTH(licencia.fecha_desde) = '+ 
+      @mes +' and licencia.fecha_desde >= "2018-09-01" 
+      and establecimientos.codigo_jurisdiccional = licencia.oficina 
+      and establecimientos.sede = 1 and 
+      (licencia.observaciones = "" or
+       licencia.observaciones = null ) and (licencia.con_certificado = null 
+      or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) 
+      and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
     
     respond_to do |format|
     format.pdf do

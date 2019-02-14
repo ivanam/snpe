@@ -38,6 +38,8 @@ class CargoInscripDocDatatable < AjaxDatatablesRails::Base
          </button>
            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
             <li role="presentation">'+ link_to("Ver Inscripcion", inscripcion_path(record.inscripcion)) +'</li>
+            <li role="presentation"><a rel="nofollow" data-method="delete" data-confirm="Seguro desea eliminar" role="menuitem" tabindex="-1" href="cargo_inscrip_docs/'+record.id.to_s+'">Eliminar</a></li>
+
           </ul>
         </div>',
        ]

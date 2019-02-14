@@ -3,7 +3,6 @@
     <div class="alert alert-danger alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
-
       <ul>
       <% @rubro.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -11,81 +10,107 @@
       </ul>
     </div>
   <% end %>
+  <% if !@rubro.id %>
+    <div class="form-group">
+      <%= f.label :Persona, :class => "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= autocomplete_field_tag 'persona','', autocomplete_persona_apeynom_util_index_path, :placeholder => "Buscar persona", id_element: '#rubro_persona_id', :id => "persona", :class => "form-control"%>
+        <%= f.hidden_field :persona_id %>
+      </div>
+    </div>
+  <% else %>
+      <div class="form-group">
+      <%= f.label :Persona, :class => "control-label col-md-2" %>
+      <div class="col-md-10">
+        <%= f.text_field :persona, :disabled => true, :class => "form-control" %>
+      </div>
+      </div>    
+  <% end %>
+  <div class="form-group">
+    <%= f.label :Region, :class => "col-sm-2 control-label" %>
+      <div class="col-md-10">
+        <%= f.collection_select(:region_id, Region.all, :id, :nombre, {:prompt => true}, :class=>"form-control") %>
+      </div>
+  </div>
+  <% if !@rubro.id %>
+    <div class="form-group">
+      <%= f.label :juntafuncion_id, "Cargo", :class => "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+            <%= f.collection_select(:juntafuncion_id, Juntafuncion.all, :id, :to_s, {:prompt => true}, :class=>"form-control") %>
+     </div>  
+    </div>
+  <% else %>
+    <div class="form-group">
+      <%= f.label :juntafuncion_id, "Cargo", :class => "col-sm-2 control-label" %>
+      <div class="col-sm-10">
+        <%= f.text_field :juntafuncion, :disabled => true, :class => "form-control" %>
 
-  <div class="form-group">
-  <div class="form-group">
-  <div class="col-sm-10">
-  <%= select_tag "persona", options_from_collection_for_select(Persona.all, "id", :to_s),:prompt => "Persona",:class => "form-control col-sm-6", :id => "persona" %>
+     </div>  
     </div>
-  <div class="col-sm-10">
-      <%= f.label :persona_id, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :persona_id, :class => "form-control" %>
-    </div>
-  </div>
+  <% end %>
+  
   <div class="form-group">
-    <%= f.label :R_I, :class => "col-sm-2 control-label" %>
+    <%= f.label :I_Titulo, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :rubro_titulo, :class => "form-control" %>
+      <%= f.number_field :rubro_titulo, :step => "0.01",  :class => "form-control" %>
     </div>
   </div>
    <div class="form-group">
-    <%= f.label :R_II_promedio, :class => "col-sm-2 control-label" %>
+    <%= f.label :II_promedio, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :promedio, :class => "form-control" %>
+      <%= f.number_field :promedio, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :R_III_ant_doc, :class => "col-sm-2 control-label" %>
+    <%= f.label :III_Antiguedad_docente, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :ant_doc, :class => "form-control" %>
+      <%= f.number_field :ant_doc, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
    <div class="form-group">
-    <%= f.label :R_IV_rubro_gestion, :class => "col-sm-2 control-label" %>
+    <%= f.label :IV_gestion, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :rubro_gestion, :class => "form-control" %>
+      <%= f.number_field :rubro_gestion, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
     <div class="form-group">
-    <%= f.label :R_V_rubro_ser_prest, :class => "col-sm-2 control-label" %>
+    <%= f.label :V_servicio_prestado, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :rubro_ser_prest, :class => "form-control" %>
+      <%= f.number_field :rubro_ser_prest, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
     <div class="form-group">
-    <%= f.label :R_VII_rubro_residencia, :class => "col-sm-2 control-label" %>
+    <%= f.label :VII_residencia, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :rubro_residencia, :class => "form-control" %>
+      <%= f.number_field :rubro_residencia, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :R_XI_rubro_concepto, :class => "col-sm-2 control-label" %>
+    <%= f.label :IX_cursos, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :rubro_concepto, :class => "form-control" %>
-    </div>
-  </div>
-   <div class="form-group">
-    <%= f.label :R_IX_rubro_cursos, :class => "col-sm-2 control-label" %>
-    <div class="col-sm-10">
-      <%= f.text_field :rubro_cursos, :class => "form-control" %>
+      <%= f.number_field :rubro_cursos, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :rubro_asis_perf, :class => "col-sm-2 control-label hidden" %>
+    <%= f.label :XI_concepto, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.text_field :rubro_asis_perf, :class => "form-control hidden" %>
+      <%= f.number_field :rubro_concepto, :step => "0.01", :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
     <%= f.label :total, :class => "col-sm-2 control-label" %>
     <div class="col-sm-10">
-      <%= f.number_field :total, :class => "form-control" , readonly: true  %>
+      <%= f.number_field :total, :step => "0.01", :class => "form-control" , readonly: true  %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :titular, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-10">
+      <%= f.check_box :titular, :class => "form-control" %>
     </div>
   </div>
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
-
       <%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
       <%= link_to rubros_path, :class => 'btn btn-default' do %>
         <span class="glyphicon glyphicon-list-alt"></span>
@@ -93,4 +118,26 @@
       <% end %>
     </div>
   </div>
+
 <% end %>
+<script type="text/javascript">
+
+$(document).ready(function($) {
+
+  function recalcularTotal(){
+    var total = 0;
+    $("input[type=number][id!=rubro_total]").each( function (i, elem){
+      if (!!elem.value)
+        total += Number(elem.value);
+    });
+    $("#rubro_total").val(total);
+  }
+
+  $("input[type=number][id!=rubro_total]").change( recalcularTotal );
+
+  recalcularTotal();
+
+})
+
+
+</script>

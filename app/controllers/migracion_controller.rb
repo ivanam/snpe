@@ -12,7 +12,7 @@ class MigracionController < ApplicationController
 		if nueva
 			@escuelas = [461]
 		else
-			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753,603, 7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720]
+			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753,603, 7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720,721,724,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,787,792,,793,794,7711,7716,7718,7720,7721,7723,7725]
 		end
 		client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 	    #client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -27,6 +27,7 @@ class MigracionController < ApplicationController
 
 		    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
 		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 01 and anio = 2019  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
+
 		end
 		    # res=client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and (secuencia=73 or secuencia= 74 or secuencia= 72 or secuencia= 75 or secuencia=76) union 
 						# 		SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=18761960 and secuencia=79 union
@@ -113,14 +114,15 @@ class MigracionController < ApplicationController
 
 
 		      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
-						horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
+								horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
 		      			@listaAux << horaSinSec
 		      			horaSinSec.assign_attributes(secuencia: r['secMax'])
 		      			if horaSinSec.save!
 		      				AltasBajasHoraEstado.create(estado_id: 10, alta_baja_hora_id: horaSinSec.id)
 		      			end
 		      		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first == nil
-		      			AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+		      			
+		      			RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 		      		end
 
 			      end	
@@ -205,7 +207,7 @@ class MigracionController < ApplicationController
 		if nueva
 			@escuelas = [461]
 		else
-			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,711,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,492,175,787,7718,411,459,3004,753,603,7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,3001,712,714,720]
+			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753,603, 7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720,721,724,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,787,792,,793,794,7711,7716,7718,7720,7721,7723,7725]
 		end
 
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -218,7 +220,9 @@ class MigracionController < ApplicationController
 				 select secuencia as secMax, p.* from paddoc p where escuela = '"+e.to_s+"' and secuencia<88  and estado= 'LIC' group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 	    		
 	    	else
+
 		    	res= client.query("SELECT secuencia as secMax, p.* FROM his_paddoc p where  p.escuela= '"+e.to_s+"'and secuencia<88 and mes = 01 and anio = 2019 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00' ")
+
 		    end
 
 
@@ -285,7 +289,7 @@ class MigracionController < ApplicationController
 		      			end
 		       		elsif 
 		       			Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first == nil
-		       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+		       			RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
 		       		end
 
 				end	
@@ -301,7 +305,7 @@ class MigracionController < ApplicationController
 		if nueva
 			@escuelas = [461]
 		else
-			@escuelas = [1,2,27,43,143,146,402,403,413,421,439,440,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,732,749,712,725,728,729,732,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,411,411,459,3004,753,604,3004,7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,3001,714]
+			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753,603, 7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720,721,724,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,787,792,,793,794,7711,7716,7718,7720,7721,7723,7725]
 		end
 		client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
@@ -374,7 +378,7 @@ class MigracionController < ApplicationController
 		      			end
 		       		elsif 
 		       			CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: cargo_id ).first == nil
-						CargoNoDocente.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+								RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
 	      	  
 					end    	
 		       end	

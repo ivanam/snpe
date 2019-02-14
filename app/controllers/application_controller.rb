@@ -27,8 +27,6 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_user, session[:establecimiento])
   end
 
-
-
   class SelectClass
     def initialize(id, descripcion)  
       # Instance variables  

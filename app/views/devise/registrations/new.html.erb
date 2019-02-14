@@ -4,7 +4,15 @@
 <div class="row">
   <div class="col-md-8">
     <img src="<%= asset_path '/assets/Bienvenida.jpg' %>" width="100%">
+    <center>
+      <%= link_to "http://www.chubut.edu.ar/preguntas/Instructivo_concurso_ingreso.pdf" , :class => "btn btn-large btn-danger glyphicon glyphicon-download" do %>
+      Descargar INSTRUCTIVO
+    <% end %>
+  </center>
   </div>
+
+
+
   
       <div class="col-md-4 text-center form-signup">
         	<br/>
@@ -33,11 +41,12 @@
             <div class="form-group">
               <%= f.password_field :password_confirmation, :placeholder => "Confirmar Contraseña", :class => "form-control" %>
             </div>
+
+            <div class="g-recaptcha" data-sitekey="6LcKbYwUAAAAAH47pvI2TZkjTg2eOyShv_zHeFTe"></div>
             
             <br/>            
             <div class="form-group">
               <%= f.submit "Registrarse", id: "guardar", :class => "btn btn-lg btn-primary btn-block" %>
-              <h5>Recibirás un mail para confirmar tu cuenta. Una vez confirmado, podras ingresar al sistema con tu email y contraseña.</h5>
             </div>
             <div class="form-group">
                 <p>Ya tenes una cuenta?</p>

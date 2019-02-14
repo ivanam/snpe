@@ -310,7 +310,18 @@
                <%= label_tag "Observaciones", nil,  :class => "control-label" %>
                <%= text_area_tag 'observaciones12', nil, :class => "form-control col-sm-6"%>
           </div>
+
           </br>
+
+          <div id="con_certificado10" >
+            <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+            <%= check_box_tag 'con_certificado10' %>
+          </div>
+
+          <div id="con_formulario10" >
+            <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+            <%= check_box_tag 'con_formulario10' %>
+          </div>
          
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -335,6 +346,16 @@
              <%= text_area_tag 'observaciones11', nil, :class => "form-control col-sm-6"%>
         </div>
         </br>
+
+        <div id="con_certificado11" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado11' %>
+        </div>
+
+        <div id="con_formulario11" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario11' %>
+        </div>
        
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -359,6 +380,16 @@
              <%= text_area_tag 'observaciones10', nil, :class => "form-control col-sm-6"%>
         </div>
         </br>
+
+        <div id="con_certificado12" >
+          <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_certificado12' %>
+        </div>
+
+        <div id="con_formulario12" >
+          <%= label_tag "Con formulario", nil,  :class => "control-label" %>
+          <%= check_box_tag 'con_formulario12' %>
+        </div>
        
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -620,7 +651,7 @@
       </div>
       <br/>
       <div class="modal-footer">
-        <button type="button" id="btn_editar_com" class="btn btn-default" data-dismiss="modal">Editar Comentario</button>
+        <button type="button" id="btn_editar_com" class="btn btn-default" data-dismiss="modal">Editar Licencia</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn_licencia_final" class="btn btn-default" data-dismiss="modal">Finalizar licencia</button>
         <button type="button" id="btn_cancelar" class="btn btn-default" data-dismiss="modal">Cancelar licencia</button>
@@ -688,6 +719,8 @@
     $("#con_certificado7").hide();
     $("#con_certificado8").hide();
     $("#con_certificado9").hide();
+
+
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
     $("#disposicion").hide();
     $("#disposicion3").hide();
@@ -695,6 +728,8 @@
     var id_horas;
     var id_cargos;
     var id_cargos_no_docentes;
+    var con_certificado;
+    var con_formulario;
     $("#div_horas").hide();
     $("#div_cargos").hide();
     $("#div_hr_horas").hide();
@@ -1011,6 +1046,8 @@
          $("#select_articulo_cargos_no_docente_h1").val("");
          $("#s2id_select_articulo_cargos_no_docente").val("");
          $("#observaciones").val("");
+        $('input:checkbox').removeAttr('checked');
+
          }
         if (art_doc_1 == "Auxiliar"){
          $("#obv1").show();
@@ -1021,6 +1058,8 @@
          $("#select_articulo_horas").val("");
          $("#select_articulo_horas_esc").hide();
          $("#observaciones").val("");
+         $('input:checkbox').removeAttr('checked');
+
           }
          if (art_doc_1 == ""){
          $("#obv1").show();
@@ -1033,6 +1072,8 @@
          $("#input_anio_lic" ).val("");
          $("#art_doc_1").val("");
          $("#observaciones").val("");
+         $('input:checkbox').removeAttr('checked');
+
           }        
   });
 
@@ -1054,6 +1095,7 @@
         $('#disposicion').hide();          
           if(jQuery.inArray(id_articulo, traslado_definitivos) !== -1){
           $('#disposicion').show();
+
         }
 
         if(jQuery.inArray(id_articulo, art_medicos) !== -1){
@@ -1187,15 +1229,19 @@
          
   });
 
-//-------------------------------------------Modal Horas 1 Fin--------------------------------------------------------------------
-//-------------------------------------------Modal Horas 2    --------------------------------------------------------------------
   
   $('#modal_licencia_horas2_obs').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
       $("#observaciones12").val($(event.relatedTarget).attr('observaciones'));
       $('input:checkbox').removeAttr('checked');
-      $('#con_formulario2').show();
-      $('#con_certificado2').hide();
+
+      if ($(event.relatedTarget).attr('con_certificado') == "true") {
+        $("input[name='con_certificado10']").prop('checked', true).change();
+      }
+      if ($(event.relatedTarget).attr('con_formulario') == "true"){
+        $("input[name='con_formulario10']").prop('checked', true).change();
+      }
+
 
     });
 
@@ -1205,7 +1251,12 @@
       $('input:checkbox').removeAttr('checked');
       $('#con_formulario2').show();
       $('#con_certificado2').hide();
-      $('input:checkbox').removeAttr('checked');
+      if ($(event.relatedTarget).attr('con_certificado') == "true"){
+        $("input[name='con_certificado2']").prop('checked', true).change();
+      }
+      if ($(event.relatedTarget).attr('con_formulario') == "true"){
+        $("input[name='con_formulario2']").prop('checked', true).change();
+      }
     });
 
     $('#modal_licencia_horas2').on('hidden.bs.modal', function (e) {
@@ -1297,6 +1348,8 @@
          $("#s2id_select_articulo_cargos_no_docente").val(""); 
          $("#anio_lic_6").hide();
          $("#observaciones2").val(""); 
+         $('input:checkbox').removeAttr('checked');
+
          }
         if (art_doc_2 == "Auxiliar"){
          $("#obv2").show();
@@ -1312,6 +1365,8 @@
          $("#input_anio_lic_6" ).val("");
          $("#anio_lic_6").hide();
          $("#observaciones2").val(""); 
+         $('input:checkbox').removeAttr('checked');
+
           }
          if (art_doc_2 == ""){
          $("#obv2").show();
@@ -1327,6 +1382,8 @@
          $("#input_anio_lic_6" ).val("");
          $("#anio_lic_6").hide();
          $("#observaciones2").val(""); 
+         $('input:checkbox').removeAttr('checked');
+
           }        
   });
 
@@ -1603,7 +1660,16 @@
 
   $('#modal_licencia_cargos2_obs').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
+      $('input:checkbox').removeAttr('checked');
+
       $("#observaciones11").val($(event.relatedTarget).attr('observaciones'));
+      if ($(event.relatedTarget).attr('con_certificado') == "true"){
+        $("input[name='con_certificado11']").prop('checked', true).change();
+      }
+      if ($(event.relatedTarget).attr('con_formulario') == "true"){
+        $("input[name='con_formulario11']").prop('checked', true).change();
+      }
+
     });
 
 
@@ -1804,6 +1870,15 @@
 $('#modal_licencia_cargos_no_docentes2_obs').on('shown.bs.modal', function (event) {      
       id_lic = $(event.relatedTarget).attr('id_lic');
       $("#observaciones10").val($(event.relatedTarget).attr('observaciones'));
+      $('input:checkbox').removeAttr('checked');
+
+      if ($(event.relatedTarget).attr('con_certificado') == "true"){
+        $("input[name='con_certificado12']").prop('checked', true).change();
+      }
+      if ($(event.relatedTarget).attr('con_formulario') == "true"){
+        $("input[name='con_formulario12']").prop('checked', true).change();
+      }
+
     });
 
 $('#modal_licencia_cargos_no_docentes2').on('shown.bs.modal', function (event) {      
@@ -1921,6 +1996,9 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
       $("#input_fecha_fin3").val($(event.relatedTarget).attr('fecha_hasta'));
       $("#observaciones_final").val($(event.relatedTarget).attr('observaciones'));
       $("#prestador").val($(event.relatedTarget).attr('prestador'));
+      $('input:checkbox').removeAttr('checked');
+
+
       if ($(event.relatedTarget).attr('con_certificado') == "true"){
         $("input[name='con_certificado5']").prop('checked', true).change();
       }
@@ -2001,8 +2079,10 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
 
   $('#btn_editar_com').on('click', function () {
     observaciones = $("#observaciones_final").val();
+    con_certificado = $("#con_certificado5:checked").val();
+    con_formulario = $("#con_formulario5:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/editar_comentario_licencia_final/?id_lic='+id_lic+'&observaciones='+observaciones,
+      url: '/soft/snpe/licencia/editar_comentario_licencia_final/?id_lic='+id_lic+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
@@ -2019,8 +2099,10 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
 
   $('#btn_editar_obs').on('click', function () {
     observaciones = $("#observaciones12").val();
+    con_certificado = $("#con_certificado10:checked").val();
+    con_formulario = $("#con_formulario10:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
@@ -2038,8 +2120,10 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
 
   $('#btn_editar_obs2').on('click', function () {
     observaciones = $("#observaciones11").val();
+    con_certificado = $("#con_certificado11:checked").val();
+    con_formulario = $("#con_formulario11:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
@@ -2058,8 +2142,10 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
 
   $('#btn_editar_obs3').on('click', function () {
     observaciones = $("#observaciones10").val();
+    con_certificado = $("#con_certificado12:checked").val();
+    con_formulario = $("#con_formulario12:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones,
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {

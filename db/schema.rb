@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20181218123213) do
+=======
+ActiveRecord::Schema.define(version: 20190207134750) do
+>>>>>>> master
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -669,6 +673,35 @@ ActiveRecord::Schema.define(version: 20181218123213) do
     t.datetime "updated_at"
   end
 
+  create_table "registros_para_solucionars", force: true do |t|
+    t.boolean  "horas_registro"
+    t.boolean  "cargos_registro"
+    t.boolean  "auxiliar_registro"
+    t.integer  "establecimiento_id"
+    t.integer  "persona_id"
+    t.integer  "secuencia"
+    t.date     "fecha_alta"
+    t.date     "fecha_baja"
+    t.string   "situacion_revista"
+    t.integer  "horas"
+    t.integer  "ciclo_carrera"
+    t.integer  "anio"
+    t.integer  "division"
+    t.string   "turno"
+    t.integer  "codificacion"
+    t.string   "estado"
+    t.integer  "materium_id"
+    t.integer  "plan_id"
+    t.integer  "cargo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "mes_liq"
+    t.integer  "anio_liq"
+    t.boolean  "chequeada"
+    t.integer  "user_chequeada_id"
+    t.date     "fecha_chequeada"
+  end
+
   create_table "role_permissions", force: true do |t|
     t.integer  "role_id"
     t.string   "regulator"
@@ -714,6 +747,8 @@ ActiveRecord::Schema.define(version: 20181218123213) do
     t.integer  "establecimiento_id"
     t.integer  "ambito_id"
     t.string   "otro_lugar"
+    t.integer  "updated_by"
+    t.integer  "created_by"
   end
 
   add_index "rubros", ["persona_id"], name: "index_rubros_on_persona_id", using: :btree

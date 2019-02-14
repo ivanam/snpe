@@ -9,8 +9,9 @@ ProyectoBase::Application.routes.draw do
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
-  
-    post "util/buscar_persona/:dni", to: 'util#buscar_persona'
+
+
+   post "util/buscar_persona/:dni", to: 'util#buscar_persona'
 
     post "util/buscar_persona_por_id/:id", to: 'util#buscar_persona_por_id'
 
@@ -416,6 +417,8 @@ ProyectoBase::Application.routes.draw do
     get 'licencias/listado_licencias_todas_lic', to: 'licencia#listado_licencias_todas_lic', as: :listado_licencias_todas_lic
     get 'licencias/listado_licencias_cnds_sg', to: 'licencia#listado_licencias_cnds_sg', as: :listado_licencias_cnds_sg
     get 'licencias/listado_licencias_carg_sg', to: 'licencia#listado_licencias_carg_sg', as: :listado_licencias_carg_sg
+    get 'licencias/listado_licencias_historico_agente_cnds', to: 'licencia#listado_licencias_historico_agente_cnds', as: :listado_licencias_historico_agente_cnds
+
     
     get 'licencias/cargos_no_docentes_licencia_permitida', to: 'licencia#cargos_no_docentes_licencia_permitida', as: :cargos_no_docentes_licencia_permitida
 
@@ -493,9 +496,9 @@ ProyectoBase::Application.routes.draw do
 
     get "/migracion/migrar_auxiliares/", to: 'migracion#migrar_auxiliares'
 
+    get "registros_para_solucionar/reporte", to: 'registros_para_solucionar#reporte', as: :registros_para_solucionar_reporte
 
-   
-
+    get "registros_para_solucionar/chequear_registro/:id", to: 'registros_para_solucionar#chequear_registro', as: :registros_para_solucionar_chequear_registro
 
     #-----------------------------------------------------------------------------------------------------------------------------------
     resources :localidads

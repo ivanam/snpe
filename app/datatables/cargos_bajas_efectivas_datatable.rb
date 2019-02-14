@@ -18,6 +18,7 @@ class CargosBajasEfectivasDatatable < AjaxDatatablesRails::Base
         record.persona.cuil,
         record.persona.to_s,
         record.secuencia,
+        record.situacion_revista,
         record.cargo,
         record.turno,
         record.anio,
