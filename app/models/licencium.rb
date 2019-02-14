@@ -203,13 +203,11 @@ class Licencium < ActiveRecord::Base
 
             
 	 		elsif self.cargo_id != nil
-
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: 1)
 	 				end
-
 	 			elsif (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede == nil)
 	 				cargo.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil 
