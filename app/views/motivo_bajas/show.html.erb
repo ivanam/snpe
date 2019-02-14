@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>motivo_baja</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Nro motivo:</dt>
+  <dd><%= @motivo_baja.nro_motivo %></dd>
+
+  <dt>Motivo:</dt>
+  <dd><%= @motivo_baja.motivo %></dd>
+
+  <br/><br/>
+  <%= link_to motivo_bajas_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>
+  <%= link_to edit_motivo_baja_path(@motivo_baja), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Editar
+  <% end %>
+  <%= link_to motivo_baja_path(@motivo_baja), method: :delete, data: { confirm: '¿Seguro desea eliminar?' }, :class => 'btn btn-danger' do%>
+    <span class="glyphicon glyphicon-trash"></span>
+    Eliminar
+  <% end %>
+</dl>

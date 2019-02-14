@@ -1,0 +1,2 @@
+module MotivoBajasHelper
+end
