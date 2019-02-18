@@ -112,6 +112,7 @@ ProyectoBase::Application.routes.draw do
 
     resources :concursos
 
+    get "/concursos/:id/estadisticas", to: "concursos#estadisticas", as: :concurso_estadisticas
 
     #---------------------------------------------------------------------------------------------------------------------------------------
     

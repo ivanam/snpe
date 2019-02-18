@@ -1,11 +1,20 @@
 class ConcursosController < InheritedResources::Base
   before_action :authenticate_user!
-	load_and_authorize_resource
+  load_and_authorize_resource
 
-	def index
-		respond_to do |format|
+  def index
+    respond_to do |format|
     	format.html
     	format.json { render json: ConcursoDatatable.new(view_context, { query:Concurso.all }) }
+    end
+  end
+
+  def estadisticas
+    id = params[:id]
+    @concurso = Concurso.where(id: id).first
+    respond_to do |format|
+      format.html
+      format.json { render json: @concurso }
     end
   end
 
@@ -23,8 +32,8 @@ class ConcursosController < InheritedResources::Base
 
   private
 
-    def concurso_params
-      params.require(:concurso).permit(:fecha_concurso, :fecha_inicio, :fecha_fin, :descripcion)
-    end
+  def concurso_params
+    params.require(:concurso).permit(:fecha_concurso, :fecha_inicio, :fecha_fin, :descripcion)
+  end
 end
 
