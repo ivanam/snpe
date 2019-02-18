@@ -558,6 +558,13 @@ ActiveRecord::Schema.define(version: 20190207134750) do
     t.datetime "updated_at"
   end
 
+  create_table "motivo_bajas", force: true do |t|
+    t.integer  "nro_motivo"
+    t.string   "motivo"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "nivels", force: true do |t|
     t.string   "nombre"
     t.datetime "created_at"

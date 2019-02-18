@@ -1172,7 +1172,7 @@ def listado_licencias_todas_lic
     #----------  BUSCAR CARGO DOCENTE QUE POSEE LA SECUNCIA 1000 y la descripcion del articulo que genero la secuencia 1000 PARA ELIMINARLA     
 
     
-    if @licencia.cargo_id != nil 
+    if @licencia.cargo_id != nil
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         cargo = Cargo.where(:id => @licencia.cargo_id).first
         cargo1000 = Cargo.where(:persona_id => cargo.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
