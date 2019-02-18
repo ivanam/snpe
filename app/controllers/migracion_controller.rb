@@ -8,12 +8,12 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 		@listaAux = []
-		nueva = false
+		nueva = true
 		if nueva
-			@escuelas = [461]
+			@escuelas = [714,720,721,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,792,793,794,7711,7713,7716,7718,7720,7721,7723,7725]
 		else
-			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006,411,459,3004,3000,4000,753,603,7712,2702,753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720,721,724,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,787,792,793,794,7711,7716,7718,7720,7721,7723,7725]
-		end
+			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006,411,459,3004,3000,4000,753,603,7712,2702,753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461]
+		end 
 		client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 	    #client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
 
@@ -21,6 +21,7 @@ class MigracionController < ApplicationController
 		if nueva
 		    res=client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+e.to_s+"'  and estado= 'ALT' and secuencia<88 group by  nume_docu, materia, horas_cate, secuencia union
 	 		select secuencia as secMax, p.* from padhc p where escuela = '"+e.to_s+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate,secuencia")
+	
 		else
 	 	    #res= client.query("select secuencia as secMax, p.* from padhc p where escuela = '"+params[:esc]+"'  and estado= 'ALT' and secuencia<88 group by  nume_docu, materia, horas_cate, secuencia union
 	 		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
@@ -111,9 +112,7 @@ class MigracionController < ApplicationController
 
 		      	hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first	
 		      	if hora == nil then
-
-
-		      		if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
+                    if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
 								horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
 		      			@listaAux << horaSinSec
 		      			horaSinSec.assign_attributes(secuencia: r['secMax'])
@@ -121,11 +120,11 @@ class MigracionController < ApplicationController
 		      				AltasBajasHoraEstado.create(estado_id: 10, alta_baja_hora_id: horaSinSec.id)
 		      			end
 		      		elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first == nil
-		      			
-		      			RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+      	      			  AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+		       			#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 		      		end
 
-			      end	
+			    end	
 			end
 		end
 
@@ -203,9 +202,9 @@ class MigracionController < ApplicationController
 
 	def migrar_cargos
 		@listacargoSinSec = []
-		nueva = false
+		nueva = true
 		if nueva
-			@escuelas = [461]
+			@escuelas = [714,720,721,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,792,793,794,7711,7713,7716,7718,7720,7721,7723,7725]
 		else
 			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753,603, 7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720,721,724,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,787,792,793,794,7711,7716,7718,7720,7721,7723,7725]
 		end
@@ -289,7 +288,8 @@ class MigracionController < ApplicationController
 		      			end
 		       		elsif 
 		       			Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first == nil
-		       			RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+		       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+		       			#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
 		       		end
 
 				end	
@@ -301,9 +301,9 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		nueva =  false
+		nueva =  true
 		if nueva
-			@escuelas = [461]
+			@escuelas = [714,720,721,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,792,793,794,7711,7713,7716,7718,7720,7721,7723,7725]
 		else
 			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006, 411,459,3004,3000,4000,753,603, 7712,2702, 753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461,712,714,720,721,724,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,787,792,793,794,7711,7716,7718,7720,7721,7723,7725]
 		end
@@ -378,7 +378,8 @@ class MigracionController < ApplicationController
 		      			end
 		       		elsif 
 		       			CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: cargo_id ).first == nil
-								RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+						CargoNoDocente.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+						#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
 	      	  
 					end    	
 		       end	
