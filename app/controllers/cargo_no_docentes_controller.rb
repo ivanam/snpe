@@ -242,8 +242,8 @@ class CargoNoDocentesController < InheritedResources::Base
              end
            else
             respond_to do |format|
-              format.json { render json: { status: 'Error', msj:@cargo_no_docente.errors }}
-            end
+              format.json { render json: {status: 'error', msj: @cargo_no_docente.errors.full_messages[0]} }
+            end            
           end
         else
            respond_to do |format|

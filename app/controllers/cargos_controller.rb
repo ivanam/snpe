@@ -268,8 +268,8 @@ class CargosController < ApplicationController
         end
       else
         respond_to do |format|
-          format.json { render json: @cargo.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
-        end
+        format.json { render json: {status: 'error', msj: @cargo.errors.full_messages[0]} }
+        end            
       end
     else 
       respond_to do |format|
