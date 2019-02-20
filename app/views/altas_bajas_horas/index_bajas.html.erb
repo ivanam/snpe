@@ -233,10 +233,14 @@ $(document).ready(function($) {
       type: 'POST',
       })
     .done(function(data) {
-        tabla_bajas_permitidas.api().ajax.reload();
-        tabla_bajas_efectivas.api().ajax.reload();
-        $("#motivo_baja" ).val("");
-        $("#input_fecha_baja" ).val("");
+        if (data.status === 'error') {
+          alert(data.msj);  
+        } else {
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+          $("#motivo_baja" ).val("");
+          $("#input_fecha_baja" ).val("");
+        }        
     })
     }
   });
