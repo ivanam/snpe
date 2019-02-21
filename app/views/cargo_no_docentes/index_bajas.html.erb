@@ -257,15 +257,14 @@ $(document).ready(function($) {
       type: 'POST',
       })
     .done(function(data) {
-        console.log(data);
-        if (data.status == "error" || data.status == "Error"){
-          alert("verificar el Turno");
-          return;
+        if (data.status === 'error') {
+          alert(data.msj);  
+        } else {
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+          $("#motivo_baja" ).val("");
+          $("#input_fecha_baja" ).val("");
         }
-        tabla_bajas_permitidas.api().ajax.reload();
-        tabla_bajas_efectivas.api().ajax.reload();
-        $("#motivo_baja" ).val("");
-        $("#input_fecha_baja" ).val("");
     })
     }
   });

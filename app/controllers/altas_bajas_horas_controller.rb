@@ -530,6 +530,10 @@ class AltasBajasHorasController < ApplicationController
               respond_to do |format|
               format.json { render json: {status: 'ok'}}
               end
+            else
+              respond_to do |format|
+              format.json { render json: {status: 'error', msj: @altas_bajas_hora.errors.full_messages[0]} }
+              end
             end  
          else
            respond_to do |format|
