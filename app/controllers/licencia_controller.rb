@@ -1186,8 +1186,12 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
         horas1000 = AltasBajasHora.where(:persona_id => horas.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
-        horas1000.update!(:estado => "BAJ")
-        horas.update!(:estado => "ALT")
+        if horas1000.nil?
+          msg = "No puede finalizar la licencia del cargo Comisionado hasta que no se de el alta de la Comision de servicio"
+        else
+          horas1000.update!(:estado => "BAJ")
+          horas.update!(:estado => "ALT")
+        end
       end
     end
     
