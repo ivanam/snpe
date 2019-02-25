@@ -1,7 +1,6 @@
 ProyectoBase::Application.routes.draw do
 
-
-
+  resources :motivo_bajas
 
   resources :traslados
 
@@ -112,6 +111,7 @@ ProyectoBase::Application.routes.draw do
 
     resources :concursos
 
+    get "/concursos/:id/estadisticas", to: "concursos#estadisticas", as: :concurso_estadisticas
 
     #---------------------------------------------------------------------------------------------------------------------------------------
     
@@ -182,6 +182,8 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/notificadas/", to: "altas_bajas_horas#index_notificadas", as: :altas_bajas_horas_index_notificadas    
 
     put "altas_bajas_horas/dar_baja/:id", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_baja
+
+    post "altas_bajas_horas/dar_baja/", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_bajas
 
     get "altas_bajas_horas/bajas_efectivas/", to: "altas_bajas_horas#index_bajas_efectivas", as: :altas_bajas_horas_index_bajas_efectivas
 
@@ -287,6 +289,8 @@ ProyectoBase::Application.routes.draw do
 
     put "cargo/dar_baja/:id", to: "cargos#dar_baja", as: :cargo_dar_baja
 
+    post "cargo/dar_baja/", to: "cargos#dar_baja", as: :cargo_dar_bajas
+
     get "cargo/imprimir/:id", to: "cargos#imprimir", as: :cargo_imprimir
 
     get "cargo/notificar/:id", to: "cargos#notificar", as: :cargo_notificar
@@ -358,6 +362,8 @@ ProyectoBase::Application.routes.draw do
     get "cargo_no_docente/cargo_no_docentes_bajas_efectivas/", to: "cargo_no_docentes#cargo_no_docentes_bajas_efectivas", as: :cargo_no_docentes_bajas_efectivas
 
     put "cargo_no_docente/dar_baja/:id", to: "cargo_no_docentes#dar_baja", as: :cargo_no_docentes_dar_baja
+
+    post "cargo_no_docente/dar_baja/", to: "cargo_no_docentes#dar_baja", as: :cargo_no_docentes_dar_bajas
 
     get "cargo_no_docente/cancelar_baja/:id", to: "cargo_no_docentes#cancelar_baja", as: :cargo_no_docente_cancelar_baja
 

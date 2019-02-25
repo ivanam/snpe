@@ -39,6 +39,37 @@
     </div>
     <hr/>
   <% end %>
+
+   <div class="modal fade" id="modal_baja_horas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><p class="text-danger">Realizar baja de las horas.</p>
+        <p align="center">
+                  <%=image_tag("animat-pencil.gif", :class => "img-responsive", style: "width:10%;")%>
+                </p>
+        </h4> 
+      </div>
+      <div class="modal-body"> 
+          <div id="baja">
+               <%= label_tag "Motivo de la Baja:", nil,  :class => "control-label" %>
+               <%= select_tag 'motivo_baja', options_from_collection_for_select(MotivoBaja.all, "nro_motivo", "motivo"), {:data =>{:toggle=>"tooltip", :placement=>"right"},:title=>"motivo_baja", :id => "motivo_baja",:prompt => "Seleccione Motivo de Baja" } %>        
+          </div>
+          </br>
+         <div id="fecha">
+               <%= label_tag "Fecha de la Baja:", nil,  :class => "control-label" %>
+               <%= text_field_tag 'input_fecha_baja', id: 'input_fecha_baja',:value => Date.today %>
+          </div>
+          </br>
+              <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="btn_editar_obs" class="btn btn-default" data-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
   
   <div class="panel panel-success">
     <div class="panel-heading">
@@ -120,8 +151,35 @@
   </div>
 </div>
 
+<% @listado_de_datepickers = ['input_fecha_baja'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({
+         dateFormat: 'dd-mm-yy', 
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'], 
+                dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'], 
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'], 
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'], 
+                changeYear: true,
+                changeMonth: true,
+                yearRange: "<%=Date.today.year-2%>:<=Date.today.year%>",
+                default: "<%=Date.today%>",
+
+          });
+
+  </script>
+
+<% end %>
+
 <script type="text/javascript">
 $(document).ready(function($) {
+     $("#motivo_baja" ).val("");
+     $("#input_fecha_baja" ).val("");
 
   //Define el idioma de combodate
   moment.locale('es');
@@ -141,9 +199,6 @@ $(document).ready(function($) {
         .done(function(data) { //if (data[status] == 'ok')
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
-          if (data != "") {
-            alert(data);   
-          }; 
         });
       });
     })
@@ -163,7 +218,33 @@ $(document).ready(function($) {
             }
         ]
     });
-   
+    $('#modal_baja_horas').on('shown.bs.modal', function (event) {      
+      id_horas = $(event.relatedTarget).attr('id_horas');
+    });
+
+    $('#btn_editar_obs').on('click', function () {
+    motivo_baja = $("#motivo_baja").val();
+    input_fecha_baja = $("#input_fecha_baja").val();
+    if (motivo_baja =="" || input_fecha_baja ==""){
+      alert('Debe completar la fecha y/o el motivo de la baja')
+    }else{
+    $.ajax({
+      url: '/soft/snpe/altas_bajas_horas/dar_baja/?id_horas='+id_horas+'&motivo_baja='+motivo_baja+'&input_fecha_baja='+input_fecha_baja,
+      type: 'POST',
+      })
+    .done(function(data) {
+        if (data.status === 'error') {
+          alert(data.msj);  
+        } else {
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+          $("#motivo_baja" ).val("");
+          $("#input_fecha_baja" ).val("");
+        }        
+    })
+    }
+  });
+
    function getParams1() {
         var params = '?rango=' + $('#daterange').val();
         return  params
@@ -224,7 +305,7 @@ $(document).ready(function($) {
 
   // Evento del daterangepicker para filtrar por rangos
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
-    // Cambia la url agregando el campo rango como atributo
+    // Cambia la url agregando el campo rango como atributor
     tabla_bajas_efectivas.api().ajax.url('/soft/snpe/altas_bajas_horas/bajas_efectivas.json?rango='+$('#daterange').val());
     // Recarga por ajax la tabla
     tabla_bajas_efectivas.api().ajax.reload();

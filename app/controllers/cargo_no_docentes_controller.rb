@@ -1,9 +1,9 @@
 class CargoNoDocentesController < InheritedResources::Base
  include ::CargoNoDocentesHelper
+  
+  before_action :set_cargo_no_docente, only: [:show, :edit, :update, :destroy, :dar_baja]
 
 	def index
-		
-   
     if @cargo_no_docente == nil
       @cargo_no_docente = CargoNoDocente.new
     end
@@ -30,7 +30,6 @@ class CargoNoDocentesController < InheritedResources::Base
 
 
   def show
-
     @cargo_no_docente = CargoNoDocente.find(params[:id])
     @licencias = Licencium.where(:cargo_no_docente_id => params[:id])
     @anuales2018 = @licencias.where("articulo_id in (241, 289,365,366) and anio_lic = 2018")
@@ -232,23 +231,36 @@ class CargoNoDocentesController < InheritedResources::Base
   end
 
   def dar_baja
-    @cargo_no_docente = CargoNoDocente.find(params[:id])
-    
     if @cargo_no_docente.estado_actual == "Vacio" || @cargo_no_docente.estado_actual == "Impreso" || @cargo_no_docente.estado_actual == "Cobrado" || @cargo_no_docente.estado_actual == "Cancelado_Baja"
-      if @cargo_no_docente.update(:fecha_baja => params[:cargo_no_docente][:fecha_baja])
-        @estado = Estado.where(:descripcion => "Notificado_Baja").first
-        CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
-        respond_to do |format|
-          format.json { render json: {status: 'ok'}}
+      if params[:input_fecha_baja] != nil && params[:input_fecha_baja] != ""
+        if params[:motivo_baja] != nil && params[:motivo_baja] != ""
+          if @cargo_no_docente.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params[:motivo_baja])
+           @estado = Estado.where(:descripcion => "Notificado_Baja").first
+             CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
+             respond_to do |format|
+              format.json { render json: {status: 'ok'}}
+             end
+           else
+            respond_to do |format|
+              format.json { render json: {status: 'error', msj: @cargo_no_docente.errors.full_messages[0]} }
+            end            
+          end
+        else
+           respond_to do |format|
+            format.json { render json: {status: 'error', msj: "Debe completar el motivo de la baja"} }
+            flash[:notice] = "motivo."
+           end
         end
       else
         respond_to do |format|
-          format.json { render json: @cargo_no_docente.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
+         format.json { render json: {status: 'error', msj: "Debe completar la fecha de baja"} }
+          format.html { redirect_to cargo_no_docente_index_bajas_path, notice: 'fecha' }
         end
       end
     else
       respond_to do |format|
         format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
+        format.html { redirect_to cargo_no_docente_index_bajas_path, notice: 'proceso' }
       end
     end
   end
@@ -292,7 +304,7 @@ class CargoNoDocentesController < InheritedResources::Base
   def cancelar_baja
     @cargo_no_docente = CargoNoDocente.find(params[:id])
     if CargoNoDocente.find(params["id"]).estado_actual == "Notificado_Baja"
-      if @cargo_no_docente.update(:fecha_baja => nil,  estado: 'ALT')
+      if @cargo_no_docente.update(:fecha_baja => nil,  estado: 'ALT', :motivo_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         CargoNoDocenteEstado.create( cargo_no_docente_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
       end
@@ -513,7 +525,11 @@ class CargoNoDocentesController < InheritedResources::Base
   private
 
     def set_cargo_no_docente
-      @cargo_no_docente = CargoNoDocente.find(params[:id])
+      if params[:id] != nil
+        @cargo_no_docente = CargoNoDocente.find(params[:id])
+       else
+        @cargo_no_docente = CargoNoDocente.find(params[:id_cargo_nds])
+      end
     end
 
     def cargo_no_docente_params

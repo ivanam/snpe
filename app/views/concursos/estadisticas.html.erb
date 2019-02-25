@@ -1,0 +1,40 @@
+<h1>Estadisticas</h1>	
+
+<div id="results">
+
+	<dl>
+		<dt>
+			Total de personas
+		</dt>
+		<dd>
+			<%= Rubro.uniq.pluck(:persona_id).size %>
+		</dd>
+		<dt>
+			Total de inscripciones
+		</dt>
+		<dd>
+			<%= @concurso.inscripcions.size%>
+		</dd>
+		<dt>
+			Inscripciones por region
+		</dt>
+		<dd class="col-md-4">
+			<table class="table">
+				<tbody>
+					<% @concurso.inscripcions.group(:region_id).count.each do |i| %>
+					<tr>
+						<td><%= Region.where(id: i[0]).first %></td>
+						<td><%= i[1] %></td>
+					</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</dd>
+	</dl>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+	})
+</script>

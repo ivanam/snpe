@@ -7,7 +7,7 @@
 
   <legend>Listado de Bajas Permitidas y Realizadas de cargos no docentes</legend>
   
-  <% if (current_user.role? :escuela or current_user.role? :sadmin) %>
+  <% if (current_user.role? :escuela or current_user.role? :sadmin or current_user.role? :personal) %>
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -23,6 +23,7 @@
               <th>CUIL</th>
               <th style="width: 250px;">Apellido y nombre</th>
               <th>Secuencia</th>
+              <th>Turno</th>
               <th>Sit. Rev.</th>
               <th>CJ</th>
               <th>Cue</th>
@@ -39,6 +40,37 @@
     </div>
     <hr/>
   <% end %>
+
+   <div class="modal fade" id="modal_baja_cargo_nds" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><p class="text-danger">Realizar baja del cargo no docente.</p>
+        <p align="center">
+                  <%=image_tag("animat-pencil.gif", :class => "img-responsive", style: "width:10%;")%>
+                </p>
+        </h4> 
+      </div>
+      <div class="modal-body"> 
+          <div id="baja">
+               <%= label_tag "Motivo de la Baja:", nil,  :class => "control-label" %>
+               <%= select_tag 'motivo_baja', options_from_collection_for_select(MotivoBaja.all, "nro_motivo", "motivo"), {:data =>{:toggle=>"tooltip", :placement=>"right"},:title=>"motivo_baja", :id => "motivo_baja",:prompt => "Seleccione Motivo de Baja" } %>        
+          </div>
+          </br>
+         <div id="fecha">
+               <%= label_tag "Fecha de la Baja:", nil,  :class => "control-label" %>
+               <%= text_field_tag 'input_fecha_baja', id: 'input_fecha_baja',:value => Date.today %>
+          </div>
+          </br>
+              <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            <button type="button" id="btn_editar_obs_carg_nds" class="btn btn-default" data-dismiss="modal">Guardar</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
   
   <div class="panel panel-success">
     <div class="panel-heading">
@@ -110,8 +142,34 @@
   </div>
 </div>
 
+<% @listado_de_datepickers = ['input_fecha_baja'] %>
+
+<% @listado_de_datepickers.each do |l| %>
+
+
+  <script type="text/javascript">
+      
+        $("#<%=l%>").datepicker({
+         dateFormat: 'dd-mm-yy', 
+                dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sabado'], 
+                dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'], 
+                dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'], 
+                firstDay: 1, 
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], 
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'], 
+                changeYear: true,
+                changeMonth: true,
+                yearRange: '-100:+0',
+          });
+
+  </script>
+
+<% end %>
+
 <script type="text/javascript">
 $(document).ready(function($) {
+   $("#motivo_baja" ).val("");
+  $("#input_fecha_baja" ).val("");
 
   //Define el idioma de combodate
   moment.locale('es');
@@ -182,6 +240,34 @@ $(document).ready(function($) {
             }
         ]
     });
+
+  $('#modal_baja_cargo_nds').on('shown.bs.modal', function (event) {      
+      id_cargo_nds = $(event.relatedTarget).attr('id_cargo_nds');
+    });
+
+ 
+   $('#btn_editar_obs_carg_nds').on('click', function () {
+    motivo_baja = $("#motivo_baja").val();
+    input_fecha_baja = $("#input_fecha_baja").val();
+     if (motivo_baja =="" || input_fecha_baja ==""){
+      alert('Debe completar la fecha y/o el motivo de la baja')
+    }else{
+    $.ajax({
+      url: '/soft/snpe/cargo_no_docente/dar_baja/?id_cargo_nds='+id_cargo_nds+'&motivo_baja='+motivo_baja+'&input_fecha_baja='+input_fecha_baja,
+      type: 'POST',
+      })
+    .done(function(data) {
+        if (data.status === 'error') {
+          alert(data.msj);  
+        } else {
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+          $("#motivo_baja" ).val("");
+          $("#input_fecha_baja" ).val("");
+        }
+    })
+    }
+  });
 
   //JS para el periodo
   var date = new Date();

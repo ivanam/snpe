@@ -252,8 +252,13 @@ class CargosController < ApplicationController
   end
 
   def dar_baja
+     if params[:id] != nil
+         @cargo = Cargo.find(params[:id])
+       else
+         @cargo = Cargo.find(params[:id_cargo])
+      end
     if @cargo.estado_actual == "Vacio" || @cargo.estado_actual == "Impreso" || @cargo.estado_actual == "Cobrado" || @cargo.estado_actual == "Cancelado_Baja"
-      if @cargo.update(:fecha_baja => params[:cargo][:fecha_baja])
+      if @cargo.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params[:motivo_baja])
         @estado = Estado.where(:descripcion => "Notificado_Baja").first
         if @cargo.fecha_baja != nil
           CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)
@@ -263,8 +268,8 @@ class CargosController < ApplicationController
         end
       else
         respond_to do |format|
-          format.json { render json: @cargo.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
-        end
+        format.json { render json: {status: 'error', msj: @cargo.errors.full_messages[0]} }
+        end            
       end
     else 
       respond_to do |format|
@@ -310,7 +315,7 @@ class CargosController < ApplicationController
 
   def cancelar_baja
     if Cargo.find(params["id"]).estado_actual == "Notificado_Baja"
-      if @cargo.update(:fecha_baja => nil, estado: 'ALT')
+      if @cargo.update(:fecha_baja => nil, estado: 'ALT', :motivo_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
       end
@@ -606,11 +611,15 @@ end
 
   private
     def set_cargo
-      @cargo = Cargo.find(params[:id])
+       if params[:id] != nil
+         @cargo = Cargo.find(params[:id])
+       else
+         @cargo = Cargo.find(params[:id_cargo])
+      end
     end
 
     def cargo_params
-      params.require(:cargo).permit(:establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion, :cargo_especial_id)
+      params.require(:cargo).permit(:id_cargo, :establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion, :cargo_especial_id)
     end
 end
 

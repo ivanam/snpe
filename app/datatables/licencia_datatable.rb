@@ -94,7 +94,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         record.organismo,
         if record.vigente == "Vigente" 
 
-          '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s.html_safe+'" id_art="'+record.articulo_id.to_s+'" con_certificado="' +record.con_certificado.to_s+'" con_formulario="'+ record.con_formulario.to_s+'" data-target="#modal_licencia_final" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 
+          '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" observaciones="'+CGI::escapeHTML(record.observaciones.to_s)+'" id_art="'+record.articulo_id.to_s+'" con_certificado="' +record.con_certificado.to_s+'" con_formulario="'+ record.con_formulario.to_s+'" data-target="#modal_licencia_final" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 
         else
           '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
         end,
@@ -108,11 +108,11 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
           end
         else
           if record.altas_bajas_hora_id != nil  and record.vigente == "Finalizada"
-            '<center><div class="btn-acciones"><a class="btn btn-info btn-sm" data-toggle="modal" id_horas="'+record.altas_bajas_hora_id.to_s+'" id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" con_certificado="'+record.con_certificado.to_s+'" con_formulario="'+record.con_formulario.to_s+'" data-target="#modal_licencia_horas2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
+            '<center><div class="btn-acciones"><a class="btn btn-info btn-sm" data-toggle="modal" id_horas="'+record.altas_bajas_hora_id.to_s+'" id_lic="'+record.id.to_s+'" observaciones="'+CGI::escapeHTML(record.observaciones.to_s)+'" con_certificado="'+record.con_certificado.to_s+'" con_formulario="'+record.con_formulario.to_s+'" data-target="#modal_licencia_horas2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
           elsif record.cargo_id != nil and record.vigente == "Finalizada"
-            '<center><div class="btn-acciones"><a class="btn btn-info btn-sm" data-toggle="modal" id_cargos="'+record.cargo_id.to_s+'"  id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" con_certificado="'+record.con_certificado.to_s+'" con_formulario="'+record.con_formulario.to_s+'"  data-target="#modal_licencia_cargos2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
+            '<center><div class="btn-acciones"><a class="btn btn-info btn-sm" data-toggle="modal" id_cargos="'+record.cargo_id.to_s+'"  id_lic="'+record.id.to_s+'" observaciones="'+CGI::escapeHTML(record.observaciones.to_s)+'" con_certificado="'+record.con_certificado.to_s+'" con_formulario="'+record.con_formulario.to_s+'"  data-target="#modal_licencia_cargos2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
           elsif record.cargo_no_docente_id != nil  and record.vigente == "Finalizada"
-            '<center><div class="btn-acciones"><a class="btn btn-info btn-sm" data-toggle="modal" id_cargo_no_docentes="'+record.cargo_no_docente_id.to_s+' "id_lic="'+record.id.to_s+'" observaciones="'+record.observaciones.to_s+'" con_certificado="'+record.con_certificado.to_s+'" con_formulario="'+record.con_formulario.to_s+'" data-target="#modal_licencia_cargos_no_docentes2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
+            '<center><div class="btn-acciones"><a class="btn btn-info btn-sm" data-toggle="modal" id_cargo_no_docentes="'+record.cargo_no_docente_id.to_s+' "id_lic="'+record.id.to_s+'" observaciones="'+CGI::escapeHTML(record.observaciones.to_s)+'" con_certificado="'+record.con_certificado.to_s+'" con_formulario="'+record.con_formulario.to_s+'" data-target="#modal_licencia_cargos_no_docentes2_obs" title="Editar" ><span class=aria-hidden="true" >Agregar Observaciones</span></a>'
           end
          end,
         '<a href="licencia/'+record.id.to_s+'"><span class="glyphicon glyphicon-search"></a></li>'

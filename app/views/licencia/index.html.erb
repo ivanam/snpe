@@ -418,7 +418,6 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Generar licencia cargos</h4>
-        ACAA
       </div>
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
@@ -1049,7 +1048,11 @@
       }
         
       $.ajax({
+<<<<<<< HEAD
           url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+=======
+          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+>>>>>>> master
           type: 'POST',
         })
       .done(function(data) {
@@ -1631,7 +1634,11 @@
       }
         
       $.ajax({
+<<<<<<< HEAD
           url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+=======
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+>>>>>>> master
           
           type: 'POST',
         })
@@ -1768,7 +1775,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos2/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_7+'&prestador_3='+prestador_3+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos2/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_7+'&prestador_3='+prestador_3+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -1886,7 +1893,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+observaciones+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+encodeURIComponent(observaciones)+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -2017,7 +2024,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes2/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_2+'&prestador_4='+prestador_4+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes2/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_7='+fecha_anio_lic_2+'&prestador_4='+prestador_4+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -2129,7 +2136,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
    
    
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/?observaciones='+observaciones+'&prestador='+prestador+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+      url: '/soft/snpe/licencia/guardar_licencia_final/'+id_lic+'/'+fecha_inicio+'/'+fecha_fin+'/'+por_baja+'/?observaciones='+encodeURIComponent(observaciones)+'&prestador='+prestador+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
@@ -2201,7 +2208,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
     con_certificado = $("#con_certificado10:checked").val();
     con_formulario = $("#con_formulario10:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
@@ -2222,7 +2229,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
     con_certificado = $("#con_certificado11:checked").val();
     con_formulario = $("#con_formulario11:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {
@@ -2244,7 +2251,7 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
     con_certificado = $("#con_certificado12:checked").val();
     con_formulario = $("#con_formulario12:checked").val();
     $.ajax({
-      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+      url: '/soft/snpe/licencia/guardar_licencia_obs/?id_lic='+id_lic+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
       type: 'POST',
       })
     .done(function(data) {

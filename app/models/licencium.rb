@@ -188,7 +188,7 @@ class Licencium < ActiveRecord::Base
 	 			elsif self.por_continua != nil
 
         elsif alta_horas.plan_id !=113 && alta_horas.plan_id !=249
-	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_s + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
+	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_time.iso8601 + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
 					if suplentes_activos == []
             if alta_horas.estado != 'BAJ'
 		 				 alta_horas.update!(estado: 'ALT')
@@ -203,13 +203,11 @@ class Licencium < ActiveRecord::Base
 
             
 	 		elsif self.cargo_id != nil
-
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_baja
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: 1)
 	 				end
-
 	 			elsif (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede == nil)
 	 				cargo.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil 

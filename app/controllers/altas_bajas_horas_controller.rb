@@ -522,28 +522,42 @@ class AltasBajasHorasController < ApplicationController
   
   def dar_baja
     if @altas_bajas_hora.estado_actual == "Vacio" || @altas_bajas_hora.estado_actual == "Impreso" || @altas_bajas_hora.estado_actual == "Cobrado" || @altas_bajas_hora.estado_actual == "Cancelado_Baja"
-
-      if @altas_bajas_hora.update(:fecha_baja => params[:altas_bajas_hora][:fecha_baja])
-        @estado = Estado.where(:descripcion => "Notificado_Baja").first
-        AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
+       if params[:input_fecha_baja] != nil && params[:input_fecha_baja] != ""
+         if params[:motivo_baja] != nil && params[:motivo_baja] != ""
+            if @altas_bajas_hora.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params[:motivo_baja])
+              @estado = Estado.where(:descripcion => "Notificado_Baja").first
+              AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
+              respond_to do |format|
+              format.json { render json: {status: 'ok'}}
+              end
+            else
+              respond_to do |format|
+              format.json { render json: {status: 'error', msj: @altas_bajas_hora.errors.full_messages[0]} }
+              end
+            end  
+         else
+           respond_to do |format|
+           format.json { render json: {status: 'error', msj: "Debe completar el motivo de la baja"} }
+           flash[:notice] = "motivo."
+           end
+         end
+       else
         respond_to do |format|
-          format.json { render json: {status: 'ok'}}
-        end
-      else
-        respond_to do |format|
-          format.json { render json: @altas_bajas_hora.errors.full_messages[0], status: :unprocessable_entity} # 204 No Content
+        format.json { render json: {status: 'error', msj: "Debe completar la fecha de baja"} }
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'fecha' }
         end
       end
     else
       respond_to do |format|
         format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
+        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'proceso' }
       end
     end
   end
 
   def cancelar_baja
     if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
-      if @altas_bajas_hora.update(:fecha_baja => nil, estado: 'ALT')
+      if @altas_bajas_hora.update(:fecha_baja => nil, estado: 'ALT', :motivo_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
       end
@@ -683,7 +697,11 @@ end
 
   private
     def set_altas_bajas_hora
-      @altas_bajas_hora = AltasBajasHora.find(params[:id])
+      if params[:id] != nil
+        @altas_bajas_hora = AltasBajasHora.find(params[:id])
+       else
+        @altas_bajas_hora = AltasBajasHora.find(params[:id_horas])
+      end  
     end
 
     def altas_bajas_hora_params
