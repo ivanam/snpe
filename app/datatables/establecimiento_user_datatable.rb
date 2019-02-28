@@ -2,11 +2,11 @@ class EstablecimientoUserDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['establecimientos.codigo_jurisdiccional','establecimientos.nombre']
+    @sortable_columns ||= ['establecimientos.codigo_jurisdiccional','establecimientos.nombre', 'establecimientos.cue', 'establecimientos.anexo']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['establecimientos.codigo_jurisdiccional','establecimientos.nombre']
+    @searchable_columns ||= ['establecimientos.codigo_jurisdiccional','establecimientos.nombre', 'establecimientos.cue', 'establecimientos.anexo']
   end
 
   private
@@ -16,6 +16,8 @@ class EstablecimientoUserDatatable < AjaxDatatablesRails::Base
       [
         record.codigo_jurisdiccional,
         record.nombre,
+        record.cue,
+        record.anexo,
         record.nivel.to_s,
         '<div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
