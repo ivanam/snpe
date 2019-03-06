@@ -8,7 +8,17 @@ class UtilController < ApplicationController
 
 
   def get_autocomplete_items(parameters)
-      Persona.where('apellidos like "%' + parameters[:term] + '%" or nombres like "%' + parameters[:term] + '%" or nro_documento like "%' + parameters[:term] + '%" or apeynom like "%' + parameters[:term] + '%"')
+    #Persona.where('apellidos like "%' + parameters[:term] + '%" or nombres like "%' + parameters[:term] + '%" or nro_documento like "%' + parameters[:term] + '%" or apeynom like "%' + parameters[:term] + '%"')
+    if current_user.role? :escuela
+      establecimiento_id = session[:establecimiento]
+      horas = Persona.joins(:altas_bajas_hora).where('(nro_documento like "%' + params[:term] + '%" or apeynom like "%' + params[:term] + '%") AND altas_bajas_horas.estado != "BAJ" AND altas_bajas_horas.establecimiento_id = '+establecimiento_id.to_s).distinct
+      cargos = Persona.joins(:cargo).where('(nro_documento like "%' + params[:term] + '%" or apeynom like "%' + params[:term] + '%") AND cargos.estado != "BAJ" AND cargos.establecimiento_id = '+establecimiento_id.to_s).distinct
+      cargos_no_docentes = Persona.joins(:cargo_no_docente).where('(nro_documento like "%' + params[:term] + '%" or apeynom like "%' + params[:term] + '%") AND cargo_no_docentes.estado != "BAJ" AND cargo_no_docentes.establecimiento_id = '+establecimiento_id.to_s).distinct
+      resultado = horas | cargos | cargos_no_docentes      
+      return resultado
+    else      
+      return Persona.where('apellidos like "%' + parameters[:term] + '%" or nombres like "%' + parameters[:term] + '%" or nro_documento like "%' + parameters[:term] + '%" or apeynom like "%' + parameters[:term] + '%"')
+    end
   end
 
 
