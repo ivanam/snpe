@@ -78,6 +78,14 @@ class Establecimiento < ActiveRecord::Base
     return Cargo.where(establecimiento_id: self.id, cargo: Funcion::VICEDIRECTOR_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
   end
 
+  def cargos_regentes
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::REGENTES, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
+   def cargos_jefes
+    return Cargo.where(establecimiento_id: self.id, cargo: Funcion::JEFE_TALLER, estado: ['ALT', 'LIC', 'ART'] )
+  end
+
   def cargos_secretario
     return Cargo.where(establecimiento_id: self.id, cargo: Funcion::SECRETARIO_CATEGORIAS, estado: ['ALT', 'LIC', 'ART'] )
   end

@@ -1,11 +1,5 @@
 ProyectoBase::Application.routes.draw do
 
-  resources :motivo_bajas
-
-  resources :traslados
-
-  resources :cargos_especials
-
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -110,6 +104,12 @@ ProyectoBase::Application.routes.draw do
     resources :planilla_incompatibilidads
 
     resources :concursos
+
+    resources :motivo_bajas
+
+   resources :traslados
+
+   resources :cargos_especials
 
     get "/concursos/:id/estadisticas", to: "concursos#estadisticas", as: :concurso_estadisticas
 

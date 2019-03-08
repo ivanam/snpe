@@ -7,6 +7,8 @@ class Persona < ActiveRecord::Base
   belongs_to :situacion_revistum
   belongs_to :tipo_documento
   has_many :altas_bajas_hora , inverse_of: :persona
+  has_many :cargo , inverse_of: :persona
+  has_many :cargo_no_docente , inverse_of: :persona
   has_many :titulos , inverse_of: :persona
   belongs_to :user
   has_many :rubros

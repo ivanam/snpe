@@ -255,6 +255,9 @@
                 <% if ver_model("Materium") then %>
                   <li><%=link_to "Materias", materia_path, :tabindex => "-1"%></li>
                 <% end %>
+                <% if ver_model("MotivoBaja") then %>
+                  <li><%=link_to "Motivos Baja", motivo_bajas_path, :tabindex => "-1"%></li>
+                <% end %>
                 <% if ver_model("Plans") then %>
                   <li><%=link_to "Planes de Estudio", plans_path, :tabindex => "-1"%></li>
                 <% end %>
