@@ -94,13 +94,13 @@ class MigracionController < ApplicationController
 			  			materia_id=Materium.where(codigo: r['ciclo']).first.id
 			  			plan_id= Plan.where(codigo: 122).first.id
 			  			ciclo = 122
-			  			if Despliegue.where(:anio => r['curso'] , :plan_id => plan_id, :materium_id => materia_id ).first == nil then
-			  				Despliegue.create(anio: r['curso'] , plan_id: plan_id, materium_id: materia_id )
-			  			end
+			  			# if Despliegue.where(:anio => r['curso'] , :plan_id => plan_id, :materium_id => materia_id ).first == nil then
+			  			# 	Despliegue.create(anio: r['curso'] , plan_id: plan_id, materium_id: materia_id )
+			  			# end
 
-			  			if EstablecimientoPlan.where(:establecimiento_id => esc_id, :plan_id => plan_id).first == nil then 
-			  				EstablecimientoPlan.create(establecimiento_id: esc_id, plan_id: plan_id)
-			  			end
+			  			# if EstablecimientoPlan.where(:establecimiento_id => esc_id, :plan_id => plan_id).first == nil then 
+			  			# 	EstablecimientoPlan.create(establecimiento_id: esc_id, plan_id: plan_id)
+			  			# end
 
 			  		else 
 			  			plan_id =  Plan.where(:codigo => r['ciclo']).first.id
@@ -113,7 +113,8 @@ class MigracionController < ApplicationController
 
 		      	hora = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax']).first	
 		      	if hora == nil then
-                    if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
+		      		if Establecimiento.where(id: esc_id).first.sede == 1 
+               if AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , anio: r['curso'], division: r['division'], secuencia: nil ).first != nil
 								horaSinSec = AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , horas: r['horas_cate'], anio: r['curso'], division: r['division'], secuencia: nil ).first
 		      			@listaAux << horaSinSec
 		      			horaSinSec.assign_attributes(secuencia: r['secMax'])
@@ -124,6 +125,9 @@ class MigracionController < ApplicationController
       	      			  AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 		       			#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 		      		end
+		      	else
+		      		   AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+		      	end
 
 			    end	
 			end
