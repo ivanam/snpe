@@ -8,11 +8,12 @@ class MigracionController < ApplicationController
 
 	def migrar_hs
 		@listaAux = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [714,720,721,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,792,793,794,7711,7713,7716,7718,7720,7721,7723,7725]
 		else
 			@escuelas = [2,27,43,143,146,402,403,413,421,439,440,1,4,8,20,41,47,84,167,185,190,202,401,404,414,441,504,506,508,509,512,523,525,552,603,702,704,712,725,728,729,732,749,752,767,774,776,795,7705,7727,3000,3031,4002,4006,28,78,178,403,410,412,453,459,556,2404,2412,4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,175,492,4006,411,459,3004,3000,4000,753,603,7712,2702,753,703,710,728,736,741,750,775,768,785,786,789,790,2701,7701,7707,7710,7726,461]
+
 		end 
 		client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 	    #client = Mysql2::Client.new(:host => "172.16.0.19", :username => "guest", :password => "guest", :database => "mec")
@@ -27,7 +28,7 @@ class MigracionController < ApplicationController
 	 		#select MAX(secuencia) as secMax, p.* from padhc p where escuela = '"+params[:esc]+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, materia, horas_cate")
 
 		    #res= client.query("SELECT secuencia as secMax, p.* FROM padhc p where (p.fecha_alta > '2017-03-01' or p.fecha_baja> '2017-03-01' ) and p.escuela= '"+params[:esc]+"' ")
-		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 01 and anio = 2019  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
+		    res= client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '"+e.to_s+"' and mes = 02 and anio = 2019  and secuencia<88 and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
 
 		end
 		    # res=client.query("SELECT secuencia as secMax, p.* FROM his_padhc p where  p.escuela= '702' and mes = 7 and anio = 2017  and nume_docu=21769453 and (secuencia=73 or secuencia= 74 or secuencia= 72 or secuencia= 75 or secuencia=76) union 
@@ -202,7 +203,7 @@ class MigracionController < ApplicationController
 
 	def migrar_cargos
 		@listacargoSinSec = []
-		nueva = true
+		nueva = false
 		if nueva
 			@escuelas = [714,720,721,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,792,793,794,7711,7713,7716,7718,7720,7721,7723,7725]
 		else
@@ -301,7 +302,7 @@ class MigracionController < ApplicationController
 
 	def migrar_auxiliares
 		@listacargoNSinSec = []
-		nueva =  true
+		nueva =  false
 		if nueva
 			@escuelas = [714,720,721,730,733,747,748,751,759,761,762,763,771,773,777,778,781,784,792,793,794,7711,7713,7716,7718,7720,7721,7723,7725]
 		else
