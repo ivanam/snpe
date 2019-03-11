@@ -391,9 +391,9 @@ def listado_licencias_todas_lic
 
   def guardar_licencia_horas
     
-        # lista de arituculos que generan traslados definitivos
+    # lista de articulos que generan traslados definitivos
     listaArtTrasladosDef =  ["394","395"]
-    # lista de arituculos que generan traslados transitorios
+    # lista de articulos que generan traslados transitorios
     listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", "396"]
     con_formulario = params['con_formulario'].to_i
     con_certificado = params['con_certificado'].to_i
@@ -435,7 +435,6 @@ def listado_licencias_todas_lic
 
       # ----------------traslados definitivo
       elsif listaArtTrasladosDef.include? params[:articulo] and altbahora.secuencia != 1000
-        
         @oficinaActual = Establecimiento.where(id: altbahora.establecimiento_id).first
         @oficina = Establecimiento.where(id: params[:destino]).first
         if params[:destino].to_i > 0 and (@oficinaActual != @oficina) 
@@ -725,9 +724,9 @@ def listado_licencias_todas_lic
 
   def guardar_licencia_cargos2
 
-  # lista de arituculos que generan traslados definitivos
+  # lista de articulos que generan traslados definitivos
   listaArtTrasladosDef =  ["394","395", 394, 395]
-  # lista de arituculos que generan traslados transitorios
+  # lista de articulos que generan traslados transitorios
   listaArtTrasladosTrans = ["352","353", "354", "355", "356", "357", "358", "359", "360", "378", 352, 353, 354,  355, 356 , 357, 358, 359, 360, 378, 396, "396"]
 
   prestador_3 = params[:prestador_3]  
