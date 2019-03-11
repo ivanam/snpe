@@ -39,7 +39,7 @@ module CargoNoDocentesHelper
 	  return CargoNoDocente.where(:id => @cargo_no_docentes_ids).includes(:persona)
 	end
 
-	def cargo_no_docentes_bajas_efectivas_permitidas(mindate, maxdate)
+	def cargo_no_docentes_bajas_efectivas(mindate, maxdate)
 	    @cargo_no_docentes = CargoNoDocente.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where('fecha_baja >= ?', mindate).where('fecha_baja <= ?', maxdate)
 	    @cargo_no_docentes_ids = []
 	    @cargo_no_docentes.each do |c|

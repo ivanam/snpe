@@ -1,8 +1,8 @@
-<legend class="legend-small">Bajas - Cargo</legend>
+<legend class="legend-small">Bajas - Cargos docentes</legend>
 
 <% @e = Establecimiento.find(session[:establecimiento])%>            
 <div class="page-header">
-  <h3>Escuela N° <%= @e.to_s %></h3>
+  <h3>Escuela N° <%= @e.to_s %>, (<%= @mindate %> - <%= @maxdate %>)</h3>
 </div>
 
 <table id="horas-bajas-efectivas" class="table table-striped table-bordered table-hover">
@@ -16,6 +16,7 @@
       <th>Turno</th>
       <th>Fecha Alta</th>
       <th>Fecha Baja</th>
+      <th>Notificaciones</th>
     </tr>
   </thead>
   <tbody>
@@ -29,6 +30,7 @@
         <td><%= baja.turno %></td>
         <td><%= Util.fecha_a_es(baja.fecha_alta) %></td>
         <td><%= Util.fecha_a_es(baja.fecha_baja) %></td>
+        <td><span class="label label-<%=baja.estados.last.color_estado%>"><%= baja.estado_actual %></td>
       </tr>
     <% end %>
   </tbody>

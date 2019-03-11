@@ -52,16 +52,10 @@ module CargosHelper
 
 
   def cargo_bajas_efectivas(mindate, maxdate)
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
     @cargos_ids = []
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento])
     @cargos.each do |c|
-      if c.estado_actual_s_cobro == "Notificado_Baja"
-        @cargos_ids << c.id
-      end
-    end
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
-    @cargos.each do |c|
-      if c.estado_actual == "Chequeado_Baja" || c.estado_actual == "Impreso"
+      if c.estado_actual == "Notificado_Baja" || c.estado_actual == "Impreso" || c.estado_actual == "Notificado_Baja"
         @cargos_ids << c.id
       end
     end
