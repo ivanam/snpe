@@ -14,8 +14,7 @@
   <table class="table table-bordered table-striped">
     <tbody>
       <tr>
-        <td>TD</td>
-        <td>N° doc.</td>
+        <td>CUIT/CUIL.</td>
         <td>Sec.</td>
         <td>Apellido y nombre</td>
         <td>Cargo</td>
@@ -29,8 +28,7 @@
       </tr>
         <% @lote_impresion.alta_cargos.where(establecimiento_id: e.id).each do |c| %>   
           <tr>
-            <td><%= c.persona.tipo_documento.codigo %></td>
-            <td><%= c.persona.nro_documento %></td>
+            <td><%= c.persona.cuil %></td>
             <td><%= c.secuencia %></td>
             <td><%= c.persona.to_s %></td>
             <td><%= c.cargo %></td>
@@ -50,8 +48,7 @@
   <table class="table table-bordered table-striped">
     <tbody>
       <tr>
-        <td>TD</td>
-        <td>N° doc.</td>
+        <td>CUIT/CUIL</td>
         <td>Sec.</td>
         <td>Apellido y nombre</td>         
         <td>Cargo</td>         
@@ -65,8 +62,7 @@
       </tr>
       <% @lote_impresion.baja_cargos.where(establecimiento_id: e.id).each do |c| %>   
         <tr>
-          <td><%= c.persona.tipo_documento.codigo %></td>
-          <td><%= c.persona.nro_documento %></td>
+          <td><%= c.persona.cuil %></td>
           <td><%= c.secuencia %></td>
           <td><%= c.persona.to_s %></td>
           <td><%= c.cargo %></td>

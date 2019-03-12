@@ -33,16 +33,10 @@ module AltasBajasHorasHelper
   end
 
   def altas_bajas_horas_efectivas_bajas(mindate, maxdate)
+    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
     @horas_ids = []
-    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:estado => "LIC P/BAJ")
     @horas.each do |h|
-      if h.estado_actual_s_cobro == "Notificado_Baja"
-        @horas_ids << h.id
-      end
-    end
-    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
-    @horas.each do |h|
-      if h.estado_actual == "Chequeado_Baja" || h.estado_actual == "Impreso"
+      if h.estado_actual == "Chequeado_Baja" || h.estado_actual == "Impreso" || h.estado_actual == "Notificado_Baja"
         @horas_ids << h.id
       end
     end
