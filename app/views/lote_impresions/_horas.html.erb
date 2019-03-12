@@ -16,8 +16,7 @@
   <table class="table table-bordered table-striped table-compact">
   <tbody>
       <tr>
-        <td>TD</td>
-        <td>N° doc.</td>
+        <td>CUIT/CUIL.</td>
         <td>Sec.</td>
         <td>Apellido y nombre</td>         
         <td>Ca</td>
@@ -35,9 +34,8 @@
       </tr>
 
       <% @lote_impresion.altas_bajas_horas.where(establecimiento_id: e.id).each do |h| %>
-        <tr>
-          <td><%= h.persona.tipo_documento.codigo %></td>
-          <td><%= h.persona.nro_documento %></td>
+        <tr>          
+          <td><%= h.persona.cuil %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
           <td><%= h.plan.codigo %></td>
@@ -66,8 +64,7 @@
   <table class="table table-bordered table-striped">
     <tbody>
       <tr>
-        <td>TD</td>
-        <td>N° doc.</td>
+        <td>CUIT/CUIL</td>
         <td>Sec.</td>
         <td>Apellido y nombre</td>         
         <td>Ca</td>
@@ -85,8 +82,7 @@
       </tr>
       <% @lote_impresion.impresion_bajas.where(establecimiento_id: e.id).each do |h| %>
         <tr>
-          <td><%= h.persona.tipo_documento.codigo %></td>
-          <td><%= h.persona.nro_documento %></td>
+          <td><%= h.persona.cuil %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
           <% if h.plan != nil %>
