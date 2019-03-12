@@ -817,7 +817,7 @@ def listado_licencias_todas_lic
         if params[:destino].to_i > 0 and (@oficinaActual != @oficina) 
           #BUSCO EL CARGO Y LE CAMBIO LA OFICINA
           #LUEGO BUSCO LA LCIENCIA ANTERIOR Y LA CIERRO
-          if  Cargo.find(params['id_cargos']).update(establecimiento_id: @oficina.id, estado: 'REU')
+          if cargo.update(establecimiento_id: @oficina.id, estado: 'REU')
               Traslado.create!(:cargo_id => cargo.id, user_id: current_user.id, fecha_cambio_oficina: params[:fecha_inicio] , disposicion: params[:disposicion])
               if @licencia_anterior.fecha_hasta == nil
                   if params[:fecha_inicio].to_date > @licencia_anterior.fecha_desde.to_date
@@ -834,11 +834,12 @@ def listado_licencias_todas_lic
               elsif params[:fecha_inicio].to_date <= @licencia_anterior.fecha_hasta.to_date
                   render json: "no se puede crear la licencia, error de fechas ".to_json
               end 
-          end   
           else
+            render json: cargo.errors.full_messages.first.to_json
+          end   
+        else
             render json: "no se puede realizar el traslado, debe elegir otro establecimiento".to_json
-          end  
-
+        end  
 
     #---------------LICENCIAS COMUNES 
     elsif (listaArtTrasladosDef.include? params[:articulo] and cargo.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and cargo.secuencia == 1000)
