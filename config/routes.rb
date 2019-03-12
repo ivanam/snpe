@@ -107,7 +107,6 @@ ProyectoBase::Application.routes.draw do
 
     resources :motivo_bajas
 
-   resources :traslados
 
    resources :cargos_especials
 
