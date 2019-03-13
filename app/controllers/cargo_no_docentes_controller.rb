@@ -173,6 +173,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
 #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
+    @novedades_ids = []
     @lote = LoteImpresion.all.where(tipo_id: 3).last
     if @lote.fecha_impresion != nil
       cargo_no_docentes_novedades.where(alta_lote_impresion_id: nil).each do |h|

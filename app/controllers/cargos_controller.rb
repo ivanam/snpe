@@ -190,6 +190,7 @@ class CargosController < ApplicationController
 
   #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
+    @novedades_ids = []
     @lote = LoteImpresion.all.where(tipo_id: 2).last
     if @lote.fecha_impresion != nil
       cargos_novedades.where(alta_lote_impresion_id: nil).each do |h|
