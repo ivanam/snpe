@@ -5,7 +5,7 @@
 <% @altas_bajas_hora = AltasBajasHora.new %>
 <div class="container">
 
-  <legend>Listado de Bajas Permitidas y Realizadas (Horas cátedra)</legend>
+  <legend>Listado de Bajas (Horas cátedra)</legend>
   
   <% if (current_user.role? :escuela or current_user.role? :sadmin) %>
     <div class="panel panel-info">

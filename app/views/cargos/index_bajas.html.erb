@@ -6,7 +6,7 @@
 <% @cargo = Cargo.new %>
 <div class="container">
 
-  <legend>Listado de Bajas Permitidas y Realizadas (Cargos docentes)</legend>
+  <legend>Listado de Bajas (Cargos docentes)</legend>
   
   <% if (current_user.role? :escuela or current_user.role? :sadmin) %>
     <div class="panel panel-info">
