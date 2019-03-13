@@ -62,14 +62,14 @@ module AltasBajasHorasHelper
 
 
   def horas_novedades(mindate, maxdate)
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento])
     @altasbajashoras_ids = []
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento])
     @altasbajashoras.each do |a|
       if a.estado_actual == "Chequeado" || a.estado_actual == "Chequeado_Baja"
         @altasbajashoras_ids << a.id
       end
     end
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
     @altasbajashoras.each do |a|
       if a.estado_actual == "Impreso" || a.estado_actual == "Cobrado"
         @altasbajashoras_ids << a.id
