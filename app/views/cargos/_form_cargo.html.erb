@@ -35,8 +35,12 @@
 
   
   <div class="form-snpe" >
-      <div class="row">
-
+       <div class="row">
+        <%= label_tag "Provisorio" %>
+        <%= f.check_box :esprovisorio %>
+      </div>
+    <div class="row">
+ 
         <%= select_tag 'tipo_documento', options_from_collection_for_select(TipoDocumento.all, "id", "nombre", TipoDocumento.where(nombre: "DNI").first.id), {:id => "select_tipo_documento", :class=>"form-control form-select form-doc form-alta" } %>
 
         <%= text_field_tag 'dni', "", {:class => "text-field form-doc form-alta form-control solo_numerico", :id => "input_dni", :placeholder =>"N° Documento", :maxlength=>"8", :value => @persona.nro_documento} %>

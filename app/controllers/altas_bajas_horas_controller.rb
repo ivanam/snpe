@@ -195,6 +195,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
     @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
+    @altas_bajas_hora.esprovisorio = params[:altas_bajas_hora][:esprovisorio]
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @altas_bajas_hora.programatica = params[:altas_bajas_hora][:programatica]
@@ -707,11 +708,11 @@ end
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :esprovisorio)
     end
 
     def altas_bajas_hora_params_update
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :esprovisorio)
     end
 
 

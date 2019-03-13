@@ -66,6 +66,7 @@ class CargosController < ApplicationController
   end
 
   def create
+    debugger
     tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
@@ -95,6 +96,7 @@ class CargosController < ApplicationController
     end
     @cargo.situacion_revista = params[:cargo][:situacion_revista]
     @cargo.turno = params[:cargo][:turno]
+    @cargo.esprovisorio = params[:cargo][:esprovisorio]
     @cargo.con_movilidad = params[:cargo][:con_movilidad]
     @cargo.persona_id = @persona.id
     @cargo.estado = "ALT"
@@ -619,7 +621,7 @@ end
     end
 
     def cargo_params
-      params.require(:cargo).permit(:id_cargo, :establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion, :cargo_especial_id)
+      params.require(:cargo).permit(:id_cargo, :establecimiento_id, :persona_id, :cargo, :secuencia, :situacion_revista, :turno, :anio, :curso, :division, :fecha_alta, :fecha_baja, :persona_reemplazada_id, :observatorio, :alta_lote_impresion_id, :baja_lote_impresion,:empresa_id, :lugar_pago_id, :con_movilidad, :grupo_id, :ina_injustificadas, :licencia_desde, :licencia_hasta, :cantidad_dias_licencia, :motivo_baja, :disposicion, :resolucion, :cargo_especial_id, :esprovisorio)
     end
 end
 
