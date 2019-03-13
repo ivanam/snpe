@@ -244,6 +244,99 @@
   </table>
 </div>
 
+
+<h3> Regentes </h1>
+
+<div>
+  <table class="table table-striped table-bordered table-hover" >
+    <thead>
+      <th>Agente</th>
+      <th style="display:none;" >id persona</th>
+      <th>Secuencia</th>
+      <th>Cargo</th>
+      <th>Turno</th>
+      <th>Grupo</th>
+      <th>Sit. Revista</th>
+      <th>Estado</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
+    </thead>
+    <tbody>
+      <% establecimiento_actual.cargos_regentes.order(:turno, :fecha_alta).each do |d|  %>
+        <tr>
+          <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
+          <td><%= d.secuencia %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
+          <td><%= d.turno %></td>
+          <td><%= d.grupo_id %></td>
+          <td><%= d.situacion_revista %></td>
+          <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>          
+        </tr>
+      <% end %>  
+    </tbody>
+    
+  </table>
+</div>
+
+<h3> Jefes Generales de Enseñanzas Prácticas </h1>
+
+<div>
+  <table class="table table-striped table-bordered table-hover" >
+    <thead>
+      <th>Agente</th>
+      <th style="display:none;" >id persona</th>
+      <th>Secuencia</th>
+      <th>Cargo</th>
+      <th>Turno</th>
+      <th>Grupo</th>
+      <th>Sit. Revista</th>
+      <th>Estado</th>
+      <th>Artículo</th>
+      <th>Fecha de alta</th>
+      <th>Editar domicilio</th>       
+    </thead>
+    <tbody>
+      <% establecimiento_actual.cargos_jefes.order(:turno, :fecha_alta).each do |d|  %>
+        <tr>
+          <td><%= d.persona.to_s %></td>
+          <td style="display:none;" ><%= d.persona.id %></td>
+          <td><%= d.secuencia %></td>
+          <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
+          <td><%= d.turno %></td>
+          <td><%= d.grupo_id %></td>
+          <td><%= d.situacion_revista %></td>
+          <td><%= d.estado %></td>
+          <% if (d.estado == "ART" || d.estado == "LIC") %>
+          <% licencia = Licencium.where(cargo_id: d.id).last %>
+          <% end %>
+          <td><%= licencia == nil ? '' : licencia.articulo.codigo %></td>
+          <td><%= Util.fecha_a_es(d.fecha_alta) %></td>
+          <td>
+           <%= link_to "../personas/"+d.persona.id.to_s+"/edit", :class => 'btn btn-primary' do %>
+           <span class="glyphicon glyphicon-plus"></span>
+           Editar Domicilio
+           <% end %>
+           </td>          
+        </tr>
+      <% end %>  
+    </tbody>
+    
+  </table>
+</div>
+
 <h3> Secretarios </h1>
 
 <div>
@@ -336,7 +429,7 @@
   </table>
 </div>
 
-<h3> Preceptor </h1>
+<h3> Preceptores </h1>
 
 <div>
   <table class="table table-striped table-bordered table-hover" >
@@ -474,7 +567,7 @@
   </table>
 </div>
 
-<h3> Cargos docente </h1>
+<h3> Cargos docentes </h1>
 
 <div>
   <table class="table table-striped table-bordered table-hover" >
@@ -525,7 +618,7 @@
 </div>
 
 
-<h3> Horas </h1>
+<h3> Horas cátedra </h1>
 
 <div>
   <table class="table table-striped table-bordered table-hover" >

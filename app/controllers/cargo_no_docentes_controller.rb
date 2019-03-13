@@ -173,6 +173,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
 #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
+    @novedades_ids = []
     @lote = LoteImpresion.all.where(tipo_id: 3).last
     if @lote.fecha_impresion != nil
       cargo_no_docentes_novedades.where(alta_lote_impresion_id: nil).each do |h|
@@ -342,10 +343,10 @@ class CargoNoDocentesController < InheritedResources::Base
     end
   end
 
-  def cargo_no_docentes_bajas_efectivas
+  def index_bajas_efectivas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
-    @bajas = cargo_no_docentes_bajas_efectivas_permitidas(@mindate, @maxdate)
+    @bajas = cargo_no_docentes_bajas_efectivas(@mindate, @maxdate)
     respond_to do |format|
       format.json { render json: CargoNoDocentesBajasEfectivasDatatable.new(view_context, { query: @bajas, rol: @rol }) }
       format.pdf do
@@ -358,6 +359,7 @@ class CargoNoDocentesController < InheritedResources::Base
       end
     end
   end
+
   def cargo_no_docentes_nuevos
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     respond_to do |format|

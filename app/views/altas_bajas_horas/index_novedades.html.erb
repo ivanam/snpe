@@ -57,7 +57,6 @@
           <thead>
             <tr>
               <th>Establecimiento</th>
-              <th>DNI</th>
               <th>Apellido y nombre</th>
               <th>Sit. Rev</th>
               <th>Horas</th>              
@@ -68,8 +67,8 @@
               <th>Codif.</th>
               <th>Fecha Alta</th>
               <th>Fecha Baja</th>
-              <th>Notificaciones</th>
               <th>Acciones</th>
+              <th>Notificaciones</th>
             </tr>
           </thead>
           <tbody>
@@ -159,13 +158,6 @@
         serverSide : true,
         ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
-        columnDefs: [
-            {
-                "targets": [ 12, 13 ],
-                "searchable": false,
-                "orderable": false
-            }
-        ]
       })
        .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {

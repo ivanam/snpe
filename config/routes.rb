@@ -1,11 +1,5 @@
 ProyectoBase::Application.routes.draw do
 
-  resources :motivo_bajas
-
-  resources :traslados
-
-  resources :cargos_especials
-
   scope '/soft/snpe' do
 
     ActiveAdmin.routes(self)
@@ -110,6 +104,11 @@ ProyectoBase::Application.routes.draw do
     resources :planilla_incompatibilidads
 
     resources :concursos
+
+    resources :motivo_bajas
+
+
+   resources :cargos_especials
 
     get "/concursos/:id/estadisticas", to: "concursos#estadisticas", as: :concurso_estadisticas
 
@@ -299,7 +298,7 @@ ProyectoBase::Application.routes.draw do
     
     get "cargo/cargos_bajas/", to: "cargos#cargos_bajas", as: :cargos_bajas
 
-    get "cargo/cargos_bajas_efectivas/", to: "cargos#cargos_bajas_efectivas", as: :cargos_bajas_efectivas
+    get "cargo/bajas_efectivas/", to: "cargos#index_bajas_efectivas", as: :cargos_index_bajas_efectivas
 
     get "cargo/cola-impresion/", to: "cargos#cola_impresion", as: :cargos_cola_impresion
 
@@ -359,7 +358,7 @@ ProyectoBase::Application.routes.draw do
 
     get "cargo_no_docente/cargo_no_docentes_bajas/", to: "cargo_no_docentes#cargo_no_docentes_bajas", as: :cargo_no_docentes_bajas
 
-    get "cargo_no_docente/cargo_no_docentes_bajas_efectivas/", to: "cargo_no_docentes#cargo_no_docentes_bajas_efectivas", as: :cargo_no_docentes_bajas_efectivas
+    get "cargo_no_docente/bajas_efectivas/", to: "cargo_no_docentes#index_bajas_efectivas", as: :cargo_no_docentes_index_bajas_efectivas
 
     put "cargo_no_docente/dar_baja/:id", to: "cargo_no_docentes#dar_baja", as: :cargo_no_docentes_dar_baja
 

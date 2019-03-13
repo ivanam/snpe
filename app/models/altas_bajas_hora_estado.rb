@@ -40,11 +40,23 @@ class AltasBajasHoraEstado < ActiveRecord::Base
               @resultado = "En cola de impresión"
             end
           end
-        end     
-        if AltasBajasHora.where(:id => self.alta_baja_hora_id).first.lote_impresion_id != nil
-          @resultado = @resultado + " en codigo N° " + AltasBajasHora.where(:id => self.alta_baja_hora_id).first.lote_impresion_id.to_s
-        elsif AltasBajasHora.where(:id => self.alta_baja_hora_id).first.baja_lote_impresion_id != nil
-          @resultado = @resultado + " en codigo N° " + AltasBajasHora.where(:id => self.alta_baja_hora_id).first.baja_lote_impresion_id.to_s
+        end 
+        bajaloteid = AltasBajasHora.where(:id => self.alta_baja_hora_id).first.baja_lote_impresion_id.to_s 
+        altaloteid = AltasBajasHora.where(:id => self.alta_baja_hora_id).first.lote_impresion_id.to_s
+        estadoAlBaj = AltasBajasHora.where(:id => self.alta_baja_hora_id).first.estado.to_s       
+        if bajaloteid == nil || bajaloteid == ""
+          @resultado = "El alta Impresa en codigo N° " + altaloteid
+        elsif  bajaloteid != nil || estadoAlBaj == "BAJ"
+          if altaloteid == nil || altaloteid == ""
+            @resultado = "Baja Impresa en N° " + bajaloteid
+          else 
+            @resultadoAlt = "Alta Impresa en N° " + altaloteid
+            @resultadoBaj = ", Baja Impresa en N° " + bajaloteid
+            @resultado = @resultadoAlt + @resultadoBaj
+          end
+        elsif bajaloteid!= nil || estadoAlBaj == "ALT"
+          @resultado = "Alta Impresa"
+          @resultado = "Alta Impresa en N° " + altaloteid
         end
           
      elsif @estado == "Notificado_Baja" then
@@ -62,7 +74,7 @@ class AltasBajasHoraEstado < ActiveRecord::Base
      elsif @estado == "Cobrado" then
        @resultado = "Cobrado"
      end
-     return @resultado   
+     return @resultado
    end
 
    def color_estado

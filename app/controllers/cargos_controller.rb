@@ -190,6 +190,7 @@ class CargosController < ApplicationController
 
   #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
+    @novedades_ids = []
     @lote = LoteImpresion.all.where(tipo_id: 2).last
     if @lote.fecha_impresion != nil
       cargos_novedades.where(alta_lote_impresion_id: nil).each do |h|
@@ -354,8 +355,7 @@ class CargosController < ApplicationController
     end
   end
 
-  def cargos_bajas_efectivas
-
+  def index_bajas_efectivas
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
     @bajas = cargo_bajas_efectivas(@mindate, @maxdate)

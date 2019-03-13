@@ -7,6 +7,10 @@ class Funcion < ActiveRecord::Base
 
   PEP_CATEGORIAS = [ '963', '964', '965']
 
+  REGENTES = [ '919', '920', '921']
+
+  JEFE_TALLER = [ '925' ]
+
   PRECEPTOR_CATEGORIAS = [ '944']
 
   MOT_CATEGORIAS = [ '313']
@@ -64,6 +68,12 @@ class Funcion < ActiveRecord::Base
     end
     BIBLIOTECARIO_CATEGORIAS.each do |c|
       especiales << c
+    end
+    REGENTES.each do |c|
+    especiales << c
+    end
+    JEFE_TALLER.each do |c|
+    especiales << c
     end
     return especiales
   end

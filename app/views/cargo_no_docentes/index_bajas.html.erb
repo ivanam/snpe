@@ -5,7 +5,7 @@
 <% @cargo_no_docente = CargoNoDocente.new %>
 <div class="container">
 
-  <legend>Listado de Bajas Permitidas y Realizadas de cargos no docentes</legend>
+  <legend>Listado de Bajas (Cargos no docentes)</legend>
   
   <% if (current_user.role? :escuela or current_user.role? :sadmin or current_user.role? :personal) %>
     <div class="panel panel-info">
@@ -83,7 +83,7 @@
         <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
       </div>
       <div class="table-responsive">
-        <table id="tabla-bajas-efectivas" class="table table-striped table-bordered table-hover" data-source = "<%= cargo_no_docentes_bajas_efectivas_path(format: :json) %>" >
+        <table id="tabla-bajas-efectivas" class="table table-striped table-bordered table-hover" data-source = "<%= cargo_no_docentes_index_bajas_efectivas_path(format: :json, rango: params['rango']) %>" >
           <thead>
             <tr>
               <th>DNI</th>
@@ -107,7 +107,14 @@
   </div>
 </div>
 
-<a class="btn btn-info" href="javascript:abrir_reporte('<%=cargo_no_docentes_bajas_efectivas_path%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a>
+<!-- <a class="btn btn-info" href="javascript:abrir_reporte('<%=cargo_no_docentes_index_bajas_efectivas_path%>.pdf',0,1,1,1,1,1,1,1500,900,100,100,1);"> <span class="glyphicon glyphicon-print"></span> Imprimir</a> -->
+
+<div align="left">
+ <button id="btn-filtrar1" class="btn btn-info">
+ <span class="glyphicon glyphicon-print"></span>
+     Imprimir Bajas notificadas
+  </button>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="modal_bajas_efectivas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -209,6 +216,15 @@ $(document).ready(function($) {
         ]
     });
 
+     function getParams1() {
+        var params = '?rango=' + $('#daterange').val();
+        return  params;
+       }
+      
+      $('#btn-filtrar1').on('click', function(){
+       window.location.href = '/soft/snpe/cargo_no_docente/bajas_efectivas.pdf' + getParams1();
+      })
+
   //Carga DT
   var tabla_bajas_permitidas = $('#tabla-bajas')
     .on('draw.dt', function () {
@@ -289,10 +305,9 @@ $(document).ready(function($) {
   // Evento del daterangepicker para filtrar por rangos
   $('#daterange').on('apply.daterangepicker', function(ev, picker) {
     // Cambia la url agregando el campo rango como atributo
-    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/cargo_no_docente/cargo_no_docentes_bajas_efectivas.json?rango='+$('#daterange').val());
+    tabla_bajas_efectivas.api().ajax.url('/soft/snpe/cargo_no_docente/bajas_efectivas.json?rango='+$('#daterange').val());
     // Recarga por ajax la tabla
     tabla_bajas_efectivas.api().ajax.reload();
-    
   });
   
 });
