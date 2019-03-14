@@ -333,9 +333,17 @@ module LicenciaHelper
 		return @licenciasCndsSg
 	end
 
-  def historico_licencias_agente(mindate, maxdate, dni, art)
-  	@licenciasCndsSg = Licencium.select('licencia.*').from('licencia, cargo_no_docentes, establecimientos, personas, articulos').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('licencia.nro_documento= ?', dni).where('vigente not in ("Cancelada")')
-    return @licenciasCndsSg
+  def historico_licencias_agente(mindate, maxdate, dni, art, id,tipo)
+    
+    if tipo == "horas"
+    	@licencias = Licencium.select('l.*').from('licencia l, altas_bajas_horas h').where('l.altas_bajas_hora_id= h.id').where('l.altas_bajas_hora_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    elsif tipo == "cargos"
+      @licencias = Licencium.select('l.*').from('licencia l, cargos h').where('l.cargo_id= h.id').where('l.cargo_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    elsif tipo == "auxiliar"
+      @licencias = Licencium.select('l.*').from('licencia l, cargo_no_docentes h').where('l.cargo_no_docente_id= h.id').where('l.cargo_no_docente_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    end
+      return @licencias
   end
 end
+
 

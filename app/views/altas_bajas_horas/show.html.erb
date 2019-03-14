@@ -2,11 +2,25 @@
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 
+
+<style type="text/css">
+  button:active{
+    background: #330000;
+}
+  button:focus{
+    background: #ff6666;
+}
+
+</style>
+
 <div class="row">
   <div class="col-lg-12">
       <h3 class="page-header">Historial - <%= @altas_bajas_hora.persona %></h3>
     </div>
 </div>
+<div id="altas_bajas_hora" class="hidden"><%= @altas_bajas_hora.id %></div>
+<div id="tipo" class="hidden">horas</div>
+
 
 <form>
   <div class="panel panel-default">
@@ -135,7 +149,7 @@
   </div>
 
   <div><center>
-      <%= link_to historial_agente_path(@altas_bajas_hora.id, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
+      <%= link_to historial_agente_path(@altas_bajas_hora.id, format: :pdf), :target => "_blank", :class => 'btn btn-sm btn-danger' do %>
             Imprimir Historial de Agente
       <% end %>
       </center>
@@ -151,124 +165,291 @@
   
   %>
 
-  <h3>Licencias</h3>
-  <h5>Cantidad de días tomados</h5>
-  <h5><b style="color:red">Recordar que pueden haber registros que no fueron cargados en ESTE sistema </b></h5>
-  <div class="table-responsive">
-    <table  class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>ART  Aux/ Doc</th>
-          <th>Histórico del agente</th>
-          <th>Anual</th>
-          <th>Mes Actual</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><b>5(a) Enfermedad corta evolución </b></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,0,0) %></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,0,0) %></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,0,0)%> de 30</td>
-        </tr>
-        <tr>
-          <td><b>5(b) Enfermedad larga evolución </b> </td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,1,0) %> de 547</td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,1,0) %></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,1,0) %></td>
-        </tr>
-        <tr>
-          <td><b>31/36 Asuntos particulares</b></td>
-          <td> - </td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,2,0) %> de 6 </td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,2,0)%> de 2</td>
-        </tr> 
-        <tr>
-          <td><b>12 Día Femenino</b></td>
-          <td> - </td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,3,0) %> de 12 </td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,3,0)%> de 1</td>
-        </tr>
-        <tr>
-          <td><b>22(a) / 23(a) Atención familiar </b></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,4,0) %> de 150</td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,4,0) %> de 30</td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,4,0)%></td>
-        </tr>
-        <tr>
-          <td><b>23(b) / 23(b) Atención familiar</b></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,5,0) %> de 150</td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,5,0) %> de 20</td>
-          <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,5,0)%></td>
-        </tr>
-      </tbody>
-    </table>
+  <br></br>
+  <center>
+   <button type="button" id="aux" class="btn" data-dismiss="modal"> Régimen Auxiliar</button>
+   <button type="button" id="doc" class="btn" data-dismiss="modal"> Régimen Docente</button>
+   </center>
+
+
+
+  <div id="auxiliar">
+    <h3>Licencias régimen auxiliar</h3>
+    <h5>Cantidad de días tomados</h5>
+    <h5><b style="color:red">Recordar que pueden haber registros que no fueron cargados en ESTE sistema </b></h5>
+    <div class="table-responsive">
+      <table  class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ART  Aux/ Doc</th>
+            <th>Histórico del agente</th>
+            <th>Anual</th>
+            <th>Mes Actual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>5(a) Enfermedad corta evolución </b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,0,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,0,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,0,0)%> de 45</td>
+          </tr>
+          <tr>
+            <td><b>5(b) Enfermedad larga evolución (100% de haberes)</b> </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,1,0) %> de 547 </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,1,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,1,0) %></td>
+          </tr>
+          <tr>
+            <td><b>5(b) Enfermedad larga evolución (50% de haberes)</b> </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,2,0) %> de 273</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,2,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,2,0) %></td>
+          </tr>
+          <tr>
+            <td><b>31/36 Asuntos particulares</b></td>
+            <td> - </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,3,0) %> de 6 </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,3,0)%> de 2</td>
+          </tr> 
+          <tr>
+            <td><b>12 Día Femenino</b></td>
+            <td> - </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,4,0) %> de 12 </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,4,0)%> de 1</td>
+          </tr>
+          <tr>
+            <td><b>22(a) Atención familiar (HIJO)</b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,5,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,5,0) %> de 30</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,5,0)%></td>
+          </tr>
+          <tr>
+            <td><b>22(b) Atención familiar (CÓNYUGE)</b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,6,0) %> de 20</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,6,0)%></td>
+          </tr>
+          <tr>
+            <td><b>22(c) Atención familiar (OTRO FAMILIAR)</b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,7,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,7,0) %> de 10</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,7,0)%></td>
+          </tr>
+          <tr>
+            <td><b>22(d)  Atención familiar</b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,8,0) %> de 150</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,8,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,8,0)%></td>
+          </tr>
+          <tr>
+            <td><b>22(e)  Atención familiar</b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,9,0) %> de 60</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,9,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,9,0)%></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  <h3>Licencias Anuales</h3>
+    <div class="table-responsive">
+      <table  class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ART  Aux/ Doc</th>
+            <th>Antigüedad</th>
+            <th>Cantidad de días tomados</th>
+            <th>Cantidad de días restantes</th>
+            <th>Rangos de Fechas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Anual 2018</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,20,"2018") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,20,"2018") )%>
+            <td> <%@anuales2018.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Anual 2017</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,20,"2017") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,20,"2017") )%>
+            <td> <%@anuales2017.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Anual 2016</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,20,"2016") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,20,"2016") )%>
+            <td> <%@anuales2016.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Anual 2015</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,20,"2015") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,20,"2015") )%>
+            <td> <%@anuales2015.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Sin año</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,20,"0") %></td>
+            <td> - </td>
+            <td> <%@anuales.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
 
-<h3>Licencias Anuales</h3>
-  <div class="table-responsive">
-    <table  class="table table-striped table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>ART  Aux/ Doc</th>
-          <th>Antigüedad</th>
-          <th>Cantidad de días tomados</th>
-          <th>Cantidad de días restantes</th>
-          <th>Rangos de Fechas</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><b>Anual 2018</b></td>
-          <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2018") %></td>
-          <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2018") )%>
-          <td> <%@anuales2018.each do |l|%>
-          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
-          <%end%> </td>
-        </tr>
-        <tr>
-          <td><b>Anual 2017</b></td>
-          <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2017") %></td>
-          <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2017") )%>
-          <td> <%@anuales2017.each do |l|%>
-          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
-          <%end%> </td>
-        </tr>
-        <tr>
-          <td><b>Anual 2016</b></td>
-          <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2016") %></td>
-          <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2016") )%>
-          <td> <%@anuales2016.each do |l|%>
-          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
-          <%end%> </td>
-        </tr>
-        <tr>
-          <td><b>Anual 2015</b></td>
-          <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2015") %></td>
-          <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2015") )%>
-          <td> <%@anuales2015.each do |l|%>
-          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
-          <%end%> </td>
-        </tr>
-        <tr>
-          <td><b>Sin año</b></td>
-          <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
-          <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"0") %></td>
-          <td> - </td>
-          <td> <%@anuales.each do |l|%>
-          (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
-          <%end%> </td>
-        </tr>
-      </tbody>
-    </table>
+  <div id="docente">
+    <h3>Licencias régimen docente</h3>
+    <h5>Cantidad de días tomados</h5>
+    <h5><b style="color:red">Recordar que pueden haber registros que no fueron cargados en ESTE sistema </b></h5>
+    <div class="table-responsive">
+      <table  class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ART  Aux/ Doc</th>
+            <th>Histórico del agente</th>
+            <th>Anual</th>
+            <th>Mes Actual</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>5(a) Enfermedad corta evolución </b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,10,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,10,0) %> de 30</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,10,0)%> </td>
+          </tr>
+          <tr>
+            <td><b>5(b) Enfermedad larga evolución (100% de haberes)</b> </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,11,0) %> de 365</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,11,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,11,0) %></td>
+          </tr>
+          <tr>
+            <td><b>5(b) Enfermedad larga evolución (50% de haberes)</b> </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,12,0) %> de 182</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,12,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,12,0) %></td>
+          </tr>
+          <tr>
+            <td><b>36 Asuntos particulares</b></td>
+            <td> - </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,13,0) %> de 6 </td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,13,0)%> de 2</td>
+          </tr> 
+          <tr>
+            <td><b>23(a)Atención familiar (HIJO) </b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,15,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,15,0) %> de 20</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,15,0)%></td>
+          </tr>
+          <tr>
+            <td><b>23(b)Atención familiar (otro  familiar)</b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,16,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,16,0) %> de 10</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,16,0)%></td>
+          </tr>
+          <tr>
+            <td><b>23(d)Atención familiar </b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,17,0) %> de 120</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,17,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,17,0)%></td>
+          </tr>
+          <tr>
+            <td><b>22(e)Atención familiar </b></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,18,0) %> de 60</td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioAnio,fecha_limite_finAnio,18,0) %></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(fecha_limite_inicioMes,fecha_limite_finMes,18,0)%></td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+
+
+  <h3>Licencias Anuales</h3>
+    <div class="table-responsive">
+      <table  class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ART  Aux/ Doc</th>
+            <th>Antigüedad</th>
+            <th>Cantidad de días tomados</th>
+            <th>Cantidad de días restantes</th>
+            <th>Rangos de Fechas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><b>Anual 2018</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2018") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2018") )%>
+            <td> <%@anuales2018.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Anual 2017</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2017") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2017") )%>
+            <td> <%@anuales2017.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Anual 2016</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2016") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2016") )%>
+            <td> <%@anuales2016.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Anual 2015</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"2015") %></td>
+            <td><%= @altas_bajas_hora.calcular_dias_restantes_licencia_anual(@altas_bajas_hora.persona.get_antiguedad,@altas_bajas_hora.calcular_licencia(0,0,6,"2015") )%>
+            <td> <%@anuales2015.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+          <tr>
+            <td><b>Sin año</b></td>
+            <td><%= @altas_bajas_hora.persona.get_antiguedad%></td>
+            <td><%= @altas_bajas_hora.calcular_licencia(0,0,6,"0") %></td>
+            <td> - </td>
+            <td> <%@anuales.each do |l|%>
+            (<%=l.fecha_desde%> al <%=l.fecha_hasta%> )
+            <%end%> </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-
+<br></br>
   <div class="text-center">
     <%= link_to altas_bajas_horas_path, :class => 'btn btn-default' do %>
       <span class="glyphicon glyphicon-list-alt"></span>
@@ -283,17 +464,22 @@
 
   <br><br>
 
-
-  <h4>Régimen Docente</h4>
+  <div id="doc1">
+  <h4>Artículo</h4>
   <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
-  </div> </br></br>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas", :class => "col-md-7" %>
+  </div> 
+  </div>
+  </br></br>
 
-  <h4>Régimen Auxiliar</h4>
+  <div id="aux1">
+  <h4>Artículo</h4>
   <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_auxiliar" %>
-  </div> </br></br>
+        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_auxiliar", :class => "col-md-7" %>
+  </div> 
+  </div>
 
+  </br></br>
   <div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
   </div>
@@ -304,19 +490,17 @@
   <div class="panel panel-primary">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Licencias realizadas - Cargos Auxiliares
+        Historico de agente por artículo de licencia 
       </h3>
     </div>
     <div class="panel-body">
     <div class="table-responsive">
-        <table id="tabla-licencia-cnds" class="table table-striped table-bordered table-hover" data-source = "<%= listado_licencias_historico_agente_cnds_path(format: :json, rango: params['rango']) %>">
+        <table id="tabla-licencia-cnds" class="table table-striped table-bordered table-hover" data-source = "<%= listado_licencias_historico_agente_path(format: :json, rango: params['rango']) %>">
           <thead>
               <tr>   
-                <th>Artículo</th>
                 <th class="text-center col-md-1">Fecha Desde</th>
                 <th class="text-center col-md-1">Fecha Hasta</th>
                 <th class="text-center col-md-1">Estado</th>
-                <th class="text-center col-md-1">Estado LIC</th>
               </tr>
           </thead>
           <tbody>
@@ -331,8 +515,35 @@
 
 </form>
 
-<script type="text/javascript">
+<script type="text/javascript"> 
+  $(document).ready(function($) {
+      $('#docente').hide();
+      $('#auxiliar').hide();
+      $('#aux1').hide();
+      $('#doc1').hide();
+      $('#select_articulo_horas').val("");
+      $('#select_articulo_auxiliar').val("");
 
+
+  });
+
+
+    $( "#aux" ).on( "click", function() {
+      $('#docente').hide();
+      $('#doc1').hide();
+      $('#auxiliar').show();
+      $('#aux1').show();
+
+    });
+
+    $( "#doc" ).on( "click", function() {
+      $('#auxiliar').hide();
+      $('#aux1').hide();
+      $('#docente').show();
+      $('#doc1').show();
+    });
+
+      moment.locale('es');
       var date = new Date();
       $('#daterange').daterangepicker({
         format: 'DD/MM/YYYY',
@@ -371,28 +582,45 @@
         })
 
         $( "#btn_buscar" ).on( "click", function() {
+            if (($("#daterange").val() != null) || ($("#daterange").val() != "") || ($("#daterange").val())){
+                  $.ajax({
+                  url: '/soft/snpe/licencias/obtenerdatarange3?rango='+$("#daterange").val(),
+                  type: 'GET',
+                })
+                .done(function(data) {
+                  window.data4 = data[0].toString();
+                });
+            }else{
+                window.data4= ""
+            }
+            
 
-            $.ajax({
-              url: '/soft/snpe/licencias/obtenerdatarange3?rango='+$("#daterange").val(),
-              type: 'GET',
-            })
-            .done(function(data) {
-              window.data4 = data[0].toString();
-            });
+            var articulo = "";
+            if ((($('#select_articulo_horas').val() == "") || ($('#select_articulo_horas').val() == undefined)) && (($('#select_articulo_auxiliar').val() != "") || ($('#select_articulo_auxiliar').val() != undefined)))
+            {
+              articulo= $('#select_articulo_auxiliar').val();
+            } 
+            if ((($('#select_articulo_auxiliar').val() == "") || ($('#select_articulo_auxiliar').val() == undefined)) && (($('#select_articulo_horas').val() != "") || ($('#select_articulo_horas').val() != undefined)))
+            {
+              articulo= $('#select_articulo_horas').val();
+            } 
 
-              
-            if (window.data4 != "undefined" && window.data4 != undefined){
-              alert(window.data4);
-              tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_historico_agente_cnds?rango='+window.data4+"&select_articulo_horas="+$('#select_articulo_horas').val()+"&dni="+ $("#dni").text());
-              tabla_licencia_cargnds.api().ajax.reload();
-              }if (window.data4 == "undefined" || window.data4 == undefined)
-
-              {
-                tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_historico_agente_cnds');
+            if ((articulo != "") && (articulo != null )){
+              if ((window.data4 != "undefined") && (window.data4 != undefined) && (window.data4 != null) && (window.data4 != "")){
+                
+                tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_historico_agente?rango='+window.data4+"&articulo="+articulo+"&dni="+ $("#dni").text()+"&id="+$("#altas_bajas_hora").text()+"&tipo="+$("#tipo").text());
                 tabla_licencia_cargnds.api().ajax.reload();
+                }
+                else
+                {
+                  tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_historico_agente?articulo='+articulo+"&dni="+ $("#dni").text()+"&id="+$("#altas_bajas_hora").text()+"&tipo="+$("#tipo").text());
+                  tabla_licencia_cargnds.api().ajax.reload();
 
 
-              }
+                }
+            } else{
+              alert("Debe seleccionar un artículo");
+           } 
           });
 
 </script>

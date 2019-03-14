@@ -49,35 +49,74 @@ class AltasBajasHora < ActiveRecord::Base
   def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)
     total = 0
     case posicion
-      #quinto A
-       when 0
-           articulos = "(291,242)"
-      #quintoB 
-       when 1
-          articulos = "(292, 243, 377)"
-      #razones particulares
+      #5 A AUXILIAR
+      when 0
+           articulos = "(291)"
+      #5 A DOCENTE
+      when 10
+           articulos = "(242)"
+      #5B AUXILIAR
+      when 1
+          articulos = "(292)"
+      #5B DOCENTE
+      when 11
+          articulos = "(243)"
+      #5B AUXILIAR MITAD DE SUELDO
       when 2
-          articulos = "(348,286,287)"
+        articulos = "(399)"
+      #DOCENTE 5B MITAD DE SUELDO
+      when 12
+        articulos = "(377)"
+      #AUXILIAR RAZONES PARTICULARES
       when 3
-        articulos = "(301)"
-      #22a o 23a
+          articulos = "(348)"
+      #DOCENTE RAZONES PARTICULARES   
+      when 13
+          articulos = "(287)"
+      #DIA FEMENINO
       when 4
-        articulos = "(321,263)"
-      #23b
+        articulos = "(301)"
+      #22A
       when 5
-        articulos = "(322,264)"
+        articulos = "(321)"
+      #22B
+      when 6
+        articulos = "(322)"
+      #22C
+      when 7
+        articulos = "(323)"
+      #22D
+      when 8
+        articulos = "(324)"
+      #22e
+      when 9
+        articulos = "(325)"
+      #23A
+      when 15
+        articulos = "(263)"
+      #23B
+      when 16
+        articulos = "(264)"
+      #23D
+      when 17
+        articulos = "(265)"
+      #23E
+      when 18
+        articulos = "(266)"
+
+
 
       #anual vacaciones
-      when 6
+      when 20
         articulos = "(241,289,365,366)"
       else
         articulos = 0
       end
 
     #licencias anuales
-    if (anio_lic != 0 or posicion == 6)
-
-      Licencium.where(altas_bajas_hora_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ anio_lic +" or anio_lic != null)").each do |lic|
+    if (anio_lic != 0 or posicion == 20)
+      
+      Licencium.where(altas_bajas_hora_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ (anio_lic.to_s) +" or anio_lic != null)").each do |lic|
         if lic.fecha_hasta.nil?
           f_h = Date.today
         else

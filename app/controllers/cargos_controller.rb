@@ -66,7 +66,7 @@ class CargosController < ApplicationController
   end
 
   def create
-    debugger
+    
     tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]

@@ -183,27 +183,29 @@ class LicenciaController < ApplicationController
 
 
 
-def listado_licencias_historico_agente_cnds
+def listado_licencias_historico_agente
+    
+    @dni = params["dni"].to_i
+    @art=params["articulo"].to_i
+    @id = params["id"].to_i
+    @tipo = params["tipo"]
 
-    @dni = params["dni"]
-    @art=params["select_articulo_horas"]
     if @art == '' or @art == ""
        @art = nil
     end
-     if params["rango"] == ""
+    if params["rango"] == "" or params["rango"] == nil
 
        @mindate_year2 = Date.today.year
        @mindate = Date.today.to_s
        @maxdate = Date.today.to_s
-       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
-
-     else
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art,@id,@tipo)
+    else
       
        @rango = params["rango"]
        @mindate, @maxdate = Util.max_min_periodo(@rango)
-       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art,@id,@tipo)
 
-     end
+    end
     respond_to do |format|
       format.xls 
       format.html 

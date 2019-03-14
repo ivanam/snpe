@@ -188,18 +188,11 @@
   	    processing : true,
   	    serverSide : true,
   	    ajax : $('#tabla-licencia').data('source'),
-  	    pagingType: "simple",
-  	    retrieve: true,
-        "initComplete": function(settings, json) {
-        $('.calle').editable();
-      },        
-        columnDefs: [
-              {
-                  "targets": [ 7 ],
-                  "searchable": false,
-                  "orderable": false
-              }
-          ]
+  	    pagingType: "full",
+        stateSave: true,
+        scrollY: '50vh',
+        scrollCollapse: true,
+
   	  })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {
