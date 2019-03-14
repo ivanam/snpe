@@ -1163,7 +1163,9 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         cargoNoDoc = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
         cargoNoDoc1000 = CargoNoDocente.where(:persona_id => cargoNoDoc.persona_id, obs_lic: descripcion_articulo ,:secuencia => 1000).where.not(estado: "BAJ").first
-        cargoNoDoc1000.update!(:estado => "BAJ")
+        if !cargoNoDoc1000.nil?
+          cargoNoDoc1000.update!(:estado => "BAJ")
+        end
         cargoNoDoc.update!(:estado => "ALT")
       end
     end
@@ -1174,7 +1176,9 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         cargo = Cargo.where(:id => @licencia.cargo_id).first
         cargo1000 = Cargo.where(:persona_id => cargo.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
-        cargo1000.update!(:estado => "BAJ")
+        if !cargo1000.nil?
+          cargo1000.update!(:estado => "BAJ")
+        end
         cargo.update!(:estado => "ALT")
       end
     end
@@ -1184,12 +1188,10 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
         horas1000 = AltasBajasHora.where(:persona_id => horas.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
-        if horas1000.nil?
-          msg = "No puede finalizar la licencia del cargo Comisionado hasta que no se de el alta de la Comision de servicio"
-        else
+        if !horas1000.nil?
           horas1000.update!(:estado => "BAJ")
-          horas.update!(:estado => "ALT")
         end
+        horas.update!(:estado => "ALT")
       end
     end
     
