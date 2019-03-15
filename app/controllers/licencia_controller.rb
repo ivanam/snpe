@@ -1295,9 +1295,11 @@ def listado_licencias_todas_lic
 
   def chequear_finalizada
     @lic = Licencium.where(:id => params[:id]).first
-    @lic.update!(finalizada: true, user_cheq_finalizada_id: current_user.id, fecha_cheq_finalizada: DateTime.now)
-    render json: @lic
-
+    if @lic.update(finalizada: true, user_cheq_finalizada_id: current_user.id, fecha_cheq_finalizada: DateTime.now)
+      render json: @lic
+    else
+      render json: { status: 'error', msj: @lic.errors.full_messages.first }
+    end
   end
 
   def chequear_cargada

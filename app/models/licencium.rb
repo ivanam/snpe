@@ -173,7 +173,7 @@ class Licencium < ActiveRecord::Base
      
 
 
-	 def cancelar_licencia
+	def cancelar_licencia
     
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
@@ -235,5 +235,5 @@ class Licencium < ActiveRecord::Base
 	 			end
 	 		end
 		end
-	 end 
+	end 
 end

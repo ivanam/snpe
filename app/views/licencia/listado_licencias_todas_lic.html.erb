@@ -202,7 +202,11 @@
             type: 'GET',
           })
           .done(function(data) {
-             $.ajax({
+            if (data.status == 'error') {
+              alert(data.msj);
+              return;
+            }
+            $.ajax({
               url: '/soft/snpe/licencias/obtenerdatarange?rango='+$('#daterange').val(),
               type: 'GET',
             })
