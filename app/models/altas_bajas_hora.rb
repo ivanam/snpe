@@ -212,7 +212,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   def motivo_baja_sin_controles
     #salta validaciones si es baja por jubilacion y por cierre de curso
-    self.motivo_baja != "2" and self.motivo_baja != "6"
+    !(self.motivo_baja == "2" or self.motivo_baja == "6" or self.motivo_baja == nil)
   end
 
   def plan_con_validacion
