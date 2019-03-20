@@ -92,7 +92,11 @@ class MigracionController < ApplicationController
 			  		plan_id = nil
 			  	elsif r['ciclo'] >= 1 then 
 			  		if Plan.where(:codigo => r['ciclo']).first == nil then
-			  			materia_id=Materium.where(codigo: r['ciclo']).first.id
+			  			if Materium.where(codigo: r['ciclo']).first == nil
+			  				materia_id = 0
+			  			else
+			  				materia_id=Materium.where(codigo: r['ciclo']).first.id
+			  			end
 			  			plan_id= Plan.where(codigo: 122).first.id
 			  			ciclo = 122
 			  			# if Despliegue.where(:anio => r['curso'] , :plan_id => plan_id, :materium_id => materia_id ).first == nil then
