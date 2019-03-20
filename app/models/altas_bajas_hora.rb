@@ -16,9 +16,9 @@ class AltasBajasHora < ActiveRecord::Base
     validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
     validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
     validates :persona_id, :presence => true
-    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
-    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
-    validates :turno, :presence => true, if: :no_es_licencia_para_baja
+    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
+    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
+    validates :turno, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
 
 
   # # #Validación de alta
@@ -210,6 +210,10 @@ class AltasBajasHora < ActiveRecord::Base
     self.estado != "LIC P/BAJ"
   end
 
+  def motivo_baja_sin_controles
+    #salta validaciones si es baja por jubilacion y por cierre de curso
+    self.motivo_baja != "2" and self.motivo_baja != "6"
+  end
 
   def plan_con_validacion
     if self.plan_id != nil
