@@ -42,6 +42,7 @@ class Ability
           can :manage, [Licencium]
           can :read, [Licencium]
           can :manage, [Traslado]
+          can :listado_licencias_historico_agente, [Licencium]
 
         end
 
@@ -72,6 +73,8 @@ class Ability
           can :read, [AltasBajasHora]
           can :read, [Cargo]
           can :read, [CargoNoDocente]
+          can :listado_licencias_historico_agente, [Licencium]
+
 
         end
 
