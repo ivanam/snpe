@@ -23,7 +23,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   # # #Validación de alta
     before_create :validar_horas
-    validate :validar_alta
+    validate :validar_alta, if: :motivo_baja_sin_controles
     #validate :validar_nivel_superior
     before_save :actualizar_materia
     before_update :dar_baja
