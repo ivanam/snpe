@@ -500,7 +500,7 @@ end
 
 
  def guardar_edicion2   
-
+    
     @persona = Persona.where(:nro_documento => params[:dni]).first
     @cargos = Cargo.where(:id => params[:edi]).first
     @cargos.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
@@ -513,6 +513,7 @@ end
     @cargos.resolucion = params[:resolucion]
     @cargos.disposicion = params[:disposicion]
     @cargos.turno = params[:turno]
+    @cargos.esprovisorio = params[:esprovisorio]
 
 
     #@cargos.cargo = Funcion.where(:id => params[:cargo]).first.categoria

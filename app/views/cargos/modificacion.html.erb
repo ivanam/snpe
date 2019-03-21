@@ -25,7 +25,10 @@
 					<legend>Editar registro</legend>
 				    <div class="form-snpe" >
 				        <div class="row">
-
+              <div>
+              <b>¿Es Provisorio?</b>
+              <%= check_box_tag 'esprovisorio' %>
+              </div>
 				      <%= text_field_tag :edi, "", {:class => "text_field form-control hidden", :id => "edi"}  %>
 				    
 				      <%= select_tag 'tipo_documento',  options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Doc.", :id => "tipo_documento_id", :class=>"form-control form-select form-doc form-alta", :prompt => "Tipo Doc.", :readonly => :true } %>
@@ -145,6 +148,9 @@
                 	$("#observaciones-edit").val(data.observaciones);
                   $("#resolucion").val(data.resolucion);
                   $("#disposicion").val(data.disposicion);
+                  if (data.esprovisorio == true){
+                    $("#esprovisorio").prop('checked', true).change();
+                  }
             	}
 
                 });

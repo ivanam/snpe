@@ -78,10 +78,11 @@ class AltasBajasHorasController < ApplicationController
           @novedades_ids << h.id
         end
       end
+      
       @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
       respond_to do |format|
-        format.html
-        format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+        format.html { redirect_to horas_index_novedades_path}
+        format.json { head :no_content } # 204 No Content
       end
     else
       @lote.update(fecha_impresion: Date.today)
@@ -376,6 +377,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def guardar_edicion2   
+    
     @persona = Persona.where(:nro_documento => params[:dni]).first
     @altas_bajas_horas = AltasBajasHora.where(:id => params[:edi]).first
     @altas_bajas_horas.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
@@ -387,6 +389,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.anio = params[:anio]
     @altas_bajas_horas.division = params[:division]
     @altas_bajas_horas.materium_id = params[:materium_id]
+    @altas_bajas_horas.esprovisorio = params[:esprovisorio]
     if Materium.where(:id => params[:materium_id]).first != nil
       @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
     end
@@ -467,6 +470,7 @@ class AltasBajasHorasController < ApplicationController
 
     else
       respond_to do |format|
+        
       if @persona.save then       
         if @altas_bajas_horas.save then
           format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
