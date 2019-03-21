@@ -21,6 +21,8 @@ class PlansController < InheritedResources::Base
   end
 
   def edit
+    @plan = Plan.find(params[:id])
+
   end
 
   def create
