@@ -45,38 +45,78 @@ class Cargo < ActiveRecord::Base
   end
 
 
+
   def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)
     total = 0
     case posicion
-      #quinto A
-       when 0
-           articulos = "(291,242)"
-      #quintoB 
-       when 1
-          articulos = "(292, 243, 377)"
-      #razones particulares
+      #5 A AUXILIAR
+      when 0
+           articulos = "(291)"
+      #5 A DOCENTE
+      when 10
+           articulos = "(242)"
+      #5B AUXILIAR
+      when 1
+          articulos = "(292)"
+      #5B DOCENTE
+      when 11
+          articulos = "(243)"
+      #5B AUXILIAR MITAD DE SUELDO
       when 2
-          articulos = "(348,286,287)"
+        articulos = "(399)"
+      #DOCENTE 5B MITAD DE SUELDO
+      when 12
+        articulos = "(377)"
+      #AUXILIAR RAZONES PARTICULARES
       when 3
-        articulos = "(301)"
-      #22a o 23a
+          articulos = "(348)"
+      #DOCENTE RAZONES PARTICULARES   
+      when 13
+          articulos = "(287)"
+      #DIA FEMENINO
       when 4
-        articulos = "(321,263)"
-      #23b
+        articulos = "(301)"
+      #22A
       when 5
-        articulos = "(322,264)"
+        articulos = "(321)"
+      #22B
+      when 6
+        articulos = "(322)"
+      #22C
+      when 7
+        articulos = "(323)"
+      #22D
+      when 8
+        articulos = "(324)"
+      #22e
+      when 9
+        articulos = "(325)"
+      #23A
+      when 15
+        articulos = "(263)"
+      #23B
+      when 16
+        articulos = "(264)"
+      #23D
+      when 17
+        articulos = "(265)"
+      #23E
+      when 18
+        articulos = "(266)"
+
+
 
       #anual vacaciones
-      when 6
+      when 20
         articulos = "(241,289,365,366)"
       else
         articulos = 0
       end
 
     #licencias anuales
-    if (anio_lic != 0 or posicion == 6)
-
-      Licencium.where(cargo_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ anio_lic +" or anio_lic != null)").each do |lic|
+    if (anio_lic != 0 or posicion == 20)
+      
+      Licencium.where(cargo_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ (anio_lic.to_s) +" or anio_lic != null)").each do |lic|
         if lic.fecha_hasta.nil?
           f_h = Date.today
         else
@@ -84,7 +124,11 @@ class Cargo < ActiveRecord::Base
         end
         total = total + (f_h - lic.fecha_desde).to_i + 1
       end
-      return total
+      if total == 0
+        return "0 (o no se han registrado días en este sistema)"
+      else
+        return total
+      end
 
     #licencias historicas
     elsif (fecha_limite_inicio == 0  and fecha_limite_fin == 0)
@@ -113,6 +157,40 @@ class Cargo < ActiveRecord::Base
       return total
     end
   end 
+
+  def calcular_dias_restantes_licencia_anual(fecha_antiguedad,cantidad_dias)
+      if cantidad_dias.is_a? String
+        return "-"
+
+      elsif fecha_antiguedad != "0000-00-00" and fecha_antiguedad != nil
+        antiguedad = fecha_antiguedad.to_date.year.to_i
+          if antiguedad <= 5
+            return (20 - cantidad_dias)
+          elsif antiguedad <= 10
+            return (25 - cantidad_dias)
+          elsif antiguedad <= 15
+            return (30 - cantidad_dias)
+          elsif antiguedad <= 20
+            return (35 - cantidad_dias)
+          elsif antiguedad <= 25
+            return (40 - cantidad_dias)
+          elsif antiguedad <= 30
+            return (45 - cantidad_dias)
+          elsif antiguedad <= 35
+            return (50 - cantidad_dias)
+          elsif antiguedad <= 40
+            return (55 - cantidad_dias)
+          elsif antiguedad > 40
+            return (60 - cantidad_dias)
+          else
+            return "error antigüedad"
+          end
+
+      else
+        return "no tiene resgitrada antigüedad"
+
+      end
+  end
 
   
 
