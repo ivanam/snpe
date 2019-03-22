@@ -334,13 +334,17 @@ module LicenciaHelper
 	end
 
   def historico_licencias_agente(mindate, maxdate, dni, art, id,tipo)
-    @licencia = nil
+    
+    @licencias = nil
     if tipo == "horas"
     	@licencias = Licencium.select('l.*').from('licencia l, altas_bajas_horas h').where('l.altas_bajas_hora_id= h.id').where('l.altas_bajas_hora_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
     elsif tipo == "cargos"
       @licencias = Licencium.select('l.*').from('licencia l, cargos h').where('l.cargo_id= h.id').where('l.cargo_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
     elsif tipo == "auxiliar"
+
       @licencias = Licencium.select('l.*').from('licencia l, cargo_no_docentes h').where('l.cargo_no_docente_id= h.id').where('l.cargo_no_docente_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    else
+      @licencias = Licencium.select('l.*').from('licencia l').where('l.id = 18').where('articulo_id = 2') #busco uno cualquiers para que la primera vez q levanta la vista no tire error el datatable
     end
       return @licencias
   end

@@ -193,24 +193,27 @@ def listado_licencias_historico_agente
     if @art == '' or @art == ""
        @art = nil
     end
-    
-    if params["rango"] == "" or params["rango"] == nil
+
+    if params["rango"] == "" or params["rango"] == nil and (@tipo != 0)
 
        @mindate = Date.today.to_time.iso8601
        @maxdate = Date.today.to_time.iso8601
        @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art,@id,@tipo)
-    else
+    elsif (params["rango"] != "") and (params["rango"] != nil) and (@tipo != 0)
        @rango = params["rango"]
        @mindate, @maxdate = Util.max_min_periodo(@rango)
        @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art,@id,@tipo)
+    else
+       @rango = params["rango"]
+       @mindate, @maxdate = Util.max_min_periodo(@rango)
+       @res2 = historico_licencias_agente(@mindate, @maxdate, 0, 0,0,0)
+    end
 
-    end
-    
-    respond_to do |format|
-      format.xls 
-      format.html 
-      format.json { render json: HistoricoLicenciasHorasDatatable.new(view_context, { query: @res2}) }
-    end
+      respond_to do |format|
+        format.xls 
+        format.html 
+        format.json { render json: HistoricoLicenciasHorasDatatable.new(view_context, { query: @res2}) }
+      end
   end
 
 

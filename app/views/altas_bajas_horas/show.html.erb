@@ -26,114 +26,78 @@
   <div class="panel panel-default">
     <div class="panel-body">
       <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Agente</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.persona %></p>
-          </div>
+        <div class="col-md-2">
+            <div class="form-group">
+              <label class="control-label">Cuil</label>
+              <p class="form-control-static"><%= @altas_bajas_hora.persona.cuil %></p>
+            </div>
         </div>
         <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">DNI</label>
-            <p class="form-control-static"><div id="dni"><%= @altas_bajas_hora.persona.nro_documento %></div></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Cuil</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.persona.cuil %></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
           <div class="form-group">
             <label class="control-label">Establecimiento</label>
             <p class="form-control-static"><%= @altas_bajas_hora.establecimiento %></p>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Mes periodo</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.mes_periodo %></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Año periodo</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.anio_periodo %></p>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
             <label class="control-label">Secuencia</label>
             <p class="form-control-static"><%= @altas_bajas_hora.secuencia %></p>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
             <label class="control-label">Fecha de alta</label>
             <p class="form-control-static"><%= Util.fecha_a_es(@altas_bajas_hora.fecha_alta) %></p>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
             <label class="control-label">Fecha de baja</label>
             <p class="form-control-static"><%= Util.fecha_a_es(@altas_bajas_hora.fecha_baja) %></p>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Situación de revista</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.situacion_revista %></p>
-          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Horas</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.horas %></p>
+        <div class="row">
+          <div class="col-md-2">
+            <div class="form-group">
+              <label class="control-label">Situación de revista</label>
+              <p class="form-control-static"><%= @altas_bajas_hora.situacion_revista %></p>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Ciclo carrera</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.ciclo_carrera %></p>
+          <div class="col-md-1">
+            <div class="form-group">
+              <label class="control-label">Horas</label>
+              <p class="form-control-static"><%= @altas_bajas_hora.horas %></p>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Año</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.anio %></p>
+          <div class="col-md-1">
+            <div class="form-group">
+              <label class="control-label">Plan</label>
+              <p class="form-control-static"><%= @altas_bajas_hora.ciclo_carrera %></p>
+            </div>
           </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">División</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.division %></p>
+          <div class="col-md-1">
+            <div class="form-group">
+              <label class="control-label">Año</label>
+              <p class="form-control-static"><%= @altas_bajas_hora.anio %></p>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3">
+          <div class="col-md-1">
+            <div class="form-group">
+              <label class="control-label">División</label>
+              <p class="form-control-static"><%= @altas_bajas_hora.division %></p>
+            </div>
+          </div>
+        <div class="col-md-1">
           <div class="form-group">
             <label class="control-label">Turno</label>
             <p class="form-control-static"><%= @altas_bajas_hora.turno %></p>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="form-group">
-            <label class="control-label">Codificación</label>
+            <label class="control-label">Materia</label>
             <p class="form-control-static"><%= @altas_bajas_hora.codificacion %></p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label class="control-label">Obligaciones</label>
-            <p class="form-control-static"><%= @altas_bajas_hora.oblig %></p>
           </div>
         </div>
       </div>
@@ -464,28 +428,36 @@
 
   <br><br>
 
-  <div id="doc1">
-  <h4>Artículo</h4>
-  <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas", :class => "col-md-7" %>
-  </div> 
-  </div>
-  </br></br>
 
+  <div id="doc1">
+    <legend>Histórico DETALLADO</legend>
+    <p><b>1° Seleccione Artículo: </b></p>
+
+      <div class="">
+            <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas", :class => "col-md-7" %>
+      </div> 
+      <br>
+  </div>
+
+  </br></br>
   <div id="aux1">
-  <h4>Artículo</h4>
-  <div class="">
-        <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_auxiliar", :class => "col-md-7" %>
-  </div> 
+    <legend>Histórico DETALLADO</legend>
+    <p><b>1° Seleccione Artículo: </b></p>
+      <div class="">
+            <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_auxiliar", :class => "col-md-6" %>
+      </div> 
+    <br>
   </div>
 
   </br></br>
   <div id="tabla">
   <div class="">
-    <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
+    <p><b>2° Seleccione Rango de fechas: </b></p>
+    <input type="text" id="daterange" /> </br></br>
   </div>
 
-  <button type="button" id="btn_buscar" class="btn btm-sm btn-default" data-dismiss="modal">Buscar</button>
+<button type="button" id="btn_buscar" class="btn btn-success btn-lg" data-dismiss="modal">Buscar</button>
+  <br></br>
 
 
   <div class="panel panel-primary">
@@ -514,7 +486,7 @@
     </div>
   </div>
 
-
+</div>
 </div>
 
 </form>
@@ -582,7 +554,7 @@
         },                
         columnDefs: [
               {
-                  "targets": [ 2 ],
+                  "targets": [ 5 ],
                   "searchable": false,
                   "orderable": false
               }
