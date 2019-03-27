@@ -254,8 +254,7 @@ class CargoNoDocentesController < InheritedResources::Base
         end
       else
         respond_to do |format|
-         format.json { render json: {status: 'error', msj: "Debe completar la fecha de baja"} }
-          format.html { redirect_to cargo_no_docente_index_bajas_path, notice: 'fecha' }
+          format.json { render json: {status: 'error', msj: "No se puede dar de baja hasta terminar el proceso de carga anterior"} } # 204 No Content
         end
       end
     else

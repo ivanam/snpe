@@ -556,8 +556,7 @@ class AltasBajasHorasController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'proceso' }
+        format.json { render json: {status: 'error', msj: "No se puede dar de baja hasta terminar el proceso de carga anterior"} } # 204 No Content
       end
     end
   end
