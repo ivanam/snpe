@@ -72,13 +72,6 @@ class EstablecimientosController < ApplicationController
   end
 
  
-
-  def desglose_excel
-   require 'open-uri'
-    file_path = "#{Rails.root}/planilla_desglose.xls"
-    send_file file_path, :filename => "planilla_desglose.xls", :disposition => 'attachment'
-end
-
   private
     def set_establecimiento
       @establecimiento = Establecimiento.find(params[:id])
