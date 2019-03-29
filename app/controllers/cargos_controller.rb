@@ -276,7 +276,7 @@ class CargosController < ApplicationController
       end
     else 
       respond_to do |format|
-        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
+        format.json { render json: {status: 'error', msj: "No se puede dar de baja hasta terminar el proceso de carga anterior"} } # 204 No Content
       end
     end
   end
