@@ -2,7 +2,7 @@ class MigracionController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource :class => false
 
-	$mes = 2
+	$mes = 3
 	$anio = 2019
 	$nueva = false
 	$escuelasNuevas = []
