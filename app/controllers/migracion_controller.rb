@@ -154,26 +154,24 @@ class MigracionController < ApplicationController
 	       		  categoria = Funcion.where(:categoria => cargo_concat).first.categoria
 	       	end
 	       		situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
-	       		cargo = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: r['secMax'], empresa_id: r['empresa'], cargo: categoria).first
 	       		empresa_id = Empresa.where(nombre: r['empresa']).first.id
-		   		if cargo == nil then
-		   				if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria, secuencia: nil, fecha_alta: r['fecha_alta'] ).first != nil
-									cargoSinSec = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria, secuencia: nil, fecha_alta: r['fecha_alta']).first
-			       			@listaAux << cargoSinSec
-			      			cargoSinSec.assign_attributes(secuencia: r['secMax'])
-			      			if cargoSinSec.save!
-			      				CargoEstado.create(estado_id: 10, cargo_id: cargoSinSec.id)
-			      			end
-		       		elsif Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first == nil
-			       			#Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, empresa_id: empresa_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
-			       			#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
-		       		elsif Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first != nil
-			       			if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria, empresa_id: empresa_id ).first == nil
-			       					c = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first
-			       						c.update!(empresa_id: empresa_id)
-				       		end
-			       	end
-					end	
+	   				if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria, secuencia: nil, fecha_alta: r['fecha_alta'] ).first != nil
+								cargoSinSec = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: categoria, secuencia: nil, fecha_alta: r['fecha_alta']).first
+		       			@listaAux << cargoSinSec
+		      			cargoSinSec.assign_attributes(secuencia: r['secMax'])
+		      			if cargoSinSec.save!
+		      				CargoEstado.create(estado_id: 10, cargo_id: cargoSinSec.id)
+		      			end
+	       		elsif Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first == nil
+		       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, empresa_id: empresa_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+		       			#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+	       		end
+	       		if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first != nil
+		       			if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria, empresa_id: empresa_id ).first == nil
+		       					c = Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first
+		       						c.update!(empresa_id: empresa_id)
+			       		end
+		       	end
 				end
 		end
 	end
@@ -195,7 +193,7 @@ class MigracionController < ApplicationController
 			 	  		res = client.query("select secuencia as secMax, p.* from padaux p where escuela = '"+e.to_s+"'  and estado= 'ALT' and secuencia=0 group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r union
 			 		select secuencia as secMax, p.* from padaux p where escuela = '"+e.to_s+"' and secuencia<88 and estado= 'LIC'  group by  nume_docu, secuencia, planta_pre, tipo_emp, cargo_r")
 					else
-							res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where  p.escuela= '"+e.to_s+"' and mes ='"+$mes.to_s+"' and anio = '"+$anio.to_s+"' and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
+							res= client.query("SELECT secuencia as secMax, p.* FROM his_padaux p where p.secuencia < 88 and p.escuela= '"+e.to_s+"' and mes ='"+$mes.to_s+"' and anio = '"+$anio.to_s+"' and (estado = 'ALT' or estado='LIC') and fecha_baja='0000-00-00'")
 			 	  end
 
 				esc_id= Establecimiento.where(:codigo_jurisdiccional => e).first.id
@@ -230,43 +228,40 @@ class MigracionController < ApplicationController
 					end
 
 				  situacion_revista=  r['planta_pre'].to_s+ "-"+ r['tipo_emp'].to_s
-		      cargond = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: 0, empresa_id: r['empresa'], cargo: cargo_id).first
-	       	empresa_id = Empresa.where(nombre: r['empresa']).first.id
+				  empresa_id = Empresa.where(nombre: r['empresa']).first.id
+		      cargond = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, secuencia: 0, empresa_id: empresa_id, cargo: cargo_id).first
 	       	if ['turno'] == nil
 	       		turno = 'M'
 	       	else
 	       		turno = r['turno']
-	       	
-	      	if cargond == nil then
-	      				
-				      	if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id, secuencia: nil, fecha_alta: r['fecha_alta']).first != nil
+	       	end
+	       	if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id, secuencia: nil, fecha_alta: r['fecha_alta']).first != nil
 											cargoNSinSec = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, cargo: cargo_id, secuencia: nil, fecha_alta: r['fecha_alta']).first
 						     			@listaAux << cargoNSinSec
 					      			cargoNSinSec.assign_attributes(secuencia: 0)
 					      			if cargoNSinSec.save!
 					      					CargoNoDocenteEstado.create(estado_id: 10, cargo_no_docente_id: cargoNSinSec.id)
 					      			end
-				       	elsif  CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, cargo: cargo_id ).first == nil
-				       		if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, estado: 'ALT').first != nil
-				       				carg = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, estado: 'ALT').first
+				  elsif  CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, cargo: cargo_id ).first == nil
+				       		if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0).first != nil
+				       				carg = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0).first
 				       				carg.update(cargo: cargo_id)
 									else			
-												CargoNoDocente.create!(establecimiento_id: esc_id, empresa_id: empresa_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno: turno, estado:r['estado'])
-												
-												#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+											if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id).first != nil
+					       				carg = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id).first 
+					       				carg.update(:estado => 'BAJ')
+		       						end
+											CargoNoDocente.create!(establecimiento_id: esc_id, empresa_id: empresa_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno: turno, estado:r['estado'])	
+											#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
 									end
-								elsif CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, cargo: cargo_id ).first != nil
-				       			
+					end
+					if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, cargo: cargo_id ).first != nil		       		
 				       			if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, empresa_id: empresa_id ).first == nil
-				       					
 				       					car = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0 ).first
 				       					car.update!(empresa_id: empresa_id)
 					       		end
-			       		end
-    	
+			    end
 		      end	
-
-		  end
 		 end
 	end
 
