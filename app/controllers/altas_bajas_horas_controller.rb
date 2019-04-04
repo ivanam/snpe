@@ -78,10 +78,11 @@ class AltasBajasHorasController < ApplicationController
           @novedades_ids << h.id
         end
       end
+      
       @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
       respond_to do |format|
-        format.html
-        format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+        format.html { redirect_to horas_index_novedades_path}
+        format.json { head :no_content } # 204 No Content
       end
     else
       @lote.update(fecha_impresion: Date.today)
@@ -195,6 +196,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_hora = AltasBajasHora.new(altas_bajas_hora_params)
     @altas_bajas_hora.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
     @altas_bajas_hora.turno = params[:altas_bajas_hora][:turno]
+    @altas_bajas_hora.esprovisorio = params[:altas_bajas_hora][:esprovisorio]
     @altas_bajas_hora.persona_id = @persona.id
     @altas_bajas_hora.establecimiento_id = @establecimiento.id
     @altas_bajas_hora.programatica = params[:altas_bajas_hora][:programatica]
@@ -375,6 +377,7 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def guardar_edicion2   
+    
     @persona = Persona.where(:nro_documento => params[:dni]).first
     @altas_bajas_horas = AltasBajasHora.where(:id => params[:edi]).first
     @altas_bajas_horas.persona_id = Persona.where(:nro_documento => params[:dni]).first.id
@@ -386,6 +389,7 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.anio = params[:anio]
     @altas_bajas_horas.division = params[:division]
     @altas_bajas_horas.materium_id = params[:materium_id]
+    @altas_bajas_horas.esprovisorio = params[:esprovisorio]
     if Materium.where(:id => params[:materium_id]).first != nil
       @altas_bajas_horas.codificacion = Materium.where(:id => params[:materium_id]).first.codigo
     end
@@ -466,6 +470,7 @@ class AltasBajasHorasController < ApplicationController
 
     else
       respond_to do |format|
+        
       if @persona.save then       
         if @altas_bajas_horas.save then
           format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
@@ -551,8 +556,7 @@ class AltasBajasHorasController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'proceso' }
+        format.json { render json: {status: 'error', msj: "No se puede dar de baja hasta terminar el proceso de carga anterior"} } # 204 No Content
       end
     end
   end
@@ -707,11 +711,11 @@ end
     end
 
     def altas_bajas_hora_params
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :horas, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :esprovisorio)
     end
 
     def altas_bajas_hora_params_update
-      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id)
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :esprovisorio)
     end
 
 

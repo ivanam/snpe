@@ -42,6 +42,7 @@ class Ability
           can :manage, [Licencium]
           can :read, [Licencium]
           can :manage, [Traslado]
+          can :listado_licencias_historico_agente, [Licencium]
 
         end
 
@@ -72,6 +73,8 @@ class Ability
           can :read, [AltasBajasHora]
           can :read, [Cargo]
           can :read, [CargoNoDocente]
+          can :listado_licencias_historico_agente, [Licencium]
+
 
         end
 
@@ -105,18 +108,18 @@ class Ability
           cannot :update, [Juntafuncion]
         end
 
-        if user.role? :UserJunta
+        # if user.role? :UserJunta
           
-          can :read, Inscripcion, persona_id: user.get_persona.id
-          can :update, Inscripcion, persona_id: user.get_persona.id
-          can :create, Inscripcion, persona_id: user.get_persona.id
-          can :edit, Inscripcion, persona_id: user.get_persona.id
-          cannot :index, Inscripcion
+        #   can :read, Inscripcion, persona_id: user.get_persona.id
+        #   can :update, Inscripcion, persona_id: user.get_persona.id
+        #   can :create, Inscripcion, persona_id: user.get_persona.id
+        #   can :edit, Inscripcion, persona_id: user.get_persona.id
+        #   cannot :index, Inscripcion
           
-          can :read, Persona, :id => user.get_persona.id
-          can :edit, Persona, :id => user.get_persona.id
-          can :update, Persona, :id => user.get_persona.id
-        end
+        #   can :read, Persona, :id => user.get_persona.id
+        #   can :edit, Persona, :id => user.get_persona.id
+        #   can :update, Persona, :id => user.get_persona.id
+        # end
 
         if user.role? :incompatibilidad
           can :manage, [PlanillaIncompatibilidad]

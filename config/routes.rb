@@ -376,6 +376,8 @@ ProyectoBase::Application.routes.draw do
 
     get "establecimiento/pof_excel", to: "establecimientos#pof_excel", as: :establecimiento_pof_excel
 
+    get "establecimiento/desglose_excel", to: "establecimientos#desglose_excel", as: :desglose_excel
+
     get "establecimiento/seleccionar/:id", to: "establecimientos#seleccionar", as: :establecimiento_seleccionar
 
     resources :estados
@@ -417,7 +419,7 @@ ProyectoBase::Application.routes.draw do
     get 'licencias/listado_licencias_todas_lic', to: 'licencia#listado_licencias_todas_lic', as: :listado_licencias_todas_lic
     get 'licencias/listado_licencias_cnds_sg', to: 'licencia#listado_licencias_cnds_sg', as: :listado_licencias_cnds_sg
     get 'licencias/listado_licencias_carg_sg', to: 'licencia#listado_licencias_carg_sg', as: :listado_licencias_carg_sg
-    get 'licencias/listado_licencias_historico_agente_cnds', to: 'licencia#listado_licencias_historico_agente_cnds', as: :listado_licencias_historico_agente_cnds
+    get 'licencias/listado_licencias_historico_agente', to: 'licencia#listado_licencias_historico_agente', as: :listado_licencias_historico_agente
 
     
     get 'licencias/cargos_no_docentes_licencia_permitida', to: 'licencia#cargos_no_docentes_licencia_permitida', as: :cargos_no_docentes_licencia_permitida

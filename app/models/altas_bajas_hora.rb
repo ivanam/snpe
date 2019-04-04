@@ -16,14 +16,14 @@ class AltasBajasHora < ActiveRecord::Base
     validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
     validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
     validates :persona_id, :presence => true
-    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja
-    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja
-    validates :turno, :presence => true, if: :no_es_licencia_para_baja
+    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
+    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
+    validates :turno, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
 
 
   # # #Validación de alta
     before_create :validar_horas
-    validate :validar_alta
+    validate :validar_alta, if: :motivo_baja_sin_controles
     #validate :validar_nivel_superior
     before_save :actualizar_materia
     before_update :dar_baja
@@ -33,51 +33,90 @@ class AltasBajasHora < ActiveRecord::Base
 
   #-------------------------------------
   MATERIAS_SIN_VALIDACION = [1994] #codigo materia 5881
+  EXCEPCION_MATERIA_CON_VALIDACION = [1473] #MATERIAS Q ESTAN EN UN PLAN SIN VALIDACION
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
-  PLANES_SIN_VALIDACION = [122, 3000] #Listado de planes que no requieren validacion
+  PLANES_SIN_VALIDACION = [122,3000,261,256] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
+  MATERIA_CON_CONTROL_DE_MAXIMO = [1729] #materia 2255 etp
+  CANT_MAXIMA = 11
 
   def self.horas_persona(dni)
-    
     hora_ids = AltasBajasHora.joins(:persona).where(personas: {nro_documento: dni}).where("(estado = 'ALT' or estado = 'LIC' or estado = 'ART')").map(&:id)
     return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
   end
 
 
-
-
   def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)
     total = 0
     case posicion
-      #quinto A
-       when 0
-           articulos = "(291,242)"
-      #quintoB 
-       when 1
-          articulos = "(292, 243, 377)"
-      #razones particulares
+      #5 A AUXILIAR
+      when 0
+           articulos = "(291)"
+      #5 A DOCENTE
+      when 10
+           articulos = "(242)"
+      #5B AUXILIAR
+      when 1
+          articulos = "(292)"
+      #5B DOCENTE
+      when 11
+          articulos = "(243)"
+      #5B AUXILIAR MITAD DE SUELDO
       when 2
-          articulos = "(348,286,287)"
+        articulos = "(399)"
+      #DOCENTE 5B MITAD DE SUELDO
+      when 12
+        articulos = "(377)"
+      #AUXILIAR RAZONES PARTICULARES
       when 3
-        articulos = "(301)"
-      #22a o 23a
+          articulos = "(348)"
+      #DOCENTE RAZONES PARTICULARES   
+      when 13
+          articulos = "(287)"
+      #DIA FEMENINO
       when 4
-        articulos = "(321,263)"
-      #23b
+        articulos = "(301)"
+      #22A
       when 5
-        articulos = "(322,264)"
+        articulos = "(321)"
+      #22B
+      when 6
+        articulos = "(322)"
+      #22C
+      when 7
+        articulos = "(323)"
+      #22D
+      when 8
+        articulos = "(324)"
+      #22e
+      when 9
+        articulos = "(325)"
+      #23A
+      when 15
+        articulos = "(263)"
+      #23B
+      when 16
+        articulos = "(264)"
+      #23D
+      when 17
+        articulos = "(265)"
+      #23E
+      when 18
+        articulos = "(266)"
+
+
 
       #anual vacaciones
-      when 6
+      when 20
         articulos = "(241,289,365,366)"
       else
         articulos = 0
       end
 
     #licencias anuales
-    if (anio_lic != 0 or posicion == 6)
-
-      Licencium.where(altas_bajas_hora_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ anio_lic +" or anio_lic != null)").each do |lic|
+    if (anio_lic != 0 or posicion == 20)
+      
+      Licencium.where(altas_bajas_hora_id: self.id).where.not(vigente: "Cancelada").where("articulo_id in "+articulos+"and (anio_lic = "+ (anio_lic.to_s) +" or anio_lic != null)").each do |lic|
         if lic.fecha_hasta.nil?
           f_h = Date.today
         else
@@ -162,13 +201,19 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   def control_horas
-    if !PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)
+    
+    if !(PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo) or MATERIA_CON_CONTROL_DE_MAXIMO.include? self.materium_id or MATERIAS_SIN_VALIDACION.include? self.materium_id)
       self.horas = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id, anio: self.anio).first.carga_horaria
     end
   end
 
   def no_es_licencia_para_baja
     self.estado != "LIC P/BAJ"
+  end
+
+  def motivo_baja_sin_controles
+    #salta validaciones si es baja por jubilacion y por cierre de curso
+    !(self.motivo_baja == "2" or self.motivo_baja == "6" or self.motivo_baja == nil or self.motivo_baja == "10")
   end
 
   def plan_con_validacion
@@ -220,12 +265,23 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def validar_horas
-    if !MATERIAS_SIN_VALIDACION.include? self.materium_id and !PLANES_SIN_VALIDACION.include? self.plan_id
-      if Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil
-
+    
+    cant_horas = 0
+    if (MATERIA_CON_CONTROL_DE_MAXIMO.include? self.materium_id and self.horas != 0)
+         cant_horas = AltasBajasHora.where(establecimiento_id: self.establecimiento_id).where(:materium_id => self.materium_id, anio: self.anio, division: self.division).where.not(estado: 'BAJ').where.not(estado: 'LIC P/BAJ').sum(:horas)
+         if (cant_horas + self.horas) > CANT_MAXIMA
+            errors.add(:base,"error en la carga horaria, ya superó el máximo correspondiente a la materia "+ Materium.where(:id => self.materium_id).first.descripcion)
+            return false
+         end
+    elsif !(MATERIAS_SIN_VALIDACION.include? self.materium_id or PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)) or (EXCEPCION_MATERIA_CON_VALIDACION.include? Materium.where(id: self.materium_id).first.codigo)
+      if (Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil or (self.horas ==0))
         errors.add(:base,"error en la carga horaria, no corresponde")
         return false   
       end
+
+    elsif self.horas == 0
+        errors.add(:base,"error en la carga horaria, no corresponde")
+        return false   
     end
   end
 

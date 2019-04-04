@@ -30,7 +30,10 @@
 					<legend>Editar registro</legend>
 				    <div class="form-snpe" >
 				        <div class="row">
-
+              <div>
+              <b>¿Es Provisorio?</b>
+              <%= check_box_tag 'esprovisorio' %>
+              </div>
 				      <%= text_field_tag :edi, "", {:class => "text_field form-control hidden", :id => "edi"}  %>
 				    
 				      <%= select_tag 'tipo_documento',  options_from_collection_for_select(TipoDocumento.all, "id", "nombre"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Tipo Doc.", :id => "tipo_documento_id", :class=>"form-control form-select form-doc form-alta", :prompt => "Tipo Doc.", :readonly => :true } %>
@@ -85,7 +88,6 @@
 
 
          			  <%= text_area_tag 'observaciones', "", {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Observaciones",:class => "form-control", :id=>"observaciones-edit", :placeholder => "Observaciones"} %>
-
 
 				      </div>
       				<%= f.submit :class => "btn btn-primary", :value => "Guardar" , :id =>"formulario" %>
@@ -276,6 +278,9 @@
                 	$("#observaciones-edit").val(data.observaciones);
                   $("#resolucion").val(data.resolucion);
                   $("#decreto").val(data.decreto);
+                  if (data.esprovisorio == true){
+                    $("#esprovisorio").prop('checked', true).change();
+                  }
             	}
 
                 });
@@ -331,13 +336,6 @@
 
 		};
 
-  function licbaj(id){
-      window.varId= id;
-       window.location.href = '/soft/snpe/altas_bajas_horas/guardar_edicion3/?id_lic='+window.varId;
-    
-
-    };
-	
 
 
 $(document).ready(function($) {
@@ -352,7 +350,6 @@ $(document).ready(function($) {
 		serverSide : true,
 		ajax : $('#tabla-altas_bajas_hora2').data('source'),
 		pagingType: "full",
-    stateSave: true,
     scrollY: '50vh',
     scrollCollapse: true,
 		"initComplete": function(settings, json) {
@@ -366,14 +363,17 @@ $(document).ready(function($) {
       },
 	})
 	.on('draw.dt', function () {
-		$( ".btn-ajax" ).on( "click", function() {
+		$( ".btn-ajax" ).on( "click", function() {      
+      if (!confirm('Esta seguro?')) {
+        return;
+      }
 			var data_url = $(this).attr('data-url');
 			$.ajax({
 				url: data_url,
 				type: 'GET',
 			})
 			.done(function(data) {
-				tabla_altas_bajas.api().ajax.reload();
+				tabla_altas_bajas.api().ajax.reload(null, false);
 			});
 		});
 	});

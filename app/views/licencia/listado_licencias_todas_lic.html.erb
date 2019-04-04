@@ -94,7 +94,6 @@
         <thead>
             <tr>
               <th>Estab.ORIGEN</th>
-
               <th>Sec.</th>               
               <th>Tipo</th>
               <th>Cargo</th>
@@ -188,18 +187,10 @@
   	    processing : true,
   	    serverSide : true,
   	    ajax : $('#tabla-licencia').data('source'),
-  	    pagingType: "simple",
-  	    retrieve: true,
-        "initComplete": function(settings, json) {
-        $('.calle').editable();
-      },        
-        columnDefs: [
-              {
-                  "targets": [ 7 ],
-                  "searchable": false,
-                  "orderable": false
-              }
-          ]
+  	    pagingType: "full",
+        scrollY: '50vh',
+        scrollCollapse: true,
+
   	  })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {
@@ -209,7 +200,11 @@
             type: 'GET',
           })
           .done(function(data) {
-             $.ajax({
+            if (data.status == 'error') {
+              alert(data.msj);
+              return;
+            }
+            $.ajax({
               url: '/soft/snpe/licencias/obtenerdatarange?rango='+$('#daterange').val(),
               type: 'GET',
             })
@@ -220,21 +215,21 @@
                 if ($('#dni').val() != "" ){
                   if ($('#select_articulo_horas').val() != "" ){
                     tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val()+"&select_articulo_horas="+$('#select_articulo_horas').val());
-                    tabla_licencia.api().ajax.reload();
+                    tabla_licencia.api().ajax.reload(null, false);
                   }else{
                     tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2+"&dni="+$('#dni').val());
-                    tabla_licencia.api().ajax.reload();
+                    tabla_licencia.api().ajax.reload(null, false);
                   }
 
                 }else{
                     tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?rango='+window.data2);
-                    tabla_licencia.api().ajax.reload();
+                    tabla_licencia.api().ajax.reload(null, false);
                 }
                 
               }else{
 
                 tabla_licencia.api().ajax.url('/soft/snpe/licencias/listado_licencias_todas_lic?');
-                tabla_licencia.api().ajax.reload();
+                tabla_licencia.api().ajax.reload(null, false);
               }
 
 
@@ -303,12 +298,14 @@
         serverSide : true,
         ajax : $('#tabla-licencia-cnds').data('source'),
         pagingType: "simple",
+        scrollY: '50vh',
+        scrollCollapse: true,
         retrieve: true,
         "initComplete": function(settings, json) {
         },                
         columnDefs: [
               {
-                  "targets": [ 6 ],
+                  "targets": [6],
                   "searchable": false,
                   "orderable": false
               }
@@ -334,12 +331,12 @@
               if (window.data4 != "undefined" && window.data4 != undefined){
 
               tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg?rango2='+window.data4+"&dni2="+$('#dni2').val()+"&select_articulo_cargos_no_docente="+$('#select_articulo_cargos_no_docente').val());
-              tabla_licencia_cargnds.api().ajax.reload();
+              tabla_licencia_cargnds.api().ajax.reload(null, false);
               }if (window.data4 == "undefined" || window.data4 == undefined)
 
               {
               tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg');
-              tabla_licencia_cargnds.api().ajax.reload();
+              tabla_licencia_cargnds.api().ajax.reload(null, false);
 
 
               }
@@ -388,6 +385,8 @@
         serverSide : true,
         ajax : $('#tabla-licencia-cargos').data('source'),
         pagingType: "simple",
+        scrollY: '50vh',
+        scrollCollapse: true,
         retrieve: true,        
         columnDefs: [
               {
@@ -423,7 +422,7 @@
 
               {
               tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg');
-              tabla_licencia_crg.api().ajax.reload();
+              tabla_licencia_crg.api().ajax.reload(null, false);
 
 
               }

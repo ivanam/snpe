@@ -10,8 +10,12 @@
         <span class="glyphicon glyphicon-info-sign"></span>
         Verificar incompatibilidades
     <% end %>
-  </div>
-  <br/>
+   <%= link_to "http://www.chubut.edu.ar/preguntas/planilla_desglose.xls" , :class => "btn btn-large btn-danger" do %>
+<span class="glyphicon glyphicon-download-alt"></span>
+      Exportar Planilla de Desglose de Horas
+    <% end %>
+</div>
+ <br/>
   <div class="form-carga-efecto form-carga-efecto-alta">
     <%= render 'form_altas', altas_bajas_hora: @altas_bajas_hora %>
   </div>

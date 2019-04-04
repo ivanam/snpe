@@ -141,62 +141,162 @@ module LicenciaHelper
 	def listado_de_licencias_sg(mindate, maxdate, dni, art)		
 		if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then
 		    if  dni == nil and  art == nil	
-			@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulos.con_goce = 0').where('vigente not in ("Cancelada")')
+				@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+				where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+				where('licencia.updated_at >= ?', mindate).
+				where('licencia.updated_at <= ?', maxdate).
+				where('articulos.con_goce = 0').
+				where('vigente not in ("Cancelada")')
 			end
 			if dni != nil and  art == nil
-            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulos.con_goce = 0').where('nro_documento= ?', dni).where('vigente not in ("Cancelada")')
+            	@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+            	where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where('licencia.updated_at >= ?', mindate).
+            	where('licencia.updated_at <= ?', maxdate).
+            	where('articulos.con_goce = 0').
+            	where('nro_documento= ?', dni).
+            	where('vigente not in ("Cancelada")')
             end
             if dni == nil and art != nil
-            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+            	where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where('licencia.updated_at >= ?', mindate).
+            	where('licencia.updated_at <= ?', maxdate).
+            	where('articulo_id = ?', art).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
 		    if  dni != nil and art != nil
-            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('nro_documento= ?', dni).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+            	where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where('licencia.updated_at >= ?', mindate).
+            	where('licencia.updated_at <= ?', maxdate).
+            	where('articulo_id = ?', art).
+            	where('nro_documento= ?', dni).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
 		else
 			 if  dni == nil and  art == nil	
-			@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('articulos.con_goce = 0').where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+				@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+				where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+				where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).
+				where('licencia.updated_at >= ?', mindate).
+				where('articulos.con_goce = 0').
+				where('vigente not in ("Cancelada")').
+				where('articulos.con_goce = 0')
 			end
 			if dni != nil and  art == nil
-            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('articulos.con_goce = 0').where('nro_documento= ?', dni).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+	            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+	            where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+	            where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).
+	            where('licencia.updated_at >= ?', mindate).
+	            where('articulos.con_goce = 0').
+	            where('nro_documento= ?', dni).
+	            where('vigente not in ("Cancelada")').
+	            where('articulos.con_goce = 0')
             end
             if dni == nil and art != nil
-            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+            	where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).
+            	where('licencia.updated_at >= ?', mindate).
+            	where('articulo_id = ?', art).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
 		    if  dni != nil and art != nil
-            @licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('nro_documento= ?', dni).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasSg = Licencium.select('licencia.*').from('licencia, altas_bajas_horas, establecimientos, personas, articulos').
+            	where('licencia.altas_bajas_hora_id = altas_bajas_horas.id AND altas_bajas_horas.establecimiento_id = establecimientos.id AND altas_bajas_horas.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where(altas_bajas_horas: {establecimiento_id: session[:establecimiento]}).
+            	where('licencia.updated_at >= ?', mindate).
+            	where('articulo_id = ?', art).
+            	where('nro_documento= ?', dni).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
-	end
+		end
 		return @licenciasSg
 	end
 
 	def listado_de_licencias_cargo_sg(mindate3, maxdate3, dni3, art3)
-	if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then
+		if current_user.role? :personal or current_user.role? :sadmin  or current_user.role? :licencia then
 		    if  dni3 == nil and  art3 == nil	
-			@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate3).where('articulos.con_goce = 0').where('vigente not in ("Cancelada")').where('articulos.con_goce = 0').where('articulos.con_goce = 0')
+				@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+				where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+				where('fecha_desde >= ?', mindate3).
+				where('articulos.con_goce = 0').
+				where('vigente not in ("Cancelada")').
+				where('articulos.con_goce = 0').
+				where('articulos.con_goce = 0')
 			end
 			if dni3 != nil and  art3 == nil
-            @licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate3).where('articulos.con_goce = 0').where('nro_documento= ?', dni3).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+            	where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where('fecha_desde >= ?', mindate3).
+            	where('articulos.con_goce = 0').
+            	where('nro_documento= ?', dni3).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
             end
             if dni3 == nil and art3 != nil
-            @licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate3).where('articulo_id = ?', art3).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0').where('articulos.con_goce = 0')
+            	@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+            	where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where('fecha_desde >= ?', mindate3).
+            	where('articulo_id = ?', art3).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0').
+            	where('articulos.con_goce = 0')
 		    end
 		    if  dni3 != nil and art3 != nil
-            @licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate3).where('articulo_id = ?', art3).where('nro_documento= ?', dni3).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+            	where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where('fecha_desde >= ?', mindate3).
+            	where('articulo_id = ?', art3).
+            	where('nro_documento= ?', dni3).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
 		else
 			if  dni3 == nil and  art3 == nil	
-			@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('articulos.con_goce = 0').where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+				@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+				where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+				where(cargos: {establecimiento_id: session[:establecimiento]}).
+				where('fecha_desde >= ?', mindate3).
+				where('articulos.con_goce = 0').
+				where('vigente not in ("Cancelada")').
+				where('articulos.con_goce = 0')
 			end
 			if dni3 != nil and  art3 == nil
-            @licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('articulos.con_goce = 0').where('nro_documento= ?', dni3).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+            	where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where(cargos: {establecimiento_id: session[:establecimiento]}).
+            	where('fecha_desde >= ?', mindate3).
+            	where('articulos.con_goce = 0').
+            	where('nro_documento= ?', dni3).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
             end
             if dni3 == nil and art3 != nil
-            @licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('articulo_id = ?', art3).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+            	where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where(cargos: {establecimiento_id: session[:establecimiento]}).
+            	where('fecha_desde >= ?', mindate3).
+            	where('articulo_id = ?', art3).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
 		    if  dni3 != nil and art3 != nil
-            @licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').where(cargos: {establecimiento_id: session[:establecimiento]}).where('fecha_desde >= ?', mindate3).where('articulo_id = ?', art3).where('nro_documento= ?', dni3).where('vigente not in ("Cancelada")').where('articulos.con_goce = 0')
+            	@licenciasCargSg = Licencium.select('licencia.*').from('licencia, cargos, establecimientos, personas, articulos').
+            	where('licencia.cargo_id = cargos.id AND cargos.establecimiento_id = establecimientos.id AND cargos.persona_id = personas.id AND licencia.articulo_id = articulos.id').
+            	where(cargos: {establecimiento_id: session[:establecimiento]}).
+            	where('fecha_desde >= ?', mindate3).
+            	where('articulo_id = ?', art3).
+            	where('nro_documento= ?', dni3).
+            	where('vigente not in ("Cancelada")').
+            	where('articulos.con_goce = 0')
 		    end
-	end
+		end
 		return @licenciasCargSg
 	end
 	
@@ -233,10 +333,21 @@ module LicenciaHelper
 		return @licenciasCndsSg
 	end
 
-  def historico_licencias_agente(mindate, maxdate, dni, art)
+  def historico_licencias_agente(mindate, maxdate, dni, art, id,tipo)
+    
+    @licencias = nil
+    if tipo == "horas"
+    	@licencias = Licencium.select('l.*').from('licencia l, altas_bajas_horas h').where('l.altas_bajas_hora_id= h.id').where('l.altas_bajas_hora_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    elsif tipo == "cargos"
+      @licencias = Licencium.select('l.*').from('licencia l, cargos h').where('l.cargo_id= h.id').where('l.cargo_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    elsif tipo == "auxiliar"
 
-        @licenciasCndsSg = Licencium.select('licencia.*').from('licencia, cargo_no_docentes, establecimientos, personas, articulos').where('licencia.cargo_no_docente_id = cargo_no_docentes.id AND cargo_no_docentes.establecimiento_id = establecimientos.id AND cargo_no_docentes.persona_id = personas.id AND licencia.articulo_id = articulos.id').where('fecha_desde >= ?', mindate).where('articulo_id = ?', art).where('licencia.nro_documento= ?', dni).where('vigente not in ("Cancelada")')
-        return @licenciasCndsSg
+      @licencias = Licencium.select('l.*').from('licencia l, cargo_no_docentes h').where('l.cargo_no_docente_id= h.id').where('l.cargo_no_docente_id = ?', id).where('articulo_id = ?', art).where('fecha_desde >= ?', mindate).where('vigente != ("Cancelada")')
+    else
+      @licencias = Licencium.select('l.*').from('licencia l').where('l.id = 18').where('articulo_id = 2') #busco uno cualquiers para que la primera vez q levanta la vista no tire error el datatable
+    end
+      return @licencias
   end
 end
+
 

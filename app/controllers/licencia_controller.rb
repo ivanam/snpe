@@ -183,32 +183,37 @@ class LicenciaController < ApplicationController
 
 
 
-def listado_licencias_historico_agente_cnds
+def listado_licencias_historico_agente
+    
+    @dni = params["dni"].to_i
+    @art=params["articulo"].to_i
+    @id = params["id"].to_i
+    @tipo = params["tipo"]
 
-    @dni = params["dni"]
-    @art=params["select_articulo_horas"]
     if @art == '' or @art == ""
        @art = nil
     end
-     if params["rango"] == ""
 
-       @mindate_year2 = Date.today.year
-       @mindate = Date.today.to_s
-       @maxdate = Date.today.to_s
-       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
+    if params["rango"] == "" or params["rango"] == nil and (@tipo != 0)
 
-     else
-      
+       @mindate = Date.today.to_time.iso8601
+       @maxdate = Date.today.to_time.iso8601
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art,@id,@tipo)
+    elsif (params["rango"] != "") and (params["rango"] != nil) and (@tipo != 0)
        @rango = params["rango"]
        @mindate, @maxdate = Util.max_min_periodo(@rango)
-       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art)
-
-     end
-    respond_to do |format|
-      format.xls 
-      format.html 
-      format.json { render json: HistoricoLicenciasHorasDatatable.new(view_context, { query: @res2}) }
+       @res2 = historico_licencias_agente(@mindate, @maxdate, @dni, @art,@id,@tipo)
+    else
+       @rango = params["rango"]
+       @mindate, @maxdate = Util.max_min_periodo(@rango)
+       @res2 = historico_licencias_agente(@mindate, @maxdate, 0, 0,0,0)
     end
+
+      respond_to do |format|
+        format.xls 
+        format.html 
+        format.json { render json: HistoricoLicenciasHorasDatatable.new(view_context, { query: @res2}) }
+      end
   end
 
 
@@ -1169,7 +1174,9 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         cargoNoDoc = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
         cargoNoDoc1000 = CargoNoDocente.where(:persona_id => cargoNoDoc.persona_id, obs_lic: descripcion_articulo ,:secuencia => 1000).where.not(estado: "BAJ").first
-        cargoNoDoc1000.update!(:estado => "BAJ")
+        if !cargoNoDoc1000.nil?
+          cargoNoDoc1000.update!(:estado => "BAJ")
+        end
         cargoNoDoc.update!(:estado => "ALT")
       end
     end
@@ -1180,7 +1187,9 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         cargo = Cargo.where(:id => @licencia.cargo_id).first
         cargo1000 = Cargo.where(:persona_id => cargo.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
-        cargo1000.update!(:estado => "BAJ")
+        if !cargo1000.nil?
+          cargo1000.update!(:estado => "BAJ")
+        end
         cargo.update!(:estado => "ALT")
       end
     end
@@ -1190,12 +1199,10 @@ def listado_licencias_todas_lic
       if (listaArtTrasladosTrans.include?  @licencia.articulo_id )
         horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
         horas1000 = AltasBajasHora.where(:persona_id => horas.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
-        if horas1000.nil?
-          msg = "No puede finalizar la licencia del cargo Comisionado hasta que no se de el alta de la Comision de servicio"
-        else
+        if !horas1000.nil?
           horas1000.update!(:estado => "BAJ")
-          horas.update!(:estado => "ALT")
         end
+        horas.update!(:estado => "ALT")
       end
     end
     
@@ -1299,9 +1306,11 @@ def listado_licencias_todas_lic
 
   def chequear_finalizada
     @lic = Licencium.where(:id => params[:id]).first
-    @lic.update!(finalizada: true, user_cheq_finalizada_id: current_user.id, fecha_cheq_finalizada: DateTime.now)
-    render json: @lic
-
+    if @lic.update(finalizada: true, user_cheq_finalizada_id: current_user.id, fecha_cheq_finalizada: DateTime.now)
+      render json: @lic
+    else
+      render json: { status: 'error', msj: @lic.errors.full_messages.first }
+    end
   end
 
   def chequear_cargada

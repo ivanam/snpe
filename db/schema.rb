@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190207134750) do
+ActiveRecord::Schema.define(version: 20190325122221) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 20190207134750) do
     t.integer  "tipo_hora_id"
     t.text     "obs_lic"
     t.boolean  "trabaja_en_sede"
+    t.boolean  "esprovisorio"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -269,6 +270,7 @@ ActiveRecord::Schema.define(version: 20190207134750) do
     t.integer  "cargo_especial_id"
     t.text     "obs_lic"
     t.boolean  "trabaja_en_sede"
+    t.boolean  "esprovisorio"
   end
 
   add_index "cargos", ["establecimiento_id"], name: "index_cargos_on_establecimiento_id", using: :btree
@@ -367,6 +369,7 @@ ActiveRecord::Schema.define(version: 20190207134750) do
     t.datetime "updated_at"
     t.integer  "lugar_pago"
     t.boolean  "sede"
+    t.boolean  "migrada"
   end
 
   create_table "establecimientos_users", force: true do |t|

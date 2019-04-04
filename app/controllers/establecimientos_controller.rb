@@ -71,6 +71,7 @@ class EstablecimientosController < ApplicationController
     end
   end
 
+ 
   private
     def set_establecimiento
       @establecimiento = Establecimiento.find(params[:id])

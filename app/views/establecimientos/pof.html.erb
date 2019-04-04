@@ -1,12 +1,17 @@
-<h1> Cargos</h1>
 
 <div align="right">
   <%= link_to "#{establecimiento_pof_excel_path}.xls", :target => "_blank", :class => 'btn btn-success' do %>
     <span class="glyphicon glyphicon-download-alt"></span>
-    Exportar
+    Exportar POF
   <% end %>
-</div>
 <br/>
+  <%= link_to "http://www.chubut.edu.ar/preguntas/planilla_desglose.xls" , :class => "btn btn-large btn-danger" do %>
+    <span class="glyphicon glyphicon-download-alt"></span>
+      Exportar Planilla de Desglose de Horas
+    <% end %>
+<br/>
+</div>
+<h1> Cargos</h1>
 <% if establecimiento_actual.cargos_reubicacion != [] %>
   <h3> Reubicación de cargos </h1>
 
