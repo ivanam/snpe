@@ -91,6 +91,7 @@ class LicenciaDatatable < AjaxDatatablesRails::Base
         else
           "NO"
         end,
+        record.organismo,
         if record.vigente == "Vigente" 
 
           '<center><div class="btn-acciones"><a class="btn btn-success btn-sm" data-toggle="modal" fecha_desde="'+Util.fecha_a_es(record.fecha_desde)+'" fecha_hasta="'+Util.fecha_a_es(record.fecha_hasta)+'" id_lic="'+record.id.to_s+'" observaciones="'+CGI::escapeHTML(record.observaciones.to_s)+'" id_art="'+record.articulo_id.to_s+'" con_certificado="' +record.con_certificado.to_s+'" con_formulario="'+ record.con_formulario.to_s+'" data-target="#modal_licencia_final" title="Editar" ><span class=aria-hidden="true" >Vigente</span></a>' 

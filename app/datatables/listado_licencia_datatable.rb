@@ -19,11 +19,7 @@ class ListadoLicenciaSinGoceHorasDatatable < AjaxDatatablesRails::Base
             
 
             AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.establecimiento.codigo_jurisdiccional,
-            if (AltasBajasHora.where(:persona_id => (AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona), :secuencia => 1000, obs_lic: Articulo.where(id: (Licencium.where(altas_bajas_hora_id: record.altas_bajas_hora_id.to_i).last).articulo_id).first.descripcion ).where.not(estado: "BAJ").first != nil)
-               AltasBajasHora.where(:persona_id => (AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona), :secuencia => 1000, obs_lic: Articulo.where(id: (Licencium.where(altas_bajas_hora_id: record.altas_bajas_hora_id.to_i).last).articulo_id).first.descripcion ).where.not(estado: "BAJ").first.establecimiento.codigo_jurisdiccional
-            else
-            ""
-            end,
+            record.organismo,
             record.altas_bajas_hora.secuencia,
             "Horas",
             record.altas_bajas_hora.horas,

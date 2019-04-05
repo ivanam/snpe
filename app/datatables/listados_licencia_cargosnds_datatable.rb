@@ -18,6 +18,7 @@ class ListadosLicenciaCargosndsDatatable < AjaxDatatablesRails::Base
       [
 
             CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.establecimiento.codigo_jurisdiccional,
+            record.organismo,
             record.cargo_no_docente.secuencia,
             "Cargo no docente",
             Cargosnd.where(CargoNoDocente.find(record.cargo_no_docente_id).cargo.to_i).first.to_s,

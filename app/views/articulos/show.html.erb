@@ -18,6 +18,9 @@
   <dt>Tipo de artículo:</dt>
   <dd><%= @articulo.tipo_articulo.to_s %></dd>
 
+  <dt>Permite otro organismo:</dt>
+  <dd><%= (@articulo.permite_otro_organismo)? 'SI' : 'NO'  %></dd>
+
   <br/><br/>
   <%= link_to articulos_path, :class => 'btn btn-default' do %>
     <span class="glyphicon glyphicon-list-alt"></span>

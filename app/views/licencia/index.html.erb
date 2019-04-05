@@ -122,7 +122,8 @@
               <th style="width: 50px;">Fecha Hasta</th>
               <th>Artículo</th>
               <th>Con Certificado</th>
-              <th>Sin Formulario</th>
+              <th>Con Formulario</th>
+              <th>Organismo</th>
               <th class="text-center col-md-1">Estado</th>
               <th class="text-center col-md-1">Continuar</th>
               <th>Ver</th>
@@ -146,7 +147,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generar licencia horas</h4>
+        <h4 class="modal-title" id="myModalLabel">Generar licencia horas()</h4>
       </div>
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
@@ -157,7 +158,7 @@
         <% if (current_user.role? :licencia) || (current_user.role? :sadmin) then %>
          <div id="art_doc" >
            <%= label_tag "Seleccione que tipo de articulo le corresponde", nil,  :class => "control-label" %>
-           <%= select_tag :art_doc_1, options_for_select([['Docente', "Docente"], ['Auxiliar', "Auxiliar"]], 0,), {:prompt => "Seleccione si es docente o auxiliar", :id => "art_doc_1"} %> 
+           <%= select_tag :art_doc_1, options_for_select([['Docente', "Docente"], ['Auxiliar', "Auxiliar"]], 0,), {:prompt => "Seleccione si es docente o auxiliar", :class => "form-control", :id => "art_doc_1"} %> 
          </div>
 
          <br>
@@ -165,16 +166,30 @@
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas" %>
 
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos_no_docente_h1" %>
-         </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="form-group" id="permite_otro_organismo_horas">
+            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+          </div>          
+        </div>          
+         
 
 
          </Br>
          <div id="alerta-dias" class="alert alert-info"> </div>
         <% else %>
          <div class="row">
-          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulooo",:class => "form-control col-sm-6", :id => "select_articulo_horas_esc" %>
+          <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas_esc" %>
           </div>
          </Br>
+          <div class="row">
+            <div class="form-group" id="permite_otro_organismo_horas_esc">
+              <%= label_tag "Organismo", nil,  :class => "control-label" %>
+              <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+            </div>          
+          </div>    
          <div id="alerta-dias" class="alert alert-info"> </div>
          <hr/>
         <% end %>
@@ -191,7 +206,7 @@
         
         <div id="anio_lic" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
-           <%= select_tag :input_anio_lic, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
+           <%= select_tag :input_anio_lic, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha" ,:class => "form-control"} %> 
         </div>  
          <hr/>
 
@@ -252,7 +267,7 @@
         <div class="row">
         <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas_h2" %>
         <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Auxiliar"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos_no_docente_h2" %>
-        </div>
+        </div>                 
         <hr/>
         <div id="alerta-dias-1" class="alert alert-info"> </div>
         <% else %>
@@ -419,6 +434,12 @@
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
         </div>
+        <div class="row">
+          <div class="form-group" id="permite_otro_organismo_cargos">
+            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+          </div>          
+        </div>          
         <div id="con_certificado6" >
           <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
           <%= check_box_tag 'con_certificado6' %>
@@ -479,7 +500,13 @@
       </div>
         <hr/>
         <div id="alerta-dias-cargo-1" class="alert alert-info"></div>
-             <div id="anio_lic_7" >
+        <div class="row">
+          <div class="form-group" id="permite_otro_organismo_cargos">
+            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+          </div>          
+        </div>      
+        <div id="anio_lic_7" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_7, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
         </div>
@@ -530,6 +557,12 @@
         </div>
         <hr/>
         <div id="alerta-dias-cargo-no-docentes" class="alert alert-info"></div>
+        <div class="row">
+          <div class="form-group" id="permite_otro_organismo_no_docente">
+            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+          </div>          
+        </div>      
         <div id="anio_lic_2" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_2, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
@@ -537,6 +570,8 @@
         <div class="row">
          <%= select_tag "Escuela", options_from_collection_for_select(Establecimiento.all, "id", :to_s),:prompt => "Escuela destino",:class => "form-control col-sm-6", :id => "select_destino_car_aux" %>
         </div>
+
+
         <div id="con_certificado8" >
           <%= label_tag "Con Certificado", nil,  :class => "control-label" %>
           <%= check_box_tag 'con_certificado8' %>
@@ -584,6 +619,12 @@
         </div>
         <hr/>
         <div id="alerta-dias-cargo-no-docentes-1" class="alert alert-info"></div>
+        <div class="row">
+          <div class="form-group" id="permite_otro_organismo_no_docente">
+            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+          </div>          
+        </div>  
         <div id="anio_lic_8" >
            <%= label_tag "Año de licencia (solo en casos de licencias anuales)", nil,  :class => "control-label" %>
            <%= select_tag :input_anio_lic_8, options_for_select([['2018', 2018],['2017', 2017], ['2016', 2016], ['2015', 2015], ['2014', 2014], ['2013', 2013], ['2012', 2012], ['2011', 2011], ['2010', 2010], ['2009', 2009], ['2008', 2008], ['2007', 2007], ['2006', 2006], ['2005', 2005], ['2003', 2003], ['2002', 2002], ['2001', 2001], ['2000', 2000], ['1999', 1999], ['1998', 1998], ['1997', 1997], ['1996', 1996], ['1995', 1995], ['1994', 1994], ['1993', 1993]], 0,), {:prompt => "Seleccionar fecha"} %> 
@@ -692,6 +733,15 @@
   var traslado_definitivos = [394, 395];
 
   $(document).ready(function() {
+    $("#permite_otro_organismo_horas_esc").hide();
+    $("#permite_otro_organismo_horas_esc input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_horas").hide();
+    $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_cargos").hide();
+    $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_no_docente").hide();
+    $("#permite_otro_organismo_no_docente input").val(''); //Blanqueo el campo organismo
+        
     $("#select_articulo_horas").hide();
     $("#select_articulo_cargos_no_docente_h1").hide();
     $("#select_articulo_cargos_no_docente_h2").hide();
@@ -761,8 +811,6 @@
     $("#select_destino_horas").hide();
     $("#select_destino_horas_ag").hide();
     $("#select_destino_horas2").hide();
-
-    $('select#select_articulo_cargos_no_docente').select2();
 
   });
 
@@ -953,7 +1001,7 @@
       $("#observaciones" ).val("");
       $('#con_formulario1').show();
       $('input:checkbox').removeAttr('checked');
-
+      
     });
 
 
@@ -961,6 +1009,7 @@
       $("#alerta-dias").hide();
       $("#anio_lic").hide();
       $("#select_articulo_horas").hide();
+      $("#select_articulo_horas").val("");
       $("#select_articulo_cargos_no_docente_h1").hide();
       $("#art_doc_1" ).val("");
       $("#obv1" ).hide();
@@ -969,11 +1018,18 @@
       $('#con_certificado1').hide();
       $('input:checkbox').removeAttr('checked');
 
+      $("#permite_otro_organismo_horas").hide();
+      $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
     });
 
 
   $('#btn_licencia_horas').on('click', function () {
       var articulo = "";
+      <% if (current_user.role? :licencia) || (current_user.role? :sadmin) then %>
+        permite_otro_organismo = $("#permite_otro_organismo_horas input").val();
+      <% else %>  
+        permite_otro_organismo = $("#permite_otro_organismo_horas_esc input").val();
+      <% end %>  
       fecha_inicio = $("#input_fecha_inicio").val();
       fecha_fin = $("#input_fecha_fin").val();
       observaciones = $("#observaciones" ).val();
@@ -1011,7 +1067,7 @@
       }
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
+          url: '/soft/snpe/licencia/guardar_licencia_horas/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic='+fecha_anio_lic+"&destino="+destino+"&observaciones="+observaciones+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
           type: 'POST',
         })
       .done(function(data) {
@@ -1126,6 +1182,18 @@
           $("#obv1").hide();
         } 
       }) 
+    //Verifico si el articulo permite otro organismo    
+    $.ajax({
+      url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+      type: 'GET',
+      }).done(function(data) {
+        if (data) {
+          $("#permite_otro_organismo_horas").show();
+        } else {
+          $("#permite_otro_organismo_horas").hide();
+          $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
+        } 
+      });
   });
 
     $("#select_articulo_horas_esc").change(function() {
@@ -1176,6 +1244,18 @@
               $("#obv1").hide();
             } 
         }) 
+      //Verifico si el articulo permite otro organismo          
+      $.ajax({
+        url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+        type: 'GET',
+      }).done(function(data) {
+        if (data) {
+          $("#permite_otro_organismo_horas_esc").show();
+        } else {
+          $("#permite_otro_organismo_horas_esc").hide();
+          $("#permite_otro_organismo_horas_esc input").val(''); //Blanqueo el campo organismo
+        } 
+      });
   });
 
    $("#select_articulo_cargos_no_docente_h1").change(function() {
@@ -1224,8 +1304,19 @@
             else{
               $("#obv1").hide();
             } 
-        }) 
-         
+        }); 
+    //Verifico si el articulo permite otro organismo    
+    $.ajax({
+      url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+      type: 'GET',
+      }).done(function(data) {
+        if (data) {
+          $("#permite_otro_organismo_horas").show();
+        } else {
+          $("#permite_otro_organismo_horas").hide();
+          $("#permite_otro_organismo_horas input").val(''); //Blanqueo el campo organismo
+        } 
+      });
   });
 
   
@@ -1274,6 +1365,9 @@
     $('#con_certificado2').hide();
     $('#con_formulario2').hide();
     $('input:checkbox').removeAttr('checked');
+
+    $("#permite_otro_organismo_horas_esc").hide();
+    $("#permite_otro_organismo_horas_esc input").val(''); //Blanqueo el campo organismo
   });
  
 
@@ -1540,6 +1634,8 @@
     $("#con_formulario6").hide();
     $('input:checkbox').removeAttr('checked');
 
+    $("#permite_otro_organismo_cargos").hide();
+    $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
   });
 
 
@@ -1547,6 +1643,7 @@
       fecha_inicio = $("#input_fecha_inicio2").val();
       fecha_fin = $("#input_fecha_fin2").val();
       articulo = $("#select_articulo_cargos").val();
+      permite_otro_organismo = $("#permite_otro_organismo_cargos input").val();
       fecha_anio_lic_1 = $("#input_anio_lic_1").val();
       destino = $("#select_destino_cargos").val();
       observaciones = $("#observaciones3").val();
@@ -1569,8 +1666,7 @@
       }
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,
-          
+          url: '/soft/snpe/licencia/guardar_licencia_cargos/?id_cargos='+id_cargos+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic_1='+fecha_anio_lic_1+'&destino='+destino+'&observaciones='+encodeURIComponent(observaciones)+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+"&disposicion="+disposicion,          
           type: 'POST',
         })
       .done(function(data) {
@@ -1638,6 +1734,18 @@
               $("#obv3").show();
             } 
           }) 
+      //Verifico si el articulo permite otro organismo    
+      $.ajax({
+        url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+        type: 'GET',
+        }).done(function(data) {
+          if (data) {
+            $("#permite_otro_organismo_cargos").show();
+          } else {
+            $("#permite_otro_organismo_cargos").hide();
+            $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
+          } 
+        });
   });
 
 
@@ -1757,6 +1865,20 @@
               $("#obv4").show();
               }  
             }) 
+
+        //Verifico si el articulo permite otro organismo    
+        $.ajax({
+          url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+          type: 'GET',
+          }).done(function(data) {
+            if (data) {
+              $("#permite_otro_organismo_cargos").show();
+            } else {
+              $("#permite_otro_organismo_cargos").hide();
+              $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
+            } 
+          });
+
     });
 
   //---------------------------Cargos no docentes-------------------------------------
@@ -1774,6 +1896,9 @@
     $("#obv5" ).hide();
     $("#observaciones5").val("");
     $('input:checkbox').removeAttr('checked');
+
+    $("#permite_otro_organismo_no_docente").hide();
+    $("#permite_otro_organismo_no_docente input").val(''); //Blanqueo el campo organismo
   });
 
 
@@ -1781,6 +1906,7 @@
       fecha_inicio = $("#input_fecha_inicio4").val();
       fecha_fin = $("#input_fecha_fin4").val();
       articulo = $("#select_articulo_cargos_no_docente").val();
+      permite_otro_organismo = $("#permite_otro_organismo_no_docente input").val();
       fecha_anio_lic_2 = $("#input_anio_lic_2").val();
       observaciones = $("#observaciones5").val();
       destino = $("#select_destino_car_aux").val();
@@ -1797,7 +1923,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+encodeURIComponent(observaciones)+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
+          url: '/soft/snpe/licencia/guardar_licencia_cargos_no_docentes/?id_cargos_no_docentes='+id_cargos_no_docentes+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+'&permite_otro_organismo='+permite_otro_organismo+'&fecha_anio_lic_2='+fecha_anio_lic_2+'&observaciones='+encodeURIComponent(observaciones)+'&destino='+destino+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario,
           type: 'POST',
         })
       .done(function(data) {
@@ -1817,7 +1943,7 @@
   });
 
 
-  $("#select_articulo_cargos_no_docente" ).change(function() {
+  $("#select_articulo_cargos_no_docente").change(function() {
     var id_articulo = parseInt($("#select_articulo_cargos_no_docente option:selected").val(),10);
       $.ajax({
         url: '/soft/snpe/licencia/buscar_articulo_dias_cargo_no_docente/'+id_articulo+'/'+id_cargos_no_docentes,
@@ -1861,7 +1987,18 @@
                 $("#obv5").hide();
               } 
           }) 
-
+        //Verifico si el articulo permite otro organismo    
+        $.ajax({
+          url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+          type: 'GET',
+        }).done(function(data) {
+          if (data) {
+            $("#permite_otro_organismo_no_docente").show();
+          } else {
+            $("#permite_otro_organismo_no_docente").hide();
+            $("#permite_otro_organismo_no_docente input").val('');
+          } 
+        });
   });
 
 //----------------------------------------------- modal nueva licencia cargos nds --------------------------------
