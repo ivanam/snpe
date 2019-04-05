@@ -252,12 +252,30 @@ def obtenerdatarange3
 end
 
 
-
-
-
+#horas con licencia sin goce VIGENTES
 def listado_licencias_todas_lic
   
+  @tipo = "Vigente"
+  if params["rango"] == "" or params["rango"] == nil
+    @mindate_year = Date.today.year
+    @mindate = Date.today.to_date.iso8601
+    @maxdate = Date.today.to_date.iso8601
+    @res = listado_de_licencias_sg(@mindate, @maxdate, @tipo)
+  else
+    @rango = params["rango"]
+    @mindate, @maxdate = Util.max_min_periodo(@rango)
+    @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @tipo)
+  end  
+  debugger
+  respond_to do |format|
+    format.xls 
+    format.html 
+    format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res}) }
+  end
+  end
 
+#horas con licencia sin goce FINALIZADA
+def listado_licencias_todas_lic_finalizadas
   @dni=params[:dni]
   if @dni == '' or @dni == ""
     @dni = nil

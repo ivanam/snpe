@@ -1,4 +1,4 @@
-class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
+class ListadoLicenciaSinGoceHorasDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns    

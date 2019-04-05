@@ -13,22 +13,52 @@
   </button>
 </div>
 
-<div class="">
+<!-- <div class="">
     <b>Ingrese nro de documento: </b> <input type="text" id="dni" /> </br></br>
 </div>
 
 <div class="">
         <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}).where(con_goce: 0), "id", :to_s_descripcion),:prompt => "Seleccionar articulo", :id => "select_articulo_horas" %>
-</div> </br></br>
+</div> </br></br> -->
 
 <div class="">
     <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange" /> </br></br>
 </div>
 
+<center><div class="btn-group">
+  <button type="button" class="btn btn-default">A</button>
+  <button type="button" class="btn btn-default">B</button>
+  <button type="button" class="btn btn-default">C</button>
+  <button type="button" class="btn btn-default">D</button>
+  <button type="button" class="btn btn-default">E</button>
+  <button type="button" class="btn btn-default">F</button>
+  <button type="button" class="btn btn-default">G</button>
+  <button type="button" class="btn btn-default">H</button>
+  <button type="button" class="btn btn-default">I</button>
+  <button type="button" class="btn btn-default">J</button>
+  <button type="button" class="btn btn-default">K</button>
+  <button type="button" class="btn btn-default">L</button>
+  <button type="button" class="btn btn-default">M</button>
+  <button type="button" class="btn btn-default">N</button>
+  <button type="button" class="btn btn-default">Ñ</button>
+  <button type="button" class="btn btn-default">O</button>
+  <button type="button" class="btn btn-default">P</button>
+  <button type="button" class="btn btn-default">Q</button>
+  <button type="button" class="btn btn-default">R</button>
+  <button type="button" class="btn btn-default">S</button>
+  <button type="button" class="btn btn-default">T</button>
+  <button type="button" class="btn btn-default">U</button>
+  <button type="button" class="btn btn-default">V</button>
+  <button type="button" class="btn btn-default">W</button>
+  <button type="button" class="btn btn-default">X</button>
+  <button type="button" class="btn btn-default">Y</button>
+  <button type="button" class="btn btn-default">Z</button>
+</div></center>
+
 <div class="panel panel-primary">
   <div class="panel-heading">
     <h3 class="panel-title">
-      Licencias realizadas - Horas Cátedra
+      Licencias Sin goce vigentes- Horas Cátedra
     </h3>
   </div>
   <div class="panel-body">
