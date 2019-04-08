@@ -269,9 +269,14 @@ class AltasBajasHora < ActiveRecord::Base
     cant_horas = 0
     if (MATERIA_CON_CONTROL_DE_MAXIMO.include? self.materium_id and self.horas != 0)
          cant_horas = AltasBajasHora.where(establecimiento_id: self.establecimiento_id).where(:materium_id => self.materium_id, anio: self.anio, division: self.division).where.not(estado: 'BAJ').where.not(estado: 'LIC P/BAJ').sum(:horas)
-         if (cant_horas + self.horas) > CANT_MAXIMA
-            errors.add(:base,"error en la carga horaria, ya superó el máximo correspondiente a la materia "+ Materium.where(:id => self.materium_id).first.descripcion)
-            return false
+         if self.anio == 1 
+            cantidad_max = 7
+         else
+            cantidad_max = 11
+         end
+         if (cant_horas + self.horas) > cantidad_max
+              errors.add(:base,"error en la carga horaria, ya superó el máximo correspondiente a la materia "+ Materium.where(:id => self.materium_id).first.descripcion)
+              return false
          end
     elsif !(MATERIAS_SIN_VALIDACION.include? self.materium_id or PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)) or (EXCEPCION_MATERIA_CON_VALIDACION.include? Materium.where(id: self.materium_id).first.codigo)
       if (Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil or (self.horas ==0))
