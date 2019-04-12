@@ -1,0 +1,248 @@
+<!-- <div class="jumbotron">
+<center><h3> Licencias sin goce de Haberes CANCELADAS </h3></center>
+<center><h3>Filtros</h3></center>
+<table class="tabla-filtros">
+  <thead>
+    <tr>
+      <th>Mes</th>
+      <th>Año</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= select_tag 'Mes', options_for_select((1..12).to_a), :id => "select_mes", :prompt => "Seleccione mes"%></td>
+      <td><%= select_tag 'anio', options_for_select((2017..Date.today.year.to_i).to_a), :id => "select_anio", :prompt => "Seleccione año"%></td>
+    </tr>
+  </tbody>
+</table>
+<center><button class="btn btn-primary btn-filtro" id="btn-filtrar">Filtrar</button></center>
+</div>
+
+<button id="btn-imprimir" class="btn btn-danger">
+    <span class="glyphicon glyphicon-print"></span>
+    Imprimir licencias
+</button> -->
+
+<h2><b>Licencias sin goce de Haberes CANCELADAS</b></h2>
+
+
+<h2>Horas</h2>
+<div style="padding: 5px;">
+  <table class="tabla-reportes">
+    <head>
+          <th>Establ.</th>
+          <th>Destino</th>
+          <th>Sec.</th>              
+          <th>Tipo</th>
+          <th>Horas</th>
+          <th>Persona</th>
+          <th>Sit. Rev.</th>    
+          <th>Curso</th>
+          <th>Div.</th>
+          <th>Materia</th>
+          <th>Artículo</th>
+          <th class="text-center col-md-1">Fecha Desde</th>
+          <th class="text-center col-md-1">Fecha Hasta</th>
+          <th class="text-center col-md-1">Estado Actual</th>
+          <th class="text-center col-md-1">Motivo de cancelación</th>
+
+    </head>
+    <body>
+      <%
+          @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+          if @rol == "sadmin" or @rol == "licencia"
+      %>
+      <% @licencias_hs.each do |lic|%>
+        <tr>        
+          <td><%=AltasBajasHora.where(:id => lic.altas_bajas_hora_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.altas_bajas_hora.secuencia%></td>
+          <td>Horas</td>
+          <td><%=lic.altas_bajas_hora.horas%></td>
+          <td><%=AltasBajasHora.where(:id => lic.altas_bajas_hora_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.altas_bajas_hora.situacion_revista%></td>
+          <td><%=lic.altas_bajas_hora.anio%></td>
+          <td><%=lic.altas_bajas_hora.division%></td>
+          <td><%=lic.altas_bajas_hora.codificacion%></td> 
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+          <td><%=lic.obs_sin_goce_cancelacion%></td>
+        </tr>
+      <% end %>
+      <%elsif @rol == "escuela"
+        @lic = @licencias_hs.where(:establecimiento_id => session[:establecimiento])
+      %>
+      <% @lic.each do |lic|%>
+        <tr>        
+          <td><%=AltasBajasHora.where(:id => lic.altas_bajas_hora_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.altas_bajas_hora.secuencia%></td>
+          <td>Horas</td>
+          <td><%=lic.altas_bajas_hora.horas%></td>
+          <td><%=AltasBajasHora.where(:id => lic.altas_bajas_hora_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.altas_bajas_hora.situacion_revista%></td>
+          <td><%=lic.altas_bajas_hora.anio%></td>
+          <td><%=lic.altas_bajas_hora.division%></td>
+          <td><%=lic.altas_bajas_hora.codificacion%></td> 
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+          <td><%=lic.obs_sin_goce_cancelacion%></td>
+
+        </tr>
+      <% end %>
+      <%end%>
+
+    </body>
+  </table>
+</div>
+
+
+
+<h2>Cargos</h2>
+<div style="padding: 5px;">
+  <table class="tabla-reportes">
+    <head>
+          <th>Establ</th>
+          <th>Organismo destino</th>
+          <th>Sec.</th>               
+          <th>Tipo</th>
+          <th>Cargo</th>
+          <th>Persona</th>
+          <th>Situación Rev.</th>    
+          <th>Artículo</th>
+          <th class="text-center col-md-1">Fecha Desde</th>
+          <th class="text-center col-md-1">Fecha Hasta</th>
+          <th class="text-center col-md-1">Estado Actual</th>
+          <th class="text-center col-md-1">Motivo de cancelación</th>
+
+    </head>
+    <body>
+      <%
+          @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+          if @rol == "sadmin" or @rol == "licencia"
+      %>
+      <% @licencias_cargos.each do |lic|%>
+        <tr>        
+          <td><%=Cargo.where(:id => lic.cargo_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.cargo.secuencia%></td>
+          <td>Cargos</td>
+          <td><%=Cargo.where(:id => lic.cargo_id.to_i).first.cargo.to_s%></td>
+          <td><%=Cargo.where(:id => lic.cargo_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.cargo.situacion_revista%></td>
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+          <td><%=lic.obs_sin_goce_cancelacion%></td>
+
+        </tr>
+      <% end %>
+      <%elsif @rol == "escuela"
+        @lic = @licencias_cargos.where(:establecimiento_id => session[:establecimiento])
+      %>
+      <% @lic.each do |lic|%>
+        <tr>        
+          <td><%=Cargo.where(:id => lic.cargo_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.cargo.secuencia%></td>
+          <td>Cargos</td>
+          <td><%=Cargo.where(:id => lic.cargo_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.cargo.situacion_revista%></td>
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+          <td><%=lic.obs_sin_goce_cancelacion%></td>
+        </tr>
+      <% end %>
+      <%end%>
+
+    </body>
+  </table>
+
+<h2>Auxiliares</h2>
+<div style="padding: 5px;">
+  <table class="tabla-reportes">
+    <head>
+          <th>Establ</th>
+          <th>Organismo destino</th>
+          <th>Sec.</th>               
+          <th>Tipo</th>
+          <th>Cargo</th>
+          <th>Persona</th>
+          <th>Situación Rev.</th>    
+          <th>Artículo</th>
+          <th class="text-center col-md-1">Fecha Desde</th>
+          <th class="text-center col-md-1">Fecha Hasta</th>
+          <th class="text-center col-md-1">Estado LIC</th>
+          <th class="text-center col-md-1">Motivo de cancelación</th>
+    </head>
+    <body>
+      <%
+          @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+          if @rol == "sadmin" or @rol == "licencia"
+      %>
+      <% @licencias_aux.each do |lic|%>
+        <tr>        
+          <td><%=CargoNoDocente.where(:id => lic.cargo_no_docente_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.cargo_no_docente.secuencia%></td>
+          <td>Cargo Auxiliar</td>
+          <td><%=CargoNoDocente.where(:id => lic.cargo_no_docente_id.to_i).first.to_s%></td>
+          <td><%=CargoNoDocente.where(:id => lic.cargo_no_docente_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.cargo_no_docente.situacion_revista%></td>
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+          <td><%=lic.obs_sin_goce_cancelacion%></td>
+
+        </tr>
+      <% end %>
+      <%elsif @rol == "escuela"
+        @lic = @licencias_aux.where(:establecimiento_id => session[:establecimiento])
+      %>
+      <% @lic.each do |lic|%>
+        <tr>        
+          <td><%=CargoNoDocente.where(:id => lic.cargo_no_docente_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.cargo_no_docente.secuencia%></td>
+          <td>Cargo Auxiliar</td>
+          <td><%=CargoNoDocente.where(:id => lic.cargo_no_docente_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.cargo_no_docente.situacion_revista%></td>
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+          <td><%=lic.obs_sin_goce_cancelacion%></td>
+
+        </tr>
+      <% end %>
+      <%end%>
+
+    </body>
+  </table>
+</div>
+<script type="text/javascript">
+  $(document).ready(function($) {
+  
+    function getParams() {
+      var params = '?mes=' + $('#select_mes').val()+'&anio=' + $('#select_anio').val();
+      return  params
+    };
+
+    $('#btn-filtrar').on('click', function() {
+      window.location.href = "<%= licencias_sin_goce_canceladas_path %>" + getParams();
+    });
+
+    $('#btn-imprimir').on('click', function(){
+       window.location.href = '/soft/snpe/licencias/licencias_sin_goce_canceladas.pdf' + getParams();
+    })
+
+  });
+</script>

@@ -412,6 +412,14 @@ ProyectoBase::Application.routes.draw do
     get 'licencia/buscar_articulo_dias_cargo_no_docente/:id_articulo/:id_cargos_no_docentes', to: 'licencia#buscar_articulo_dias_cargo_no_docente', as: :buscar_articulo_dias_cargo_no_docente
     get 'licencias/listado_licencias', to: 'licencia#listado_licencias', as: :listado_licencias
     get 'licencias/listado_licencias_todas', to: 'licencia#listado_licencias_todas', as: :listado_licencias_todas
+    get 'licencias/licencias_chequeadas_horas', to: 'licencia#licencias_chequeadas_horas', as: :licencias_chequeadas_horas
+    get 'licencias/listado_licencias_cnds_sg_chequeadas', to: 'licencia#listado_licencias_cnds_sg_chequeadas', as: :listado_licencias_cnds_sg_chequeadas
+    get 'licencias/listado_licencias_carg_sg_chequeadas', to: 'licencia#listado_licencias_carg_sg_chequeadas', as: :listado_licencias_carg_sg_chequeadas
+
+
+
+    
+    post 'licencia/cancelar_sin_goce' , to: 'licencia#cancelar_sin_goce', as: :cancelar_sin_goce
     get 'licencias/listado_licencias_cnds', to: 'licencia#listado_licencias_cnds', as: :listado_licencias_cnds
     get 'licencias/listado_licencias_carg', to: 'licencia#listado_licencias_carg', as: :listado_licencias_carg
     get 'licencias/parte_diario', to: 'licencia#parte_diario', as: :parte_diario
@@ -452,6 +460,7 @@ ProyectoBase::Application.routes.draw do
 
 
     get "traslados/reporte", to: "traslados#reporte", as: :traslados_reporte
+    get "licencias/licencias_sin_goce_canceladas", to: "licencia#licencias_sin_goce_canceladas", as: :licencias_sin_goce_canceladas
 
     get 'altas_bajas_horas/:id/historial', to: 'altas_bajas_horas#show', as: :historial_agente
     get 'cargos/:id/historial', to: 'cargos#show', as: :historial_agente_cargos

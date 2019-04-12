@@ -1,0 +1,42 @@
+
+<div>
+  <h3> Licencias sin goce de Haberes CANCELADAS </h3>
+  <table class="table table-bordered table-striped">
+    <head>
+          <th>Establ.</th>
+          <th>Destino</th>
+          <th>Sec.</th>              
+          <th>Tipo</th>
+          <th>Horas</th>
+          <th>Persona</th>
+          <th>Sit. Rev.</th>    
+          <th>Curso</th>
+          <th>Div.</th>
+          <th>Materia</th>
+          <th>Artículo</th>
+          <th class="text-center col-md-1">Fecha Desde</th>
+          <th class="text-center col-md-1">Fecha Hasta</th>
+          <th class="text-center col-md-1">Estado Actual</th>
+    </head>
+    <body>
+      <% @licencias.each do |lic|%>
+        <tr>        
+          <td><%=AltasBajasHora.where(:id => lic.altas_bajas_hora_id).first.establecimiento.codigo_jurisdiccional%></td>
+          <td><%=lic.organismo%></td>
+          <td><%=lic.altas_bajas_hora.secuencia%></td>
+          <td>Horas</td>
+          <td><%=lic.altas_bajas_hora.horas%></td>
+          <td><%=AltasBajasHora.where(:id => lic.altas_bajas_hora_id.to_i).first.persona.to_s%></td>
+          <td><%=lic.altas_bajas_hora.situacion_revista%></td>
+          <td><%=lic.altas_bajas_hora.anio%></td>
+          <td><%=lic.altas_bajas_hora.division%></td>
+          <td><%=lic.altas_bajas_hora.codificacion%></td> 
+          <td><%=lic.articulo.codigo.to_s%> - <%=lic.articulo.descripcion[0..30]%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_desde)%></td>
+          <td><%=Util.fecha_a_es(lic.fecha_hasta)%></td>
+          <td><%=lic.vigente%></td>
+        </tr>
+      <% end %>
+    </body>
+  </table>
+</div>

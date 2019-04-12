@@ -37,18 +37,23 @@ class ListadosLicenciaCargosndsDatatable < AjaxDatatablesRails::Base
               '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm">'+record.vigente+'</a></center></div>' 
             end,
             if record.vigente == "Finalizada" and (record.finalizada == false or record.finalizada == nil) then
-            '<a class="btn btn-primary btn-sm btn-ajax1" data-toggle="tooltip" data-placement="top" title="Chequear finalizada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_finalizada_path(id: record.id.to_s, :format => :json)+'">Chequear Finalizada<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
+            '<a class="btn btn-primary btn-sm btn-ajax1" data-toggle="tooltip" data-placement="top" title="Chequear finalizada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_finalizada_path(id: record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
             elsif record.vigente == "Finalizada" and record.finalizada == true then
               '<a class="btn btn-info btn-sm"
               <span class=aria-hidden="true" >Finalizada por ' + User.where(:id => record.user_cheq_finalizada_id).first.nombres + '</span>
               </a>'
             elsif record.vigente == "Vigente" and (record.cargada == false or record.cargada == nil )then
-            '<a class="btn btn-primary btn-sm btn-ajax1" data-toggle="tooltip" data-placement="top" title="Chequear cargada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_cargada_path(id: record.id.to_s, :format => :json)+'">Chequear Cargada<span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
+            '<a class="btn btn-primary btn-sm btn-ajax1" data-toggle="tooltip" data-placement="top" title="Chequear cargada" data-url="'+Rails.application.routes.url_helpers.licencias_chequear_cargada_path(id: record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'
 
             elsif record.vigente == "Vigente" and record.cargada == true then
               '<a class="btn btn-info btn-sm"
               <span class=aria-hidden="true" >Cargada por ' + User.where(:id => record.user_cheq_cargada_id).first.nombres + '</span>
               </a>'
+            end,
+            if (record.cargada == nil and record.cancelada_sin_goce == nil) and (record.finalizada == nil and record.cancelada_sin_goce == nil)
+              '<a class="btn btn-danger btn-sm btn-ajax" data-toggle="modal" id_lic="'+record.id.to_s+'"observaciones="'+CGI::escapeHTML(record.observaciones.to_s)+'" title="cancelar" data-original-title="Observaciones" data-target="#modal_cnd_obs"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'
+            else
+              ''
             end,
            
 
