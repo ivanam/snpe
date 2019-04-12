@@ -193,7 +193,10 @@ class CargosController < ApplicationController
   #------------------------------------------- FUNCIONES COLA ------------------------------------------------------------------------
   def imprimir_cola
     @novedades_ids = []
-    @lote = LoteImpresion.all.where(tipo_id: 2).last
+    @lote = LoteImpresion.all.where(tipo_id: 2, establecimiento_id: params["establecimiento_id"]).last
+    # if @lote == nil
+    #   @lote = LoteImpresion.all.where(tipo_id: 1).last
+    # end
     if @lote.fecha_impresion != nil
       cargos_novedades.where(alta_lote_impresion_id: nil).each do |h|
         if h.estado_actual == "Impreso"
@@ -276,7 +279,7 @@ class CargosController < ApplicationController
       end
     else 
       respond_to do |format|
-        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
+        format.json { render json: {status: 'error', msj: "No se puede dar de baja hasta terminar el proceso de carga anterior"} } # 204 No Content
       end
     end
   end
@@ -294,9 +297,11 @@ class CargosController < ApplicationController
     respond_to do |format|
       cargo = Cargo.find(params["id"])
       estado = Estado.where(descripcion: "Impreso").first
-      lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2).last
+      establecimiento = Establecimiento.where(id: cargo.establecimiento_id).first.id
+
+      lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2,  establecimiento_id: establecimiento).last
       if lote_impresion == nil
-        lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2)
+        lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2,  establecimiento_id: establecimiento)
       end
       if cargo.estado_actual == "Chequeado"
         if cargo.update!(alta_lote_impresion_id: lote_impresion.id)
@@ -406,11 +411,12 @@ class CargosController < ApplicationController
   end
 
   def cola_impresion
-    @lote = LoteImpresion.all.where(tipo_id: 2).last
-    @novedades_en_cola_impresion =  Cargo.where(id: -1).includes(:persona, :establecimiento)
+    @establecimiento_id = Establecimiento.find(session[:establecimiento]).id
+    @lote = LoteImpresion.all.where(tipo_id: 2, :establecimiento_id => @establecimiento_id).last
+    @novedades_en_cola_impresion =  Cargo.where(id: -1, :establecimiento_id => @establecimiento_id).includes(:persona, :establecimiento)
      if @lote != nil then
       if @lote.fecha_impresion == nil
-        @novedades_en_cola_impresion = Cargo.where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :establecimiento)
+        @novedades_en_cola_impresion = Cargo.where(:establecimiento_id => @establecimiento_id).where("alta_lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :establecimiento)
       end
     end
     respond_to do |format|

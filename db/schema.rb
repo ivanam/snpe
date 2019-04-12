@@ -11,7 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20190401132435) do
+=======
+ActiveRecord::Schema.define(version: 20190405144646) do
+>>>>>>> 238aec6692f8249fdf19b5abe435f02969763142
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -121,6 +125,7 @@ ActiveRecord::Schema.define(version: 20190401132435) do
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
     t.boolean  "medico"
+    t.boolean  "permite_otro_organismo", default: false
   end
 
   create_table "asistencia", force: true do |t|
@@ -368,6 +373,7 @@ ActiveRecord::Schema.define(version: 20190401132435) do
     t.datetime "updated_at"
     t.integer  "lugar_pago"
     t.boolean  "sede"
+    t.boolean  "migrada"
   end
 
   create_table "establecimientos_users", force: true do |t|
@@ -498,6 +504,7 @@ ActiveRecord::Schema.define(version: 20190401132435) do
     t.integer  "oficina"
     t.boolean  "con_certificado"
     t.boolean  "con_formulario"
+    t.string   "organismo"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
@@ -544,6 +551,7 @@ ActiveRecord::Schema.define(version: 20190401132435) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tipo_id"
+    t.integer  "establecimiento_id"
   end
 
   create_table "lugar_pagos", force: true do |t|

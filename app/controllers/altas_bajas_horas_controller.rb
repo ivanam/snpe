@@ -45,6 +45,7 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+
   def index_cola_impresion
     @lote = LoteImpresion.all.where(tipo_id: 1).last
     @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
@@ -69,48 +70,6 @@ class AltasBajasHorasController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: AltasBajasHoraDatatable.new(view_context, { query: altas_bajas_horas_permitidas_bajas }) }
-    end
-  end
-
-  def imprimir_cola
-    @novedades_ids = []
-    @lote = LoteImpresion.all.where(tipo_id: 1).last
-    if @lote.fecha_impresion != nil
-      @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-      horas_novedades(@mindate, @maxdate).where(lote_impresion_id: nil).each do |h|
-        if h.estado_actual == "Impreso"
-          @novedades_ids << h.id
-        end
-      end
-      
-      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
-      respond_to do |format|
-        format.html { redirect_to horas_index_novedades_path}
-        format.json { head :no_content } # 204 No Content
-      end
-    else
-      @lote.update(fecha_impresion: Date.today)
-      
-      respond_to do |format|
-        format.html { redirect_to lote_impresion_path(@lote)}
-        #format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
-      end
-    end
-  end
-
-  def cancelar_cola
-    @hora = AltasBajasHora.find(params["id"])
-    if @hora.estado_anterior == "Chequeado_Baja"
-      @estado = Estado.where(descripcion: "Chequeado_Baja").first
-      @hora.update(baja_lote_impresion_id: nil)
-    elsif @hora.estado_anterior == "Chequeado"
-      @estado = Estado.where(descripcion: "Chequeado").first
-      @hora.update(lote_impresion_id: nil)
-    end
-    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
-    respond_to do |format|
-      format.html { redirect_to horas_index_novedades_path, notice: 'Alta chequeada' }
-      format.json { head :no_content } # 204 No Content
     end
   end
 
@@ -580,8 +539,7 @@ class AltasBajasHorasController < ApplicationController
       end
     else
       respond_to do |format|
-        format.json { render json: "No se puede dar de baja hasta terminar el proceso de carga anterior", status: :unprocessable_entity} # 204 No Content
-        format.html { redirect_to altas_bajas_horas_index_bajas_path, notice: 'proceso' }
+        format.json { render json: {status: 'error', msj: "No se puede dar de baja hasta terminar el proceso de carga anterior"} } # 204 No Content
       end
     end
   end
@@ -638,21 +596,89 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def chequear
+
     @altas_bajas_hora.update(updated_at: Date.today)
     @estado = Estado.where(descripcion: "Chequeado").first
     AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
     respond_to do |format|
       format.html { redirect_to altas_bajas_horas_path, notice: 'Alta chequeada' }
+      format.json { render json: {status: 'ok'}}
+    end
+  end
+
+  def index_cola_impresion
+    @establecimiento_id = Establecimiento.find(session[:establecimiento]).id
+    @lote = LoteImpresion.all.where(tipo_id: 1, :establecimiento_id => @establecimiento_id).last
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1, :establecimiento_id => @establecimiento_id).includes(:persona, :materium)
+    if @lote != nil then
+      if  @lote.fecha_impresion == nil
+        #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
+        @novedades_en_cola_impresion = AltasBajasHora.where(:establecimiento_id => @establecimiento_id).where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
+      end
+    end
+
+    respond_to do |format|
+      format.html
+      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+    end
+  end
+
+
+
+  def imprimir_cola
+
+    @novedades_ids = []  
+    @lote = LoteImpresion.all.where(tipo_id: 1, establecimiento_id: params["establecimiento_id"]).last
+    # if @lote == nil
+    #   @lote = LoteImpresion.all.where(tipo_id: 1).last
+    # end
+    if @lote.fecha_impresion != nil
+      @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+      horas_novedades(@mindate, @maxdate).where(lote_impresion_id: nil).each do |h|
+        if h.estado_actual == "Impreso"
+          @novedades_ids << h.id
+        end
+      end
       
+      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+      respond_to do |format|
+        format.html { redirect_to horas_index_novedades_path}
+        format.json { head :no_content } # 204 No Content
+      end
+    else
+      @lote.update(fecha_impresion: Date.today)
+      
+      respond_to do |format|
+        format.html { redirect_to lote_impresion_path(@lote)}
+        #format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+      end
+    end
+  end
+
+  def cancelar_cola
+    @hora = AltasBajasHora.find(params["id"])
+    if @hora.estado_anterior == "Chequeado_Baja"
+      @estado = Estado.where(descripcion: "Chequeado_Baja").first
+      @hora.update(baja_lote_impresion_id: nil)
+    elsif @hora.estado_anterior == "Chequeado"
+      @estado = Estado.where(descripcion: "Chequeado").first
+      @hora.update(lote_impresion_id: nil)
+    end
+    AltasBajasHoraEstado.create( alta_baja_hora_id: @hora.id, estado_id: @estado.id, user_id: current_user.id)
+    respond_to do |format|
+      format.html { redirect_to horas_index_novedades_path, notice: 'Alta chequeada' }
+      format.json { head :no_content } # 204 No Content
     end
   end
 
   def imprimir
+    
     hora = AltasBajasHora.find(params["id"])
     estado = Estado.where(descripcion: "Impreso").first
-    lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1).last
+    establecimiento = Establecimiento.where(id: hora.establecimiento_id).first.id
+    lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 1, establecimiento_id: establecimiento).last
     if lote_impresion == nil
-      lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1)
+      lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 1, establecimiento_id: establecimiento)
     end
     if hora.estado_actual == "Chequeado"
       if hora.update(lote_impresion_id: lote_impresion.id)

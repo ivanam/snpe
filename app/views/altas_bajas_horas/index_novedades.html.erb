@@ -81,8 +81,9 @@
 
 </div>
 
- 
-  <%= link_to horas_imprimir_cola_path, :class => 'btn btn-primary' do %>
+ <%@establecimiento_id = Establecimiento.find(session[:establecimiento])%> 
+
+  <%= link_to horas_imprimir_cola_path(establecimiento_id: @establecimiento_id), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     Crear Impresión
   <% end %>

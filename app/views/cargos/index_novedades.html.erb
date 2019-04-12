@@ -78,8 +78,9 @@
 
 </div>
 
+<%@establecimiento_id = Establecimiento.find(session[:establecimiento])%> 
 
-<%= link_to cargos_imprimir_cola_path(anio: @anio, mes: @mes), :class => 'btn btn-primary' do %>
+<%= link_to cargos_imprimir_cola_path(establecimiento_id: @establecimiento_id,anio: @anio, mes: @mes), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     Imprimir
   <% end %>

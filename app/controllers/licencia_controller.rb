@@ -252,12 +252,30 @@ def obtenerdatarange3
 end
 
 
-
-
-
+#horas con licencia sin goce VIGENTES
 def listado_licencias_todas_lic
   
+  @tipo = "Vigente"
+  if params["rango"] == "" or params["rango"] == nil
+    @mindate_year = Date.today.year
+    @mindate = Date.today.to_date.iso8601
+    @maxdate = Date.today.to_date.iso8601
+    @res = listado_de_licencias_sg(@mindate, @maxdate, @tipo)
+  else
+    @rango = params["rango"]
+    @mindate, @maxdate = Util.max_min_periodo(@rango)
+    @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @tipo)
+  end  
+  debugger
+  respond_to do |format|
+    format.xls 
+    format.html 
+    format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res}) }
+  end
+  end
 
+#horas con licencia sin goce FINALIZADA
+def listado_licencias_todas_lic_finalizadas
   @dni=params[:dni]
   if @dni == '' or @dni == ""
     @dni = nil
@@ -415,7 +433,11 @@ def listado_licencias_todas_lic
      @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
      nro_oficina = @oficina.codigo_jurisdiccional
 
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic] == nil
+    # Valido que complete el campo organismo
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo].empty?
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json 
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
     elsif  (altbahora.turno == nil or altbahora.turno == "")
@@ -430,8 +452,7 @@ def listado_licencias_todas_lic
             @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
             nro_oficina = @oficina.codigo_jurisdiccional
           end
-          
-          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario , altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones] , nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario , altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones] , nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
           if @licencia.save && AltasBajasHora.create(establecimiento_id: @oficina.id, persona_id: altbahora.persona_id, secuencia: 1000, horas: altbahora.horas, plan_id: altbahora.plan_id, materium_id: altbahora.materium_id, fecha_alta: altbahora.fecha_alta, anio: altbahora.anio, division: altbahora.division, fecha_baja: altbahora.fecha_baja, ciclo_carrera: altbahora.ciclo_carrera, situacion_revista: altbahora.situacion_revista, turno: altbahora.turno, estado: 'REU', obs_lic: descripcion_articulo)
             render json: 0
           else
@@ -454,7 +475,7 @@ def listado_licencias_todas_lic
       elsif (listaArtTrasladosDef.include? params[:articulo] and altbahora.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and altbahora.secuencia == 1000)
           render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario ,altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario ,altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
             if @licencia.save
                  render json: 0
             else
@@ -668,7 +689,10 @@ def listado_licencias_todas_lic
 
     licencias_anuales = [241,289]
     
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic_1] == nil
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo].empty?
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json 
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic_1] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
 
@@ -686,7 +710,7 @@ def listado_licencias_todas_lic
             @oficina = Establecimiento.where(id: cargo.establecimiento_id).first
             nro_oficina = @oficina.codigo_jurisdiccional
           end
-          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
           if @licencia.save && Cargo.create!(establecimiento_id: @oficina.id, persona_id: cargo.persona_id, cargo: cargo.cargo, secuencia: 1000, fecha_alta: cargo.fecha_alta, anio:0, division: 0, fecha_baja: cargo.fecha_baja, situacion_revista: cargo.situacion_revista, turno: cargo.turno,   estado: 'REU' , obs_lic: descripcion_articulo)
             render json: 0
           else
@@ -710,7 +734,7 @@ def listado_licencias_todas_lic
       elsif (listaArtTrasladosDef.include? params[:articulo] and cargo.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and cargo.secuencia == 1000)
           render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
             if @licencia.save
                  render json: 0
             else
@@ -908,8 +932,10 @@ def listado_licencias_todas_lic
     art_id = Articulo.where(id: params['articulo']).first.id
     licencias_anuales = [241,289]
     
-
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic_2] == nil
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo].empty?
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json 
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic_2] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
     elsif (turnocnds == nil or turnocnds == "")
@@ -926,7 +952,7 @@ def listado_licencias_todas_lic
             @oficina = Establecimiento.where(id: cargonds.establecimiento_id).first
             nro_oficina = @oficina.codigo_jurisdiccional
           end
-          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
           if @licencia.save && CargoNoDocente.create!(establecimiento_id: @oficina.id, persona_id: cargonds.persona_id, cargo: cargonds.cargo, secuencia: 1000, fecha_alta: cargonds.fecha_alta, fecha_baja: cargonds.fecha_baja, situacion_revista: cargonds.situacion_revista, turno: cargonds.turno,   estado: 'REU' , obs_lic: descripcion_articulo)
             render json: 0
           else
@@ -953,7 +979,7 @@ def listado_licencias_todas_lic
       elsif (listaArtTrasladosDef.include? params[:articulo] and cargonds.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and cargonds.secuencia == 1000)
         render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
           if @licencia.save
                render json: 0
           else
