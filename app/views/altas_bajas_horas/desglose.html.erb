@@ -1,0 +1,97 @@
+<legend> Desglose de Horas</legend>
+
+<div class="well">
+	<div class="row">
+		<div class="col-sm-4">
+			</dl class="dl-horizontal">
+				<dt>Establecimiento</dt>
+				<dd><%= @altas_bajas_hora.establecimiento.to_s %></dd>
+				<dt>DNI</dt>
+				<dd><%= @altas_bajas_hora.persona.nro_documento %></dd>
+				<dt>CUIT/CUIL</dt>
+				<dd><%= @altas_bajas_hora.persona.cuil %></dd>
+				<dt>Apellido y nombre</dt>
+				<dd><%= @altas_bajas_hora.persona.apeynom %></dd>
+				<dt>Fecha de nacimiento</dt>
+				<dd><%= @altas_bajas_hora.persona.fecha_nacimiento %></dd>
+			</dl>
+		</div>
+		<div class="col-sm-4">
+			</dl class="dl-horizontal">
+				<dt>Secuencia</dt>
+				<dd><%= @altas_bajas_hora.secuencia %></dd>
+				<dt>Fecha de alta</dt>
+				<dd><%= @altas_bajas_hora.fecha_alta %></dd>				
+				<dt>Género</dt>
+				<dd><%= @altas_bajas_hora.persona.sexo.to_s %></dd>
+				<dt>Situacion de revista</dt>
+				<dd><%= @altas_bajas_hora.situacion_revista %></dd>
+				<dt>Turno</dt>
+				<dd><%= @altas_bajas_hora.turno %></dd>
+			</dl>
+		</div>
+		<div class="col-sm-4">
+			</dl class="dl-horizontal">
+				<dt>Plan</dt>
+				<dd><%= @altas_bajas_hora.plan.to_s %></dd>
+				<dt>Curso / División</dt>
+				<dd><%= @altas_bajas_hora.anio %> / <%= @altas_bajas_hora.division %></dd>
+				<dt>Materia</dt>
+				<dd><%= @altas_bajas_hora.materium.to_s %></dd>
+				<dt>Horas</dt>
+				<dd><%= @altas_bajas_hora.horas %></dd>
+			</dl>
+		</div>
+	</div>	
+</div>
+
+<div class="form-carga-efecto form-carga-efecto-alta">
+	<legend class="legend-small">Paquetes de Horas</legend>
+
+	<%= nested_form_for(@altas_bajas_hora, :url => {:action => "guardar_desglose", :id => @altas_bajas_hora }, :html => { :class => "form-horizontal",  onsubmit: "return validateForm()" }) do |f| %>
+		<div class="form-snpe">
+			<% if @altas_bajas_hora.errors.any? %>
+				<div class="alert alert-danger alert-dismissable" role="alert">
+	      			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span>
+	      			</button>
+	      		<h4>No se pudo guardar el formulario, tiene los siguientes errores</h4>
+	      		<ul>
+					<% @altas_bajas_hora.errors.full_messages.each do |msg| %>
+						<li><%= msg %></li>
+					<% end %>
+	      		</ul>
+	    		</div>
+			<% end %>
+
+			<%= f.hidden_field :establecimiento_id, :value => @altas_bajas_hora.establecimiento_id %>
+			<%= f.hidden_field :fecha_alta, :value => @altas_bajas_hora.fecha_alta %>
+			<%= f.hidden_field :situacion_revista, :value => @altas_bajas_hora.situacion_revista %>
+			<%= f.hidden_field :persona_id, :value => @altas_bajas_hora.persona_id %>
+		    
+			<%= f.fields_for :altas_bajas_horas do |a| %>
+	        	<div class="row">
+	        		<%= a.hidden_field :secuencia, :value => 500 %>
+
+	        		<%= a.hidden_field :secuencia_original, :value => @altas_bajas_hora.secuencia %>
+
+	          		<%= a.select :plan_id,  options_from_collection_for_select(Plan.all , :id, :to_s), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%> 
+					<%= a.select :materium_id,  options_from_collection_for_select(Materium.all , :id, :to_s), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select"}%>  
+
+	          		<%= a.select :anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso" }%>
+
+	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División", :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
+
+          			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas"}%>
+
+	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>
+	        	</div>
+      		<% end %>
+			<%= f.link_to_add "Agregar un paquete de horas", :altas_bajas_horas , :class => "btn btn-xs btn-success" %>
+
+		</div>
+		<hr>
+		<div class="row">        
+        	<%= f.submit :class => "btn btn-primary", :value => "Guardar" , :id =>"formulario" %>
+      	</div>
+	<% end %>
+</div>
