@@ -7,7 +7,7 @@
       return resultado3;
     }
 
-	 $('#modal_bajas_efectivas, #modal_novedades, #modal_altas').on('shown.bs.modal', function (event) {      
+	 $('#modal_bajas_horas_efectivas, #modal_bajas_efectivas, #modal_novedades, #modal_altas').on('shown.bs.modal', function (event) {      
 	    var alta_id = $(event.relatedTarget).attr('alta-id');
 	    $.ajax({
 	        url: '/soft/snpe/util/buscar_estados_altas_bajas_hora/'+alta_id,
@@ -47,7 +47,7 @@
 	  });
 
 	  //acá limpiamos el modal cada vez que se cierra
-	  $('#modal_bajas_efectivas, #modal_novedades, #modal_altas').on('hidden.bs.modal', function () {
+	  $('#modal_bajas_horas_efectivas, #modal_bajas_efectivas, #modal_novedades, #modal_altas').on('hidden.bs.modal', function () {
 	    $(".limpiable").remove();
 	    $("#boton_ocultar_historial").hide();
 	    $("#boton_mostrar_historial").show();

@@ -43,6 +43,7 @@ class Ability
           can :read, [Licencium]
           can :manage, [Traslado]
           can :listado_licencias_historico_agente, [Licencium]
+          can :index_bajas_notificadas_chequear, [AltasBajasHora]
 
         end
 
@@ -50,13 +51,28 @@ class Ability
           can :cargos_bajas_efectivas, [Cargo]
           can :manage, [Cargo]
           can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
-          can :modificacion, [AltasBajasHora]
+          can :manage, [AltasBajasHora]
           can :modificacion, [Cargo]
           can :modificacion, [CargoNoDocente]
           can :manage, [Licencium]
           can :read, [Materium]
           can :read, [Plan]
           can :manage, [RegistrosParaSolucionar]
+        end
+
+        if user.role? :delegacion
+          can :manage, [Cargo]
+          can :cargos_bajas_efectivas, [Cargo]
+          can :modificacion, [Cargo]
+          can :manage, [AltasBajasHora]
+          can :altas_bajas_hora_baja_efectiva, [AltasBajasHora]
+          can :index_novedades, [AltasBajasHora]
+          can :manage, [LoteImpresion]
+          can :cargo_no_docentes_bajas_efectivas, [CargoNoDocente]
+          can :modificacion, [AltasBajasHora]
+          can :modificacion, [Cargo]
+          can :modificacion, [CargoNoDocente]
+          can :manage, [Licencium]
         end
 
         if user.role? :licencia

@@ -29,14 +29,39 @@ module CargosHelper
   end
 
   def cargos_novedades_permitidas(mindate, maxdate)
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento])
     @cargos_ids = []
+    if current_user.role? :delegacion
+      if (current_user.region == '2')
+      @cargos = Cargo.select('cargos.*').from('cargos, establecimientos, localidads, regions').where('cargos.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC') 
+      end
+      if (current_user.region == '6')
+      @cargos = Cargo.select('cargos.*').from('cargos, establecimientos, localidads, regions').where('cargos.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC') 
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal) 
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").order('fecha_baja DESC') 
+    end
+
     @cargos.each do |a|
       if a.estado_actual == "Chequeado" || a.estado_actual == "Chequeado_Baja"
         @cargos_ids << a.id
       end
     end
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
+
+    if current_user.role? :delegacion
+      if (current_user.region == '2')
+       @cargos = Cargo.select('cargos.*').from('cargos, establecimientos, localidads, regions').where('cargos.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC') 
+      end
+      if (current_user.region == '6')
+       @cargos = Cargo.select('cargos.*').from('cargos, establecimientos, localidads, regions').where('cargos.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC') 
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal)
+       @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").order('fecha_baja DESC') 
+    end
+    #@cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
     @cargos.each do |a|
       if a.estado_actual == "Impreso" || a.estado_actual == "Cobrado"
         @cargos_ids << a.id
@@ -52,8 +77,21 @@ module CargosHelper
 
 
   def cargo_bajas_efectivas(mindate, maxdate)
-    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
     @cargos_ids = []
+    if current_user.role? :delegacion
+      if (current_user.region == '2')  
+       @cargos = Cargo.select('cargos.*').from('cargos, establecimientos, localidads, regions').where('cargos.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where.not(:fecha_baja => nil).where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC')
+      end
+      if (current_user.region == '6')
+      @cargos = Cargo.select('cargos.*').from('cargos, establecimientos, localidads, regions').where('cargos.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where.not(:fecha_baja => nil).where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC')
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal)
+    @cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( cargos.updated_at >= '" + mindate.to_time.iso8601 + "' and cargos.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('fecha_baja != "" or  fecha_baja is not NULL').order('fecha_baja DESC')
+    end
+   #@cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
+ 
     @cargos.each do |c|
       if c.estado_actual == "Notificado_Baja" || c.estado_actual == "Impreso" || c.estado_actual == "Notificado_Baja"
         @cargos_ids << c.id

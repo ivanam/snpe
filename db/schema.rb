@@ -13,6 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20190409140440) do
 
+
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
@@ -866,6 +867,7 @@ ActiveRecord::Schema.define(version: 20190409140440) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "documento"
+    t.string   "region"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

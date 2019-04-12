@@ -208,9 +208,10 @@ class Licencium < ActiveRecord::Base
 	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
 	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: 1)
 	 				end
-                                elsif self.por_continua != nil
+
+	 		    elsif self.por_continua != nil
 	 			elsif (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede == nil)
-	 				cargo.update!(estado: 'ALT') 
+	 				cargo.update!(estado: 'ALT')
         elsif Cargo.find(self.cargo_id).trabaja_en_sede != nil or (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede != nil)
           cargo.update!(estado: 'ALT')
 	 			else

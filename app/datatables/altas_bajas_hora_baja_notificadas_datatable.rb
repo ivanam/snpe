@@ -1,12 +1,12 @@
-class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
+class AltasBajasHoraBajaNotificadasDatatable < AjaxDatatablesRails::Base
   include AjaxDatatablesRails::Extensions::WillPaginate
 
   def sortable_columns
-    @sortable_columns ||= ['Persona.nro_documento','Persona.apeynom', 'AltasBajasHora.secuencia', 'AltasBajasHora.turno', 'AltasBajasHora.anio','AltasBajasHora.division', 'AltasBajasHora.fecha_alta']
+    @sortable_columns ||= ['Persona.nro_documento','Persona.apeynom', 'AltasBajasHora.secuencia', 'AltasBajasHora.turno', 'AltasBajasHora.anio','AltasBajasHora.division', 'AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
   end
 
   def searchable_columns
-    @searchable_columns ||= ['Persona.nro_documento','Persona.apeynom', 'AltasBajasHora.secuencia', 'AltasBajasHora.turno', 'AltasBajasHora.anio','AltasBajasHora.division', 'AltasBajasHora.fecha_alta']
+    @searchable_columns ||= ['Persona.nro_documento','Persona.apeynom', 'AltasBajasHora.secuencia', 'AltasBajasHora.turno', 'AltasBajasHora.anio','AltasBajasHora.division', 'AltasBajasHora.fecha_alta','AltasBajasHora.fecha_baja']
   end
 
   private
@@ -25,7 +25,7 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
         record.horas,
         if record.estado_actual == "Notificado_Baja"  then
-          if options[:rol] == "escuela"  then
+          if options[:rol] == "escuela" then
           '<center><div class="btn-acciones">'+
             '<a class="btn btn-sm btn-danger btn-ajax" data-toggle="tooltip" data-placement="top" title="Cancelar baja" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
           '</div></center>'
@@ -50,4 +50,4 @@ class AltasBajasHoraBajaEfectivaDatatable < AjaxDatatablesRails::Base
     return options[:query].order(fecha_baja: :desc)
   end
 
-end
+ end

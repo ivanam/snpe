@@ -13,7 +13,8 @@ class CargosBajasEfectivasDatatable < AjaxDatatablesRails::Base
 
   def data
     records.map do |record|
-      [        
+      [ 
+        record.establecimiento.codigo_jurisdiccional,       
         record.persona.nro_documento,
         record.persona.cuil,
         record.persona.to_s,
@@ -32,7 +33,7 @@ class CargosBajasEfectivasDatatable < AjaxDatatablesRails::Base
           '<center><div class="btn-acciones">'+
             '<a class="btn btn-sm btn-danger btn-ajax" data-toggle="tooltip" data-placement="top" title="Cancelar baja" data-url="'+Rails.application.routes.url_helpers.cargo_cancelar_baja_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
           '</div></center>'
-          elsif options[:rol] == "personal" then
+          elsif options[:rol] == "personal" || options[:rol] == "delegacion" then
           '<center><div class="btn-acciones">'+
             '<a class="btn btn-success btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Marcar como chequeada" data-url="'+Rails.application.routes.url_helpers.cargo_chequear_baja_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'+
           '</div></center>'
@@ -50,7 +51,7 @@ class CargosBajasEfectivasDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
+    return options[:query].order(fecha_baja: :desc)
   end
 
 end

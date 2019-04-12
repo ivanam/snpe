@@ -31,7 +31,7 @@
         <%= render :partial => "layouts/menu_carga_planes" %>
       <% end %>
       <ul class="nav navbar-nav">
-        <% if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta)) then  %>
+        <% if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta) && (!current_user.role? :delegacion)) then  %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Carga de Novedades <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -71,7 +71,7 @@
                     <!--<li><%=link_to "Inscripciones Docente Primaria", buscar_cv_persona_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Puntaje Docente (Rubros)", rubros_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Titulos", titulos_path, :tabindex => "-1"%></li>-->
-                    <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
+                    <% if (current_user.role? :sadmin) || (current_user.role? :personal)  then %>
                       <li><%=link_to "Novedades", cargos_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
                     <% if ver_model("Cargo") %>
@@ -83,12 +83,12 @@
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos auxiliares</a>
                   <ul class="dropdown-menu">
-                    <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
+                    <% if (current_user.role? :sadmin) || (current_user.role? :personal)  then %>
                     <li><%=link_to "Altas", cargo_no_docentes_path, :tabindex => "-1"%></li>
                     <% end %>
                     <li><%=link_to "Modificacion", cargo_no_docentes_modificacion_path, :tabindex => "-1"%></li>
                     <li><%=link_to "Bajas", cargo_no_docentes_index_bajas_path, :tabindex => "-1"%></li>
-                    <% if (current_user.role? :sadmin) || (current_user.role? :personal) then %>
+                    <% if (current_user.role? :sadmin) || (current_user.role? :personal)  then %>
                       <li><%=link_to "Novedades", cargo_no_docentes_index_novedades_path, :tabindex => "-1"%></li>  
                     <% end %>
                     <% if ver_model("Cargo") %>
@@ -109,17 +109,16 @@
         <%= render :partial => "layouts/menu_inscripciones" %>
       <%end%>
 
-      <%if (user_signed_in? && (not current_user.role? :Junta) && (not current_user.role? :UserJunta)) then %>
+      <%if (user_signed_in? && (not current_user.role? :Junta) && (not current_user.role? :UserJunta) && (!current_user.role? :delegacion)) then %>
         <%= render :partial => "layouts/menu_licencias" %>
       <%end%>
 
       <ul class="nav navbar-nav">
         <% if user_signed_in? then %>
-        <% if (current_user.role? :sadmin) || (current_user.role? :personal)  then %>
+        <% if (current_user.role? :sadmin) || (current_user.role? :personal) || (current_user.role? :delegacion) then %>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Novedades para imprimir <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <% if ver_model("AltasBajasHora") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#" onclick='return false;'>Horas</a>
                   <ul class="dropdown-menu">
@@ -127,9 +126,7 @@
                       <li><%=link_to "Inasistencia", asistencia_index_novedades_alta_baja_hora_path, :tabindex => "-1"%></li>  
                   </ul>
                 </li>
-              <% end %>
 
-              <% if ver_model("Cargo") then %>
                 <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos</a>
                   <ul class="dropdown-menu">
@@ -137,17 +134,14 @@
                       <li><%=link_to "Inasistencia", asistencia_index_novedades_cargo_path, :tabindex => "-1"%></li>  
                   </ul>
                 </li>
-              <% end %>
-
-              <% if ver_model("Cargo") then %>
-                <li class="dropdown-submenu">
+    
+                  <li class="dropdown-submenu">
                   <a tabindex="-1" href="#">Cargos auxiliares</a>
                   <ul class="dropdown-menu">
                      <li><%=link_to "Altas y Bajas", cargo_no_docentes_index_novedades_path, :tabindex => "-1"%></li>  
                      <li><%=link_to "Inasistencia", asistencia_index_novedades_cargo_no_docente_path, :tabindex => "-1"%></li>  
                   </ul>
                 </li>
-              <% end %>
               <li><%=link_to "Traslados", traslados_reporte_path, :tabindex => "-1"%></li>
               <li><%=link_to "Lic sin goce", licencias_sin_goce_path, :tabindex => "-1"%></li>
             </ul>
@@ -289,7 +283,18 @@
           <% end %>
         <% end %>
       </ul>
+     
 
+      <ul class="nav navbar-nav">
+        <% if user_signed_in? then %>
+          <% if (current_user.role? :delegacion) then %>
+            <li><%=link_to "Impresiones", lote_impresions_path, :tabindex => "-1"%></li>
+             <li><%=link_to "Bajas Horas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
+               <li><%=link_to "Bajas Cargos", cargos_index_bajas_path, :tabindex => "-1"%></li>  
+        
+          <% end %>
+        <% end %>
+      </ul>
   
       <ul class="nav navbar-nav pull-right">
         <li class="dropdown">

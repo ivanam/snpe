@@ -34,11 +34,9 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
+    return options[:query].order(fecha_impresion: :desc)
   end
 
     # Esto sirve momentaneamente para el ordenar
-  def sort_records(records)
-    records
-  end
+
 end
