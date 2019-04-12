@@ -1383,7 +1383,8 @@ def listado_licencias_todas_lic
       (licencia.observaciones = "" or
        licencia.observaciones = null ) and (licencia.con_certificado = null 
       or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) 
-      and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
+      and ( articulos.medico = 1) and licencia.vigente != "Cancelada"') 
+    debugger
     
     respond_to do |format|
     format.pdf do

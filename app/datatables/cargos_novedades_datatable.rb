@@ -24,6 +24,7 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
         Util.fecha_a_es(record.fecha_alta),
         Util.fecha_a_es(record.fecha_baja),
         record.observaciones,
+        '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_bajas_efectivas" cargo-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         '<button class="btn btn-'+record.estados.last.color_estado+' btn-xs pepe" data-toggle="modal" data-target="#modal_novedades" alta-id="'+record.id.to_s+'"><b>'+record.estados.last.mensaje_estado+'</b></button>',
         if options[:tipo_tabla] == "novedades" then
           if (record.estado_actual != "Impreso") then
@@ -40,7 +41,7 @@ class CargosNovedadesDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records
-    return options[:query]
+    return options[:query].order(fecha_baja: :desc)
   end
 
 end

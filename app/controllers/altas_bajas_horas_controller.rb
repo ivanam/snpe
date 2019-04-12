@@ -51,7 +51,11 @@ class AltasBajasHorasController < ApplicationController
     if @lote != nil then
       if  @lote.fecha_impresion == nil
         #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
+        if current_user.role? :delegacion 
+        @novedades_en_cola_impresion = AltasBajasHora.where("baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
+        else
+        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium).where(:establecimiento_id => session[:establecimiento])
+        end      
       end
     end
 
@@ -123,7 +127,7 @@ class AltasBajasHorasController < ApplicationController
     @bajas = altas_bajas_horas_efectivas_bajas(@mindate.to_date, @maxdate.to_date)
     respond_to do |format|
       format.html
-      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: @bajas.order(:fecha_baja) , rol: @rol }) }
+      format.json { render json: AltasBajasHoraBajaEfectivaDatatable.new(view_context, { query: @bajas , rol: @rol }) }
       format.pdf do
         render :pdf => 'bajas_notificadas',
         :template => 'altas_bajas_horas/reporte_horas_baja.html.erb',
@@ -134,6 +138,26 @@ class AltasBajasHorasController < ApplicationController
       end
     end
   end
+
+  def index_bajas_notificadas_chequear
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    @bajas = altas_bajas_horas_notificadas(@mindate.to_date, @maxdate.to_date)
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraBajaNotificadasDatatable.new(view_context, { query: @bajas , rol: @rol }) }
+      format.pdf do
+        render :pdf => 'bajas_notificadas',
+        :template => 'altas_bajas_horas/reporte_horas_baja.html.erb',
+        :layout => 'pdf.html.erb',
+        :orientation => 'Landscape',# default Portrait
+        :page_size => 'Legal', # default A4
+        :show_as_html => params[:debug].present?
+      end
+    end
+  end
+
+
 
 
 
