@@ -4,8 +4,8 @@ class MigracionController < ApplicationController
 
 	$mes = 3
 	$anio = 2019
-	$nueva = false
-	$escuelasNuevas = []
+	$nueva = true
+	$escuelasNuevas = [701,705]
   #en la vista registros para controlar hay q permitir dar de alta;
 
 	def migrar_hs
