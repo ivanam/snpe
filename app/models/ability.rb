@@ -41,6 +41,7 @@ class Ability
           can :update, [Persona]
           can :manage, [Licencium]
           can :read, [Licencium]
+          cannot :listado_licencias_todas_lic, [Licencium]
           can :manage, [Traslado]
           can :listado_licencias_historico_agente, [Licencium]
           can :index_bajas_notificadas_chequear, [AltasBajasHora]
