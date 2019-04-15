@@ -8,8 +8,9 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :materium
   belongs_to :plan
 
-  has_many :altas_bajas_horas, :foreign_key => 'desglose_horas_id', :class_name => 'AltasBajasHora'
-  accepts_nested_attributes_for :altas_bajas_horas, allow_destroy: true
+  has_many :children, :foreign_key => 'desglose_horas_id', :class_name => 'AltasBajasHora'
+  belongs_to :parent, class_name: 'AltasBajasHora'
+  accepts_nested_attributes_for :children, allow_destroy: true
 
 
   if true
