@@ -197,24 +197,31 @@ class CargosController < ApplicationController
     # if @lote == nil
     #   @lote = LoteImpresion.all.where(tipo_id: 1).last
     # end
-    if @lote.fecha_impresion != nil
-      cargos_novedades.where(alta_lote_impresion_id: nil).each do |h|
-        if h.estado_actual == "Impreso"
-          @novedades_ids << h.id
+    if @lote != nil
+      if @lote.fecha_impresion != nil
+        cargos_novedades.where(alta_lote_impresion_id: nil).each do |h|
+          if h.estado_actual == "Impreso"
+            @novedades_ids << h.id
+          end
+        end
+        @novedades_en_cola_impresion = Cargo.where(id: @novedades_ids)
+        respond_to do |format|
+          format.html
+          format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+        end
+      else
+        @lote.update(fecha_impresion: Date.today)
+        
+        respond_to do |format|
+          format.html { redirect_to lote_impresion_path(@lote)}
         end
       end
-      @novedades_en_cola_impresion = Cargo.where(id: @novedades_ids)
-      respond_to do |format|
-        format.html
-        format.json { render json: CargosNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
-      end
     else
-      @lote.update(fecha_impresion: Date.today)
-      
       respond_to do |format|
-        format.html { redirect_to lote_impresion_path(@lote)}
+        format.json { render json: {status: 'error', msj: "No hay registros chequeados"} }
+        format.html { redirect_to cargos_index_novedades_path, alert: 'No hay registros chequeados' }
       end
-    end
+    end 
   end
 
   def cancelar_cola

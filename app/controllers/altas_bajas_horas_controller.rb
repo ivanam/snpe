@@ -629,28 +629,32 @@ class AltasBajasHorasController < ApplicationController
 
     @novedades_ids = []  
     @lote = LoteImpresion.all.where(tipo_id: 1, establecimiento_id: params["establecimiento_id"]).last
-    # if @lote == nil
-    #   @lote = LoteImpresion.all.where(tipo_id: 1).last
-    # end
-    if @lote.fecha_impresion != nil
-      @mindate, @maxdate = Util.max_min_periodo(params["rango"])
-      horas_novedades(@mindate, @maxdate).where(lote_impresion_id: nil).each do |h|
-        if h.estado_actual == "Impreso"
-          @novedades_ids << h.id
+    if @lote != nil
+      if @lote.fecha_impresion != nil
+        @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+        horas_novedades(@mindate, @maxdate).where(lote_impresion_id: nil).each do |h|
+          if h.estado_actual == "Impreso"
+            @novedades_ids << h.id
+          end
+        end
+        
+        @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
+        respond_to do |format|
+          format.html { redirect_to horas_index_novedades_path}
+          format.json { head :no_content } # 204 No Content
+        end
+      else
+        @lote.update(fecha_impresion: Date.today)
+        
+        respond_to do |format|
+          format.html { redirect_to lote_impresion_path(@lote)}
+          #format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
         end
       end
-      
-      @novedades_en_cola_impresion = AltasBajasHora.where(id: @novedades_ids)
-      respond_to do |format|
-        format.html { redirect_to horas_index_novedades_path}
-        format.json { head :no_content } # 204 No Content
-      end
     else
-      @lote.update(fecha_impresion: Date.today)
-      
       respond_to do |format|
-        format.html { redirect_to lote_impresion_path(@lote)}
-        #format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+        format.json { render json: {status: 'error', msj: "No hay registros chequeados"} }
+        format.html { redirect_to horas_index_novedades_path, alert: 'No hay registros chequeados' }
       end
     end
   end
