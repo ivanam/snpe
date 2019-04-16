@@ -20,7 +20,6 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             Cargo.where(:id => record.cargo_id.to_i).first.establecimiento.codigo_jurisdiccional,
             record.organismo,
             record.cargo.secuencia,
-            "Cargo",
             Funcion.where(categoria: Cargo.where(id: record.cargo_id).first.cargo.to_i).first.to_s,
             Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s,
             record.cargo.situacion_revista,

@@ -378,7 +378,6 @@
                 <th>Establ</th>
                 <th>Destino</th>                             
                 <th>Sec.</th>               
-                <th>Tipo</th>
                 <th>Cargo</th>
                 <th>Persona</th>
                 <th>Sit. Rev.</th>    
@@ -446,7 +445,6 @@
                 <th>Establ</th>
                 <th>Destino</th>                             
                 <th>Sec.</th>               
-                <th>Tipo</th>
                 <th>Cargo</th>
                 <th>Persona</th>
                 <th>Sit. Rev.</th>    
@@ -604,13 +602,19 @@ $("input:button").click(function()
     $.fn.editable.defaults.mode = 'inline';
   	var tabla_licencia = $('#tabla-licencia').dataTable({
   	    language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-  	    "scrollX": true,
   	    processing : true,
   	    serverSide : true,
   	    ajax : $('#tabla-licencia').data('source'),
   	    pagingType: "full",
-        scrollY: '50vh',
         scrollCollapse: true,
+        retrieve: true,
+        columnDefs: [
+                {
+                    "targets": [ 10 ],
+                    "searchable": false,
+                    "orderable": false
+                }
+            ]
 
   	  })
       .on('draw.dt', function () {
@@ -656,12 +660,10 @@ $("input:button").click(function()
     $.fn.editable.defaults.mode = 'inline';
     var tabla_licencia_hs = $('#tabla-licencia-cheqeadas-hs').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        "scrollX": true,
         processing : true,
         serverSide : true,
         ajax : $('#tabla-licencia-cheqeadas-hs').data('source'),
         pagingType: "full",
-        scrollY: '50vh',
         scrollCollapse: true,
 
 
@@ -709,12 +711,10 @@ $("input:button").click(function()
     $.fn.editable.defaults.mode = 'inline';
     var tabla_licencia_cargnds_cheq = $('#tabla-licencia-cheqeadas-cnds').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        "scrollX": true,
         processing : true,
         serverSide : true,
         ajax : $('#tabla-licencia-cheqeadas-cnds').data('source'),
         pagingType: "full",
-        scrollY: '50vh',
         scrollCollapse: true,
 
 
@@ -780,12 +780,10 @@ $("input:button").click(function()
     moment.locale('es');
     var tabla_licencia_cargnds = $('#tabla-licencia-cnds').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        "scrollX": true,
         processing : true,
         serverSide : true,
         ajax : $('#tabla-licencia-cnds').data('source'),
         pagingType: "simple",
-        scrollY: '50vh',
         scrollCollapse: true,
         })
         .on('draw.dt', function () {
@@ -830,12 +828,10 @@ $("input:button").click(function()
       moment.locale('es');
       var tabla_licencia_crg = $('#tabla-licencia-cargos').dataTable({
           language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-          "scrollX": true,
           processing : true,
           serverSide : true,
           ajax : $('#tabla-licencia-cargos').data('source'),
           pagingType: "simple",
-          scrollY: '50vh',
           scrollCollapse: true,
         })
         .on('draw.dt', function () {
@@ -877,12 +873,10 @@ $("input:button").click(function()
     moment.locale('es');
     var tabla_licencia_crg_cheq = $('#tabla-licencia-cargos-cheq').dataTable({
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
-        "scrollX": true,
         processing : true,
         serverSide : true,
         ajax : $('#tabla-licencia-cargos-cheq').data('source'),
         pagingType: "simple",
-        scrollY: '50vh',
         scrollCollapse: true,
       })
       .on('draw.dt', function () {
