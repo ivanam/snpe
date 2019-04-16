@@ -471,7 +471,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agregar Observaciones</h4>
+        <h4 class="modal-title" id="myModalLabel">Motivo de rechazo de la licencia</h4>
       </div>
       <div class="modal-body">
           <div id="obv2">
@@ -492,7 +492,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agregar Observaciones</h4>
+        <h4 class="modal-title" id="myModalLabel">Motivo de rechazo de la licencia</h4>
       </div>
       <div class="modal-body">
           <div id="obv2">
@@ -513,7 +513,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Agregar Observaciones</h4>
+        <h4 class="modal-title" id="myModalLabel">Motivo de rechazo de la licencia</h4>
       </div>
       <div class="modal-body">
           <div id="obv2">
@@ -739,10 +739,21 @@ $("input:button").click(function()
               window.data2 = data[0].toString();
             }); 
 
-
+            if ((window.data2 != undefined && window.data2 != "") && (window.boton != undefined && window.boton != "")){
               tabla_licencia_cargnds_cheq.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg_chequeadas?rango='+window.data2+"&letra="+window.boton);
-              tabla_licencia_cargnds_cheq.api().ajax.reload(null, false);
-              
+              tabla_licencia_cargnds_cheq.api().ajax.reload(null, false); 
+            }else if ((window.data2 != undefined && window.data2 != "") && (window.boton == undefined || window.boton == "")) {
+              tabla_licencia_cargnds_cheq.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg_chequeadas?rango='+window.data2);
+              tabla_licencia_cargnds_cheq.api().ajax.reload(null, false); 
+            }else if ((window.data2 == undefined || window.data2 == "") && (window.boton != undefined && window.boton != "")) {
+              tabla_licencia_cargnds_cheq.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg_chequeadas?letra='+window.boton);
+              tabla_licencia_cargnds_cheq.api().ajax.reload(null, false); 
+            }else{
+              tabla_licencia_cargnds_cheq.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg_chequeadas');
+              tabla_licencia_cargnds_cheq.api().ajax.reload(null, false); 
+            }
+
+            
  
           });
         });
@@ -921,6 +932,14 @@ $("input:button").click(function()
 
 
   $('#btn_editar_obs').on('click', function () {
+    $.ajax({
+      url: '/soft/snpe/licencias/obtenerdatarange?rango='+$('#daterange').val(),
+      type: 'GET',
+    })
+    .done(function(data) {
+      window.data2 = data[0].toString();
+    }); 
+
     observaciones = $("#observaciones").val();
     $.ajax({
       url: '/soft/snpe/licencia/cancelar_sin_goce/?id_licencia='+id_lic+'&observaciones='+encodeURIComponent(observaciones),
