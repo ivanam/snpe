@@ -417,7 +417,9 @@ ProyectoBase::Application.routes.draw do
     get 'licencias/licencias_chequeadas_horas', to: 'licencia#licencias_chequeadas_horas', as: :licencias_chequeadas_horas
     get 'licencias/listado_licencias_cnds_sg_chequeadas', to: 'licencia#listado_licencias_cnds_sg_chequeadas', as: :listado_licencias_cnds_sg_chequeadas
     get 'licencias/listado_licencias_carg_sg_chequeadas', to: 'licencia#listado_licencias_carg_sg_chequeadas', as: :listado_licencias_carg_sg_chequeadas
-
+    get 'licencias/listado_licencias_canceladas_horas', to: 'licencia#listado_licencias_canceladas_horas', as: :listado_licencias_canceladas_horas
+    get 'licencias/listado_licencias_canceladas_cargos', to: 'licencia#listado_licencias_canceladas_cargos', as: :listado_licencias_canceladas_cargos
+    get 'licencias/listado_licencias_canceladas_cargos_no_docentes', to: 'licencia#listado_licencias_canceladas_cargos_no_docentes', as: :listado_licencias_canceladas_cargos_no_docentes
 
 
     
