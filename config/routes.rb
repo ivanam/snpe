@@ -172,7 +172,7 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/:id/desglose", to: "altas_bajas_horas#desglose", as: :altas_bajas_horas_desglose
 
-    patch "altas_bajas_horas/:id/guardar_desglose", to: "altas_bajas_horas#guardar_desglose", as: :altas_bajas_horas_guardar_desglose
+    patch "altas_bajas_horas/:id/desglose", to: "altas_bajas_horas#guardar_desglose", as: :altas_bajas_horas_guardar_desglose
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
  

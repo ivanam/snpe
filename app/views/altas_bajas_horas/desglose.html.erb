@@ -48,8 +48,8 @@
 <div class="form-carga-efecto form-carga-efecto-alta">
 	<legend class="legend-small">Paquetes de Horas</legend>
 
-	<%= nested_form_for(@altas_bajas_hora, :url => {:action => "guardar_desglose" }, :html => { :class => "form-horizontal",  onsubmit: "return validateForm()" }) do |f| %>
-		<div class="form-snpe">
+	<%= nested_form_for(@altas_bajas_hora, :url => {:action => "guardar_desglose" }, :html => { onsubmit: "return validateForm()" }) do |f| %>
+		<div class="row">
 			<% if @altas_bajas_hora.errors.any? %>
 				<div class="alert alert-danger alert-dismissable" role="alert">
 	      			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span>
@@ -64,34 +64,116 @@
 			<% end %>
 
 			<%= f.hidden_field :establecimiento_id, :value => @altas_bajas_hora.establecimiento_id %>
-			<%= f.hidden_field :fecha_alta, :value => @altas_bajas_hora.fecha_alta %>
-			<%= f.hidden_field :situacion_revista, :value => @altas_bajas_hora.situacion_revista %>
-			<%= f.hidden_field :persona_id, :value => @altas_bajas_hora.persona_id %>
+
+	        <%= f.hidden_field :persona_id, :value => @altas_bajas_hora.persona_id %>
+
+	        <%= f.hidden_field :secuencia, :value =>  @altas_bajas_hora.secuencia %>
+
+	        <%= f.hidden_field :fecha_alta, :value => @altas_bajas_hora.fecha_alta %>
+
+	        <%= f.hidden_field :fecha_baja, :value => @altas_bajas_hora.fecha_baja %>
+
+	        <%= f.hidden_field :situacion_revista, :value => @altas_bajas_hora.situacion_revista %>
+
+          	<%= f.hidden_field :ciclo_carrera, :value => @altas_bajas_hora.ciclo_carrera %>
+
+	        <%= f.hidden_field :turno, :value => @altas_bajas_hora.turno %>
+
+	        <%= f.hidden_field :codificacion, :value => @altas_bajas_hora.codificacion %>
+
+	        <%= f.hidden_field :oblig, :value => @altas_bajas_hora.oblig %>
+
+	        <%= f.hidden_field :observaciones, :value => '' %>
+
+	        <%= f.hidden_field :secuencia_original, :value => nil %>
+
+	        <%= f.hidden_field :desglose_horas_id, :value => nil %>
+
+	        <%= f.hidden_field :created_at, :value => DateTime.now %>
+
+	        <%= f.hidden_field :updated_at, :value => DateTime.now %>
+
+			<%= f.hidden_field :estado, :value => 'ALT' %>
+
+			<%= f.hidden_field :plan_id, :value => @altas_bajas_hora.plan_id %>
+
+			<%= f.hidden_field :materium_id, :value => @altas_bajas_hora.materium_id %>
+
+			<%= f.hidden_field :anio, :value => @altas_bajas_hora.anio %>
+
+			<%= f.hidden_field :division, :value => @altas_bajas_hora.division %>
+
+			<%= f.hidden_field :horas, :value => @altas_bajas_hora.horas %>
+
+			<%= f.hidden_field :esprovisorio, :value => @altas_bajas_hora.esprovisorio %>
 		    
-			<%= f.fields_for :children do |a| %>
+			<%= f.fields_for :altas_bajas_horas do |a| %>
 	        	<div class="row">
+
+	        		<%= a.hidden_field :establecimiento_id, :value => @altas_bajas_hora.establecimiento_id %>
+
+	        		<%= a.hidden_field :persona_id, :value => @altas_bajas_hora.persona_id %>
+
 	        		<%= a.hidden_field :secuencia, :value => 500 %>
+
+	        		<%= a.hidden_field :fecha_alta, :value => @altas_bajas_hora.fecha_alta %>
+
+	        		<%= a.hidden_field :fecha_baja, :value => @altas_bajas_hora.fecha_baja %>
+
+	        		<%= a.hidden_field :situacion_revista, :value => @altas_bajas_hora.situacion_revista %>
+
+          			<%= a.hidden_field :ciclo_carrera, :value => @altas_bajas_hora.ciclo_carrera %>
+
+	          		<%= a.hidden_field :turno, :value => @altas_bajas_hora.turno %>
+
+	          		<%= a.hidden_field :codificacion, :value => @altas_bajas_hora.codificacion %>
+
+	          		<%= a.hidden_field :oblig, :value => @altas_bajas_hora.oblig %>
+
+	          		<%= a.hidden_field :observaciones, :value => '' %>
 
 	        		<%= a.hidden_field :secuencia_original, :value => @altas_bajas_hora.secuencia %>
 
-	          		<%= a.select :plan_id,  options_from_collection_for_select(Plan.all , :id, :to_s), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class=>"form-control form-alta form-select", :prompt => "Plan" }%> 
+	        		<%= a.hidden_field :desglose_horas_id, :value => @altas_bajas_hora.id %>
+
+	        		<%= a.hidden_field :created_at, :value => DateTime.now %>
+
+	        		<%= a.hidden_field :updated_at, :value => DateTime.now %>
+
+	        		<%= a.hidden_field :estado, :value => 'ALT' %>
+
+	        		<%= a.hidden_field :esprovisorio, :value => @altas_bajas_hora.esprovisorio %>
+
+	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan")%> 	          		
+
+					<%= a.select(:materium_id, Materium.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia")%>
+
+					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso")%>
 					
-					<%= a.select :materium_id,  options_from_collection_for_select(Materium.all , :id, :to_s), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :id => "materium", :prompt => "Materia" ,:class=>"form-control form-alta form-select"}%>  
-	          		<%= a.select :anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :id => "curso", :class=>"form-control form-alta form-select", :prompt => "Curso" }%>
+	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :id => "division", :maxlength=>"2", :placeholder => "División"}%>          		
 
-	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"División", :class => "form-alta form-control", :id => "division", :maxlength=>"2", :placeholder => "División"}%>
+          			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip"},:title=>"Cantidad Horas", :id => "horas", :maxlength=>"2" , :placeholder => "Horas"}%>	          		
+					
+	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>	          		
 
-          			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Cantidad Horas", :class => "form-alta form-control", :id => "horas", :maxlength=>"2" , :placeholder => "Horas"}%>
-
-	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>
 	        	</div>
       		<% end %>
-			<%= f.link_to_add "Agregar un paquete de horas", :children , :class => "btn btn-xs btn-success" %>
-
+      		<br>
+			<%= f.link_to_add "Agregar un paquete de horas", :altas_bajas_horas , :class => "btn btn-xs btn-success" %>
 		</div>
 		<hr>
 		<div class="row">        
-        	<%= f.submit :class => "btn btn-primary", :value => "Guardar" , :id =>"formulario" %>
+        	<%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
       	</div>
 	<% end %>
 </div>
+
+<script type="text/javascript">
+	$('document').ready(function(){
+
+    	function validateForm(){
+   			alert('validar formulario');
+		}
+
+	});
+</script>
