@@ -308,7 +308,8 @@ def listado_licencias_carg_sg_chequeadas
       @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     else
       @rango = params["rango"]
-      @mindate, @maxdate = Util.max_min_periodo(@rango)
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
       @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     end 
     @res1 = @res.where('(vigente = "Vigente" and cargada is not null) or (vigente = "Finalizada" and finalizada is not null)')
@@ -339,7 +340,8 @@ def licencias_chequeadas_horas
     @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
   else
     @rango = params["rango"]
-    @mindate, @maxdate = Util.max_min_periodo(@rango)
+    @mindate = Date.parse(@rango)
+    @maxdate = (Date.today).end_of_month.to_date.iso8601
     @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
   end  
   @res1 = @res.where('(vigente = "Vigente" and cargada is not null) or (vigente = "Finalizada" and finalizada is not null)')
@@ -359,6 +361,7 @@ def listado_licencias_todas_lic
   else
     @letra = nil
   end
+  
   @mindate = (Date.today).beginning_of_month.to_date.iso8601
   @maxdate = Date.today.to_date.iso8601
   @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
@@ -369,7 +372,8 @@ def listado_licencias_todas_lic
     @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
   else
     @rango = params["rango"]
-    @mindate, @maxdate = Util.max_min_periodo(@rango)
+    @mindate = Date.parse(@rango)
+    @maxdate = (Date.today).end_of_month.to_date.iso8601
     @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
   end  
   
@@ -398,7 +402,8 @@ def listado_licencias_cnds_sg
       @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     else
       @rango = params["rango"]
-      @mindate, @maxdate = Util.max_min_periodo(@rango)
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
       @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     end  
 
@@ -429,7 +434,8 @@ def listado_licencias_cnds_sg_chequeadas
       @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     else
       @rango = params["rango"]
-      @mindate, @maxdate = Util.max_min_periodo(@rango)
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
       @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     end  
 
@@ -459,7 +465,8 @@ def listado_licencias_cnds_sg_chequeadas
       @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     else
       @rango = params["rango"]
-      @mindate, @maxdate = Util.max_min_periodo(@rango)
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
       @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     end 
 

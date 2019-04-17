@@ -231,7 +231,6 @@
                 <th>Establ</th>
                 <th>Organismo destino</th>
                 <th>Sec.</th>               
-                <th>Tipo</th>
                 <th>Cargo</th>
                 <th>Persona</th>
                 <th>Situación Rev.</th>    
@@ -298,7 +297,6 @@
                 <th>Establ</th>
                 <th>Organismo destino</th>
                 <th>Sec.</th>               
-                <th>Tipo</th>
                 <th>Cargo</th>
                 <th>Persona</th>
                 <th>Situación Rev.</th>    
@@ -810,7 +808,7 @@ $("input:button").click(function()
               type: 'GET',
             })
             .done(function(data) {
-              window.data4 = data[0].toString();
+              window.data2 = data[0].toString();
             });
             if ((window.data2 != undefined && window.data2 != "") && (window.boton != undefined && window.boton != "")){
               tabla_licencia_cargnds.api().ajax.url('/soft/snpe/licencias/listado_licencias_cnds_sg?rango='+window.data2+"&letra="+window.boton);
@@ -858,7 +856,7 @@ $("input:button").click(function()
                 type: 'GET',
               })
               .done(function(data) {
-                window.data3 = data[0].toString();
+                window.data2 = data[0].toString();
 
               });
 
@@ -903,7 +901,7 @@ $("input:button").click(function()
               type: 'GET',
             })
             .done(function(data) {
-              window.data3 = data[0].toString();
+              window.data2 = data[0].toString();
 
             });
 
@@ -939,7 +937,6 @@ $("input:button").click(function()
     .done(function(data) {
       window.data2 = data[0].toString();
     }); 
-
     observaciones = $("#observaciones").val();
     $.ajax({
       url: '/soft/snpe/licencia/cancelar_sin_goce/?id_licencia='+id_lic+'&observaciones='+encodeURIComponent(observaciones),
@@ -954,6 +951,13 @@ $("input:button").click(function()
   });
 
   $('#btn_editar_obs2').on('click', function () {
+    $.ajax({
+      url: '/soft/snpe/licencias/obtenerdatarange?rango='+$('#daterange').val(),
+      type: 'GET',
+    })
+    .done(function(data) {
+      window.data2 = data[0].toString();
+    }); 
     observaciones = $("#observaciones2").val();
     $.ajax({
       url: '/soft/snpe/licencia/cancelar_sin_goce/?id_licencia='+id_lic+'&observaciones='+encodeURIComponent(observaciones),
@@ -968,6 +972,13 @@ $("input:button").click(function()
   });
 
   $('#btn_editar_obs3').on('click', function () {
+    $.ajax({
+      url: '/soft/snpe/licencias/obtenerdatarange?rango='+$('#daterange').val(),
+      type: 'GET',
+    })
+    .done(function(data) {
+      window.data2 = data[0].toString();
+    }); 
     observaciones = $("#observaciones3").val();
     $.ajax({
       url: '/soft/snpe/licencia/cancelar_sin_goce/?id_licencia='+id_lic+'&observaciones='+encodeURIComponent(observaciones),
@@ -976,7 +987,7 @@ $("input:button").click(function()
     .done(function(data) {
       tabla_licencia_crg.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg?rango='+window.data2+"&letra="+window.boton);
       tabla_licencia_crg.api().ajax.reload(null, false);
-      tabla_licencia_crg_cheq.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg_chequeadas?rango='+window.data4+"&letra="+window.boton);
+      tabla_licencia_crg_cheq.api().ajax.url('/soft/snpe/licencias/listado_licencias_carg_sg_chequeadas?rango='+window.data2+"&letra="+window.boton);
       tabla_licencia_crg_cheq.api().ajax.reload();
     })
   });
