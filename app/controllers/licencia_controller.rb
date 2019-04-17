@@ -289,7 +289,8 @@ def listado_licencias_canceladas_horas
     fecha_i = anio+"-"+mes+"-01"
     fecha_f = anio+"-"+mes+"-31"
     @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
-    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "Escuela"
+    
+    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
       lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina =>est )
@@ -315,7 +316,8 @@ def listado_licencias_canceladas_cargos
     fecha_i = anio+"-"+mes+"-01"
     fecha_f = anio+"-"+mes+"-31"
     @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
-    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "Escuela"
+    
+    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
       lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina =>est )
@@ -341,7 +343,7 @@ def listado_licencias_canceladas_cargos_no_docentes
     fecha_i = anio+"-"+mes+"-01"
     fecha_f = anio+"-"+mes+"-31"
     @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
-    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "Escuela"
+    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
       lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina => est )
