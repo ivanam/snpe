@@ -1498,10 +1498,10 @@ def listado_licencias_cnds_sg_chequeadas
     @licencia_cargo_no_docente = Licencium.where(cargo_no_docente_id: params[:id_cargos_no_docentes])
     @licencia_articulo = @licencia_cargo_no_docente.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
-    @licencia_articulo.each do |l|
-      @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
-    end
-    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+     @licencia_articulo.each do |l|
+       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
+     end 
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias.to_i - @dias
     render json:  @dias_disponibles
   end
 
