@@ -49,6 +49,10 @@ class AltasBajasHora < ActiveRecord::Base
     return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
   end
 
+  def puede_desglosarse?
+    return !desglosado? && self.secuencia != 500 && (self.estado == 'ALT' || self.estado == 'LIC')
+  end
+
   def desglosado?
     return !AltasBajasHora.where(desglose_horas_id: self.id).first.blank?
   end

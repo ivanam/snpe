@@ -4,16 +4,14 @@
 	<div class="row">
 		<div class="col-sm-4">
 			</dl class="dl-horizontal">
-				<dt>Establecimiento</dt>
-				<dd><%= @altas_bajas_hora.establecimiento.to_s %></dd>
-				<dt>DNI</dt>
-				<dd><%= @altas_bajas_hora.persona.nro_documento %></dd>
 				<dt>CUIT/CUIL</dt>
 				<dd><%= @altas_bajas_hora.persona.cuil %></dd>
 				<dt>Apellido y nombre</dt>
 				<dd><%= @altas_bajas_hora.persona.apeynom %></dd>
 				<dt>Fecha de nacimiento</dt>
 				<dd><%= @altas_bajas_hora.persona.fecha_nacimiento %></dd>
+				<dt>Género</dt>
+				<dd><%= @altas_bajas_hora.persona.sexo.to_s %></dd>
 			</dl>
 		</div>
 		<div class="col-sm-4">
@@ -22,8 +20,6 @@
 				<dd><%= @altas_bajas_hora.secuencia %></dd>
 				<dt>Fecha de alta</dt>
 				<dd><%= @altas_bajas_hora.fecha_alta %></dd>				
-				<dt>Género</dt>
-				<dd><%= @altas_bajas_hora.persona.sexo.to_s %></dd>
 				<dt>Situacion de revista</dt>
 				<dd><%= @altas_bajas_hora.situacion_revista %></dd>
 				<dt>Turno</dt>
@@ -93,7 +89,7 @@
 
 	        <%= f.hidden_field :updated_at, :value => DateTime.now %>
 
-			<%= f.hidden_field :estado, :value => 'ALT' %>
+			<%= f.hidden_field :estado, :value => 'DES' %>
 
 			<%= f.hidden_field :plan_id, :value => @altas_bajas_hora.plan_id %>
 
@@ -144,15 +140,15 @@
 
 	        		<%= a.hidden_field :esprovisorio, :value => @altas_bajas_hora.esprovisorio %>
 
-	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan")%> 	          		
+	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class => "plan")%>
 
-					<%= a.select(:materium_id, Materium.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia")%>
+					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso")%>
 
-					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso")%>
+	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División"}%>          		
 					
-	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :id => "division", :maxlength=>"2", :placeholder => "División"}%>          		
+					<%= a.select(:materium_id, Materium.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class => "materium")%>					
 
-          			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip"},:title=>"Cantidad Horas", :id => "horas", :maxlength=>"2" , :placeholder => "Horas"}%>	          		
+          			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip"},:title=>"Cantidad Horas", :class => "horas", :id => "horas", :maxlength=>"2" , :placeholder => "Horas"} %>	          		
 					
 	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>	          		
 
@@ -174,6 +170,55 @@
     	function validateForm(){
    			alert('validar formulario');
 		}
+
+		$('form').on('nested:fieldAdded', function(event) {
+
+			var field = event.field;
+    		var plan = field.find('.plan');
+    		var materium = field.find('.materium');
+    		var anio = field.find('.curso');
+    		var horas = field.find('.horas');
+
+    		$('.plan, .curso').change(function(){
+				if (plan.val() != '' && anio.val() != '')
+       			{
+       				var plan_id = parseInt(plan.val(),10); 
+       				var anio_id = parseInt(anio.val(),10); 
+          			$.ajax({
+            			url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio_id,
+            			type: 'GET',
+          			})
+          			.done(function(data) {
+            			materium.empty();
+            			if (data != null) {
+              				materium.append('<option value="">Materia</option>');
+              				for (var i = 0; i < data.length; i++) {
+                				materium.append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+              				};            
+            			}
+          			})
+        		}
+			});
+
+			$('.materium').change(function(){				
+    			if (anio.val() != '' && plan.val() != '' && materium.val() != '')
+    			{
+    				var plan_id = parseInt(plan.val(),10); 
+					var materia_id = parseInt(materium.val(),10); 				
+       				var anio_id = parseInt(anio.val(),10); 
+      				$.ajax({
+        				url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio_id,
+        				type: 'GET',
+      				})
+      				.done(function(data) {
+        				if (data != null) {
+          					horas.val(data);
+        				}
+      				})      		
+    			}
+  			});
+
+  		});
 
 	});
 </script>
