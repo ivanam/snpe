@@ -224,6 +224,15 @@
 
   		});
 
+  		$('form').on('nested:fieldRemoved', function(event) {
+  			var field = event.field;
+    		var horas = field.find('.horas');
+    		console.log('horas '+parseInt(horas.val(),10));
+			console.log('total_horas '+total_horas);      				
+    		total_horas = total_horas - parseInt(horas.val(),10);
+    		console.log('resta: '+total_horas);
+  		});
+
 		$('form').on('submit', function() {
 			if (total_horas == 0) {
 				alert('Debe agregar al menos un paquete de horas');
