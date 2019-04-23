@@ -254,7 +254,7 @@ end
 def cancelar_sin_goce
 
   lic = Licencium.find(params["id_licencia"])
-  if !lic.update(:cancelada_sin_goce => 1, obs_sin_goce_cancelacion: params["observaciones"])
+  if !lic.update(:cancelada_sin_goce => 1, obs_sin_goce_cancelacion: params["observaciones"], user_sin_goce_cancelada: current_user.id)
     msg = @licencia.errors.full_messages.first
     msg = "No se puede editar el comentario"
   end
