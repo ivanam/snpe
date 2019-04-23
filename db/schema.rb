@@ -13,7 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20190409140440) do
 
-
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
     t.text     "body"
@@ -122,7 +121,6 @@ ActiveRecord::Schema.define(version: 20190409140440) do
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
     t.boolean  "medico"
-    t.boolean  "permite_otro_organismo", default: false
   end
 
   create_table "asistencia", force: true do |t|
