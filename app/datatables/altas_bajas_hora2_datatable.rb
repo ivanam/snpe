@@ -44,7 +44,7 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
         Util.fecha_a_es(record.fecha_baja),
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
         if record.puede_desglosarse? then
-          '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'/desglose"><strong>Desglosar</strong></a>'
+          '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Desglosar" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'/desglose"><strong>Desglosar</strong></a>'
         else
           ''
         end,
