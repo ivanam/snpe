@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20190422133957) do
+
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -121,7 +123,6 @@ ActiveRecord::Schema.define(version: 20190422133957) do
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
     t.boolean  "medico"
-    t.boolean  "permite_otro_organismo", default: false
   end
 
   create_table "asistencia", force: true do |t|
