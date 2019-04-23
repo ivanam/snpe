@@ -47,7 +47,7 @@
       field
         .trigger({ type: 'nested:fieldAdded', field: field })
         .trigger({ type: 'nested:fieldAdded:' + assoc, field: field });
-      $('select').select2();
+      $('select').select2({ width: 'resolve'});
       return false;
     },
     newId: function() {
