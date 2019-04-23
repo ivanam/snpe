@@ -27,7 +27,12 @@ class LoteImpresionDatatable < AjaxDatatablesRails::Base
             'Cargos no docentes'
           end
         end,
-        record.observaciones,
+
+        if Establecimiento.where(id: record.establecimiento_id).first != nil
+          Establecimiento.where(id: record.establecimiento_id).first.codigo_jurisdiccional
+        else
+          ''
+        end,
         '<center><div class="btn-acciones"><a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Impresión" href="lote_impresions/'+record.id.to_s+'"><span class="glyphicon glyphicon-print" aria-hidden="true" ></span></a>',
       ]
     end
