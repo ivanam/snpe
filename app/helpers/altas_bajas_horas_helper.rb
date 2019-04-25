@@ -33,10 +33,45 @@ module AltasBajasHorasHelper
   end
 
   def altas_bajas_horas_efectivas_bajas(mindate, maxdate)
-    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
+    if current_user.role? :delegacion
+      if (current_user.region == '2')  
+       @horas = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, establecimientos, localidads, regions').where('altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where.not(:fecha_baja => nil).where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+      if (current_user.region == '6')
+      @horas = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, establecimientos, localidads, regions').where('altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where.not(:fecha_baja => nil).where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal)
+    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('fecha_baja != "" or  fecha_baja is not NULL')
+    end
+
     @horas_ids = []
-    @horas.each do |h|
-      if h.estado_actual == "Chequeado_Baja" || h.estado_actual == "Impreso" || h.estado_actual == "Notificado_Baja"
+    @horas.each do |h| 
+      if h.estado_actual == "Chequeado_Baja" || h.estado_actual == "Impreso"
+        @horas_ids << h.id
+      end
+    end
+    return AltasBajasHora.where(:id => @horas_ids).includes(:establecimiento, :persona)
+  end
+  
+   def altas_bajas_horas_notificadas(mindate, maxdate)
+    if current_user.role? :delegacion
+      if (current_user.region == '2')  
+       @horas = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, altas_bajas_hora_estados, establecimientos, localidads, regions').where('altas_bajas_horas.id = altas_bajas_hora_estados.alta_baja_hora_id AND  altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where.not(:fecha_baja => nil).where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+      if (current_user.region == '6')
+      @horas = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, altas_bajas_hora_estados, establecimientos, localidads, regions').where('altas_bajas_horas.id = altas_bajas_hora_estados.alta_baja_hora_id  AND altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where.not(:fecha_baja => nil).where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal)
+    @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('fecha_baja != "" or  fecha_baja is not NULL')
+    end
+
+    @horas_ids = []
+    @horas.each do |h| 
+      if h.estado_actual == "Notificado_Baja"
         @horas_ids << h.id
       end
     end
@@ -45,13 +80,13 @@ module AltasBajasHorasHelper
 
   def altas_bajas_horas_permitidas_altas_notificadas(mindate, maxdate)
     @altasbajashoras_ids = []
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento])
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )")
     @altasbajashoras.each do |a|
       if a.estado_actual == "Notificado"
         @altasbajashoras_ids << a.id
       end
     end
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_s + "' and fecha_alta <= '" + maxdate.to_s + "' ) or ( updated_at >= '" + mindate.to_s + "' and updated_at <= '" + maxdate.to_s + "' )")
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )")
     @altasbajashoras.each do |a|
       if a.estado_actual == "Chequeado" || a.estado_actual == "Impreso" || a.estado_actual == "Cobrado" 
         @altasbajashoras_ids << a.id
@@ -63,19 +98,43 @@ module AltasBajasHorasHelper
 
   def horas_novedades(mindate, maxdate)
     @altasbajashoras_ids = []
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento])
+    if current_user.role? :delegacion
+      if (current_user.region == '2')
+       @altasbajashoras = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, establecimientos, localidads, regions').where('altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+      if (current_user.region == '6')
+      @altasbajashoras = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, establecimientos, localidads, regions').where('altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal) 
+    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )")
+    end
+
     @altasbajashoras.each do |a|
       if a.estado_actual == "Chequeado" || a.estado_actual == "Chequeado_Baja"
         @altasbajashoras_ids << a.id
       end
     end
-    @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
+
+    if current_user.role? :delegacion
+      if (current_user.region == '2')
+       @altasbajashoras = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, establecimientos, localidads, regions').where('altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "II"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+      if (current_user.region == '6')
+      @altasbajashoras = AltasBajasHora.select('altas_bajas_horas.*').from('altas_bajas_horas, establecimientos, localidads, regions').where('altas_bajas_horas.establecimiento_id = establecimientos.id AND establecimientos.localidad_id = localidads.id AND localidads.region_id = regions.id ').where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('regions.nombre = "VI"').where('fecha_baja != "" or  fecha_baja is not NULL')
+      end
+    end
+
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal)
+       @altasbajashoras = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where("( fecha_alta >= '" + mindate.to_time.iso8601 + "' and fecha_alta <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )")
+    end
+    
     @altasbajashoras.each do |a|
       if a.estado_actual == "Impreso" || a.estado_actual == "Cobrado"
         @altasbajashoras_ids << a.id
       end
     end
-
     return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona, :materium)
   end
 

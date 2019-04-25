@@ -251,88 +251,298 @@ def obtenerdatarange3
     render json: @ras
 end
 
+def cancelar_sin_goce
 
-
-
-
-def listado_licencias_todas_lic
-  
-
-  @dni=params[:dni]
-  if @dni == '' or @dni == ""
-    @dni = nil
-  end  
-  @art=params[:select_articulo_horas]
-  if @art == '' or @art == ""
-     @art = nil
+  lic = Licencium.find(params["id_licencia"])
+  if !lic.update(:cancelada_sin_goce => 1, obs_sin_goce_cancelacion: params["observaciones"], user_cheq_finalizada_id: current_user.id)
+    msg = @licencia.errors.full_messages.first
+    msg = "No se puede editar el comentario"
   end
-    if params["rango"] == "" or params["rango"] == "undefined"
-      @mindate_year = Date.today.year
-      @mindate = Date.today.to_s
-      @maxdate = Date.today.to_s
-      @res = listado_de_licencias_sg(@mindate, @maxdate, @dni, @art)
+  render json: msg.to_json
+end
 
+def licencias_sin_goce_canceladas
+    
+    respond_to do |format|
+    format.pdf do
+      render :pdf => 'reporte', 
+      :template => 'licencia/licencias_sin_goce_canceladas_pdf.html.erb',
+      :layout => 'pdf.html.erb',
+      :orientation => 'Landscape',# default Portrait
+      :page_size => 'Legal', # default A4
+      :show_as_html => params[:debug].present?
+    end
+    format.html 
+    end 
+end
+
+def listado_licencias_canceladas_horas
+    
+    mes = params[:mes] 
+    anio = params[:anio]
+    if mes == nil
+      mes = Date.today.month.to_s
+    end
+    if anio == nil
+      anio = Date.today.year.to_s
+    end
+    fecha_i = anio+"-"+mes+"-01"
+    fecha_f = anio+"-"+mes+"-31"
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
+    
+    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
+      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
+      est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
+      @licencias = lic.where(:oficina =>est )
+    end
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadoLicenciasCanceladasHorasDatatable.new(view_context, { query: @licencias}) }
+    end
+  
+end
+
+def listado_licencias_canceladas_cargos
+      
+    mes = params[:mes] 
+    anio = params[:anio]
+    if mes == nil
+      mes = Date.today.month.to_s
+    end
+    if anio == nil
+      anio = Date.today.year.to_s
+    end
+    fecha_i = anio+"-"+mes+"-01"
+    fecha_f = anio+"-"+mes+"-31"
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
+    
+    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
+      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
+      est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
+      @licencias = lic.where(:oficina =>est )
+    end
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadoLicenciaCanceladasCargosDatatable.new(view_context, { query: @licencias}) }
+    end
+  
+end
+
+def listado_licencias_canceladas_cargos_no_docentes
+      
+    mes = params[:mes] 
+    anio = params[:anio]
+    if mes == nil
+      mes = Date.today.month.to_s
+    end
+    if anio == nil
+      anio = Date.today.year.to_s
+    end
+    fecha_i = anio+"-"+mes+"-01"
+    fecha_f = anio+"-"+mes+"-31"
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
+    if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
+      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
+      est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
+      @licencias = lic.where(:oficina => est )
+    end
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadoLicenciaCanceladasCargosNoDocenteDatatable.new(view_context, { query: @licencias}) }
+    end
+  
+end
+
+
+
+
+
+def listado_licencias_carg_sg_chequeadas
+  if params["letra"] != "[object HTMLInputElement]" and params["letra"] != "Todos"
+      @letra = params["letra"]
+    else
+      @letra = nil
+    end
+    @mindate = (Date.today).beginning_of_month.to_date.iso8601
+    @maxdate = (Date.today + 1).to_date.iso8601
+    @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    if params["rango"] == "" or params["rango"] == nil
+      @mindate = (Date.today).beginning_of_month.to_date.iso8601
+      @maxdate = (Date.today + 1).to_date.iso8601
+      @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
     else
       @rango = params["rango"]
-      @mindate, @maxdate = Util.max_min_periodo(@rango)
-      @res = listado_de_licencias_sg(@mindate, @maxdate, @dni, @art)
-    end  
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
+      @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    end 
+    @res1 = @res.where('(vigente = "Vigente" and cargada is not null) or (vigente = "Finalizada" and finalizada is not null)')
+
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res}) }
+      format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res1}) }
+    end
+
+end
+
+
+def licencias_chequeadas_horas
+ 
+  if params["letra"] != "[object HTMLInputElement]" and params["letra"] != "Todos"
+    @letra = params["letra"]
+  else
+    @letra = nil
+  end
+  @mindate = (Date.today).beginning_of_month.to_date.iso8601
+  @maxdate = (Date.today + 1).to_date.iso8601
+  @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+  
+  if params["rango"] == "" or params["rango"] == nil
+    @mindate = (Date.today).beginning_of_month.to_date.iso8601
+    @maxdate = (Date.today + 1).to_date.iso8601
+    @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+  else
+    @rango = params["rango"]
+    @mindate = Date.parse(@rango)
+    @maxdate = (Date.today).end_of_month.to_date.iso8601
+    @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+  end  
+  @res1 = @res.where('(vigente = "Vigente" and cargada is not null) or (vigente = "Finalizada" and finalizada is not null)')
+  
+  respond_to do |format|
+    format.xls 
+    format.html 
+    format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res1}) }
+  end
+end
+
+
+#horas con licencia sin goce VIGENTES
+def listado_licencias_todas_lic
+  if params["letra"] != "[object HTMLInputElement]" and params["letra"] != "Todos"
+    @letra = params["letra"]
+  else
+    @letra = nil
+  end
+  
+  @mindate = (Date.today).beginning_of_month.to_date.iso8601
+  @maxdate = Date.today.to_date.iso8601
+  @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+  
+  if params["rango"] == "" or params["rango"] == nil
+    @mindate = (Date.today).beginning_of_month.to_date.iso8601
+    @maxdate = Date.today.to_date.iso8601
+    @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+  else
+    @rango = params["rango"]
+    @mindate = Date.parse(@rango)
+    @maxdate = (Date.today).end_of_month.to_date.iso8601
+    @res = listado_de_licencias_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+  end  
+  
+  @res1 = @res.where('(vigente = "Vigente" and cargada is null) or (vigente = "Finalizada" and finalizada is null)')
+  
+  respond_to do |format|
+    format.xls 
+    format.html 
+    format.json { render json: ListadoLicenciaDatatable.new(view_context, { query: @res1}) }
+  end
+end
+
+def listado_licencias_cnds_sg
+    if params["letra"] != "[object HTMLInputElement]" and params["letra"] != "Todos"
+      @letra = params["letra"]
+    else
+      @letra = nil
+    end
+    @mindate = (Date.today).beginning_of_month.to_date.iso8601
+    @maxdate = Date.today.to_date.iso8601
+    @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+
+    if params["rango"] == "" or params["rango"] == nil
+      @mindate = (Date.today).beginning_of_month.to_date.iso8601
+      @maxdate = Date.today.to_date.iso8601
+      @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    else
+      @rango = params["rango"]
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
+      @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    end  
+
+    @res1 = @res.where('(vigente = "Vigente" and cargada is null) or (vigente = "Finalizada" and finalizada is null)')
+
+    respond_to do |format|
+      format.xls 
+      format.html 
+      format.json { render json: ListadosLicenciaCargosndsDatatable.new(view_context, { query: @res1}) }
     end
   end
 
-  def listado_licencias_cnds_sg
-  @dni2=params[:dni2]
-  if @dni2 == '' or @dni2 == ""
-    @dni2 = nil
-  end  
-  @art2=params[:select_articulo_cargos_no_docente]
-  if @art2 == '' or @art2 == ""
-     @art2 = nil
-  end
-     if params["rango2"] == ""
-       @mindate_year2 = Date.today.year
-       @mindate2 = Date.today.to_s
-       @maxdate2 = Date.today.to_s
-       @res2 = listado_de_licencias_cargonds_sg(@mindate2, @maxdate2, @dni2, @art2)
-     else
-       @rango2 = params["rango2"]
-       @mindate2, @maxdate2 = Util.max_min_periodo(@rango2)
-       @res2 = listado_de_licencias_cargonds_sg(@mindate2, @maxdate2, @dni2, @art2)
-     end
+
+
+def listado_licencias_cnds_sg_chequeadas
+    if params["letra"] != "[object HTMLInputElement]" and params["letra"] != "Todos"
+      @letra = params["letra"]
+    else
+      @letra = nil
+    end
+    @mindate = (Date.today).beginning_of_month.to_date.iso8601
+    @maxdate = (Date.today + 1).to_date.iso8601
+    @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+
+    if params["rango"] == "" or params["rango"] == nil 
+      @mindate = (Date.today).beginning_of_month.to_date.iso8601
+      @maxdate = (Date.today + 1).to_date.iso8601
+      @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    else
+      @rango = params["rango"]
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
+      @res = listado_de_licencias_cargonds_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    end  
+
+    @res1 = @res.where('(vigente = "Vigente" and cargada is not null) or (vigente = "Finalizada" and finalizada is not null)')
+
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadosLicenciaCargosndsDatatable.new(view_context, { query: @res2}) }
+      format.json { render json: ListadosLicenciaCargosndsDatatable.new(view_context, { query: @res1}) }
     end
   end
+
+
 
   def listado_licencias_carg_sg
-  @dni3=params[:dni3]
-  if @dni3 == '' or @dni3 == ""
-    @dni3 = nil
-  end  
-  @art3=params[:select_articulo_cargos]
-  if @art3 == '' or @art3 == ""
-     @art3 = nil
-  end
-     if params["rango3"] == ""  or params["rango3"] == "undefined" or params["rango3"] == nil 
-       @mindate_year3 = Date.today.year
-       @mindate3 = Date.today.to_s
-       @maxdate3 = Date.today.to_s
-       @res3 = listado_de_licencias_cargo_sg(@mindate3, @maxdate3, @dni3, @art3)
-     else 
-       @rango3 = params["rango3"]
-       @mindate3, @maxdate3 = Util.max_min_periodo(@rango3)
-       @res3 = listado_de_licencias_cargo_sg(@mindate3, @maxdate3, @dni3, @art3)
-     end
+    if params["letra"] != "[object HTMLInputElement]" and params["letra"] != "Todos"
+      @letra = params["letra"]
+    else
+      @letra = nil
+    end
+    @mindate = (Date.today).beginning_of_month.to_date.iso8601
+    @maxdate = Date.today.to_date.iso8601
+    @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    if params["rango"] == "" or params["rango"] == nil
+      @mindate = (Date.today).beginning_of_month.to_date.iso8601
+      @maxdate = Date.today.to_date.iso8601
+      @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    else
+      @rango = params["rango"]
+      @mindate = Date.parse(@rango)
+      @maxdate = (Date.today).end_of_month.to_date.iso8601
+      @res = listado_de_licencias_cargo_sg(@mindate.to_date.iso8601, @maxdate.to_date.iso8601, @letra)
+    end 
+
+    @res1 = @res.where('(vigente = "Vigente" and cargada is null) or (vigente = "Finalizada" and finalizada is null)')
+
     respond_to do |format|
       format.xls 
       format.html 
-      format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res3}) }
+      format.json { render json: ListadoLicenciaCargosDatatable.new(view_context, { query: @res1}) }
     end
   end
 #-----------------------------------------------------------licencias sin goce -----------------------------------------
@@ -1288,10 +1498,10 @@ def listado_licencias_todas_lic
     @licencia_cargo_no_docente = Licencium.where(cargo_no_docente_id: params[:id_cargos_no_docentes])
     @licencia_articulo = @licencia_cargo_no_docente.where(articulo_id: params[:id_articulo], vigente: "Finalizada")
     @dias=0
-    @licencia_articulo.each do |l|
-      @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
-    end
-    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias - @dias
+     @licencia_articulo.each do |l|
+       @dias = @dias + (l.fecha_hasta - l.fecha_desde).to_i
+     end 
+    @dias_disponibles = Articulo.where(id: params[:id_articulo]).first.cantidad_maxima_dias.to_i - @dias
     render json:  @dias_disponibles
   end
 
@@ -1314,6 +1524,7 @@ def listado_licencias_todas_lic
   end
 
   def chequear_cargada
+
     @lic = Licencium.where(:id => params[:id]).first
     @lic.update!(cargada: true, user_cheq_cargada_id: current_user.id, fecha_cheq_cargada: DateTime.now)
     render json: @lic
@@ -1391,7 +1602,8 @@ def listado_licencias_todas_lic
       (licencia.observaciones = "" or
        licencia.observaciones = null ) and (licencia.con_certificado = null 
       or licencia.con_certificado = 0 ) and (licencia.articulo_id = articulos.id) 
-      and ( articulos.medico = 1) and licencia.vigente != "Cancelada"')
+      and ( articulos.medico = 1) and licencia.vigente != "Cancelada"') 
+    
     
     respond_to do |format|
     format.pdf do

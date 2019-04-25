@@ -12,7 +12,7 @@
   <div class="panel panel-primary ">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Novedades
+        Cargos Novedades
       </h3>
     </div>
     <div class="panel-body">
@@ -30,6 +30,7 @@
               <th>Fecha Alta</th>
               <th>Fecha baja</th>
               <th>Observaciones</th>
+              <th>Historial</th>
               <th>Notificaciones</th>
               <th>Acciones</th>
             </tr>
@@ -63,6 +64,7 @@
               <th>Fecha Alta</th>
               <th>Fecha baja</th>
               <th>Observaciones</th>
+              <th>Historial</th>
               <th>Notificaciones</th>
               <th>Acciones</th>
             </tr>
@@ -76,13 +78,14 @@
 
 </div>
 
+<%@establecimiento_id = Establecimiento.find(session[:establecimiento])%> 
 
-<%= link_to cargos_imprimir_cola_path(anio: @anio, mes: @mes), :class => 'btn btn-primary' do %>
+<%= link_to cargos_imprimir_cola_path(establecimiento_id: @establecimiento_id,anio: @anio, mes: @mes), :class => 'btn btn-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     Imprimir
   <% end %>
 <!-- Modal -->
-<div class="modal fade" id="modal_novedades" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal_bajas_efectivas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -153,6 +156,7 @@
         language : {"sUrl": "<%= asset_path('language.es.json') %>",},
         processing : true,
         serverSide : true,
+        "scrollX": true,
         ajax : $('#tabla-cola_impresion').data('source'),
         pagingType: "simple",
         columnDefs: [

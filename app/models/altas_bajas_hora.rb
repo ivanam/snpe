@@ -41,7 +41,7 @@ class AltasBajasHora < ActiveRecord::Base
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122,3000,261,256] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
-  MATERIA_CON_CONTROL_DE_MAXIMO = [1729] #materia 2255 etp
+  MATERIA_CON_CONTROL_DE_MAXIMO = [1729,1746,682] #materia 2255 etp
   CANT_MAXIMA = 11
 
   def self.horas_persona(dni)
@@ -279,10 +279,23 @@ class AltasBajasHora < ActiveRecord::Base
     
     cant_horas = 0
     if (MATERIA_CON_CONTROL_DE_MAXIMO.include? self.materium_id and self.horas != 0)
+      
          cant_horas = AltasBajasHora.where(establecimiento_id: self.establecimiento_id).where(:materium_id => self.materium_id, anio: self.anio, division: self.division).where.not(estado: 'BAJ').where.not(estado: 'LIC P/BAJ').sum(:horas)
-         if (cant_horas + self.horas) > CANT_MAXIMA
-            errors.add(:base,"error en la carga horaria, ya superó el máximo correspondiente a la materia "+ Materium.where(:id => self.materium_id).first.descripcion)
-            return false
+         #materia regionalizacion 
+        if (self.materium_id == 682 and self.anio == 6)
+            cantidad_max = 15
+        elsif (self.materium_id == 682 and self.anio == 7)
+            cantidad_max = 12 
+        elsif (self.materium_id== 1746 and self.anio == 7) 
+            cantidad_max = 10
+        elsif (self.materium_id== 1729 and self.anio == 1) 
+            cantidad_max = 7
+        else 
+            cantidad_max = 11
+         end
+         if (cant_horas + self.horas) > cantidad_max
+              errors.add(:base,"error en la carga horaria, ya superó el máximo correspondiente a la materia "+ Materium.where(:id => self.materium_id).first.descripcion)
+              return false
          end
     elsif !(MATERIAS_SIN_VALIDACION.include? self.materium_id or PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)) or (EXCEPCION_MATERIA_CON_VALIDACION.include? Materium.where(id: self.materium_id).first.codigo)
       if (Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil or (self.horas ==0))

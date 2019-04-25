@@ -175,22 +175,29 @@ class CargoNoDocentesController < InheritedResources::Base
   def imprimir_cola
     @novedades_ids = []
     @lote = LoteImpresion.all.where(tipo_id: 3).last
-    if @lote.fecha_impresion != nil
-      cargo_no_docentes_novedades.where(alta_lote_impresion_id: nil).each do |h|
-        if h.estado_actual == "Impreso"
-          @novedades_ids << h.id
+    if @lote != nil
+      if @lote.fecha_impresion != nil
+        cargo_no_docentes_novedades.where(alta_lote_impresion_id: nil).each do |h|
+          if h.estado_actual == "Impreso"
+            @novedades_ids << h.id
+          end
+        end
+        @novedades_en_cola_impresion = CargoNoDocente.where(id: @novedades_ids)
+        respond_to do |format|
+          format.html
+          format.json { render json: CargoNoDocentesNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }# ver el helper q lo contiene
+        end
+      else
+        @lote.update(fecha_impresion: Date.today)
+        
+        respond_to do |format|
+          format.html { redirect_to lote_impresion_path(@lote)}
         end
       end
-      @novedades_en_cola_impresion = CargoNoDocente.where(id: @novedades_ids)
-      respond_to do |format|
-        format.html
-        format.json { render json: CargoNoDocentesNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }# ver el helper q lo contiene
-      end
     else
-      @lote.update(fecha_impresion: Date.today)
-      
       respond_to do |format|
-        format.html { redirect_to lote_impresion_path(@lote)}
+        format.json { render json: {status: 'error', msj: "No hay registros chequeados"} }
+        format.html { redirect_to cargo_no_docentes_index_novedades_path, alert: 'No hay registros chequeados' }
       end
     end
   end

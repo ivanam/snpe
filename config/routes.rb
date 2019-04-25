@@ -188,6 +188,8 @@ ProyectoBase::Application.routes.draw do
     post "altas_bajas_horas/dar_baja/", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_bajas
 
     get "altas_bajas_horas/bajas_efectivas/", to: "altas_bajas_horas#index_bajas_efectivas", as: :altas_bajas_horas_index_bajas_efectivas
+    
+    get "altas_bajas_horas/bajas_notificadas_chequear/", to: "altas_bajas_horas#index_bajas_notificadas_chequear", as: :index_bajas_notificadas_chequear
 
     get "altas_bajas_horas/importar/", to: "altas_bajas_horas#importar", as: :altas_bajas_horas_importar
 
@@ -415,6 +417,16 @@ ProyectoBase::Application.routes.draw do
     get 'licencia/buscar_articulo_dias_cargo_no_docente/:id_articulo/:id_cargos_no_docentes', to: 'licencia#buscar_articulo_dias_cargo_no_docente', as: :buscar_articulo_dias_cargo_no_docente
     get 'licencias/listado_licencias', to: 'licencia#listado_licencias', as: :listado_licencias
     get 'licencias/listado_licencias_todas', to: 'licencia#listado_licencias_todas', as: :listado_licencias_todas
+    get 'licencias/licencias_chequeadas_horas', to: 'licencia#licencias_chequeadas_horas', as: :licencias_chequeadas_horas
+    get 'licencias/listado_licencias_cnds_sg_chequeadas', to: 'licencia#listado_licencias_cnds_sg_chequeadas', as: :listado_licencias_cnds_sg_chequeadas
+    get 'licencias/listado_licencias_carg_sg_chequeadas', to: 'licencia#listado_licencias_carg_sg_chequeadas', as: :listado_licencias_carg_sg_chequeadas
+    get 'licencias/listado_licencias_canceladas_horas', to: 'licencia#listado_licencias_canceladas_horas', as: :listado_licencias_canceladas_horas
+    get 'licencias/listado_licencias_canceladas_cargos', to: 'licencia#listado_licencias_canceladas_cargos', as: :listado_licencias_canceladas_cargos
+    get 'licencias/listado_licencias_canceladas_cargos_no_docentes', to: 'licencia#listado_licencias_canceladas_cargos_no_docentes', as: :listado_licencias_canceladas_cargos_no_docentes
+
+
+    
+    post 'licencia/cancelar_sin_goce' , to: 'licencia#cancelar_sin_goce', as: :cancelar_sin_goce
     get 'licencias/listado_licencias_cnds', to: 'licencia#listado_licencias_cnds', as: :listado_licencias_cnds
     get 'licencias/listado_licencias_carg', to: 'licencia#listado_licencias_carg', as: :listado_licencias_carg
     get 'licencias/parte_diario', to: 'licencia#parte_diario', as: :parte_diario
@@ -455,6 +467,7 @@ ProyectoBase::Application.routes.draw do
 
 
     get "traslados/reporte", to: "traslados#reporte", as: :traslados_reporte
+    get "licencias/licencias_sin_goce_canceladas", to: "licencia#licencias_sin_goce_canceladas", as: :licencias_sin_goce_canceladas
 
     get 'altas_bajas_horas/:id/historial', to: 'altas_bajas_horas#show', as: :historial_agente
     get 'cargos/:id/historial', to: 'cargos#show', as: :historial_agente_cargos

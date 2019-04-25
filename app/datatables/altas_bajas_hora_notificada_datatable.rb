@@ -46,7 +46,7 @@ class AltasBajasHoraNotificadaDatatable < AjaxDatatablesRails::Base
   end
 
   def get_raw_records    
-    return options[:query]
+    return options[:query].order(updated_at: :desc)
   end
 
   

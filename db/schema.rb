@@ -11,7 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190325122221) do
+
+ActiveRecord::Schema.define(version: 20190422133957) do
+
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -121,7 +123,6 @@ ActiveRecord::Schema.define(version: 20190325122221) do
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
     t.boolean  "medico"
-    t.boolean  "permite_otro_organismo", default: false
   end
 
   create_table "asistencia", force: true do |t|
@@ -496,11 +497,14 @@ ActiveRecord::Schema.define(version: 20190325122221) do
     t.integer  "user_cheq_finalizada_id"
     t.date     "fecha_creacion"
     t.integer  "user_id"
-    t.integer  "nro_documento",           limit: 8
+    t.integer  "nro_documento",            limit: 8
     t.integer  "oficina"
     t.boolean  "con_certificado"
     t.boolean  "con_formulario"
     t.string   "organismo"
+    t.boolean  "cancelada_sin_goce"
+    t.text     "obs_sin_goce_cancelacion"
+    t.integer  "user_sin_goce_cancelada"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
@@ -547,6 +551,7 @@ ActiveRecord::Schema.define(version: 20190325122221) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "tipo_id"
+    t.integer  "establecimiento_id"
   end
 
   create_table "lugar_pagos", force: true do |t|
@@ -863,6 +868,7 @@ ActiveRecord::Schema.define(version: 20190325122221) do
     t.datetime "confirmation_sent_at"
     t.string   "unconfirmed_email"
     t.integer  "documento"
+    t.string   "region"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

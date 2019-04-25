@@ -58,4 +58,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+   def establecimiento_region
+    @establecimiento = Establecimiento.find(session[:establecimiento])
+    @localidad = Localidad.find(@establecimiento.localidad_id)
+    @region = Region.find(@localidad.region_id)
+    return @region
+  end
+
 end
