@@ -144,7 +144,7 @@
 
 					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso")%>
 
-	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División"}%>          		
+	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true }%>          		
 					
 					<%= a.select(:materium_id, Materium.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class => "materium")%>					
 
@@ -155,7 +155,7 @@
 	        	</div>
       		<% end %>
       		<br>
-			<%= f.link_to_add "Agregar un paquete de horas", :altas_bajas_horas , :class => "btn btn-xs btn-success" %>
+			<%= f.link_to_add "Agregar un paquete de horas", :altas_bajas_horas , :class => "btn btn-sm btn-success" %>
 		</div>
 		<hr>
 		<div class="row">        
@@ -167,8 +167,6 @@
 <script type="text/javascript">
 	$('document').ready(function(){
 
-		var total_horas = 0;
-
 		$('form').on('nested:fieldAdded', function(event) {
 
 			var field = event.field;
@@ -176,6 +174,8 @@
     		var materium = field.find('.materium');
     		var anio = field.find('.curso');
     		var horas = field.find('.horas');
+
+    		materium.empty();
 
     		$('.plan, .curso').change(function(){
 				if (plan.val() != '' && anio.val() != '')
@@ -214,10 +214,6 @@
       					} else {
 							horas.val(0);
       					}
-      					console.log('horas '+parseInt(horas.val(),10));
-      					console.log('total_horas '+total_horas);      					
-						total_horas = total_horas + parseInt(horas.val(),10);
-						console.log('suma: '+total_horas);
       				})      		
     			}
   			});
@@ -226,20 +222,26 @@
 
   		$('form').on('nested:fieldRemoved', function(event) {
   			var field = event.field;
-    		var horas = field.find('.horas');
-    		console.log('horas '+parseInt(horas.val(),10));
-			console.log('total_horas '+total_horas);      				
-    		total_horas = total_horas - parseInt(horas.val(),10);
-    		console.log('resta: '+total_horas);
+  			var horas = field.find('.horas');
+  			horas.val(0);
+  			$('[required]', field).removeAttr('required');
   		});
 
-		$('form').on('submit', function() {
-			if (total_horas == 0) {
+  		function totalHoras() {
+  			var sum = 0;
+			$('.horas').each(function(){
+    			sum += parseInt($(this).val(),10);
+			});
+			return sum;
+  		}
+
+		$('form').on('submit', function() {			
+			if (totalHoras() == 0) {
 				alert('Debe agregar al menos un paquete de horas');
 				return false;
 			}
-			if (total_horas != <%= @altas_bajas_hora.horas %>) {
-				alert('La cantidad de horas debe coincidir con el paquete de horas original.\n\nPAQUETE ORIGINAL: <%= @altas_bajas_hora.horas %>\nDESGLOSADO: '+total_horas);
+			if (totalHoras() != <%= @altas_bajas_hora.horas %>) {
+				alert('La cantidad de horas debe coincidir con el paquete de horas original.\n\nPAQUETE ORIGINAL: <%= @altas_bajas_hora.horas %>\nDESGLOSADO: '+totalHoras());
 				return false;
 			}
 		});
