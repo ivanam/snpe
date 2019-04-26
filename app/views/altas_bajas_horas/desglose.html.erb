@@ -147,10 +147,9 @@
 	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true }%>          		
 					
 					<%= a.select(:materium_id, Materium.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class => "materium")%>					
-
           			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip"},:title=>"Cantidad Horas", :class => "horas", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :readonly => true } %>	          		
 					
-	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>	          		
+	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>	
 
 	        	</div>
       		<% end %>
