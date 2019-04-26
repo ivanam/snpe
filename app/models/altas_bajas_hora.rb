@@ -159,9 +159,10 @@ class AltasBajasHora < ActiveRecord::Base
   end 
 
   def calcular_dias_restantes_licencia_anual(fecha_antiguedad,cantidad_dias)
+    
       if cantidad_dias.is_a? String
         return "-"
-
+      
       elsif fecha_antiguedad != "0000-00-00" and fecha_antiguedad != nil
         antiguedad = fecha_antiguedad.to_date.year.to_i
           if antiguedad <= 5
