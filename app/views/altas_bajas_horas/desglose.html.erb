@@ -140,9 +140,9 @@
 
 	        		<%= a.hidden_field :esprovisorio, :value => @altas_bajas_hora.esprovisorio %>
 
-	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class => "plan")%>
+	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class => "plan", :required => true)%>
 
-					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso")%>
+					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso", :required => true)%>
 
 	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true }%>          		
 					
