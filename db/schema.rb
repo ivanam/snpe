@@ -505,7 +505,6 @@ ActiveRecord::Schema.define(version: 20190426135530) do
     t.string   "organismo"
     t.boolean  "cancelada_sin_goce"
     t.text     "obs_sin_goce_cancelacion"
-    t.integer  "user_sin_goce_cancelada"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree
