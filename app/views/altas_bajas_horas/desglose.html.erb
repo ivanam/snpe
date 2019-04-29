@@ -85,10 +85,6 @@
 
 	        <%= f.hidden_field :desglose_horas_id, :value => nil %>
 
-	        <%= f.hidden_field :created_at, :value => DateTime.now %>
-
-	        <%= f.hidden_field :updated_at, :value => DateTime.now %>
-
 			<%= f.hidden_field :estado, :value => 'DES' %>
 
 			<%= f.hidden_field :plan_id, :value => @altas_bajas_hora.plan_id %>
@@ -131,10 +127,6 @@
 	        		<%= a.hidden_field :secuencia_original, :value => @altas_bajas_hora.secuencia %>
 
 	        		<%= a.hidden_field :desglose_horas_id, :value => @altas_bajas_hora.id %>
-
-	        		<%= a.hidden_field :created_at, :value => DateTime.now %>
-
-	        		<%= a.hidden_field :updated_at, :value => DateTime.now %>
 
 	        		<%= a.hidden_field :estado, :value => 'ALT' %>
 
