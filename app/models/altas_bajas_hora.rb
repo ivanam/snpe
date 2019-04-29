@@ -13,7 +13,7 @@ class AltasBajasHora < ActiveRecord::Base
   accepts_nested_attributes_for :altas_bajas_horas, allow_destroy: true
 
 
-  if false
+  if true
     validates :fecha_alta, :presence => true
     validates :situacion_revista, :presence => true
     validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
