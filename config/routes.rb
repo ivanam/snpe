@@ -4,8 +4,7 @@ ProyectoBase::Application.routes.draw do
 
     ActiveAdmin.routes(self)
 
-
-   post "util/buscar_persona/:dni", to: 'util#buscar_persona'
+    post "util/buscar_persona/:dni", to: 'util#buscar_persona'
 
     post "util/buscar_persona_por_id/:id", to: 'util#buscar_persona_por_id'
 
@@ -170,6 +169,10 @@ ProyectoBase::Application.routes.draw do
     #---------------------------------------------------------------------------------------------------------------------------------------
 
     resources :oficinas    
+
+    get "altas_bajas_horas/:id/desglose", to: "altas_bajas_horas#desglose", as: :altas_bajas_horas_desglose
+
+    patch "altas_bajas_horas/:id/desglose", to: "altas_bajas_horas#guardar_desglose", as: :altas_bajas_horas_guardar_desglose
 
     get "altas_bajas_horas/bajas/", to: "altas_bajas_horas#index_bajas", as: :altas_bajas_horas_index_bajas
  

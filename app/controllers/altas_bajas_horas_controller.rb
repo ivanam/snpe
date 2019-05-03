@@ -227,6 +227,26 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def desglose
+    @planes_permitidos = select_planes_permitidos
+  end
+
+  def guardar_desglose
+    if @altas_bajas_hora.update_attributes(altas_bajas_hora_params_desglose) then
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'El desglose se guardo correctamente' }
+        format.json { render action: :modificacion, status: :created, location: @altas_bajas_hora }
+      end
+    else
+      respond_to do |format|
+        @planes_permitidos = select_planes_permitidos
+        @materias_permitidas = select_materias_permitidas(@altas_bajas_hora.plan_id , @altas_bajas_hora.anio)
+        format.html { render :desglose }
+        format.json { render json: @altas_bajas_hora.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def editar_alta
     @planes_permitidos = select_planes_permitidos
     @altas_bajas_hora = AltasBajasHora.find(params[:id])    
@@ -773,5 +793,8 @@ end
       params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :esprovisorio)
     end
 
+    def altas_bajas_hora_params_desglose
+      params.require(:altas_bajas_hora).permit(:establecimiento_id, :mes_periodo, :anio_periodo, :persona_id, :secuencia, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :anio, :division, :turno, :codificacion, :resolucion, :decreto, :oblig, :observaciones, :empresa_id, :lugar_pago_id, :estado, :con_movilidad, :plan_id, :materium_id, :grupo_id, :esprovisorio, :secuencia_original, :desglose_horas_id, :created_at, :updated_at, :horas, altas_bajas_horas_attributes: [:establecimiento_id, :persona_id, :fecha_alta, :fecha_baja, :situacion_revista, :ciclo_carrera, :turno, :codificacion, :oblig, :created_at, :updated_at, :estado, :esprovisorio, :observaciones, :plan_id, :materium_id, :anio, :division, :horas, :secuencia, :secuencia_original, :desglose_horas_id, :_destroy])
+    end
 
 end

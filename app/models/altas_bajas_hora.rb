@@ -8,6 +8,9 @@ class AltasBajasHora < ActiveRecord::Base
   belongs_to :materium
   belongs_to :plan
 
+  has_many :altas_bajas_horas, :class_name => 'AltasBajasHora', :foreign_key => 'desglose_horas_id'
+  accepts_nested_attributes_for :altas_bajas_horas, allow_destroy: true
+
 
   if true
     validates :fecha_alta, :presence => true
@@ -45,6 +48,13 @@ class AltasBajasHora < ActiveRecord::Base
     return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
   end
 
+  def puede_desglosarse?
+    return !desglosado? && self.secuencia != 500 && (self.estado == 'ALT' || self.estado == 'LIC')
+  end
+
+  def desglosado?
+    return !AltasBajasHora.where(desglose_horas_id: self.id).first.blank?
+  end
 
   def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)
     total = 0

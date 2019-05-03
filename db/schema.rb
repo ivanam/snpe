@@ -11,9 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 20190422133957) do
-
+ActiveRecord::Schema.define(version: 20190426135530) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -101,6 +99,8 @@ ActiveRecord::Schema.define(version: 20190422133957) do
     t.text     "obs_lic"
     t.boolean  "trabaja_en_sede"
     t.boolean  "esprovisorio"
+    t.integer  "secuencia_original"
+    t.integer  "desglose_horas_id"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 20190422133957) do
     t.boolean  "con_goce"
     t.integer  "tipo_articulo_id"
     t.boolean  "medico"
+    t.boolean  "permite_otro_organismo", default: false
   end
 
   create_table "asistencia", force: true do |t|
@@ -504,7 +505,6 @@ ActiveRecord::Schema.define(version: 20190422133957) do
     t.string   "organismo"
     t.boolean  "cancelada_sin_goce"
     t.text     "obs_sin_goce_cancelacion"
-    t.integer  "user_sin_goce_cancelada"
   end
 
   add_index "licencia", ["altas_bajas_hora_id"], name: "index_licencia_on_altas_bajas_hora_id", using: :btree

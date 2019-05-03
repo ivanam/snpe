@@ -1,0 +1,249 @@
+<div class="page-header">
+  <%= link_to altas_bajas_horas_modificacion_path, class: 'btn btn-default' do %>
+  	<span class="glyphicon glyphicon-arrow-left"></span>
+    	Volver a Modificaciones
+  <% end %>
+  <h4> Desglose de Horas</h4>
+</div>
+
+<div class="well">
+	<div class="row">
+		<div class="col-sm-4">
+			</dl class="dl-horizontal">
+				<dt>CUIT/CUIL</dt>
+				<dd><%= @altas_bajas_hora.persona.cuil %></dd>
+				<dt>Apellido y nombre</dt>
+				<dd><%= @altas_bajas_hora.persona.apeynom %></dd>
+				<dt>Fecha de nacimiento</dt>
+				<dd><%= @altas_bajas_hora.persona.fecha_nacimiento %></dd>
+				<dt>Género</dt>
+				<dd><%= @altas_bajas_hora.persona.sexo.to_s %></dd>
+			</dl>
+		</div>
+		<div class="col-sm-4">
+			</dl class="dl-horizontal">
+				<dt>Secuencia</dt>
+				<dd><%= @altas_bajas_hora.secuencia %></dd>
+				<dt>Fecha de alta</dt>
+				<dd><%= @altas_bajas_hora.fecha_alta %></dd>				
+				<dt>Situacion de revista</dt>
+				<dd><%= @altas_bajas_hora.situacion_revista %></dd>
+				<dt>Turno</dt>
+				<dd><%= @altas_bajas_hora.turno %></dd>
+			</dl>
+		</div>
+		<div class="col-sm-4">
+			</dl class="dl-horizontal">
+				<dt>Plan</dt>
+				<dd><%= @altas_bajas_hora.plan.to_s %></dd>
+				<dt>Curso / División</dt>
+				<dd><%= @altas_bajas_hora.anio %> / <%= @altas_bajas_hora.division %></dd>
+				<dt>Materia</dt>
+				<dd><%= @altas_bajas_hora.materium.to_s %></dd>
+				<dt>Horas</dt>
+				<dd><%= @altas_bajas_hora.horas %></dd>
+			</dl>
+		</div>
+	</div>	
+</div>
+
+<div class="form-carga-efecto form-carga-efecto-alta">
+	<legend class="legend-small">Paquetes de Horas</legend>
+
+	<%= nested_form_for(@altas_bajas_hora, :url => {:action => "guardar_desglose" }, :html => { :class => "form-horizontal" }) do |f| %>
+		<div class="row">
+			<% if @altas_bajas_hora.errors.any? %>
+				<div class="alert alert-danger alert-dismissable" role="alert">
+	      			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Cerrar</span>
+	      			</button>
+	      			<h4>No se pudo guardar el formulario, tiene los siguientes errores</h4>
+	      			<ul>
+						<% @altas_bajas_hora.errors.full_messages.each do |msg| %>
+							<li><%= msg %></li>
+						<% end %>
+	      			</ul>
+	    		</div>
+			<% end %>
+
+			<%= f.hidden_field :establecimiento_id, :value => @altas_bajas_hora.establecimiento_id %>
+
+	        <%= f.hidden_field :persona_id, :value => @altas_bajas_hora.persona_id %>
+
+	        <%= f.hidden_field :secuencia, :value =>  @altas_bajas_hora.secuencia %>
+
+	        <%= f.hidden_field :fecha_alta, :value => @altas_bajas_hora.fecha_alta %>
+
+	        <%= f.hidden_field :fecha_baja, :value => @altas_bajas_hora.fecha_baja %>
+
+	        <%= f.hidden_field :situacion_revista, :value => @altas_bajas_hora.situacion_revista %>
+
+          	<%= f.hidden_field :ciclo_carrera, :value => @altas_bajas_hora.ciclo_carrera %>
+
+	        <%= f.hidden_field :turno, :value => @altas_bajas_hora.turno %>
+
+	        <%= f.hidden_field :codificacion, :value => @altas_bajas_hora.codificacion %>
+
+	        <%= f.hidden_field :oblig, :value => @altas_bajas_hora.oblig %>
+
+	        <%= f.hidden_field :observaciones, :value => '' %>
+
+	        <%= f.hidden_field :secuencia_original, :value => nil %>
+
+	        <%= f.hidden_field :desglose_horas_id, :value => nil %>
+
+			<%= f.hidden_field :estado, :value => 'DES' %>
+
+			<%= f.hidden_field :plan_id, :value => @altas_bajas_hora.plan_id %>
+
+			<%= f.hidden_field :materium_id, :value => @altas_bajas_hora.materium_id %>
+
+			<%= f.hidden_field :anio, :value => @altas_bajas_hora.anio %>
+
+			<%= f.hidden_field :division, :value => @altas_bajas_hora.division %>
+
+			<%= f.hidden_field :horas, :value => @altas_bajas_hora.horas %>
+
+			<%= f.hidden_field :esprovisorio, :value => @altas_bajas_hora.esprovisorio %>
+		    
+			<%= f.fields_for :altas_bajas_horas do |a| %>
+	        	<div class="row">
+
+	        		<%= a.hidden_field :establecimiento_id, :value => @altas_bajas_hora.establecimiento_id %>
+
+	        		<%= a.hidden_field :persona_id, :value => @altas_bajas_hora.persona_id %>
+
+	        		<%= a.hidden_field :secuencia, :value => 500 %>
+
+	        		<%= a.hidden_field :fecha_alta, :value => @altas_bajas_hora.fecha_alta %>
+
+	        		<%= a.hidden_field :fecha_baja, :value => @altas_bajas_hora.fecha_baja %>
+
+	        		<%= a.hidden_field :situacion_revista, :value => @altas_bajas_hora.situacion_revista %>
+
+          			<%= a.hidden_field :ciclo_carrera, :value => @altas_bajas_hora.ciclo_carrera %>
+
+	          		<%= a.hidden_field :turno, :value => @altas_bajas_hora.turno %>
+
+	          		<%= a.hidden_field :codificacion, :value => @altas_bajas_hora.codificacion %>
+
+	          		<%= a.hidden_field :oblig, :value => @altas_bajas_hora.oblig %>
+
+	          		<%= a.hidden_field :observaciones, :value => '' %>
+
+	        		<%= a.hidden_field :secuencia_original, :value => @altas_bajas_hora.secuencia %>
+
+	        		<%= a.hidden_field :desglose_horas_id, :value => @altas_bajas_hora.id %>
+
+	        		<%= a.hidden_field :estado, :value => 'ALT' %>
+
+	        		<%= a.hidden_field :esprovisorio, :value => @altas_bajas_hora.esprovisorio %>
+
+	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class => "plan", :required => true)%>
+
+					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso", :required => true)%>
+
+	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true }%>          		
+					
+					<%= a.select(:materium_id, Materium.all.collect{|m| [m.to_s, m.id]}, {:prompt => "Materia"}, :id => "materium",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Materia", :class => "materium")%>					
+          			<%= a.text_field :horas, {:data =>{:toggle=>"tooltip"},:title=>"Cantidad Horas", :class => "horas", :id => "horas", :maxlength=>"2" , :placeholder => "Horas", :readonly => true } %>	          		
+					
+	          		<%= a.link_to_remove "", :class => "btn btn-sm btn-danger glyphicon glyphicon-trash pull-right" %>	
+
+	        	</div>
+      		<% end %>
+      		<br>
+			<%= f.link_to_add "Agregar un paquete de horas", :altas_bajas_horas , :class => "btn btn-sm btn-success" %>
+		</div>
+		<hr>
+		<div class="row">        
+        	<%= f.submit :class => "btn btn-primary", :value => "Guardar" %>
+      	</div>
+	<% end %>
+</div>
+
+<script type="text/javascript">
+	$('document').ready(function(){
+
+		$('select').select2({width: 'resolve'});
+
+		$('form').on('nested:fieldAdded', function(event) {
+
+			var field = event.field;
+    		var plan = field.find('.plan');
+    		var materium = field.find('.materium');
+    		var anio = field.find('.curso');
+    		var horas = field.find('.horas');
+
+    		materium.empty();
+
+    		$('.plan, .curso').change(function(){
+				if (plan.val() != '' && anio.val() != '')
+       			{
+       				var plan_id = parseInt(plan.val(),10); 
+       				var anio_id = parseInt(anio.val(),10); 
+          			$.ajax({
+            			url: '/soft/snpe/util/buscar_materias_plan/'+plan_id+'/'+anio_id,
+            			type: 'GET',
+          			})
+          			.done(function(data) {
+            			materium.empty();
+            			if (data != null) {
+              				materium.append('<option value="">Materia</option>');
+              				for (var i = 0; i < data.length; i++) {
+                				materium.append('<option value="'+data[i].id+'">'+data[i].codigo+' - '+data[i].descripcion+'</option>');
+              				};            
+            			}
+          			})
+        		}
+			});
+
+			$('.materium').change(function(){				
+    			if (anio.val() != '' && plan.val() != '' && materium.val() != '')
+    			{
+    				var plan_id = parseInt(plan.val(),10); 
+					var materia_id = parseInt(materium.val(),10); 				
+       				var anio_id = parseInt(anio.val(),10); 
+      				$.ajax({
+        				url: '/soft/snpe/util/buscar_carga_horaria_materia/'+materia_id+'/'+plan_id+'/'+anio_id,
+        				type: 'GET',
+      				})
+      				.done(function(data) {
+      					if (data != null) {
+							horas.val(data);
+      					} else {
+							horas.val(0);
+      					}
+      				})      		
+    			}
+  			});
+
+  		});
+
+  		$('form').on('nested:fieldRemoved', function(event) {
+  			var field = event.field;
+  			var horas = field.find('.horas');
+  			horas.val(0);
+  			$('[required]', field).removeAttr('required');
+  		});
+
+  		function totalHoras() {
+  			var sum = 0;
+			$('.horas').each(function(){
+    			sum += parseInt($(this).val(),10);
+			});
+			return sum;
+  		}
+
+		$('form').on('submit', function() {			
+			if (totalHoras() == 0) {
+				alert('Debe agregar al menos un paquete de horas');
+				return false;
+			}
+			if (totalHoras() != <%= @altas_bajas_hora.horas %>) {
+				alert('La cantidad de horas debe coincidir con el paquete de horas original.\n\nPAQUETE ORIGINAL: <%= @altas_bajas_hora.horas %>\nDESGLOSADO: '+totalHoras());
+				return false;
+			}
+		});
+
+	});
+</script>

@@ -333,9 +333,13 @@ class CargosController < ApplicationController
       if @cargo.update(:fecha_baja => nil, estado: 'ALT', :motivo_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         CargoEstado.create( cargo_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
-      end
-      respond_to do |format|
-        format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
+        respond_to do |format|
+          format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
+        end
+      else
+        respond_to do |format|
+          format.json { render json: {status: 'error', msj: @cargo.errors.full_messages[0]} }
+        end
       end
     else
       respond_to do |format|
