@@ -34,18 +34,19 @@ class Persona < ActiveRecord::Base
   end
 
   def get_antiguedad
+    
     if self.anio == nil
       anio = "0000"
       dia = "00"
       mes = "00"
     else
       anio = self.anio
-      if self.mes == nil
+      if self.mes == nil or self.mes == 0
         mes = 01
       else
         mes = self.mes
       end
-      if self.dia == nil
+      if self.dia == nil  or self.dia == 0
         dia = 01
       else
         dia = self.dia
