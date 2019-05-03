@@ -19,14 +19,14 @@ class AltasBajasHora < ActiveRecord::Base
     validates :anio, length: { minimum: 1, maximum: 2}, :numericality => { :greater_than_or_equal_to => 0, :message => "Ingrese un número entre 0 y 6" }, if: :no_es_licencia_para_baja
     validates :division, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }, if: :no_es_licencia_para_baja
     validates :persona_id, :presence => true
-    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
-    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
-    validates :turno, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_sin_controles
+    validates :plan_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_con_controles
+    validates :materium_id, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_con_controles
+    validates :turno, :presence => true, if: :no_es_licencia_para_baja, if: :motivo_baja_con_controles
 
 
   # # #Validación de alta
     before_create :validar_horas
-    validate :validar_alta, if: :motivo_baja_sin_controles
+    validate :validar_alta, if: :motivo_baja_con_controles
     #validate :validar_nivel_superior
     before_save :actualizar_materia
     before_update :dar_baja
@@ -222,9 +222,10 @@ class AltasBajasHora < ActiveRecord::Base
     self.estado != "LIC P/BAJ"
   end
 
-  def motivo_baja_sin_controles
+  def motivo_baja_con_controles
+    
     #salta validaciones si es baja por jubilacion y por cierre de curso
-    !(self.motivo_baja == "2" or self.motivo_baja == "6" or self.motivo_baja == nil or self.motivo_baja == "10")
+    (self.motivo_baja != "2" and self.motivo_baja != "6" and self.motivo_baja != "10")
   end
 
   def plan_con_validacion
@@ -315,14 +316,17 @@ class AltasBajasHora < ActiveRecord::Base
       titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
       interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-2').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
       if (titular == nil) && (interino == nil)      
-        errors.add(:base,"No puede darse de alta un suplente ni reemplazante si no existe titular o interino en el cargo")        
+        errors.add(:base,"No puede darse de alta un suplente ni reemplazante si no existe titular o interino en el cargo")   
+        return false     
       end
     end
+    return true
   end
 
   #2- hay un titular y se quiere dar de alta un titular
   #3- hay un (interino,reemplazante, supl. larga, supl. corta, etc.) y se quiere de alta un titular
   def validar_titular 
+    
       if self.situacion_revista == '1-1'
         alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )")
     
