@@ -8,7 +8,7 @@ class UtilController < ApplicationController
 
 
   def get_autocomplete_items(parameters)
-    if (current_user.role? :escuela || current_user.role? :delegacion)
+    if (current_user.role? :escuela || current_user.role? :delegacion) then
       establecimiento_id = session[:establecimiento]
       horas = Persona.joins(:altas_bajas_hora).where('(nro_documento like "%' + params[:term] + '%" or apeynom like "%' + params[:term] + '%") AND altas_bajas_horas.estado != "BAJ" AND altas_bajas_horas.establecimiento_id = '+establecimiento_id.to_s).distinct
       cargos = Persona.joins(:cargo).where('(nro_documento like "%' + params[:term] + '%" or apeynom like "%' + params[:term] + '%") AND cargos.estado != "BAJ" AND cargos.establecimiento_id = '+establecimiento_id.to_s).distinct
