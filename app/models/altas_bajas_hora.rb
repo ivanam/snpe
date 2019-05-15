@@ -56,6 +56,20 @@ class AltasBajasHora < ActiveRecord::Base
     return !AltasBajasHora.where(desglose_horas_id: self.id).first.blank?
   end
 
+  def cantidad_registros_ok
+    cantidad = 0
+    @alta = AltasBajasHora.where.not(:estado => "LIC P/BAJ").where.not(:estado => "BAJ").where("fecha_baja is null")
+    @alta.each do |a|
+      if Plan.where(id: a.plan_id).first != nil and Materium.where(id: a.materium_id).first != nil
+        if Despliegue.where(:plan_id => a.plan_id, :materium_id => a.materium_id).first != nil
+          if a.valid?
+            cantidad = cantidad + 1
+          end
+        end
+      end
+    end
+  end
+
   def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)
     total = 0
     case posicion
@@ -225,7 +239,7 @@ class AltasBajasHora < ActiveRecord::Base
   def motivo_baja_con_controles
     
     #salta validaciones si es baja por jubilacion y por cierre de curso
-    (self.motivo_baja != "2" and self.motivo_baja != "6" and self.motivo_baja != "10")
+    (self.motivo_baja != "2" and self.motivo_baja != "6" and self.motivo_baja != "10" and self.motivo_baja != nil)
   end
 
   def plan_con_validacion
