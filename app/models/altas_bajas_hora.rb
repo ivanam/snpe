@@ -237,9 +237,8 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def motivo_baja_con_controles
-    
     #salta validaciones si es baja por jubilacion y por cierre de curso
-    (self.motivo_baja != "2" and self.motivo_baja != "6" and self.motivo_baja != "10" and self.motivo_baja != nil)
+    (self.motivo_baja != "2" and self.motivo_baja != "6" and self.motivo_baja != "10")
   end
 
   def plan_con_validacion
@@ -256,6 +255,7 @@ class AltasBajasHora < ActiveRecord::Base
       establecimiento = Establecimiento.find(self.establecimiento_id)
       nivel = establecimiento.nivel
       if (nivel == nil) || (nivel != nil && nivel.nombre != "Superior")
+        
         if validar_situacion_revista
           if plan_con_validacion
             validar_titular
@@ -325,7 +325,7 @@ class AltasBajasHora < ActiveRecord::Base
   end
 
   def validar_situacion_revista
-
+    
     if self.situacion_revista == '1-3' || self.situacion_revista == '2-3' || self.situacion_revista == '2-4'
       titular = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-1').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
       interino = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id, situacion_revista:'1-2').where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").first
@@ -348,13 +348,15 @@ class AltasBajasHora < ActiveRecord::Base
           titular = alta_horas.where(situacion_revista: "1-1").first
           if titular
             errors.add(:base,"Se quiere dar de alta un titular y ya existe uno. El titular en ese espacio curricular es #{titular.persona.to_s}")                
+
           else
             interino = alta_horas.where(situacion_revista: "1-2").first
             if interino
               errors.add(:base,"Se quiere dar de alta un titular y ya existe interino. El interino en ese espacio curricular es #{interino.persona.to_s}")                
             end
           end
-        end      
+        end  
+
       end
   end
 
@@ -381,6 +383,7 @@ class AltasBajasHora < ActiveRecord::Base
 
   #Se quiere crear un reemplazante
   def validar_reemplazante
+    
     if self.situacion_revista == '1-3' 
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )")       
       if (!tiene_licencia_sin_goce(alta_horas))
