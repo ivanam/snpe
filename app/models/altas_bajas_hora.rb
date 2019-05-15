@@ -226,7 +226,6 @@ class AltasBajasHora < ActiveRecord::Base
 
 
   def control_horas
-    
     if !(PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo) or MATERIA_CON_CONTROL_DE_MAXIMO.include? self.materium_id or MATERIAS_SIN_VALIDACION.include? self.materium_id)
       self.horas = Despliegue.where(plan_id: self.plan_id, materium_id: self.materium_id, anio: self.anio).first.carga_horaria
     end
@@ -389,6 +388,10 @@ class AltasBajasHora < ActiveRecord::Base
       if (!tiene_licencia_sin_goce(alta_horas))
         errors.add(:base,"Las horas a reemplazar no se encuentra con licencia sin goce de haberes.")                
       end
+      if alta_horas.where(estado: "ALT").first != nil
+        errors.add(:base,"En las horas a reemplazar ya se encuentra una persona de alta")   
+      end
+
       #reemplazante_de = con_licencia_reemplazante(alta_horas) 
       #if (reemplazante_de == [])
       #  errors.add(:base,"Las horas a reemplazar no se encuentra con licencia sin goce de haberes.")                
@@ -402,6 +405,9 @@ class AltasBajasHora < ActiveRecord::Base
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )")      
       if (!tiene_licencia_con_goce(alta_horas))
         errors.add(:base,"Las horas a suplantar no se encuentra con licencia con goce de haberes.")                
+      end
+      if alta_horas.where(estado: "ALT").first != nil
+        errors.add(:base,"En las horas a suplantar ya se encuentra una persona de alta")   
       end
       #suplente_de = con_licencia_suplente(alta_horas) 
       #if (suplente_de == [])
