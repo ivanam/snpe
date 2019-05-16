@@ -64,7 +64,6 @@ class Ability
         if user.role? :delegacion
           can :manage, [Cargo]
           can :cargos_bajas_efectivas, [Cargo]
-          can :modificacion, [Cargo]
           can :manage, [AltasBajasHora]
           can :altas_bajas_hora_baja_efectiva, [AltasBajasHora]
           can :index_novedades, [AltasBajasHora]
@@ -96,11 +95,8 @@ class Ability
         end
 
         if user.role? :carga_planes
-          can :create, [Plan]
           can :read, [Plan]
-          can :create, [Despliegue]
           can :read, [Despliegue]
-          can :create, [Materium]
           can :read, [Materium]      
 
         end
