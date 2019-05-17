@@ -2,12 +2,13 @@ class MigracionController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource :class => false
 
-	$mes = 3
+	$mes = 4
 	$anio = 2019
 	$nueva = true
 	#$escuelasNuevas = [3002]
-	$escuelasNuevas = [410,430,434,448,449,457,461,462,464,475,480,482,486,487,495,498,2401,2405,2406,2407,2408,516,520,524,526,528,556]
+	$escuelasNuevas = [14,28,36,70,71,72,73,82,94,102,106,127,135,148,163,180,307,411,418,419,460,494,1469,2410,2410,508,558,566,612,624,658,661,706,716,725,739,756,]
   #en la vista registros para controlar hay q permitir dar de alta;
+
 
 	def migrar_hs
 		@listaAux = []
