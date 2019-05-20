@@ -87,11 +87,15 @@ class MigracionController < ApplicationController
 							      				AltasBajasHoraEstado.create(estado_id: 10, alta_baja_hora_id: horaSinSec.id)
 							      			end
 				      			elsif AltasBajasHora.where(:establecimiento_id => esc_id, :persona_id => persona_id, horas: r['horas_cate'], fecha_alta: r['fecha_alta'] , secuencia: r['secMax']).first == nil
+				    	      		  if r['fecha_baja'] == nil
 				    	      		  	AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, empresa_id: 6, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
 					       						#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, horas_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+				      						end
 				      			end
 		      		else
+		      			if r['fecha_baja'] == nil
 		      				AltasBajasHora.create!(establecimiento_id: esc_id, persona_id: persona_id, empresa_id: 6,secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista, horas: r['horas_cate'], ciclo_carrera: ciclo, anio:r['curso'], division: r['division'], turno:r['turno'], codificacion: r['materia'], oblig: r['categ'], estado:r['estado'] , materium_id: materia_id, plan_id: plan_id )
+		      			end
 		      		end
 			  end	
 			end
@@ -165,8 +169,10 @@ class MigracionController < ApplicationController
 		      				CargoEstado.create(estado_id: 10, cargo_id: cargoSinSec.id)
 		      			end
 	       		elsif Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first == nil
-		       			Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, empresa_id: empresa_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
-		       			#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+		       			if r['fecha_baja'] == nil
+		       				Cargo.create!(establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, empresa_id: empresa_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+		       				#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, cargos_registro: 1,establecimiento_id: esc_id, persona_id: persona_id, cargo: categoria, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  anio:r['curso'], division: r['division'], turno:r['turno'],   estado:r['estado'] , materium_id: materia_id)
+	       				end
 	       		end
 	       		# if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria ).first != nil
 		       	# 		if Cargo.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: r['secMax'], cargo: categoria, empresa_id: empresa_id ).first == nil
@@ -253,8 +259,10 @@ class MigracionController < ApplicationController
 					       				carg = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id).first 
 					       				carg.update(:estado => 'BAJ')
 		       						end
-											CargoNoDocente.create!(establecimiento_id: esc_id, empresa_id: empresa_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno: turno, estado:r['estado'])	
-											#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+		       						if r['fecha_baja'] == nil
+												CargoNoDocente.create!(establecimiento_id: esc_id, empresa_id: empresa_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno: turno, estado:r['estado'])	
+												#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
+											end
 									end
 					end
 					# if CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id, fecha_alta: r['fecha_alta'] , secuencia: 0, cargo: cargo_id ).first != nil		       		
