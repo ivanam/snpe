@@ -6,8 +6,9 @@ class MigracionController < ApplicationController
 	$anio = 2019
 	$nueva = true
 	#$escuelasNuevas = [3002]
-	$escuelasNuevas = [14,28,36,70,71,72,73,82,94,102,106,127,135,148,163,180,307,411,418,419,460,494,1469,2410,2410,508,558,566,612,624,658,661,706,716,725,739,756,]
+	#$escuelasNuevas = [14,28,36,70,71,72,73,82,94,102,106,127,135,148,163,180,307,411,418,419,460,494,1469,2410,2410,508,558,566,612,624,658,661,706,716,725,739,756,]
   #en la vista registros para controlar hay q permitir dar de alta;
+  $escuelasNuevas = [3,5,6,15,16,21,30,31,33,40,50,53,55,56,61,62,63,64,66,77,78,85,92,95,100,101,117,118,122,123,125,128,130,138,139,140,151,156,157,164,165,173,174,175,182,189,199,201,196,206,207,212,216,220,224,303,405,412,415,423,425,427,429,431,432,433,437,442,443,451,452,468,471,479,489,490,492,503,511,512,513,529,553,555,561,565,608,609,653,654]
 
 
 	def migrar_hs
@@ -259,7 +260,7 @@ class MigracionController < ApplicationController
 					       				carg = CargoNoDocente.where(:establecimiento_id => esc_id, :persona_id => persona_id).first 
 					       				carg.update(:estado => 'BAJ')
 		       						end
-		       						if r['fecha_baja'] == nil
+		       						if r['fecha_baja'] = nil
 												CargoNoDocente.create!(establecimiento_id: esc_id, empresa_id: empresa_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno: turno, estado:r['estado'])	
 												#RegistrosParaSolucionar.create!(mes_liq: 12, anio_liq: 2018, auxiliar_registro: 1, establecimiento_id: esc_id, persona_id: persona_id, cargo: cargo_id, secuencia: r['secMax'], fecha_alta: r['fecha_alta'], fecha_baja: r['fecha_baja'], situacion_revista: situacion_revista,  turno:r['turno'], estado:r['estado'])
 											end
