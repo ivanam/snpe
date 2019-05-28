@@ -25,6 +25,7 @@
         <th>Turno</th>
         <th>Grupo</th>
         <th>Sit. Revista</th>
+        <th>Lugar de Reubicación</th>
         <th>Estado</th>
         <th>Artículo</th>
         <th>Fecha de alta</th>
@@ -40,6 +41,8 @@
             <td><%= d.turno %></td>
             <td><%= d.grupo_id %></td>
             <td><%= d.situacion_revista %></td>
+            <% esc_destino = Establecimiento.where(id:  d.establecimiento_id).first %>
+            <td><%= esc_destino == nil ? '' : esc_destino.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
@@ -72,6 +75,8 @@
         <th>Cargo</th>
         <th>Turno</th>
         <th>Sit. Revista</th>
+        <th>Lugar de Reubicación</th>
+        <th>Lugar de Origen</th>
         <th>Estado</th>
         <th>Artículo</th>
         <th>Fecha de alta</th>
@@ -86,6 +91,8 @@
             <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
             <td><%= d.turno %></td>
             <td><%= d.situacion_revista %></td>
+            <% esc_destino = Establecimiento.where(id:  d.establecimiento_id).first %>
+            <td><%= esc_destino == nil ? '' : esc_destino.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
@@ -119,6 +126,8 @@
         <th>Plan/Materia</th>
         <th>Curso/División</th>
         <th>Sit. Revista</th>
+        <th>Lugar de Reubicación</th>
+        <th>Lugar de Origen</th>
         <th>Estado</th>
         <th>Artículo</th>
         <th>Fecha de alta</th>
@@ -134,6 +143,8 @@
             <td><%= d.plan_materia %></td>
             <td><%= d.curso_division %></td>
             <td><%= d.situacion_revista %></td>
+            <% esc_destino = Establecimiento.where(id:  d.establecimiento_id).first %>
+            <td><%= esc_destino == nil ? '' : esc_destino.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
