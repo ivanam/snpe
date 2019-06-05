@@ -48,12 +48,20 @@ class AltasBajasHora < ActiveRecord::Base
     return AltasBajasHora.where(id: hora_ids).includes(:establecimiento)
   end
 
+  def registro_desglosado
+    return AltasBajasHora.find(self.desglose_horas_id)
+  end
+
   def puede_desglosarse?
-    return !desglosado? && self.secuencia != 500 && (self.estado == 'ALT' || self.estado == 'LIC')
+    return !desglosado? && !es_desglose? && self.secuencia != nil && (self.estado == 'ALT' || self.estado == 'LIC')
   end
 
   def desglosado?
     return !AltasBajasHora.where(desglose_horas_id: self.id).first.blank?
+  end
+
+  def es_desglose?
+    return self.secuencia == 500
   end
 
   def calcular_licencia(fecha_limite_inicio,fecha_limite_fin,posicion,anio_lic)

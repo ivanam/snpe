@@ -38,16 +38,16 @@ class AltasBajasHora2Datatable < AjaxDatatablesRails::Base
         '<a style="color:red">'+record.anio.to_s+'</a>',
         '<a style="color:red">'+record.division.to_s+'</a>',
         '<a style="color:red">'+record.turno.to_s+'</a>',
-        '<a style="color:red">'+record.codificacion.to_s+'</a>',   
+        '<a style="color:red">'+record.materium.codigo.to_s+'</a>',   
         '<a style="color:red">'+record.estado+'</a>',
         Util.fecha_a_es(record.fecha_alta),
         Util.fecha_a_es(record.fecha_baja),
         '<a class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" onclicK=editar('+record.id.to_s+') title="Editar"><strong>Editar</strong></a>',
-        #if record.puede_desglosarse? then
-        #  '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Desglosar" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'/desglose"><strong>Desglosar</strong></a>'
-        #else
-        #  ''
-        #end,
+        if record.puede_desglosarse? then
+          '<a class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Desglosar" href="/soft/snpe/altas_bajas_horas/'+record.id.to_s+'/desglose"><strong>Desglosar</strong></a>'
+        else
+          ''
+        end,
         if record.estado.to_s == "LIC" then
         '<a class="btn btn-danger btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Lic/Baja" data-url="/soft/snpe/altas_bajas_horas/guardar_edicion3/?id_lic='+record.id.to_s+'"><strong>Lic/Baja</strong></a>'
         end
