@@ -272,7 +272,7 @@ $(document).ready(function($) {
   $('#modal_baja_cargo').on('shown.bs.modal', function (event) {      
       id_cargo = $(event.relatedTarget).attr('id_cargo');
     });
-  
+
    $('#btn_editar_obs_carg').on('click', function () {
     motivo_baja = $("#motivo_baja").val();
     input_fecha_baja = $("#input_fecha_baja").val();
@@ -295,6 +295,7 @@ $(document).ready(function($) {
     })
     }
   });
+
   //JS para el periodo
   var date = new Date();
   $('#daterange').daterangepicker({
