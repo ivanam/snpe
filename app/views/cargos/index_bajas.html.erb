@@ -276,6 +276,9 @@ $(document).ready(function($) {
    $('#btn_editar_obs_carg').on('click', function () {
     motivo_baja = $("#motivo_baja").val();
     input_fecha_baja = $("#input_fecha_baja").val();
+    if (motivo_baja =="" || input_fecha_baja ==""){
+      alert('Debe completar la fecha y/o el motivo de la baja')
+    }else{
     $.ajax({
       url: '/soft/snpe/cargo/dar_baja/?id_cargo='+id_cargo+'&motivo_baja='+motivo_baja+'&input_fecha_baja='+input_fecha_baja,
       type: 'POST',
@@ -290,6 +293,7 @@ $(document).ready(function($) {
           $("#input_fecha_baja" ).val("");
         }
     })
+    }
   });
   //JS para el periodo
   var date = new Date();
