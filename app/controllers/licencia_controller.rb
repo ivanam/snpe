@@ -666,7 +666,7 @@ def listado_licencias_cnds_sg_chequeadas
       elsif (listaArtTrasladosDef.include? params[:articulo] and altbahora.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and altbahora.secuencia == 1000)
           render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario ,altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario ,altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficinaOr)
             if @licencia.save
                  render json: 0
             else
@@ -926,7 +926,7 @@ def listado_licencias_cnds_sg_chequeadas
       elsif (listaArtTrasladosDef.include? params[:articulo] and cargo.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and cargo.secuencia == 1000)
           render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+            @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_id: params[:id_cargos], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_1], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficinaOr)
             if @licencia.save
                  render json: 0
             else
@@ -1171,7 +1171,7 @@ def listado_licencias_cnds_sg_chequeadas
       elsif (listaArtTrasladosDef.include? params[:articulo] and cargonds.secuencia == 1000) or (listaArtTrasladosTrans.include? params[:articulo] and cargonds.secuencia == 1000)
         render json: "no se puede realizar el traslado, ya se encuentra con traslado".to_json
       else 
-          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+          @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, cargo_no_docente_id: params[:id_cargos_no_docentes], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic_2], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficinaOr)
           if @licencia.save
                render json: 0
           else
