@@ -242,7 +242,7 @@ class CargoNoDocentesController < InheritedResources::Base
     if @cargo_no_docente.estado_actual == "Vacio" || @cargo_no_docente.estado_actual == "Impreso" || @cargo_no_docente.estado_actual == "Cobrado" || @cargo_no_docente.estado_actual == "Cancelado_Baja"
       if params[:input_fecha_baja] != nil && params[:input_fecha_baja] != ""
         if params[:motivo_baja] != nil && params[:motivo_baja] != ""
-          if @cargo_no_docente.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params[:motivo_baja])
+          if @cargo_no_docente.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => MotivoBaja.where(nro_motivo: params[:motivo_baja]).first)
            @estado = Estado.where(:descripcion => "Notificado_Baja").first
              CargoNoDocenteEstado.create(estado_id: @estado.id, cargo_no_docente_id: @cargo_no_docente.id, user_id: current_user.id)
              respond_to do |format|

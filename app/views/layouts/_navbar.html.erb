@@ -30,6 +30,9 @@
       <% if (user_signed_in?) && ((current_user.role? :cargaplanes) || (current_user.role? :personal) ) %>
         <%= render :partial => "layouts/menu_carga_planes" %>
       <% end %>
+      <% if (user_signed_in?) && ((current_user.role? :delegacion) ) %>
+        <%= render :partial => "layouts/menu_delegacion" %>
+      <% end %>
       <ul class="nav navbar-nav">
         <% if (user_signed_in? && (!current_user.role? :UserJunta) && (!current_user.role? :junta) && (!current_user.role? :delegacion)) then  %>
           <li class="dropdown">

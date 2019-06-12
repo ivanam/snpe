@@ -217,7 +217,18 @@
     });
 
 
+function validateFecha(){   
+      var fecha = $('#datepicker').val();
+      var fecha_minima = moment('01-01-2017','DD-MM-YYYY',true );
+      return (moment(fecha, 'DD-MM-YYYY',true).isAfter(fecha_minima) && moment(fecha, 'DD-MM-YYYY',true).isValid());
+}
+
 function validateForm(){
+    if (validateFecha() == false){
+    alert("La fecha de alta es invalida.");
+    return false;
+    }
+
    if ($("#materium").val()=="" || $("#materium").val() == null){
     alert("No hay materia seleccionada.");
     return false;
