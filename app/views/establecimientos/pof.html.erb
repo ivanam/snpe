@@ -25,7 +25,7 @@
         <th>Turno</th>
         <th>Grupo</th>
         <th>Sit. Revista</th>
-        <th>Lugar de Reubicación</th>
+        <th>Lugar de Origen</th>
         <th>Estado</th>
         <th>Artículo</th>
         <th>Fecha de alta</th>
@@ -41,8 +41,9 @@
             <td><%= d.turno %></td>
             <td><%= d.grupo_id %></td>
             <td><%= d.situacion_revista %></td>
-            <% esc_destino = Establecimiento.where(id:  d.establecimiento_id).first %>
-            <td><%= esc_destino == nil ? '' : esc_destino.to_s %> </td> 
+           <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
+            <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <td><%= lic == nil ? '' : esc_or.to_s %> </td>
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
@@ -75,7 +76,6 @@
         <th>Cargo</th>
         <th>Turno</th>
         <th>Sit. Revista</th>
-        <th>Lugar de Reubicación</th>
         <th>Lugar de Origen</th>
         <th>Estado</th>
         <th>Artículo</th>
@@ -88,11 +88,12 @@
             <td><%= d.persona.to_s %></td>
             <td style="display:none;" ><%= d.persona.id %></td>
             <td><%= d.secuencia %></td>
-            <td><%= Funcion.where(categoria: d.cargo).first.to_s %></td>
+            <td><%= Cargosnd.find(d.cargo) %></td>
             <td><%= d.turno %></td>
             <td><%= d.situacion_revista %></td>
-            <% esc_destino = Establecimiento.where(id:  d.establecimiento_id).first %>
-            <td><%= esc_destino == nil ? '' : esc_destino.to_s %> </td> 
+            <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
+            <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <td><%= lic == nil ? '' : esc_or.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
@@ -126,7 +127,6 @@
         <th>Plan/Materia</th>
         <th>Curso/División</th>
         <th>Sit. Revista</th>
-        <th>Lugar de Reubicación</th>
         <th>Lugar de Origen</th>
         <th>Estado</th>
         <th>Artículo</th>
@@ -143,8 +143,9 @@
             <td><%= d.plan_materia %></td>
             <td><%= d.curso_division %></td>
             <td><%= d.situacion_revista %></td>
-            <% esc_destino = Establecimiento.where(id:  d.establecimiento_id).first %>
-            <td><%= esc_destino == nil ? '' : esc_destino.to_s %> </td> 
+            <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
+            <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <td><%= lic == nil ? '' : esc_or.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
