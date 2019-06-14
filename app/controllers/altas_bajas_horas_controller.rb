@@ -534,7 +534,7 @@ class AltasBajasHorasController < ApplicationController
     if @altas_bajas_hora.estado_actual == "Vacio" || @altas_bajas_hora.estado_actual == "Impreso" || @altas_bajas_hora.estado_actual == "Cobrado" || @altas_bajas_hora.estado_actual == "Cancelado_Baja"
        if params[:input_fecha_baja] != nil && params[:input_fecha_baja] != ""
          if params[:motivo_baja] != nil && params[:motivo_baja] != ""
-            if @altas_bajas_hora.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => MotivoBaja.where(nro_motivo: params[:motivo_baja]).first)
+            if @altas_bajas_hora.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params["motivo_baja"])
               @estado = Estado.where(:descripcion => "Notificado_Baja").first
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
               respond_to do |format|
