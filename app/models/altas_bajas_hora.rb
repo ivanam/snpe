@@ -410,7 +410,6 @@ class AltasBajasHora < ActiveRecord::Base
   def validar_suplente
     if self.situacion_revista == '2-3' || self.situacion_revista == '2-4' 
       alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").order(fecha_alta: :desc).first
-      debugger
       if (alta_horas.estado != "ART")
         errors.add(:base,"Las horas a suplantar no se encuentra con licencia con goce de haberes.")                
       end
