@@ -41,9 +41,11 @@
             <td><%= d.turno %></td>
             <td><%= d.grupo_id %></td>
             <td><%= d.situacion_revista %></td>
-           <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
-            <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
-            <td><%= lic == nil ? '' : esc_or.to_s %> </td>
+            <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
+            <%if lic != nil%>
+	    	<% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <%end%>
+	    <td><%= lic == nil ? '' : esc_or.to_s %> </td>
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
               <% licencia = Licencium.where(cargo_id: d.id).last %>
