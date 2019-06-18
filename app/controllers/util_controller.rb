@@ -1,5 +1,11 @@
 class UtilController < ApplicationController
-  autocomplete :persona, :apeynom, :full => false, :extra_data => [:apeynom, :nro_documento], :display_value => :to_s
+  autocomplete :persona, :apeynom, 
+  :full => false, 
+  :extra_data => [
+    :apeynom, 
+    :nro_documento
+  ], 
+  :display_value => :to_s
 
   def buscar_persona    
     @persona = Persona.where(:nro_documento => params[:dni]).first()
@@ -16,7 +22,7 @@ class UtilController < ApplicationController
       resultado = horas | cargos | cargos_no_docentes      
       return resultado
     else      
-      return Persona.where('apellidos like "%' + parameters[:term] + '%" or nombres like "%' + parameters[:term] + '%" or nro_documento like "%' + parameters[:term] + '%" or apeynom like "%' + parameters[:term] + '%"')
+      return Persona.where('apellidos like "%' + parameters[:term] + '%" or nombres like "%' + parameters[:term] + '%" or nro_documento like "%' + parameters[:term] + '%" or apeynom like "%' + parameters[:term] + '%"').limit(20)
     end
   end
 
