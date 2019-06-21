@@ -5,7 +5,6 @@ class CargoNoDocente < ActiveRecord::Base
   belongs_to :alta_lote_impresion
   belongs_to :baja_lote_impresion
   has_many :estados, :class_name => 'CargoNoDocenteEstado', :foreign_key => 'cargo_no_docente_id', dependent: :destroy
-  belongs_to :motivo_baja, :foreign_key => 'motivo_baja'
 
 
   if true
