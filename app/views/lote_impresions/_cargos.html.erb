@@ -58,6 +58,7 @@
         <td>Sit. Rev</td>
         <td>Fecha alta</td>
         <td>Fecha baja</td>
+        <td>Motivo baja</td>
         <td>Observaciones</td>
       </tr>
       <% @lote_impresion.baja_cargos.where(establecimiento_id: e.id).each do |c| %>   
@@ -72,6 +73,7 @@
           <td><%= c.situacion_revista %></td>
           <td><%= Util.fecha_a_es(c.fecha_alta) %></td>        
           <td><%= Util.fecha_a_es(c.fecha_baja) %></td>
+          <td><%= MotivoBaja.find(c.motivo_baja).to_s %></td>
           <td><%= c.observaciones %></td>
         </tr>
       <% end %>

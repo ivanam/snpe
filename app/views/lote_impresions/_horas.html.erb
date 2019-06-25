@@ -16,21 +16,19 @@
   <table class="table table-bordered table-striped table-compact">
   <tbody>
       <tr>
-        <td>CUIT/CUIL.</td>
-        <td>Sec.</td>
-        <td>Apellido y nombre</td>         
-        <td>Ca</td>
-        <td>Ci</td>
-        <td>Cu</td>
-        <td>Di</td>
-        <td>Tu</td>
-        <td>Ma</td>
-        <td>Horas</td>
-        <td>Sit. Rev</td>
-        <td>Fecha alta</td>
-        <td>Fecha baja</td>
-        <td>LP</td>
-        <td>Observaciones</td>
+        <th>CUIT/CUIL.</th>
+        <th>Sec.</th>
+        <th>Apellido y nombre</th>         
+        <th>Ca</th>
+        <th>Cu</th>
+        <th>Di</th>
+        <th>Tu</th>
+        <th>Ma</th>
+        <th>Horas</th>
+        <th>Sit. Rev</th>
+        <th>Fecha alta</th>
+        <th>Fecha baja</th>
+        <th>Observaciones</th>
       </tr>
 
       <% @lote_impresion.altas_bajas_horas.where(establecimiento_id: e.id).each do |h| %>
@@ -39,7 +37,6 @@
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
           <td><%= h.plan.codigo %></td>
-          <td><%= h.ciclo_carrera %></td>
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
           <td><%= h.turno.to_s %></td>
@@ -48,12 +45,6 @@
           <td><%= h.situacion_revista %></td>
           <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
           <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
-          <% if !h.lugar_pago.nil? %>
-            <td><%= h.lugar_pago.codigo %></td>
-          <% else %>
-            <td>&nbsp;</td>
-          <% end %> 
-
           <td><%= h.observaciones %></td>
         </tr>
       <% end %>
@@ -64,33 +55,28 @@
   <table class="table table-bordered table-striped">
     <tbody>
       <tr>
-        <td>CUIT/CUIL</td>
-        <td>Sec.</td>
-        <td>Apellido y nombre</td>         
-        <td>Ca</td>
-        <td>Ci</td>
-        <td>Cu</td>
-        <td>Di</td>
-        <td>Tu</td>
-        <td>Ma</td>
-        <td>Horas</td>
-        <td>Sit. Rev</td>
-        <td>Fecha alta</td>
-        <td>Fecha baja</td>
-        <td>LP</td>
-        <td>Observaciones</td>
+        <th>CUIT/CUIL</th>
+        <th>Sec.</th>
+        <th>Apellido y nombre</th>         
+        <th>Ca</th>
+        <th>Cu</th>
+        <th>Di</th>
+        <th>Tu</th>
+        <th>Ma</th>
+        <th>Horas</th>
+        <th>Sit. Rev</th>
+        <th>Fecha alta</th>
+        <th>Fecha baja</th>
+        <th>Motivo de baja</th>
+        <th>Observaciones</th>
+        <th>Obs. desglose</th>
       </tr>
       <% @lote_impresion.impresion_bajas.where(establecimiento_id: e.id).each do |h| %>
         <tr>
           <td><%= h.persona.cuil %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
-          <% if h.plan != nil %>
-            <td><%= h.plan.codigo %></td>
-          <% else %>
-            <td> </td>
-          <% end %>
-          <td><%= h.ciclo_carrera %></td>
+          <td><%= h.plan.codigo %></td>
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
           <td><%= h.turno.to_s %></td>
@@ -99,12 +85,34 @@
           <td><%= h.situacion_revista %></td>
           <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
           <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
-          <% if !h.lugar_pago.nil? %>
-            <td><%= h.lugar_pago.codigo %></td>
+          <td><%= MotivoBaja.find(h.motivo_baja).to_s %></td>
+          <td><%= h.observaciones %></td>
+          <% if h.es_desglose? %>
+            <td>
+              <table class="table">
+                <tr>
+                  <th>Sec</th>
+                  <th>Ca</th>
+                  <th>Cu</th>
+                  <th>Di</th>
+                  <th>Tu</th>
+                  <th>Ma</th>
+                  <th>Hs</th>
+                </tr>
+                <tr>
+                  <td><%= h.registro_desglosado.secuencia %></td>
+                  <td><%= h.registro_desglosado.plan.codigo %></td>
+                  <td><%= h.registro_desglosado.anio %></td>
+                  <td><%= h.registro_desglosado.division %></td>
+                  <td><%= h.registro_desglosado.turno %></td>
+                  <td><%= h.registro_desglosado.materium.codigo %></td>       
+                  <td><%= h.registro_desglosado.horas %></td>       
+                </tr>
+              </table>
+            </td>
           <% else %>
             <td>&nbsp;</td>
-          <% end %> 
-          <td><%= h.observaciones %></td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>

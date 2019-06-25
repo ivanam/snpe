@@ -19,10 +19,10 @@
     <td> Cant. Docentes</td>
   </tr>
   <tr>
-    <td> <%= f.number_field :anio, :class => "form-control" %></td>
-    <td> <%= f.collection_select(:materium_id, Materium.all, :id, :to_s, {:prompt => true},:style=>"width:100%") %> </td>
-    <td> <%= f.number_field :carga_horaria, :class => "form-control" %> </td>
-    <td> <%= f.number_field :cant_docentes, :class => "form-control" %> </td>
+    <td class="col-md-2"> <%= f.number_field :anio, :class => "form-control" %></td>
+    <td class="col-md-6"> <%= f.collection_select(:materium_id, Materium.all, :id, :to_s, {:prompt => true},:style=>"width:100%") %> </td>
+    <td class="col-md-1"> <%= f.number_field :carga_horaria, :class => "form-control" %> </td>
+    <td class="col-md-1"> <%= f.number_field :cant_docentes, :class => "form-control" %> </td>
   </tr>
 </table>
 
@@ -39,3 +39,8 @@
   </center>
 
 <% end %>
+<script type="text/javascript">
+  $(document).ready(function($) {
+    $('#despliegue_materium_id').select2({});
+  });
+</script>

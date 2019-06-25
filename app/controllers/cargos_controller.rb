@@ -271,7 +271,7 @@ class CargosController < ApplicationController
          @cargo = Cargo.find(params[:id_cargo])
       end
     if @cargo.estado_actual == "Vacio" || @cargo.estado_actual == "Impreso" || @cargo.estado_actual == "Cobrado" || @cargo.estado_actual == "Cancelado_Baja"
-      if @cargo.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params[:motivo_baja])
+      if @cargo.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params["motivo_baja"])
         @estado = Estado.where(:descripcion => "Notificado_Baja").first
         if @cargo.fecha_baja != nil
           CargoEstado.create(estado_id: @estado.id, cargo_id: @cargo.id, user_id: current_user.id)

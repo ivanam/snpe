@@ -58,8 +58,10 @@
 	      			</button>
 	      			<h4>No se pudo guardar el formulario, tiene los siguientes errores</h4>
 	      			<ul>
-						<% @altas_bajas_hora.errors.full_messages.each do |msg| %>
-							<li><%= msg %></li>
+						<% @altas_bajas_hora.errors.messages.values.each do |msg| %>
+							<% msg.each do  |m| %>
+          						<li><%= m %></li>
+							<%end %>
 						<% end %>
 	      			</ul>
 	    		</div>
@@ -140,7 +142,7 @@
 
 	          		<%= a.select(:plan_id, @planes_permitidos.all.collect{|p| [p.to_s, p.id]}, {:prompt => "Plan"}, :id => "plan",:data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Plan", :id => "plan", :class => "plan", :required => true)%>
 
-					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio"), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso", :required => true)%>
+					<%= a.select(:anio, options_from_collection_for_select(AltasBajasHora.select(:anio).where(:establecimiento_id =>session[:establecimiento]).distinct.order('anio ASC') , "anio", "anio", @altas_bajas_hora.anio), {:prompt => "Curso"}, :id => "curso", :data =>{:toggle=>"tooltip", :placement=>"top"},:title=>"Curso", :class => "curso", :required => true)%>
 
 	          		<%= a.text_field :division, {:data =>{:toggle=>"tooltip"},:title=>"División", :class => "division", :id => "division", :maxlength=>"2", :placeholder => "División", :required => true }%>          		
 					
