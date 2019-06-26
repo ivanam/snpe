@@ -245,7 +245,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generar licencia horas</h4>
+        <h4 class="modal-title" id="myModalLabel">Generar licencia horas.</h4>
       </div>
       <div class="modal-body">
         <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
@@ -270,12 +270,24 @@
         </div>                 
         <hr/>
         <div id="alerta-dias-1" class="alert alert-info"> </div>
+        <div class="row">
+          <div class="form-group" id="permite_otro_organismo_horas2">
+            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+          </div>          
+        </div> 
         <% else %>
          <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_horas_esc_1" %>
           </div>
          </Br>
          <div id="alerta-dias-1" class="alert alert-info"> </div>
+         <div class="row">
+            <div class="form-group" id="permite_otro_organismo_horas_esc2">
+              <%= label_tag "Organismo", nil,  :class => "control-label" %>
+              <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
+            </div>          
+         </div>
         <% end %>
 
         <div id="con_certificado2" >
@@ -483,7 +495,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generar licencia cargos</h4>
+        <h4 class="modal-title" id="myModalLabel">Generar licencia cargos.</h4>
       </div>
       <div class="modal-body">
         <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
@@ -501,7 +513,7 @@
         <hr/>
         <div id="alerta-dias-cargo-1" class="alert alert-info"></div>
         <div class="row">
-          <div class="form-group" id="permite_otro_organismo_cargos">
+          <div class="form-group" id="permite_otro_organismo_cargos2">
             <%= label_tag "Organismo", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
@@ -602,7 +614,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generar licencia cargos auxiliares</h4>
+        <h4 class="modal-title" id="myModalLabel">Generar licencia cargos auxiliares.</h4>
       </div>
       <div class="modal-body">
           <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
@@ -620,7 +632,7 @@
         <hr/>
         <div id="alerta-dias-cargo-no-docentes-1" class="alert alert-info"></div>
         <div class="row">
-          <div class="form-group" id="permite_otro_organismo_no_docente">
+          <div class="form-group" id="permite_otro_organismo_no_docente2">
             <%= label_tag "Organismo", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
@@ -741,6 +753,15 @@
     $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
     $("#permite_otro_organismo_no_docente").hide();
     $("#permite_otro_organismo_no_docente input").val(''); //Blanqueo el campo organismo
+
+    $("#permite_otro_organismo_horas_esc2").hide();
+    $("#permite_otro_organismo_horas_esc2 input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_horas2").hide();
+    $("#permite_otro_organismo_horas2 input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_cargos2").hide();
+    $("#permite_otro_organismo_cargos2 input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_no_docente2").hide();
+    $("#permite_otro_organismo_no_docente2 input").val(''); //Blanqueo el campo organismo    
         
     $("#select_articulo_horas").hide();
     $("#select_articulo_cargos_no_docente_h1").hide();
@@ -1584,11 +1605,10 @@
       type: 'GET',
       })
         .done(function(data) {
-          console.log("RESPONSEDE");
-        $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
-        $("#alerta-dias-1").show();
-        var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
-        var vacaciones = [241, 289, 365, 366]
+          $("#alerta-dias-1").html("Cantidad máxima de días en este artículo: "+data);
+          $("#alerta-dias-1").show();
+          var myarray = [394, 395, 352, 353, 354, 355, 356, 357, 358, 359, 360, 378, 396];
+          var vacaciones = [241, 289, 365, 366]
 
 
         if(jQuery.inArray(id_articulo, vacaciones) !== -1){
@@ -1611,6 +1631,19 @@
               $("#obv1").hide();
             } 
         }) 
+
+      //Verifico si el articulo permite otro organismo    
+      $.ajax({
+        url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+        type: 'GET',
+      }).done(function(data) {
+        if (data) {
+          $("#permite_otro_organismo_horas_esc2").show();
+        } else {
+          $("#permite_otro_organismo_horas_esc2").hide();
+          $("#permite_otro_organismo_horas_esc2 input").val(''); //Blanqueo el campo organismo
+        } 
+      });
   });
 //-------------------------------------------Modal Horas 2  FIN--------------------------------------------------------------------
 //---------------------------Cargos-------------------------------------
@@ -1872,10 +1905,10 @@
           type: 'GET',
           }).done(function(data) {
             if (data) {
-              $("#permite_otro_organismo_cargos").show();
+              $("#permite_otro_organismo_cargos2").show();
             } else {
-              $("#permite_otro_organismo_cargos").hide();
-              $("#permite_otro_organismo_cargos input").val(''); //Blanqueo el campo organismo
+              $("#permite_otro_organismo_cargos2").hide();
+              $("#permite_otro_organismo_cargos2 input").val(''); //Blanqueo el campo organismo
             } 
           });
 
@@ -2124,6 +2157,19 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
                 $("#obv6").hide();
           } 
           }) 
+
+      //Verifico si el articulo permite otro organismo    
+      $.ajax({
+        url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+        type: 'GET',
+      }).done(function(data) {
+        if (data) {
+          $("#permite_otro_organismo_no_docente2").show();
+        } else {
+          $("#permite_otro_organismo_no_docente2").hide();
+          $("#permite_otro_organismo_no_docente2 input").val('');
+        } 
+      });
 
   });
 
