@@ -55,7 +55,7 @@
         <td><%= l.curso %></td>
         <td><%= l.articulo %></td>
         <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
-        <td><%= l.observaciones%> </td>
+        <td><%= l.observaciones%> </td>      
       </tr>
     <% end %>
   </table>
@@ -72,6 +72,7 @@
       <th>Articulo </th>
       <th>Inicio / Fin </th>
       <th>Observaciones </th>
+      <th>Fecha de Baja</th>
     </tr>
     <% @licencia_fin.each do |l|%>
       <tr>
@@ -83,6 +84,13 @@
         <td><%= l.articulo %></td>
         <td><%= l.fecha_desde %> / <%= l.fecha_hasta %> </td>
         <td><%= l.observaciones%> </td>
+        <%if l.altas_bajas_hora_id != nil%>
+          <td><%= AltasBajasHora.where(:id => l.altas_bajas_hora_id).first.fecha_baja%> </td>
+        <%elsif l.cargo_id != nil%>
+          <td><%= Cargo.where(:id => l.altas_bajas_hora_id).first.fecha_baja%> </td>
+        <%else%>
+          <td><%= CargoNoDocentec.where(:id => l.altas_bajas_hora_id).first.fecha_baja%> </td>
+        <%end%>  
       </tr>
     <% end %>
   </table>
