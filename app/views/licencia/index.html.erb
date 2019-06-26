@@ -147,7 +147,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Generar licencia horas()</h4>
+        <h4 class="modal-title" id="myModalLabel">Generar licencia horas</h4>
       </div>
       <div class="modal-body">
         <%= label_tag "Fecha Inicio", nil,  :class => "control-label" %>
@@ -170,7 +170,7 @@
         <br>
         <div class="row">
           <div class="form-group" id="permite_otro_organismo_horas">
-            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
         </div>          
@@ -186,7 +186,7 @@
          </Br>
           <div class="row">
             <div class="form-group" id="permite_otro_organismo_horas_esc">
-              <%= label_tag "Organismo", nil,  :class => "control-label" %>
+              <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
               <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
             </div>          
           </div>    
@@ -272,7 +272,7 @@
         <div id="alerta-dias-1" class="alert alert-info"> </div>
         <div class="row">
           <div class="form-group" id="permite_otro_organismo_horas2">
-            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
         </div> 
@@ -284,7 +284,7 @@
          <div id="alerta-dias-1" class="alert alert-info"> </div>
          <div class="row">
             <div class="form-group" id="permite_otro_organismo_horas_esc2">
-              <%= label_tag "Organismo", nil,  :class => "control-label" %>
+              <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
               <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
             </div>          
          </div>
@@ -446,9 +446,10 @@
         <div class="row">
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo",:class => "form-control col-sm-6", :id => "select_articulo_cargos" %>
         </div>
+        <br>
         <div class="row">
           <div class="form-group" id="permite_otro_organismo_cargos">
-            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
         </div>          
@@ -511,10 +512,10 @@
           <%= select_tag "Articulo", options_from_collection_for_select(Articulo.joins(:tipo_articulo).where(tipo_articulos: {descripcion: "Docente"}), "id", :to_s_descripcion),:prompt => "Seleccionar articulo de la nueva licencia",:class => "form-control col-sm-6", :id => "select_articulo_cargos7" %>
       </div>
         <hr/>
-        <div id="alerta-dias-cargo-1" class="alert alert-info"></div>
+        <div id="alerta-dias-cargo-1" class="alert alert-info"></div>        
         <div class="row">
           <div class="form-group" id="permite_otro_organismo_cargos2">
-            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
         </div>      
@@ -571,7 +572,7 @@
         <div id="alerta-dias-cargo-no-docentes" class="alert alert-info"></div>
         <div class="row">
           <div class="form-group" id="permite_otro_organismo_no_docente">
-            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
         </div>      
@@ -633,7 +634,7 @@
         <div id="alerta-dias-cargo-no-docentes-1" class="alert alert-info"></div>
         <div class="row">
           <div class="form-group" id="permite_otro_organismo_no_docente2">
-            <%= label_tag "Organismo", nil,  :class => "control-label" %>
+            <%= label_tag "Organismo donde cumple función", nil,  :class => "control-label" %>
             <%= text_field_tag 'permite_otro_organismo', nil, :class => "form-control" %>
           </div>          
         </div>  
@@ -1387,12 +1388,19 @@
     $('#con_formulario2').hide();
     $('input:checkbox').removeAttr('checked');
 
-    $("#permite_otro_organismo_horas_esc").hide();
-    $("#permite_otro_organismo_horas_esc input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_horas2").hide();
+    $("#permite_otro_organismo_horas2 input").val(''); //Blanqueo el campo organismo
+    $("#permite_otro_organismo_horas_esc2").hide();
+    $("#permite_otro_organismo_horas_esc2 input").val(''); //Blanqueo el campo organismo
   });
  
 
   $('#btn_licencia_horas2').on('click', function () {
+      <% if (current_user.role? :licencia) || (current_user.role? :sadmin) then %>
+        permite_otro_organismo = $("#permite_otro_organismo_horas2 input").val();
+      <% else %>  
+        permite_otro_organismo = $("#permite_otro_organismo_horas_esc2 input").val();
+      <% end %>  
       fecha_inicio = $("#input_fecha_inicio6").val();
       fecha_fin = $("#input_fecha_fin6").val();
       fecha_anio_lic = $("#input_anio_lic_6").val();
@@ -1427,7 +1435,7 @@
       }   
         
       $.ajax({
-          url: '/soft/snpe/licencia/guardar_licencia_horas2/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+'&fecha_anio_lic='+fecha_anio_lic+'&prestador_2='+prestador_2+'&observaciones='+observaciones,
+          url: '/soft/snpe/licencia/guardar_licencia_horas2/?id_horas='+id_horas+'&fecha_inicio='+fecha_inicio+'&fecha_fin='+fecha_fin+'&articulo='+articulo+"&permite_otro_organismo="+permite_otro_organismo+"&con_certificado="+con_certificado+"&con_formulario="+con_formulario+'&fecha_anio_lic='+fecha_anio_lic+'&prestador_2='+prestador_2+'&observaciones='+observaciones,
           type: 'POST',
         })
       .done(function(data) {
@@ -1548,6 +1556,19 @@
             } 
         }) 
 
+      //Verifico si el articulo permite otro organismo    
+      $.ajax({
+        url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+        type: 'GET',
+      }).done(function(data) {
+        if (data) {
+          $("#permite_otro_organismo_horas2").show();
+        } else {
+          $("#permite_otro_organismo_horas2").hide();
+          $("#permite_otro_organismo_horas2 input").val(''); //Blanqueo el campo organismo
+        } 
+      });
+
   });
 
 
@@ -1594,7 +1615,20 @@
             else{
               $("#obv1").hide();
             } 
-        }) 
+        })
+
+        //Verifico si el articulo permite otro organismo    
+        $.ajax({
+          url: '/soft/snpe/articulos/'+id_articulo+'/permite_otro_organismo',
+          type: 'GET',
+        }).done(function(data) {
+          if (data) {
+            $("#permite_otro_organismo_horas2").show();
+          } else {
+            $("#permite_otro_organismo_horas2").hide();
+            $("#permite_otro_organismo_horas2 input").val(''); //Blanqueo el campo organismo
+          } 
+        }); 
   });
 
   $("#select_articulo_horas_esc_1" ).change(function() {
@@ -2066,6 +2100,9 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
     $("#obv6").hide();
     $("#observaciones6").val("");
     $('input:checkbox').removeAttr('checked');
+
+    $("#permite_otro_organismo_no_docente2").hide();
+    $("#permite_otro_organismo_no_docente2 input").val(''); //Blanqueo el campo organismo
   });
 
  $('#btn_licencia_cargos_no_docentes2').on('click', function () {

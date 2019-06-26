@@ -21,7 +21,6 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
             AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.establecimiento.codigo_jurisdiccional,
             record.organismo,
             record.altas_bajas_hora.secuencia,
-            "Horas",
             record.altas_bajas_hora.horas,
             AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.to_s,
             record.altas_bajas_hora.situacion_revista,
@@ -29,8 +28,9 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
             record.altas_bajas_hora.division,
             record.altas_bajas_hora.codificacion,
             record.articulo.codigo.to_s + " - " +record.articulo.descripcion[0..30].html_safe+"...",
-            Util.fecha_a_es(record.fecha_desde),
-            Util.fecha_a_es(record.fecha_hasta),
+            Util.fecha_a_es(record.fecha_desde) + " / " + Util.fecha_a_es(record.fecha_hasta),
+            record.created_at.to_date,
+            record.observaciones,
             if record.vigente == "Vigente" 
               '<center>
                 <div class="btn-acciones">

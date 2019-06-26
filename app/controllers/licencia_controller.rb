@@ -278,20 +278,11 @@ end
 
 def listado_licencias_canceladas_horas
     
-    mes = params[:mes] 
-    anio = params[:anio]
-    if mes == nil
-      mes = Date.today.month.to_s
-    end
-    if anio == nil
-      anio = Date.today.year.to_s
-    end
-    fecha_i = anio+"-"+mes+"-01"
-    fecha_f = anio+"-"+mes+"-31"
-    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
+
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where('altas_bajas_hora_id is not null')
     
     if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
-      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
+      lic = Licencium.where(:cancelada_sin_goce => 1).where('altas_bajas_hora_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina =>est )
     end
@@ -305,20 +296,10 @@ end
 
 def listado_licencias_canceladas_cargos
       
-    mes = params[:mes] 
-    anio = params[:anio]
-    if mes == nil
-      mes = Date.today.month.to_s
-    end
-    if anio == nil
-      anio = Date.today.year.to_s
-    end
-    fecha_i = anio+"-"+mes+"-01"
-    fecha_f = anio+"-"+mes+"-31"
-    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where('cargo_id is not null')
     
     if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
-      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
+      lic = Licencium.where(:cancelada_sin_goce => 1).where('cargo_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina =>est )
     end
@@ -332,19 +313,10 @@ end
 
 def listado_licencias_canceladas_cargos_no_docentes
       
-    mes = params[:mes] 
-    anio = params[:anio]
-    if mes == nil
-      mes = Date.today.month.to_s
-    end
-    if anio == nil
-      anio = Date.today.year.to_s
-    end
-    fecha_i = anio+"-"+mes+"-01"
-    fecha_f = anio+"-"+mes+"-31"
-    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
+
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where('cargo_no_docente_id is not null')
     if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
-      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
+      lic = Licencium.where(:cancelada_sin_goce => 1).where('cargo_no_docente_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina => est )
     end
@@ -698,7 +670,11 @@ def listado_licencias_cnds_sg_chequeadas
     con_formulario = params['con_formulario'].to_i
     con_certificado = params['con_certificado'].to_i
 
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic] == nil
+    # Valido que complete el campo organismo
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo].empty?
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
     elsif (altbahora.turno == nil or altbahora.turno == "")
@@ -730,8 +706,7 @@ def listado_licencias_cnds_sg_chequeadas
                   altbahora1000.update!(:estado => "BAJ") 
                 end
                 #CREO UNA LICENCIA PARA EL REGISTRO ACTUAL
-                @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic,  oficina: nro_oficina)
-                
+                @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic,  oficina: nro_oficina)
                 if @licencia.save && AltasBajasHora.create!(establecimiento_id: @oficina.id, persona_id: altbahora.persona_id, secuencia: 1000, horas: altbahora.horas, plan_id: altbahora.plan_id, materium_id: altbahora.materium_id, fecha_alta: altbahora.fecha_alta, anio: altbahora.anio, division: altbahora.division, fecha_baja: altbahora.fecha_baja, ciclo_carrera: altbahora.ciclo_carrera, situacion_revista: altbahora.situacion_revista, turno: altbahora.turno, estado: 'REU', obs_lic: descripcion_articulo)
                   render json: 0
                 else
@@ -749,7 +724,7 @@ def listado_licencias_cnds_sg_chequeadas
                 altbahora1000.update!(:estado => "BAJ") 
               end
               #CREO UNA LICENCIA PARA EL REGISTRO ACTUAL
-              @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic,  oficina: nro_oficina)
+              @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", destino: @oficina.id, observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic,  oficina: nro_oficina)
               if @licencia.save &&  @licencia.save && AltasBajasHora.create!(establecimiento_id: @oficina.id, persona_id: altbahora.persona_id, secuencia: 1000, horas: altbahora.horas, plan_id: altbahora.plan_id, materium_id: altbahora.materium_id, fecha_alta: altbahora.fecha_alta, anio: altbahora.anio, division: altbahora.division, fecha_baja: altbahora.fecha_baja, ciclo_carrera: altbahora.ciclo_carrera, situacion_revista: altbahora.situacion_revista, turno: altbahora.turno, estado: 'REU', obs_lic: descripcion_articulo)
                 render json: 0
               else
@@ -804,7 +779,7 @@ def listado_licencias_cnds_sg_chequeadas
                     altbahora1000 = AltasBajasHora.where(:persona_id => altbahora.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo2 ).where.not(estado: "BAJ").first
                     altbahora1000.update!(:estado => "BAJ")                                                                                                                                       
                 end 
-                @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+                @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
                 if @licencia.save
                   @licencia_anterior.update!(vigente: 'Finalizada', fecha_hasta:  fecha, por_continua: 1, prestador_id: prestador_3 )
                   render json: 0
@@ -818,7 +793,7 @@ def listado_licencias_cnds_sg_chequeadas
                     altbahora1000 = AltasBajasHora.where(:persona_id => altbahora.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo2 ).where.not(estado: "BAJ").first
                     altbahora1000.update!(:estado => "BAJ")                                                                                                                                       
                 end 
-              @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
+              @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario, altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", anio_lic: params[:fecha_anio_lic], observaciones: params[:observaciones], nro_documento: nro_documento, user_id: userLic, oficina: nro_oficina)
               if @licencia.save
                   @licencia_anterior.update!(vigente: 'Finalizada',  por_continua: 1, prestador_id: prestador_3)
                   render json: 0

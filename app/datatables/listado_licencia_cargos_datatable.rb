@@ -23,11 +23,10 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             Funcion.where(categoria: Cargo.where(id: record.cargo_id).first.cargo.to_i).first.to_s,
             Cargo.where(:id => record.cargo_id.to_i).first.persona.to_s,
             record.cargo.situacion_revista,
-            record.cargo.anio,
-            record.cargo.division,
             record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
-            Util.fecha_a_es(record.fecha_desde),
-            Util.fecha_a_es(record.fecha_hasta),
+            Util.fecha_a_es(record.fecha_desde) + " / " + Util.fecha_a_es(record.fecha_hasta),
+            record.created_at.to_date,
+            record.observaciones,
             if record.vigente == "Vigente" 
               '<center>
                 <div class="btn-acciones">
