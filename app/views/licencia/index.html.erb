@@ -249,7 +249,7 @@
       </div>
       <div class="modal-body">
         <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
-        <%= select_tag "prestador_2", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_2", :style=>"width:100%" %>
+        <%= select_tag "prestador_2", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_2", :style=>"width:100%", :class => "form-control" %>
         <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
         <%= label_tag "Fecha Inicio Nueva Licencia:", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio6', Date.today %>
@@ -261,7 +261,7 @@
          <br>
         <div id="art_doc" >
            <%= label_tag "Seleccione que tipo de articulo le corresponde", nil,  :class => "control-label" %>
-           <%= select_tag :art_doc_2, options_for_select([['Docente', "Docente"], ['Auxiliar', "Auxiliar"]], 0,), {:prompt => "Seleccione si es docente o auxiliar", :id => "art_doc_2"} %> 
+           <%= select_tag :art_doc_2, options_for_select([['Docente', "Docente"], ['Auxiliar', "Auxiliar"]], 0,), {:prompt => "Seleccione si es docente o auxiliar", :id => "art_doc_2", :class => "form-control"} %> 
         </div>
         </Br>
         <div class="row">
@@ -500,7 +500,7 @@
       </div>
       <div class="modal-body">
         <%= label_tag "Prestador que certifica el cierre de la licencia anterior(si corresponde): ", nil,  :class => "control-label" %>
-        <%= select_tag "prestador_3", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_3", :style=>"width:100%" %>
+        <%= select_tag "prestador_3", options_from_collection_for_select(Prestador.all, "id", "nombre"), :prompt => "Seleccionar Prestador", id: "prestador_3", :style=>"width:100%", :class => "form-control" %>
         <hr style="border-color:#81BEF7; box-shadow: 6px 6px 6px black;"/>
         <%= label_tag "Fecha Inicio Nueva Licencia:", nil,  :class => "control-label" %>
         <%= text_field_tag 'input_fecha_inicio7', Date.today %>
