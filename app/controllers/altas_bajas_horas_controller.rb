@@ -507,7 +507,8 @@ class AltasBajasHorasController < ApplicationController
 
   def guardar_edicion3
           @altas_bajas_hora = AltasBajasHora.find(params[:id_lic]) 
-          if @altas_bajas_hora.update(:estado => "LIC P/BAJ")
+          @altas_bajas_hora.estado = "LIC P/BAJ"
+          if @altas_bajas_hora.save(validate: false)
             respond_to do |format|
             format.html { redirect_to altas_bajas_horas_modificacion_path, notice: 'Registro actualizado correctamente' }
             format.json { render action: 'modificacion', location: @altas_bajas_horas }
