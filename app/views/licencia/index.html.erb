@@ -2143,7 +2143,8 @@ $('#modal_licencia_cargos_no_docentes2').on('hidden.bs.modal', function (e) {
         $("#input_anio_lic_8" ).val("");
         $("#observaciones6").val("");
         $("#select_destino_car_aux_2").val("");   
-        if (data != "") {
+        if (data != "" && data != null) {
+          alert(data) ; 
         };        
       })
   });

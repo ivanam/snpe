@@ -940,7 +940,10 @@ def listado_licencias_cnds_sg_chequeadas
     con_formulario = params['con_formulario'].to_i
     con_certificado = params['con_certificado'].to_i
 
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic_7] == nil
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo].empty?
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json 
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic_7] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
     elsif (cargo.turno == nil or cargo.turno == "")
@@ -1181,7 +1184,10 @@ def listado_licencias_cnds_sg_chequeadas
     art_id = Articulo.where(id: params['articulo']).first.id
     licencias_anuales = [241,289]
 
-    if licencias_anuales.include? art_id and params[:fecha_anio_lic_7] == nil
+    if Articulo.find(params['articulo']).permite_otro_organismo and params[:permite_otro_organismo].empty?
+      msg = "Complete el campo Organismo"
+      render json: msg.to_json 
+    elsif licencias_anuales.include? art_id and params[:fecha_anio_lic_7] == nil
       msg = "Complete el año de la licencia"
       render json: msg.to_json 
     elsif (cargo.turno == nil or cargo.turno == "")
