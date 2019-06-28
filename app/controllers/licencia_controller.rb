@@ -278,20 +278,11 @@ end
 
 def listado_licencias_canceladas_horas
     
-    mes = params[:mes] 
-    anio = params[:anio]
-    if mes == nil
-      mes = Date.today.month.to_s
-    end
-    if anio == nil
-      anio = Date.today.year.to_s
-    end
-    fecha_i = anio+"-"+mes+"-01"
-    fecha_f = anio+"-"+mes+"-31"
-    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
+
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where('altas_bajas_hora_id is not null')
     
     if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
-      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('altas_bajas_hora_id is not null')
+      lic = Licencium.where(:cancelada_sin_goce => 1).where('altas_bajas_hora_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina =>est )
     end
@@ -305,20 +296,10 @@ end
 
 def listado_licencias_canceladas_cargos
       
-    mes = params[:mes] 
-    anio = params[:anio]
-    if mes == nil
-      mes = Date.today.month.to_s
-    end
-    if anio == nil
-      anio = Date.today.year.to_s
-    end
-    fecha_i = anio+"-"+mes+"-01"
-    fecha_f = anio+"-"+mes+"-31"
-    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where('cargo_id is not null')
     
     if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
-      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_id is not null')
+      lic = Licencium.where(:cancelada_sin_goce => 1).where('cargo_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina =>est )
     end
@@ -332,19 +313,10 @@ end
 
 def listado_licencias_canceladas_cargos_no_docentes
       
-    mes = params[:mes] 
-    anio = params[:anio]
-    if mes == nil
-      mes = Date.today.month.to_s
-    end
-    if anio == nil
-      anio = Date.today.year.to_s
-    end
-    fecha_i = anio+"-"+mes+"-01"
-    fecha_f = anio+"-"+mes+"-31"
-    @licencias = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
+
+    @licencias = Licencium.where(:cancelada_sin_goce => 1).where('cargo_no_docente_id is not null')
     if Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description == "escuela"
-      lic = Licencium.where(:cancelada_sin_goce => 1).where("fecha_desde>= '" + fecha_i.to_date.iso8601 + "'").where('cargo_no_docente_id is not null')
+      lic = Licencium.where(:cancelada_sin_goce => 1).where('cargo_no_docente_id is not null')
       est = Establecimiento.where(:id => session[:establecimiento]).first.codigo_jurisdiccional
       @licencias = lic.where(:oficina => est )
     end
@@ -1558,6 +1530,7 @@ def listado_licencias_cnds_sg_chequeadas
     
     @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f + "'and user_cheq_cargada_id ='" + current_user.id.to_s + "'")
     @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f + "'and user_cheq_finalizada_id ='" + current_user.id.to_s + "'" )
+    
     respond_to do |format|
     format.pdf do
       render :pdf => 'sin_goce', 

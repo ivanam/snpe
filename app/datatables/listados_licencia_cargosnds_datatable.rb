@@ -24,8 +24,10 @@ class ListadosLicenciaCargosndsDatatable < AjaxDatatablesRails::Base
             CargoNoDocente.where(:id => record.cargo_no_docente_id.to_i).first.persona.to_s,
             record.cargo_no_docente.situacion_revista,
             record.articulo.codigo + " - " +record.articulo.descripcion[0..30].html_safe+"...",
-            Util.fecha_a_es(record.fecha_desde),
-            Util.fecha_a_es(record.fecha_hasta),
+            Util.fecha_a_es(record.fecha_desde) + " / " + Util.fecha_a_es(record.fecha_hasta),
+            record.created_at.to_date,
+            record.observaciones,
+            record.cargo_no_docente.fecha_baja,
             if record.vigente == "Vigente" 
               '<center>
                 <div class="btn-acciones">
