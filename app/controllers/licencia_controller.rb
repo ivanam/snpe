@@ -1533,6 +1533,7 @@ def listado_licencias_cnds_sg_chequeadas
     
     @licencia_alta = licencias.where("fecha_cheq_cargada >= '" + fecha_i + "' and fecha_cheq_cargada <= '"+ fecha_f + "'and user_cheq_cargada_id ='" + current_user.id.to_s + "'")
     @licencia_fin = licencias.where("fecha_cheq_finalizada >= '" + fecha_i + "' and fecha_cheq_finalizada <= '"+ fecha_f + "'and user_cheq_finalizada_id ='" + current_user.id.to_s + "'" )
+    
     respond_to do |format|
     format.pdf do
       render :pdf => 'sin_goce', 

@@ -24,13 +24,12 @@ class ListadoLicenciaDatatable < AjaxDatatablesRails::Base
             record.altas_bajas_hora.horas,
             AltasBajasHora.where(:id => record.altas_bajas_hora_id.to_i).first.persona.to_s,
             record.altas_bajas_hora.situacion_revista,
-            record.altas_bajas_hora.anio,
-            record.altas_bajas_hora.division,
-            record.altas_bajas_hora.codificacion,
+            record.altas_bajas_hora.anio.to_s + " / " + record.altas_bajas_hora.division.to_s + " / " + record.altas_bajas_hora.codificacion.to_s,
             record.articulo.codigo.to_s + " - " +record.articulo.descripcion[0..30].html_safe+"...",
-            Util.fecha_a_es(record.fecha_desde) + " / " + Util.fecha_a_es(record.fecha_hasta),
+            Util.fecha_a_es(record.fecha_desde) + " / " + Util.fecha_a_es(record.fecha_hasta), 
             record.created_at.to_date,
             record.observaciones,
+            record.altas_bajas_hora.fecha_baja, 
             if record.vigente == "Vigente" 
               '<center>
                 <div class="btn-acciones">

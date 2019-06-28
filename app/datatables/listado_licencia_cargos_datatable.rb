@@ -27,6 +27,7 @@ class ListadoLicenciaCargosDatatable < AjaxDatatablesRails::Base
             Util.fecha_a_es(record.fecha_desde) + " / " + Util.fecha_a_es(record.fecha_hasta),
             record.created_at.to_date,
             record.observaciones,
+            record.cargo.fecha_baja, 
             if record.vigente == "Vigente" 
               '<center>
                 <div class="btn-acciones">
