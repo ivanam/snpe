@@ -136,7 +136,7 @@
         "scrollX": true,
         ajax : $('#tabla-horas_novedades').data('source'),
         pagingType: "simple",
-
+        stateSave: true
       })
       .on('draw.dt', function () {
         $( ".btn-ajax" ).on( "click", function() {
