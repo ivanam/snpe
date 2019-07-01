@@ -302,7 +302,7 @@ class AltasBajasHora < ActiveRecord::Base
     cant_horas = 0
     if (MATERIA_CON_CONTROL_DE_MAXIMO.include? self.materium_id and self.horas != 0)
       
-         cant_horas = AltasBajasHora.where(establecimiento_id: self.establecimiento_id).where(:materium_id => self.materium_id, anio: self.anio, division: self.division).where.not(estado: 'BAJ').where.not(estado: 'LIC P/BAJ').sum(:horas)
+         cant_horas = AltasBajasHora.where(establecimiento_id: self.establecimiento_id).where(:materium_id => self.materium_id, anio: self.anio, division: self.division).where(estado: 'ALT').sum(:horas)
          #materia regionalizacion 
         if (self.materium_id == 682 and self.anio == 6)
             cantidad_max = 15
