@@ -10,6 +10,8 @@ module AltasBajasHorasHelper
     return AltasBajasHora.where(:id => @altasbajashoras_ids).includes(:persona,:establecimiento)
   end
 
+
+
   def altas_bajas_horas_permitidas_bajas
     establecimiento = session[:establecimiento]
     if current_user.role? :licencia

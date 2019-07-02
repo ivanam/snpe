@@ -14,7 +14,8 @@ class Persona < ActiveRecord::Base
   has_many :rubros
   has_many :inscripcions
   accepts_nested_attributes_for :rubros
-  validates :nro_documento, presence: true
+  validates :nro_documento, presence: { message: "Debe completar el campo Nro. de documento" }
+  validates :apeynom, presence: { message: "Debe completar el campo Apellido y nombre" }
   #validates :cuil, presence: true, length: { is: 11 }, numericality: { only_integer: true }
 
 

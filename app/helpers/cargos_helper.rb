@@ -93,7 +93,7 @@ module CargosHelper
    #@cargos = Cargo.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( updated_at >= '" + mindate.to_time.iso8601 + "' and updated_at <= '" + maxdate.to_time.iso8601 + "' )")
  
     @cargos.each do |c|
-      if c.estado_actual == "Notificado_Baja" || c.estado_actual == "Impreso" || c.estado_actual == "Notificado_Baja"
+      if c.estado_actual == "Notificado_Baja" || c.estado_actual == "Impreso" || c.estado_actual == "Chequeado_Baja"
         @cargos_ids << c.id
       end
     end

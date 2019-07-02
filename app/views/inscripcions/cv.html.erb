@@ -1,0 +1,227 @@
+<div class="page-header">
+  <center>
+  <font align="center" face="arial" size="10" color="#1b85c3"> Inscripciones por docente seleccionado</font>
+  </center >
+   <div align="right">
+    <%= link_to cv_path(@persona, format: :pdf), :target => "_blank", :class => 'btn btn-lg btn-danger' do %>
+        <span class="glyphicon glyphicon-plus"></span>
+        IMPRIMIR PDF
+    <% end %>
+    </div>
+</div>
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+<center>
+  <font align="center" face="arial" size="7" color="#1b85c3"> Datos personales del docente</font>
+   </center >
+  <br/>
+  <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Nombres:</dt>
+      <dd><%= @persona.nombres %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Apellidos:</dt>
+      <dd><%= @persona.apellidos %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Tipo documento:</dt>
+      <dd><%= @persona.tipo_documento %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Nro documento:</dt>
+      <dd><%= @persona.nro_documento %></dd>
+    </div>  
+  </div>
+    <br/>
+     <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Localidad:</dt>
+      <dd><%= @persona.localidad %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Estado civil:</dt>
+      <dd><%= @persona.estado_civil %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Sexo:</dt>
+      <dd><%= @persona.sexo %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Fecha nacimiento:</dt>
+      <dd><%= Util.fecha_a_es(@persona.fecha_nacimiento) %></dd>
+    </div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Telefono contacto:</dt>
+      <dd><%= @persona.telefono_contacto %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Email:</dt>
+      <dd><%= @persona.email %></dd>
+    </div>
+     <div class="col-md-3 col-xs-3">
+      <dt>Titulos:</dt>
+       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+       <% @titulo_persona = r.titulo_id  %>
+       <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <% @titulo_nombre = t.nombre  %>
+       <dd><%= @titulo_nombre %></dd>
+       <% end %>
+       <% end %>
+      </div>  
+       <% @alcance = 0 %>
+       <div class="col-md-3 col-xs-3">
+       <dt>Alcance del Titulo:</dt>
+       <% TituloPersona.where(:persona_id => @persona.id).each do |r| %>
+       <% @titulo_persona = r.titulo_id  %>
+       <% Titulo.where(:id => @titulo_persona).each do |t| %>
+       <% @alcance =  t.alcance + @alcance %>
+       <% end %>
+       <% end %>
+       <dd><%= @alcance %></dd>
+      </div>
+   </div>     
+    <br/>
+  <div class="row">
+    <div class="col-md-3 col-xs-3">
+      <dt>Calle:</dt>
+      <dd><%= @persona.calle %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Nro calle:</dt>
+      <dd><%= @persona.nro_calle %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Piso:</dt>
+      <dd><%= @persona.piso %></dd>
+    </div>
+    <div class="col-md-3 col-xs-3">
+      <dt>Depto:</dt>
+      <dd><%= @persona.depto %></dd>
+    </div>
+  </div>
+
+  <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+  <legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mi Rubros Totales </font></center></p></legend>
+  <% @total = 0 %>
+  <% Rubro.where(persona_id: @persona.nro_documento).each do |ru| %>
+    <div class="row">
+    <div class="col-md-2 col-xs-4">
+      <dt>Cargo:</dt>
+      <dd><%= ru.cargo %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>Region:</dt>
+      <dd><%= ru.region %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>Cabecera:</dt>
+      <dd><%= ru.cabecera %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>Orden:</dt>
+      <dd><%= ru.orden %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.I(Titulo):</dt>
+      <dd><%= ru.rubro_titulo %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.II(Promedio):</dt>
+      <dd><%= ru.promedio %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.III(Ant. Titulo):</dt>
+      <dd><%= ru.ant_doc %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.IV (Ant Gestión):</dt>
+      <dd><%= ru.rubro_gestion %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.V (Serv. Prestados):</dt>
+      <dd><%= ru.rubro_ser_prest %></dd>
+    </div>
+     <div class="col-md-2 col-xs-4">
+      <dt>R.VII (Residencia):</dt>
+      <dd><%= ru.rubro_residencia %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.IX (Cursos):</dt>
+      <dd><%= ru.rubro_cursos %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>R.XI (Capacitaciones):</dt>
+      <dd><%= ru.rubro_concepto %></dd>
+    </div>
+    <div class="col-md-2 col-xs-4">
+      <dt>Total de Rubros:</dt>
+       <dd><%=ru.total %></dd>
+      </div>
+    </div>
+    <% end %>
+     <hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" />
+<legend><p><center><font align="center" face="arial" size="5" color="#1b85c3" class="wasap"> Mis Inscripciones</font></center></p></legend>
+<hr style="height:2px;border-width:0;color:red;background-color:#7b9eb2" /> 
+    <% Inscripcion.where(persona_id: @persona.id).each do |s| %>
+    <!-- <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left"  >
+    <dt>Inscripción Persona Id:</dt></div>
+    <dd><%= s.persona_id %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Inscripción Id:</dt></div>
+    <dd><%= s.id %></dd>
+    </div> -->
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+      <dt>Cargos:</dt> </div>  
+       <% CargoInscripDoc.where(:inscripcion_id => s.id).each do |ca| %>
+       <% @cargo_id = ca.cargo_id  %>  
+       <% PrimariaCargo.where(:id => @cargo_id).each do |fu| %>
+       <% @cargo_descripcion = fu.descripcion  %>
+       <dd><%= @cargo_descripcion %></dd>
+       <% end %>
+       <% end %>
+    </div>    
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Fecha de Inscripción:</dt></div>
+    <dd><%= s.fecha_incripcion %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Escuela y/o dependencia donde es TITULAR:</dt></div>
+    <dd><%= s.escuela_titular %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Presta servicios en el ambito (Nacional/Provincial/Municipal/Otro):</dt></div>
+    <dd><%= s.serv_activo %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Lugar:</dt></div>
+    <dd><%= s.lugar_serv_act %></dd>
+    </div>
+    <div class="row" align="left">
+    <div class="col-md-7 col-xs-3" align="left">
+    <dt>Cabecera:</dt></div>
+    <dd><%= s.cabecera %></dd>
+    </div>
+    <hr style="height:1px;border-width:0;color:red;background-color:red"/>
+    <% end %>
+   <br/>
+   <br/><br/>
+  <%= link_to buscar_cv_persona_path, :class => 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Atrás
+  <% end %>&nbsp;
+  <%= link_to new_inscripcions_path(:persona_id => @persona.id), :class => 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+   Solicitar nuevo cargo
+  <% end %>
+   <br/>

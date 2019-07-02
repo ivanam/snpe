@@ -85,7 +85,7 @@
           <td><%= h.situacion_revista %></td>
           <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
           <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
-          <td><%= MotivoBaja.find(h.motivo_baja).to_s %></td>
+          <td><%= (!h.motivo_baja.blank?)? MotivoBaja.find(h.motivo_baja).to_s : h.motivo_baja %></td>
           <td><%= h.observaciones %></td>
           <% if h.es_desglose? %>
             <td>

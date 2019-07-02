@@ -5,8 +5,11 @@ class EstablecimientosController < ApplicationController
   skip_authorize_resource :only => [:establecimientos_de_usuario, :seleccionar, :pof, :pof_excel]
   
   respond_to :html
+  require 'fusioncharts-rails'
+
 
   def index
+
     respond_to do |format|
       format.html
       format.json { render json: EstablecimientoDatatable.new(view_context) }
@@ -69,6 +72,39 @@ class EstablecimientosController < ApplicationController
     respond_to do |format|
       format.xls
     end
+  end
+
+  def cantidad_registros_ok
+    cantidad = 0
+    @alta = AltasBajasHora.where.not(:estado => "LIC P/BAJ").where.not(:estado => "BAJ").where("fecha_baja is null")
+    @alta.each do |a|
+      if Plan.where(id: a.plan_id).first != nil and Materium.where(id: a.materium_id).first != nil
+        if Despliegue.where(:plan_id => a.plan_id, :materium_id => a.materium_id).first != nil
+          if a.valid?
+            cantidad = cantidad + 1
+          end
+        end
+      end
+    end
+  end
+
+ def registros_sin_tit_int
+    cantidad = 0
+    lista = []
+    @alta = AltasBajasHora.where.not(:estado => "LIC P/BAJ").where.not(:estado => "BAJ").where("fecha_baja is null")
+    @alta.each do |a|
+      if Establecimiento.where(id: a.establecimiento_id).first.sede != 1
+        if Plan.where(id: a.plan_id).first != nil and Materium.where(id: a.materium_id).first != nil
+          if Despliegue.where(:plan_id => a.plan_id, :materium_id => a.materium_id).first != nil
+            hora = AltasBajasHora.where(establecimiento_id: a.establecimiento_id, :plan_id => a.plan_id, :materium_id => a.materium_id, anio: a.anio, division: a.division, turno: a.turno)
+            if hora.where(:situacion_revista => "1-1").first == nil and hora.where(:situacion_revista => "1-2").first == nil
+              cantidad = cantidad + 1 
+              lista << a
+            end
+          end
+        end
+      end
+    end   
   end
 
  

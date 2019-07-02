@@ -1401,6 +1401,26 @@ def listado_licencias_cnds_sg_chequeadas
       msg1  = "  No se puede finalizar la licencia. Posee suplente. O no corresponde la situación de revista"
     end
 
+
+    if msg1 == "" and baja 
+      if @licencia.altas_bajas_hora_id != nil
+        alta_horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
+        if alta_horas.update!(estado: 'BAJ', fecha_baja: @licencia.fecha_hasta )
+          AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 7, user_id: current_user.id)
+        end
+      elsif @licencia.cargo_id != nil
+        cargo = Cargo.where(:id => @licencia.cargo_id).first
+        if cargo.update!(estado: 'BAJ', fecha_baja: @licencia.fecha_hasta )
+          CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: current_user.id)
+        end
+      elsif @licencia.cargo_no_docente_id != nil
+        cargo_no_docente = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
+        if cargo_no_docente.update!(estado: 'BAJ', fecha_baja: @licencia.fecha_hasta )
+          CargoNoDocenteEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: current_user.id)
+        end
+      end
+    end
+
     if msg != "" and msg1 != ""
       c = msg + msg2 + msg1
     elsif msg != "" and  msg1 == ""

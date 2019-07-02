@@ -37,6 +37,8 @@ gem 'rails-erd', require: false, group: :development
 gem 'activeadmin', github: 'activeadmin'
 
 gem 'recaptcha', require: "recaptcha/rails"
+
+ gem 'fusioncharts-rails'
 # ---------------------------
 
 # GEMAS DE BOOTSTRAP
