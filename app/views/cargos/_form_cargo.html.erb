@@ -26,8 +26,10 @@
       <h4>No se pudo guardar el formulario, tiene los siguientes errores:</h4>
 
       <ul>
-      <% @persona.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @persona.errors.messages.values.each do |msg| %>
+        <% msg.each do  |m| %>
+          <li><%= m %></li>
+        <%end %>
       <% end %>
       </ul>
     </div>
