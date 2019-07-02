@@ -178,29 +178,23 @@ class Licencium < ActiveRecord::Base
     
 	 	if (self.vigente == "Cancelada") || (self.vigente == "Finalizada")
 	 		if self.altas_bajas_hora_id != nil
-	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
-	 		
+	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)	 		
 	 			if Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).sede
 	 				alta_horas.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil
-
-
-
-        elsif !(PLANES_SIN_VALIDACION.include? Plan.where(id: alta_horas.plan_id).first.codigo)
+        		elsif !(PLANES_SIN_VALIDACION.include? Plan.where(id: alta_horas.plan_id).first.codigo)
 	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_time.iso8601 + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
 					if suplentes_activos == []
-            if alta_horas.estado != 'BAJ'
-		 				 alta_horas.update!(estado: 'ALT')
-            end
+            			if alta_horas.estado != 'BAJ'
+		 					 alta_horas.update!(estado: 'ALT')
+            			end
 		 			else
 		 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
 		 				return false
 		 			end
-        else
-          alta_horas.update!(estado: 'ALT')
+        		else
+          			alta_horas.update!(estado: 'ALT')
 		 		end
-            
-
 	 		elsif self.cargo_id != nil
 	 			cargo = Cargo.find(self.cargo_id)
 	 			if self.por_continua != nil
