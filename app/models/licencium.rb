@@ -19,6 +19,7 @@ class Licencium < ActiveRecord::Base
   validate :validaAnioLic
  
   ESTABLECIMIENTOS = [4001,4007,5009,567,4000,4004,4009,4012,4014,4015,4016,4017,4018,3000,3031,4002,4006,9000]
+  PLANES_SIN_VALIDACION = [122,3000,261,256]
 
   def self.corregir_licencia_hora_con_goce
   	con_goce = Articulo.where(con_goce: true).map(&:id)
@@ -187,7 +188,8 @@ class Licencium < ActiveRecord::Base
 	 				alta_horas.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil
 
-        elsif alta_horas.plan_id !=113 && alta_horas.plan_id !=249
+
+        elsif !(PLANES_SIN_VALIDACION.include? Plan.where(id: alta_horas.plan_id).first.codigo)
 	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_time.iso8601 + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
 					if suplentes_activos == []
             if alta_horas.estado != 'BAJ'
