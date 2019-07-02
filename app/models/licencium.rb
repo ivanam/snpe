@@ -179,44 +179,32 @@ class Licencium < ActiveRecord::Base
 	 		if self.altas_bajas_hora_id != nil
 	 			alta_horas = AltasBajasHora.find(self.altas_bajas_hora_id)
 	 		
-	 			if self.por_baja
-	 				if alta_horas.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
-	 					AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 7, user_id: 1)
-	 				end
-	 			elsif Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).sede
+	 			if Establecimiento.find(AltasBajasHora.find(self.altas_bajas_hora_id).establecimiento_id).sede
 	 				alta_horas.update!(estado: 'ALT')
 	 			elsif self.por_continua != nil
 
-        elsif alta_horas.plan_id !=113 && alta_horas.plan_id !=249
-	 				suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_time.iso8601 + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
-					if suplentes_activos == []
-            if alta_horas.estado != 'BAJ'
-		 				 alta_horas.update!(estado: 'ALT')
-            end
-		 			else
-		 				errors.add(:base, "No se puede dar de baja, existen suplentes activos")
-		 				return false
-		 			end
-        else
-          alta_horas.update!(estado: 'ALT')
-		 		end
-
-            
+        			elsif alta_horas.plan_id !=113 && alta_horas.plan_id !=249
+	 					suplentes_activos = AltasBajasHora.where(materium_id: alta_horas.materium_id ,plan_id: alta_horas.plan_id, anio: alta_horas.anio, turno: alta_horas.turno, division: alta_horas.division, establecimiento_id: alta_horas.establecimiento_id).where(" fecha_alta > '" +  alta_horas.fecha_alta.to_time.iso8601 + "'" ).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where.not(id: alta_horas.id)
+						if suplentes_activos == []
+            				if alta_horas.estado != 'BAJ'
+		 				 		alta_horas.update!(estado: 'ALT')
+            				end
+		 				else
+		 					errors.add(:base, "No se puede dar de baja, existen suplentes activos")
+		 					return false
+		 				end
+        		else
+          			alta_horas.update!(estado: 'ALT')
+		 		end            
 	 		elsif self.cargo_id != nil
 	 			cargo = Cargo.find(self.cargo_id)
-	 			if self.por_baja
-	 				if cargo.update!(estado: 'BAJ', fecha_baja: self.fecha_hasta )
-	 					CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: 1)
-	 				end
-
-	 		    elsif self.por_continua != nil
+	 			if self.por_continua != nil
 	 			elsif (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede == nil)
 	 				cargo.update!(estado: 'ALT')
-        elsif Cargo.find(self.cargo_id).trabaja_en_sede != nil or (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede != nil)
-          cargo.update!(estado: 'ALT')
+        		elsif Cargo.find(self.cargo_id).trabaja_en_sede != nil or (Establecimiento.find(Cargo.find(self.cargo_id).establecimiento_id).sede != nil)
+          			cargo.update!(estado: 'ALT')
 	 			else
-		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")
-		 			
+		 			suplentes_activos = Cargo.where(cargo: cargo.cargo, turno: cargo.turno, anio: cargo.anio, anio: cargo.anio, division: cargo.division, establecimiento_id: cargo.establecimiento_id, grupo_id: cargo.grupo_id).where.not(estado: "BAJ").where.not(estado: "LIC P/BAJ").where(" fecha_alta > '" +  cargo.fecha_alta.to_s + "'")		 			
 		 			if suplentes_activos == []
 		 				cargo.update!(estado: 'ALT')
 		 			else
@@ -224,14 +212,9 @@ class Licencium < ActiveRecord::Base
 		 				return false
 		 			end
 		 		end
-
-
-	 		elsif self.cargo_no_docente_id != nil
-	 			
+	 		elsif self.cargo_no_docente_id != nil	 			
 	 			if self.por_continua != nil 
-
-	 			elsif self.por_continua == nil 
-	 				
+	 			elsif self.por_continua == nil 	 				
 	 				CargoNoDocente.find(self.cargo_no_docente_id).update(estado: 'ALT')
 	 			end
 	 		end
