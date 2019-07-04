@@ -80,7 +80,7 @@
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
           <td><%= h.turno.to_s %></td>
-          <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+          <td><%= (!h.materium.blank?)? h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') : '' %></td>
           <td><%= h.horas %></td>
           <td><%= h.situacion_revista %></td>
           <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
