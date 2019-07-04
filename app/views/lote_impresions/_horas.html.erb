@@ -76,7 +76,7 @@
           <td><%= h.persona.cuil %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
-          <td><%= h.plan.codigo %></td>
+          <td><%= h.plan.try(:codigo) %></td>
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
           <td><%= h.turno.to_s %></td>
