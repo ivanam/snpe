@@ -94,7 +94,9 @@
             <td><%= d.turno %></td>
             <td><%= d.situacion_revista %></td>
             <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
-            <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <%if lic != nil%>
+	    	        <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <%end%>           
             <td><%= lic == nil ? '' : esc_or.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
@@ -146,7 +148,9 @@
             <td><%= d.curso_division %></td>
             <td><%= d.situacion_revista %></td>
             <% lic = Licencium.where(nro_documento: d.persona.nro_documento).last %>
-            <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <%if lic != nil%>
+	    	        <% esc_or = Establecimiento.where(codigo_jurisdiccional:  lic.oficina).first %>
+            <%end%>
             <td><%= lic == nil ? '' : esc_or.to_s %> </td> 
             <td><%= d.estado %></td>
              <% if (d.estado == "ART" || d.estado == "LIC") %>
