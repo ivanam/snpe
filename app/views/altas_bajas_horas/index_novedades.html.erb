@@ -146,7 +146,7 @@
             type: 'GET',
           })
           .done(function(data) {
-            tabla_horas_novedades.api().ajax.reload();
+            tabla_horas_novedades.api().ajax.reload(null, false); 
             tabla_cola_impresion.api().ajax.reload();
 
             if (data != "") {
