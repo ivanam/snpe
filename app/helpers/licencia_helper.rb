@@ -51,13 +51,13 @@ module LicenciaHelper
 
 	def licencias(dni)
 		if current_user.role? :personal or current_user.role? :licencia then
-			@licencia_cargo=Licencium.where(:cargo_id => Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
-			@licencia_cargos_no_docentes=Licencium.where(:cargo_no_docente_id => CargoNoDocente.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
-    		@licencia_horas=Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni]))).map(&:id)
+			@licencia_cargo = Licencium.where(cargo_id: Cargo.joins(:persona).where(personas: { nro_documento: params[:dni] }).pluck(:id)).where.not(vigente: "Cancelada").pluck(:id)
+			@licencia_cargos_no_docentes = Licencium.where(cargo_no_docente_id: CargoNoDocente.joins(:persona).where(personas: { nro_documento: params[:dni] }).pluck(:id)).where.not(vigente: "Cancelada").pluck(:id)
+			@licencia_horas = Licencium.where(altas_bajas_hora_id: AltasBajasHora.joins(:persona).where(personas: { nro_documento: params[:dni] }).pluck(:id)).where.not(vigente: "Cancelada").pluck(:id)
     	else
-    		@licencia_cargo=Licencium.where(:cargo_id => Cargo.joins(:persona).merge(Persona.where(:nro_documento => params[:dni])).where(:establecimiento_id => session[:establecimiento])).map(&:id)
-    		@licencia_cargos_no_docentes=Licencium.where(:cargo_no_docente_id => CargoNoDocente.joins(:persona).merge(Persona.where(:nro_documento => params[:dni])).where(:establecimiento_id => session[:establecimiento])).map(&:id)
-    		@licencia_horas=Licencium.where(:altas_bajas_hora_id => AltasBajasHora.joins(:persona).merge(Persona.where(:nro_documento => params[:dni])).where(:establecimiento_id => session[:establecimiento])).map(&:id)
+    		@licencia_cargo = Licencium.where(cargo_id: Cargo.joins(:persona).where(personas: { nro_documento: params[:dni] }).where(:establecimiento_id => session[:establecimiento]).pluck(:id)).where.not(vigente: "Cancelada").pluck(:id)
+			@licencia_cargos_no_docentes = Licencium.where(cargo_no_docente_id: CargoNoDocente.joins(:persona).where(personas: { nro_documento: params[:dni] }).where(:establecimiento_id => session[:establecimiento]).pluck(:id)).where.not(vigente: "Cancelada").pluck(:id)
+			@licencia_horas = Licencium.where(altas_bajas_hora_id: AltasBajasHora.joins(:persona).where(personas: { nro_documento: params[:dni] }).where(:establecimiento_id => session[:establecimiento]).pluck(:id)).where.not(vigente: "Cancelada").pluck(:id)
     	end 
     	@licencia_cargo.each do |l|
       		@licencia_horas.push(l)
