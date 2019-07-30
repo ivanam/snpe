@@ -38,7 +38,8 @@ gem 'activeadmin', github: 'activeadmin'
 
 gem 'recaptcha', require: "recaptcha/rails"
 
- gem 'fusioncharts-rails'
+#gem 'fusioncharts-rails'
+
 # ---------------------------
 
 # GEMAS DE BOOTSTRAP
