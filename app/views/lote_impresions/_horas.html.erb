@@ -76,16 +76,16 @@
           <td><%= h.persona.cuil %></td>
           <td><%= h.secuencia %></td>
           <td><%= h.persona.to_s %></td>
-          <td><%= h.plan.codigo %></td>
+          <td><%= h.plan.try(:codigo) %></td>
           <td><%= h.anio.to_s %></td>
           <td><%= h.division.to_s %></td>
           <td><%= h.turno.to_s %></td>
-          <td><%= h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') %></td>
+          <td><%= (!h.materium.blank?)? h.materium.codigo.to_s.rjust(AltasBajasHora::LONGITUD_CODIGO,'0') : '' %></td>
           <td><%= h.horas %></td>
           <td><%= h.situacion_revista %></td>
           <td><%= Util.fecha_a_es(h.fecha_alta) %></td>
           <td><%= Util.fecha_a_es(h.fecha_baja) %></td>
-          <td><%= (!h.motivo_baja.blank?)? MotivoBaja.find(h.motivo_baja).to_s : h.motivo_baja %></td>
+          <td><%= (!h.motivo_baja.blank?)? MotivoBaja.find(h.motivo_baja).to_s : '' %></td>
           <td><%= h.observaciones %></td>
           <% if h.es_desglose? %>
             <td>

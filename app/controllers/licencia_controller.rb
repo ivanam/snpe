@@ -1353,7 +1353,7 @@ def listado_licencias_cnds_sg_chequeadas
         msg = "Error de fechas"
     end
      
-
+    
 
     #eliminar el cargo no docente y cambiar el estado al cargo origen 
     #verificar que sea cargo no docente.
@@ -1369,7 +1369,11 @@ def listado_licencias_cnds_sg_chequeadas
           cargoNoDoc1000.update!(:estado => "BAJ")
         end
         cargoNoDoc.update!(:estado => "ALT")
+      else
+        cargoNoDoc = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
+        cargoNoDoc.update!(:estado => "ALT")
       end
+
     end
     #----------  BUSCAR CARGO DOCENTE QUE POSEE LA SECUNCIA 1000 y la descripcion del articulo que genero la secuencia 1000 PARA ELIMINARLA     
 
@@ -1382,7 +1386,10 @@ def listado_licencias_cnds_sg_chequeadas
           cargo1000.update!(:estado => "BAJ")
         end
         cargo.update!(:estado => "ALT")
-      end
+      else
+        cargo = Cargo.where(:id => @licencia.cargo_id).first
+        cargo.update!(:estado => "ALT")
+      end 
     end
 
 
@@ -1394,7 +1401,11 @@ def listado_licencias_cnds_sg_chequeadas
           horas1000.update!(:estado => "BAJ")
         end
         horas.update!(:estado => "ALT")
+      else
+        horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
+        horas.update!(:estado => "ALT")
       end
+
     end
     
     if msg == "" and !@licencia.update(con_certificado: con_certificado, con_formulario: con_formulario , fecha_hasta: params[:fecha_fin], vigente: "Finalizada", por_baja: baja, prestador_id: prestador, observaciones: observaciones)
@@ -1406,17 +1417,17 @@ def listado_licencias_cnds_sg_chequeadas
       if @licencia.altas_bajas_hora_id != nil
         alta_horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
         if alta_horas.update!(estado: 'BAJ', fecha_baja: @licencia.fecha_hasta )
-          AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 7, user_id: current_user.id)
+          AltasBajasHoraEstado.create(alta_baja_hora_id: alta_horas.id, estado_id: 6, user_id: current_user.id)
         end
       elsif @licencia.cargo_id != nil
         cargo = Cargo.where(:id => @licencia.cargo_id).first
         if cargo.update!(estado: 'BAJ', fecha_baja: @licencia.fecha_hasta )
-          CargoEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: current_user.id)
+          CargoEstado.create(cargo_id: cargo.id, estado_id: 6, user_id: current_user.id)
         end
       elsif @licencia.cargo_no_docente_id != nil
         cargo_no_docente = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
         if cargo_no_docente.update!(estado: 'BAJ', fecha_baja: @licencia.fecha_hasta )
-          CargoNoDocenteEstado.create(cargo_id: cargo.id, estado_id: 7, user_id: current_user.id)
+          CargoNoDocenteEstado.create(cargo_id: cargo.id, estado_id: 6, user_id: current_user.id)
         end
       end
     end
