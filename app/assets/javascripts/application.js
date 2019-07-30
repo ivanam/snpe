@@ -18,9 +18,7 @@
 //= require autocomplete-rails
 //= require bootstrap-editable
 //= require bootstrap-editable-rails
-//= require fusioncharts/fusioncharts
-//= require fusioncharts/fusioncharts.charts
-//= require fusioncharts/themes/fusioncharts.theme.fint
+
 
 $(function () {
     $('[data-toggle="tooltip"]').tooltip()
