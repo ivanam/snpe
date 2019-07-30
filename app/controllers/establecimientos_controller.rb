@@ -5,7 +5,7 @@ class EstablecimientosController < ApplicationController
   skip_authorize_resource :only => [:establecimientos_de_usuario, :seleccionar, :pof, :pof_excel]
   
   respond_to :html
-  require 'fusioncharts-rails'
+  #require 'fusioncharts-rails'
 
 
   def index
