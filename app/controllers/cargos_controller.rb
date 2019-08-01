@@ -70,7 +70,7 @@ class CargosController < ApplicationController
     tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
-    apeynom = params["apeynom"]
+    @apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(nro_documento: @dni).first
