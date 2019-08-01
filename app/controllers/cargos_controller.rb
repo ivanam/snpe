@@ -70,7 +70,7 @@ class CargosController < ApplicationController
     tipo_documento = params["tipo_documento"]
     @sexo = params["sexo"]
     @dni = params["dni"]
-    @apeynom = params["apeynom"]
+    apeynom = params["apeynom"]
     @cuil = params["cuil"]
     @fecha_nacimiento = params["fecha_nacimiento"]
     @persona = Persona.where(nro_documento: @dni).first
@@ -78,7 +78,7 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: tipo_documento, sexo_id: @sexo, nro_documento: @dni, apeynom: @apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: tipo_documento, sexo_id: @sexo, nro_documento: @dni, apeynom: apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = tipo_documento
       @persona.sexo_id = @sexo
