@@ -1366,12 +1366,12 @@ def listado_licencias_cnds_sg_chequeadas
         cargoNoDoc = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
         cargoNoDoc1000 = CargoNoDocente.where(:persona_id => cargoNoDoc.persona_id, obs_lic: descripcion_articulo ,:secuencia => 1000).where.not(estado: "BAJ").first
         if !cargoNoDoc1000.nil?
-          cargoNoDoc1000.update!(:estado => "BAJ")
+          cargoNoDoc1000.update(:estado => "BAJ")
         end
-        cargoNoDoc.update!(:estado => "ALT")
+        cargoNoDoc.update(:estado => "ALT")
       else
         cargoNoDoc = CargoNoDocente.where(:id => @licencia.cargo_no_docente_id).first
-        cargoNoDoc.update!(:estado => "ALT")
+        cargoNoDoc.update(:estado => "ALT")
       end
 
     end
@@ -1383,12 +1383,12 @@ def listado_licencias_cnds_sg_chequeadas
         cargo = Cargo.where(:id => @licencia.cargo_id).first
         cargo1000 = Cargo.where(:persona_id => cargo.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
         if !cargo1000.nil?
-          cargo1000.update!(:estado => "BAJ")
+          cargo1000.update(:estado => "BAJ")
         end
-        cargo.update!(:estado => "ALT")
+        cargo.update(:estado => "ALT")
       else
         cargo = Cargo.where(:id => @licencia.cargo_id).first
-        cargo.update!(:estado => "ALT")
+        cargo.update(:estado => "ALT")
       end 
     end
 
@@ -1398,12 +1398,12 @@ def listado_licencias_cnds_sg_chequeadas
         horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
         horas1000 = AltasBajasHora.where(:persona_id => horas.persona_id, :secuencia => 1000, obs_lic: descripcion_articulo ).where.not(estado: "BAJ").first
         if !horas1000.nil?
-          horas1000.update!(:estado => "BAJ")
+          horas1000.update(:estado => "BAJ")
         end
-        horas.update!(:estado => "ALT")
+        horas.update(:estado => "ALT")
       else
         horas = AltasBajasHora.where(:id => @licencia.altas_bajas_hora_id).first
-        horas.update!(:estado => "ALT")
+        horas.update(:estado => "ALT")
       end
 
     end
