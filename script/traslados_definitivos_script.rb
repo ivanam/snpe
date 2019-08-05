@@ -134,7 +134,7 @@ personas.each do |p|
 	licencia.cargo_no_docente_id = cargoOrigen3001.id
 	licencia.fecha_desde = cargoDestino.fecha_alta
 	licencia.fecha_hasta = nil
-	licencia.articulo_id = 907
+	licencia.articulo = Articulo.where(codigo: 907).first
 	licencia.vigente = "Vigente"
 	licencia.destino = cargoDestino.id
 	licencia.observaciones = " --- generado por sistema ---"
@@ -143,7 +143,7 @@ personas.each do |p|
 	licencia.oficina = Establecimiento.find(cargoDestino.establecimiento_id).codigo_jurisdiccional
 	#Solo si pude guardar continuo actulizando el registro del cargo reubicado
 	if licencia.save(validate: false)		
-		cargoDestino.obs_lic = Articulo.find(907).descripcion #Articulo 907 (Reubicacion /Traslado transitorio)
+		cargoDestino.obs_lic = Articulo.where(codigo: 907).first.descripcion #Articulo 907 (Reubicacion /Traslado transitorio)
 		cargoDestino.secuencia = 1000
 		cargoDestino.estado = 'REU'
 		cargoDestino.save(validate: false)

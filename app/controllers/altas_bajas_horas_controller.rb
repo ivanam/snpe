@@ -45,27 +45,6 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
-
-  def index_cola_impresion
-    @lote = LoteImpresion.all.where(tipo_id: 1).last
-    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
-    if @lote != nil then
-      if  @lote.fecha_impresion == nil
-        #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-        if current_user.role? :delegacion 
-        @novedades_en_cola_impresion = AltasBajasHora.where("baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
-        else
-        @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium).where(:establecimiento_id => session[:establecimiento])
-        end      
-      end
-    end
-
-    respond_to do |format|
-      format.html
-      format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
-    end
-  end
-
   def index_personal_activo
     respond_to do |format|
       format.html
@@ -635,13 +614,21 @@ class AltasBajasHorasController < ApplicationController
   end
 
   def index_cola_impresion
-    @establecimiento_id = Establecimiento.find(session[:establecimiento]).id
-    @lote = LoteImpresion.all.where(tipo_id: 1, :establecimiento_id => @establecimiento_id).last
-    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1, :establecimiento_id => @establecimiento_id).includes(:persona, :materium)
+    id_establecimientos = []
+    if current_user.role? :delegacion
+      id_establecimientos = current_user.establecimientos.pluck(:id)
+    else
+      id_establecimientos = session[:establecimiento]
+    end
+    @lote = LoteImpresion.all.where(tipo_id: 1, establecimiento_id: id_establecimientos).last
+    @novedades_en_cola_impresion = AltasBajasHora.where(id: -1).includes(:persona, :materium)
     if @lote != nil then
       if  @lote.fecha_impresion == nil
-        #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
-        @novedades_en_cola_impresion = AltasBajasHora.where(:establecimiento_id => @establecimiento_id).where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
+        if current_user.role? :delegacion 
+          @novedades_en_cola_impresion = AltasBajasHora.where("baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
+        else
+          @novedades_en_cola_impresion = AltasBajasHora.where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium).where(:establecimiento_id => session[:establecimiento])
+        end      
       end
     end
 
@@ -651,7 +638,23 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  #ok
+  # def index_cola_impresion
+  #   @establecimiento_id = Establecimiento.find(session[:establecimiento]).id
+  #   @lote = LoteImpresion.all.where(tipo_id: 1, :establecimiento_id => @establecimiento_id).last
+  #   @novedades_en_cola_impresion = AltasBajasHora.where(id: -1, :establecimiento_id => @establecimiento_id).includes(:persona, :materium)
+  #   if @lote != nil then
+  #     if  @lote.fecha_impresion == nil
+  #       #@novedades_en_cola_impresion = AltasBajasHora.where(lote_impresion_id: @lote.id OR baja_lote_impresion_id: @lote.id)
+  #       @novedades_en_cola_impresion = AltasBajasHora.where(:establecimiento_id => @establecimiento_id).where("lote_impresion_id =" + @lote.id.to_s + " OR baja_lote_impresion_id = " + @lote.id.to_s).includes(:persona, :materium)
+  #     end
+  #   end
 
+  #   respond_to do |format|
+  #     format.html
+  #     format.json { render json: HorasNovedadesDatatable.new(view_context, { query: @novedades_en_cola_impresion }) }
+  #   end
+  # end
 
   def imprimir_cola
 
