@@ -1,5 +1,3 @@
-# completar campo obs_ilc
-establecimiento = Establecimiento.where(codigo_jurisdiccional: 3001).first
 numeros_documentos = [25099464,
 28193735,
 23650416,
@@ -122,31 +120,32 @@ numeros_documentos = [25099464,
 22540729,
 22044735]
 
+establecimiento3001 = Establecimiento.where(codigo_jurisdiccional: 3001).first
+#Por cada persona del listado
 personas = Persona.where(nro_documento: numeros_documentos)
 personas.each do |p|
-	#Obtengo los cargos auxiliares de la persona en el establecimiento 3001 (Delegacion I)
-	origen3001 = CargoNoDocente.joins(:persona).where(personas: { id: p.id }, establecimiento_id: 808).first
-	destino = CargoNoDocente.joins(:persona, :establecimiento).where(personas: { id: p.id }).where.not(establecimiento_id: 808).first
-	
+	#Obtengo los cargos auxiliares de la persona en el establecimiento 3001 (Delegacion I) y el de destino
+	cargoOrigen3001 = CargoNoDocente.joins(:persona).where(personas: { id: p.id }, establecimiento_id: establecimiento3001.id).first
+	cargoDestino = CargoNoDocente.joins(:persona, :establecimiento).where(personas: { id: p.id }).where.not(establecimiento_id: establecimiento3001.id).first	
 	#Genero el traslado transitorio para el cargo auxiliar en la Delegacion I
 	licencia = Licencium.new
 	licencia.con_certificado = true
 	licencia.con_formulario = true
-	licencia.cargo_no_docente_id = origen3001.id
-	licencia.fecha_desde = destino.fecha_alta
-	licencia.fecha_hasta = 
+	licencia.cargo_no_docente_id = cargoOrigen3001.id
+	licencia.fecha_desde = cargoDestino.fecha_alta
+	licencia.fecha_hasta = nil
 	licencia.articulo_id = 907
 	licencia.vigente = "Vigente"
-	licencia.destino = destino.id
+	licencia.destino = cargoDestino.id
 	licencia.observaciones = " --- generado por sistema ---"
 	licencia.nro_documento = p.nro_documento
-	licencia.user_id
-	licencia.oficina  
+	licencia.user_id = 
+	licencia.oficina =
 	#Solo si pude guardar continuo actulizando el registro del cargo reubicado
 	if licencia.save(validate: false)		
-		destino.obs_lic = Articulo.find(907).descripcion
-		destino.secuencia = 1000
-		destino.estado = 'REU'
-		destino.save(validate: false)
+		cargoDestino.obs_lic = Articulo.find(907).descripcion #Articulo 907 (Reubicacion /Traslado transitorio)
+		cargoDestino.secuencia = 1000
+		cargoDestino.estado = 'REU'
+		cargoDestino.save(validate: false)
 	end
 end
