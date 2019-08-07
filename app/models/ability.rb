@@ -45,6 +45,8 @@ class Ability
           can :manage, [Traslado]
           can :listado_licencias_historico_agente, [Licencium]
           can :index_bajas_notificadas_chequear, [AltasBajasHora]
+          can :index_bajas_ingresadas, [AltasBajasHora]
+          can :notificar_baja, [AltasBajasHora]
 
         end
 

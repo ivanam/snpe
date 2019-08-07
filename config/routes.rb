@@ -183,6 +183,12 @@ ProyectoBase::Application.routes.draw do
 
     get "altas_bajas_horas/notificadas/", to: "altas_bajas_horas#index_notificadas", as: :altas_bajas_horas_index_notificadas    
 
+    get "altas_bajas_horas/bajas_ingresadas/", to: "altas_bajas_horas#index_bajas_ingresadas", as: :altas_bajas_horas_index_bajas_ingresadas  
+
+    get "altas_bajas_horas/notificar_baja/:id", to: "altas_bajas_horas#notificar_baja", as: :altas_bajas_horas_notificar_bajas
+
+
+
     put "altas_bajas_horas/dar_baja/:id", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_baja
 
     post "altas_bajas_horas/dar_baja/", to: "altas_bajas_horas#dar_baja", as: :altas_bajas_horas_dar_bajas
@@ -219,8 +225,6 @@ ProyectoBase::Application.routes.draw do
     get "altas_bajas_horas/chequear/:id", to: "altas_bajas_horas#chequear", as: :altas_bajas_horas_chequear
 
     get "altas_bajas_horas/imprimir/:id", to: "altas_bajas_horas#imprimir", as: :altas_bajas_horas_imprimir
-
-    get "altas_bajas_horas/notificar_baja/:id", to: "altas_bajas_horas#notificar_baja", as: :altas_bajas_horas_notificar_baja
 
     get "altas_bajas_horas/cancelar_baja/:id", to: "altas_bajas_horas#cancelar_baja", as: :altas_bajas_horas_cancelar_baja
 

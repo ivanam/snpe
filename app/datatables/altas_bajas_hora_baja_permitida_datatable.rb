@@ -23,6 +23,15 @@ class AltasBajasHoraBajaPermitidaDatatable < AjaxDatatablesRails::Base
         record.plan_materia,
         '<span class="label label-info">'+Util.fecha_a_es(record.fecha_alta)+'</span>',
         record.horas,
+        if record.estado != 'ALT'
+          if Licencium.where(altas_bajas_hora_id: record.id).last != nil
+            Licencium.where(altas_bajas_hora_id: record.id).last.articulo.codigo.to_s
+          else
+            record.estado
+          end
+        else
+          record.estado
+        end,
         '<center><div class="btn-acciones"><a class="btn btn-danger btn-sm" data-toggle="modal" id_horas="'+record.id.to_s+'" motivo_baja="'+record.motivo_baja.to_s+'" data-target="#modal_baja_horas" title="Editar" >
         <span class="glyphicon glyphicon-trash"></span>
         <span class=aria-hidden="true" >Baja</span></a>',

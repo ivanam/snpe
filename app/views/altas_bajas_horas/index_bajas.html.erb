@@ -1,6 +1,21 @@
 <%= javascript_include_tag "daterangepicker"%>
 <%= stylesheet_link_tag "daterangepicker-bs3" %>
 <%= javascript_include_tag "util.js" %>
+<style type="text/css">
+  .numberCircle {
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+    background: #fff;
+    border: 2px solid black;
+    color: black;
+    text-align: center;
+    font: 18px Arial, sans-serif;
+    display: inline-block;
+}
+</style>
 
 <% @altas_bajas_hora = AltasBajasHora.new %>
 <div class="container">
@@ -11,7 +26,7 @@
     <div class="panel panel-info">
       <div class="panel-heading">
         <h3 class="panel-title">
-          Bajas Permitidas
+         <div class="numberCircle"><strong>1</strong></div> Bajas permitidas
         </h3>
       </div>
       <div class="panel-body">
@@ -28,6 +43,7 @@
               <th>Plan / Materia</th>
               <th>Fecha Alta</th>
               <th>Horas</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -38,7 +54,7 @@
       </div>
     </div>
     <hr/>
-  <% end %>
+
 
    <div class="modal fade" id="modal_baja_horas" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -70,13 +86,56 @@
     </div>
   </div>
 
+
+
 </div>
+
+
    <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Bajas Notificadas a Chequear
+         <div class="numberCircle"><strong>2</strong></div> Bajas ingresadas listas para ser notificadas a personal
       </h3>
     </div>
+    <div class="panel-body">
+      <div class="">
+        <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange2" /> </br></br>
+      </div>
+      <div class="table-responsive">
+        <table id="tabla-bajas_efectivas_ingresadas" class="table table-striped table-bordered table-hover" data-source = "<%= altas_bajas_horas_index_bajas_ingresadas_path(format: :json, rango: params['rango']) %>" >
+          <thead>
+            <tr>
+              <th style="width: 250px;">Establecimiento</th>
+              <th style="width: 250px;">Agente</th>
+              <th style="width: 100px;">Secuencia</th>
+              <th style="width: 100px;">Sit. Rev.</th>
+              <th style="width: 100px;">Turno</th>
+              <th style="width: 100px;">Curso</th>
+              <th style="width: 100px;">Div</th>
+              <th style="width: 100px;">Fecha Alta</th>
+              <th style="width: 100px;">Fecha Baja</th>
+              <th style="width: 100px;">Horas</th>
+              <th style="width: 100px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<% end %>
+   <div class="panel panel-success">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <% if (current_user.role? :escuela or current_user.role? :sadmin) %>
+          <div class="numberCircle"><strong>3</strong></div> Bajas en espera de ser chequeadas por personal. 
+        <%else%>
+          Bajas Notificadas a Chequear
+        <%end%>
+      </h3>
+    </div
     <div class="panel-body">
       <div class="">
         <b>Seleccione un periodo de fechas: </b> <input type="text" id="daterange2" /> </br></br>
@@ -109,7 +168,11 @@
   <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">
-        Bajas Realizadas
+        <% if (current_user.role? :escuela or current_user.role? :sadmin) %>
+          <div class="numberCircle"><strong>4</strong></div> Bajas procesadas por personal
+        <%else%>
+          Bajas chequeadas
+        <%end%>
       </h3>
     </div>
     <div class="panel-body">
@@ -240,6 +303,7 @@ $(document).ready(function($) {
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
           tabla_bajas_efectivas_chequear.api().ajax.reload();
+          tabla_bajas_ingresadas.api().ajax.reload();
         });
       });
     })
@@ -263,6 +327,40 @@ $(document).ready(function($) {
         ]
     });
 
+    var tabla_bajas_ingresadas= $('#tabla-bajas_efectivas_ingresadas')
+    .on('draw.dt', function () {
+      $( ".btn-ajax" ).on( "click", function() {
+        var data_url = $(this).attr('data-url');
+        $.ajax({
+          url: data_url,
+          type: 'GET',
+        })
+        .done(function(data) { //if (data[status] == 'ok')
+
+          tabla_bajas_permitidas.api().ajax.reload();
+          tabla_bajas_efectivas.api().ajax.reload();
+          tabla_bajas_efectivas_chequear.api().ajax.reload();
+          tabla_bajas_ingresadas.api().ajax.reload();
+        });
+      });
+    })
+    .dataTable({
+      language : {"sUrl": "<%= asset_path('language.es.json') %>",},
+      processing : true,
+      serverSide : true,
+      "scrollX": true,
+      ajax : $('#tabla-bajas_efectivas_ingresadas').data('source'),
+      pagingType: "simple",
+      "pageLength": 10,
+      columnDefs: [
+            {
+                "targets": [ 7 ],
+                "searchable": true,
+                "orderable": true,
+                "orderData": [ 4, 'desc' ]
+            }
+        ]
+    });
     var tabla_bajas_efectivas_chequear = $('#tabla-bajas_efectivas_chequear')
     .on('draw.dt', function () {
       $( ".btn-ajax" ).on( "click", function() {
@@ -272,9 +370,11 @@ $(document).ready(function($) {
           type: 'GET',
         })
         .done(function(data) { //if (data[status] == 'ok')
+          alert(data.msj);
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
           tabla_bajas_efectivas_chequear.api().ajax.reload();
+          tabla_bajas_ingresadas.api().ajax.reload();
         });
       });
     })
@@ -302,9 +402,9 @@ $(document).ready(function($) {
         return  params;
        }
       
-      $('#btn-filtrar1').on('click', function(){
-       window.location.href = '/soft/snpe/altas_bajas_horas/bajas_efectivas_chequear.pdf' + getParams1();
-      })
+    $('#btn-filtrar1').on('click', function(){
+     window.location.href = '/soft/snpe/altas_bajas_horas/bajas_efectivas_chequear.pdf' + getParams1();
+    })
 
     $('#modal_baja_horas').on('shown.bs.modal', function (event) {      
       id_horas = $(event.relatedTarget).attr('id_horas');
@@ -327,6 +427,7 @@ $(document).ready(function($) {
           tabla_bajas_permitidas.api().ajax.reload();
           tabla_bajas_efectivas.api().ajax.reload();
           tabla_bajas_efectivas_chequear.api().ajax.reload();
+          tabla_bajas_ingresadas.api().ajax.reload();
           $("#motivo_baja" ).val("");
           $("#input_fecha_baja" ).val("");
         }        
@@ -351,6 +452,7 @@ $(document).ready(function($) {
         tabla_bajas_permitidas.api().ajax.reload();
         tabla_bajas_efectivas.api().ajax.reload();
         tabla_bajas_efectivas_chequear.api().ajax.reload();
+        tabla_bajas_ingresadas.api().ajax.reload();
       })
       .editable({
         savenochange: true,

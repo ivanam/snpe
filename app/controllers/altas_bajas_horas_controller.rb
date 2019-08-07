@@ -98,6 +98,17 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+ def index_bajas_ingresadas
+
+    @mindate, @maxdate = Util.max_min_periodo(params["rango"])
+    @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
+    @bajas = altas_bajas_horas_ingresadas(@mindate.to_date, @maxdate.to_date)
+    respond_to do |format|
+      format.html
+      format.json { render json: AltasBajasHoraBajaIngresadasDatatable.new(view_context, { query: @bajas , rol: @rol }) }
+    end
+  end
+
   def index_bajas_notificadas_chequear
     @mindate, @maxdate = Util.max_min_periodo(params["rango"])
     @rol = Role.where(:id => UserRole.where(:user_id => current_user.id).first.role_id).first.description
@@ -406,6 +417,12 @@ class AltasBajasHorasController < ApplicationController
     @altas_bajas_horas.resolucion = params[:resolucion]
     @altas_bajas_horas.decreto = params[:decreto]
     @altas_bajas_horas.situacion_revista = params[:altas_bajas_hora][:situacion_revista]
+    if @altas_bajas_horas.estado == "REU" then
+          if params[:estado] == "ALT"  then
+            @altas_bajas_horas.estado = params[:estado]
+          end
+    end 
+
     if @altas_bajas_horas.estado == "LIC" then
         if params[:estado] == "LIC" || params[:estado] == "LIC P/BAJ" then
           @altas_bajas_horas.estado = params[:estado]
@@ -435,7 +452,6 @@ class AltasBajasHorasController < ApplicationController
     end
 
     if @altas_bajas_horas.estado != "LIC P/BAJ" then
-
         if  params[:plan_id] != nil and params[:plan_id] != "" then
 
           @altas_bajas_horas.plan_id = params[:plan_id]
@@ -532,11 +548,12 @@ class AltasBajasHorasController < ApplicationController
   end
   
   def dar_baja
+    
     if @altas_bajas_hora.estado_actual == "Vacio" || @altas_bajas_hora.estado_actual == "Impreso" || @altas_bajas_hora.estado_actual == "Cobrado" || @altas_bajas_hora.estado_actual == "Cancelado_Baja"
        if params[:input_fecha_baja] != nil && params[:input_fecha_baja] != ""
          if params[:motivo_baja] != nil && params[:motivo_baja] != ""
             if @altas_bajas_hora.update(:fecha_baja => params[:input_fecha_baja], :motivo_baja => params["motivo_baja"])
-              @estado = Estado.where(:descripcion => "Notificado_Baja").first
+              @estado = Estado.where(:descripcion => "Ingresado_Baja").first
               AltasBajasHoraEstado.create(estado_id: @estado.id, alta_baja_hora_id: @altas_bajas_hora.id, user_id: current_user.id)      
               respond_to do |format|
               format.json { render json: {status: 'ok'}}
@@ -565,19 +582,58 @@ class AltasBajasHorasController < ApplicationController
     end
   end
 
+  def notificar_baja
+
+    @estado = Estado.where(descripcion: "Notificado_Baja").first
+    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+    respond_to do |format|
+      format.html { redirect_to altas_bajas_horas_path, notice: 'Baja notificada correctamente' }
+      format.json { head :no_content } # 204 No Content
+    end
+  end
+
   def cancelar_baja
-    if AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
+      
+    if AltasBajasHora.find(params["id"]).estado_actual == "Ingresado_Baja"
       if @altas_bajas_hora.update(:fecha_baja => nil, estado: 'ALT', :motivo_baja => nil)
         @estado = Estado.where(descripcion: "Cancelado_Baja").first
         AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+        respond_to do |format|
+          format.json { render json: {status: 'ok', msj: "Baja cancelada correctamente"} }
+        end
+      else
+        msj = []
+        @altas_bajas_hora.errors.full_messages.each do |msg| 
+          msj << msg
+        end
+        respond_to do |format|
+        format.json { render json: {status: 'error', msj: msj }}
+        end
       end
-      respond_to do |format|
-        format.json { render json: {status: 'ok', msj: "Baja realizada correctamente"} }
+    elsif AltasBajasHora.find(params["id"]).estado_actual == "Notificado_Baja"
+      if @altas_bajas_hora.update(:fecha_baja => nil, estado: 'ALT', :motivo_baja => nil)
+        @estado = Estado.where(descripcion: "Cancelado_Baja").first
+        AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+        respond_to do |format|
+          format.json { render json: {status: 'ok', msj: "Baja cancelada correctamente"} }
+        end
+      else
+        msj = []
+        @altas_bajas_hora.errors.full_messages.each do |msg| 
+          msj << msg
+        end
+        respond_to do |format|
+        format.json { render json: {status: 'error', msj: msj }}
+        end
       end
     else
-      respond_to do |format|
-        format.json { render json: {status: 'error', msj: "No se pudo realizar la baja"} }
-      end
+      msj = []
+        @altas_bajas_hora.errors.full_messages.each do |msg| 
+          msj << msg
+        end
+        respond_to do |format|
+        format.json { render json: {status: 'error', msj: msj }}
+        end
     end
   end
 
