@@ -15,10 +15,11 @@ class AltasBajasHoraEstado < ActiveRecord::Base
   end
 
    def mensaje_estado
+    
     if User.where(id: self.user_id).first != nil
       email = User.find(self.user_id).email
     else 
-      ""
+      email = " "
     end
      @estado = Estado.where(:id => self.estado_id).first.descripcion.to_s
      if @estado == "Cancelado" then
