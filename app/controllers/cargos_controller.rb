@@ -78,7 +78,7 @@ class CargosController < ApplicationController
     
     #si la persona no existe la creo
     if @persona == nil then
-      @persona = Persona.create(tipo_documento_id: tipo_documento, sexo_id: @sexo, nro_documento: @dni, apeynom: @apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
+      @persona = Persona.create(tipo_documento_id: tipo_documento, sexo_id: @sexo, nro_documento: @dni, apeynom: apeynom, cuil: @cuil, fecha_nacimiento: @fecha_nacimiento)
     else
       @persona.tipo_documento_id = tipo_documento
       @persona.sexo_id = @sexo
