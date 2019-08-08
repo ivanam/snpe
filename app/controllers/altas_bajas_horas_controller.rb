@@ -632,10 +632,17 @@ class AltasBajasHorasController < ApplicationController
 
   def notificar
     @estado = Estado.where(descripcion: "Notificado").first
-    AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
-    respond_to do |format|
-      format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
-      format.json { head :no_content } # 204 No Content
+    ss = AltasBajasHora.where(:id => params["id"]).first
+    if ss.valid?
+      AltasBajasHoraEstado.create( alta_baja_hora_id: params["id"], estado_id: @estado.id, user_id: current_user.id)
+      respond_to do |format|
+        format.html { redirect_to altas_bajas_horas_path, notice: 'Alta notificada correctamente' }
+        format.json { head :no_content } # 204 No Content
+      end
+    else
+      respond_to do |format|
+        format.json { render json: {status: 'error', msj: ss.errors.full_messages.first} }
+      end
     end
   end
 

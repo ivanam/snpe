@@ -25,15 +25,25 @@ cargos.each do |cc|
 end
 
 horas_mal_art = []
-horas  = Cargo.where(:estado => 'ALT')
+horas  = CargoNoDocente.where(:estado => 'ALT')
 horas.each do |cc|
-  if (Licencium.where(:vigente => 'Vigente', :cargo_id => cc.id).first != nil)
-    ll = Licencium.where(:vigente => 'Vigente', :cargo_id => cc.id).first
+  if (Licencium.where(:vigente => 'Vigente', :cargo_no_docente_id => cc.id).first != nil)
+    ll = Licencium.where(:vigente => 'Vigente', :cargo_no_docente_id => cc.id).first
     if Articulo.where(id: ll.articulo_id).first.con_goce
+      cc.update!(estado: "ART")
       horas_mal_art << cc
     end
   end
 end
+
+horas_mal_art = []
+horas  = CargoNoDocente.where(:estado => 'ALT')
+horas.each do |cc|
+  if (Licencium.where(:vigente => 'Vigente', :cargo_no_docente_id => cc.id).first != nil)
+      horas_mal_art << cc
+  end
+end
+
 
 
 
