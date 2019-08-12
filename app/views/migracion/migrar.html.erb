@@ -23,6 +23,12 @@
       </div>
   </form>
 
+  <form action="" method="GET" class="form-horizontal" role="form">
+      <div class="form-group">
+          <button type="button" id="boton4" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"> LIMPIAR BASE</span></button>
+      </div>
+  </form>
+
 
 <script type="text/javascript">
 
@@ -33,6 +39,14 @@
   var esc = parseInt($( "#esc" ).val());
   
   window.location = "/soft/snpe/migracion/migrar_hs/";
+
+});
+
+$( "#boton4" ).click( function() {
+
+  var esc = parseInt($( "#esc3" ).val());
+
+  window.location = '/soft/snpe/migracion/migracion_bajas/';
 
 });
 

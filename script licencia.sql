@@ -30,11 +30,13 @@ end
 dd = []
 ll = []
 cant = 0
-@results = AltasBajasHora.where(created_at: Date.parse("2019-08-05").beginning_of_day..Date.parse("2019-08-08").end_of_day).where(:lote_impresion_id => nil)
+@results = AltasBajasHora.where(created_at: Date.parse("2019-07-22").beginning_of_day..Date.parse("2019-08-08").end_of_day).where(:lote_impresion_id => nil)
 @results.each do |rr|
   if !rr.valid?
+    if (AltasBajasHoraEstado.where(:alta_baja_hora_id => rr.id).last.estado.id == 2 or AltasBajasHoraEstado.where(:alta_baja_hora_id => rr.id).last.estado.id == 1 or AltasBajasHoraEstado.where(:alta_baja_hora_id => rr.id).last.estado.id == 4) and AltasBajasHoraEstado.where(:alta_baja_hora_id => rr.id).last.user_id != 1
       ll << rr
       cant = cant + 1
+    end
   end
 end
 

@@ -507,6 +507,11 @@ ProyectoBase::Application.routes.draw do
     #----------------------------------------------------------------------------------------------------------------------------------  
     # Migraciones
 
+    get "/migracion/migracion_bajas/", to: 'migracion#migracion_bajas'
+    
+    get "/migracion/migracion_bajas/", to: 'migracion#migracion_bajas'
+
+
     get "/migracion/migrar_hs/", to: 'migracion#migrar_hs'
 
     get "/migracion/migracion_inversa/", to: 'migracion#migracion_inversa'

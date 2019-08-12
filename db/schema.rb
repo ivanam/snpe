@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190426135530) do
+ActiveRecord::Schema.define(version: 20190809160945) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -101,6 +101,7 @@ ActiveRecord::Schema.define(version: 20190426135530) do
     t.boolean  "esprovisorio"
     t.integer  "secuencia_original"
     t.integer  "desglose_horas_id"
+    t.date     "migracion_fecha"
   end
 
   add_index "altas_bajas_horas", ["establecimiento_id"], name: "index_altas_bajas_horas_on_establecimiento_id", using: :btree
