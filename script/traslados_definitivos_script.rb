@@ -124,6 +124,7 @@ establecimiento3001 = Establecimiento.where(codigo_jurisdiccional: 3001).first
 #Por cada persona del listado
 personas = Persona.where(nro_documento: numeros_documentos)
 personas.each do |p|
+	puts "--- #{p.nro_documento}, #{p.apeynom} ---"
 	#Obtengo los cargos auxiliares de la persona en el establecimiento 3001 (Delegacion I) y el de destino
 	cargoOrigen3001 = CargoNoDocente.joins(:persona).where(personas: { id: p.id }, establecimiento_id: establecimiento3001.id).first
 	cargoDestino = CargoNoDocente.joins(:persona, :establecimiento).where(personas: { id: p.id }).where.not(establecimiento_id: establecimiento3001.id).first	
@@ -137,15 +138,24 @@ personas.each do |p|
 	licencia.articulo = Articulo.where(codigo: 907).first
 	licencia.vigente = "Vigente"
 	licencia.destino = cargoDestino.id
-	licencia.observaciones = " --- generado por sistema ---"
+	licencia.observaciones = " --- Generado por sistema ---"
 	licencia.nro_documento = p.nro_documento
-	licencia.user_id = 1 # sadmin@sadmin.com
+	establecimientoUser = EstablecimientosUsers.where(establecimiento_id: establecimiento3001.id).first
+	licencia.user_id = establecimientoUser.user_id
 	licencia.oficina = Establecimiento.find(cargoDestino.establecimiento_id).codigo_jurisdiccional
 	#Solo si pude guardar continuo actulizando el registro del cargo reubicado
-	if licencia.save(validate: false)		
+	if licencia.save(validate: false)
+		puts "--- Licencia creada ---"
+		cargoOrigen3001.estado = 'ART'
 		cargoDestino.obs_lic = Articulo.where(codigo: 907).first.descripcion #Articulo 907 (Reubicacion /Traslado transitorio)
 		cargoDestino.secuencia = 1000
 		cargoDestino.estado = 'REU'
-		cargoDestino.save(validate: false)
+		if cargoDestino.save(validate: false)
+			puts "--- Cargo destino actualizado! ---"
+		else
+			puts "--- Errores al actualizar cargo destino: --- #{cargoDestino.errors.full_messages}"
+		end
+	else
+		puts "--- Errores al crear licencia:  --- #{licencia.errors.full_messages}"
 	end
 end
