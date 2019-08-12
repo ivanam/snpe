@@ -36,7 +36,6 @@ class AltasBajasHora < ActiveRecord::Base
 
   #-------------------------------------
   MATERIAS_SIN_VALIDACION = [1994] #codigo materia 5881
-  EXCEPCION_MATERIA_CON_VALIDACION = [1473] #MATERIAS Q ESTAN EN UN PLAN SIN VALIDACION
   ANIO = ["0","1","2","3","4","5","6","7","8","9"]
   PLANES_SIN_VALIDACION = [122,3000,261,256] #Listado de planes que no requieren validacion
   LONGITUD_CODIGO = 4
@@ -319,7 +318,7 @@ class AltasBajasHora < ActiveRecord::Base
               errors.add(:base,"error en la carga horaria, ya superó el máximo correspondiente a la materia "+ Materium.where(:id => self.materium_id).first.descripcion)
               return false
          end
-    elsif !(MATERIAS_SIN_VALIDACION.include? self.materium_id or PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo)) or (EXCEPCION_MATERIA_CON_VALIDACION.include? Materium.where(id: self.materium_id).first.codigo)
+    elsif !(MATERIAS_SIN_VALIDACION.include? self.materium_id or PLANES_SIN_VALIDACION.include?(Plan.find(self.plan_id).codigo))
       if (Despliegue.where(:materium_id => self.materium_id, :plan_id => self.plan_id, :anio => self.anio, :carga_horaria => self.horas ).first == nil or (self.horas ==0))
         errors.add(:base,"error en la carga horaria, no corresponde")
         return false   

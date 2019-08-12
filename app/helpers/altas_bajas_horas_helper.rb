@@ -56,6 +56,20 @@ module AltasBajasHorasHelper
     end
     return AltasBajasHora.where(:id => @horas_ids).includes(:establecimiento, :persona)
   end
+
+  def altas_bajas_horas_ingresadas(mindate, maxdate)
+    if (current_user.role? :escuela) || (current_user.role? :sadmin) || (current_user.role? :personal)
+      @horas = AltasBajasHora.where(:establecimiento_id => session[:establecimiento]).where.not(:fecha_baja => "").where("( fecha_baja >= '" + mindate.to_time.iso8601 + "' and fecha_baja <= '" + maxdate.to_time.iso8601 + "' ) or ( altas_bajas_horas.updated_at >= '" + mindate.to_time.iso8601 + "' and altas_bajas_horas.updated_at <= '" + maxdate.to_time.iso8601 + "' )").where('fecha_baja != "" or  fecha_baja is not NULL')
+    end
+
+    @horas_ids = []
+    @horas.each do |h| 
+      if h.estado_actual == "Ingresado_Baja"
+        @horas_ids << h.id
+      end
+    end
+    return AltasBajasHora.where(:id => @horas_ids).includes(:establecimiento, :persona)
+  end
   
    def altas_bajas_horas_notificadas(mindate, maxdate)
     if current_user.role? :delegacion

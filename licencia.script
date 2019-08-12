@@ -1,0 +1,154 @@
+cantidad  = []
+cargo_mal = []
+cargos  = Cargo.where(:estado => 'LIC')
+cargos.each do |cc|
+  if (Licencium.where(:cargo_id => cc).first != nil ) and (Licencium.where(:vigente => 'Vigente', :cargo_id => cc).first == nil)
+    if Cargo.where(:establecimiento_id => cc.establecimiento_id, cargo: cc.cargo, turno: cc.turno, anio: cc.anio, division: cc.division, grupo_id: cc.grupo_id, estado: 'ALT').first != nil
+        dd = Cargo.where(:establecimiento_id => cc.establecimiento_id, cargo: cc.cargo, turno: cc.turno, anio: cc.anio, division: cc.division, grupo_id: cc.grupo_id, estado: 'ALT').first 
+        cargo_mal << dd
+        cantidad << cc
+    end  
+  end
+end
+
+
+cargos  = Cargo.where(:estado => 'LIC')
+cargos.each do |cc|
+  if (Licencium.where(:cargo_id => cc).first != nil ) and (Licencium.where(:vigente => 'Vigente', :cargo_id => cc).first == nil)
+    if Cargo.where(:establecimiento_id => cc.establecimiento_id, cargo: cc.cargo, turno: cc.turno, anio: cc.anio, division: cc.division, grupo_id: cc.grupo_id, estado: 'ALT').first != nil
+        lic = Licencium.where(:cargo_id => cc).last
+        lic.update!(vigente: "Vigente")
+    else
+      cc.update!(estado: "ALT")
+    end
+  end
+end
+
+horas_mal_art = []
+horas  = CargoNoDocente.where(:estado => 'ALT')
+horas.each do |cc|
+  if (Licencium.where(:vigente => 'Vigente', :cargo_no_docente_id => cc.id).first != nil)
+    ll = Licencium.where(:vigente => 'Vigente', :cargo_no_docente_id => cc.id).first
+    if Articulo.where(id: ll.articulo_id).first.con_goce
+      cc.update!(estado: "ART")
+      horas_mal_art << cc
+    end
+  end
+end
+
+horas_mal_art = []
+horas  = CargoNoDocente.where(:estado => 'ALT')
+horas.each do |cc|
+  if (Licencium.where(:vigente => 'Vigente', :cargo_no_docente_id => cc.id).first != nil)
+      horas_mal_art << cc
+  end
+end
+
+
+
+
+
+cantidad  = []
+cargo_mal = []
+horas  = AltasBajasHora.where(:estado => 'LIC')
+horas.each do |cc|
+  if (Licencium.where(:altas_bajas_hora_id => cc.id).first != nil ) and (Licencium.where(:vigente => 'Vigente', :altas_bajas_hora_id => cc.id).first == nil)
+    if AltasBajasHora.where(:establecimiento_id => cc.establecimiento_id, :plan_id => cc.plan_id, :materium_id => cc.materium_id, turno: cc.turno, anio: cc.anio, division: cc.division, grupo_id: cc.grupo_id, estado: 'ALT').first != nil
+        dd = AltasBajasHora.where(:establecimiento_id => cc.establecimiento_id, :plan_id => cc.plan_id, :materium_id => cc.materium_id, turno: cc.turno, anio: cc.anio, division: cc.division, grupo_id: cc.grupo_id, estado: 'ALT').first
+        cargo_mal << dd
+    end
+    cantidad << cc
+  end
+end
+
+cantidad  = []
+cargo_mal = []
+cargos  = Cargo.where(:estado => 'ART')
+cargos.each do |cc|
+  if (Licencium.where(:cargo_id => cc).first != nil ) and (Licencium.where(:vigente => 'Vigente', :cargo_id => cc).first == nil)
+    cantidad = cantidad + 1
+  end
+end
+
+
+
+Licencium.where(oficina: nil).each do |l|
+    @oficina = nil
+    if l.altas_bajas_hora_id != nil
+      reg = AltasBajasHora.where(:id => l.altas_bajas_hora_id).first
+      if reg != nil
+        e = reg.establecimiento_id
+        @oficina = Establecimiento.where(:id => e).first.codigo_jurisdiccional
+
+      end 
+    elsif l.cargo_id != nil
+      reg= Cargo.where(:id => l.cargo_id).first
+      if reg != nil
+        e = reg.establecimiento_id
+        @oficina = Establecimiento.where(:id => e).first.codigo_jurisdiccional
+      end
+    elsif l.cargo_no_docente_id != nil
+      reg = CargoNoDocente.where(:id => l.cargo_no_docente_id).first
+      if reg != nil
+        e = reg.establecimiento_id
+        @oficina = Establecimiento.where(:id => e).first.codigo_jurisdiccional
+      end
+    end
+    if @oficina != nil
+      l.update!(:oficina => @oficina)
+      l.save
+    end
+  end
+
+
+  Licencium.where(oficina: nil).each do |l|
+    @oficina = nil
+    if (l.created_at.to_date  > Date.today - 100)
+      if l.altas_bajas_hora_id != nil
+        reg= AltasBajasHora.where(:id => l.altas_bajas_hora_id).first
+        if reg != nil
+          e = reg.establecimiento_id
+          @oficina = Establecimiento.where(:id => e).first.codigo_jurisdiccional
+        end
+      end
+      if @oficina != nil
+        l.update!(:oficina => @oficina)
+        l.save
+      end
+    end
+  end
+
+
+
+  Licencium.where(oficina: nil).each do |l|
+    @oficina = nil
+    if l.cargo_id != nil
+      reg= Cargo.where(:id => l.cargo_id).first
+      if reg != nil
+        e = reg.establecimiento_id
+        @oficina = Establecimiento.where(:id => e).first.codigo_jurisdiccional
+      end
+    end
+    if @oficina != nil
+      l.update!(:oficina => @oficina)
+      l.save
+    end
+  end
+
+
+  Licencium.where(oficina: nil).each do |l|
+    if (l.created_at.to_date  > Date.today - 4)
+      @oficina = nil
+      if l.cargo_no_docente_id != nil
+        reg = CargoNoDocente.where(:id => l.cargo_no_docente_id).first
+        if reg != nil
+          e = reg.establecimiento_id
+          @oficina = Establecimiento.where(:id => e).first.codigo_jurisdiccional
+        end
+      end
+      if @oficina != nil
+        l.update!(:oficina => @oficina)
+        l.save
+      end
+    end
+  end
