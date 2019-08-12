@@ -283,6 +283,7 @@ class CargoNoDocentesController < InheritedResources::Base
 
   def imprimir
     respond_to do |format|
+      establecimiento = Establecimiento.where(id: cargo.establecimiento_id).first.id
       @cargo_no_docente = CargoNoDocente.find(params["id"])
       if @cargo_no_docente.estado_actual == "Chequeado" || @cargo_no_docente.estado_actual == "Chequeado_Baja"
         if @cargo_no_docente.estado_actual == "Impreso"
@@ -291,7 +292,7 @@ class CargoNoDocentesController < InheritedResources::Base
           @estado = Estado.where(descripcion: "Impreso").first
           @lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 3).last
           if @lote_impresion == nil
-            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 3)
+            @lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 3, establecimiento_id: establecimiento, user_id: current_user.id)
           end
           if @cargo_no_docente.estado_actual == "Chequeado"
             @cargo_no_docente.update(alta_lote_impresion_id: @lote_impresion.id)

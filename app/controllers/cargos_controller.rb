@@ -308,7 +308,7 @@ class CargosController < ApplicationController
 
       lote_impresion = LoteImpresion.where(fecha_impresion: nil, tipo_id: 2,  establecimiento_id: establecimiento).last
       if lote_impresion == nil
-        lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2,  establecimiento_id: establecimiento)
+        lote_impresion = LoteImpresion.create(fecha_impresion: nil, observaciones: nil, tipo_id: 2,  establecimiento_id: establecimiento, user_id: current_user.id)
       end
       if cargo.estado_actual == "Chequeado"
         if cargo.update!(alta_lote_impresion_id: lote_impresion.id)

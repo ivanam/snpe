@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190426135530) do
+ActiveRecord::Schema.define(version: 20190808112134) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -553,6 +553,7 @@ ActiveRecord::Schema.define(version: 20190426135530) do
     t.datetime "updated_at"
     t.integer  "tipo_id"
     t.integer  "establecimiento_id"
+    t.integer  "user_id"
   end
 
   create_table "lugar_pagos", force: true do |t|
