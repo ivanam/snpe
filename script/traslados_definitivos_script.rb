@@ -157,13 +157,17 @@ personas.each do |p|
 	if licencia.save(validate: false)
 		puts "--- Licencia creada ---"
 		cargoOrigen3001.estado = 'ART'
-		cargoDestino.obs_lic = Articulo.where(codigo: 907).first.descripcion #Articulo 907 (Reubicacion /Traslado transitorio)
-		cargoDestino.secuencia = 1000
-		cargoDestino.estado = 'REU'
-		if cargoDestino.save(validate: false)
-			puts "--- Cargo destino actualizado! ---"
+		if cargoOrigen3001.save(validate: false)
+			cargoDestino.obs_lic = Articulo.where(codigo: 907).first.descripcion #Articulo 907 (Reubicacion /Traslado transitorio)
+			cargoDestino.secuencia = 1000
+			cargoDestino.estado = 'REU'
+			if cargoDestino.save(validate: false)
+				puts "--- Cargo destino actualizado! ---"
+			else
+				puts "--- Errores al actualizar cargo destino: --- #{cargoDestino.errors.full_messages}"
+			end
 		else
-			puts "--- Errores al actualizar cargo destino: --- #{cargoDestino.errors.full_messages}"
+			puts "--- Errores al actualizar cargo origen: --- #{cargoOrigen3001.errors.full_messages}"
 		end
 	else
 		puts "--- Errores al crear licencia:  --- #{licencia.errors.full_messages}"
