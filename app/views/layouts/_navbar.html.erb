@@ -270,11 +270,10 @@
       <ul class="nav navbar-nav">
         <% if user_signed_in? then %>
           <% if (current_user.role? :delegacion) then %>
-            <li><%=link_to "POF", establecimiento_pof_path, :tabindex => "-1"%></li>
-            <li><%=link_to "Impresiones", lote_impresions_path, :tabindex => "-1"%></li>
+             <li><%=link_to "POF", establecimiento_pof_path, :tabindex => "-1"%></li>
+             <li><%=link_to "Impresiones", lote_impresions_path, :tabindex => "-1"%></li>
              <li><%=link_to "Bajas Horas", altas_bajas_horas_index_bajas_path, :tabindex => "-1"%></li>
-               <li><%=link_to "Bajas Cargos", cargos_index_bajas_path, :tabindex => "-1"%></li>  
-        
+             <!-- <li><%=link_to "Bajas Cargos", cargos_index_bajas_path, :tabindex => "-1"%></li>   -->
           <% end %>
         <% end %>
       </ul>
