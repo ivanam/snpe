@@ -508,8 +508,10 @@ ProyectoBase::Application.routes.draw do
     # Migraciones
 
     get "/migracion/migracion_bajas/", to: 'migracion#migracion_bajas'
-    
-    get "/migracion/migracion_bajas/", to: 'migracion#migracion_bajas'
+
+    get "/migracion/migracion_bajas_cargos/", to: 'migracion#migracion_bajas_cargos'
+
+    get "/migracion/eliminar_cargos_repetidos/", to: 'migracion#eliminar_cargos_repetidos'
 
 
     get "/migracion/migrar_hs/", to: 'migracion#migrar_hs'

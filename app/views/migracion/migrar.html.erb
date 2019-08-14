@@ -25,7 +25,19 @@
 
   <form action="" method="GET" class="form-horizontal" role="form">
       <div class="form-group">
-          <button type="button" id="boton4" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"> LIMPIAR BASE</span></button>
+          <button type="button" id="boton4" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"> LIMPIAR BASE HORAS</span></button>
+      </div>
+  </form>
+
+    <form action="" method="GET" class="form-horizontal" role="form">
+      <div class="form-group">
+          <button type="button" id="boton6" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"> LIMPIAR BASE CARGOS</span></button>
+      </div>
+  </form>
+
+  <form action="" method="GET" class="form-horizontal" role="form">
+      <div class="form-group">
+          <button type="button" id="boton7" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"> LIMPIAR CARGOS REPETIDOS</span></button>
       </div>
   </form>
 
@@ -41,6 +53,27 @@
   window.location = "/soft/snpe/migracion/migrar_hs/";
 
 });
+
+  $( "#boton6" ).click( function() {
+
+  var esc = parseInt($( "#esc" ).val());
+  
+  window.location = "/soft/snpe/migracion/migracion_bajas_cargos/";
+
+});
+
+  $( "#boton7" ).click( function() {
+
+  var esc = parseInt($( "#esc" ).val());
+  
+  window.location = "/soft/snpe/migracion/eliminar_cargos_repetidos/";
+
+});
+
+
+
+
+  
 
 $( "#boton4" ).click( function() {
 
