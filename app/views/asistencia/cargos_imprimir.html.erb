@@ -11,6 +11,7 @@
       <th>Agente</th>
       <th>Secuencia</th>
       <th>Cargo</th>
+      <th>Sit. Rev.</th>
       <th>Año/División</th>
       <th>Días</th>
       <th>Licencia dene</th>
@@ -24,6 +25,7 @@
         <td><%= c.persona.nro_documento.to_s + " -- " + c.persona.apeynom %></td>
         <td><%= c.secuencia %></td>
         <td><%= Funcion.where(categoria: c.cargo).first.to_s %></td>
+        <td><%= c.situacion_revista %></td>
         <td><%= c.anio.to_s + '/' + c.division.to_s %></td>
         <td><%= c.ina_injustificada(@anio, @mes) %></td>
         <td><%= c.licencia_d(@anio, @mes) %></td>

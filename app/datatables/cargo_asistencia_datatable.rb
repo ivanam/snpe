@@ -17,6 +17,7 @@ class CargoAsistenciaDatatable < AjaxDatatablesRails::Base
         record.persona.nro_documento.to_s + " -- " + record.persona.apeynom,
         record.secuencia,
         Funcion.where(categoria: record.cargo).first.to_s,
+        record.situacion_revista,
         record.anio.to_s + '/' + record.division.to_s,
         '<span class="ina_injustificada" data-type="text" data-resource="post" data-name="ina_injustificada" data-url="'+Rails.application.routes.url_helpers.asistencia_editar_asistencia_cargo_path(record.id.to_s, anio: options[:anio], mes: options[:mes])+'">'+record.ina_injustificada(options[:anio], options[:mes])+'</span>',
         '<span class="licencia_d" data-type="text" data-resource="post" data-name="licencia_d" data-url="'+Rails.application.routes.url_helpers.asistencia_editar_asistencia_cargo_path(record.id.to_s, anio: options[:anio], mes: options[:mes])+'">'+record.licencia_d(options[:anio], options[:mes])+'</span>',
