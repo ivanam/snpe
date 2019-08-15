@@ -13,15 +13,14 @@
             <th>Nombre y Apellido</th>
             <th>Secuencia</th>
             <th>Sit. Revista</th>
-            <th>Horas</th>
-            <th>Plan</th>
+            <th>Cargo</th>
             <th>Curso</th>
             <th>Division</th>
             <th>Turno</th>
             <th>Fecha de Alta</th>
             <th>Fecha de Baja</th>
             <th>Estado</th>
-            <th>Migracion Estado</th>
+            <th>Estado Migrado</th>
       </tr>
     </thead>
     <tbody>
@@ -29,7 +28,6 @@
    <% @listado.each do |b| %>
       <% persona = Persona.where(id: b.persona_id).first
       establecimiento = Establecimiento.where(id: b.establecimiento_id).first
-      plan = Plan.where(id: b.plan_id).first
       @cantidad = @cantidad + 1
     %>
    <tr>
@@ -39,12 +37,7 @@
         <td><%= persona.apeynom %></td>
         <td><%= b.secuencia %></td>
         <td><%= b.situacion_revista%></td>
-        <td><%= b.horas%></td>
-        <%if plan != nil %>
-          <td><%= plan.descripcion%></td>
-        <%else%>
-          <td></td>
-        <%end%>
+        <td><%= b.cargo%></td>
         <td><%= b.anio%></td>
         <td><%= b.division%></td>
         <td><%= b.turno%></td>
@@ -52,6 +45,7 @@
         <td><%= b.fecha_baja%></td>
         <td><%= b.estado%></td>
         <td><%=b.estado_migrado%></td>
+
 
     </tr>
 

@@ -9,6 +9,36 @@ class MigracionController < ApplicationController
 	#$escuelasNuevas = [14,28,36,70,71,72,73,82,94,102,106,127,135,148,163,180,307,411,418,419,460,494,1469,2410,2410,508,558,566,612,624,658,661,706,716,725,739,756,]
   #en la vista registros para controlar hay q permitir dar de alta;
 
+
+  def eliminar_cargos_repetidos
+  	@listado = []
+
+  		cargos_alta = Cargo.where.not(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ").where.not(:secuencia => 1000)
+  		cargos_alta.each do |h|
+
+  		if Cargo.where(:establecimiento_id => h.establecimiento_id, :persona_id=> h.persona_id, secuencia: h.secuencia, cargo: h.cargo).count > 1
+  				
+  				cargos = Cargo.where(:establecimiento_id => h.establecimiento_id).where(:persona_id=> h.persona_id, secuencia: h.secuencia, cargo: h.cargo).where.not(:secuencia => 1000).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ")
+  				
+  				if CargoEstado.where(cargo_id: cargos.first.id).count != 0
+  					if CargoEstado.where(cargo_id: cargos.last.id).count == 0
+  						cargos.last.update(estado: "LIC P/BAJ")
+  					else
+  						cargos.first.update(estado: "LIC P/BAJ")
+  					end
+  				else 
+  					if CargoEstado.where(cargo_id: cargos.last.id).count != 0
+  						cargos.first.update(estado: "LIC P/BAJ")
+  					else
+  						cargos.last.update(estado: "LIC P/BAJ")
+  					end
+  				end
+	  		end
+  	end
+
+
+  end
+
   def migracion_bajas
   	@escuelas = []
   	@listado = []
@@ -17,7 +47,7 @@ class MigracionController < ApplicationController
 		end
   	client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 		@escuelas.each do |e|
-  		horas_alt = AltasBajasHora.where(:establecimiento_id => e.id).where.not(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ") 
+  		horas_alt = AltasBajasHora.where(:establecimiento_id => e.id).where.not(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ").where.not(:secuencia => 1000)
   		establecimiento = Establecimiento.where(id: e.id).first.codigo_jurisdiccional
   		horas_alt.each do |h|
   			dni = Persona.where(id: h.persona_id).first.nro_documento
@@ -28,23 +58,23 @@ class MigracionController < ApplicationController
 					and estado = 'ALT' and fecha_baja='0000-00-00'")
 
 				if res.first == nil
-
+					 @listado << h
 						res2=client.query("select p.* from padhc p where escuela = '"+establecimiento.to_s+"'  
 							and p.nume_docu= '"+dni.to_s+"' and
-							estado= 'BAJ' and secuencia = '"+h.secuencia.to_s+"'")
+						 (estado= 'BAJ' or fecha_baja!='0000-00-00') and secuencia = '"+h.secuencia.to_s+"'")
 						
 						if res2.first != nil
-							h.update(estado: "BAJ/MEC", fecha_baja: res2.first["fecha_baja"], migracion_fecha: Date.today)
+							h.update(estado: "BAJ", fecha_baja: res2.first["fecha_baja"], migracion_fecha: Date.today, estado_migrado: "BAJ/MEC")
 	  				else
 	  					res3= client.query("SELECT * FROM his_padhc p where p.nume_docu= '"+dni.to_s+"' 
 							and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
 							anio = '"+$anio.to_s+"'  and secuencia = '"+h.secuencia.to_s+"' 
 							and estado = 'LIC' and fecha_baja='0000-00-00'")
 	  					if res3.first != nil 
-	  							@listado << h
-	  							h.update(estado: "LIC/MEC", migracion_fecha: Date.today)	
+	  							
+	  						h.update(estado: "LIC", migracion_fecha: Date.today, estado_migrado: "LIC/MEC")	
 	  					else
-	  						h.update(estado: "BAJ/MEC", migracion_fecha: Date.today)		
+	  						h.update(estado: "BAJ", migracion_fecha: Date.today, estado_migrado: "BAJ/MEC")		
 	  					end																																																			
 	  				end
   			end
@@ -57,7 +87,7 @@ class MigracionController < ApplicationController
   end
 
 
-  def migracion_bajas_cargos
+ def migracion_bajas_cargos
   	@escuelas = []
   	@listado = []
   	Establecimiento.where(migrada: 1).each do |es|
@@ -65,7 +95,7 @@ class MigracionController < ApplicationController
 		end
   	client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
 		@escuelas.each do |e|
-  		cargos_alta = Cargo.where(:establecimiento_id => e.id).where.not(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ") 
+  		cargos_alta = Cargo.where(:establecimiento_id => e.id).where.not(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ").where.not(:secuencia => 1000)
   		establecimiento = Establecimiento.where(id: e.id).first.codigo_jurisdiccional
   		cargos_alta.each do |h|
   			dni = Persona.where(id: h.persona_id).first.nro_documento
@@ -77,21 +107,22 @@ class MigracionController < ApplicationController
 
 				if res.first == nil
 						@listado << h
+
 						res2=client.query("select p.* from paddoc p where escuela = '"+establecimiento.to_s+"'  
-							and p.nume_docu= '"+dni.to_s+"' and
-							estado= 'BAJ' and secuencia = '"+h.secuencia.to_s+"'")
+							and p.nume_docu= '"+dni.to_s+"' and (
+							estado= 'BAJ' or fecha_baja!='0000-00-00') and secuencia = '"+h.secuencia.to_s+"'")
 						
 						if res2.first != nil
-							h.update(estado: "BAJ/MEC", fecha_baja: res2.first["fecha_baja"], migracion_fecha: Date.today)
+							h.update(estado: "BAJ", fecha_baja: res2.first["fecha_baja"], migracion_fecha: Date.today, estado_migrado: "BAJ/MEC")
 	  				else
 	  					res3= client.query("SELECT * FROM his_paddoc p where p.nume_docu= '"+dni.to_s+"' 
 							and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
 							anio = '"+$anio.to_s+"'  and secuencia = '"+h.secuencia.to_s+"' 
 							and estado = 'LIC' and fecha_baja='0000-00-00'")
 	  					if res3.first != nil 
-	  							h.update(estado: "LIC/MEC", migracion_fecha: Date.today)	
+	  							h.update(estado: "LIC", migracion_fecha: Date.today, estado_migrado: "LIC/MEC")	
 	  					else
-	  						h.update(estado: "BAJ/MEC", migracion_fecha: Date.today)		
+	  						h.update(estado: "BAJ", migracion_fecha: Date.today, estado_migrado: "BAJ/MEC")		
 	  					end																																																			
 	  				end
   			end
