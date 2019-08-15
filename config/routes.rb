@@ -513,6 +513,11 @@ ProyectoBase::Application.routes.draw do
 
     get "/migracion/eliminar_cargos_repetidos/", to: 'migracion#eliminar_cargos_repetidos'
 
+    get "/migracion/migracion_bajas_cargos_sin_secuencia/", to: 'migracion#migracion_bajas_cargos_sin_secuencia'
+
+
+    
+
 
     get "/migracion/migrar_hs/", to: 'migracion#migrar_hs'
 

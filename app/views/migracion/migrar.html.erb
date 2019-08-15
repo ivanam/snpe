@@ -41,6 +41,13 @@
       </div>
   </form>
 
+  <form action="" method="GET" class="form-horizontal" role="form">
+      <div class="form-group">
+          <button type="button" id="boton8" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-ok-circle"> LIMPIAR CARGOS sin secuencia para limpiar</span></button>
+      </div>
+  </form>
+
+
 
 <script type="text/javascript">
 
@@ -61,6 +68,18 @@
   window.location = "/soft/snpe/migracion/migracion_bajas_cargos/";
 
 });
+
+$( "#boton8" ).click( function() {
+
+  var esc = parseInt($( "#esc" ).val());
+  
+  window.location = "/soft/snpe/migracion/migracion_bajas_cargos_sin_secuencia/";
+
+});
+
+
+
+  
 
   $( "#boton7" ).click( function() {
 
