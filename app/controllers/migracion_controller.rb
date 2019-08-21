@@ -39,6 +39,12 @@ class MigracionController < ApplicationController
 
   end
 
+
+
+
+
+
+
   def migracion_bajas
   	@escuelas = []
   	@listado = []
@@ -100,10 +106,22 @@ class MigracionController < ApplicationController
   		cargos_alta.each do |h|
   			dni = Persona.where(id: h.persona_id).first.nro_documento
 
-				res= client.query("SELECT * FROM his_paddoc p where p.nume_docu= '"+dni.to_s+"' 
-					and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
-					anio = '"+$anio.to_s+"'  and secuencia = '"+h.secuencia.to_s+"' 
-					and estado = 'ALT' and fecha_baja='0000-00-00'")
+  			if h.cargo != nil and h.cargo.size > 2
+	  			agrup_r= h.cargo[0]
+	  			cargo_r= h.cargo[1] + h.cargo[2]
+
+					res= client.query("SELECT * FROM his_paddoc p where p.nume_docu= '"+dni.to_s+"' 
+						and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
+						anio = '"+$anio.to_s+"'  and secuencia = '"+h.secuencia.to_s+"' 
+						and estado = 'ALT' and fecha_baja='0000-00-00' and agrup_r='"+agrup_r.to_s+"' and cargo_r='"+cargo_r.to_s+"'")
+				else
+					res= client.query("SELECT * FROM his_paddoc p where p.nume_docu= '"+dni.to_s+"' 
+						and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
+						anio = '"+$anio.to_s+"'  and secuencia = '"+h.secuencia.to_s+"' 
+						and estado = 'ALT' and fecha_baja='0000-00-00'")
+
+				end
+
 
 				if res.first == nil
 						@listado << h
@@ -133,6 +151,37 @@ class MigracionController < ApplicationController
 
 
   end
+
+
+
+ def migracion_bajas_cargos_sin_secuencia
+  	@escuelas = []
+  	@listado = []
+  	Establecimiento.where(migrada: 1).each do |es|
+  		@escuelas << es
+		end
+  	client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
+		@escuelas.each do |e|
+  		cargos_alta = Cargo.where(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ")
+  		establecimiento = Establecimiento.where(id: e.id).first.codigo_jurisdiccional
+  		cargos_alta.each do |h|
+  			dni = Persona.where(id: h.persona_id).first.nro_documento
+
+				res= client.query("SELECT * FROM paddoc p where p.nume_docu= '"+dni.to_s+"' 
+					and p.escuela= '"+establecimiento.to_s+"' AND fecha_alta ='"+h.fecha_alta.to_s)
+
+				if res.first != nil
+						@listado << h
+  			end
+	  		
+  		end
+  	end
+
+
+
+  end
+
+
 
 
 
