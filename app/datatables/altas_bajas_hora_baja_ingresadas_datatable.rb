@@ -25,7 +25,7 @@ class AltasBajasHoraBajaIngresadasDatatable < AjaxDatatablesRails::Base
         '<span class="label label-success">'+Util.fecha_a_es(record.fecha_baja)+'</span>',
         record.horas,
         if record.estado_actual == "Ingresado_Baja"  then
-          if (options[:rol] == "escuela" || options[:rol] == "sadmin")
+          if (options[:rol] == "escuela" || options[:rol] == "personal" || options[:rol] == "sadmin")
           '<center><div class="btn-acciones">'+
             '<a class="btn btn-sm btn-danger btn-ajax" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_cancelar_baja_path(record.id.to_s, :format => :json)+'" data-toggle="tooltip" data-placement="top" title="Cancelar baja" ><span class="glyphicon glyphicon-remove" aria-hidden="true" ></span></a>'+
             '<a class="btn btn-success btn-sm btn-ajax" data-toggle="tooltip" data-placement="top" title="Marcar como notificada" data-url="'+Rails.application.routes.url_helpers.altas_bajas_horas_notificar_bajas_path(record.id.to_s, :format => :json)+'"><span class="glyphicon glyphicon-ok" aria-hidden="true" ></span></a>'+

@@ -613,7 +613,7 @@ def listado_licencias_cnds_sg_chequeadas
             nro_oficinaDes = @oficinaDes.codigo_jurisdiccional
           else
             @oficina = Establecimiento.where(id: altbahora.establecimiento_id).first
-            nro_oficina = @oficina.codigo_jurisdiccional
+            nro_oficinaOr = @oficina.codigo_jurisdiccional
           end
           @licencia = Licencium.new(con_certificado: con_certificado, con_formulario: con_formulario , altas_bajas_hora_id: params[:id_horas], fecha_desde: params[:fecha_inicio], fecha_hasta: params[:fecha_fin], articulo_id: params[:articulo], organismo: params[:permite_otro_organismo], vigente: "Vigente", destino: nro_oficinaDes, observaciones: params[:observaciones] , nro_documento: nro_documento, user_id: userLic, oficina: nro_oficinaOr)
           if @licencia.save && AltasBajasHora.create(establecimiento_id: @oficinaDes.id, persona_id: altbahora.persona_id, secuencia: 1000, horas: altbahora.horas, plan_id: altbahora.plan_id, materium_id: altbahora.materium_id, fecha_alta: altbahora.fecha_alta, anio: altbahora.anio, division: altbahora.division, fecha_baja: altbahora.fecha_baja, ciclo_carrera: altbahora.ciclo_carrera, situacion_revista: altbahora.situacion_revista, turno: altbahora.turno, estado: 'REU', obs_lic: descripcion_articulo)
