@@ -16,7 +16,7 @@ class MigracionController < ApplicationController
   		cargos_alta = Cargo.where.not(:secuencia => nil).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ").where.not(:secuencia => 1000)
   		cargos_alta.each do |h|
 
-  		if Cargo.where(:establecimiento_id => h.establecimiento_id, :persona_id=> h.persona_id, secuencia: h.secuencia, cargo: h.cargo).count > 1
+  		if Cargo.where(:establecimiento_id => h.establecimiento_id, :persona_id=> h.persona_id, secuencia: h.secuencia, cargo: h.cargo).where.not(:secuencia => 1000).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ").count > 1
   				
   				cargos = Cargo.where(:establecimiento_id => h.establecimiento_id).where(:persona_id=> h.persona_id, secuencia: h.secuencia, cargo: h.cargo).where.not(:secuencia => 1000).where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ")
   				
@@ -106,7 +106,7 @@ class MigracionController < ApplicationController
   		cargos_alta.each do |h|
   			dni = Persona.where(id: h.persona_id).first.nro_documento
 
-  			if h.cargo != nil and h.cargo.size > 2
+  			if h.cargos  != nil and h.cargo.size > 2
 	  			agrup_r= h.cargo[0]
 	  			cargo_r= h.cargo[1] + h.cargo[2]
 
