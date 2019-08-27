@@ -12,7 +12,7 @@ class AltasBajasHora < ActiveRecord::Base
   accepts_nested_attributes_for :altas_bajas_horas, allow_destroy: true
 
 
-  if true
+  if false
     validates :fecha_alta, :presence => true
     validates :situacion_revista, :presence => true
     validates :horas, length: { minimum: 1, maximum: 2}, numericality: { only_integer: true }
@@ -408,7 +408,7 @@ class AltasBajasHora < ActiveRecord::Base
   #Se quiere crear suplente de larga duracion o corta duracion
   def validar_suplente
     if self.situacion_revista == '2-3' || self.situacion_revista == '2-4' 
-      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'BAJ' )").order(fecha_alta: :desc).first
+      alta_horas = AltasBajasHora.where(:establecimiento_id => self.establecimiento_id, division: self.division, turno: self.turno, anio: self.anio, plan_id: self.plan_id, materium_id: self.materium_id).where.not(id: self.id).where(" (estado != 'LIC P/BAJ' and estado != 'REU' and estado != 'LIC/BAJ' and estado != 'BAJ' )").order(fecha_alta: :desc).first
       if (alta_horas.estado != "ART")
         errors.add(:base,"Las horas a suplantar no se encuentra con licencia con goce de haberes.")                
       end

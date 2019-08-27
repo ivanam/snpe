@@ -106,7 +106,7 @@ class MigracionController < ApplicationController
   		cargos_alta.each do |h|
   			dni = Persona.where(id: h.persona_id).first.nro_documento
 
-  			if h.cargos  != nil and h.cargo.size > 2
+  			if h.cargo  != nil and h.cargo.size > 2
 	  			agrup_r= h.cargo[0]
 	  			cargo_r= h.cargo[1] + h.cargo[2]
 
@@ -136,6 +136,59 @@ class MigracionController < ApplicationController
 	  					res3= client.query("SELECT * FROM his_paddoc p where p.nume_docu= '"+dni.to_s+"' 
 							and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
 							anio = '"+$anio.to_s+"'  and secuencia = '"+h.secuencia.to_s+"' 
+							and estado = 'LIC' and fecha_baja='0000-00-00'")
+	  					if res3.first != nil 
+	  							h.update(estado: "LIC", migracion_fecha: Date.today, estado_migrado: "LIC/MEC")	
+	  					else
+	  						h.update(estado: "BAJ", migracion_fecha: Date.today, estado_migrado: "BAJ/MEC")		
+	  					end																																																			
+	  				end
+  			end
+	  		
+  		end
+  	end
+
+
+
+  end
+
+
+
+ def migracion_bajas_cargos_no_docentes
+  	@escuelas = []
+  	@listado = []
+  	Establecimiento.where(migrada: 1).each do |es|
+  		@escuelas << es
+		end
+  	client = Mysql2::Client.new(:username => "guest",:host => "172.16.0.19",  :password => "guest", :database => "mec")
+		@escuelas.each do |e|
+  		cargos_alta = CargoNoDocente.where(:establecimiento_id => e.id).where.not(:secuencia => nil).where.not(:estado => "ART").where.not(:estado => "LIC").where.not(:estado => "BAJ/MEC").where.not(:estado => "LIC P/BAJ").where.not(:estado => "REU").where.not(:estado => "BAJ").where.not(:estado => "LIC/BAJ").where.not(:secuencia => 1000)
+  		establecimiento = Establecimiento.where(id: e.id).first.codigo_jurisdiccional
+  		cargos_alta.each do |h|
+  			dni = Persona.where(id: h.persona_id).first.nro_documento
+
+  			if h.cargo != nil 
+  				cc = Cargosnd.where( id: h.cargo).first
+					res= client.query("SELECT * FROM his_padaux p where p.nume_docu= '"+dni.to_s+"' 
+						and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
+						anio = '"+$anio.to_s+"'  and secuencia = 0 
+						and estado = 'ALT' and fecha_baja='0000-00-00' and agrup_r='"+cc.cargo_agrup.to_s+"' and cargo_r='"+cc.cargo_cod.to_s+"'and categ_r='"+cc.cargo_categ.to_s+"'")
+
+				end
+
+				if res.first == nil
+						@listado << h
+
+						res2=client.query("select p.* from padaux p where escuela = '"+establecimiento.to_s+"'  
+							and p.nume_docu= '"+dni.to_s+"' and (
+							estado= 'BAJ' or fecha_baja!='0000-00-00') and secuencia = 0")
+						
+						if res2.first != nil
+							h.update(estado: "BAJ", fecha_baja: res2.first["fecha_baja"], migracion_fecha: Date.today, estado_migrado: "BAJ/MEC")
+	  				else
+	  					res3= client.query("SELECT * FROM his_padaux p where p.nume_docu= '"+dni.to_s+"' 
+							and p.escuela= '"+establecimiento.to_s+"' and mes ='"+$mes.to_s+"' and 
+							anio = '"+$anio.to_s+"'  and secuencia = 0 
 							and estado = 'LIC' and fecha_baja='0000-00-00'")
 	  					if res3.first != nil 
 	  							h.update(estado: "LIC", migracion_fecha: Date.today, estado_migrado: "LIC/MEC")	

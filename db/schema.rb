@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190813130708) do
+ActiveRecord::Schema.define(version: 20190826143057) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -231,6 +231,8 @@ ActiveRecord::Schema.define(version: 20190813130708) do
     t.string   "decreto"
     t.text     "obs_lic"
     t.boolean  "trabaja_en_sede"
+    t.date     "migracion_fecha"
+    t.string   "estado_migrado"
   end
 
   add_index "cargo_no_docentes", ["alta_lote_impresion_id"], name: "index_cargo_no_docentes_on_alta_lote_impresion_id", using: :btree

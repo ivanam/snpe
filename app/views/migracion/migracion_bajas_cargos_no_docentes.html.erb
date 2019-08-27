@@ -1,0 +1,50 @@
+
+
+  <%      @cantidad  = 0 %>
+  <div class="page-header">
+      <h1>Listado a informar</h1>
+    </div>
+
+  <div class="table-responsive">
+  <table id="tabla" class="table table-striped table-bordered table-hover" >
+    <thead>
+      <tr>
+            <th>Cantidad</th>
+            <th>Establecimiento</th>
+            <th>DNI</th>
+            <th>Nombre y Apellido</th>
+            <th>Sit. Revista</th>
+            <th>Cargo</th>
+            <th>Fecha de Alta</th>
+            <th>Fecha de Baja</th>
+            <th>Estado</th>
+            <th>Estado Migrado</th>
+      </tr>
+    </thead>
+    <tbody>
+
+   <% @listado.each do |b| %>
+      <% persona = Persona.where(id: b.persona_id).first
+      establecimiento = Establecimiento.where(id: b.establecimiento_id).first
+      @cantidad = @cantidad + 1
+    %>
+   <tr>
+        <td><%= @cantidad %></td>
+        <td><%= persona.id %></td>
+        <td><%= establecimiento.codigo_jurisdiccional %></td>
+        <td><%= persona.nro_documento %></td>
+        <td><%= persona.apeynom %></td>
+        <td><%= b.situacion_revista%></td>
+        <td><%= Cargosnd.where(id: b.cargo).first.cargo_agrup %> - <%= Cargosnd.where(id: b.cargo).first.cargo_cod%> - <%= Cargosnd.where(id: b.cargo).first.cargo_categ%></td>
+        <td><%= b.fecha_alta%></td>
+        <td><%= b.fecha_baja%></td>
+        <td><%= b.estado%></td>
+        <td><%=b.estado_migrado%></td>
+
+
+    </tr>
+
+
+
+
+   <%end%>

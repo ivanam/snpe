@@ -515,6 +515,10 @@ ProyectoBase::Application.routes.draw do
 
     get "/migracion/migracion_bajas_cargos_sin_secuencia/", to: 'migracion#migracion_bajas_cargos_sin_secuencia'
 
+    get "/migracion/migracion_bajas_cargos_no_docentes/", to: 'migracion#migracion_bajas_cargos_no_docentes'
+
+    
+
 
     
 
